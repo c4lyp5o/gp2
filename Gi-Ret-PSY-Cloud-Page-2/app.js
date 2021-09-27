@@ -341,19 +341,19 @@ function pendaftaranSekolah(){
         btnPemeriksaanAwalSekolah.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwalSekolah.classList.add('close');
 
-        // const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
-        // const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
-        // statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-        // btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-        // btnAdaTiadaGigiDesidus.classList.remove('ada');
-        // btnAdaTiadaGigiDesidus.classList.add('tiada');
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-sekolah');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-sekolah');
+        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
+        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
+        btnAdaTiadaGigiDesidus.classList.remove('ada');
+        btnAdaTiadaGigiDesidus.classList.add('tiada');
 
-        // const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
-        // const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
-        // statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-        // btnAdaTiadaGigiKekal.textContent = 'Tiada';
-        // btnAdaTiadaGigiKekal.classList.remove('ada');
-        // btnAdaTiadaGigiKekal.classList.add('tiada');
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-sekolah');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-sekolah');
+        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
+        btnAdaTiadaGigiKekal.textContent = 'Tiada';
+        btnAdaTiadaGigiKekal.classList.remove('ada');
+        btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
         
         // close penyata akhir 1
