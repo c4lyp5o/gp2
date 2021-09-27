@@ -336,10 +336,10 @@ function pendaftaranSekolah(){
         }
         // to close other form when opening this form ----------
         // close pemeriksaan awal
-        // const btnPemeriksaanAwalTadika = document.querySelector('.pemeriksaan-awal-header-tadika');
-        // const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-tadika');
-        // btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
-        // formPemeriksaanAwal.classList.add('close');
+        const btnPemeriksaanAwalSekolah = document.querySelector('.pemeriksaan-awal-header-sekolah');
+        const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-sekolah');
+        btnPemeriksaanAwalSekolah.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
+        formPemeriksaanAwal.classList.add('close');
 
         // const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
         // const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
@@ -391,10 +391,10 @@ function pemeriksaanAwalSekolah(){
         }
         // to close other form when opening this form ----------
         // close pendaftaran
-        // const btnPendaftaran = document.querySelector('.pendaftaran-header-tadika');
-        // const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
-        // btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
-        // formPendaftaran.classList.add('close');
+        const btnPendaftaran = document.querySelector('.pendaftaran-header-sekolah');
+        const formPendaftaran = document.querySelector('.form-pendaftaran-sekolah');
+        btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaran.classList.add('close');
         // close perlu dibuat
 
         // close penyata akhir 1
