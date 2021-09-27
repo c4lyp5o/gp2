@@ -1,0 +1,102 @@
+:root   {
+    --background-global: #424242;
+    --background-main: #424250;
+    --white-text: #FFFFFF;
+    --icon-text-border: #C53D6D;
+    --border-selected-icon: #6FD4F0;
+    --save-btn: #37DFB1;
+    --find-btn: #D0E64F;
+    --modify-btn: #D05E4D;
+    --clear-btn: #D07784;
+    --delete-btn: #D0224D;
+    --upload-btn: #9358E0;
+    --download-btn: #4A85DD;
+    font-family: Bahnschrift;
+    font-size: 16px;
+    --transition: all 0.3s linear;
+    --radius: 0.25rem;
+}
+
+body {
+    background: var(--background-global);
+}
+
+.main { 
+    display: block;
+    width: 90%;
+    height: 43.5rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-main);
+    margin: auto;
+}
+
+.container{
+    display: flex; 
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+.container-pic{
+    border: 3px;
+    position: center;
+    justify-content: left;
+    margin-top: 8rem;
+    margin-left: 2rem;
+}
+
+.center{
+    color: var(--white-text);
+    padding-left: 2rem;
+    margin-top: 17rem;
+}
+
+.head{
+    text-align: top;
+    font-size: 40pt;
+    margin-top: .1rem;   
+}
+
+.center-data{
+    margin-top: 10%;
+    outline-style: solid ;
+    border-radius: var(--radius);
+    outline-color: var(--icon-text-border);
+    outline-width: .3rem;
+    color: var(--white-text);
+    font-weight: 1;
+    text-indent: 2%;
+    justify-content: right;
+    align-items: center;
+    padding: .3rem;
+} 
+
+.box{
+    height:20px;
+    font-size: 14pt;
+
+}
+
+#user{
+    margin: 1rem;
+}
+#pass{
+    margin:1rem;
+}
+
+.btn{
+    height: 2rem;
+    font-size: 11pt;
+}
+
+.check{
+    height;
+    background-color: turquoise;
+}
+
+#salah{
+    color: #F40F0F;
+    text-align: right;]
+}
+
