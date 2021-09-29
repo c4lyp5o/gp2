@@ -6,6 +6,10 @@ window.addEventListener('DOMContentLoaded', function(){
     // sekolah
     pendaftaranSekolah();
     pemeriksaanAwalSekolah();
+    perluDibuatSekolah();
+
+    // young adult
+    
 });
 
 // button category -----------------------------------------------------------
@@ -19,6 +23,7 @@ btnCategoryTadika.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.remove('btn-active');
     showHideTadika();
     hideSekolah();
+    // hideYoungAdult(); // uncomment this once added the function
 });
 btnCategorySekolah.addEventListener('click', function(){
     btnCategorySekolah.classList.toggle('btn-active');
@@ -26,11 +31,13 @@ btnCategorySekolah.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.remove('btn-active');
     showHideSekolah();
     hideTadika();
+    // hideYoungAdult(); // uncomment this once added the function
 });
 btnCategoryYoungAdult.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.toggle('btn-active');
     btnCategoryTadika.classList.remove('btn-active');
     btnCategorySekolah.classList.remove('btn-active');
+    // showHideYoungAdult(); // uncomment this once added the function
     hideTadika();
     hideSekolah();
 });
@@ -126,17 +133,31 @@ function showHideSekolah(){
     }
 
     const pemeriksaanAwalHeader = document.querySelector('.pemeriksaan-awal-header-sekolah');
+    const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-sekolah');
     if (pemeriksaanAwalHeader.style.display === 'block'){
         pemeriksaanAwalHeader.style.display = 'none';
     } else {
         pemeriksaanAwalHeader.style.display = 'block';
     }
 
+    if (formPemeriksaanAwal.style.display === 'flex'){
+        formPemeriksaanAwal.style.display = 'none';
+    } else {
+        formPemeriksaanAwal.style.display = 'flex';
+    }
+
     const perluDibuatHeader = document.querySelector('.perlu-dibuat-header-sekolah');
+    const formPerluDibuat = document.querySelector('.form-perlu-dibuat-sekolah');
     if (perluDibuatHeader.style.display === 'block'){
         perluDibuatHeader.style.display = 'none';
     } else {
         perluDibuatHeader.style.display = 'block';
+    }
+
+    if (formPerluDibuat.style.display === 'flex'){
+        formPerluDibuat.style.display = 'none';
+    } else {
+        formPerluDibuat.style.display = 'flex';
     }
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-sekolah');
@@ -168,10 +189,14 @@ function hideSekolah(){
     formPendaftaran.style.display = 'none';
 
     const pemeriksaanAwalHeader = document.querySelector('.pemeriksaan-awal-header-sekolah');
+    const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-sekolah');
     pemeriksaanAwalHeader.style.display = 'none';
+    formPemeriksaanAwal.style.display = 'none';
 
     const perluDibuatHeader = document.querySelector('.perlu-dibuat-header-sekolah');
+    const formPerluDibuat = document.querySelector('.form-perlu-dibuat-sekolah');
     perluDibuatHeader.style.display = 'none';
+    formPerluDibuat.style.display = 'none';
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-sekolah');
     penyataAkhir1Header.style.display = 'none';
@@ -355,7 +380,10 @@ function pendaftaranSekolah(){
         btnAdaTiadaGigiKekal.classList.remove('ada');
         btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
-        
+        const btnPerluDibuatSekolah = document.querySelector('.perlu-dibuat-header-sekolah');
+        const formPerluDibuatSekolah = document.querySelector('.form-perlu-dibuat-sekolah');
+        btnPerluDibuatSekolah.innerHTML = '<i class="fas fa-plus"></i> Perlu dibuat';
+        formPerluDibuatSekolah.classList.add('close');
         // close penyata akhir 1
 
         // close penyata akhir 2
@@ -396,7 +424,10 @@ function pemeriksaanAwalSekolah(){
         btnPendaftaranSekolah.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaranSekolah.classList.add('close');
         // close perlu dibuat
-
+        const btnPerluDibuatSekolah = document.querySelector('.perlu-dibuat-header-sekolah');
+        const formPerluDibuatSekolah = document.querySelector('.form-perlu-dibuat-sekolah');
+        btnPerluDibuatSekolah.innerHTML = '<i class="fas fa-plus"></i> Perlu dibuat';
+        formPerluDibuatSekolah.classList.add('close');
         // close penyata akhir 1
 
         // close penyata akhir 2
@@ -455,5 +486,53 @@ function pemeriksaanAwalSekolah(){
             btnAdaTiadaGigiKekal.classList.remove('ada');
             btnAdaTiadaGigiKekal.classList.add('tiada');
         }
+    });
+}
+
+function perluDibuatSekolah(){
+    const btnPerluDibuatSekolah = document.querySelector('.perlu-dibuat-header-sekolah');
+    const formPerluDibuatSekolah = document.querySelector('.form-perlu-dibuat-sekolah');
+    const iconPlusPerluDibuat = '<i class="fas fa-plus"></i> Perlu dibuat';
+    const iconMinusPerluDibuat = '<i class="fas fa-minus"></i> Perlu dibuat';
+
+    btnPerluDibuatSekolah.addEventListener('click', function(){
+        if (formPerluDibuatSekolah.classList.contains('close')) {
+            formPerluDibuatSekolah.classList.remove('close');
+            btnPerluDibuatSekolah.innerHTML = iconMinusPerluDibuat;
+        } else {
+            formPerluDibuatSekolah.classList.add('close');
+            btnPerluDibuatSekolah.innerHTML = iconPlusPerluDibuat;
+        }
+        // to close other form when opening this form ----------
+        // close pendaftaran
+        const btnPendaftaranSekolah = document.querySelector('.pendaftaran-header-sekolah');
+        const formPendaftaranSekolah = document.querySelector('.form-pendaftaran-sekolah');
+        btnPendaftaranSekolah.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaranSekolah.classList.add('close');
+        // close pemeriksaan awal
+        const btnPemeriksaanAwalSekolah = document.querySelector('.pemeriksaan-awal-header-sekolah');
+        const formPemeriksaanAwalSekolah = document.querySelector('.form-pemeriksaan-awal-sekolah');
+        btnPemeriksaanAwalSekolah.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
+        formPemeriksaanAwalSekolah.classList.add('close');
+
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-sekolah');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-sekolah');
+        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
+        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
+        btnAdaTiadaGigiDesidus.classList.remove('ada');
+        btnAdaTiadaGigiDesidus.classList.add('tiada');
+
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-sekolah');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-sekolah');
+        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
+        btnAdaTiadaGigiKekal.textContent = 'Tiada';
+        btnAdaTiadaGigiKekal.classList.remove('ada');
+        btnAdaTiadaGigiKekal.classList.add('tiada');
+        // close penyata akhir 1
+
+        // close penyata akhir 2
+
+        // close kotak
+
     });
 }

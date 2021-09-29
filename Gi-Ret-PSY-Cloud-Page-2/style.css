@@ -587,6 +587,37 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+.form-perlu-dibuat-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-perlu-dibuat-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-perlu-dibuat-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-perlu-dibuat-sekolah {
+    width: 3rem;
+}
+
 /* penyata akhir 1 header sekolah */
 .penyata-akhir-1-header-sekolah {
     background-color: var(--background-header-and-form);
@@ -601,7 +632,6 @@ input::-webkit-inner-spin-button {
     margin: auto;
     text-align: left;
     display: none;
-    margin-top: 1.5rem; /* to be removed once form added */
 }
 
 /* penyata akhir 2 header sekolah */
