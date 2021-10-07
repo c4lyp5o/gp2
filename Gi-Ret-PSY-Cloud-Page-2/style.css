@@ -634,6 +634,41 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+.form-penyata-akhir-1-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-1-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-1-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-1-sekolah {
+    width: 3rem;
+}
+
+.checkbox-semula-penyata-akhir-1-sekolah {
+    margin-left: 3rem;
+}
+
 /* penyata akhir 2 header sekolah */
 .penyata-akhir-2-header-sekolah {
     background-color: var(--background-header-and-form);
@@ -648,7 +683,6 @@ input::-webkit-inner-spin-button {
     margin: auto;
     text-align: left;
     display: none;
-    margin-top: 1.5rem; /* to be removed once form added */
 }
 
 /* kotak header sekolah */

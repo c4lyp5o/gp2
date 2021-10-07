@@ -7,6 +7,7 @@ window.addEventListener('DOMContentLoaded', function(){
     pendaftaranSekolah();
     pemeriksaanAwalSekolah();
     perluDibuatSekolah();
+    penyataAkhir1Sekolah();
 
     // young adult
     
@@ -161,10 +162,17 @@ function showHideSekolah(){
     }
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-sekolah');
+    const formPenyataAkhir1 = document.querySelector('.form-penyata-akhir-1-sekolah');
     if (penyataAkhir1Header.style.display === 'block'){
         penyataAkhir1Header.style.display = 'none';
     } else {
         penyataAkhir1Header.style.display = 'block';
+    }
+
+    if (formPenyataAkhir1.style.display === 'flex'){
+        formPenyataAkhir1.style.display = 'none';
+    } else {
+        formPenyataAkhir1.style.display = 'flex';
     }
 
     const penyataAkhir2Header = document.querySelector('.penyata-akhir-2-header-sekolah');
@@ -199,7 +207,9 @@ function hideSekolah(){
     formPerluDibuat.style.display = 'none';
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-sekolah');
+    const formPenyataAkhir1 = document.querySelector('.form-penyata-akhir-1-sekolah');
     penyataAkhir1Header.style.display = 'none';
+    formPenyataAkhir1.style.display = 'none';
 
     const penyataAkhir2Header = document.querySelector('.penyata-akhir-2-header-sekolah');
     penyataAkhir2Header.style.display = 'none';
@@ -385,7 +395,10 @@ function pendaftaranSekolah(){
         btnPerluDibuatSekolah.innerHTML = '<i class="fas fa-plus"></i> Perlu dibuat';
         formPerluDibuatSekolah.classList.add('close');
         // close penyata akhir 1
-
+        const btnPenyataAkhir1Sekolah = document.querySelector('.penyata-akhir-1-header-sekolah');
+        const formPenyataAkhir1Sekolah = document.querySelector('.form-penyata-akhir-1-sekolah');
+        btnPenyataAkhir1Sekolah.innerHTML = '<i class="fas fa-plus"></i> Penyata akhir 1';
+        formPenyataAkhir1Sekolah.classList.add('close');
         // close penyata akhir 2
 
         // close kotak
@@ -429,7 +442,10 @@ function pemeriksaanAwalSekolah(){
         btnPerluDibuatSekolah.innerHTML = '<i class="fas fa-plus"></i> Perlu dibuat';
         formPerluDibuatSekolah.classList.add('close');
         // close penyata akhir 1
-
+        const btnPenyataAkhir1Sekolah = document.querySelector('.penyata-akhir-1-header-sekolah');
+        const formPenyataAkhir1Sekolah = document.querySelector('.form-penyata-akhir-1-sekolah');
+        btnPenyataAkhir1Sekolah.innerHTML = '<i class="fas fa-plus"></i> Penyata akhir 1';
+        formPenyataAkhir1Sekolah.classList.add('close');
         // close penyata akhir 2
 
         // close kotak
@@ -529,7 +545,61 @@ function perluDibuatSekolah(){
         btnAdaTiadaGigiKekal.classList.remove('ada');
         btnAdaTiadaGigiKekal.classList.add('tiada');
         // close penyata akhir 1
+        const btnPenyataAkhir1Sekolah = document.querySelector('.penyata-akhir-1-header-sekolah');
+        const formPenyataAkhir1Sekolah = document.querySelector('.form-penyata-akhir-1-sekolah');
+        btnPenyataAkhir1Sekolah.innerHTML = '<i class="fas fa-plus"></i> Penyata akhir 1';
+        formPenyataAkhir1Sekolah.classList.add('close');
+        // close penyata akhir 2
 
+        // close kotak
+
+    });
+}
+
+function penyataAkhir1Sekolah(){
+    const btnPenyataAkhir1Sekolah = document.querySelector('.penyata-akhir-1-header-sekolah');
+    const formPenyataAkhir1Sekolah = document.querySelector('.form-penyata-akhir-1-sekolah');
+    const iconPlusPenyataAkhir1 = '<i class="fas fa-plus"></i> Penyata akhir 1';
+    const iconMinusPenyataAkhir1 = '<i class="fas fa-minus"></i> Penyata akhir 1';
+
+    btnPenyataAkhir1Sekolah.addEventListener('click', function(){
+        if (formPenyataAkhir1Sekolah.classList.contains('close')) {
+            formPenyataAkhir1Sekolah.classList.remove('close');
+            btnPenyataAkhir1Sekolah.innerHTML = iconMinusPenyataAkhir1;
+        } else {
+            formPenyataAkhir1Sekolah.classList.add('close');
+            btnPenyataAkhir1Sekolah.innerHTML = iconPlusPenyataAkhir1;
+        }
+        // to close other form when opening this form ----------
+        // close pendaftaran
+        const btnPendaftaranSekolah = document.querySelector('.pendaftaran-header-sekolah');
+        const formPendaftaranSekolah = document.querySelector('.form-pendaftaran-sekolah');
+        btnPendaftaranSekolah.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaranSekolah.classList.add('close');
+        // close pemeriksaan awal
+        const btnPemeriksaanAwalSekolah = document.querySelector('.pemeriksaan-awal-header-sekolah');
+        const formPemeriksaanAwalSekolah = document.querySelector('.form-pemeriksaan-awal-sekolah');
+        btnPemeriksaanAwalSekolah.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
+        formPemeriksaanAwalSekolah.classList.add('close');
+
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-sekolah');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-sekolah');
+        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
+        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
+        btnAdaTiadaGigiDesidus.classList.remove('ada');
+        btnAdaTiadaGigiDesidus.classList.add('tiada');
+
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-sekolah');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-sekolah');
+        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
+        btnAdaTiadaGigiKekal.textContent = 'Tiada';
+        btnAdaTiadaGigiKekal.classList.remove('ada');
+        btnAdaTiadaGigiKekal.classList.add('tiada');
+        // close perlu dibuat
+        const btnPerluDibuatSekolah = document.querySelector('.perlu-dibuat-header-sekolah');
+        const formPerluDibuatSekolah = document.querySelector('.form-perlu-dibuat-sekolah');
+        btnPerluDibuatSekolah.innerHTML = '<i class="fas fa-plus"></i> Perlu dibuat';
+        formPerluDibuatSekolah.classList.add('close');
         // close penyata akhir 2
 
         // close kotak
