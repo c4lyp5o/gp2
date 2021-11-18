@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function(){
     pemeriksaanAwalSekolah();
 });
 
+// alkldnalkdn
 // button category -----------------------------------------------------------
 const btnCategoryTadika = document.querySelector('.btn-category.tadika');
 const btnCategorySekolah = document.querySelector('.btn-category.sekolah');
