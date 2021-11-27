@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function(){
     pemeriksaanAwalSekolah();
     perluDibuatSekolah();
     penyataAkhir1Sekolah();
+    // penyataAkhir2Sekolah();
 
     // young adult
     

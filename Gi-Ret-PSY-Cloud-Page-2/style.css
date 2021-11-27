@@ -685,6 +685,46 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+.form-penyata-akhir-2-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-2-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-2-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-2-sekolah {
+    width: 3rem;
+}
+
+.text-input-penyata-akhir-2-sekolah {
+    height: 9rem;
+    width: 100%;
+    padding: .5rem;
+    resize: none;
+    font-family: Bahnschrift;
+    font-size: 16px;
+}
+
 /* kotak header sekolah */
 .kotak-header-sekolah {
     background-color: var(--background-header-and-form);
@@ -699,7 +739,6 @@ input::-webkit-inner-spin-button {
     margin: auto;
     text-align: left;
     display: none;
-    margin-top: 1.5rem; /* to be removed once form added */
 }
 /* ------------------end of content form for sekolah------------------------ */
 
