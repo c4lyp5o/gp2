@@ -6,9 +6,12 @@ window.addEventListener('DOMContentLoaded', function(){
     // sekolah
     pendaftaranSekolah();
     pemeriksaanAwalSekolah();
+
+    // ya
+    pendaftaranYoungAdult();
+    statusKesihatanMulutYoungAdult();
 });
 
-// alkldnalkdn
 // button category -----------------------------------------------------------
 const btnCategoryTadika = document.querySelector('.btn-category.tadika');
 const btnCategorySekolah = document.querySelector('.btn-category.sekolah');
@@ -20,6 +23,7 @@ btnCategoryTadika.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.remove('btn-active');
     showHideTadika();
     hideSekolah();
+    hideYoungAdult();
 });
 btnCategorySekolah.addEventListener('click', function(){
     btnCategorySekolah.classList.toggle('btn-active');
@@ -27,11 +31,13 @@ btnCategorySekolah.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.remove('btn-active');
     showHideSekolah();
     hideTadika();
+    hideYoungAdult();
 });
 btnCategoryYoungAdult.addEventListener('click', function(){
     btnCategoryYoungAdult.classList.toggle('btn-active');
     btnCategoryTadika.classList.remove('btn-active');
     btnCategorySekolah.classList.remove('btn-active');
+    showHideYoungAdult();
     hideTadika();
     hideSekolah();
 });
@@ -182,6 +188,49 @@ function hideSekolah(){
 
     const kotakHeader = document.querySelector('.kotak-header-sekolah');
     kotakHeader.style.display = 'none';
+}
+
+// youngadult form
+function showHideYoungAdult(){
+    const pendaftaranHeader = document.querySelector('.pendaftaran-header-ya');
+    const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
+    if (pendaftaranHeader.style.display === 'block'){
+        pendaftaranHeader.style.display = 'none';
+    } else {
+        pendaftaranHeader.style.display = 'block';
+    }
+
+    if (formPendaftaran.style.display === 'flex'){
+        formPendaftaran.style.display = 'none';
+    } else {
+        formPendaftaran.style.display = 'flex';
+    }
+
+    const statusKesihatanMulutHeader = document.querySelector('.status-kesihatan-mulut-header-ya');
+    const formstatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
+    if (statusKesihatanMulutHeader.style.display === 'block'){
+        statusKesihatanMulutHeader.style.display = 'none';
+    } else {
+        statusKesihatanMulutHeader.style.display = 'block';
+    }
+
+    if (formstatusKesihatanMulut.style.display === 'flex'){
+        formstatusKesihatanMulut.style.display = 'none';
+    } else {
+        formstatusKesihatanMulut.style.display = 'flex';
+    }
+}
+
+function hideYoungAdult(){
+    const pendaftaranHeader = document.querySelector('.pendaftaran-header-ya');
+    const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
+    pendaftaranHeader.style.display = 'none';
+    formPendaftaran.style.display = 'none';
+
+    const statusKesihatanMulutHeader = document.querySelector('.status-kesihatan-mulut-header-ya');
+    const formstatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
+    statusKesihatanMulutHeader.style.display = 'none';
+    formstatusKesihatanMulut.style.display = 'none';
 }
 
 // function on header at DOMContentLoaded --------------------------------------
@@ -456,5 +505,53 @@ function pemeriksaanAwalSekolah(){
             btnAdaTiadaGigiKekal.classList.remove('ada');
             btnAdaTiadaGigiKekal.classList.add('tiada');
         }
+    });
+}
+
+function pendaftaranYoungAdult(){
+    const btnPendaftaran = document.querySelector('.pendaftaran-header-ya');
+    const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
+    const iconPlusPendaftaran = '<i class="fas fa-plus"></i> Pendaftaran';
+    const iconMinusPendaftaran = '<i class="fas fa-minus"></i> Pendaftaran';
+
+    btnPendaftaran.addEventListener('click', function(){
+        if (formPendaftaran.classList.contains('close')) {
+            formPendaftaran.classList.remove('close');
+            btnPendaftaran.innerHTML = iconMinusPendaftaran;
+        } else {
+            formPendaftaran.classList.add('close');
+            btnPendaftaran.innerHTML = iconPlusPendaftaran;
+        }
+    
+        // to close other form when opening this form ----------
+        // close statusKesihatanMulutYoungAdult
+        const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
+        const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
+        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
+        formStatusKesihatanMulut.classList.add('close');
+    });
+}
+
+function statusKesihatanMulutYoungAdult(){
+    const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
+    const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
+    const iconPlusStatusKesihatanMulut = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
+    const iconMinusStatusKesihatanMulut = '<i class="fas fa-minus"></i> StatusKesihatanMulut';
+
+    btnStatusKesihatanMulutYoungAdult.addEventListener('click', function(){
+        if (formStatusKesihatanMulut.classList.contains('close')) {
+            formStatusKesihatanMulut.classList.remove('close');
+            btnStatusKesihatanMulutYoungAdult.innerHTML = iconMinusStatusKesihatanMulut;
+        } else {
+            formStatusKesihatanMulut.classList.add('close');
+            btnStatusKesihatanMulutYoungAdult.innerHTML = iconPlusStatusKesihatanMulut;
+        }
+
+        // to close other form when opening this form ----------
+        // close pendaftaran
+        const btnPendaftaran = document.querySelector('.pendaftaran-header-ya');
+        const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
+        btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaran.classList.add('close');
     });
 }

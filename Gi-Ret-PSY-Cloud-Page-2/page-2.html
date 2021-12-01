@@ -647,20 +647,171 @@
                     </div>
                 </div>
                 <!-- start of young adult -->
-                <!-- <div class="form-option-container-young-adult">
-                    <div class="option pendaftaran-young-adult">
-                        <button class="pendaftaran-header-young-adult">
+                <div class="form-option-container-ya">
+                    <div class="option pendaftaran-ya">
+                        <button class="pendaftaran-header-ya">
+                            <!-- <i class="fas fa-minus"></i> -->
                             <i class="fas fa-plus"></i>
                             Pendaftaran
                         </button>
+                        <div action="#" class="form-pendaftaran-ya close">
+                            <div class="input-grp-left-ya">
+                                <div class="input-wrap">
+                                    <label for="nama-ya">Nama</label><br>
+                                    <input type="text" id="nama-ya" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="umur-ya">Umur</label>
+                                    <input type="text" id="umur-ya" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Jantina</legend>
+                                        <input type="checkbox" id="lelaki-ya" value="lelaki">
+                                        <label for="lelaki-ya">Lelaki</label>
+                                        <input type="checkbox" id="perempuan-ya" value="perempuan">
+                                        <label for="perempuan-ya">Perempuan</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Kedatangan</legend>
+                                        <input type="checkbox" id="baru-ya" value="baru">
+                                        <label for="baru-ya">Baru</label>
+                                        <input type="text" id="ulangan-ya">
+                                        <label for="ulangan-ya">Ulangan</label>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-ya">
+                                <div class="input-wrap">
+                                    <label for="nama-institusi-ya">Nama Institusi</label><br>
+                                    <input type="text" id="nama-institusi-ya" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="jenis-institusi-ya">Jenis Institusi</label><br>
+                                    <select id="jenis-institusi-ya">
+                                        <option value="tiada"></option>
+                                        <option value="Kolej Komuniti Kerajaan">Kolej Komuniti Kerajaan</option>
+                                        <option value="Kolej Vokasional Kerajaan">Kolej Vokasional Kerajaan</option>
+                                        <option value=" Institusi Pendidikan Guru Kerajaan">Institusi Pendidikan Guru Kerajaan</option>
+                                        <option value="Institusi Pengajian Tinggi Awam">Institusi Pengajian Tinggi Awam</option>
+                                    </select>
+                                </div>                    
+                                <div class="input-wrap">
+                                    <label for="nama-operator-ya">Nama Operator</label><br>
+                                    <input type="text" id="nama-operator-ya" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="klinik-pergigian-ya">Klinik Pergigian</label><br>
+                                    <select id="klinik-pergigian-ya">
+                                        <option value="tiada"></option>
+                                    </select>
+                                </div>                        
+                            </div>
+                        </div>
                     </div>
-                    <div class="option pemeriksaan-awal-young-adult">
-                        <button class="pemeriksaan-awal-header-young-adult">
+                    <div class="option status-kesihatan-mulut-ya">
+                        <button class="status-kesihatan-mulut-header-ya">
                             <i class="fas fa-plus"></i>
-                            Pemeriksaan Awal
+                            Status kesihatan mulut
                         </button>
+                        <div action="#" class="form-status-kesihatan-mulut-ya close">
+                            <div class="input-grp-up-ya">
+                                <div class="input-wrap">
+                                    <fieldset class="grid-trauma-ya">
+                                        <legend>Trauma</legend>
+                                        <div class="cb-ya">
+                                            <input type="checkbox" id="tsl-ya" value="1">
+                                            <label for="tsl-ya">Tooth Surface Loss</label>
+                                        </div>
+                                        <div class="cb-ya">
+                                            <input type="checkbox" id="tisu-lembut-ya" value="1">
+                                            <label for="tisu-lembut-ya">Tisu Lembut</label>
+                                        </div>
+                                        <div class="cb-ya">
+                                            <input type="checkbox" id="tisu-keras-ya" value="1">
+                                            <label for="tisu-keras-ya">Tisu Keras</label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset class="grid-deture-ya">
+                                        <legend>Status Dentur</legend>
+                                        <div class="cb-ya">
+                                            <div class="cb1-ya">
+                                                <input type="checkbox" id="ada-ya" value="1">
+                                                <label for="ada-ya">Ada   </label>
+                                            </div>
+                                            <div class="cb2-ya">
+                                                <input type="checkbox" id="perlu-baru-ya" value="1">
+                                                <label for="perlu-baru-ya">Perlu Baru</label>
+                                            </div> 
+                                            <div class="cb3-ya">   
+                                                <input class="checkbox"   type="checkbox" id="perlu-ya" value="1">
+                                                <label for="perlu-ya">Perlu</label>
+                                            </div>
+                                            <div class="cb4-ya">
+                                                <input class="checkbox"   type="checkbox" id="perlu-semula-ya" value="1">
+                                                <label for="perlu-semula-ya">Perlu Semula</label>
+                                            </div> 
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="risiko-karies-ya">
+                                    <fieldset style="width: fit-content;" style="height: fit-content;">
+                                        <legend>Risiko Karies</legend>
+                                        <label for="jumlah-faktor-risiko-ya">Jumlah Faktor Risiko</label><br>
+                                        <input type="text" id="jumlah-faktor-risiko-ya">
+                                        <div class="container-rendah"><caption id="rendah">Rendah</caption></div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-down-ya">
+                                <div class="field-oh">
+                                    <fieldset>
+                                        <div class="input-wrap">              
+                                            <legend>Oral Hygiene</legend>
+                                            <label class="label-oh" for="kebersihatan-mulut-ya">Kebersihan Mulut</label>
+                                            <select class="dropbox-oh" id="kebersihatan-mulut-ya">
+                                                <option value="0"></option>
+                                                <option value="A">A</option>
+                                                <option value="C">C</option>
+                                                <option value="E">E</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <label class="label-oh" for="gis-score-ya">GIS-Score</label>
+                                            <select class="dropbox-oh" id="gis-score-ya">
+                                                <option value=""></option>
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <label class="label-oh" for="bpe-score-ya">BPE-Score</label>
+                                            <select class="dropbox-oh" id="bpe-score-ya">
+                                                <option value=""></option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div> -->
+                    <!-- <div class="option rawatan-ya">
+                        <button class="rawatan-ya">
+                            <i class="fas fa-plus"></i>
+                            Rawatan
+                        </button>
+                    </div> -->
+                </div>
             </div>
             <div class="side-btn">
                 <button class="btn-operation save">save</button>

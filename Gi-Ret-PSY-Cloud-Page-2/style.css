@@ -637,7 +637,138 @@ input::-webkit-inner-spin-button {
     display: none;
     margin-top: 1.5rem; /* to be removed once form added */
 }
+
 /* ------------------end of content form for sekolah------------------------ */
+
+.pendaftaran-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: none;
+}
+
+.form-pendaftaran-ya {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 19rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+#umur-ya, #ulangan-ya {
+    width: 2rem;
+}
+
+.input-grp-left-ya {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-ya {
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+}
+
+
+.status-kesihatan-mulut-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: none;
+}
+
+.form-status-kesihatan-mulut-ya {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 48rem; 
+    /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+.input-grp-up-ya {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: fit-content;
+    background-color: #C53D6D;
+}
+
+/* .grid-deture-ya .cb-ya{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    color: #4A85DD;
+}
+
+#jumlah-faktor-risiko-ya{
+    width: 2rem;
+}
+
+.container-rendah{
+    background-color: rgb(127, 255, 212);
+    width: 4rem;
+    display: inline;
+    float: right;    
+}
+
+#rendah{
+    color: #FFFFFF
+} */
+
+.input-grp-down-ya {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: fit-content;
+}
+/* .field-oh{
+    background-color: #6FD4F0;
+    width: 25rem;
+}
+
+.label-oh{
+    margin: auto;
+    width: 2rem;
+    padding: 1rem;
+
+}
+
+.dropbox-oh{
+    margin: auto;
+    width: 2rem;
+    padding: 1rem;
+} */
 
 /* apply this class on .form-*-* to toggle open and close form */
 /* example : "form-pendaftaran-tadika close" */
