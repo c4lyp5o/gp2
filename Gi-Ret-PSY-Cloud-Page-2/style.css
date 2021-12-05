@@ -740,6 +740,38 @@ input::-webkit-inner-spin-button {
     text-align: left;
     display: none;
 }
+
+.form-kotak-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 19rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-kotak-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-kotak-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-kotak-sekolah {
+    width: 3rem;
+}
+
 /* ------------------end of content form for sekolah------------------------ */
 
 /* apply this class on .form-*-* to toggle open and close form */
