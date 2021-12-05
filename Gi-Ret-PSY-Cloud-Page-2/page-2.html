@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
 </head>
 <body>
@@ -877,6 +877,74 @@
                             <i class="fas fa-plus"></i>
                             Kotak
                         </button>
+                        <div class="form-kotak-sekolah close">
+                            <div class="input-grp-left-kotak-sekolah">
+                                <div class="input-wrap">
+                                    <label for="status-rokok-sekolah">Status Merokok:</label>
+                                    <select id="status-rokok-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="perokok semasa">Perokok semasa</option>
+                                        <option value="bekas perokok">Bekas perokok</option>
+                                        <option value="perokok pasif">Perokok pasif</option>
+                                        <option value="bukan perokok">Bukan perokok</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="jenis-rokok-sekolah">Jenis Rokok:</label>
+                                    <select id="jenis-rokok-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="rokok biasa">Rokok biasa</option>
+                                        <option value="elektronik">Elektronik</option>
+                                        <option value="shisha">Shisha</option>
+                                        <option value="lain-lain">Lain-lain</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="status-selepas-6-bulan-sekolah">Status selepas 6 bulan:</label>
+                                    <select id="status-selepas-6-bulan-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="berhenti merokok">Berhenti merokok</option>
+                                        <option value="tidak berhenti merokok">Tidak berhenti merokok</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="tarikh-berhenti-merokok-sekolah">Tarikh berhenti merokok:</label>
+                                    <input type="date" id="tarikh-berhenti-merokok-sekolah">
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Perokok</legend>
+                                        <p></p>
+                                        <input type="checkbox" id="ada-quit-date-sekolah" value="ada-quit-date-sekolah">
+                                        <label for="ada-quit-date-sekolah">Ada quit date</label><br>
+                                        <input type="checkbox" id="tiada-quit-date-sekolah" value="tiada-quit-date-sekolah">
+                                        <label for="tiada-quit-date-sekolah">Tiada quit date</label>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-kotak-sekolah">
+                                <div class=""input-wrap">
+                                    <label for="jumlah-intervensi-merokok-disertai-sekolah">Jumlah intervensi merokok disertai:</label>
+                                    <input type="number" id="jumlah-intervensi-merokok-disertai-sekolah" class="number-input-kotak-sekolah">
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Tarikh intervensi merokok</legend>
+                                        <div class="tarikh-intervensi-merokok-kotak-sekolah">
+                                            <p></p>
+                                            <label for="sesi-1-kotak-sekolah">Sesi 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-1-kotak-sekolah"><br>
+                                            <label for="sesi-2-kotak-sekolah">Sesi 2: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-2-kotak-sekolah"><br>
+                                            <label for="sesi-3-kotak-sekolah">Sesi 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-3-kotak-sekolah"><br>
+                                            <label for="sesi-lanjutan-kotak-sekolah">Sesi lanjutan: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-lanjutan-kotak-sekolah">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- start of young adult -->
