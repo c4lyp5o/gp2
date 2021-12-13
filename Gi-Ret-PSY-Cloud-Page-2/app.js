@@ -2,6 +2,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // tadika
     pendaftaranTadika();
     pemeriksaanAwalTadika();
+    perluDibuatTadika();
 
     // sekolah
     pendaftaranSekolah();
@@ -77,10 +78,17 @@ function showHideTadika(){
     }
 
     const perluDibuatHeader = document.querySelector('.perlu-dibuat-header-tadika');
+    const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
     if (perluDibuatHeader.style.display === 'block'){
         perluDibuatHeader.style.display = 'none';
     } else {
         perluDibuatHeader.style.display = 'block';
+    }
+
+    if (formPerluDibuat.style.display === 'flex'){
+        formPerluDibuat.style.display = 'none';
+    } else {
+        formPerluDibuat.style.display = 'flex';
     }
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-tadika');
@@ -110,7 +118,9 @@ function hideTadika(){
     formPemeriksaanAwal.style.display = 'none';
 
     const perluDibuatHeader = document.querySelector('.perlu-dibuat-header-tadika');
+    const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
     perluDibuatHeader.style.display = 'none';
+    formPerluDibuat.style.display = 'none';
 
     const penyataAkhir1Header = document.querySelector('.penyata-akhir-1-header-tadika');
     penyataAkhir1Header.style.display = 'none';
@@ -275,7 +285,10 @@ function pendaftaranTadika(){
         btnAdaTiadaGigiKekal.classList.remove('ada');
         btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
-        
+        const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
+        const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
+        btnPerluDibuat.innerHTML = '<i class="fas fa-plus"></i> Perlu Dibuat';
+        formPerluDibuat.classList.add('close');
         // close penyata akhir 1
 
         // close penyata akhir 2
@@ -314,6 +327,10 @@ function pemeriksaanAwalTadika(){
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
         // close perlu dibuat
+        const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
+        const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
+        btnPerluDibuat.innerHTML = '<i class="fas fa-plus"></i> Perlu Dibuat';
+        formPerluDibuat.classList.add('close');
 
         // close penyata akhir 1
 
@@ -371,6 +388,51 @@ function pemeriksaanAwalTadika(){
             btnAdaTiadaGigiKekal.classList.remove('ada');
             btnAdaTiadaGigiKekal.classList.add('tiada');
         }
+    });
+}
+function perluDibuatTadika(){
+    const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
+    const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
+    const iconPlusPerluDibuat = '<i class="fas fa-plus"></i> Perlu Dibuat';
+    const iconMinusPerluDibuat = '<i class="fas fa-minus"></i> Perlu Dibuat';
+
+    btnPerluDibuat.addEventListener('click', function(){
+        if (formPerluDibuat.classList.contains('close')) {
+            formPerluDibuat.classList.remove('close');
+            btnPerluDibuat.innerHTML = iconMinusPerluDibuat;
+        } else {
+            formPerluDibuat.classList.add('close');
+            btnPerluDibuat.innerHTML = iconPlusPerluDibuat;
+        }
+        // to close other form when opening this form ----------
+        // close pendaftaran
+        const btnPendaftaran = document.querySelector('.pendaftaran-header-tadika');
+        const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
+        btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaran.classList.add('close');
+        // close pemeriksaan awal
+        const btnPemeriksaanAwalTadika = document.querySelector('.pemeriksaan-awal-header-tadika');
+        const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-tadika');
+        btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
+        formPemeriksaanAwal.classList.add('close');
+
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus');
+        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
+        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
+        btnAdaTiadaGigiDesidus.classList.remove('ada');
+        btnAdaTiadaGigiDesidus.classList.add('tiada');
+
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal');
+        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
+        btnAdaTiadaGigiKekal.textContent = 'Tiada';
+        btnAdaTiadaGigiKekal.classList.remove('ada');
+        btnAdaTiadaGigiKekal.classList.add('tiada');
+        // close penyata akhir 1
+
+        // close penyata akhir 2
+
     });
 }
 

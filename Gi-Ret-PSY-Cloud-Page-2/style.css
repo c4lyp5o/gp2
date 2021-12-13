@@ -373,6 +373,36 @@ input::-webkit-inner-spin-button {
     text-align: left;
     display: none;
 }
+.form-perlu-dibuat-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 26rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-perlu-dibuat-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-perlu-dibuat-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-perlu-dibuat-tadika {
+    width: 3rem;
+}
 
 /* penyata akhir 1 header tadika */
 .penyata-akhir-1-header-tadika {
