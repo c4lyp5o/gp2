@@ -418,7 +418,6 @@ input::-webkit-inner-spin-button {
     margin: auto;
     text-align: left;
     display: none;
-    margin-top: 1.5rem; /* to be removed once form added */
 }
 .form-penyata-akhir-1-tadika {
     padding: 20px;
@@ -467,8 +466,50 @@ input::-webkit-inner-spin-button {
     margin: auto;
     text-align: left;
     display: none;
-    margin-top: 1.5rem; /* to be removed once form added */
 }
+.form-penyata-akhir-2-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 30rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-2-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-2-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-2-tadika {
+    width: 3rem;
+}
+.text-input-penyata-akhir-2-tadika {
+    height: 9rem;
+    width: 100%;
+    max-width: 100%;
+    padding: .5rem;
+    box-sizing: border-box;
+    font-family: Bahnschrift;
+    font-size: 16px;
+}
+.para-penyata-akhir-2{
+    margin: auto;
+}
+
 /* ------------------end of content form for tadika----------------------- */
 
 /* --------------------content form for sekolah--------------------------- */
