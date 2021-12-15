@@ -640,6 +640,10 @@ input::-webkit-inner-spin-button {
 
 /* ------------------end of content form for sekolah------------------------ */
 
+
+/* --------------------content form for young-adult--------------------------- */
+
+/* pendaftaran header young-adult */
 .pendaftaran-header-ya {
     background-color: var(--background-header-and-form);
     color: var(--white-text);
@@ -655,6 +659,7 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+/* pendaftaran form young-adult */
 .form-pendaftaran-ya {
     padding: 20px;
     background-color: var(--background-header-and-form);
@@ -687,6 +692,7 @@ input::-webkit-inner-spin-button {
 }
 
 
+/* status-kesihatan-mulut header young-adult */
 .status-kesihatan-mulut-header-ya {
     background-color: var(--background-header-and-form);
     color: var(--white-text);
@@ -702,89 +708,101 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+/* status-kesihatan-mulut form young-adult */
 .form-status-kesihatan-mulut-ya {
-    padding: 20px;
+    padding: 5px;
     background-color: var(--background-header-and-form);
     display: flex;
     width: 100%;
     max-width: 95%;
     margin: auto;
     padding: 0.5rem;
-    height: 19rem;
+    height: 24rem;
     padding-bottom: 0.7rem;
     transition: var(--transition);
     margin-bottom: 0.3rem;
     overflow-y: auto;
 }
-.input-grp-up-ya {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    height: fit-content;
-    background-color: #C53D6D;
+.input-grp-left-status-ya {
+    margin: auto;
     width: 95%;
     padding: 2rem;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    height: 95%;
 }   
 
-.input-grp-down-ya {
-    margin: 50rem;
-    height: 15%;
+.input-grp-right-status-ya {
+    height: 95%;
+    margin: auto;
     width: 95%;
     padding: 2rem;
-    background-color: #37DFB1;
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: 3;
 }
 
-/* .grid-deture-ya .cb-ya{
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    color: #4A85DD;
-}
-
-#jumlah-faktor-risiko-ya{
+#jumlah-faktor-risiko-ya, #D-ya, #M-ya, #F-ya, #X-ya {
     width: 2rem;
 }
 
-.container-rendah{
-    background-color: rgb(127, 255, 212);
-    width: 4rem;
-    display: inline;
-    float: right;    
-}
 
-#rendah{
-    color: #FFFFFF
-} */
-
-.input-grp-down-ya {
+/* rawatan header young-adult */
+.rawatan-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
     margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: fit-content;
-}
-/* .field-oh{
-    background-color: #6FD4F0;
-    width: 25rem;
+    text-align: left;
+    display: none;
 }
 
-.label-oh{
+/* rawatan form young-adult */
+.form-rawatan-ya {
+    padding: 5px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
     margin: auto;
+    padding: 0.5rem;
+    height: 23rem;
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-rawatan-ya {
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+    height: 95%;
+}   
+
+.input-grp-right-rawatan-ya {
+    height: 95%;
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+}
+
+#gk-baru-anterior-ya, #gk-semula-anterior-ya, #gk-baru-posterior-ya, #gk-semula-posterior-ya, #gk-baru-amalgam-ya, #gk-semula-amalgam-ya {
     width: 2rem;
-    padding: 1rem;
-
 }
 
-.dropbox-oh{
-    margin: auto;
+#label-tampalan-sementara-ya{
+    padding-top: 2rem;
+}
+
+#tampalan-sementara-ya, #gk-dicabut-ya {
     width: 2rem;
-    padding: 1rem;
-} */
+}
+/* ------------------end of content form for young adult------------------------ */
+
+
+
 
 /* apply this class on .form-*-* to toggle open and close form */
 /* example : "form-pendaftaran-tadika close" */

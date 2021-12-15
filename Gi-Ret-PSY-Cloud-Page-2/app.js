@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // ya
     pendaftaranYoungAdult();
     statusKesihatanMulutYoungAdult();
+    rawatanYoungAdult();
 });
 
 // button category -----------------------------------------------------------
@@ -219,6 +220,20 @@ function showHideYoungAdult(){
     } else {
         formstatusKesihatanMulut.style.display = 'flex';
     }
+
+    const rawatanHeader = document.querySelector('.rawatan-header-ya');
+    const formRawatanHeader = document.querySelector('.form-rawatan-ya');
+    if (rawatanHeader.style.display === 'block'){
+        rawatanHeader.style.display = 'none';
+    } else {
+        rawatanHeader.style.display = 'block';
+    }
+
+    if (formRawatanHeader.style.display === 'flex'){
+        formRawatanHeader.style.display = 'none';
+    } else {
+        formRawatanHeader.style.display = 'flex';
+    }
 }
 
 function hideYoungAdult(){
@@ -231,6 +246,11 @@ function hideYoungAdult(){
     const formstatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
     statusKesihatanMulutHeader.style.display = 'none';
     formstatusKesihatanMulut.style.display = 'none';
+
+    const rawatanHeader = document.querySelector('.rawatan-header-ya');
+    const formRawatanHeader = document.querySelector('.form-rawatan-ya');
+    rawatanHeader.style.display = 'none';
+    formRawatanHeader.style.display = 'none';
 }
 
 // function on header at DOMContentLoaded --------------------------------------
@@ -529,6 +549,11 @@ function pendaftaranYoungAdult(){
         const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
         btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
         formStatusKesihatanMulut.classList.add('close');
+        // close rawatan
+        const btnRawatan = document.querySelector('.rawatan-header-ya');
+        const formRawatan = document.querySelector('.form-rawatan-ya');
+        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> rawatan';
+        formRawatan.classList.add('close');
     });
 }
 
@@ -553,5 +578,40 @@ function statusKesihatanMulutYoungAdult(){
         const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
+        // close rawatan
+        const btnRawatan = document.querySelector('.rawatan-header-ya');
+        const formRawatan = document.querySelector('.form-rawatan-ya');
+        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> rawatan';
+        formRawatan.classList.add('close');
+    });
+}
+
+function rawatanYoungAdult(){
+    const btnRawatan = document.querySelector('.rawatan-header-ya');
+    const formRawatan = document.querySelector('.form-rawatan-ya');
+    const iconPlusRawatan = '<i class="fas fa-plus"></i> Rawatan';
+    const iconMinusRawatan = '<i class="fas fa-minus"></i> Rawatan';
+
+    btnRawatan.addEventListener('click', function(){
+        if (formRawatan.classList.contains('close')) {
+            formRawatan.classList.remove('close');
+            btnRawatan.innerHTML = iconMinusRawatan;
+        } else {
+            formRawatan.classList.add('close');
+            btnRawatan.innerHTML = iconPlusRawatan;
+        }
+    
+        // to close other form when opening this form ----------
+        // close statusKesihatanMulutYoungAdult
+        const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
+        const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
+        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
+        formStatusKesihatanMulut.classList.add('close');
+        // close pendaftaran
+        const btnPendaftaran = document.querySelector('.pendaftaran-header-ya');
+        const formPendaftaran = document.querySelector('.form-pendaftaran-ya');
+        btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
+        formPendaftaran.classList.add('close');
+
     });
 }

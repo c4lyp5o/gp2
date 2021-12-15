@@ -717,7 +717,7 @@
                             Status kesihatan mulut
                         </button>
                         <div action="#" class="form-status-kesihatan-mulut-ya close">
-                            <div class="input-grp-up-ya">
+                            <div class="input-grp-left-status-ya">
                                 <div class="input-wrap">
                                     <fieldset class="grid-trauma-ya">
                                         <legend>Trauma</legend>
@@ -758,22 +758,22 @@
                                         </div>
                                     </fieldset>
                                 </div>
+                            </div>
+                            <div class="input-grp-right-status-ya">
                                 <div class="risiko-karies-ya">
                                     <fieldset style="width: fit-content;" style="height: fit-content;">
                                         <legend>Risiko Karies</legend>
                                         <label for="jumlah-faktor-risiko-ya">Jumlah Faktor Risiko</label><br>
                                         <input type="text" id="jumlah-faktor-risiko-ya">
-                                        <div class="container-rendah"><caption id="rendah">Rendah</caption></div>
+                                        <caption id="rendah">Rendah</caption>
                                     </fieldset>
                                 </div>
-                            </div>
-                            <div class="input-grp-down-ya">
                                 <div class="field-oh">
                                     <fieldset>
-                                        <div class="input-wrap">              
-                                            <legend>Oral Hygiene</legend>
-                                            <label class="label-oh" for="kebersihatan-mulut-ya">Kebersihan Mulut</label>
-                                            <select class="dropbox-oh" id="kebersihatan-mulut-ya">
+                                        <legend>Oral Hygiene</legend>
+                                        <div class="input-wrap">             
+                                            <label class="label-oh" for="kebersihatan-mulut-ya">Kebersihan Mulut :</label>
+                                            <select class="dropbox-oh" id="kebersihatan-mulut-ya"> 
                                                 <option value="0"></option>
                                                 <option value="A">A</option>
                                                 <option value="C">C</option>
@@ -781,7 +781,7 @@
                                             </select>
                                         </div>
                                         <div class="input-wrap">
-                                            <label class="label-oh" for="gis-score-ya">GIS-Score</label>
+                                            <label class="label-oh" for="gis-score-ya">GIS-Score :</label>
                                             <select class="dropbox-oh" id="gis-score-ya">
                                                 <option value=""></option>
                                                 <option value="0">0</option>
@@ -791,7 +791,7 @@
                                             </select>
                                         </div>
                                         <div class="input-wrap">
-                                            <label class="label-oh" for="bpe-score-ya">BPE-Score</label>
+                                            <label class="label-oh" for="bpe-score-ya">BPE-Score :</label>
                                             <select class="dropbox-oh" id="bpe-score-ya">
                                                 <option value=""></option>
                                                 <option value="1">1</option>
@@ -802,15 +802,89 @@
                                         </div>
                                     </fieldset>
                                 </div>
+                                <div class="input-wrap">
+                                    <fieldset class="grid-status-gigi-kekal-ya">
+                                        <legend>Status Gigi Kekal</legend>
+                                        <div class="input-wrap">
+                                            <label for="D-ya">D :</label>
+                                            <input type="text" id="D-ya">
+                                            <label for="M-ya">M :</label>
+                                            <input type="text" id="D-ya">
+                                            <label for="F-ya">F :</label>
+                                            <input type="text" id="D-ya">
+                                            <label for="X-ya">X :</label>
+                                            <input type="text" id="D-ya">
+                                        </div>
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="option rawatan-ya">
-                        <button class="rawatan-ya">
+                    <div class="option rawatan-ya">
+                        <button class="rawatan-header-ya">
                             <i class="fas fa-plus"></i>
                             Rawatan
                         </button>
-                    </div> -->
+                        <div action="#" class="form-rawatan-ya close">
+                            <div class="input-grp-left-rawatan-ya">
+                                <div class="input-wrap">
+                                    <fieldset class="grid-tampalan-anterior-sewarna-ya">
+                                        <legend>Tampalan Anterior Sewarna</legend>
+                                        <div class="input-wrap">
+                                            <label for="gk-baru-anterior-ya">GK Baru :</label>
+                                            <input type="text" id="gk-baru-anterior-ya">
+                                            <label for="gk-semula-anterior-ya">GK Semula :</label>
+                                            <input type="text" id="gk-semula-anterior-ya">
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="grid-tampalan-posterior-sewarna-ya">
+                                        <legend>Tampalan Posterior Sewarna</legend>
+                                        <div class="input-wrap">
+                                            <label for="gk-baru-posterior-ya">GK Baru :</label>
+                                            <input type="text" id="gk-baru-posterior-ya">
+                                            <label for="gk-semula-posterior-ya">GK Semula :</label>
+                                            <input type="text" id="gk-semula-posterior-ya">
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="grid-tampalan-amalgam-ya">
+                                        <legend>Tampalan Amalgam</legend>
+                                        <div class="input-wrap">
+                                            <label for="gk-baru-amalgam-ya">GK Baru :</label>
+                                            <input type="text" id="gk-baru-amalgam-ya">
+                                            <label for="gk-semula-amalgam-ya">GK Semula :</label>
+                                            <input type="text" id="gk-semula-amalgam-ya">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-rawatan-ya">
+                                <fieldset class="promosi-ya">
+                                    <legend>Promosi</legend>
+                                    <div class="input-wrap">
+                                        <label for="ceramah-ya">Ceramah :</label>
+                                        <input type="checkbox" id="ceramah-ya">
+                                        <label for="pameran-ya">Pameran :</label>
+                                        <input type="checkbox" id="pameran-ya">
+                                    </div>
+                                </fieldset>
+                                <fieldset class="rawatan-lain-ya">
+                                    <legend>Rawatan Lain</legend>
+                                    <div class="input-wrap"><br>
+                                        <input type="text" id="tampalan-sementara-ya">
+                                        <label for="tampalan-sementara-ya">Jumlah Tampalan Sementara :</label><br>
+                                        <input type="text" id="gk-dicabut-ya">
+                                        <label for="gk-dicabut-ya">Jumlah Gigi Kekal Dicabut :</label><br>
+                                        <input type="checkbox" id="penskaleran-ya">
+                                        <label for="penskaleran-ya">Penskaleran :</label><br>
+                                        <input type="checkbox" id="rujuk-ya">
+                                        <label for="rujuk-ya">Rujuk :</label><br>
+                                        <input type="checkbox" id="kes-selesai-ya">
+                                        <label for="kes-selesai-ya">Kes Selesai :</label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="side-btn">
