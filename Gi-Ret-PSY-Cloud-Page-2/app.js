@@ -852,12 +852,12 @@ function pendaftaranYoungAdult(){
         // close statusKesihatanMulutYoungAdult
         const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
         const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
-        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
+        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> Status Kesihatan Mulut';
         formStatusKesihatanMulut.classList.add('close');
         // close rawatan
         const btnRawatan = document.querySelector('.rawatan-header-ya');
         const formRawatan = document.querySelector('.form-rawatan-ya');
-        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> rawatan';
+        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> Rawatan';
         formRawatan.classList.add('close');
     });
 }
@@ -865,8 +865,8 @@ function pendaftaranYoungAdult(){
 function statusKesihatanMulutYoungAdult(){
     const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
     const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
-    const iconPlusStatusKesihatanMulut = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
-    const iconMinusStatusKesihatanMulut = '<i class="fas fa-minus"></i> StatusKesihatanMulut';
+    const iconPlusStatusKesihatanMulut = '<i class="fas fa-plus"></i> Status Kesihatan Mulut';
+    const iconMinusStatusKesihatanMulut = '<i class="fas fa-minus"></i> Status Kesihatan Mulut';
 
     btnStatusKesihatanMulutYoungAdult.addEventListener('click', function(){
         if (formStatusKesihatanMulut.classList.contains('close')) {
@@ -886,7 +886,7 @@ function statusKesihatanMulutYoungAdult(){
         // close rawatan
         const btnRawatan = document.querySelector('.rawatan-header-ya');
         const formRawatan = document.querySelector('.form-rawatan-ya');
-        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> rawatan';
+        btnRawatan.innerHTML = '<i class="fas fa-plus"></i> Rawatan';
         formRawatan.classList.add('close');
     });
 }
@@ -910,7 +910,7 @@ function rawatanYoungAdult(){
         // close statusKesihatanMulutYoungAdult
         const btnStatusKesihatanMulutYoungAdult = document.querySelector('.status-kesihatan-mulut-header-ya');
         const formStatusKesihatanMulut = document.querySelector('.form-status-kesihatan-mulut-ya');
-        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> StatusKesihatanMulut';
+        btnStatusKesihatanMulutYoungAdult.innerHTML = '<i class="fas fa-plus"></i> Status Kesihatan Mulut';
         formStatusKesihatanMulut.classList.add('close');
         // close pendaftaran
         const btnPendaftaran = document.querySelector('.pendaftaran-header-ya');
