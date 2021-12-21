@@ -517,15 +517,15 @@ function perluDibuatTadika(){
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus');
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
         statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
         btnAdaTiadaGigiDesidus.textContent = 'Tiada';
         btnAdaTiadaGigiDesidus.classList.remove('ada');
         btnAdaTiadaGigiDesidus.classList.add('tiada');
 
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal');
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
         statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
         btnAdaTiadaGigiKekal.textContent = 'Tiada';
         btnAdaTiadaGigiKekal.classList.remove('ada');
@@ -570,15 +570,15 @@ function penyataAkhir1Tadika(){
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus');
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
         statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
         btnAdaTiadaGigiDesidus.textContent = 'Tiada';
         btnAdaTiadaGigiDesidus.classList.remove('ada');
         btnAdaTiadaGigiDesidus.classList.add('tiada');
 
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal');
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
         statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
         btnAdaTiadaGigiKekal.textContent = 'Tiada';
         btnAdaTiadaGigiKekal.classList.remove('ada');
@@ -623,15 +623,15 @@ function penyataAkhir2Tadika(){
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus');
+        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
+        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
         statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
         btnAdaTiadaGigiDesidus.textContent = 'Tiada';
         btnAdaTiadaGigiDesidus.classList.remove('ada');
         btnAdaTiadaGigiDesidus.classList.add('tiada');
 
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal');
+        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
+        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
         statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
         btnAdaTiadaGigiKekal.textContent = 'Tiada';
         btnAdaTiadaGigiKekal.classList.remove('ada');
