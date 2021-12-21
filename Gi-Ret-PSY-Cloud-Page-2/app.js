@@ -15,8 +15,6 @@ window.addEventListener('DOMContentLoaded', function(){
     pendaftaranYoungAdult();
     statusKesihatanMulutYoungAdult();
     rawatanYoungAdult();
-
-    // young adult
     
 });
 
