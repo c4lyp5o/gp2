@@ -774,6 +774,170 @@ input::-webkit-inner-spin-button {
 
 /* ------------------end of content form for sekolah------------------------ */
 
+
+/* --------------------content form for young-adult--------------------------- */
+
+/* pendaftaran header young-adult */
+.pendaftaran-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: none;
+}
+
+/* pendaftaran form young-adult */
+.form-pendaftaran-ya {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 19rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+#umur-ya, #ulangan-ya {
+    width: 2rem;
+}
+
+.input-grp-left-pendaftaran-ya {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-pendaftaran-ya {
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+}
+
+
+/* status-kesihatan-mulut header young-adult */
+.status-kesihatan-mulut-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: none;
+}
+
+/* status-kesihatan-mulut form young-adult */
+.form-status-kesihatan-mulut-ya {
+    padding: 5px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 24rem;
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+.input-grp-left-status-ya {
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+    height: 95%;
+}   
+
+.input-grp-right-status-ya {
+    height: 95%;
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+}
+
+#jumlah-faktor-risiko-ya, #D-ya, #M-ya, #F-ya, #X-ya {
+    width: 2rem;
+}
+
+
+/* rawatan header young-adult */
+.rawatan-header-ya {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: none;
+}
+
+/* rawatan form young-adult */
+.form-rawatan-ya {
+    padding: 5px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 23rem;
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-rawatan-ya {
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+    height: 95%;
+}   
+
+.input-grp-right-rawatan-ya {
+    height: 95%;
+    margin: auto;
+    width: 95%;
+    padding: 2rem;
+}
+
+#gk-baru-anterior-ya, #gk-semula-anterior-ya, #gk-baru-posterior-ya, #gk-semula-posterior-ya, #gk-baru-amalgam-ya, #gk-semula-amalgam-ya {
+    width: 2rem;
+}
+
+#label-tampalan-sementara-ya{
+    padding-top: 2rem;
+}
+
+#tampalan-sementara-ya, #gk-dicabut-ya {
+    width: 2rem;
+}
+/* ------------------end of content form for young adult------------------------ */
+
+
+
+
 /* apply this class on .form-*-* to toggle open and close form */
 /* example : "form-pendaftaran-tadika close" */
 /* USE THIS IN JAVASCRIPT */
