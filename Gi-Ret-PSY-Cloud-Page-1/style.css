@@ -91,12 +91,12 @@ body {
 }
 
 .check{
-    height;
+    height:2rem;
     background-color: turquoise;
 }
 
 #salah{
     color: #F40F0F;
-    text-align: right;]
+    text-align: right;
 }
 
