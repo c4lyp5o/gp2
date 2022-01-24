@@ -109,7 +109,7 @@ body {
     outline-style: solid ;
     border-radius: var(--radius);
     outline-color: var(--icon-text-border);
-    outline-width: .3rem;
+    outline-width: 0.3rem;
     color: var(--white-text);
     font-weight: 1;
     text-indent: 2%;

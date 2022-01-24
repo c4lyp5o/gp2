@@ -1,0 +1,326 @@
+/* ---------------------content form for tadika--------------------------- */
+/* pendaftaran header tadika */
+.pendaftaran-header-tadika {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-pendaftaran-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 24rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-pendaftaran-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-pendaftaran-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+#kelas-pendaftaran-tadika, #ulangan-pendaftaran-tadika {
+    width: 2rem;
+}
+
+/* pemeriksaan awal header tadika */
+.pemeriksaan-awal-header-tadika {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-pemeriksaan-awal-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 48rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-pemeriksaan-awal-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-pemeriksaan-awal-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-pemeriksaan-awal-tadika {
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-tadika.tiada {
+    background-color: var(--btn-tiada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-tadika.ada {
+    background-color: var(--btn-ada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-kekal-tadika.tiada {
+    background-color: var(--btn-tiada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-kekal-tadika.ada {
+    background-color: var(--btn-ada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-tadika:hover, .btn-status-gigi-kekal-tadika:hover {
+    background-color: white;
+}
+
+.rendah-tinggi-pemeriksaan-awal-tadika {
+    background-color: var(--btn-ada);
+    width: max-content;
+    padding: 0.5rem;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1rem;
+    color: black;
+    margin-left: 1rem;
+}
+
+/* perlu dibuat header tadika */
+.perlu-dibuat-header-tadika {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+.form-perlu-dibuat-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 26rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-perlu-dibuat-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-perlu-dibuat-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-perlu-dibuat-tadika {
+    width: 3rem;
+}
+
+/* penyata akhir 1 header tadika */
+.penyata-akhir-1-header-tadika {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+.form-penyata-akhir-1-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 30rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-1-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-1-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-1-tadika {
+    width: 3rem;
+}
+.para-penyata-akhir-1{
+    margin: auto;
+}
+/* penyata akhir 2 header tadika */
+.penyata-akhir-2-header-tadika {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+.form-penyata-akhir-2-tadika {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 30rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-2-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-2-tadika {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-2-tadika {
+    width: 3rem;
+}
+.text-input-penyata-akhir-2-tadika {
+    height: 9rem;
+    width: 100%;
+    max-width: 100%;
+    padding: .5rem;
+    box-sizing: border-box;
+    font-family: Bahnschrift;
+    font-size: 16px;
+}
+.para-penyata-akhir-2{
+    margin: auto;
+}
+
+/* ------------------end of content form for tadika----------------------- */
+
+/* apply this class on .form-*-* to toggle open and close form */
+/* example : "form-pendaftaran-tadika close" */
+/* USE THIS IN JAVASCRIPT */
+/* PLEASE LEAVE THIS CLASS SELECTOR AT THE BOTTOM OF CSS */
+.close {
+    height: 0rem;
+    overflow: hidden;
+    background-color: var(--background-main);
+}
+/* apply this class on .form-*-* to toggle open and close form */

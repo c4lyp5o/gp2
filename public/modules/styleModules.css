@@ -1,0 +1,201 @@
+/* PLEASE USE THESE VARIABLES INSTEAD OF HARD CODED COLOUR/PROPERTIES IN CSS */
+:root {
+    --background-global: #424242;
+    --background-main: #424250;
+    --background-header-and-form: #373740;
+    --upper-border-header: #6FD5F0;
+    --white-text: #FFFFFF;
+    --icon-text-border: #C53D6D;
+    --border-selected-icon: #6FD4F0;
+    --save-btn: #37DFB1;
+    --find-btn: #D0E64F;
+    --modify-btn: #D05E4D;
+    --clear-btn: #D07784;
+    --delete-btn: #D0224D;
+    --upload-btn: #9358E0;
+    --download-btn: #4A85DD;
+    --btn-tiada : #D0224D;
+    --btn-ada : #37DFB1;
+    font-family: Bahnschrift;
+    font-size: 16px;
+    --transition: all 0.3s linear;
+    --radius: 0.25rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-global);
+}
+
+.main {
+    width: 95%;
+    display: block;
+    background-color: var(--background-main);
+    margin: auto;
+}
+
+/* ----------------------------username---------------------------------- */
+.username {
+    width: auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    color: var(--white-text);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.id-kp {
+    margin-left: 1.2rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    line-height: .8rem;
+}
+
+/* ----------------------------inside-container-------------------------- */
+.inside-container {
+    display: flex;
+}
+
+/* ---------------------------category-selector-------------------------- */
+.category-selector {
+    margin-left: 1.5rem;
+    margin-right: 1rem;
+    width: 5rem;
+    padding-top: 1rem;
+}
+
+.btn-category {
+    display: block;
+    background-color: transparent;
+    border-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: .8rem;
+    width: 6rem;
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    border-radius: var(--radius);
+    color: var(--icon-text-border);
+}
+
+.img-category {
+    height: 3rem;
+}
+
+.btn-category:hover {
+    background-color: var(--border-selected-icon);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* when the button-category is selected */
+/* USE THIS IN JAVASCRIPT */
+.btn-active {
+    outline-style: solid;
+    outline-width: .15rem;
+    outline-color: var(--border-selected-icon);
+}
+/* when the button-category is selected */
+
+/* ------------------------------center-data------------------------------ */
+.center-data {
+    flex-grow: 10;
+    margin: 1rem;
+    margin-bottom: 2rem;
+    outline-style: solid ;
+    border-radius: var(--radius);
+    outline-color: var(--icon-text-border);
+    outline-width: 0.3rem;
+    color: var(--white-text);
+    font-weight: 1;
+    text-indent: 2%;
+}
+
+/* ----------------------------side-btn----------------------------------- */
+.side-btn {
+    flex-grow: 1;
+    margin-right: 1rem;
+}
+
+.btn-operation {
+    text-transform: uppercase;
+    display: block;
+    background-color: transparent;
+    border-style: solid;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    padding: .5rem;
+    width: 6rem;
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    border-radius: var(--radius);
+}
+
+.save {
+    color: var(--save-btn);
+    border-color: var(--save-btn);
+}
+
+.find {
+    color: var(--find-btn);
+    border-color: var(--find-btn);
+}
+
+.modify {
+    color: var(--modify-btn);
+    border-color: var(--modify-btn);
+}
+
+.clear {
+    color: var(--clear-btn);
+    border-color: var(--clear-btn);
+}
+
+.delete{
+    color: var(--delete-btn);
+    border-color: var(--delete-btn);
+}
+
+.upload {
+    color: var(--upload-btn);
+    margin-top: 25rem;
+    border-color: var(--upload-btn);
+}
+
+.download {
+    color: var(--download-btn);
+    border-color: var(--download-btn);
+    margin-bottom: 2rem;
+}
+
+.btn-operation:hover {
+    background-color: white;
+}
+
+/* -----------------------global form selector---------------------------- */
+legend {
+    width: 10rem;
+}
+
+label {
+    cursor: pointer;
+    line-height: 2rem;
+}
+
+input[type=text] {
+    width: 100%;
+}
+
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

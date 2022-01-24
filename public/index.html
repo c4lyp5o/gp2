@@ -9,29 +9,29 @@
 </head>
 <body>
     <div class="main">
-        <div class="container">
-            <!-- <div class="container-pic"><img src="./resources/bannerGigi.jpg" alt="" width="300" height="auto">
-            </div> -->
-            <div class="center">
-                <h1 class="head">Gi-Ret 2.0</h1>
-                <div class="center-data">
-                    <label class=" data user" for="uname"><b>ID</b></label>
+        <div class="inside-container">
+            <div class="banner-container">
+                <img class="banner-gigi"><img src="./resources/bannerGigi.jpg" alt="" width="300" height="500">
+            </div>
+            <div class="login-container">
+                <h4 class="Gi-Ret-PSY-Cloud">Gi-Ret-PSY Cloud</h4>
+                <div class="username-password-container">
+                    <label class="label-username" for="username"><b>Username</b></label>
                     <br>
-                    <input class="box" type="text"name="uname" required>
+                    <input class="input-username" type="text" id="username" required />
                     <br>
-                    <label class="data pass" for="psw"><b>Password</b></label>
+                    <label class="label-password" for="password"><b>Password</b></label>
                     <br>
-                    <input class="box" type="password" name="psw" required>
+                    <input class="input-password" type="password" id="password" required>
                     <br>
                     <br>
-                    <button class="btn" type="submit">Login</button>
-                    <label class="data check">
-                        <input class="check"  type="checkbox" checked="checked" name="remember"> Remember me>
-                    </label>
-                    <p id="salah">*Pass / ID salah</p>
-              </div>
+                    <button class="login-btn" type="submit">Log In</button>
+                    <div class="wrong-password">*Password @ ID salah</div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>

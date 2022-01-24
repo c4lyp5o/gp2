@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Nocturnalmc/Gi-Ret-PSY-Cloud#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

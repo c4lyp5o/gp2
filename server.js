@@ -1,12 +1,31 @@
 const express = require('express');
 const app = express();
+const tadika = require('./routes/tadika');
 
+const notFound = require('./middlewares/notFound');
+
+// Database
+require('dotenv').config();
+const connectDB = require('./database/connect');
+// ---------------------------------------------
+
+// Middlewares
+app.use(express.json());
 app.use(express.static('./public'));
-
-app.all('*', (req, res) => {
-    res.status(404).send('Error 404 : Page not found');
-});
+app.use('/api/v1/tadika', tadika);
+app.use(notFound);
+// ---------------------------------------------
 
 const port = 3000;
 
-app.listen(port, console.log(`Server is listening at port : ${port}`));
+const start = async () => {
+    try {
+        await connectDB(process.env.MONGO_URI);
+        console.log('Database connected');
+        app.listen(port, console.log(`Server is listening at port : ${port}...`));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+start();
