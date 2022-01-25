@@ -2,6 +2,7 @@ const namaPendaftaranTadikaDOM = document.getElementById('nama-pendaftaran-tadik
 const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
 const kelasPendaftaranTadikaDOM = document.getElementById('kelas-pendaftaran-tadika');
 const btnSave = document.querySelector('.save');
+const formAlertDOM = document.querySelector('.form-alert');
 
 btnSave.addEventListener('click', async () => {
     const namaPendaftaranTadika = namaPendaftaranTadikaDOM.value;
@@ -14,8 +15,15 @@ btnSave.addEventListener('click', async () => {
         namaPendaftaranTadikaDOM.value = "";
         umurPendaftaranTadikaDOM.value = "";
         kelasPendaftaranTadikaDOM.value = "";
-        console.log('success');
+        formAlertDOM.style.display = 'block';
+        formAlertDOM.textContent = 'Success, data added';
+        formAlertDOM.classList.add('text-success');
     } catch (error) {
-        console.log("Sila isi semua ruangan");
+        formAlertDOM.style.display = 'block';
+        formAlertDOM.textContent = 'Please fill all data correctly';
     }
+    setTimeout(() => {
+        formAlertDOM.style.display = 'none';
+        formAlertDOM.classList.remove('text-success');
+    }, 3000);
 });

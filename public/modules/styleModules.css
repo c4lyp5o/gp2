@@ -119,6 +119,17 @@ a {
     text-indent: 2%;
 }
 
+/* ----------------------------form-alert--------------------------------- */
+.form-alert {
+    color: red;
+    text-align: center;
+    display: none;
+}
+
+.text-success {
+    color: green
+}
+
 /* ----------------------------side-btn----------------------------------- */
 .side-btn {
     flex-grow: 1;

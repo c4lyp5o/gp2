@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const tadika = require('./routes/tadika');
-
+const sekolah = require('./routes/sekolah');
 const notFound = require('./middlewares/notFound');
 
 // Database
@@ -13,6 +13,7 @@ const connectDB = require('./database/connect');
 app.use(express.json());
 app.use(express.static('./public'));
 app.use('/api/v1/tadika', tadika);
+app.use('/api/v1/sekolah', sekolah);
 app.use(notFound);
 // ---------------------------------------------
 

@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
 
-const TadikaSchema = mongoose.Schema({
-    namaPendaftaranTadika: {
+const sekolahSchema = mongoose.Schema({
+    namaPendaftaranSekolah: {
         type: String,
         required: true,
         trim: true
     },
-    umurPendaftaranTadika: {
-        type: String,
+    umurPendaftaranSekolah: {
+        type: Number,
         required: true
     },
-    kelasPendaftaranTadika: {
+    kelasPendaftaranSekolah: {
         type: String,
         required: true,
         trim: true
     }
 });
 
-module.exports = mongoose.model('Tadika', TadikaSchema);
+module.exports = mongoose.model('Sekolah', sekolahSchema);
