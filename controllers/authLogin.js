@@ -9,7 +9,7 @@ const authLogin = async (req,res) => {
 
     const user = await UserModel.findOne({ username });
     if (!user) {
-        return res.status(401).json({ msg: 'Ivalid credentials'});
+        return res.status(401).json({ msg: 'Invalid credentials'});
     }
 
     const isPasswordCorrect = await user.comparePassword(password);
@@ -18,7 +18,7 @@ const authLogin = async (req,res) => {
     }
 
     const token = user.createJWT();
-    res.status(200).json({ msg: `Welcome ${user.name}`, token });
+    res.status(200).json({ msg: `Welcome ${user.name}`, token, redirectLogin: 'modules/dashboard.html' });
 }
 
 module.exports = authLogin;
