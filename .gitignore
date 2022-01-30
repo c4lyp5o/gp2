@@ -1,2 +1,6 @@
 /node_modules
 .env
+
+# register user
+/routes/authRegister.js
+/controllers/authRegister.js

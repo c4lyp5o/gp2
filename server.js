@@ -1,19 +1,27 @@
+require('dotenv').config();
+require('express-async-errors');
+
 const express = require('express');
 const app = express();
+
+const authLogin = require('./routes/authLogin');
+
 const tadika = require('./routes/tadika');
 const sekolah = require('./routes/sekolah');
+const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 
 // Database
-require('dotenv').config();
 const connectDB = require('./database/connect');
 // ---------------------------------------------
 
 // Middlewares
 app.use(express.json());
 app.use(express.static('./public'));
+app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/tadika', tadika);
 app.use('/api/v1/sekolah', sekolah);
+app.use(errorHandler);
 app.use(notFound);
 // ---------------------------------------------
 
