@@ -1,9 +1,9 @@
 const usernameDOM = document.getElementById('username');
 const passwordDOM = document.getElementById('password');
-const loginBtnDOM = document.querySelector('.login-btn');
+const logInBtnDOM = document.querySelector('.login-btn');
 const wrongUsernamePasswordDOM = document.querySelector('.wrong-username-password');
 
-loginBtnDOM.addEventListener('click', async () => {
+logInBtnDOM.addEventListener('click', async () => {
     const username = usernameDOM.value;
     const password = passwordDOM.value;
     try {

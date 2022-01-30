@@ -29,6 +29,7 @@ body {
     text-align: center;
     font-size: 2rem;
     color: var(--white-text);
+    text-transform: capitalize;
 }
 
 .inside-container {
