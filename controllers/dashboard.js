@@ -1,7 +1,6 @@
 const dashboard = async (req, res) => {
     try {
-        const { username, name } = req.user;
-        res.status(200).json({ msg: `Selamat datang Dr ${name}` });
+        res.status(200).json(req.user);
     } catch (error) {
         res.status(401).json({ msg: 'Please log in' });       
     }

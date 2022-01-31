@@ -12,6 +12,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide name']
     },
+    kp: {
+        type: String,
+        required: [true, 'Please provide KP']
+    },
     password: {
         type: String,
         required: [true, 'Please provide password'],
@@ -25,7 +29,7 @@ UserSchema.pre('save', async function() {
 });
 
 UserSchema.methods.createJWT = function() {
-    return jwt.sign({ userId: this._id, username: this.username, name: this.name }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
+    return jwt.sign({ userId: this._id, username: this.username, name: this.name, kp: this.kp }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
 }
 
 UserSchema.methods.comparePassword = async function(candidatePassword) {

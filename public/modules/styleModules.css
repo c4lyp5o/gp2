@@ -38,7 +38,7 @@ body {
 }
 
 /* ----------------------------username---------------------------------- */
-.username {
+.username-container {
     width: auto;
     height: fit-content;
     display: flex;
@@ -49,11 +49,19 @@ body {
     font-size: 1.1rem;
 }
 
-.id-kp {
+.username-kp {
     margin-left: 1.2rem;
     margin-top: auto;
     margin-bottom: auto;
     line-height: .8rem;
+}
+
+.username {
+    text-transform: capitalize;
+}
+
+.kp {
+    text-transform: capitalize;
 }
 
 /* ----------------------------inside-container-------------------------- */
