@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 
 const TadikaSchema = mongoose.Schema({
+    createdByKp: {
+        type: String,
+        required: true
+    },
     namaPendaftaranTadika: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     umurPendaftaranTadika: {
         type: String,
