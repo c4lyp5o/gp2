@@ -12,6 +12,14 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide name']
     },
+    negeri: {
+        type: String,
+        required: [true, 'Please provide negeri']
+    },
+    daerah: {
+        type: String,
+        required: [true, 'Please provide daerah']
+    },
     kp: {
         type: String,
         required: [true, 'Please provide KP']
@@ -29,7 +37,7 @@ UserSchema.pre('save', async function() {
 });
 
 UserSchema.methods.createJWT = function() {
-    return jwt.sign({ userId: this._id, username: this.username, name: this.name, kp: this.kp }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
+    return jwt.sign({ userId: this._id, username: this.username, name: this.name, negeri: this.negeri, daerah: this.daerah, kp: this.kp }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
 }
 
 UserSchema.methods.comparePassword = async function(candidatePassword) {
