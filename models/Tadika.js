@@ -7,17 +7,17 @@ const TadikaSchema = mongoose.Schema({
     },
     namaPendaftaranTadika: {
         type: String,
-        required: true,
+        required: [true, 'Please provide nama'],
         trim: true,
         unique: true
     },
     umurPendaftaranTadika: {
         type: String,
-        required: true
+        required: [true, 'Please provide umur'],
     },
     kelasPendaftaranTadika: {
         type: String,
-        required: true,
+        required: [true, 'Please provide kelas'],
         trim: true
     }
 });
