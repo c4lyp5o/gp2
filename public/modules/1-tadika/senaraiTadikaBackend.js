@@ -23,55 +23,81 @@ const onPageLoad = async () => {
 
 onPageLoad();
 
-const centerDataDOM = document.querySelector('.center-data')
-const namaTadikaHeaderDOM = document.querySelector('.nama-tadika-header');
+const btnSenaraiTadikaContainerDOM = document.querySelector('.btn-senarai-tadika-container')
 const namaPersonTadikaContainerDOM = document.querySelector('.nama-person-tadika-container');
 const loadingTextDOM = document.querySelector('.loading-text');
+const namaTaskaTadikaCurrentSelectedDOM = document.querySelector('.nama-taska-tadika-current-selected');
 
 const showAllPersonTadika = async () => {
     loadingTextDOM.style.display = 'block';
     try {
         const { data: { tadikas } } = await axios.get('/api/v1/tadika', { headers: { Authorization: `Bearer ${token}` } });
-        console.log(tadikas);
+
         if (tadikas.length < 1) {
             loadingTextDOM.style.display = 'none';
-            centerDataDOM.innerHTML = `<h5>No person created</h5>`;
+            namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Tiada Taska / Tadika yang dilawati";
             return;
         }
 
-        const groupByTaskaTadika = tadikas.reduce((taskaTadika, tadika) => {
-            const { namaTaskaTadikaPendaftaranTadika } = tadika;
-            taskaTadika[namaTaskaTadikaPendaftaranTadika] = taskaTadika[namaTaskaTadikaPendaftaranTadika] ?? [];
-            taskaTadika[namaTaskaTadikaPendaftaranTadika].push(tadika);
-            return taskaTadika;
-        }, {});
-        console.log(groupByTaskaTadika);
+        displaySinglePersonTadika(tadikas);
+        displayTaskaTadikaButton();
+        function displaySinglePersonTadika(tadikas) {
+            let displaySinglePerson = tadikas.map(function (singlePerson) {
+                return `<div class="single-nama-person-tadika-container">
+                            <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
+                            <div class="murid-edit-delete">
+                                <a href="../edit-tadika/edit-tadika.html?${singlePerson._id}"  class="murid-edit-link">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button class="murid-delete-btn" data-id="${singlePerson._id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>`;
+            });
+            displaySinglePerson = displaySinglePerson.join("");
+          
+            namaPersonTadikaContainerDOM.innerHTML = displaySinglePerson;
+            namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Semua Taska / Tadika";
+        }
 
-        // const allPersonTadika = groupByTaskaTadika.map((taskaTadika) => {
-        //     return `<div class="nama-tadika-header">
-        //                 <div class="single-nama-tadika-header">
-        //                     ${taskaTadika.namaTaskaTadikaPendaftaranTadika}
-        //                 </div>
-        //             </div>
-        //             <div class="nama-person-tadika-container">
-        //                 <div class="single-nama-person-tadika-container">
-        //                     <p class="nama-person">${taskaTadika.namaPendaftaranTadika}</p>
-        //                     <div class="murid-edit-delete">
-        //                         <a href="./edit-tadika.html?id=${taskaTadika._id}"  class="murid-edit-link">
-        //                         <i class="fas fa-edit"></i>
-        //                         </a>
-        //                         <button class="murid-delete-btn" data-id="${taskaTadika._id}">
-        //                         <i class="fas fa-trash"></i>
-        //                         </button>
-        //                     </div>
-        //                 </div>
-        //             </div>`
-        // }).join('');
-        // console.log(allPersonTadika);
+        function displayTaskaTadikaButton() {
+            const namaTaskaTadika = tadikas.reduce(
+                function (values, singlePerson) {
+                    if (!values.includes(singlePerson.namaTaskaTadikaPendaftaranTadika)) {
+                        values.push(singlePerson.namaTaskaTadikaPendaftaranTadika);
+                    }
+                    return values;
+                }, ["Semua Taska / Tadika"]);
+            const taskaTadikaBtn = namaTaskaTadika.map(function (namaTaskaTadikaPendaftaranTadika) {
+                return `<button class="btn-category filter-btn-taska-tadika" data-id="${namaTaskaTadikaPendaftaranTadika}">
+                            ${namaTaskaTadikaPendaftaranTadika}
+                        </button>`;
+            }).join("");
 
-        // centerDataDOM.innerHTML = allPersonTadika;
+            btnSenaraiTadikaContainerDOM.innerHTML = taskaTadikaBtn;
+            const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll(".filter-btn-taska-tadika");
+          
+            filterTaskaTadikaBtn.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    const namaTaskaTadikaPendaftaranTadika = e.currentTarget.dataset.id;
+                    const tadikasTaskaTadika = tadikas.filter(function (taskaTadika) {
+                        if (taskaTadika.namaTaskaTadikaPendaftaranTadika === namaTaskaTadikaPendaftaranTadika) {
+                            return taskaTadika;
+                        }
+                    });
+                    if (namaTaskaTadikaPendaftaranTadika === "Semua Taska / Tadika") {
+                        displaySinglePersonTadika(tadikas);
+                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = namaTaskaTadikaPendaftaranTadika;
+                    } else {
+                        displaySinglePersonTadika(tadikasTaskaTadika);
+                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = namaTaskaTadikaPendaftaranTadika;
+                    }
+                });
+            });
+        }
     } catch (error) {
-        centerDataDOM.innerHTML = `<h5>Error</h5>`;
+        namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Error";
     }
     loadingTextDOM.style.display = 'none';
 }

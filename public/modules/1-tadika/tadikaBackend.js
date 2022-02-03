@@ -49,7 +49,7 @@ btnSave.addEventListener('click', async () => {
         formAlertDOM.classList.add('text-success');
     } catch (error) {
         formAlertDOM.style.display = 'block';
-        formAlertDOM.textContent = 'Log in / Please fill all data correctly';
+        formAlertDOM.textContent = 'Please fill all data correctly';
     }
     setTimeout(() => {
         formAlertDOM.style.display = 'none';

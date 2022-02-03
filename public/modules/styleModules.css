@@ -100,7 +100,13 @@ body {
     background-color: var(--border-selected-icon);
 }
 
-.senarai {
+.senarai-btn {
+    padding: 1rem;
+}
+
+.filter-btn-taska-tadika {
+    white-space: normal;
+    word-wrap: break-word;
     padding: 1rem;
 }
 
@@ -131,6 +137,15 @@ a {
     text-indent: 2%;
 }
 
+.loading-text {
+    text-align: center;
+    display: none;
+}
+
+.nama-taska-tadika-current-selected {
+    text-align: center;
+}
+
 /* ----------------------------form-alert--------------------------------- */
 .form-alert {
     color: red;
@@ -140,11 +155,6 @@ a {
 
 .text-success {
     color: green
-}
-
-.loading-text {
-    text-align: center;
-    display: none;
 }
 
 /* ----------------------------side-btn----------------------------------- */
