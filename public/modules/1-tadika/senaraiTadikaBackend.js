@@ -14,6 +14,10 @@ const onPageLoad = async () => {
         usernameKpDOM.innerHTML = `<p class="username"><b>Nama</b> : Dr ${data.name}</p><p class="kp"><b>Tempat Bertugas</b> : ${data.kp}</p>`
     } catch (error) {
         usernameKpDOM.innerHTML = `<h4>${error.response.data.msg}</h4>`;
+        const currentUrl = window.location.href;
+        const splittedUrl = currentUrl.split('/');
+        const newUrl = 'http://' + splittedUrl[2];
+        window.location.replace(newUrl);
     }
 }
 

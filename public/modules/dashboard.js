@@ -13,6 +13,10 @@ const onPageLoad = async () => {
         welcomeUsernameDOM.innerHTML = `<h4>Selamat datang Dr ${data.name}</h4><p>Sila pilih kategori reten :</p>`;
     } catch (error) {
         welcomeUsernameDOM.innerHTML = `<h4>${error.response.data.msg}</h4>`;
+        const currentUrl = window.location.href;
+        const splittedUrl = currentUrl.split('/');
+        const newUrl = 'http://' + splittedUrl[2];
+        window.location.replace(newUrl);
     }
 }
 
