@@ -19,6 +19,11 @@ const TadikaSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide kelas'],
         trim: true
+    },
+    namaTaskaTadikaPendaftaranTadika: {
+        type: String,
+        required: [true, 'Please provide nama taska/tadika'],
+        trim: true
     }
 });
 

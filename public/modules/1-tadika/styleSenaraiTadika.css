@@ -1,0 +1,29 @@
+.single-nama-tadika-header {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    margin-top: 1rem;
+    text-align: left;
+    display: block;
+}
+
+.single-nama-person-tadika-container {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: auto;
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    overflow-y: auto;
+}

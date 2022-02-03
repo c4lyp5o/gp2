@@ -100,6 +100,10 @@ body {
     background-color: var(--border-selected-icon);
 }
 
+.senarai {
+    padding: 1rem;
+}
+
 a {
     text-decoration: none;
 }
@@ -136,6 +140,11 @@ a {
 
 .text-success {
     color: green
+}
+
+.loading-text {
+    text-align: center;
+    display: none;
 }
 
 /* ----------------------------side-btn----------------------------------- */

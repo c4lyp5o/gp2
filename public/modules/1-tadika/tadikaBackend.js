@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token');
+
 window.addEventListener('pageshow', function (event) {
     const historyTraversal = event.persisted;
     if (historyTraversal) {
@@ -7,7 +9,6 @@ window.addEventListener('pageshow', function (event) {
 
 const onPageLoad = async () => {
     const usernameKpDOM = document.querySelector('.username-kp');
-    const token = localStorage.getItem('token');
     try {
         const { data } = await axios.get('/api/v1/dashboard', { headers: { Authorization: `Bearer ${token}` } });
         usernameKpDOM.innerHTML = `<p class="username"><b>Nama</b> : Dr ${data.name}</p><p class="kp"><b>Tempat Bertugas</b> : ${data.kp}</p>`
@@ -21,6 +22,7 @@ onPageLoad();
 const namaPendaftaranTadikaDOM = document.getElementById('nama-pendaftaran-tadika');
 const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
 const kelasPendaftaranTadikaDOM = document.getElementById('kelas-pendaftaran-tadika');
+const namaTaskaTadikaPendaftaranDOM = document.getElementById('nama-taska/tadika-pendaftaran-tadika');
 const btnSave = document.querySelector('.save');
 const formAlertDOM = document.querySelector('.form-alert');
 
@@ -28,19 +30,22 @@ btnSave.addEventListener('click', async () => {
     const namaPendaftaranTadika = namaPendaftaranTadikaDOM.value;
     const umurPendaftaranTadika = umurPendaftaranTadikaDOM.value;
     const kelasPendaftaranTadika = kelasPendaftaranTadikaDOM.value;
+    const namaTaskaTadikaPendaftaranTadika = namaTaskaTadikaPendaftaranDOM.value;
     try {
         await axios.post('/api/v1/tadika', { namaPendaftaranTadika,
             umurPendaftaranTadika,
-            kelasPendaftaranTadika });
+            kelasPendaftaranTadika,
+            namaTaskaTadikaPendaftaranTadika }, { headers: { Authorization: `Bearer ${token}` } });
         namaPendaftaranTadikaDOM.value = "";
         umurPendaftaranTadikaDOM.value = "";
         kelasPendaftaranTadikaDOM.value = "";
+        namaTaskaTadikaPendaftaranDOM.value = "";
         formAlertDOM.style.display = 'block';
         formAlertDOM.textContent = 'Success, data added';
         formAlertDOM.classList.add('text-success');
     } catch (error) {
         formAlertDOM.style.display = 'block';
-        formAlertDOM.textContent = 'Please fill all data correctly';
+        formAlertDOM.textContent = 'Log in / Please fill all data correctly';
     }
     setTimeout(() => {
         formAlertDOM.style.display = 'none';
