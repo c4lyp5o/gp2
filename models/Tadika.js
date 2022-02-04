@@ -8,8 +8,7 @@ const TadikaSchema = mongoose.Schema({
     namaPendaftaranTadika: {
         type: String,
         required: [true, 'Please provide nama'],
-        trim: true,
-        unique: true
+        trim: true
     },
     umurPendaftaranTadika: {
         type: String,

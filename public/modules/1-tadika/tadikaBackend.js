@@ -43,7 +43,7 @@ btnSave.addEventListener('click', async () => {
         namaPendaftaranTadikaDOM.value = "";
         umurPendaftaranTadikaDOM.value = "";
         kelasPendaftaranTadikaDOM.value = "";
-        namaTaskaTadikaPendaftaranDOM.value = "";
+        // namaTaskaTadikaPendaftaranDOM.value = "";
         formAlertDOM.style.display = 'block';
         formAlertDOM.textContent = 'Success, data added';
         formAlertDOM.classList.add('text-success');

@@ -21,16 +21,13 @@
         </div>
         <div class="inside-container">
             <nav class="category-selector">
-                <button class="btn-category tadika btn-active">
+                <button class="btn-category tadika">
                     <img class="img-category" src="../../resources/tadika.png" alt="">
                     <p>SENARAI TASKA / TADIKA YANG DILAWATI</p>
                 </button>
                 <div class="btn-senarai-tadika-container">
-                    <!-- <button class="btn-category filter-btn-taska-tadika btn-active" data-id=${namaTaskaTadikaPendaftaranTadika}>
-                        Semua Tadika
-                    </button>
-                    <button class="btn-category filter-btn-taska-tadika" data-id=${namaTaskaTadikaPendaftaranTadika}>
-                        Tadika Al-Amin Abu Hassan
+                    <!-- <button class="btn-category filter-btn-taska-tadika btn-active" data-id="${namaTaskaTadikaPendaftaranTadika}">
+                        ${namaTaskaTadikaPendaftaranTadika}
                     </button> -->
                 </div>
                 <a href="./tadika.html">
@@ -44,24 +41,13 @@
                 <p class="nama-taska-tadika-current-selected"></p>
                 <div class="nama-person-tadika-container">
                     <!-- <div class="single-nama-person-tadika-container">
-                        <p class="nama-person">Nama murid 1 here</p>
-                        <div class="murid-edit-delete">
-                            <a href="../edit-tadika/edit-tadika.html?id=${muridID}"  class="murid-edit-link">
-                            <i class="fas fa-edit"></i>
+                        <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
+                        <div class="person-tadika-edit-delete">
+                            <a href="../edit-tadika/edit-tadika.html?id=${singlePerson._id}"  class="edit-link-person-tadika">
+                                <i class="fas fa-edit"></i>
                             </a>
-                            <button class="murid-delete-btn" data-id="${muridID}">
-                            <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="single-nama-person-tadika-container">
-                        <p class="nama-person">Nama murid 1 here</p>
-                        <div class="murid-edit-delete">
-                            <a href="../edit-tadika/edit-tadika.html?id=${muridID}"  class="murid-edit-link">
-                            <i class="fas fa-edit"></i>
-                            </a>
-                            <button class="murid-delete-btn" data-id="${muridID}">
-                            <i class="fas fa-trash"></i>
+                            <button class="btn-delete-person-tadika" data-id="${singlePerson._id}">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div> -->

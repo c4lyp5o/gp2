@@ -35,7 +35,8 @@ const showAllPersonTadika = async () => {
 
         if (tadikas.length < 1) {
             loadingTextDOM.style.display = 'none';
-            namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Tiada Taska / Tadika yang dilawati";
+            namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
+            namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Tiada Taska / Tadika yang dilawati';
             return;
         }
 
@@ -45,20 +46,21 @@ const showAllPersonTadika = async () => {
             let displaySinglePerson = tadikas.map(function (singlePerson) {
                 return `<div class="single-nama-person-tadika-container">
                             <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
-                            <div class="murid-edit-delete">
-                                <a href="../edit-tadika/edit-tadika.html?${singlePerson._id}"  class="murid-edit-link">
+                            <div class="person-tadika-edit-delete">
+                                <a href="../edit-tadika/edit-tadika.html?id=${singlePerson._id}"  class="edit-link-person-tadika">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button class="murid-delete-btn" data-id="${singlePerson._id}">
+                                <button class="btn-delete-person-tadika" data-id="${singlePerson._id}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </div>`;
             });
-            displaySinglePerson = displaySinglePerson.join("");
+            displaySinglePerson = displaySinglePerson.join('');
           
             namaPersonTadikaContainerDOM.innerHTML = displaySinglePerson;
-            namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Semua Taska / Tadika";
+            namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
+            namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Semua pelajar di Taska / Tadika yang dilawati';
         }
 
         function displayTaskaTadikaButton() {
@@ -68,15 +70,15 @@ const showAllPersonTadika = async () => {
                         values.push(singlePerson.namaTaskaTadikaPendaftaranTadika);
                     }
                     return values;
-                }, ["Semua Taska / Tadika"]);
+                }, ['Semua Pelajar']);
             const taskaTadikaBtn = namaTaskaTadika.map(function (namaTaskaTadikaPendaftaranTadika) {
-                return `<button class="btn-category filter-btn-taska-tadika" data-id="${namaTaskaTadikaPendaftaranTadika}">
+                return `<button class="btn-category filter-btn-taska-tadika btn-active" data-id="${namaTaskaTadikaPendaftaranTadika}">
                             ${namaTaskaTadikaPendaftaranTadika}
                         </button>`;
-            }).join("");
+            }).join('');
 
             btnSenaraiTadikaContainerDOM.innerHTML = taskaTadikaBtn;
-            const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll(".filter-btn-taska-tadika");
+            const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll('.filter-btn-taska-tadika');
           
             filterTaskaTadikaBtn.forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
@@ -86,9 +88,9 @@ const showAllPersonTadika = async () => {
                             return taskaTadika;
                         }
                     });
-                    if (namaTaskaTadikaPendaftaranTadika === "Semua Taska / Tadika") {
+                    if (namaTaskaTadikaPendaftaranTadika === 'Semua Pelajar') {
                         displaySinglePersonTadika(tadikas);
-                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = namaTaskaTadikaPendaftaranTadika;
+                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Semua pelajar di Taska / Tadika yang dilawati';
                     } else {
                         displaySinglePersonTadika(tadikasTaskaTadika);
                         namaTaskaTadikaCurrentSelectedDOM.innerHTML = namaTaskaTadikaPendaftaranTadika;
@@ -103,3 +105,18 @@ const showAllPersonTadika = async () => {
 }
 
 showAllPersonTadika();
+
+namaPersonTadikaContainerDOM.addEventListener('click', async (e) => {
+    const el = e.target;
+    if (el.parentElement.classList.contains('btn-delete-person-tadika')) {
+        loadingTextDOM.style.display = 'block';
+        const id = el.parentElement.dataset.id;
+        try {
+            await axios.delete(`/api/v1/tadika/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    loadingTextDOM.style.display = 'none';
+});

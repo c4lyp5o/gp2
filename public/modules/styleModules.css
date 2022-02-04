@@ -104,12 +104,6 @@ body {
     padding: 1rem;
 }
 
-.filter-btn-taska-tadika {
-    white-space: normal;
-    word-wrap: break-word;
-    padding: 1rem;
-}
-
 a {
     text-decoration: none;
 }
@@ -140,10 +134,6 @@ a {
 .loading-text {
     text-align: center;
     display: none;
-}
-
-.nama-taska-tadika-current-selected {
-    text-align: center;
 }
 
 /* ----------------------------form-alert--------------------------------- */

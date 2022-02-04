@@ -1,29 +1,63 @@
-.single-nama-tadika-header {
+.filter-btn-taska-tadika {
+    white-space: normal;
+    word-wrap: break-word;
+    padding: 1rem;
+}
+
+.nama-taska-tadika-current-selected {
+    text-align: center;
     background-color: var(--background-header-and-form);
     color: var(--white-text);
     padding: 0.5rem;
     border: none;
-    cursor: pointer;
     position: relative;
     border-top: var(--upper-border-header) solid;
     width: 100%;
     max-width: 95%;
     margin: auto;
     margin-top: 1rem;
-    text-align: left;
-    display: block;
+    display: none;
+    font-weight: bold;
 }
 
 .single-nama-person-tadika-container {
-    padding: 20px;
     background-color: var(--background-header-and-form);
+    border-bottom: var(--white-text) solid 0.1rem;
     display: flex;
     width: 100%;
     max-width: 95%;
     margin: auto;
-    padding: 0.5rem;
-    height: auto;
-    padding-bottom: 0.7rem;
-    transition: var(--transition);
-    overflow-y: auto;
+    align-items: center;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.nama-person {
+    width: 90%;
+    text-align: left;
+}
+
+.person-tadika-edit-delete {
+    display: flex;
+    align-items: center;
+    gap: 0 0.5rem;
+}
+
+.edit-link-person-tadika, .btn-delete-person-tadika {
+    background: transparent;
+    font-size: 1rem;
+    border: transparent;
+    cursor: pointer;
+}
+
+.edit-link-person-tadika {
+    color: var(--modify-btn);
+}
+
+.btn-delete-person-tadika {
+    color: var(--delete-btn);
+}
+
+.edit-link-person-tadika:hover, .btn-delete-person-tadika:hover {
+    color: var(--white-text);
 }
