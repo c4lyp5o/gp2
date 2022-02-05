@@ -11,7 +11,7 @@ const getSinglePersonTadika = async (req, res) => {
     const tadika = await Tadika.findOne({ _id: personTadikaId, createdByKp: kp });
 
     if (!tadika) {
-        return res.status(404).jason({ msg: `No person with id ${personTadikaId}` });
+        return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
     }
 
     res.status(200).json({ tadika });

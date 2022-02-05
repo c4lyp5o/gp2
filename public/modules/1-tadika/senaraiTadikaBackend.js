@@ -1,7 +1,7 @@
-const btnSenaraiTadikaContainerDOM = document.querySelector('.btn-senarai-tadika-container')
-const namaPersonTadikaContainerDOM = document.querySelector('.nama-person-tadika-container');
 const loadingTextDOM = document.querySelector('.loading-text');
 const namaTaskaTadikaCurrentSelectedDOM = document.querySelector('.nama-taska-tadika-current-selected');
+const btnSenaraiTadikaContainerDOM = document.querySelector('.btn-senarai-tadika-container')
+const namaPersonTadikaContainerDOM = document.querySelector('.nama-person-tadika-container');
 
 const showAllPersonTadika = async () => {
     loadingTextDOM.style.display = 'block';
@@ -11,7 +11,7 @@ const showAllPersonTadika = async () => {
         if (tadikas.length < 1) {
             loadingTextDOM.style.display = 'none';
             namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
-            namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Tiada Taska / Tadika yang dilawati';
+            namaTaskaTadikaCurrentSelectedDOM.textContent = 'Tiada Taska / Tadika yang dilawati';
             return;
         }
 
@@ -35,7 +35,7 @@ const showAllPersonTadika = async () => {
           
             namaPersonTadikaContainerDOM.innerHTML = displaySinglePerson;
             namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
-            namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Semua pelajar di Taska / Tadika yang dilawati';
+            namaTaskaTadikaCurrentSelectedDOM.textContent = 'Semua pelajar di Taska / Tadika yang dilawati';
         }
 
         function displayTaskaTadikaButton() {
@@ -65,19 +65,19 @@ const showAllPersonTadika = async () => {
                     });
                     if (namaTaskaTadikaPendaftaranTadika === 'Semua Pelajar') {
                         displaySinglePersonTadika(tadikas);
-                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = 'Semua pelajar di Taska / Tadika yang dilawati';
+                        namaTaskaTadikaCurrentSelectedDOM.textContent = 'Semua pelajar di Taska / Tadika yang dilawati';
                     } else {
                         displaySinglePersonTadika(tadikasTaskaTadika);
-                        namaTaskaTadikaCurrentSelectedDOM.innerHTML = namaTaskaTadikaPendaftaranTadika;
+                        namaTaskaTadikaCurrentSelectedDOM.textContent = namaTaskaTadikaPendaftaranTadika;
                     }
                 });
             });
         }
     } catch (error) {
-        namaTaskaTadikaCurrentSelectedDOM.innerHTML = "Error";
+        namaTaskaTadikaCurrentSelectedDOM.textContent = 'Error';
     }
     loadingTextDOM.style.display = 'none';
-}
+};
 
 showAllPersonTadika();
 

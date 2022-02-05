@@ -18,7 +18,7 @@ const onPageLoad = async () => {
         const newUrl = 'http://' + splittedUrl[2];
         window.location.replace(newUrl);
     }
-}
+};
 
 onPageLoad();
 

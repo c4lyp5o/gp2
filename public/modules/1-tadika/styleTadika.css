@@ -1,5 +1,9 @@
 /* ---------------------content form for tadika--------------------------- */
 /* pendaftaran header tadika */
+.form-option-container-tadika {
+    margin-top: 1rem;
+}
+
 .pendaftaran-header-tadika {
     background-color: var(--background-header-and-form);
     color: var(--white-text);
