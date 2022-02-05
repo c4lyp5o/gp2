@@ -1,10 +1,20 @@
 const mongoose = require('mongoose');
 
 const TadikaSchema = mongoose.Schema({
+    // negeri, daerah, kp is associated with each person
+    createdByNegeri: {
+        type: String,
+        required: true
+    },
+    createdByDaerah: {
+        type: String,
+        required: true
+    },
     createdByKp: {
         type: String,
         required: true
     },
+    // --------------------------------------------------
     namaPendaftaranTadika: {
         type: String,
         required: [true, 'Please provide nama'],

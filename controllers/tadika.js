@@ -18,6 +18,8 @@ const getSinglePersonTadika = async (req, res) => {
 }
 
 const createPersonTadika = async (req, res) => {
+    req.body.createdByNegeri = req.user.negeri;
+    req.body.createdByDaerah = req.user.daerah;
     req.body.createdByKp = req.user.kp;
     const tadika = await Tadika.create(req.body);
     res.status(201).json({ tadika });
