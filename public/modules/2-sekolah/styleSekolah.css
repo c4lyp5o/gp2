@@ -1,0 +1,375 @@
+/* --------------------content form for sekolah--------------------------- */
+/* pendaftaran header sekolah */
+.pendaftaran-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-pendaftaran-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 34rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+#umur-pendaftaran-sekolah, #kelas-pendaftaran-sekolah, #ulangan-sekolah {
+    width: 3rem;
+}
+
+.input-grp-left-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+/* pemeriksaan awal header sekolah */
+.pemeriksaan-awal-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-pemeriksaan-awal-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 48rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-pemeriksaan-awal-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-pemeriksaan-awal-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-pemeriksaan-awal-sekolah {
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-sekolah.tiada {
+    background-color: var(--btn-tiada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-sekolah.ada {
+    background-color: var(--btn-ada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-kekal-sekolah.tiada {
+    background-color: var(--btn-tiada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-kekal-sekolah.ada {
+    background-color: var(--btn-ada);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding: 0.2rem;
+    width: 3rem;
+}
+
+.btn-status-gigi-desidus-sekolah:hover, .btn-status-gigi-kekal-sekolah:hover {
+    background-color: white;
+}
+
+.rendah-tinggi-pemeriksaan-awal-sekolah {
+    background-color: var(--btn-ada);
+    width: max-content;
+    padding: 0.5rem;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1rem;
+    color: black;
+    margin-left: 1rem;
+}
+
+/* perlu dibuat header sekolah */
+.perlu-dibuat-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-perlu-dibuat-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-perlu-dibuat-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-perlu-dibuat-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-perlu-dibuat-sekolah {
+    width: 3rem;
+}
+
+/* penyata akhir 1 header sekolah */
+.penyata-akhir-1-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-penyata-akhir-1-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-1-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-1-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-1-sekolah {
+    width: 3rem;
+}
+
+.checkbox-semula-penyata-akhir-1-sekolah {
+    margin-left: 3rem;
+}
+
+/* penyata akhir 2 header sekolah */
+.penyata-akhir-2-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-penyata-akhir-2-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 38rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-penyata-akhir-2-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-penyata-akhir-2-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-penyata-akhir-2-sekolah {
+    width: 3rem;
+}
+
+.text-input-penyata-akhir-2-sekolah {
+    height: 9rem;
+    width: 100%;
+    padding: .5rem;
+    resize: none;
+    font-family: Bahnschrift;
+    font-size: 16px;
+}
+
+/* kotak header sekolah */
+.kotak-header-sekolah {
+    background-color: var(--background-header-and-form);
+    color: var(--white-text);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    border-top: var(--upper-border-header) solid;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    text-align: left;
+    display: block;
+}
+
+.form-kotak-sekolah {
+    padding: 20px;
+    background-color: var(--background-header-and-form);
+    display: flex;
+    width: 100%;
+    max-width: 95%;
+    margin: auto;
+    padding: 0.5rem;
+    height: 19rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    padding-bottom: 0.7rem;
+    transition: var(--transition);
+    margin-bottom: 0.3rem;
+    overflow-y: auto;
+}
+
+.input-grp-left-kotak-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.input-grp-right-kotak-sekolah {
+    margin: auto;
+    width: 95%;
+    padding: 1rem;
+}
+
+.number-input-kotak-sekolah {
+    width: 3rem;
+}
+
+/* ------------------end of content form for sekolah------------------------ */
+
+/* apply this class on .form-*-* to toggle open and close form */
+/* example : "form-pendaftaran-tadika close" */
+/* USE THIS IN JAVASCRIPT */
+/* PLEASE LEAVE THIS CLASS SELECTOR AT THE BOTTOM OF CSS */
+.close {
+    height: 0rem;
+    overflow: hidden;
+    background-color: var(--background-main);
+}
+/* apply this class on .form-*-* to toggle open and close form */

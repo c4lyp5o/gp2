@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sekolah - Gi-Ret-PSY Cloud</title>
+    <link rel="stylesheet" href="../styleModules.css" />
+    <link rel="stylesheet" href="./styleSekolah.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+</head>
+<body>
+    <div class="main">
+        <div class="username">
+            <img class="logo-gigi" src="../../resources/logoGigi.png" alt="" width="100" height="100">
+            <div class="id-kp">
+                <p class="id">Username : Dr. Kuat</p>
+                <p class="kp">KP : Padang Kapas</p>
+            </div>
+        </div>
+        <div class="inside-container">
+            <nav class="category-selector">
+                <button class="btn-category sekolah btn-active">
+                    <img class="img-category" src="../../resources/sekolah.png" alt="">
+                    <p>SEKOLAH</p>
+                </button>
+                <a href="../dashboard.html">
+                    <button class="btn-category">
+                        <P>BACK TO<br>DASHBOARD</P>
+                    </button>
+                </a>
+            </nav>
+            <div class="center-data">
+                <p class="nama-pelajar">Nama Pelajar :</p>
+                <p class="kelas">Kelas :</p>
+                <p class="sekolah">Sekolah :</p>
+                <!-- start of sekolah -->
+                <div class="form-option-container-sekolah">
+                    <div class="form-alert"></div>
+                    <div class="option pendaftaran-sekolah">
+                        <button class="pendaftaran-header-sekolah">
+                            <!-- <i class="fas fa-minus"></i> -->
+                            <i class="fas fa-plus"></i>
+                            Pendaftaran
+                        </button>
+                        <div class="form-pendaftaran-sekolah close">
+                            <div class="input-grp-left-sekolah">
+                                <div class="input-wrap">
+                                    <label for="nama-pendaftaran-sekolah">Nama</label><br>
+                                    <input type="text" id="nama-pendaftaran-sekolah">
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="umur-pendaftaran-sekolah">Umur</label>
+                                    <input type="number" id="umur-pendaftaran-sekolah">
+                                    <label for="kelas-pendaftaran-sekolah">Kelas</label>
+                                    <input type="text" id="kelas-pendaftaran-sekolah">
+                                </div>
+                                <!-- siap sampai sini !! -->
+                                <div class="input-wrap">
+                                    <label for="bangsa-sekolah">Bangsa</label>
+                                    <select id="bangsa-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="melayu">Melayu</option>
+                                        <option value="cina">Cina</option>
+                                        <option value="india">India</option>
+                                        <option value="sabah&sarawak">Sabah & Sarawak</option>
+                                        <option value="orang-asli-semenanjung">Orang Asli Semenanjung</option>
+                                        <option value="lain-lain">Lain-lain</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Jantina</legend>
+                                        <input type="checkbox" id="lelaki-sekolah" value="lelaki">
+                                        <label for="lelaki-sekolah">Lelaki</label>
+                                        <input type="checkbox" id="perempuan-sekolah" value="perempuan">
+                                        <label for="perempuan-sekolah">Perempuan</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="nama-sekolah-sekolah">Nama Sekolah</label><br>
+                                    <input type="text" id="nama-sekolah-sekolah" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Jenis Fasiliti</legend>
+                                        <input type="checkbox" id="statik-sekolah" value="statik">
+                                        <label for="statik-sekolah">Statik</label>
+                                        <input type="checkbox" id="bergerak-sekolah" value="bergerak">
+                                        <label for="bergerak-sekolah">Bergerak</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Jenis Sekolah</legend>
+                                        <input type="checkbox" id="rendah-jenis-sekolah" value="rendah">
+                                        <label for="rendah-jenis-sekolah">Rendah</label>
+                                        <input type="checkbox" id="menengah-sekolah" value="menengah">
+                                        <label for="menengah-sekolah">Menengah</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Risiko Sekolah (PERSiS)</legend>
+                                        <input type="checkbox" id="tinggi-sekolah" value="tinggi">
+                                        <label for="tinggi-sekolah">Tinggi</label>
+                                        <input type="checkbox" id="rendah-risiko-sekolah" value="rendah">
+                                        <label for="rendah-risiko-sekolah">Rendah</label>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend style="width: 0%;"></legend>
+                                        <input type="checkbox" id="pra-sekolah-sekolah" value="pra-sekolah">
+                                        <label for="pra-sekolah-sekolah">Pra Sekolah</label>
+                                        <label for="tingkatan-sekolah" style="padding-left: 1rem;">Tingkatan</label>
+                                        <select id="tingkatan-sekolah">
+                                            <option value="tiada"></option>
+                                            <option value="satu">1</option>
+                                            <option value="dua">2</option>
+                                            <option value="tiga">3</option>
+                                            <option value="empat">4</option>
+                                            <option value="lima">5</option>
+                                            <option value="enam">6</option>
+                                            <option value="peralihan">Peralihan</option>
+                                        </select><br>
+                                        <input type="checkbox" id="kki-sekolah" value="kki">
+                                        <label for="kki-sekolah">KKI</label>
+                                        <label for="darjah-sekolah" style="padding-left: 1rem;">Darjah</label>
+                                        <select id="darjah-sekolah">
+                                            <option value="tiada"></option>
+                                            <option value="satu">1</option>
+                                            <option value="dua">2</option>
+                                            <option value="tiga">3</option>
+                                            <option value="empat">4</option>
+                                            <option value="lima">5</option>
+                                            <option value="enam">6</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Kedatangan</legend>
+                                        <input type="checkbox" id="baru-sekolah" value="baru">
+                                        <label for="baru-sekolah">Baru</label>
+                                        <input type="checkbox" id="enggan-sekolah" value="enggan">
+                                        <label for="enggan-sekolah">Enggan</label><br>
+                                        <input type="text" id="ulangan-sekolah">
+                                        <label for="ulangan-sekolah">Ulangan</label>
+                                        <input type="checkbox" id="tidak-hadir-sekolah" value="tidak-hadir">
+                                        <label for="tidak-hadir-sekolah">Tidak hadir</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Pemeriksaan</legend>
+                                        <input type="checkbox" id="ada-sekolah" value="ada">
+                                        <label for="ada-sekolah">Ada</label>
+                                        <input type="checkbox" id="tiada-sekolah" value="tiada">
+                                        <label for="tiada-sekolah">Tiada</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="klinik-pergigian-sekolah">Klinik Pergigian</label><br>
+                                    <input type="text" id="klinik-pergigian-sekolah" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="nama-operator-sekolah">Nama Operator</label><br>
+                                    <input type="text" id="nama-operator-sekolah" required>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="nama-pasukan-bergerak-sekolah">Nama Pasukan Bergerak</label><br>
+                                    <input type="text" id="nama-pasukan-bergerak-sekolah" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option pemeriksaan-awal-sekolah">
+                        <button class="pemeriksaan-awal-header-sekolah">
+                            <i class="fas fa-plus"></i>
+                            Pemeriksaan Awal
+                        </button>
+                        <div class="form-pemeriksaan-awal-sekolah close">
+                            <div class="input-grp-left-pemeriksaan-awal-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Cleft Lip/Palate</legend>
+                                        <input type="checkbox" id="ada-cleft-pemeriksaan-awal-sekolah" value="ada">
+                                        <label for="ada-cleft-pemeriksaan-awal-sekolah">Ada</label>
+                                        <input type="checkbox" id="rujuk-pemeriksaan-awal-sekolah" value="rujuk">
+                                        <label for="rujuk-pemeriksaan-awal-sekolah">Rujuk</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Status Denture</legend>
+                                        <input type="checkbox" id="ada-denture-pemeriksaan-awal-sekolah" value="ada">
+                                        <label for="ada-denture-pemeriksaan-awal-sekolah">Ada</label>
+                                        <input type="checkbox" id="perlu-pemeriksaan-awal-sekolah" value="perlu">
+                                        <label for="perlu-pemeriksaan-awal-sekolah">Perlu</label>
+                                        <input type="checkbox" id="perlu-baru-pemeriksaan-awal-sekolah" value="perlu-baru">
+                                        <label for="perlu-baru-pemeriksaan-awal-sekolah">Perlu Baru</label>
+                                        <input type="checkbox" id="perlu-semula-pemeriksaan-awal-sekolah" value="perlu-semula">
+                                        <label for="perlu-semula-pemeriksaan-awal-sekolah">Perlu Semula</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Trauma</legend>
+                                        <input type="checkbox" id="tooth-surface-loss-pemeriksaan-awal-sekolah" value="tooth-surface-loss">
+                                        <label for="tooth-surface-loss-pemeriksaan-awal-sekolah">Tooth Surface Loss</label>
+                                        <input type="checkbox" id="kecederaan-gigi-anterior-pemeriksaan-awal-sekolah" value="kecederaan-gigi-anterior">
+                                        <label for="kecederaan-gigi-anterior-pemeriksaan-awal-sekolah">Kecederaan Gigi Anterior</label><br>
+                                        <input type="checkbox" id="tisu-lembut-pemeriksaan-awal-sekolah" value="tisu-lembut">
+                                        <label for="tisu-lembut-pemeriksaan-awal-sekolah">Tisu Lembut</label>
+                                        <input type="checkbox" id="tisu-keras-pemeriksaan-awal-sekolah" value="tisu-keras">
+                                        <label for="tisu-keras-pemeriksaan-awal-sekolah">Tisu Keras</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Oral Hygiene</legend>
+                                        <label for="kebersihan-mulut-pemeriksaan-awal-sekolah">Kebersihan Mulut</label>
+                                        <select id="kebersihan-mulut-pemeriksaan-awal-sekolah">
+                                            <option value="tiada-kebersihan-mulut"></option>
+                                            <option value="A">A</option>
+                                            <option value="C">C</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                        <label for="GIS-skor-pemeriksaan-awal-sekolah">GIS Skor</label>
+                                        <select id="GIS-skor-pemeriksaan-awal-sekolah">
+                                            <option value="tiada-GIS-skor"></option>
+                                            <option value="kosong">0</option>
+                                            <option value="satu">1</option>
+                                            <option value="dua">2</option>
+                                            <option value="tiga">3</option>
+                                        </select>
+                                        <label for="BPE-skor-pemeriksaan-awal-sekolah">BPE Skor</label>
+                                        <select id="BPE-skor-pemeriksaan-awal-sekolah">
+                                            <option value="tiada-BPE-skor"></option>
+                                            <option value="kosong">0</option>
+                                            <option value="satu">1</option>
+                                            <option value="dua">2</option>
+                                            <option value="tiga">3</option>
+                                            <option value="empat">4</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Status Gigi Desidus</legend>
+                                        <button class="btn-status-gigi-desidus-sekolah tiada">
+                                            Tiada
+                                        </button>
+                                        <div class="status-gigi-desidus-sekolah">
+                                            <p>Klik butang di atas jika ada gigi desidus</p>
+                                            <!-- <br>
+                                            <label for="decay-desidus-pemeriksaan-awal-sekolah">d</label>
+                                            <input type="number" id="decay-desidus-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="missing-desidus-pemeriksaan-awal-sekolah">m</label>
+                                            <input type="number" id="missing-desidus-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="filled-desidus-pemeriksaan-awal-sekolah">f</label>
+                                            <input type="number" id="filled-desidus-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="for-extraction-desidus-pemeriksaan-awal-sekolah">x</label>
+                                            <input type="number" id="for-extraction-desidus-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah"> -->
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Status Gigi Kekal</legend>
+                                        <button class="btn-status-gigi-kekal-sekolah tiada">
+                                            Tiada
+                                        </button>
+                                        <div class="status-gigi-kekal-sekolah">
+                                            <p>Klik butang di atas jika ada gigi kekal</p>
+                                            <!-- <br>
+                                            <label for="decay-kekal-pemeriksaan-awal-sekolah">D</label>
+                                            <input type="number" id="decay-kekal-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="missing-kekal-pemeriksaan-awal-sekolah">M</label>
+                                            <input type="number" id="missing-kekal-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="filled-kekal-pemeriksaan-awal-sekolah">F</label>
+                                            <input type="number" id="filled-kekal-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="for-extraction-kekal-pemeriksaan-awal-sekolah">X</label>
+                                            <input type="number" id="for-extraction-kekal-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="e-kekal-pemeriksaan-awal-sekolah">E</label>
+                                            <input type="number" id="e-kekal-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah"> -->
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-pemeriksaan-awal-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Risiko Karies</legend>
+                                        <label for="faktor-risiko-pemeriksaan-awal-sekolah">Jumlah faktor risiko :</label>
+                                        <input type="number" id="faktor-risiko-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <p class="rendah-tinggi-pemeriksaan-awal-sekolah">
+                                            Rendah
+                                        </p>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>D</legend>
+                                        <div class="input-wrap">
+                                            <label for="class1-d-pemeriksaan-awal-sekolah">Class I: </label>
+                                            <input type="number" id="class1-d-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                            <label for="class2-d-pemeriksaan-awal-sekolah">Class II: </label>
+                                            <input type="number" id="class2-d-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>F</legend>
+                                        <label for="class1-f-pemeriksaan-awal-sekolah">Class I: </label>
+                                        <input type="number" id="class1-f-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <label for="class2-f-pemeriksaan-awal-sekolah">Class II: </label>
+                                        <input type="number" id="class2-f-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fisur Sealan Dibuat Tahun Lepas</legend>
+                                        <label for="gic-lepas-pemeriksaan-awal-sekolah">GIC: </label>
+                                        <input type="number" id="gic-lepas-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <label for="resin-lepas-pemeriksaan-awal-sekolah">Resin: </label>
+                                        <input type="number" id="resin-lepas-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <label for="lain-lain-lepas-pemeriksaan-awal-sekolah">Lain-lain: </label>
+                                        <input type="number" id="lain-lain-lepas-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>FS Tahun Lepas Masih Intact</legend>
+                                        <label for="gic-intact-pemeriksaan-awal-sekolah">GIC: </label>
+                                        <input type="number" id="gic-intact-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <label for="resin-intact-pemeriksaan-awal-sekolah">Resin: </label>
+                                        <input type="number" id="resin-intact-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                        <label for="lain-lain-intact-pemeriksaan-awal-sekolah">Lain-lain: </label>
+                                        <input type="number" id="lain-lain-intact-pemeriksaan-awal-sekolah" class="number-input-pemeriksaan-awal-sekolah">
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option perlu-dibuat-sekolah">
+                        <button class="perlu-dibuat-header-sekolah">
+                            <i class="fas fa-plus"></i>
+                            Perlu dibuat
+                        </button>
+                        <div class="form-perlu-dibuat-sekolah close">
+                            <div class="input-grp-left-perlu-dibuat-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fisur Sealan</legend>
+                                        <p>Jumlah Gigi Perlu FS :</p>
+                                        <label for="baru-fs-perlu-dibuat-sekolah">Baru</label>
+                                        <input type="number" id="baru-fs-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        <label for="semula-fs-perlu-dibuat-sekolah">Semula</label>
+                                        <input type="number" id="semula-fs-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah"><br>
+                                        <label for="gigi-failed-fs-perlu-dibuat-sekolah">Jumlah Gigi Failed FS :</label>
+                                        <input type="number" id="gigi-failed-fs-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fluoride Varnish</legend>
+                                        <p>Jumlah Gigi Perlu FV :</p>
+                                        <label for="baru-fv-perlu-dibuat-sekolah">Baru</label>
+                                        <input type="number" id="baru-fv-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        <label for="semula-fv-perlu-dibuat-sekolah">Semula</label>
+                                        <input type="number" id="semula-fv-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>PRR Jenis 1</legend>
+                                        <p>Jumlah Gigi Perlu PRR Jenis 1 :</p>
+                                        <label for="baru-prr-perlu-dibuat-sekolah">Baru</label>
+                                        <input type="number" id="baru-prr-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        <label for="semula-prr-perlu-dibuat-sekolah">Semula</label>
+                                        <input type="number" id="semula-prr-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-perlu-dibuat-sekolah">
+                                <fieldset>
+                                    <legend>Jumlah Tampalan Diperlukan</legend>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Anterior Sewarna</legend>
+                                            <label for="gd-baru-as-perlu-dibuat-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-as-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gd-semula-as-perlu-dibuat-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-as-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah"><br>
+                                            <label for="gk-baru-as-perlu-dibuat-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-as-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gk-semula-as-perlu-dibuat-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-as-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        </fieldset>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Posterior Sewarna</legend>
+                                            <label for="gd-baru-ps-perlu-dibuat-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-ps-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gd-semula-ps-perlu-dibuat-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-ps-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah"><br>
+                                            <label for="gk-baru-ps-perlu-dibuat-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-ps-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gk-semula-ps-perlu-dibuat-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-ps-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        </fieldset>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Posterior Amalgam</legend>
+                                            <label for="gd-baru-pa-perlu-dibuat-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-pa-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gd-semula-pa-perlu-dibuat-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-pa-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah"><br>
+                                            <label for="gk-baru-pa-perlu-dibuat-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-pa-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                            <label for="gk-semula-pa-perlu-dibuat-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-pa-perlu-dibuat-sekolah" class="number-input-perlu-dibuat-sekolah">
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option penyata-akhir-1-sekolah">
+                        <button class="penyata-akhir-1-header-sekolah">
+                            <i class="fas fa-plus"></i>
+                            Penyata akhir 1
+                        </button>
+                        <div class="form-penyata-akhir-1-sekolah close">
+                            <div class="input-grp-left-penyata-akhir-1-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fisur Sealan</legend>
+                                        <label for="murid-fs-penyata-akhir-1-sekolah">Murid :</label>
+                                        <input type="checkbox" id="semula-murid-fs-penyata-akhir-1-sekolah" value="semula" class="checkbox-semula-penyata-akhir-1-sekolah">
+                                        <label for="semula-murid-fs-penyata-akhir-1-sekolah">Semula</label>
+                                        <p>Jumlah Gigi Telah Dibuat FS :</p>
+                                        <label for="baru-fs-penyata-akhir-1-sekolah">Baru</label>
+                                        <input type="number" id="baru-fs-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        <label for="semula-fs-penyata-akhir-1-sekolah">Semula</label>
+                                        <input type="number" id="semula-fs-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fluoride Varnish</legend>
+                                        <label for="murid-fv-penyata-akhir-1-sekolah">Murid :</label>
+                                        <input type="checkbox" id="semula-murid-fv-penyata-akhir-1-sekolah" value="semula" class="checkbox-semula-penyata-akhir-1-sekolah">
+                                        <label for="semula-murid-fv-penyata-akhir-1-sekolah">Semula</label>
+                                        <p>Jumlah Gigi Telah Dibuat FV :</p>
+                                        <label for="baru-fv-penyata-akhir-1-sekolah">Baru</label>
+                                        <input type="number" id="baru-fv-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        <label for="semula-fv-penyata-akhir-1-sekolah">Semula</label>
+                                        <input type="number" id="semula-fv-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>PRR Jenis 1</legend>
+                                        <label for="murid-prr-penyata-akhir-1-sekolah">Murid :</label>
+                                        <input type="checkbox" id="semula-murid-prr-penyata-akhir-1-sekolah" value="semula" class="checkbox-semula-penyata-akhir-1-sekolah">
+                                        <label for="semula-murid-prr-penyata-akhir-1-sekolah">Semula</label>
+                                        <p>Jumlah Gigi Telah Dibuat PRR Jenis 1 :</p>
+                                        <label for="baru-prr-penyata-akhir-1-sekolah">Baru</label>
+                                        <input type="number" id="baru-prr-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        <label for="semula-prr-penyata-akhir-1-sekolah">Semula</label>
+                                        <input type="number" id="semula-prr-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-penyata-akhir-1-sekolah">
+                                <fieldset>
+                                    <legend>Jumlah Tampalan Telah Dilakukan</legend>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Anterior Sewarna</legend>
+                                            <label for="gd-baru-as-penyata-akhir-1-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-as-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gd-semula-as-penyata-akhir-1-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-as-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah"><br>
+                                            <label for="gk-baru-as-penyata-akhir-1-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-as-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gk-semula-as-penyata-akhir-1-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-as-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        </fieldset>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Posterior Sewarna</legend>
+                                            <label for="gd-baru-ps-penyata-akhir-1-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-ps-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gd-semula-ps-penyata-akhir-1-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-ps-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah"><br>
+                                            <label for="gk-baru-ps-penyata-akhir-1-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-ps-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gk-semula-ps-penyata-akhir-1-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-ps-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        </fieldset>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <fieldset>
+                                            <legend>Posterior Amalgam</legend>
+                                            <label for="gd-baru-pa-penyata-akhir-1-sekolah">GD Baru</label>
+                                            <input type="number" id="gd-baru-pa-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gd-semula-pa-penyata-akhir-1-sekolah">GD Semula</label>
+                                            <input type="number" id="gd-semula-pa-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah"><br>
+                                            <label for="gk-baru-pa-penyata-akhir-1-sekolah">GK Baru</label>
+                                            <input type="number" id="gk-baru-pa-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                            <label for="gk-semula-pa-penyata-akhir-1-sekolah">GK Semula</label>
+                                            <input type="number" id="gk-semula-pa-penyata-akhir-1-sekolah" class="number-input-penyata-akhir-1-sekolah">
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option penyata-akhir-2-sekolah">
+                        <button class="penyata-akhir-2-header-sekolah">
+                            <i class="fas fa-plus"></i>
+                            Penyata akhir 2
+                        </button>
+                        <div class="form-penyata-akhir-2-sekolah close">
+                            <div class="input-grp-left-penyata-akhir-2-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Cabutan</legend>
+                                        <p>Jumlah Gigi Telah Dicabut</p>
+                                        <label for="desidus-jumlah-gigi-telah-dicabut-penyata-akhir-2-sekolah">Desidus:</label>
+                                        <input type="number" id="desidus-jumlah-gigi-telah-dicabut-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-sekolah">
+                                        <label for="kekal-jumlah-gigi-telah-dicabut-penyata-akhir-2-sekolah">Kekal:</label>
+                                        <input type="number" id="kekal-jumlah-gigi-telah-dicabut-penyata-akhir-2-sekolah" class="number-input-penyata-akhir-2-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Tampalan Sementara</legend>
+                                        <label for="jumlah-tampalan-sementara-penyata-akhir-2-sekolah">Jumlah Tampalan Sementara:</label>
+                                        <input type="number" id="jumlah-tampalan-sementara-penyata-akhir-2-sekolah" class="number-input-penyata-akhir-2-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Begin</legend>
+                                        <p>Melaksanakan Aktiviti Begin</p>
+                                        <label for="ya-melaksanakan-aktiviti-begin-penyata-akhir-2-sekolah">Ya</label>
+                                        <input type="checkbox" id="ya-melaksanakan-aktiviti-begin-penyata-akhir-2-sekolah" value="ya-aktiviti-begin-sekolah">
+                                        <label for="tidak-melaksanakan-aktiviti-begin-penyata-akhir-2-sekolah">Tidak</label>
+                                        <input type="checkbox" id="tidak-melaksanakan-aktiviti-begin-penyata-akhir-2-sekolah" value="tidak-aktiviti-begin-sekolah">
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Promosi</legend>
+                                        <p>Menyertai</p>
+                                        <input type="checkbox" id="menyertai-ceramah-toddler-penyata-akhir-2-sekolah" value="ceramah-toddler-sekolah">
+                                        <label for="menyertai-ceramah-toddler-penyata-akhir-2-sekolah">Ceramah</label><br>
+                                        <input type="checkbox" id="menyertai-pameran-toddler-penyata-akhir-2-sekolah" value="pameran-toddler-sekolah">
+                                        <label for="menyertai-pameran-toddler-penyata-akhir-2-sekolah">Pameran</label>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-penyata-akhir-2-sekolah">
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Rawatan lain telah dilakukan</legend>
+                                        <label for="jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-sekolah">Pulpotomi:</label>
+                                        <input type="number" id="jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-sekolah" class="number-input-penyata-akhir-2-sekolah">
+                                        <label for="jumlah-endodontik-rawatan-lain-penyata-akhir-2-sekolah">Endodontik:</label>
+                                        <input type="number" id="jumlah-endodontik-rawatan-lain-penyata-akhir-2-sekolah" class="number-input-penyata-akhir-2-sekolah">
+                                        <label for="jumlah-abses-rawatan-lain-penyata-akhir-2-sekolah">Abses:</label>
+                                        <input type="number" id="jumlah-abses-rawatan-lain-penyata-akhir-2-sekolah" class="number-input-penyata-akhir-2-sekolah"><br>
+                                        <input type="checkbox" id="kes-selesai-rawatan-lain-penyata-akhir-2-sekolah" value="kes-selesai-sekolah">
+                                        <label for="kes-selesai-rawatan-lain-penyata-akhir-2-sekolah">Kes Selesai</label><br>
+                                        <input type="checkbox" id="kes-selesai-icdas-rawatan-lain-penyata-akhir-2-sekolah" value="kes-selesai-icdas-sekolah">
+                                        <label for="kes-selesai-icdas-rawatan-lain-penyata-akhir-2-sekolah">Kes Selesai Icdas</label><br>
+                                        <input type="checkbox" id="rujuk-rawatan-lain-penyata-akhir-2-sekolah" value="rujuk-rawatan-lain-sekolah">
+                                        <label for="rujuk-rawatan-lain-penyata-akhir-2-sekolah">Rujuk</label><br>
+                                        <input type="checkbox" id="penskaleran-rawatan-lain-penyata-akhir-2-sekolah" value="penskaleran-rawatan-lain-sekolah">
+                                        <label for="penskaleran-rawatan-lain-penyata-akhir-2-sekolah">Penskaleran</label>
+                                    </fieldset>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="catatan-penyata-akhir-2-sekolah">Catatan:</label><br>
+                                    <textarea id="catatan-penyata-akhir-2-sekolah" class="text-input-penyata-akhir-2-sekolah" name="catatan"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option kotak-sekolah">
+                        <button class="kotak-header-sekolah">
+                            <i class="fas fa-plus"></i>
+                            Kotak
+                        </button>
+                        <div class="form-kotak-sekolah close">
+                            <div class="input-grp-left-kotak-sekolah">
+                                <div class="input-wrap">
+                                    <label for="status-rokok-sekolah">Status Merokok:</label>
+                                    <select id="status-rokok-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="perokok semasa">Perokok semasa</option>
+                                        <option value="bekas perokok">Bekas perokok</option>
+                                        <option value="perokok pasif">Perokok pasif</option>
+                                        <option value="bukan perokok">Bukan perokok</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="jenis-rokok-sekolah">Jenis Rokok:</label>
+                                    <select id="jenis-rokok-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="rokok biasa">Rokok biasa</option>
+                                        <option value="elektronik">Elektronik</option>
+                                        <option value="shisha">Shisha</option>
+                                        <option value="lain-lain">Lain-lain</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="status-selepas-6-bulan-sekolah">Status selepas 6 bulan:</label>
+                                    <select id="status-selepas-6-bulan-sekolah">
+                                        <option value="tiada"></option>
+                                        <option value="berhenti merokok">Berhenti merokok</option>
+                                        <option value="tidak berhenti merokok">Tidak berhenti merokok</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <label for="tarikh-berhenti-merokok-sekolah">Tarikh berhenti merokok:</label>
+                                    <input type="date" id="tarikh-berhenti-merokok-sekolah">
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Perokok</legend>
+                                        <p></p>
+                                        <input type="checkbox" id="ada-quit-date-sekolah" value="ada-quit-date-sekolah">
+                                        <label for="ada-quit-date-sekolah">Ada quit date</label><br>
+                                        <input type="checkbox" id="tiada-quit-date-sekolah" value="tiada-quit-date-sekolah">
+                                        <label for="tiada-quit-date-sekolah">Tiada quit date</label>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="input-grp-right-kotak-sekolah">
+                                <div class=""input-wrap">
+                                    <label for="jumlah-intervensi-merokok-disertai-sekolah">Jumlah intervensi merokok disertai:</label>
+                                    <input type="number" id="jumlah-intervensi-merokok-disertai-sekolah" class="number-input-kotak-sekolah">
+                                </div>
+                                <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Tarikh intervensi merokok</legend>
+                                        <div class="tarikh-intervensi-merokok-kotak-sekolah">
+                                            <p></p>
+                                            <label for="sesi-1-kotak-sekolah">Sesi 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-1-kotak-sekolah"><br>
+                                            <label for="sesi-2-kotak-sekolah">Sesi 2: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-2-kotak-sekolah"><br>
+                                            <label for="sesi-3-kotak-sekolah">Sesi 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-3-kotak-sekolah"><br>
+                                            <label for="sesi-lanjutan-kotak-sekolah">Sesi lanjutan: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="date" id="sesi-lanjutan-kotak-sekolah">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="side-btn">
+                <button class="btn-operation save">save</button>
+                <button class="btn-operation find">find</button>
+                <button class="btn-operation modify">modify</button>
+                <button class="btn-operation clear">clear</button>
+                <button class="btn-operation delete">delete</button>
+                <button class="btn-operation upload">upload</button>
+                <button class="btn-operation download">download</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./sekolahInteractive.js"></script>
+    <script src="./sekolahBackend.js"></script>
+</body>
+</html>

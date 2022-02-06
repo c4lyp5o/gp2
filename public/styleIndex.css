@@ -1,0 +1,96 @@
+:root   {
+    --background-global: #424242;
+    --background-main: #424250;
+    --white-text: #FFFFFF;
+    --id-password-border: #C53D6D;
+    --login-btn: #37DFB1;
+    --red-error-text: #F40F0F;
+    font-family: Bahnschrift;
+    font-size: 16px;
+    --transition: all 0.3s linear;
+    --radius: 0.25rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-global);
+}
+
+.main { 
+    display: block;
+    width: 95%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-main);
+    margin: auto;
+    padding-bottom: 10rem;
+}
+
+.inside-container {
+    display: flex; 
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+.banner-container {
+    border: 1rem;
+    position: center;
+    justify-content: left;
+    margin-top: 5rem;
+}
+
+.login-container {
+    color: var(--white-text);
+    padding-left: 3rem;
+    margin-top: 10rem;
+}
+
+.Gi-Ret-PSY-2-0 {
+    font-size: 3rem;
+}
+
+.username-password-container {
+    margin-top: 10%;
+    outline-style: solid ;
+    border-radius: var(--radius);
+    outline-color: var(--id-password-border);
+    outline-width: 0.3rem;
+    color: var(--white-text);
+    font-weight: 1;
+    justify-content: right;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.input-username {
+    margin-bottom: 1rem;
+}
+
+.login-btn {
+    background-color: var(--login-btn);
+    border-color: var(--login-btn);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    text-transform: uppercase;
+}
+
+.login-btn:hover {
+    background-color: var(--white-text);
+}
+
+.wrong-username-password {
+    margin-top: 0.5rem;
+    color: var(--red-error-text);
+    font-size: 0.9rem;
+}
+

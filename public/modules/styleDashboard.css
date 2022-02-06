@@ -1,0 +1,68 @@
+:root {
+    --background-global: #424242;
+    --background-main: #424250;
+    --white-text: #FFFFFF;
+    --icon-text-border: #C53D6D;
+    --border-selected-icon: #6FD4F0;
+    font-family: Bahnschrift;
+    font-size: 16px;
+    --transition: all 0.3s linear;
+    --radius: 0.25rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-global);
+}
+
+.main {
+    background: var(--background-main);
+    width: 95%;
+    margin: auto;
+}
+
+.welcome-username {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--white-text);
+    text-transform: capitalize;
+}
+
+.inside-container {
+    display: flex;
+    justify-content: center;
+}
+
+.category-selector {
+    padding: 5rem;
+    outline-style: solid;
+    border-radius: var(--radius);
+    outline-color: var(--icon-text-border);
+    outline-width: 0.3rem;
+    margin-bottom: 3rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-category {
+    background-color: transparent;
+    border-color: var(--border-selected-icon);
+    transition: var(--transition);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    border-radius: var(--radius);
+    color: var(--icon-text-border);
+    margin: 1rem;
+    padding: 0.5rem;
+    width: 10rem;
+}
+
+.btn-category:hover {
+    background-color: var(--border-selected-icon);
+}

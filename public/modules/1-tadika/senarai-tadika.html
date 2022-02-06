@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senarai Tadika - Gi-Ret PSY 2.0</title>
+    <link rel="stylesheet" href="../styleModules.css" />
+    <link rel="stylesheet" href="./styleSenaraiTadika.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+</head>
+<body>
+    <div class="main">
+        <div class="username-container">
+            <img class="logo-gigi" src="../../resources/logoGigi.png" alt="" width="100" height="100">
+            <div class="username-kp">
+            </div>
+        </div>
+        <div class="inside-container">
+            <nav class="category-selector">
+                <button class="btn-category tadika">
+                    <img class="img-category" src="../../resources/tadika.png" alt="">
+                    <p>SENARAI TASKA / TADIKA YANG DILAWATI</p>
+                </button>
+                <div class="btn-senarai-tadika-container">
+                    <!-- <button class="btn-category filter-btn-taska-tadika btn-active" data-id="${namaTaskaTadikaPendaftaranTadika}">
+                        ${namaTaskaTadikaPendaftaranTadika}
+                    </button> -->
+                </div>
+                <a href="./tadika.html">
+                    <button class="btn-category">
+                        <P>BACK</P>
+                    </button>
+                </a>
+            </nav>
+            <div class="center-data">
+                <p class="loading-text">Loading...</p>
+                <p class="nama-taska-tadika-current-selected"></p>
+                <div class="nama-person-tadika-container">
+                    <!-- <div class="single-nama-person-tadika-container">
+                        <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
+                        <div class="person-tadika-edit-delete">
+                            <a href="../edit-tadika/edit-tadika.html?id=${singlePerson._id}"  class="edit-link-person-tadika">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn-delete-person-tadika" data-id="${singlePerson._id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="side-btn">
+                <!-- <button class="btn-operation save">save</button> -->
+                <button class="btn-operation find">find</button>
+                <!-- <button class="btn-operation modify">modify</button> -->
+                <!-- <button class="btn-operation clear">clear</button> -->
+                <!-- <button class="btn-operation delete">delete</button> -->
+                <button class="btn-operation upload">upload</button>
+                <button class="btn-operation download">download</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../authCheckModules.js"></script>
+    <script src="./senaraiTadikaBackend.js"></script>
+</body>
+</html>

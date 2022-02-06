@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styleIndex.css">
+    <title>Gi-Ret PSY 2.0</title>
+</head>
+<body>
+    <div class="main">
+        <div class="inside-container">
+            <div class="banner-container">
+                <img class="banner-gigi"><img src="./resources/bannerGigi.jpg" alt="" width="300" height="500">
+            </div>
+            <div class="login-container">
+                <h4 class="Gi-Ret-PSY-2-0">Gi-Ret PSY 2.0</h4>
+                <div class="username-password-container">
+                    <label class="label-username" for="username"><b>Username</b></label>
+                    <br>
+                    <input class="input-username" type="text" id="username" required />
+                    <br>
+                    <label class="label-password" for="password"><b>Password</b></label>
+                    <br>
+                    <input class="input-password" type="password" id="password" required>
+                    <br>
+                    <br>
+                    <button class="login-btn" type="submit">Log In</button>
+                    <div class="wrong-username-password"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
