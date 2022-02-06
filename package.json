@@ -1,5 +1,5 @@
 {
-  "name": "gi-ret-psy-cloud",
+  "name": "gi-ret-psy-2-0",
   "version": "1.0.0",
   "description": "An attempt at a mountain.",
   "main": "server.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nocturnalmc/Gi-Ret-PSY-Cloud.git"
+    "url": "git+https://github.com/Nocturnalmc/gp2.git"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/Nocturnalmc/Gi-Ret-PSY-Cloud/issues"
+    "url": "https://github.com/Nocturnalmc/gp2/issues"
   },
-  "homepage": "https://github.com/Nocturnalmc/Gi-Ret-PSY-Cloud#readme",
+  "homepage": "https://github.com/Nocturnalmc/gp2#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
