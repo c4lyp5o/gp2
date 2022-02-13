@@ -46,7 +46,11 @@
     padding: 1rem;
 }
 
-#kelas-pendaftaran-tadika, #ulangan-pendaftaran-tadika {
+#kelas-pendaftaran-tadika {
+    width: 7rem;
+}
+
+#ulangan-pendaftaran-tadika {
     width: 2rem;
 }
 
