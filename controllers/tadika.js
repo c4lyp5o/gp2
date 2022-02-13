@@ -1,7 +1,7 @@
 const Tadika = require('../models/Tadika');
 
 const getAllPersonTadikas = async (req, res) => {
-    const tadikas = await Tadika.find( { createdByKp: req.user.kp });
+    const tadikas = await Tadika.find( { createdByKp: req.user.kp }).sort('kelasPendaftaranTadika');
     res.status(200).json({ tadikas });
 }
 

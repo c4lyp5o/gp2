@@ -92,6 +92,10 @@ body {
     color: var(--icon-text-border);
 }
 
+.tadika {
+    background-color: var(--border-selected-icon);
+}
+
 .img-category {
     height: 3rem;
 }

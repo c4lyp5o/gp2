@@ -33,7 +33,12 @@
 }
 
 .nama-person {
-    width: 90%;
+    width: 60%;
+    text-align: left;
+}
+
+.kelas-person {
+    width: 40%;
     text-align: left;
 }
 

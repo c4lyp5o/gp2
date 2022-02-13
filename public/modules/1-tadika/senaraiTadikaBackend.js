@@ -21,6 +21,7 @@ const showAllPersonTadika = async () => {
             let displaySinglePerson = tadikas.map(function (singlePerson) {
                 return `<div class="single-nama-person-tadika-container">
                             <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
+                            <p class="kelas-person">${singlePerson.kelasPendaftaranTadika}</p>
                             <div class="person-tadika-edit-delete">
                                 <a href="./edit-tadika.html?id=${singlePerson._id}"  class="edit-link-person-tadika">
                                     <i class="fas fa-edit"></i>
