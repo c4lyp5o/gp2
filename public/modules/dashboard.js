@@ -10,7 +10,7 @@ const onPageLoad = async () => {
     const token = localStorage.getItem('token');
     try {
         const { data } = await axios.get('/api/v1/dashboard', { headers: { Authorization: `Bearer ${token}` } });
-        welcomeUsernameDOM.innerHTML = `<h4>Selamat datang Dr ${data.name}</h4><p>Sila pilih kategori reten :</p>`;
+        welcomeUsernameDOM.innerHTML = `<h4>selamat datang ${data.name}</h4><p>sila pilih kategori reten :</p>`;
     } catch (error) {
         welcomeUsernameDOM.innerHTML = `<h4>${error.response.data.msg}</h4>`;
         const currentUrl = window.location.href;

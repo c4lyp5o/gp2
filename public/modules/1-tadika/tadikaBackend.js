@@ -16,10 +16,14 @@ btnSaveDOM.addEventListener('click', async () => {
             umurPendaftaranTadika,
             kelasPendaftaranTadika,
             namaTaskaTadikaPendaftaranTadika }, { headers: { Authorization: `Bearer ${token}` } });
+        
+        // clearing all value after creating person
         namaPendaftaranTadikaDOM.value = '';
         umurPendaftaranTadikaDOM.value = '';
-        kelasPendaftaranTadikaDOM.value = '';
+        // kelasPendaftaranTadikaDOM.value = '';
         // namaTaskaTadikaPendaftaranTadikaDOM.value = '';
+        // ----------------------------------------
+
         formAlertDOM.style.display = 'block';
         formAlertDOM.classList.add('text-success');
         formAlertDOM.textContent = 'Success, data added';
