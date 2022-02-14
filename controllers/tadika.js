@@ -62,4 +62,21 @@ const deletePersonTadika = async (req, res) => {
     res.status(200).send();
 };
 
-module.exports = { getAllPersonTadikas, getSinglePersonTadika, createPersonTadika, updatePersonTadika, deletePersonTadika };
+// query route
+const querySinglePersonTadika = async (req, res) => {
+    // to uppercase all query input
+    req.query.namaPendaftaranTadika = req.query.namaPendaftaranTadika.toUpperCase()
+    // ----------------------------
+
+    const { user: { kp }, query: { namaPendaftaranTadika } } = req;
+
+    const tadika = await Tadika.findOne({ namaPendaftaranTadika: namaPendaftaranTadika, createdByKp: kp });
+    
+    if (!tadika) {
+        return res.status(404).json({ msg: `No person with name ${namaPendaftaranTadika}` });
+    }
+
+    res.status(200).json({ tadika });
+};
+
+module.exports = { getAllPersonTadikas, getSinglePersonTadika, createPersonTadika, updatePersonTadika, deletePersonTadika, querySinglePersonTadika };
