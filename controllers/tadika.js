@@ -3,7 +3,7 @@ const Tadika = require('../models/Tadika');
 const getAllPersonTadikas = async (req, res) => {
     const tadikas = await Tadika.find( { createdByKp: req.user.kp }).sort('kelasPendaftaranTadika');
     res.status(200).json({ tadikas });
-}
+};
 
 const getSinglePersonTadika = async (req, res) => {
     const { user: { kp }, params: { id: personTadikaId } } = req;
@@ -15,18 +15,31 @@ const getSinglePersonTadika = async (req, res) => {
     }
 
     res.status(200).json({ tadika });
-}
+};
 
 const createPersonTadika = async (req, res) => {
     req.body.createdByNegeri = req.user.negeri;
     req.body.createdByDaerah = req.user.daerah;
     req.body.createdByKp = req.user.kp;
+
+    // copy paste these to updatePersonTadika, to uppercase all created text input
+    req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
+    req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
+    req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
+    // ---------------------------------------------------------------------------
+
     const tadika = await Tadika.create(req.body);
     res.status(201).json({ tadika });
-}
+};
 
 const updatePersonTadika = async (req, res) => {
     const { user: { kp }, params: { id: personTadikaId } } = req;
+
+    // copy paste from createPersonTadika, to uppercase all updated text input
+    req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
+    req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
+    req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
+    //------------------------------------------------------------------------
 
     const tadika = await Tadika.findOneAndUpdate({ _id: personTadikaId, createdByKp: kp }, req.body, { new: true, runValidators: true });
     
@@ -35,7 +48,7 @@ const updatePersonTadika = async (req, res) => {
     }
 
     res.status(200).json({ tadika });
-}
+};
 
 const deletePersonTadika = async (req, res) => {
     const { user: { kp }, params: { id: personTadikaId } } = req;
@@ -47,6 +60,6 @@ const deletePersonTadika = async (req, res) => {
     }
 
     res.status(200).send();
-}
+};
 
 module.exports = { getAllPersonTadikas, getSinglePersonTadika, createPersonTadika, updatePersonTadika, deletePersonTadika };

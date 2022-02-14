@@ -11,7 +11,7 @@ const showAllPersonTadika = async () => {
         if (tadikas.length < 1) {
             loadingTextDOM.style.display = 'none';
             namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
-            namaTaskaTadikaCurrentSelectedDOM.textContent = 'Tiada Taska / Tadika yang dilawati';
+            namaTaskaTadikaCurrentSelectedDOM.textContent = 'tiada taska / tadika yang dilawati';
             return;
         }
 
@@ -36,7 +36,7 @@ const showAllPersonTadika = async () => {
           
             namaPersonTadikaContainerDOM.innerHTML = displaySinglePerson;
             namaTaskaTadikaCurrentSelectedDOM.style.display = 'block';
-            namaTaskaTadikaCurrentSelectedDOM.textContent = 'Semua pelajar di Taska / Tadika yang dilawati';
+            namaTaskaTadikaCurrentSelectedDOM.textContent = 'semua pelajar di taska / tadika yang dilawati';
         }
 
         function displayTaskaTadikaButton() {
@@ -46,7 +46,7 @@ const showAllPersonTadika = async () => {
                         values.push(singlePerson.namaTaskaTadikaPendaftaranTadika);
                     }
                     return values;
-                }, ['Semua Pelajar']);
+                }, ['SEMUA PELAJAR']);
             const taskaTadikaBtn = namaTaskaTadika.map(function (namaTaskaTadikaPendaftaranTadika) {
                 return `<button class="btn-category filter-btn-taska-tadika btn-active" data-id="${namaTaskaTadikaPendaftaranTadika}">
                             ${namaTaskaTadikaPendaftaranTadika}
@@ -64,9 +64,9 @@ const showAllPersonTadika = async () => {
                             return taskaTadika;
                         }
                     });
-                    if (namaTaskaTadikaPendaftaranTadika === 'Semua Pelajar') {
+                    if (namaTaskaTadikaPendaftaranTadika === 'SEMUA PELAJAR') {
                         displaySinglePersonTadika(tadikas);
-                        namaTaskaTadikaCurrentSelectedDOM.textContent = 'Semua pelajar di Taska / Tadika yang dilawati';
+                        namaTaskaTadikaCurrentSelectedDOM.textContent = 'semua pelajar di taska / tadika yang dilawati';
                     } else {
                         displaySinglePersonTadika(tadikasTaskaTadika);
                         namaTaskaTadikaCurrentSelectedDOM.textContent = namaTaskaTadikaPendaftaranTadika;
