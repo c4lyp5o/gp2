@@ -75,7 +75,7 @@ const showAllPersonTadika = async () => {
             });
         }
     } catch (error) {
-        namaTaskaTadikaCurrentSelectedDOM.textContent = 'Error';
+        namaTaskaTadikaCurrentSelectedDOM.textContent = 'error';
     }
     loadingTextDOM.style.display = 'none';
 };
@@ -95,4 +95,68 @@ namaPersonTadikaContainerDOM.addEventListener('click', async (e) => {
         }
     }
     loadingTextDOM.style.display = 'none';
+});
+
+// open and close find modal
+const btnFindDOM = document.querySelector('.find');
+const findModalOverlayDOM = document.querySelector('.find-modal-overlay');
+const findModalBtnCloseDOM = document.querySelector('.find-modal-btn-close');
+
+btnFindDOM.addEventListener('click', function() {
+    findModalOverlayDOM.classList.add('open-modal');
+});
+findModalBtnCloseDOM.addEventListener('click', function() {
+    findModalOverlayDOM.classList.remove('open-modal');
+});
+
+// search pelajar inside find modal
+const findModalInputNamaDOM = document.querySelector('.find-modal-input-nama');
+const findModalBtnFindDOM = document.querySelector('.find-modal-btn-find');
+const findModalLoadingTextDOM = document.querySelector('.find-modal-loading-text');
+const findModalNamaPersonTadikaContainerDOM = document.querySelector('.find-modal-nama-person-tadika-container');
+
+findModalBtnFindDOM.addEventListener('click', async () => {
+    findModalLoadingTextDOM.style.display = 'block';
+    try {
+        const findModalInputNama = findModalInputNamaDOM.value;
+        const { data: { tadika } } = await axios.get(`/api/v1/query/tadika?namaPendaftaranTadika=${findModalInputNama}`, { headers: { Authorization: `Bearer ${token}` } });
+
+        findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
+                                                                <p class="nama-person">${tadika.namaPendaftaranTadika}</p>
+                                                                <p class="kelas-person">${tadika.kelasPendaftaranTadika}</p>
+                                                                <div class="person-tadika-edit-delete">
+                                                                    <a href="./edit-tadika.html?id=${tadika._id}"  class="edit-link-person-tadika">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </a>
+                                                                    <button class="btn-delete-person-tadika" data-id="${tadika._id}">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>`;
+
+        findModalInputNamaDOM.value = '';
+    } catch (error) {
+        findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
+                                                                <p class="nama-person">No person found</p>
+                                                                <p class="kelas-person"></p>
+                                                                <div class="person-tadika-edit-delete">
+                                                                </div>
+                                                            </div>`;
+    }
+    findModalLoadingTextDOM.style.display = 'none';
+});
+
+findModalNamaPersonTadikaContainerDOM.addEventListener('click', async (e) => {
+    const el = e.target;
+    if (el.parentElement.classList.contains('btn-delete-person-tadika')) {
+        findModalLoadingTextDOM.style.display = 'block';
+        const id = el.parentElement.dataset.id;
+        try {
+            await axios.delete(`/api/v1/tadika/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    findModalLoadingTextDOM.style.display = 'none';
 });

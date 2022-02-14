@@ -9,6 +9,7 @@ const authLogin = require('./routes/authLogin');
 const dashboard = require('./routes/dashboard');
 const tadika = require('./routes/tadika');
 const sekolah = require('./routes/sekolah');
+const allQueryRoute = require('./routes/allQueryRoute');
 
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
@@ -24,6 +25,7 @@ app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/dashboard', authCheck, dashboard);
 app.use('/api/v1/tadika', authCheck, tadika);
 app.use('/api/v1/sekolah', authCheck, sekolah);
+app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use(errorHandler);
 app.use(notFound);
 
