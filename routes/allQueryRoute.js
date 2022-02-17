@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { querySinglePersonTadika } = require('../controllers/tadika');
+const { queryPersonTadika } = require('../controllers/tadika');
 
-router.route('/tadika').get(querySinglePersonTadika);
+router.route('/tadika').get(queryPersonTadika);
 
 module.exports = router;
