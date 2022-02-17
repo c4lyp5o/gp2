@@ -18,6 +18,7 @@ const getSinglePersonTadika = async (req, res) => {
 };
 
 const createPersonTadika = async (req, res) => {
+    // associate negeri, daerah & kp to each person tadika
     req.body.createdByNegeri = req.user.negeri;
     req.body.createdByDaerah = req.user.daerah;
     req.body.createdByKp = req.user.kp;
