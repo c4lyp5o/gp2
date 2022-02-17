@@ -56,10 +56,6 @@ body {
     line-height: .8rem;
 }
 
-.username {
-    text-transform: capitalize;
-}
-
 .kp {
     text-transform: capitalize;
 }

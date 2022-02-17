@@ -18,7 +18,7 @@ const authLogin = async (req,res) => {
     }
 
     const token = user.createJWT();
-    res.status(200).json({ msg: `Welcome ${user.name}`, token, redirectLogin: 'modules/dashboard.html' });
+    res.status(200).json({ token, redirectLogin: 'modules/dashboard.html' });
 }
 
 module.exports = authLogin;
