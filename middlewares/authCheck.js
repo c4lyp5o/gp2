@@ -11,7 +11,7 @@ const authCheck = async (req, res, next) => {
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = { userId: payload.userId, username: payload.username, negeri: payload.negeri, daerah: payload.daerah, kp: payload.kp };
+        req.user = { userId: payload.userId, username: payload.username, negeri: payload.negeri, daerah: payload.daerah, kp: payload.kp, accountType: payload.accountType };
         next();
     } catch (error) {
         return res.status(401).json({ msg: 'Please log in' });
