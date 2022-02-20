@@ -64,20 +64,26 @@ const deletePersonTadika = async (req, res) => {
 };
 
 // query route
-const querySinglePersonTadika = async (req, res) => {
-    // to uppercase all query input
-    req.query.namaPendaftaranTadika = req.query.namaPendaftaranTadika.toUpperCase()
-    // ----------------------------
+const queryPersonTadika = async (req, res) => {
+    // in future query input we must make uppercase all input at the front end
+    // req.query.namaPendaftaranTadika is UPPERCASE
 
-    const { user: { kp }, query: { namaPendaftaranTadika } } = req;
+    const { user: { kp }, query: { namaPendaftaranTadika, kelasPendaftaranTadika } } = req;
+    const queryObject = {};
+    queryObject.createdByKp = kp;
 
-    const tadika = await Tadika.findOne({ namaPendaftaranTadika: namaPendaftaranTadika, createdByKp: kp });
-    
-    if (!tadika) {
-        return res.status(404).json({ msg: `No person with name ${namaPendaftaranTadika}` });
+    if (namaPendaftaranTadika) {
+        queryObject.namaPendaftaranTadika = namaPendaftaranTadika;
     }
+
+    if (kelasPendaftaranTadika) { // this query is not used at front end atm, just to justify why queryObject is used
+        queryObject.kelasPendaftaranTadika = kelasPendaftaranTadika;
+    }
+
+    // const tadika = await Tadika.find({ namaPendaftaranTadika, kelasPendaftaranTadika, createdByKp: kp }); // try this with Postman to justify why queryObject is used
+    const tadika = await Tadika.find(queryObject);
 
     res.status(200).json({ tadika });
 };
 
-module.exports = { getAllPersonTadikas, getSinglePersonTadika, createPersonTadika, updatePersonTadika, deletePersonTadika, querySinglePersonTadika };
+module.exports = { getAllPersonTadikas, getSinglePersonTadika, createPersonTadika, updatePersonTadika, deletePersonTadika, queryPersonTadika };

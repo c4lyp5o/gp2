@@ -118,30 +118,67 @@ const findModalNamaPersonTadikaContainerDOM = document.querySelector('.find-moda
 findModalBtnFindDOM.addEventListener('click', async () => {
     findModalLoadingTextDOM.style.display = 'block';
     try {
-        const findModalInputNama = findModalInputNamaDOM.value;
+        const findModalInputNama = findModalInputNamaDOM.value.toUpperCase();
         const { data: { tadika } } = await axios.get(`/api/v1/query/tadika?namaPendaftaranTadika=${findModalInputNama}`, { headers: { Authorization: `Bearer ${token}` } });
 
-        findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
-                                                                <p class="nama-person">${tadika.namaPendaftaranTadika}</p>
-                                                                <p class="kelas-person">${tadika.kelasPendaftaranTadika}</p>
-                                                                <div class="person-tadika-edit-delete">
-                                                                    <a href="./edit-tadika.html?id=${tadika._id}"  class="edit-link-person-tadika">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </a>
-                                                                    <button class="btn-delete-person-tadika" data-id="${tadika._id}">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>`;
-
-        findModalInputNamaDOM.value = '';
-    } catch (error) {
-        findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
+        // if search query is empty
+        if (findModalInputNama === '') {
+            findModalLoadingTextDOM.style.display = 'none';
+            findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
                                                                 <p class="nama-person">No person found</p>
                                                                 <p class="kelas-person"></p>
                                                                 <div class="person-tadika-edit-delete">
                                                                 </div>
                                                             </div>`;
+            return;
+        }
+
+        // if search query return nothing
+        if (tadika.length < 1) {
+            findModalLoadingTextDOM.style.display = 'none';
+            findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
+                                                                <p class="nama-person">No person found</p>
+                                                                <p class="kelas-person"></p>
+                                                                <div class="person-tadika-edit-delete">
+                                                                </div>
+                                                            </div>`;
+            return;
+        }
+        
+        // show warning if return multiple result of same name
+        if (tadika.length > 1) {
+            alert('There are multiple results. Please check carefully');
+        }
+
+        displaySinglePersonTadika(tadika);
+        function displaySinglePersonTadika(tadika) {
+            let displaySinglePerson = tadika.map(function (singlePerson) {
+                return `<div class="single-nama-person-tadika-container">
+                            <p class="nama-person">${singlePerson.namaPendaftaranTadika}</p>
+                            <p class="kelas-person">${singlePerson.kelasPendaftaranTadika}</p>
+                            <div class="person-tadika-edit-delete">
+                                <a href="./edit-tadika.html?id=${singlePerson._id}"  class="edit-link-person-tadika">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button class="btn-delete-person-tadika" data-id="${singlePerson._id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>`;
+            });
+            displaySinglePerson = displaySinglePerson.join('');
+          
+            findModalNamaPersonTadikaContainerDOM.innerHTML = displaySinglePerson;
+        }
+
+        findModalInputNamaDOM.value = '';
+    } catch (error) {
+        findModalNamaPersonTadikaContainerDOM.innerHTML = `<div class="single-nama-person-tadika-container">
+                                                            <p class="nama-person">Error</p>
+                                                            <p class="kelas-person"></p>
+                                                            <div class="person-tadika-edit-delete">
+                                                            </div>
+                                                        </div>`;
     }
     findModalLoadingTextDOM.style.display = 'none';
 });

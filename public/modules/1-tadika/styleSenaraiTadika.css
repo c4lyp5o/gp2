@@ -94,8 +94,10 @@
     color: var(--white-text);
     border-radius: var(--radius);
     width: 85%;
-    height: 40%;
+    height: 50%;
     position: relative;
+    overflow-y: auto;
+    padding-bottom: 1rem;
 }
 
 .find-modal-input-and-btn-find {
