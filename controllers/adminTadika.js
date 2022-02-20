@@ -14,8 +14,37 @@ const adminGetAllPersonTadikas = async (req, res) => {
         return res.status(200).json({ tadikas });
     }
     else {
-        return res.status(401).json({ msg: 'You are kpUser'});
+        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
     }
 };
 
-module.exports = { adminGetAllPersonTadikas };
+const adminGetSinglePersonTadika = async (req, res) => {
+    const { user: { accountType }, params: { id: personTadikaId } } = req;
+
+    if (accountType === 'negaraUser') {
+        const tadika = await Tadika.findOne({ _id: personTadikaId });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });
+    }
+    if (accountType === 'negeriUser') {
+        const tadika = await Tadika.findOne({ _id: personTadikaId, createdByNegeri: req.user.negeri });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });
+    }
+    if (accountType === 'daerahUser') {
+        const tadika = await Tadika.findOne({ _id: personTadikaId, createdByDaerah: req.user.daerah });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });
+    }
+    else {
+        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
+    }
+};
+
+module.exports = { adminGetAllPersonTadikas, adminGetSinglePersonTadika };
