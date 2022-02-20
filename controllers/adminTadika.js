@@ -47,4 +47,39 @@ const adminGetSinglePersonTadika = async (req, res) => {
     }
 };
 
-module.exports = { adminGetAllPersonTadikas, adminGetSinglePersonTadika };
+const adminUpdatePersonTadika = async (req, res) => {
+    const { user: { accountType }, params: { id: personTadikaId } } = req;
+
+    // copy paste from user's createPersonTadika, to uppercase all updated text input
+    req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
+    req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
+    req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
+    //-------------------------------------------------------------------------------
+
+    if (accountType === 'negaraUser') {
+        const tadika = await Tadika.findOneAndUpdate({ _id: personTadikaId }, req.body, { new: true, runValidators: true });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });
+    }
+    if (accountType === 'negeriUser') {
+        const tadika = await Tadika.findOneAndUpdate({ _id: personTadikaId, createdByNegeri: req.user.negeri }, req.body, { new: true, runValidators: true });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });   
+    }
+    if (accountType === 'daerahUser') {
+        const tadika = await Tadika.findOneAndUpdate({ _id: personTadikaId, createdByDaerah: req.user.daerah }, req.body, { new: true, runValidators: true });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).json({ tadika });
+    }
+    else {
+        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
+    }
+};
+
+module.exports = { adminGetAllPersonTadikas, adminGetSinglePersonTadika, adminUpdatePersonTadika };

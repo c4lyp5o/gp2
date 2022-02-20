@@ -1,10 +1,10 @@
-// Core
+// CORE ----------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 const app = express();
 
-// Import
+// IMPORT ROUTER -------------------------------------------
 // user import
 const authLogin = require('./routes/authLogin');
 const dashboard = require('./routes/dashboard');
@@ -15,14 +15,15 @@ const allQueryRoute = require('./routes/allQueryRoute');
 const adminAuthLogin = require('./routes/adminAuthLogin');
 const adminTadika = require('./routes/adminTadika');
 
+// IMPORT MIDDLEWARES --------------------------------------
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 
-// Database
+// DATABASE ------------------------------------------------
 const connectDB = require('./database/connect');
 
-// Middlewares
+// MIDDLEWARES ---------------------------------------------
 app.use(express.json());
 app.use(express.static('./public'));
 // user route
@@ -38,7 +39,7 @@ app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 app.use(errorHandler);
 app.use(notFound);
 
-// Server
+// SERVER --------------------------------------------------
 const port = 3000;
 
 const start = async () => {
