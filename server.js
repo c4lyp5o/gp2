@@ -12,6 +12,7 @@ const tadika = require('./routes/tadika');
 const sekolah = require('./routes/sekolah');
 const allQueryRoute = require('./routes/allQueryRoute');
 // admin import
+const adminAuthLogin = require('./routes/adminAuthLogin');
 const adminTadika = require('./routes/adminTadika');
 
 const authCheck = require('./middlewares/authCheck');
@@ -31,10 +32,11 @@ app.use('/api/v1/tadika', authCheck, tadika);
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 // admin route
+app.use('/api/v1/admin/auth', adminAuthLogin);
 app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 // error handler & not found
 app.use(errorHandler);
-// app.use(notFound);
+app.use(notFound);
 
 // Server
 const port = 3000;
