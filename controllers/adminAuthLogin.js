@@ -1,7 +1,7 @@
 const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-const authLogin = async (req,res) => {
+const adminAuthLogin = async (req,res) => {
     const { username, password } = req.body;
 
     if (!username || !password ) {
@@ -21,17 +21,11 @@ const authLogin = async (req,res) => {
     const token = user.createJWT();
 
     const payloadUserType = jwt.verify(token, process.env.JWT_SECRET);
-    if (payloadUserType.accountType === 'negaraUser') {
-        return res.status(401).json({ msg: 'This is admin credentials' });
-    }
-    if (payloadUserType.accountType === 'negeriUser') {
-        return res.status(401).json({ msg: 'This is admin credentials' });
-    }
-    if (payloadUserType.accountType === 'daerahUser') {
-        return res.status(401).json({ msg: 'This is admin credentials' });
+    if (payloadUserType.accountType === 'kpUser') {
+        return res.status(401).json({ msg: 'This is kp credentials' });
     }
 
     res.status(200).json({ token, redirectLogin: 'modules/dashboard.html' });
 }
 
-module.exports = authLogin;
+module.exports = adminAuthLogin;

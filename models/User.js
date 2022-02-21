@@ -20,6 +20,14 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide KP']
     },
+    accountType: {
+        type: String,
+        required: [true, 'Please provide account type'],
+        enum: {
+            values: ['negaraUser', 'negeriUser', 'daerahUser', 'kpUser'],
+            message: '{VALUE} is not supported. Provide only "negaraUser", "negeriUser", "daerahUser", "kpUser"'
+        }
+    },
     password: {
         type: String,
         required: [true, 'Please provide password'],
@@ -33,7 +41,7 @@ UserSchema.pre('save', async function() {
 });
 
 UserSchema.methods.createJWT = function() {
-    return jwt.sign({ userId: this._id, username: this.username, negeri: this.negeri, daerah: this.daerah, kp: this.kp }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
+    return jwt.sign({ userId: this._id, username: this.username, negeri: this.negeri, daerah: this.daerah, kp: this.kp, accountType: this.accountType }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME });
 }
 
 UserSchema.methods.comparePassword = async function(candidatePassword) {
