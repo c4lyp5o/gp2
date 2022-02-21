@@ -13,9 +13,8 @@ const adminGetAllPersonTadikas = async (req, res) => {
         const tadikas = await Tadika.find({ createdByDaerah: req.user.daerah }).sort('createdByKp');
         return res.status(200).json({ tadikas });
     }
-    else {
-        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
-    }
+
+    res.status(401).json({ msg: `You are ${req.user.accountType}` });
 };
 
 const adminGetSinglePersonTadika = async (req, res) => {
@@ -42,9 +41,8 @@ const adminGetSinglePersonTadika = async (req, res) => {
         }
         return res.status(200).json({ tadika });
     }
-    else {
-        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
-    }
+
+    res.status(401).json({ msg: `You are ${req.user.accountType}` });
 };
 
 const adminUpdatePersonTadika = async (req, res) => {
@@ -77,9 +75,36 @@ const adminUpdatePersonTadika = async (req, res) => {
         }
         return res.status(200).json({ tadika });
     }
-    else {
-        return res.status(401).json({ msg: `You are ${req.user.accountType}` });
-    }
+
+    res.status(401).json({ msg: `You are ${req.user.accountType}` });
 };
 
-module.exports = { adminGetAllPersonTadikas, adminGetSinglePersonTadika, adminUpdatePersonTadika };
+const adminDeletePersonTadika = async (req, res) => {
+    const { user: { accountType }, params: { id: personTadikaId } } = req;
+    
+    if (accountType === 'negaraUser') {
+        const tadika = await Tadika.findOneAndRemove({ _id: personTadikaId });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).send();
+    }
+    if (accountType === 'negeriUser') {
+        const tadika = await Tadika.findOneAndRemove({ _id: personTadikaId, createdByNegeri: req.user.negeri });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).send();
+    }
+    if (accountType === 'daerahUser') {
+        const tadika = await Tadika.findOneAndRemove({ _id: personTadikaId, createdByDaerah: req.user.daerah });
+        if (!tadika) {
+            return res.status(404).json({ msg: `No person with id ${personTadikaId}` });
+        }
+        return res.status(200).send();
+    }
+
+    res.status(401).json({ msg: `You are ${req.user.accountType}` });
+};
+
+module.exports = { adminGetAllPersonTadikas, adminGetSinglePersonTadika, adminUpdatePersonTadika, adminDeletePersonTadika };
