@@ -9,11 +9,11 @@ exports.getAllDataforDashboard = function(req, res) {
       jumlahPelajar: function(callback) {
           Tadika.countDocuments(callback);
       },
-      listTadika: function(callback) {
+      namaTadika: function(callback) {
           Tadika.distinct('namaTaskaTadikaPendaftaranTadika', {nama: new RegExp('')}, callback);
       },
-      listTN: function(callback) {
-        Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: 'Tabika Kemas Taman Nilam' }, callback);
+      jumlahTadika: function(callback) {
+        Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: new RegExp('Tabika') }, callback);
       },
       listTNuri: function(callback) {
         Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: 'Tabika Kemas Taman Nuri' }, callback);
@@ -35,6 +35,6 @@ exports.getAllDataforDashboard = function(req, res) {
       },
   }, function(err, results) {
       if (err) { return next(err); }
-      res.render('index', { title: 'Laman Tadika', jumlahPelajar: results.jumlahPelajar, namaTadika: results.listTadika, jTN: results.listTN, jTNuri: results.listTNuri, jTWJ: results.listTWJ, jTT: results.listTT, jumlahUmur4: results.listUmur4, jumlahUmur5: results.listUmur5, jumlahUmur6: results.listUmur6 });
+      res.render('index', { title: 'Laman Tadika', jumlahPelajar: results.jumlahPelajar, namaTadika: results.namaTadika, jumlahTadika: results.jumlahTadika, jTNuri: results.listTNuri, jTWJ: results.listTWJ, jTT: results.listTT, jumlahUmur4: results.listUmur4, jumlahUmur5: results.listUmur5, jumlahUmur6: results.listUmur6 });
   });
 };

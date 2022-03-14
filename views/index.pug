@@ -1,31 +1,27 @@
 extends layout
 
 block content
-  div.container
-    h1 Generates
-    label(for='Pelajar')
-    p Jumlah pelajar tadika adalah: #{jumlahPelajar}
-
-  div.container
-    label(for='Tadika')
-    p Senarai tadika adalah:
-    ul
+  .uk-container
+    h1(align='center') Selamat Datang
+  br
+  .uk-grid-small.uk-text-center(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-card.uk-card-default.uk-card-body Jumlah Pelajar Tadika: #{jumlahPelajar}
+    div
+      .uk-card.uk-card-default.uk-card-body Jumlah Tadika: #{namaTadika.length}
+  .uk-grid-collapse.uk-text-center.uk-margin-large-top(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-background-muted.uk-padding Umur 4 Tahun: #{jumlahUmur4}
+    div
+      .uk-background-primary.uk-padding.uk-light Umur 5 Tahun: #{jumlahUmur5}
+    div
+      .uk-background-secondary.uk-padding.uk-light Umur 6 Tahun: #{jumlahUmur6}  
+  .uk-grid-medium.uk-text-center(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-card.uk-card-default.uk-card-body Senarai tadika adalah:
+      |
+      ul
       each val in namaTadika
-        li= val
-
-  div.container
-    label(for='Pelajar')
-    p Jumlah Pelajar Berdasarkan Tadika
-    ul 
-      li Tabika Kemas Taman Nilam: #{jTN}
-      li Tabika Kemas Taman Nuri: #{jTNuri}
-      li Tabika Kemas Teluk Wanjah: #{jTWJ}
-      li Tabika Kemas Tualang: #{jTT}
-
-  div.container
-    label(for='umurPelajar')
-    p Jumlah Pelajar Berdasarkan Umur
-    ul
-      li Umur 4 Tahun: #{jumlahUmur4}
-      li Umur 5 Tahun: #{jumlahUmur5}
-      li Umur 6 Tahun: #{jumlahUmur6}
+        li= val    
+  
+  

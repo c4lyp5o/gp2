@@ -1,24 +1,23 @@
 extends layoutgen 
 
 block content
-  h1= title
-
+  .uk-container
+    h1(align='center')= title
+  br  
+  .uk-container 
   form(method='POST' action='')
-
-    div.form-group
+   fieldset.uk-fieldset
+    legend.uk-legend Jenis File
+    .uk-margin    
+        input.uk-radio(type='radio', name='jenisFile', value='CSV', checked='')
+        |  CSV
+        input.uk-radio(type='radio', name='jenisFile', value='Excel')
+        |  Excel
         br
-        label(for="namaReten") Jenis File:
+        |
         br
-        input(type='radio', name='jenisFile', value='CSV', checked='')
-        label(for="CSV") CSV
-        br
-        input(type='radio', name='jenisFile', value='Excel')
-        label(for="Excel") Excel
+        button.uk-button.uk-button-default Submit
         
-
-    button.btn.btn-primary(type='submit') Submit
-
-    
   if errors
     ul
       for error in errors

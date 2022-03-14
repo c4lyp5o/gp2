@@ -1,27 +1,24 @@
 extends layoutgen
 
 block content
-  h1= title
-
-  //- ul
-  //-   each budak in budak_list
-  //-     li
-  //-       a(href=budak.id) #{budak.namaPendaftaranTadika} - #{budak.namaTaskaTadikaPendaftaranTadika} - #{budak.kelasPendaftaranTadika} - #{budak.umurPendaftaranTadika}
-
-  //-   else
-  //-     li Tiada siapa disini.. cuma aku dan kamu
-
-  table(style='width:100%', border='1')
-    tr
-    th Nama
-    th Tadika
-    th Kelas
-    th Umur
-    each budak in budak_list
+  h1(align='center')= title
+  
+  table.uk-table.uk-table-small.uk-table-striped
+   caption
+    thead
       tr
-      td 
-        - var url = 'http://localhost:3000/kids/' + budak.id
-        a(href=url) #{budak.namaPendaftaranTadika}
-      td #{budak.namaTaskaTadikaPendaftaranTadika}
-      td #{budak.kelasPendaftaranTadika}
-      td #{budak.umurPendaftaranTadika}
+        th Nama
+        th Tadika
+        th Kelas
+        th Umur
+      tfoot
+      each budak in budak_list
+        tr
+          td 
+            - var url = 'http://localhost:3000/kids/' + budak.id
+            a(href=url) #{budak.namaPendaftaranTadika}
+          td #{budak.namaTaskaTadikaPendaftaranTadika}
+          td #{budak.kelasPendaftaranTadika}
+          td #{budak.umurPendaftaranTadika}
+      
+   

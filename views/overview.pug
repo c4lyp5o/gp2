@@ -1,16 +1,19 @@
 extends layoutgen 
 
 block content
-  h1= title
-
-  form(method='POST' action='/generate/main/overview')
-
-    div.form-group
-      label(for='negeri') Negeri:
-      select#negeri.form-control(type='select' placeholder='Pilih negeri' name='negeri' required='true' )
+  .uk-container
+    h1(align='center')= title
+  br  
+ 
+  .uk-container 
+  form(method='POST' action='')
+   fieldset.uk-fieldset
+    legend.uk-legend Negeri
+    .uk-margin
+      select.uk-select(type='select' placeholder='Pilih negeri' name='negeri' required='true')
         each val in negeri
-          option(value=val label=val)
-    button.btn.btn-primary(type='submit') Submit
+          option(value=val label=val)    
+    button.uk-button.uk-button-default Submit
 
   if errors
     ul

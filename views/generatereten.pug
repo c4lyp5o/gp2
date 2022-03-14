@@ -1,30 +1,32 @@
 extends layoutgen 
 
 block content
-  h1= title
-
+  .uk-container
+    h1(align='center')= title
+  br
+  .uk-container 
   form(method='POST' action='')
-
-    div.form-group
-      label(for='tadika') Tadika:
-      select#tadika.form-control(type='select' placeholder='Pilih tadika' name='tadikaNama' required='true' )
+   fieldset.uk-fieldset
+    legend.uk-legend Negeri
+    .uk-margin
+      select.uk-select(type='select' placeholder='Pilih tadika' name='tadikaNama' required='true' )
         each val in tadikas
           option(value=val label=val)
-
-    div.form-group
+    .uk-margin 
+        legend.uk-legend Jenis Reten:
         br
-        label(for="jenisReten") Jenis Reten:
-        br
-        input(type='radio', name='jenisReten', value='CRA', checked='')
+        input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
         label(for="CRA")  CRA
         br
-        input(type='radio', name='jenisReten', value='PG201')
+        input.uk-radio(type='radio', name='jenisReten', value='PG201')
         label(for="pg201")  PG201
         br
-        input(type='radio', name='jenisReten', value='PG207')
+        input.uk-radio(type='radio', name='jenisReten', value='PG207')
         label(for="pg207")  PG207
-
-    button.btn.btn-primary(type='submit') Submit
+        |
+        br
+        br
+        button.uk-button.uk-button-default Submit
 
   if errors
     ul

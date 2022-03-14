@@ -2,13 +2,13 @@ extends layoutgen
 
 block content
 
+  .uk-container
   h1 Nama murid: #{nama.namaPendaftaranTadika}
-
-  div(style='margin-left:20px;margin-top:20px')
+  hr
+  .uk-container 
     p Kelas: #{nama.kelasPendaftaranTadika}
     p Umur: #{nama.umurPendaftaranTadika}
     p Nama Tadika: #{nama.namaTaskaTadikaPendaftaranTadika}
-
   hr
   p Anda yakin ingin menghapus murid ini dari sistem?
 
@@ -16,4 +16,4 @@ block content
       div.form-group
         input#kidid.form-control(type='hidden',name='kidid', required='true', value=nama._id )
 
-      button.btn.btn-primary(type='submit') Delete
+      button.uk-button.uk-button-danger.uk-text-bold(type='submit') HAPUS
