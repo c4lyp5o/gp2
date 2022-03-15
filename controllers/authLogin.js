@@ -8,15 +8,15 @@ const authLogin = async (req,res) => {
         return res.status(400).json({ msg: 'Please provide username and password'});
     }
 
-    const user = await UserModel.findOne({ username });
-    if (!user) {
+    const user = await UserModel.findOne({ username: username });
+    if (!(user && (await user.comparePassword(password)))) {
         return res.status(401).json({ msg: 'Invalid credentials' });
     }
-
-    const isPasswordCorrect = await user.comparePassword(password);
-    if (!isPasswordCorrect) {
-        return res.status(401).json({ msg: 'Invalid credentials' });
-    }
+    
+    // for generate page use
+    const genToken = jwt.sign({ userId: user._id, username: user.username, negeri: user.negeri, daerah: user.daerah, kp: user.kp, accountType: user.accountType }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // here have a cookie
+    res.cookie("genToken", genToken, { maxAge: 600000 });
 
     const token = user.createJWT();
 

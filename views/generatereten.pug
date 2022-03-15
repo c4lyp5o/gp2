@@ -3,7 +3,7 @@ extends layoutgen
 block content
   .uk-container
     h1(align='center')= title
-  br
+  .uk-divider-icon
   .uk-container 
   form(method='POST' action='')
    fieldset.uk-fieldset
@@ -12,6 +12,7 @@ block content
       select.uk-select(type='select' placeholder='Pilih tadika' name='tadikaNama' required='true' )
         each val in tadikas
           option(value=val label=val)
+    .uk-divider-icon
     .uk-margin 
         legend.uk-legend Jenis Reten:
         br

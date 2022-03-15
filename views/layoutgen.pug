@@ -8,7 +8,6 @@ head
   // UIkit JS
   script(src='https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js')
   script(src='https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js')
-  title Hello, world!
 .nav-container
   button.uk-button.uk-button-default.uk-margin-small-right(type='button' uk-toggle='target: #offcanvas-usage') M
   #offcanvas-usage(uk-offcanvas='overlay: true')
@@ -17,7 +16,7 @@ head
       h3 Menu Laman Penghasilan Reten
       ul.uk-nav.uk-nav-default
         li.uk-active
-          a(href='./dashboard.html') Laman Utama
+          a(href='/modules/dashboard.html') Laman Utama
         li
           a(href='/generate') Laman Generate
         li
@@ -28,5 +27,5 @@ head
           a(href='/generate/main/overview') Overview Mengikut Negeri
         li
           a(href='/generate/main/pilihreten') Hasilkan Reten
-
+    
 block content

@@ -2,7 +2,7 @@
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
-const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 // IMPORT ROUTER -------------------------------------------
@@ -25,16 +25,18 @@ const genRouter = require('./routes/generateRouter');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
+const genAuth = require('./middlewares/genAuth').verifyToken;
 
 // DATABASE ------------------------------------------------
 const connectDB = require('./database/connect');
 
 // MIDDLEWARES ---------------------------------------------
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 app.use(express.static('./public/exports'));
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // user route
 app.use('/api/v1/auth', authLogin, authRegister);
 app.use('/api/v1/dashboard', authCheck, dashboard);
@@ -45,9 +47,9 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/admin/auth', adminAuthLogin);
 app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 // generate route
-app.use('/generate', indexRouter);
-app.use('/kids', kidsRouter);
-app.use('/generate/main', genRouter);
+app.use('/generate', genAuth, indexRouter);
+app.use('/kids', genAuth, kidsRouter);
+app.use('/generate/main', genAuth, genRouter);
 // error handler & not found
 app.use(errorHandler);
 app.use(notFound);

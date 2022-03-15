@@ -6,7 +6,7 @@ const countHelper = require('./countHelper');
 // const YAData = require('../models/YA'); to put in the future
 
 // Display generate menu
-exports.generate_menu = function(req, res) {
+exports.generate_menu = function(req, res, next) {
   res.render('generateindex', { title: 'Laman Manipulasi Data' });
 }
 
@@ -66,7 +66,6 @@ exports.borangOverview = function(req, res) {
 };
 
 exports.borangOverview_post = async function(req, res, negeri) {
-  console.log(negeri);
   await excelHelper.prepareDocumentLaporan();
   countHelper.overView(req, res, negeri);
 };
