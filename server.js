@@ -8,7 +8,6 @@ const app = express();
 // IMPORT ROUTER -------------------------------------------
 // user import
 const authLogin = require('./routes/authLogin');
-const authRegister = require('./routes/authRegister');
 const dashboard = require('./routes/dashboard');
 const tadika = require('./routes/tadika');
 const sekolah = require('./routes/sekolah');
@@ -38,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // user route
-app.use('/api/v1/auth', authLogin, authRegister);
+app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/dashboard', authCheck, dashboard);
 app.use('/api/v1/tadika', authCheck, tadika);
 app.use('/api/v1/sekolah', authCheck, sekolah);
