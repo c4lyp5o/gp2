@@ -1,5 +1,5 @@
-const Tadika = require('../models/Tadika');
 const async = require('async');
+const Tadika = require('../models/Tadika');
 // const Sekolah = require('../models/Sekolah'); to put in the future
 // const YAdult = require('../models/YA'); to put in the future
 
