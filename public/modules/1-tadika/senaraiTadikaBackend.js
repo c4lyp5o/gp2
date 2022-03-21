@@ -71,6 +71,16 @@ const showAllPersonTadika = async () => {
                         displaySinglePersonTadika(tadikasTaskaTadika);
                         namaTaskaTadikaCurrentSelectedDOM.textContent = namaTaskaTadikaPendaftaranTadika;
                     }
+                    // route to generate reten
+                    const btnDownloadDOM = document.querySelector('.download');
+                    btnDownloadDOM.addEventListener('click', function () {
+                        if (namaTaskaTadikaPendaftaranTadika === 'SEMUA PELAJAR') {
+                            console.log('SEMUA PELAJAR');
+                            return;
+                        }
+                        console.log(namaTaskaTadikaPendaftaranTadika);
+                        // await axios.post('/api/v1/generate', { namaTaskaTadikaPendaftaranTadika });
+                    });
                 });
             });
         }
