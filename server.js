@@ -16,8 +16,6 @@ const allQueryRoute = require('./routes/allQueryRoute');
 const adminAuthLogin = require('./routes/adminAuthLogin');
 const adminTadika = require('./routes/adminTadika');
 // generate import
-const indexRouter = require('./routes/indexRouter');
-const kidsRouter = require('./routes/kidsRouter');
 const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES --------------------------------------
@@ -46,9 +44,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/admin/auth', adminAuthLogin);
 app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 // generate route
-app.use('/generate', genAuth, indexRouter);
-app.use('/kids', genAuth, kidsRouter);
-app.use('/generate/main', genAuth, genRouter);
+app.use('/generate', genAuth, genRouter);
 // error handler & not found
 app.use(errorHandler);
 app.use(notFound);
@@ -61,7 +57,7 @@ const port = process.env.PORT;
 
 const start = async () => {
     try {
-        connectDB(process.env.MONGO_URI)
+        await connectDB(process.env.MONGO_URI)
         .then(() => {
             console.log('Connected to Giret Database!');
         })
