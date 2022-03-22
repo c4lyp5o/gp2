@@ -77,7 +77,6 @@ const showAllPersonTadika = async () => {
 
         // download button send route to generate reten
         const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll('.filter-btn-taska-tadika');
-        console.log(filterTaskaTadikaBtn);
         filterTaskaTadikaBtn.forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 let namaTaskaTadikaPendaftaranTadika = e.currentTarget.dataset.id;
