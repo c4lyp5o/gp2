@@ -8,9 +8,9 @@ const getAllPersonSekolahs = async (req, res) => {
 const getSinglePersonSekolah = async (req, res) => {
     const { user: { kp }, params: { id: personSekolahId } } = req;
 
-    const sekolah = await Tadika.findOne({ _id: personSekolahId, createdByKp: kp });
+    const sekolah = await Sekolah.findOne({ _id: personSekolahId, createdByKp: kp });
 
-    if (!tadika) {
+    if (!sekolah) {
         return res.status(404).json({ msg: `No person with id ${personSekolahId}` });
     }
 

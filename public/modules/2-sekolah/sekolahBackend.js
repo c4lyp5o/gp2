@@ -16,7 +16,7 @@ btnSave.addEventListener('click', async () => {
             umurPendaftaranSekolah,
             kelasPendaftaranSekolah,
             namaSekolahPendaftaranSekolah }, { headers: { Authorization: `Bearer ${token}` } });
-
+ 
         // clearing all value after creating person
         namaPendaftaranSekolahDOM.value = '';
         umurPendaftaranSekolahDOM.value = '';
