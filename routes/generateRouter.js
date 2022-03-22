@@ -2,8 +2,8 @@
 const express = require('express');
 const router = express.Router();
 
-// // Controller
-// const generatecon = require ('../controllers/generateRetenController');
+// Controller
+const generatecon = require ('../controllers/generateRetenController');
 
 // // Routes
 // // main menu
@@ -29,9 +29,7 @@ const router = express.Router();
 // // generate reten route
 // router.get('/pilihreten/generatereport', generatecon.borangPilihReten_post);
 
-router.post('/', function (req, res) {
-    const namaTadikaAAA = req.body.namaTadika;
-    res.status(200).send(namaTadikaAAA);
-})
+router.post('/tadika', generatecon.borangPilihReten);
+router.post('/tadika/reten', generatecon.borangPilihReten_post);
 
 module.exports = router;
