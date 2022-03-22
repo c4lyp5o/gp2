@@ -71,19 +71,20 @@ const showAllPersonTadika = async () => {
                         displaySinglePersonTadika(tadikasTaskaTadika);
                         namaTaskaTadikaCurrentSelectedDOM.textContent = namaTaskaTadikaPendaftaranTadika;
                     }
-                    // route to generate reten
-                    const btnDownloadDOM = document.querySelector('.download');
-                    btnDownloadDOM.addEventListener('click', function () {
-                        if (namaTaskaTadikaPendaftaranTadika === 'SEMUA PELAJAR') {
-                            console.log('SEMUA PELAJAR');
-                            return;
-                        }
-                        console.log(namaTaskaTadikaPendaftaranTadika);
-                        // await axios.post('/api/v1/generate', { namaTaskaTadikaPendaftaranTadika });
-                    });
                 });
             });
         }
+
+        // download button send route to generate reten
+        const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll('.filter-btn-taska-tadika');
+        console.log(filterTaskaTadikaBtn);
+        filterTaskaTadikaBtn.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                let namaTaskaTadikaPendaftaranTadika = e.currentTarget.dataset.id;
+                const btnDownloadDOM = document.querySelector('.download-to-generate');
+                btnDownloadDOM.value = namaTaskaTadikaPendaftaranTadika;
+            });
+        });
     } catch (error) {
         namaTaskaTadikaCurrentSelectedDOM.textContent = 'error';
     }

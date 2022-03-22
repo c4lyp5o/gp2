@@ -48,7 +48,10 @@
                 <!-- <button class="btn-operation clear">clear</button> -->
                 <!-- <button class="btn-operation delete">delete</button> -->
                 <button class="btn-operation upload">upload</button>
-                <button class="btn-operation download">download</button>
+                <form action="/generate" method="POST">
+                    <input type="hidden" value="SEMUA PELAJAR" name="namaTadika" class="download-to-generate" required>
+                    <button class="btn-operation download" value="submit">download</button>
+                </form>
             </div>
         </div>
     </div>

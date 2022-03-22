@@ -44,7 +44,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/admin/auth', adminAuthLogin);
 app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 // generate route
-app.use('/generate', genAuth, genRouter);
+app.use('/generate', genRouter);
 // error handler & not found
 app.use(errorHandler);
 app.use(notFound);
