@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createPersonSekolah } = require('../controllers/sekolah');
+const { getAllPersonSekolahs, getSinglePersonSekolah, createPersonSekolah, updatePersonSekolah, deletePersonSekolah } = require('../controllers/sekolah');
 
-router.route('/').post(createPersonSekolah);
+router.route('/').get(getAllPersonSekolahs).post(createPersonSekolah);
+router.route('/:id').get(getSinglePersonSekolah).patch(updatePersonSekolah).delete(deletePersonSekolah);
 
 module.exports = router;
