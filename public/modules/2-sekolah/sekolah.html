@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sekolah - Gi-Ret-PSY Cloud</title>
     <link rel="stylesheet" href="../styleModules.css" />
-    <link rel="stylesheet" href="./styleSekolah.css" />
+    <link rel="stylesheet" href="./styleFormSekolah.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -14,11 +14,9 @@
 </head>
 <body>
     <div class="main">
-        <div class="username">
+        <div class="username-container">
             <img class="logo-gigi" src="../../resources/logoGigi.png" alt="" width="100" height="100">
-            <div class="id-kp">
-                <p class="id">Username : Dr. Kuat</p>
-                <p class="kp">KP : Padang Kapas</p>
+            <div class="username-kp">
             </div>
         </div>
         <div class="inside-container">
@@ -27,6 +25,11 @@
                     <img class="img-category" src="../../resources/sekolah.png" alt="">
                     <p>SEKOLAH</p>
                 </button>
+                <a href="./senarai-sekolah.html">
+                    <button class="btn-category senarai-btn">
+                        SENARAI SEKOLAH YANG DILAWATI
+                    </button>
+                </a>
                 <a href="../dashboard.html">
                     <button class="btn-category">
                         <P>BACK TO<br>DASHBOARD</P>
@@ -34,9 +37,6 @@
                 </a>
             </nav>
             <div class="center-data">
-                <p class="nama-pelajar">Nama Pelajar :</p>
-                <p class="kelas">Kelas :</p>
-                <p class="sekolah">Sekolah :</p>
                 <!-- start of sekolah -->
                 <div class="form-option-container-sekolah">
                     <div class="form-alert"></div>
@@ -47,7 +47,7 @@
                             Pendaftaran
                         </button>
                         <div class="form-pendaftaran-sekolah close">
-                            <div class="input-grp-left-sekolah">
+                            <div class="input-grp-left-pendaftaran-sekolah">
                                 <div class="input-wrap">
                                     <label for="nama-pendaftaran-sekolah">Nama</label><br>
                                     <input type="text" id="nama-pendaftaran-sekolah">
@@ -56,12 +56,13 @@
                                     <label for="umur-pendaftaran-sekolah">Umur</label>
                                     <input type="number" id="umur-pendaftaran-sekolah">
                                     <label for="kelas-pendaftaran-sekolah">Kelas</label>
-                                    <input type="text" id="kelas-pendaftaran-sekolah">
+                                    <input type="text" id="kelas-pendaftaran-sekolah"
+                                    placeholder="Cth : 3 Delima">
                                 </div>
                                 <!-- siap sampai sini !! -->
                                 <div class="input-wrap">
-                                    <label for="bangsa-sekolah">Bangsa</label>
-                                    <select id="bangsa-sekolah">
+                                    <label for="bangsa-pendaftaran-sekolah">Bangsa</label>
+                                    <select id="bangsa-pendaftaran-sekolah">
                                         <option value="tiada"></option>
                                         <option value="melayu">Melayu</option>
                                         <option value="cina">Cina</option>
@@ -74,52 +75,52 @@
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Jantina</legend>
-                                        <input type="checkbox" id="lelaki-sekolah" value="lelaki">
-                                        <label for="lelaki-sekolah">Lelaki</label>
-                                        <input type="checkbox" id="perempuan-sekolah" value="perempuan">
-                                        <label for="perempuan-sekolah">Perempuan</label>
+                                        <input type="checkbox" id="lelaki-pendaftaran-sekolah" value="lelaki">
+                                        <label for="lelaki-pendaftaran-sekolah">Lelaki</label>
+                                        <input type="checkbox" id="perempuan-pendaftaran-sekolah" value="perempuan">
+                                        <label for="perempuan-pendaftaran-sekolah">Perempuan</label>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
-                                    <label for="nama-sekolah-sekolah">Nama Sekolah</label><br>
-                                    <input type="text" id="nama-sekolah-sekolah" required>
+                                    <label for="nama-sekolah-pendaftaran-sekolah">Nama Sekolah</label><br>
+                                    <input type="text" id="nama-sekolah-pendaftaran-sekolah" required>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Jenis Fasiliti</legend>
-                                        <input type="checkbox" id="statik-sekolah" value="statik">
-                                        <label for="statik-sekolah">Statik</label>
-                                        <input type="checkbox" id="bergerak-sekolah" value="bergerak">
-                                        <label for="bergerak-sekolah">Bergerak</label>
+                                        <input type="checkbox" id="statik-pendaftaran-sekolah" value="statik">
+                                        <label for="statik-pendaftaran-sekolah">Statik</label>
+                                        <input type="checkbox" id="bergerak-pendaftaran-sekolah" value="bergerak">
+                                        <label for="bergerak-pendaftaran-sekolah">Bergerak</label>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Jenis Sekolah</legend>
-                                        <input type="checkbox" id="rendah-jenis-sekolah" value="rendah">
-                                        <label for="rendah-jenis-sekolah">Rendah</label>
-                                        <input type="checkbox" id="menengah-sekolah" value="menengah">
-                                        <label for="menengah-sekolah">Menengah</label>
+                                        <input type="checkbox" id="rendah-jenis-pendaftaran-sekolah" value="rendah">
+                                        <label for="rendah-jenis-pendaftaran-sekolah">Rendah</label>
+                                        <input type="checkbox" id="menengah-pendaftaran-sekolah" value="menengah">
+                                        <label for="menengah-pendaftaran-sekolah">Menengah</label>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Risiko Sekolah (PERSiS)</legend>
-                                        <input type="checkbox" id="tinggi-sekolah" value="tinggi">
-                                        <label for="tinggi-sekolah">Tinggi</label>
-                                        <input type="checkbox" id="rendah-risiko-sekolah" value="rendah">
-                                        <label for="rendah-risiko-sekolah">Rendah</label>
+                                        <input type="checkbox" id="tinggi-pendaftaran-sekolah" value="tinggi">
+                                        <label for="tinggi-pendaftaran-sekolah">Tinggi</label>
+                                        <input type="checkbox" id="rendah-risiko-pendaftaran-sekolah" value="rendah">
+                                        <label for="rendah-risiko-pendaftaran-sekolah">Rendah</label>
                                     </fieldset>
                                 </div>
                             </div>
-                            <div class="input-grp-right-sekolah">
+                            <div class="input-grp-right-pendaftaran-sekolah">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend style="width: 0%;"></legend>
-                                        <input type="checkbox" id="pra-sekolah-sekolah" value="pra-sekolah">
-                                        <label for="pra-sekolah-sekolah">Pra Sekolah</label>
-                                        <label for="tingkatan-sekolah" style="padding-left: 1rem;">Tingkatan</label>
-                                        <select id="tingkatan-sekolah">
+                                        <input type="checkbox" id="pra-sekolah-pendaftaran-sekolah" value="pra-sekolah">
+                                        <label for="pra-sekolah-pendaftaran-sekolah">Pra Sekolah</label>
+                                        <label for="tingkatan-pendaftaran-sekolah" style="padding-left: 1rem;">Tingkatan</label>
+                                        <select id="tingkatan-pendaftaran-sekolah">
                                             <option value="tiada"></option>
                                             <option value="satu">1</option>
                                             <option value="dua">2</option>
@@ -130,9 +131,9 @@
                                             <option value="peralihan">Peralihan</option>
                                         </select><br>
                                         <input type="checkbox" id="kki-sekolah" value="kki">
-                                        <label for="kki-sekolah">KKI</label>
-                                        <label for="darjah-sekolah" style="padding-left: 1rem;">Darjah</label>
-                                        <select id="darjah-sekolah">
+                                        <label for="kki-pendaftaran-sekolah">KKI</label>
+                                        <label for="darjah-pendaftaran-sekolah" style="padding-left: 1rem;">Darjah</label>
+                                        <select id="darjah-pendaftaran-sekolah">
                                             <option value="tiada"></option>
                                             <option value="satu">1</option>
                                             <option value="dua">2</option>
@@ -146,36 +147,36 @@
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Kedatangan</legend>
-                                        <input type="checkbox" id="baru-sekolah" value="baru">
-                                        <label for="baru-sekolah">Baru</label>
-                                        <input type="checkbox" id="enggan-sekolah" value="enggan">
-                                        <label for="enggan-sekolah">Enggan</label><br>
-                                        <input type="text" id="ulangan-sekolah">
-                                        <label for="ulangan-sekolah">Ulangan</label>
-                                        <input type="checkbox" id="tidak-hadir-sekolah" value="tidak-hadir">
-                                        <label for="tidak-hadir-sekolah">Tidak hadir</label>
+                                        <input type="checkbox" id="baru-pendaftaran-sekolah" value="baru">
+                                        <label for="baru-pendaftaran-sekolah">Baru</label>
+                                        <input type="checkbox" id="enggan-pendaftaran-sekolah" value="enggan">
+                                        <label for="enggan-pendaftaran-sekolah">Enggan</label><br>
+                                        <input type="text" id="ulangan-spendaftaran-ekolah">
+                                        <label for="ulangan-pendaftaran-sekolah">Ulangan</label>
+                                        <input type="checkbox" id="tidak-hadir-pendaftaran-sekolah" value="tidak-hadir">
+                                        <label for="tidak-hadir-pendaftaran-sekolah">Tidak hadir</label>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Pemeriksaan</legend>
-                                        <input type="checkbox" id="ada-sekolah" value="ada">
-                                        <label for="ada-sekolah">Ada</label>
-                                        <input type="checkbox" id="tiada-sekolah" value="tiada">
-                                        <label for="tiada-sekolah">Tiada</label>
+                                        <input type="checkbox" id="ada-pendaftaran-sekolah" value="ada">
+                                        <label for="ada-pendaftaran-sekolah">Ada</label>
+                                        <input type="checkbox" id="tiada-pendaftaran-sekolah" value="tiada">
+                                        <label for="tiada-pendaftaran-sekolah">Tiada</label>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
-                                    <label for="klinik-pergigian-sekolah">Klinik Pergigian</label><br>
-                                    <input type="text" id="klinik-pergigian-sekolah" required>
+                                    <label for="klinik-pergigian-pendaftaran-sekolah">Klinik Pergigian</label><br>
+                                    <input type="text" id="klinik-pergigian-pendaftaran-sekolah" required>
                                 </div>
                                 <div class="input-wrap">
-                                    <label for="nama-operator-sekolah">Nama Operator</label><br>
-                                    <input type="text" id="nama-operator-sekolah" required>
+                                    <label for="nama-operator-pendaftaran-sekolah">Nama Operator</label><br>
+                                    <input type="text" id="nama-operator-pendaftaran-sekolah" required>
                                 </div>
                                 <div class="input-wrap">
-                                    <label for="nama-pasukan-bergerak-sekolah">Nama Pasukan Bergerak</label><br>
-                                    <input type="text" id="nama-pasukan-bergerak-sekolah" required>
+                                    <label for="nama-pasukan-bergerak-pendaftaran-sekolah">Nama Pasukan Bergerak</label><br>
+                                    <input type="text" id="nama-pasukan-bergerak-pendaftaran-sekolah" required>
                                 </div>
                             </div>
                         </div>
@@ -679,17 +680,13 @@
             </div>
             <div class="side-btn">
                 <button class="btn-operation save">save</button>
-                <button class="btn-operation find">find</button>
-                <button class="btn-operation modify">modify</button>
                 <button class="btn-operation clear">clear</button>
-                <button class="btn-operation delete">delete</button>
-                <button class="btn-operation upload">upload</button>
-                <button class="btn-operation download">download</button>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./sekolahInteractive.js"></script>
+    <script src="../authCheckModules.js"></script>
+    <script src="./sekolahFormInteractive.js"></script>
     <script src="./sekolahBackend.js"></script>
 </body>
 </html>
