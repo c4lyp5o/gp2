@@ -25,10 +25,11 @@ const showPersonSekolah = async () => {
         namaPendaftaranSekolahDOM.value = sekolah.namaPendaftaranSekolah;
         umurPendaftaranSekolahDOM.value = sekolah.umurPendaftaranSekolah;
         kelasPendaftaranSekolahDOM.value = sekolah.kelasPendaftaranSekolah;
-        namaSekolahPendaftaranSekolahDOM.value = sekolah.namaSekolahPendaftaranSekolah;
+        // namaSekolahPendaftaranSekolahDOM.value = sekolah.namaSekolahPendaftaranSekolah;
     } catch (error) {
         formAlertDOM.style.display = 'block';
         formAlertDOM.textContent = error.response.data.msg;
+        console.log(error);
     }
     loadingTextDOM.style.display = 'none';
 };
@@ -44,7 +45,7 @@ btnModifyDOM.addEventListener('click', async () => {
         const namaPendaftaranSekolah = namaPendaftaranSekolahDOM.value;
         const umurPendaftaranSekolah = umurPendaftaranSekolahDOM.value;
         const kelasPendaftaranSekolah = kelasPendaftaranSekolahDOM.value;
-        const namaSekolahPendaftaranSekolah = namaSekolahPendaftaranSekolahDOM.value;
+        // const namaSekolahPendaftaranSekolah = namaSekolahPendaftaranSekolahDOM.value;
 
         const { data: { sekolah } } = await axios.patch(`/api/v1/sekolah/${id}`, { namaPendaftaranSekolah,
             umurPendaftaranSekolah,
@@ -59,7 +60,7 @@ btnModifyDOM.addEventListener('click', async () => {
         namaPendaftaranSekolahDOM.value = sekolah.namaPendaftaranSekolah;
         umurPendaftaranSekolahDOM.value = sekolah.umurPendaftaranSekolah;
         kelasPendaftaranSekolahDOM.value = sekolah.kelasPendaftaranSekolah;
-        namaSekolahPendaftaranSekolahDOM.value = sekolah.namaSekolahPendaftaranSekolah;
+        // namaSekolahPendaftaranSekolahDOM.value = sekolah.namaSekolahPendaftaranSekolah;
         // --------------------------------
 
         formAlertDOM.style.display = 'block';
