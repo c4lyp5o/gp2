@@ -6,11 +6,35 @@ const countHelper = require('./countHelper');
 // const YAData = require('../models/YA'); to put in the future
 
 // Display generate menu
-exports.borangPilihReten = function(req, res, next) {
-  res.render('generatereten', { title: 'Laman Manipulasi Data', tadika: req.body.namaTadika });
+exports.borangPilihRetenTadika = function(req, res, next) {
+  res.render('generatereten', { title: 'Laman Manipulasi Data', tadika: req.body.namaTadika, jenis: req.body.jenisFasiliti });
 }
 
-exports.borangPilihReten_post = function(req, res) {
+exports.borangPilihRetenTadika_post = function(req, res) {
+  var x = req.body.tadikaNama;
+  var y = req.body.jenisReten;
+  console.log(req.body.tadikaNama);
+  console.log(req.body.jenisReten);
+  res.send('Hello ' + x + ' & ' + y);
+};
+
+exports.borangPilihRetenSekolah = function(req, res, next) {
+  res.render('generatereten', { title: 'Laman Manipulasi Data', sekolah: req.body.namaTadika, jenis: req.body.jenisFasiliti });
+}
+
+exports.borangPilihRetenSekolah_post = function(req, res) {
+  var x = req.body.tadikaNama;
+  var y = req.body.jenisReten;
+  console.log(req.body.tadikaNama);
+  console.log(req.body.jenisReten);
+  res.send('Hello ' + x + ' & ' + y);
+};
+
+exports.borangPilihRetenYA = function(req, res, next) {
+  res.render('generatereten', { title: 'Laman Manipulasi Data', YA: req.body.namaTadika, jenis: req.body.jenisFasiliti });
+}
+
+exports.borangPilihRetenYA_post = function(req, res) {
   var x = req.body.tadikaNama;
   var y = req.body.jenisReten;
   console.log(req.body.tadikaNama);

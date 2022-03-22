@@ -29,7 +29,11 @@ const generatecon = require ('../controllers/generateRetenController');
 // // generate reten route
 // router.get('/pilihreten/generatereport', generatecon.borangPilihReten_post);
 
-router.post('/tadika', generatecon.borangPilihReten);
-router.post('/tadika/reten', generatecon.borangPilihReten_post);
+router.post('/tadika', generatecon.borangPilihRetenTadika);
+router.post('/tadika/reten', generatecon.borangPilihRetenTadika_post);
+router.post('/sekolah', generatecon.borangPilihRetenSekolah);
+router.post('/sekolah/reten', generatecon.borangPilihRetenSekolah_post);
+router.post('/youngadult', generatecon.borangPilihRetenYA);
+router.post('/youngadult/reten', generatecon.borangPilihRetenYA_post);
 
 module.exports = router;

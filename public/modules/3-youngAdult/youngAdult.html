@@ -8,5 +8,13 @@
 </head>
 <body>
     Young Adult
+    <br>
+    <br>
+    <button class="btn-operation download">download</button>
+    <form action="/api/v1/generate/youngadult" method="POST">
+        <input type="hidden" value="SEMUA PELAJAR" name="namaTadika" class="download-to-generate" required>
+        <input type="hidden" value="youngadult" name="jenisFasiliti" class="download-to-generate" required>
+        <button class="btn-operation download" value="submit">download</button>
+    </form>
 </body>
 </html>
