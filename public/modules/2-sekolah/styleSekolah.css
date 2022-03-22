@@ -1,5 +1,8 @@
 /* --------------------content form for sekolah--------------------------- */
 /* pendaftaran header sekolah */
+.form-option-container-sekolah {
+    margin-top: 1rem;
+}
 .pendaftaran-header-sekolah {
     background-color: var(--background-header-and-form);
     color: var(--white-text);

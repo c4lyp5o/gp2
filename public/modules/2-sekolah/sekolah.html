@@ -14,11 +14,9 @@
 </head>
 <body>
     <div class="main">
-        <div class="username">
+        <div class="username-container">
             <img class="logo-gigi" src="../../resources/logoGigi.png" alt="" width="100" height="100">
-            <div class="id-kp">
-                <p class="id">Username : Dr. Kuat</p>
-                <p class="kp">KP : Padang Kapas</p>
+            <div class="username-kp">
             </div>
         </div>
         <div class="inside-container">
@@ -27,6 +25,11 @@
                     <img class="img-category" src="../../resources/sekolah.png" alt="">
                     <p>SEKOLAH</p>
                 </button>
+                <a href="./senarai-sekolah.html">
+                    <button class="btn-category senarai-btn">
+                        SENARAI SEKOLAH YANG DILAWATI
+                    </button>
+                </a>
                 <a href="../dashboard.html">
                     <button class="btn-category">
                         <P>BACK TO<br>DASHBOARD</P>
@@ -34,9 +37,6 @@
                 </a>
             </nav>
             <div class="center-data">
-                <p class="nama-pelajar">Nama Pelajar :</p>
-                <p class="kelas">Kelas :</p>
-                <p class="sekolah">Sekolah :</p>
                 <!-- start of sekolah -->
                 <div class="form-option-container-sekolah">
                     <div class="form-alert"></div>
@@ -56,7 +56,8 @@
                                     <label for="umur-pendaftaran-sekolah">Umur</label>
                                     <input type="number" id="umur-pendaftaran-sekolah">
                                     <label for="kelas-pendaftaran-sekolah">Kelas</label>
-                                    <input type="text" id="kelas-pendaftaran-sekolah">
+                                    <input type="text" id="kelas-pendaftaran-sekolah"
+                                    placeholder="Cth : 3 Delima">>
                                 </div>
                                 <!-- siap sampai sini !! -->
                                 <div class="input-wrap">
@@ -81,7 +82,7 @@
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
-                                    <label for="nama-sekolah-sekolah">Nama Sekolah</label><br>
+                                    <label for="nama-sekolah-pendaftaran-sekolah">Nama Sekolah</label><br>
                                     <input type="text" id="nama-sekolah-sekolah" required>
                                 </div>
                                 <div class="input-wrap">
@@ -689,6 +690,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    script>
+    <script src="../authCheckModules.js"></script>
     <script src="./sekolahInteractive.js"></script>
     <script src="./sekolahBackend.js"></script>
 </body>
