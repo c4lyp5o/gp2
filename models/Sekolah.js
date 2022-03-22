@@ -28,12 +28,12 @@ const SekolahSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide kelas'],
         trim: true
-    },
-    namaSekolahPendaftaranSekolah: {
-        type: String,
-        required: [true, 'Please provide nama sekolah'],
-        trim: true
     }
-    });
+    // namaSekolahPendaftaranSekolah: {
+    //     type: String,
+    //     required: [true, 'Please provide nama sekolah'],
+    //     trim: true
+    // }
+});
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);
