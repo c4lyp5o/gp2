@@ -3,7 +3,7 @@ const id = new URLSearchParams(params).get('id');
 
 const namaPelajarDOM = document.getElementById('nama-pelajar');
 const kelasDOM = document.getElementById('kelas');
-const SekolahDOM = document.getElementById('nama-sekolah');
+const sekolahDOM = document.getElementById('nama-sekolah');
 
 const loadingTextDOM = document.querySelector('.loading-text');
 const formAlertDOM = document.querySelector('.form-alert');
@@ -20,7 +20,7 @@ const showPersonSekolah = async () => {
         const { data: { sekolah } } = await axios.get(`/api/v1/sekolah/${id}`, { headers: { Authorization: `Bearer ${token}` } });
         namaPelajarDOM.textContent = `Nama pelajar : ${sekolah.namaPendaftaranSekolah}`;
         kelasDOM.textContent = `Kelas : ${sekolah.kelasPendaftaranSekolah}`;
-        SekolahDOM.textContent = `Sekolah : ${sekolah.namaSekolahPendaftaranSekolah}`;
+        sekolahDOM.textContent = `Sekolah : ${sekolah.namaSekolahPendaftaranSekolah}`;
         
         namaPendaftaranSekolahDOM.value = sekolah.namaPendaftaranSekolah;
         umurPendaftaranSekolahDOM.value = sekolah.umurPendaftaranSekolah;
@@ -39,7 +39,7 @@ btnModifyDOM.addEventListener('click', async () => {
     loadingTextDOM.style.display = 'block';
     namaPelajarDOM.textContent = '';
     kelasDOM.textContent = '';
-    SekolahDOM.textContent = '';
+    sekolahDOM.textContent = '';
     try {
         const namaPendaftaranSekolah = namaPendaftaranSekolahDOM.value;
         const umurPendaftaranSekolah = umurPendaftaranSekolahDOM.value;
@@ -54,7 +54,7 @@ btnModifyDOM.addEventListener('click', async () => {
         // reassign back the updated value
         namaPelajarDOM.textContent = `Nama pelajar : ${sekolah.namaPendaftaranSekolah}`;
         kelasDOM.textContent = `Kelas : ${sekolah.kelasPendaftaranSekolah}`;
-        SekolahDOM.textContent = `Sekolah : ${sekolah.namaSekolahPendaftaranSekolah}`;
+        sekolahDOM.textContent = `Sekolah : ${sekolah.namaSekolahPendaftaranSekolah}`;
         
         namaPendaftaranSekolahDOM.value = sekolah.namaPendaftaranSekolah;
         umurPendaftaranSekolahDOM.value = sekolah.umurPendaftaranSekolah;
