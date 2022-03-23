@@ -66,3 +66,9 @@ a {
 .btn-category:hover {
     background-color: var(--border-selected-icon);
 }
+
+.outer-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

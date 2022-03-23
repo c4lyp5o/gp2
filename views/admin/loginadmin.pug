@@ -1,0 +1,20 @@
+extends layout 
+
+block content
+  main.container
+    form(method="POST" action="")
+      .container
+        h3 Login
+        if (msg)
+        .alert.alert-danger
+        | #{msg}
+        p Please fill in this form to login.
+        hr
+        label(for="userName")
+          b Username
+        input#userName(type="text", placeholder="Enter username", name="userName", required)
+        label(for="password")
+          b Password
+        input#password(type="password", placeholder="Enter Password", name="password", required)
+        br
+        button.registerbtn(type="submit", class="btn btn-primary") Login

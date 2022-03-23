@@ -1,0 +1,19 @@
+extends layoutgen
+
+block content
+
+  .uk-container
+  h1 Nama murid: #{nama.namaPendaftaranTadika}
+  hr
+  .uk-container 
+    p Kelas: #{nama.kelasPendaftaranTadika}
+    p Umur: #{nama.umurPendaftaranTadika}
+    p Nama Tadika: #{nama.namaTaskaTadikaPendaftaranTadika}
+  hr
+  p Anda yakin ingin menghapus murid ini dari sistem?
+
+    form(method='POST' action='')
+      div.form-group
+        input#kidid.form-control(type='hidden',name='kidid', required='true', value=nama._id )
+
+      button.uk-button.uk-button-danger.uk-text-bold(type='submit') HAPUS

@@ -18,18 +18,39 @@ const getSinglePersonTadika = async (req, res) => {
 };
 
 const createPersonTadika = async (req, res) => {
-    // associate negeri, daerah & kp to each person tadika
-    req.body.createdByNegeri = req.user.negeri;
-    req.body.createdByDaerah = req.user.daerah;
-    req.body.createdByKp = req.user.kp;
-
     // copy paste these to updatePersonTadika, to uppercase all created text input
-    req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
-    req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
-    req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
+    // req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
+    // req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
+    // req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
     // ---------------------------------------------------------------------------
 
-    const tadika = await Tadika.create(req.body);
+    // convert from frontend req.body to match Tadika Model
+    const createPersonTadika = {};
+    createPersonTadika.createdByNegeri = req.user.negeri;
+    createPersonTadika.createdByDaerah = req.user.daerah;
+    createPersonTadika.createdByKp = req.user.kp;
+
+    createPersonTadika.kelas = req.body.kelasPendaftaranTadika;
+    createPersonTadika.nama = req.body.namaPendaftaranTadika;
+    createPersonTadika.kedatanganBaru = req.body.baruPendaftaranTadika;
+
+    // createPersonTadika.kedatanganUlangan = req.body.?;
+    // createPersonTadika.kedatanganEnggan = req.body.?;
+    // createPersonTadika.kedatanganTidakHadir = req.body.?;
+    // createPersonTadika.cleftAda = req.body.?;
+    // createPersonTadika.cleftRujuk = req.body.?;
+    // createPersonTadika.traumaToothSurfaceLoss = req.body.?;
+
+    createPersonTadika.umur = req.body.umurPendaftaranTadika;
+    createPersonTadika.klinikPergigian = req.user.kp; // later can pull from localstorange frontend
+    createPersonTadika.namaTadika = req.body.namaTaskaTadikaPendaftaranTadika;
+    createPersonTadika.jenisTadika = req.body.jenisTadika;
+    createPersonTadika.operator = req.body.operator;
+    createPersonTadika.pasukanPergigian = req.body.pasukanPergigian;
+
+    //---------------------------------------------------------------------------
+
+    const tadika = await Tadika.create(createPersonTadika);
     res.status(201).json({ tadika });
 };
 

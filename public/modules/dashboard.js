@@ -25,4 +25,6 @@ onPageLoad();
 const logOutBtnDOM = document.querySelector('.logout');
 logOutBtnDOM.addEventListener('click', function() {
     localStorage.removeItem('token');
+    localStorage.removeItem('namaOperator');
+    localStorage.removeItem('namaFasiliti');
 });

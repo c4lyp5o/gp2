@@ -1,0 +1,98 @@
+extends layout 
+
+block content
+    if (fasiliti != "Pegawai" && fasiliti != "Klinik")
+      .grid
+            div
+            button(onclick='history.back()' role="button") Go Back
+            div
+            div
+            div
+            div
+            div
+            div
+      main.container
+            form(method="POST" action="add")
+                h3 Tambah #{fasiliti}
+                p Sila isi butiran #{fasiliti}
+                hr
+                label(for="nama")
+                b Nama #{fasiliti}
+                input#nama(type="text", placeholder="Nama..", name="nama", required)
+                label(for="psw")
+                b Jenis fasiliti
+                label(for='fasiliti')
+                select#fasiliti.form-control(type='select' placeholder='Pilih fasiliti' name='jenisFasiliti' required='true' )
+                    each val in listfasiliti
+                        option(value=val label=val)
+                //- b Daerah
+                //- select#fasiliti.form-control(type='select' placeholder='Pilih daerah' name='daerah' required='true' )
+                //-     each val in listdaerah
+                //-         option(value=val label=val)
+                //- b Negeri
+                //- select#fasiliti.form-control(type='select' placeholder='Pilih negeri' name='negeri' required='true' )
+                //-     each val in listnegeri
+                //-         option(value=val label=val)
+                b KP yang bertanggungjawab
+                select#fasiliti.form-control(type='select' placeholder='Pilih KP' name='handler' required='true' )
+                    each val in listklinik
+                        option(value=val label=val)
+                br
+                button.registerbtn(type="submit", class="btn btn-primary") Tambah
+    
+    if (fasiliti == "Pegawai")
+        main.container
+            form(method="POST" action="add")
+                input(type="hidden" name="jenisFasiliti" value="Pegawai")
+                h3 Tambah #{fasiliti}
+                p Sila isi butiran #{fasiliti}
+                hr
+                label(for="nama")
+                b Nama
+                input#nama(type="text", placeholder="Nama pegawai", name="nama", required)
+                label(for="kpbertugas")
+                b Tempat Bertugas
+                select#fasiliti.form-control(type='select' placeholder='Pilih KP' name='kpSkrg' required='true' )
+                    each val in listklinik
+                        option(value=val label=val)
+                br
+                button.registerbtn(type="submit", class="btn btn-primary") Tambah
+
+    if (fasiliti == "Klinik")
+      .grid
+            div
+            button(onclick='history.back()' role="button") Go Back
+            div
+            div
+            div
+            div
+            div
+            div
+      main.container
+            form(method="POST" action="add")
+                h3 Tambah #{fasiliti}
+                p Sila isi butiran #{fasiliti}
+                hr
+                label(for="nama")
+                b Nama #{fasiliti}
+                input#nama(type="text", placeholder="Nama..", name="nama", required)
+                label(for="psw")
+                b Jenis fasiliti
+                label(for='fasiliti')
+                select#fasiliti.form-control(type='select' placeholder='Pilih fasiliti' name='jenisFasiliti' required='true' )
+                    each val in listfasiliti
+                        option(value=val label=val)
+                //- b Daerah
+                //- select#fasiliti.form-control(type='select' placeholder='Pilih daerah' name='daerah' required='true' )
+                //-     each val in listdaerah
+                //-         option(value=val label=val)
+                //- b Negeri
+                //- select#fasiliti.form-control(type='select' placeholder='Pilih negeri' name='negeri' required='true' )
+                //-     each val in listnegeri
+                //-         option(value=val label=val)
+                //- b KP yang bertanggungjawab
+                //- select#fasiliti.form-control(type='select' placeholder='Pilih KP' name='handler' required='true' )
+                //-     each val in listklinik
+                //-         option(value=val label=val)
+                br
+                button.registerbtn(type="submit", class="btn btn-primary") Tambah

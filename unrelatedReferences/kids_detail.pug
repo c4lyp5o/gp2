@@ -1,0 +1,14 @@
+extends layoutgen
+
+block content
+
+  .uk-container
+  h1 Nama murid: #{nama.namaPendaftaranTadika}
+  hr
+  .uk-container 
+    p Kelas: #{nama.kelasPendaftaranTadika}
+    p Umur: #{nama.umurPendaftaranTadika}
+    p Nama Tadika: #{nama.namaTaskaTadikaPendaftaranTadika}
+  hr
+  p 
+    a.uk-button.uk-button-default(href=nama.id+'/delete') Hapus Murid

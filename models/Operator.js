@@ -6,6 +6,10 @@ const operatorSchema = new Schema({
     type: String, 
     // required: true 
   },
+  daerah: {
+    type: String,
+    // required: true
+  },
   kpSkrg: { 
     type: String, 
     // required: true 
