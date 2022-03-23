@@ -54,6 +54,14 @@
     width: 2rem;
 }
 
+.input-wrap-pemeriksaan {
+    display: none;
+}
+
+.input-wrap-todd {
+    display: none;
+}
+
 /* pemeriksaan awal header tadika */
 .pemeriksaan-awal-header-tadika {
     background-color: var(--background-header-and-form);
