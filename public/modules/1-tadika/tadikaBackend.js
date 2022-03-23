@@ -6,12 +6,14 @@ const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadik
 const bangsaPendaftaranTadikaDOM = document.getElementById('bangsa-pendaftaran-tadika');
 const kelasPendaftaranTadikaDOM = document.getElementById('kelas-pendaftaran-tadika');
 const namaTaskaTadikaPendaftaranTadikaDOM = document.getElementById('nama-taskatadika-pendaftaran-tadika');
-
-
 const baruPendaftaranTadikaDOM = document.getElementById('baru-pendaftaran-tadika');
 const ulanganPendaftaranTadikaDOM = document.getElementById('ulangan-pendaftaran-tadika');
 const engganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
-const tidakhadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
+const tidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
+const adaPendaftaranTadikaDOM = document.getElementById('ada-pendaftaran-tadika');
+const tiadaPendaftaranTadikaDOM = document.getElementById('tiada-pendaftaran-tadika');
+const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika');
+const namaPasukanBergerakPendaftaranTadikaDOM = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 
 
 btnSaveDOM.addEventListener('click', async () => {
@@ -19,11 +21,14 @@ btnSaveDOM.addEventListener('click', async () => {
     const umurPendaftaranTadika = umurPendaftaranTadikaDOM.value;
     const kelasPendaftaranTadika = kelasPendaftaranTadikaDOM.value;
     const namaTaskaTadikaPendaftaranTadika = namaTaskaTadikaPendaftaranTadikaDOM.value;
-
     const baruPendaftaranTadika = baruPendaftaranTadikaDOM.value;
     const ulanganPendaftaranTadika = ulanganPendaftaranTadikaDOM.value;
     const engganPendaftaranTadika = engganPendaftaranTadikaDOM.value;
-    const tidakhadirPendaftaranTadika = tidakhadirPendaftaranTadikaDOM.value;
+    const tidakHadirPendaftaranTadika = tidakHadirPendaftaranTadikaDOM.value;
+    const adaPendaftaranTadika = adaPendaftaranTadikaDOM.value;
+    const tiadaPendaftaranTadika = tiadaPendaftaranTadikaDOM.value;
+    const namaOperatorPendaftaranTadika = namaOperatorPendaftaranTadikaDOM.value;
+    const namaPasukanBergerakPendaftaranTadika = namaPasukanBergerakPendaftaranTadikaDOM.value;
     try {
         await axios.post('/api/v1/tadika', { namaPendaftaranTadika,
             umurPendaftaranTadika,
@@ -32,7 +37,11 @@ btnSaveDOM.addEventListener('click', async () => {
             baruPendaftaranTadika,
             ulanganPendaftaranTadika,
             engganPendaftaranTadika,
-            tidakhadirPendaftaranTadika }, { headers: { Authorization: `Bearer ${token}` } });
+            tidakHadirPendaftaranTadika,
+            adaPendaftaranTadika,
+            tiadaPendaftaranTadika,
+            namaOperatorPendaftaranTadika,
+            namaPasukanBergerakPendaftaranTadika, }, { headers: { Authorization: `Bearer ${token}` } });
         
         // clearing all value after creating person
         namaPendaftaranTadikaDOM.value = '';
@@ -40,7 +49,7 @@ btnSaveDOM.addEventListener('click', async () => {
         baruPendaftaranTadikaDOM.value = '';
         ulanganPendaftaranTadikaDOM.value = '';
         engganPendaftaranTadikaDOM.value = '';
-        tidakhadirPendaftaranTadikaDOM.value = '';
+        tidakHadirPendaftaranTadikaDOM.value = '';
         // kelasPendaftaranTadikaDOM.value = '';
         // namaTaskaTadikaPendaftaranTadikaDOM.value = '';
         // ----------------------------------------
