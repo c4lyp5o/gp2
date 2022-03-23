@@ -3,7 +3,6 @@ const Fasiliti = require('../models/Fasiliti');
 
 const getOperatorList = async (req, res) => {
     const operators = await Operator.find({ kpSkrg: req.user.kp });
-    console.log(operators);
     res.status(200).json({ operators });
 }
 
