@@ -2,9 +2,9 @@ const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
 
 const getOperatorList = async (req, res) => {
-    const operator = await Operator.find({ kpSkrg: req.user.kp });
-    console.log(operator);
-    res.status(200).send('Operator');
+    const operators = await Operator.find({ kpSkrg: req.user.kp });
+    console.log(operators);
+    res.status(200).json({ operators });
 }
 
 const getFasilitiList = async (req, res) => {
