@@ -7,7 +7,7 @@
 
 // Display generate menu
 exports.borangPilihRetenTadika = function(req, res, next) {
-  res.render('generatereten', { title: 'Laman Manipulasi Data', tadika: req.body.namaTadika, jenis: req.body.jenisFasiliti });
+  res.render('reten/generatereten', { title: 'Laman Manipulasi Data', tadika: req.body.namaTadika, jenis: req.body.jenisFasiliti });
 }
 
 exports.borangPilihRetenTadika_post = function(req, res) {
@@ -19,7 +19,7 @@ exports.borangPilihRetenTadika_post = function(req, res) {
 };
 
 exports.borangPilihRetenSekolah = function(req, res, next) {
-  res.render('generatereten', { title: 'Laman Manipulasi Data', sekolah: req.body.namaTadika, jenis: req.body.jenisFasiliti });
+  res.render('reten/generatereten', { title: 'Laman Manipulasi Data', sekolah: req.body.namaTadika, jenis: req.body.jenisFasiliti });
 }
 
 exports.borangPilihRetenSekolah_post = function(req, res) {
@@ -31,7 +31,7 @@ exports.borangPilihRetenSekolah_post = function(req, res) {
 };
 
 exports.borangPilihRetenYA = function(req, res, next) {
-  res.render('generatereten', { title: 'Laman Manipulasi Data', YA: req.body.namaTadika, jenis: req.body.jenisFasiliti });
+  res.render('reten/generatereten', { title: 'Laman Manipulasi Data', YA: req.body.namaTadika, jenis: req.body.jenisFasiliti });
 }
 
 exports.borangPilihRetenYA_post = function(req, res) {
