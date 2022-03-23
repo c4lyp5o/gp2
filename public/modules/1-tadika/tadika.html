@@ -56,14 +56,14 @@
                                     <label for="umur-pendaftaran-tadika">Umur</label>
                                     <select id="umur-pendaftaran-tadika">
                                         <option value=""></option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="1.5">1.5</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
+                                        <option value="toddler-hide">0</option>
+                                        <option value="toddler-hide">1</option>
+                                        <option value="toddler-hide">1.5</option>
+                                        <option value="toddler-hide">2</option>
+                                        <option value="toddler-hide">3</option>
+                                        <option value="toddler-hide">4</option>
+                                        <option value="prasekolah-hide">5</option>
+                                        <option value="prasekolah-hide">6</option>
                                     </select>
                                     <label for="bangsa-pendaftaran-sekolah">Bangsa</label>
                                     <select id="bangsa-pendaftaran-sekolah">
@@ -114,13 +114,13 @@
                                         <label for="baru-pendaftaran-tadika">Baru</label>
                                         <input type="text" id="ulangan-pendaftaran-tadika">
                                         <label for="ulangan-pendaftaran-tadika">Ulangan</label>
-                                        <input type="checkbox" id="enggan-pendaftaran-tadika" value="enggan">
+                                        <input type="checkbox" id="enggan-pendaftaran-tadika" value="tidak-hadir">
                                         <label for="enggan-pendaftaran-tadika">Enggan</label>
                                         <input type="checkbox" id="tidak-hadir-pendaftaran-tadika" value="tidak-hadir">
                                         <label for="tidak-hadir-pendaftaran-tadika">Tidak hadir</label>
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <div class="tidak-hadir input-wrap-pemeriksaan">
                                     <fieldset>
                                         <legend>Pemeriksaan</legend>
                                         <input type="radio" id="ada-pendaftaran-tadika" name="ada-tiada-pendaftaran-tadika" value="1">
@@ -309,7 +309,7 @@
                         </button>
                         <div class="form-perlu-dibuat-tadika close">
                             <div class="input-grp-left-perlu-dibuat-tadika">
-                                <div class="input-wrap">
+                                <div class="prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>Fisur Sealan</legend>
                                         <p>Jumlah Gigi Perlu FS:</p>
@@ -321,7 +321,7 @@
                                         <input type="number" id="failed-jumlah-gigi-perlu-fs-perlu-dibuat-tadika" class="number-input-perlu-dibuat-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <div class="toddler-hide prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>Fluoride Varnish</legend>
                                         <p>Perlu Sapuan:</p>
@@ -331,7 +331,7 @@
                                         <input type="radio" id="tidak-perlu-fv-perlu-dibuat-tadika" name="perlu-fv-perlu-dibuat-tadika"  value="0" class="radio-input-perlu-dibuat-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <div class="prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>PRR Jenis 1</legend>
                                         <p>Jumlah Gigi Perlu PRR Jenis 1:</p>
@@ -397,10 +397,9 @@
                         </button>
                         <div class="form-penyata-akhir-1-tadika close">
                             <div class="input-grp-left-penyata-akhir-1-tadika">
-                                <div class="input-wrap">
+                                <div class="prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>Fisur Sealan</legend>
-                                        </p>
                                         <p class="para-penyata-akhir-1">Jumlah Gigi Telah Dibuat FS:</p>
                                         <label for="baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika">Baru:</label>
                                         <input type="number" id="baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
@@ -408,7 +407,21 @@
                                         <input type="number" id="semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <div class="toddler-hide input-wrap-todd">
+                                    <fieldset>
+                                        <legend>Fluoride Varnish</legend>
+                                        <p>Sesi Sapuan:</p>
+                                        <label for="sesi-fv-perlu-dibuat-tadika">1:</label>
+                                        <input type="radio" id="sesi-fv-perlu-dibuat-tadika" name="sesi-fv-perlu-dibuat-tadika" class="number-input-perlu-dibuat-tadika">
+                                        <label for="sesi-fv-perlu-dibuat-tadika">2:</label>
+                                        <input type="radio" id="sesi-fv-perlu-dibuat-tadika" name="sesi-fv-perlu-dibuat-tadika"  class="number-input-perlu-dibuat-tadika">
+                                        <label for="sesi-fv-perlu-dibuat-tadika">3:</label>
+                                        <input type="radio" id="sesi-fv-perlu-dibuat-tadika" name="sesi-fv-perlu-dibuat-tadika" class="number-input-perlu-dibuat-tadika">
+                                        <label for="sesi-fv-perlu-dibuat-tadika">4:</label>
+                                        <input type="radio" id="sesi-fv-perlu-dibuat-tadika" name="sesi-fv-perlu-dibuat-tadika"  class="number-input-perlu-dibuat-tadika">
+                                    </fieldset>
+                                </div>
+                                <div class="prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>Fluoride Varnish</legend>
                                         <p>Sesi Sapuan:</p>
@@ -433,7 +446,7 @@
                                         <input type="number" id="semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <div class="prasekolah-hide input-wrap-todd">
                                     <fieldset>
                                         <legend>PRR Jenis 1</legend>
                                         </p>
@@ -582,6 +595,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="../authCheckModules.js"></script>
     <script src="./tadikaFormInteractive.js"></script>
     <script src="./tadikaBackend.js"></script>

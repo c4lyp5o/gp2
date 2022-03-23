@@ -322,3 +322,24 @@ function penyataAkhir2Tadika(){
 
     });
 }
+
+$(document).ready(function(){
+    $("select").change(function(){
+        $(this).find("option:selected").each(function(){
+            var optionValue = $(this).attr("value");
+            if(optionValue){
+                $(".input-wrap-todd").not("." + optionValue).hide();
+                $("." + optionValue).show();
+            } else{
+                $(".input-wrap-todd").hide();
+            }
+        });
+    }).change();
+});
+
+$(document).ready(function(){
+    $('input[type="checkbox"]').click(function(){
+        var inputValue = $(this).attr("value");
+        $("." + inputValue).toggle();
+    });
+});
