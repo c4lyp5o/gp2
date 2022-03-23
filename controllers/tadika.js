@@ -18,11 +18,6 @@ const getSinglePersonTadika = async (req, res) => {
 };
 
 const createPersonTadika = async (req, res) => {
-    // associate negeri, daerah & kp to each person tadika
-    req.body.createdByNegeri = req.user.negeri;
-    req.body.createdByDaerah = req.user.daerah;
-    req.body.createdByKp = req.user.kp;
-
     // copy paste these to updatePersonTadika, to uppercase all created text input
     // req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
     // req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
@@ -34,9 +29,10 @@ const createPersonTadika = async (req, res) => {
     createPersonTadika.createdByNegeri = req.user.negeri;
     createPersonTadika.createdByDaerah = req.user.daerah;
     createPersonTadika.createdByKp = req.user.kp;
-    createPersonTadika.kelas = req.body.kelas;
-    createPersonTadika.nama = req.body.nama;
-    createPersonTadika.kedatanganBaru = req.body.kedatanganBaru;
+
+    createPersonTadika.kelas = req.body.kelasPendaftaranTadika;
+    createPersonTadika.nama = req.body.namaPendaftaranTadika;
+    createPersonTadika.kedatanganBaru = req.body.baruPendaftaranTadika;
 
     // createPersonTadika.kedatanganUlangan = req.body.?;
     // createPersonTadika.kedatanganEnggan = req.body.?;
@@ -45,9 +41,9 @@ const createPersonTadika = async (req, res) => {
     // createPersonTadika.cleftRujuk = req.body.?;
     // createPersonTadika.traumaToothSurfaceLoss = req.body.?;
 
-    createPersonTadika.umur = req.body.umur;
-    createPersonTadika.klinikPergigian = req.body.klinikPergigian;
-    createPersonTadika.namaTadika = req.body.namaTadika;
+    createPersonTadika.umur = req.body.umurPendaftaranTadika;
+    createPersonTadika.klinikPergigian = req.user.kp; // later can pull from localstorange frontend
+    createPersonTadika.namaTadika = req.body.namaTaskaTadikaPendaftaranTadika;
     createPersonTadika.jenisTadika = req.body.jenisTadika;
     createPersonTadika.operator = req.body.operator;
     createPersonTadika.pasukanPergigian = req.body.pasukanPergigian;
