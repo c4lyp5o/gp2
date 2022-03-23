@@ -24,12 +24,37 @@ const createPersonTadika = async (req, res) => {
     req.body.createdByKp = req.user.kp;
 
     // copy paste these to updatePersonTadika, to uppercase all created text input
-    req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
-    req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
-    req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
+    // req.body.namaPendaftaranTadika = req.body.namaPendaftaranTadika.toUpperCase();
+    // req.body.kelasPendaftaranTadika = req.body.kelasPendaftaranTadika.toUpperCase();
+    // req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
     // ---------------------------------------------------------------------------
 
-    const tadika = await Tadika.create(req.body);
+    // convert from frontend req.body to match Tadika Model
+    const createPersonTadika = {};
+    createPersonTadika.createdByNegeri = req.user.negeri;
+    createPersonTadika.createdByDaerah = req.user.daerah;
+    createPersonTadika.createdByKp = req.user.kp;
+    createPersonTadika.kelas = req.body.kelas;
+    createPersonTadika.nama = req.body.nama;
+    createPersonTadika.kedatanganBaru = req.body.kedatanganBaru;
+
+    // createPersonTadika.kedatanganUlangan = req.body.?;
+    // createPersonTadika.kedatanganEnggan = req.body.?;
+    // createPersonTadika.kedatanganTidakHadir = req.body.?;
+    // createPersonTadika.cleftAda = req.body.?;
+    // createPersonTadika.cleftRujuk = req.body.?;
+    // createPersonTadika.traumaToothSurfaceLoss = req.body.?;
+
+    createPersonTadika.umur = req.body.umur;
+    createPersonTadika.klinikPergigian = req.body.klinikPergigian;
+    createPersonTadika.namaTadika = req.body.namaTadika;
+    createPersonTadika.jenisTadika = req.body.jenisTadika;
+    createPersonTadika.operator = req.body.operator;
+    createPersonTadika.pasukanPergigian = req.body.pasukanPergigian;
+
+    //---------------------------------------------------------------------------
+
+    const tadika = await Tadika.create(createPersonTadika);
     res.status(201).json({ tadika });
 };
 
