@@ -3,6 +3,7 @@ const btnSaveDOM = document.querySelector('.save');
 
 const namaPendaftaranTadikaDOM = document.getElementById('nama-pendaftaran-tadika');
 const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+const bangsaPendaftaranTadikaDOM = document.getElementById('bangsa-pendaftaran-tadika');
 const kelasPendaftaranTadikaDOM = document.getElementById('kelas-pendaftaran-tadika');
 const namaTaskaTadikaPendaftaranTadikaDOM = document.getElementById('nama-taska/tadika-pendaftaran-tadika');
 
