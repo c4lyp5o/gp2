@@ -31,7 +31,7 @@ const authLogin = async (req,res) => {
         return res.status(401).json({ msg: 'This is admin credentials' });
     }
 
-    res.status(200).json({ token, redirectLogin: 'modules/dashboard.html' });
+    res.status(200).json({ token, redirectLogin: 'modules/pilihOperator.html' });
 }
 
 module.exports = authLogin;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sekolah - Gi-Ret-PSY Cloud</title>
+    <title>Edit Tadika - Gi-Ret PSY 2.0</title>
     <link rel="stylesheet" href="../styleModules.css" />
     <link rel="stylesheet" href="./styleFormSekolah.css" />
     <link
@@ -23,20 +23,19 @@
             <nav class="category-selector">
                 <button class="btn-category sekolah btn-active">
                     <img class="img-category" src="../../resources/sekolah.png" alt="">
-                    <p>SEKOLAH</p>
+                    <p>MODIFY SEKOLAH</p>
                 </button>
                 <a href="./senarai-sekolah.html">
-                    <button class="btn-category senarai-btn">
-                        SENARAI SEKOLAH YANG DILAWATI
-                    </button>
-                </a>
-                <a href="../dashboard.html">
                     <button class="btn-category">
-                        <P>BACK TO<br>DASHBOARD</P>
+                        <P>BACK</P>
                     </button>
                 </a>
             </nav>
             <div class="center-data">
+                <p class="loading-text">Loading...</p>
+                <p id="nama-pelajar"></p>
+                <p id="kelas"></p>
+                <p id="nama-sekolah"></p>
                 <!-- start of sekolah -->
                 <div class="form-option-container-sekolah">
                     <div class="form-alert"></div>
@@ -679,22 +678,18 @@
                 </div>
             </div>
             <div class="side-btn">
-                <button class="btn-operation save">save</button>
+                <!-- <button class="btn-operation save">save</button> -->
+                <!-- <button class="btn-operation find">find</button> -->
+                <button class="btn-operation modify">modify</button>
                 <button class="btn-operation clear">clear</button>
-                <button class="btn-operation delete">delete</button>
-                <button class="btn-operation upload">upload</button>
-                <button class="btn-operation download">download</button>
-                <form action="/api/v1/generate/sekolah" method="POST">
-                    <input type="hidden" value="SEMUA PELAJAR" name="namaTadika" class="download-to-generate" required>
-                    <input type="hidden" value="sekolah" name="jenisFasiliti" class="download-to-generate" required>
-                    <button class="btn-operation download" value="submit">download</button>
-                </form>
+                <!-- <button class="btn-operation delete">delete</button> -->
+                <!-- <button class="btn-operation upload">upload</button> -->
+                <!-- <button class="btn-operation download">download</button> -->
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../authCheckModules.js"></script>
     <script src="./sekolahFormInteractive.js"></script>
-    <script src="./sekolahBackend.js"></script>
+    <script src="./editSekolahBackend.js"></script>
 </body>
-</html>

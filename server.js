@@ -8,6 +8,7 @@ const app = express();
 // IMPORT ROUTER -------------------------------------------
 // user import
 const authLogin = require('./routes/authLogin');
+const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const dashboard = require('./routes/dashboard');
 const tadika = require('./routes/tadika');
 const sekolah = require('./routes/sekolah');
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // user route
 app.use('/api/v1/auth', authLogin);
+app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/dashboard', authCheck, dashboard);
 app.use('/api/v1/tadika', authCheck, tadika);
 app.use('/api/v1/sekolah', authCheck, sekolah);
