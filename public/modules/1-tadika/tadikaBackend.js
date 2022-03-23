@@ -15,7 +15,6 @@ const adaPendaftaranTadikaDOM = document.getElementById('ada-pendaftaran-tadika'
 const tiadaPendaftaranTadikaDOM = document.getElementById('tiada-pendaftaran-tadika');
 const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika');
 const namaPasukanBergerakPendaftaranTadikaDOM = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
-
 //pemeriksaan awal
 const adaCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-cleft-pemeriksaan-awal-tadika');
 const rujukPemeriksaanAwalTadikaDOM = document.getElementById('rujuk-pemeriksaan-awal-tadika');
@@ -29,12 +28,46 @@ const tisuLembutPemeriksaanAwalTadikaDOM = document.getElementById('tisu-lembut-
 const tisuKerasPemeriksaanAwalTadikaDOM = document.getElementById('tisu-keras-pemeriksaan-awal-tadika');
 const kebersihanMulutPemeriksaanAwalTadikaDOM = document.getElementById('kebersihan-mulut-pemeriksaan-awal-tadika');
 const GISSkorPemeriksaanAwalTadikaDOM = document.getElementById('GIS-skor-pemeriksaan-awal-tadika');
-
-
 const decayDesidusPemeriksaanAwalTadikaDOM = document.getElementById('decay-desidus-pemeriksaan-awal-tadika');
 const missingDesidusPemeriksaanAwalTadikaDOM = document.getElementById('missing-desidus-pemeriksaan-awal-tadika');
 const filledDesidusPemeriksaanAwalTadikaDOM = document.getElementById('filled-desidus-pemeriksaan-awal-tadika');
 const forExtractionDesidusPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-desidus-pemeriksaan-awal-tadika');
+const decayKekalPemeriksaanAwalTadikaDOM = document.getElementById('decay-kekal-pemeriksaan-awal-tadika');
+const missingKekalPemeriksaanAwalTadikaDOM = document.getElementById('missing-kekal-pemeriksaan-awal-tadika');
+const filledKekalPemeriksaanAwalTadikaDOM = document.getElementById('filled-kekal-pemeriksaan-awal-tadika');
+const forExtractionKekalPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-kekal-pemeriksaan-awal-tadika');
+const faktorRisikoPemeriksaanAwalTadikaDOM = document.getElementById('faktor-risiko-pemeriksaan-awal-tadika');
+const class1DPemeriksaanAwalTadikaDOM = document.getElementById('class1-d-pemeriksaan-awal-tadika');
+const class2DPemeriksaanAwalTadikaDOM = document.getElementById('class2-d-pemeriksaan-awal-tadika');
+const class1FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
+const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
+const gicLepasPemeriksaanAwalTadikaDOM = document.getElementById('gic-lepas-pemeriksaan-awal-tadika');
+const resinLepasPemeriksaanAwalTadikaDOM = document.getElementById('resin-lepas-pemeriksaan-awal-tadika');
+const lainLainLepasPemeriksaanAwalTadikaDOM = document.getElementById('lain-lain-lepas-pemeriksaan-awal-tadika');
+const gicIntactPemeriksaanAwalTadikaDOM = document.getElementById('gic-intact-pemeriksaan-awal-tadika');
+const resinIntactPemeriksaanAwalTadikaDOM = document.getElementById('resin-intact-pemeriksaan-awal-tadika');
+const lainLainIntactPemeriksaanAwalTadikaDOM = document.getElementById('lain-lain-intact-pemeriksaan-awal-tadika');
+//perludibuat
+const baruJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+const semulaJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+const failedJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('failed-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+const yaPerluFvPerluDibuatTadikaDOM = document.getElementById('ya-perlu-fv-perlu-dibuat-tadika');
+const tidakPerluFvPerluDibuatTadikaDOM = document.getElementById('tidak-perlu-fv-perlu-dibuat-tadika');
+const baruJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
+const semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
+const gdBaruAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-baru-anterior-sewarna-perlu-dibuat-tadika');
+const gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-semula-anterior-sewarna-perlu-dibuat-tadika');
+const gkBaruAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-baru-anterior-sewarna-perlu-dibuat-tadika');
+const gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-semula-anterior-sewarna-perlu-dibuat-tadika');
+const gdBaruPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-baru-posterior-sewarna-perlu-dibuat-tadika');
+const gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-semula-posterior-sewarna-perlu-dibuat-tadika');
+const gkBaruPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-baru-posterior-sewarna-perlu-dibuat-tadika');
+const gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-semula-posterior-sewarna-perlu-dibuat-tadika');
+
+const gdBaruPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gd-baru-posterior-amalgam-perlu-dibuat-tadika');
+const gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gd-semula-posterior-amalgam-perlu-dibuat-tadika');
+const gkBaruPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gk-baru-posterior-amalgam-perlu-dibuat-tadika');
+const gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gk-semula-posterior-amalgam-perlu-dibuat-tadika');
 
 btnSaveDOM.addEventListener('click', async () => {
     //pendaftaran
@@ -67,8 +100,45 @@ btnSaveDOM.addEventListener('click', async () => {
     const missingDesidusPemeriksaanAwalTadika = missingDesidusPemeriksaanAwalTadikaDOM.value;
     const filledDesidusPemeriksaanAwalTadika = filledDesidusPemeriksaanAwalTadikaDOM.value;
     const forExtractionDesidusPemeriksaanAwalTadika = forExtractionDesidusPemeriksaanAwalTadikaDOM.value;
+    const decayKekalPemeriksaanAwalTadika = decayKekalPemeriksaanAwalTadikaDOM.value;
+    const missingKekalPemeriksaanAwalTadika = missingKekalPemeriksaanAwalTadikaDOM.value;
+    const filledKekalPemeriksaanAwalTadika = filledKekalPemeriksaanAwalTadikaDOM.value;
+    const forExtractionKekalPemeriksaanAwalTadika = forExtractionKekalPemeriksaanAwalTadikaDOM.value;
+    const faktorRisikoPemeriksaanAwalTadika = faktorRisikoPemeriksaanAwalTadikaDOM.value;
+    const class1DPemeriksaanAwalTadika = class1DPemeriksaanAwalTadikaDOM.value;
+    const class2DPemeriksaanAwalTadika = class2DPemeriksaanAwalTadikaDOM.value;
+    const class1FPemeriksaanAwalTadika = class1FPemeriksaanAwalTadikaDOM.value;
+    const class2FPemeriksaanAwalTadika = class2FPemeriksaanAwalTadikaDOM.value;
+    const gicLepasPemeriksaanAwalTadika = gicLepasPemeriksaanAwalTadikaDOM.value;
+    const resinLepasPemeriksaanAwalTadika = resinLepasPemeriksaanAwalTadikaDOM.value;
+    const lainLainLepasPemeriksaanAwalTadika = lainLainLepasPemeriksaanAwalTadikaDOM.value;
+    const gicIntactPemeriksaanAwalTadika = gicIntactPemeriksaanAwalTadikaDOM.value;
+    const resinIntactPemeriksaanAwalTadika = resinIntactPemeriksaanAwalTadikaDOM.value;
+    const lainLainIntactPemeriksaanAwalTadika = lainLainLepasPemeriksaanAwalTadikaDOM.value;
+    //perludibuat
+    const baruJumlahGigiPerluFsPerluDibuatTadika = baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
+    const semulaJumlahGigiPerluFsPerluDibuatTadika = semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
+    const failedJumlahGigiPerluFsPerluDibuatTadika = failedJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
+    const yaPerluFvPerluDibuatTadika = yaPerluFvPerluDibuatTadikaDOM.value;
+    const tidakPerluFvPerluDibuatTadika = tidakPerluFvPerluDibuatTadikaDOM.value;
+    const baruJumlahGigiPerluPrrPerluDibuatTadika = baruJumlahGigiPerluPrrPerluDibuatTadikaDOM.value;
+    const semulaJumlahGigiPerluPrrPerluDibuatTadika = semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM.value;
+    const gdBaruAnteriorSewarnaPerluDibuatTadika = gdBaruAnteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gdSemulaAnteriorSewarnaPerluDibuatTadika = gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gkBaruAnteriorSewarnaPerluDibuatTadika = gkBaruAnteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gkSemulaAnteriorSewarnaPerluDibuatTadika = gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gdBaruPosteriorSewarnaPerluDibuatTadika = gdBaruPosteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gdSemulaPosteriorSewarnaPerluDibuatTadika = gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gkBaruPosteriorSewarnaPerluDibuatTadika = gkBaruPosteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gkSemulaPosteriorSewarnaPerluDibuatTadika = gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value;
+    const gdBaruPosteriorAmalgamPerluDibuatTadika = gdBaruPosteriorAmalgamPerluDibuatTadikaDOM.value;
+    const gdSemulaPosteriorAmalgamPerluDibuatTadika = gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value;
+    const gkBaruPosteriorAmalgamPerluDibuatTadika = gkBaruPosteriorAmalgamPerluDibuatTadikaDOM.value;
+    const gkSemulaPosteriorAmalgamPerluDibuatTadika = gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value;
+    
     try {
-        await axios.post('/api/v1/tadika', { namaPendaftaranTadika,
+        await axios.post('/api/v1/tadika', { 
+            namaPendaftaranTadika,
             umurPendaftaranTadika,
             kelasPendaftaranTadika,
             namaTaskaTadikaPendaftaranTadika,
@@ -97,6 +167,41 @@ btnSaveDOM.addEventListener('click', async () => {
             missingDesidusPemeriksaanAwalTadika,
             filledDesidusPemeriksaanAwalTadika,
             forExtractionDesidusPemeriksaanAwalTadika,
+            decayKekalPemeriksaanAwalTadika,
+            missingKekalPemeriksaanAwalTadika,
+            filledKekalPemeriksaanAwalTadika,
+            forExtractionKekalPemeriksaanAwalTadika,
+            faktorRisikoPemeriksaanAwalTadika,
+            class1DPemeriksaanAwalTadika,
+            class2DPemeriksaanAwalTadika,
+            class1FPemeriksaanAwalTadika,
+            class2FPemeriksaanAwalTadika,
+            gicLepasPemeriksaanAwalTadika,
+            resinLepasPemeriksaanAwalTadika,
+            lainLainLepasPemeriksaanAwalTadika,
+            gicIntactPemeriksaanAwalTadika,
+            resinIntactPemeriksaanAwalTadika,
+            lainLainIntactPemeriksaanAwalTadika,
+            //perludibuat
+            baruJumlahGigiPerluFsPerluDibuatTadika,
+            semulaJumlahGigiPerluFsPerluDibuatTadika,
+            failedJumlahGigiPerluFsPerluDibuatTadika,
+            yaPerluFvPerluDibuatTadika,
+            tidakPerluFvPerluDibuatTadika,
+            baruJumlahGigiPerluPrrPerluDibuatTadika,
+            semulaJumlahGigiPerluPrrPerluDibuatTadika,
+            gdBaruAnteriorSewarnaPerluDibuatTadika,
+            gdSemulaAnteriorSewarnaPerluDibuatTadika,
+            gkBaruAnteriorSewarnaPerluDibuatTadika,
+            gkSemulaAnteriorSewarnaPerluDibuatTadika,
+            gdBaruPosteriorSewarnaPerluDibuatTadika,
+            gdSemulaPosteriorSewarnaPerluDibuatTadika,
+            gkBaruPosteriorSewarnaPerluDibuatTadika,
+            gkSemulaPosteriorSewarnaPerluDibuatTadika,
+            gdBaruPosteriorAmalgamPerluDibuatTadika,
+            gdSemulaPosteriorAmalgamPerluDibuatTadika,
+            gkBaruPosteriorAmalgamPerluDibuatTadika,
+            gkSemulaPosteriorAmalgamPerluDibuatTadika,
         }, { headers: { Authorization: `Bearer ${token}` } });
         
         // clearing all value after creating person
@@ -123,6 +228,46 @@ btnSaveDOM.addEventListener('click', async () => {
         tisuKerasPemeriksaanAwalTadikaDOM.value = '';
         kebersihanMulutPemeriksaanAwalTadikaDOM.value = '';
         GISSkorPemeriksaanAwalTadikaDOM.value = '';
+        decayDesidusPemeriksaanAwalTadikaDOM.value = '';
+        missingDesidusPemeriksaanAwalTadikaDOM.value = '';
+        filledDesidusPemeriksaanAwalTadikaDOM.valuev
+        forExtractionDesidusPemeriksaanAwalTadikaDOM.value = '';
+        decayKekalPemeriksaanAwalTadikaDOM.value = '';
+        missingKekalPemeriksaanAwalTadikaDOM.value = '';        
+        filledKekalPemeriksaanAwalTadikaDOM.value = '';
+        forExtractionKekalPemeriksaanAwalTadikaDOM.value = '';
+        faktorRisikoPemeriksaanAwalTadikaDOM.value = '';
+        class1DPemeriksaanAwalTadikaDOM.value = '';
+        class2DPemeriksaanAwalTadikaDOM.value = '';
+        class1FPemeriksaanAwalTadikaDOM.value = '';
+        class2FPemeriksaanAwalTadikaDOM.value = '';
+        gicLepasPemeriksaanAwalTadikaDOM.value = '';
+        resinLepasPemeriksaanAwalTadikaDOM.value = '';
+        lainLainLepasPemeriksaanAwalTadikaDOM.value = '';
+        gicIntactPemeriksaanAwalTadikaDOM.value = '';
+        resinIntactPemeriksaanAwalTadikaDOM.value = '';
+        lainLainIntactPemeriksaanAwalTadikaDOM.value = '';
+        //perludibuat
+        baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        failedJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        yaPerluFvPerluDibuatTadikaDOM.value = '';
+        tidakPerluFvPerluDibuatTadikaDOM.value = '';
+        baruJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
+        semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
+        gdBaruAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkBaruAnteriorSewarnaPerluDibuatTadika.value = '';
+        gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdBaruPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkBaruPosteriorSewarnaPerluDibuatTadika.value = '';
+        gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdBaruPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+        gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+        gkBaruPosteriorAmalgamPerluDibuatTadika.value = '';
+        gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+    try {
         // kelasPendaftaranTadikaDOM.value = '';
         // namaTaskaTadikaPendaftaranTadikaDOM.value = '';
         // ----------------------------------------
