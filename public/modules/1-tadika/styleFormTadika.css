@@ -328,6 +328,10 @@
     margin: auto;
 }
 
+.bilangan-a-guidance {
+    display: none;
+}
+
 /* ------------------end of content form for tadika----------------------- */
 
 /* apply this class on .form-*-* to toggle open and close form */

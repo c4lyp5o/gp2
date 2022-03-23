@@ -326,10 +326,10 @@ function penyataAkhir2Tadika(){
 $(document).ready(function(){
     $("select").change(function(){
         $(this).find("option:selected").each(function(){
-            var optionValue = $(this).attr("value");
-            if(optionValue){
-                $(".input-wrap-todd").not("." + optionValue).hide();
-                $("." + optionValue).show();
+            var optionClass = $(this).attr("class");
+            if(optionClass){
+                $(".input-wrap-todd").not("." + optionClass).hide();
+                $("." + optionClass).show();
             } else{
                 $(".input-wrap-todd").hide();
             }
