@@ -1,5 +1,7 @@
 /node_modules
 .env
+multiSeederOperator.js
+multiSeederFasiliti.js
 
 # register user
 /routes/authRegister.js
