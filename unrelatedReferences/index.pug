@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  .uk-container
+    h1(align='center') Selamat Datang
+  br
+  .uk-divider-icon
+  .uk-grid-small.uk-text-center(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-card.uk-card-default.uk-card-body Jumlah Pelajar Tadika: #{jumlahPelajar}
+    div
+      .uk-card.uk-card-default.uk-card-body Jumlah Tadika: #{namaTadika.length}
+  .uk-grid-collapse.uk-text-center.uk-margin-large-top(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-background-muted.uk-padding Umur 4 Tahun: #{jumlahUmur4}
+    div
+      .uk-background-primary.uk-padding.uk-light Umur 5 Tahun: #{jumlahUmur5}
+    div
+      .uk-background-secondary.uk-padding.uk-light Umur 6 Tahun: #{jumlahUmur6}  
+  .uk-grid-medium.uk-text-center(class='uk-child-width-expand@s' uk-grid='')
+    div
+      .uk-card.uk-card-default.uk-card-body Senarai tadika adalah:
+      |
+      ul
+      each val in namaTadika
+        li= val    
+  
+  

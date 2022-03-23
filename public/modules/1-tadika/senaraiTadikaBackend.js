@@ -74,6 +74,16 @@ const showAllPersonTadika = async () => {
                 });
             });
         }
+
+        // download button send route to generate reten
+        const filterTaskaTadikaBtn = btnSenaraiTadikaContainerDOM.querySelectorAll('.filter-btn-taska-tadika');
+        filterTaskaTadikaBtn.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                let namaTaskaTadikaPendaftaranTadika = e.currentTarget.dataset.id;
+                const btnDownloadDOM = document.querySelector('.download-to-generate');
+                btnDownloadDOM.value = namaTaskaTadikaPendaftaranTadika;
+            });
+        });
     } catch (error) {
         namaTaskaTadikaCurrentSelectedDOM.textContent = 'error';
     }

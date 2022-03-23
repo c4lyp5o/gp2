@@ -1,0 +1,174 @@
+extends layout
+
+block content
+  if jenis == 'tadika'
+    .uk-container
+      .grid
+        div
+          button(onclick='history.back()' role="button") Go Back
+        div
+        div
+        div
+        div
+        div
+        div
+      h1(align='center')= title
+      h3(align='center')= tadika
+    .uk-divider-icon
+    .uk-container 
+    form(method='POST' action='tadika/reten')
+      fieldset.uk-fieldset
+        .uk-margin
+            legend.uk-legend Jenis Reten:
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='PGPS2/201', checked='')
+            label(for="CRA") PGPS 2/201
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='PG201A')
+            label(for="pg201") PG201A
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='CRA')
+            label(for="pg207") Caries Risk Assessment
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='CPPC1')
+            label(for="pg207") CPPC 1
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='CPPC2')
+            label(for="pg207") CPPC 2
+            br
+            input.uk-radio(type='radio', name='jenisReten', value='TOD')
+            label(for="pg207") TOD
+            |
+            br
+            br
+            input(type='hidden', name='tadikaNama', value= tadika)
+            button.uk-button.uk-button-default Submit
+
+  if jenis == "sekolah"
+    .uk-container
+      .grid
+        div
+          button(onclick='history.back()' role="button") Go Back
+        div
+        div
+        div
+        div
+        div
+        div
+      h1(align='center')= title
+      h3(align='center')= tadika
+    .uk-divider-icon
+    .uk-container 
+    form(method='POST' action='sekolah/reten')
+      fieldset.uk-fieldset
+        .uk-margin
+            legend.uk-legend Jenis Reten:
+            .grid
+              div
+                input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
+                label(for="CRA") PGPS 2/201
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG201')
+                label(for="pg201") PG201A
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") FV1
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") FS Intact
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") Appendix 2 (FS Need & Rendered)
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") YA C01
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") PG 201 SMKP
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
+                label(for="CRA") PG201A Sr(+ PRA) & SM
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG201')
+                label(for="pg201") PG201 KKI
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") DMFX
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") CPPC 1 (SM)                
+              div
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") CPPC 2 (SM)
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") BPE, TSL, Fracture & Denture
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
+                label(for="CRA") Caries Risk Assessment
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG201')
+                label(for="pg201") GIS (APP, B1)
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") MMI 1
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") PERSIS-1
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") BEGIN
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") PGS203
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
+                label(for="CRA") PPIM 03
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG201')
+                label(for="pg201") PPIM 04
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG207')
+                label(for="pg207") PPIM 05
+                |
+                br
+                br
+                input(type='hidden', name='tadikaNama', value= tadika)
+            button.uk-button.uk-button-default Submit
+
+  if jenis == "youngadult"
+    .uk-container
+      .grid
+        div
+          button(onclick='history.back()' role="button") Go Back
+        div
+        div
+        div
+        div
+        div
+        div
+      h1(align='center')= title
+      h3(align='center')= tadika
+    .uk-divider-icon
+    .uk-container 
+    form(method='POST' action='youngadult/reten')
+      fieldset.uk-fieldset
+        .uk-margin
+            legend.uk-legend Jenis Reten:
+            .grid
+              div
+                input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
+                label(for="CRA") PGPS 2/201
+                br
+                input.uk-radio(type='radio', name='jenisReten', value='PG201')
+                label(for="pg201") PG201A                
+                |
+                br
+                br
+                input(type='hidden', name='tadikaNama', value= tadika)
+            button.uk-button.uk-button-default Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

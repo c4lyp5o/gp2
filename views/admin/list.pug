@@ -1,0 +1,170 @@
+extends layout 
+
+block content 
+    if ((fasiliti != "Pegawai" && fasiliti != "Klinik") && mode == "search")
+        .grid
+            div
+              button(onclick='history.back()' role="button") Go Back
+            div
+            | Hasil Pencarian. Ada #{data.length} entry.
+            div 
+            div
+
+        main.container
+            form(action="search", method="post") 
+                input#search(type='search' name='search' placeholder='Search')
+                .grid
+                    div 
+                    div 
+                    div
+                        button(type="submit" value='Submit') Cari 
+                    div 
+                    div
+
+        main.container
+                each val in data
+                    ul
+                        li
+                            p Nama: #{val.nama}
+                            p Jenis Fasiliti: #{val.jenisFasiliti}
+                            p Daerah: #{val.daerah}
+                            p Negeri: #{val.negeri}
+                            p Penanggung Jawab: #{val.handler}
+                            - var url = "./" + fas + "/delete/" + val.id
+                            a(href=url) Hapus #{fasiliti}
+    
+    if (fasiliti == "Pegawai" && mode == "search")
+        .grid
+            div
+              button(onclick='history.back()' role="button") Go Back
+            div
+            | Hasil Pencarian. Ada #{data.length} entry.
+            div 
+            div
+
+        main.container
+            form(action="search", method="post") 
+                input#search(type='search' name='search' placeholder='Search')
+                .grid
+                    div 
+                    div 
+                    div
+                        button(type="submit" value='Submit') Cari 
+                    div 
+                    div
+
+        main.container
+                each val in data
+                    ul
+                        li
+                            p Nama: #{val.nama}
+                            p Klinik: #{val.kpSkrg}
+                            - var url = "./" + fas + "/delete/" + val.id
+                            a(href=url) Hapus #{fasiliti}
+
+    if ((fasiliti != "Pegawai" && fasiliti != "Klinik") && mode == "list")
+        .grid
+            div
+              button(onclick='history.back()' role="button") Go Back
+            div
+            div
+            | List #{fasiliti}
+            div 
+            div 
+            div
+              form(method="post" action='')
+                button(type="submit" role='button') Tambah #{fasiliti}
+
+        main.container
+            form(action="search", method="post") 
+                input#search(type='search' name='search' placeholder='Search')
+                .grid
+                    div 
+                    div 
+                    div
+                        button(type="submit" value='Submit') Cari 
+                    div 
+                    div
+
+        main.container
+                each val in data
+                    ul
+                        li  
+                            - var url = "./details/" + val.id
+                            p 
+                              a(href=url) #{val.nama}
+                            //- p Nama: #{val.nama}
+                            p Jenis Fasiliti: #{val.jenisFasiliti}
+                            p Daerah: #{val.daerah}
+                            p Negeri: #{val.negeri}
+                            p Penanggung Jawab: #{val.handler}
+                            - var url = "./" + fas + "/delete/" + val.id
+                            a(href=url) Hapus #{fasiliti}
+
+    if (fasiliti == "Pegawai" && mode == "list")
+        .grid
+            div
+              button(onclick='history.back()' role="button") Go Back
+            div
+            div
+            | List #{fasiliti}
+            div 
+            div 
+            div
+            form(method="post" action='')
+                button(type="submit" role='button') Tambah #{fasiliti}
+
+        main.container
+            form(action="searchpg", method="post") 
+                input#search(type='search' name='search' placeholder='Search')
+                .grid
+                    div 
+                    div 
+                    div
+                        button(type="submit" value='Submit') Submit 
+                    div 
+                    div
+                    
+        main.container
+                each val in data
+                    ul
+                        li
+                            p Nama: #{val.nama}
+                            p Klinik: #{val.kpSkrg}
+                            - var url = "./" + fas + "/delete/" + val.id
+                            a(href=url) Hapus #{fasiliti}
+
+    if (fasiliti == "Klinik" && mode == "list")
+        .grid
+            div
+              button(onclick='history.back()' role="button") Go Back
+            div
+            div
+            | List #{fasiliti}
+            div 
+            div 
+            div
+            form(method="post" action='')
+                button(type="submit" role='button') Tambah #{fasiliti}
+
+        main.container
+            form(action="searchpg", method="post") 
+                input#search(type='search' name='search' placeholder='Search')
+                .grid
+                    div 
+                    div 
+                    div
+                        button(type="submit" value='Submit') Submit 
+                    div 
+                    div
+                    
+        main.container
+                each val in data
+                    ul
+                        li
+                            p Nama: #{val.nama}
+                            p Jenis Fasiliti: #{val.jenisFasiliti}
+                            p Daerah: #{val.daerah}
+                            p Negeri: #{val.negeri}
+                            - var url = "./" + fas + "/delete/" + val.id
+                            a(href=url) Hapus #{fasiliti}

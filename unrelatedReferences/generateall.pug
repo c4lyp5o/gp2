@@ -1,0 +1,24 @@
+extends layoutgen 
+
+block content
+  .uk-container
+    h1(align='center')= title
+  .uk-divider-icon  
+  .uk-container 
+  form(method='POST' action='')
+   fieldset.uk-fieldset
+    legend.uk-legend Jenis File
+    .uk-margin    
+        input.uk-radio(type='radio', name='jenisFile', value='CSV', checked='')
+        |  CSV
+        input.uk-radio(type='radio', name='jenisFile', value='Excel')
+        |  Excel
+        br
+        |
+        br
+        button.uk-button.uk-button-default Submit
+        
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
