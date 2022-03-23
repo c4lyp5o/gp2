@@ -19,687 +19,789 @@ const sekolahSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    },					
-	// Kedatangan Baru: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kedatangan Ulangan: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kedatangan Enggan: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kedatangan Tidak Hadir: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Cleft Ada: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Cleft Rujuk: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Trauma Tooth Surface Loss (TSL): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Trauma Tisu Lembut: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Trauma Tisu Keras: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Trauma Kecederaan Gigi Anterior: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Dentur Ada B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Dentur Ada S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Dentur Perlu B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Dentur Perlu S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kebersihan Mulut A: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kebersihan Mulut C: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kebersihan Mulut E: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// GIS Skor 0: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// GIS Skor 1: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// GIS Skor 2: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// GIS Skor 3: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus d: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus m: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus f: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus x: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus Jumlah dfx: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Desidus dfx = 0: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal E: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal D: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal M: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal F: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal X: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal Jumlah DMFX: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// D+F Bil Gigi 'Caries Experience": {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// D+F Class I dan II: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// D+F Class I Sahaja: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal DMFX <= 3: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal X+M = 0: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal Bebas Karies (BK) DMFX = 0: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Mulut Bebas Karies (MBK): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// E ≥ 1 (ada karies awal): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Mulut Bebas Gingivitis (MBG): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Tidak Perlu Rawatan (SMKP): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Tidak Perlu Rawatan (ICDAS): {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// CRA Jumlah Faktor Risiko Karies: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// CRA Rendah: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// CRA Sederhana: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// CRA Tinggi: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Dibuat Pada Tahun Lepas: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Intact Bagi Tahun Semasa Resin: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Intact Bagi Tahun Semasa GIC: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FS Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FS Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FS Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FS Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FS Bil. Gigi `failed': {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FV Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FV Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FV Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu FV Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu PRR1 Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu PRR1 Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu PRR1 Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu PRR1 Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu MURID:  Perlu dibuat Fisur Sealan/PRR Type 1 sahaja atau kedua-duanya: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Anterior Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Anterior Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Anterior Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Anterior Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Posterior Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Posterior Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Posterior Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Posterior Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Amalgam Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Amalgam Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Amalgam Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Perlu Tampalan Amalgam Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FS Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FS Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FS Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FS Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FV Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FV Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FV Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah FV Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah PRR1 Murid B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah PRR1 Murid S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah PRR1 Gigi B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah PRR1 Gigi S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah MURID:  Telah dibuat Fisur Sealan/PRR Type 1 sahaja atau kedua-duanya: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // }, 					
-	// Telah Tampalan Anterior Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Anterior Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Anterior Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Anterior Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Posterior Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Posterior Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Posterior Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Posterior Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Amalgam Sewarna GD B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Amalgam Sewarna GD S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Amalgam Sewarna GK B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Telah Tampalan Amalgam Sewarna GK S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Jumlah Tampalan B: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Jumlah Tampalan S: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Tampalan Sementara: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Cabutan GD: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Cabutan GK: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Penskaleran: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Abses: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Pulpotomi: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kes Selesai ICDAS: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Kes Selesai: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Rujuk: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Catatan: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// umur: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Klinik Pergigian: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Nama Tadika: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Jenis tadika: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Operator: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Pasukan pergigian: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// MENJALANKAN BEGIN: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Taska: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Tadika: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Gigi Kekal: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// D class I: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// D class II: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// F class I: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// F class II: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Tahun Lepas GIC: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Tahun Lepas Resin: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Tahun Lepas Lain-lain: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// FS Tahun Lepas Intact Lain-lain: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Ceramah Toddler: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Ceramah Penjaga: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },					
-	// Gigi Desidus: {
-    //     type: String,
-    //     required: true,
-    //     trim: true
-    // },
+    },
+    perokokSemasaLelakiMelayu: {
+        type: String,
+        defaultValue : "0",
+        },
+        perokokSemasaLelakiCina: {
+        type: String, 
+        defaultValue : "0",
+        
+        },
+        perokokSemasaLelakiIndia: {
+        type: String,
+        defaultValue : "0",
+        
+        },
+        perokokSemasaLelakiLain: {
+        type: String, 
+        defaultValue : "0",
+        
+        },
+        perokokSemasaPerempuanMelayu: {
+        type: String, 
+        defaultValue : "0",
+        
+        },
+        perokokSemasaPerempuanCina: {
+        type: String, 
+        defaultValue : "0",
+        
+        },
+        perokokSemasaPerempuanCina: {
+        type: String, 
+        defaultValue : "0",
+        
+        },
+        perokokSemasaPerempuanLainlain: {
+        type: String,
+        defaultValue : "0",
+        
+        },
+        bekasPerokokLelaki: {
+        type: String,
+        defaultValue : "0",
+        },
+        bekasPerokokPerempuan: {
+        type: String,
+        defaultValue : "0",
+        },
+        perokokPasifLelaki: {
+        type: String,
+        defaultValue : "0",
+        },
+        perokokPasifPerempuan: {
+        type: String,
+        defaultValue : "0",
+        },
+        bukanPerokokLelaki: {
+        type: String,
+        defaultValue : "0",
+        },
+        bukanPerokokPerempuan: {
+        type: String,
+        defaultValue : "0",
+        },
+        berhentiMerokokLebih3: {
+        type: String,
+        defaultValue: "0"
+        },
+        tidakBerhentiMerokokLebih3: {
+        type: String,
+        defaultValue: "0"
+        },
+        berhentiMerokokKurang3: {
+        type: String,
+        defaultValue: "0"
+        },
+        tidakBerhentiMerokokKurang3: {
+        type: String,
+        defaultValue: "0"
+        },
+        catatanSemakan: {
+        type: String,
+        defaultValue: "0"
+        },
+        nomborSiri: {
+        type: String,
+        defaultValue: "0"
+        },
+        kelas: {
+        type: String,
+        required: [true, 'Please provide value'],
+        trim: true
+        },
+        nama: {
+        type: String,
+        required: [true, 'Masukkan nama'],
+        trim: true
+        },
+        enrolmen: {
+        type: String,
+        defaultValue: "0"
+        },
+        kedatanganBaru: {
+        type: String,
+        defaultValue: "1"
+        },
+        kedatanganUlangan: {
+        type: String,
+        defaultValue: "0"
+        },
+        kedatanganEnggan: {
+        type: String,
+        defaultValue: "0"
+        },
+        kedatanganTidakHadir: {
+        type: String,
+        defaultValue: "0"
+        },
+        jantina: {
+        type: String, 
+        required: [true, 'Sila Pilih Jantina'],
+        },
+        umur: {
+        type: String, 
+        required: [true, 'Sila Masukkan Umur'],
+        },
+        Keturunan: {
+        type: String, 
+        required: [true, 'Sila Pilih Keturunan'],
+        },
+        statusMerokok: {
+        type: String,
+        defaultValue: "0"
+        },
+        cleftAda: {
+        type: String,
+        defaultValue: "0"
+        },
+        cleftRujuk: {
+        type: String,
+        defaultValue: "0"
+        },
+        traumaToothSurfaceLoss: {
+        type: String,
+        defaultValue: "0"
+        },
+        traumaTisuLembut: {
+        type: String,
+        defaultValue: "0"
+        },
+        traumaTisuKeras: {
+        type: String,
+        defaultValue: "0"
+        },
+        traumaKecederaanGigiAnterior: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusDenturAdaB: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusDenturAdaS: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusDenturPerluB: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusDenturPerluS: {
+        type: String,
+        defaultValue: "0"
+        },
+        kebersihanMulutA: {
+        type: String,
+        defaultValue: "0"
+        },
+        kebersihanMulutC: {
+        type: String,
+        defaultValue: "0"
+        },
+        kebersihanMulutE: {
+        type: String,
+        defaultValue: "0"
+        },
+        gisSkor0: {
+        type: String,
+        defaultValue: "0"
+        },
+        gisSkor1: {
+        type: String,
+        defaultValue: "0"
+        },
+        gisSkor2: {
+        type: String,
+        defaultValue: "0"
+        },
+        gisSkor3: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiDesidusD: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiDesidusM: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiDesidusF: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiDesidusX: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigidesidusJumlahdfx: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiDesidusdfx0: {
+        type: String,
+        defaultValue: "0"
+        },
+        gigiDesidusDfxKurangDari3: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalE: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalD: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalM: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalF: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalX: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusGigiKekalJumlahDMFX: {
+        type: String,
+        defaultValue: "0"
+        },
+        dFBilGigiCariesE: {
+        type: String,
+        defaultValue: "0"
+        },
+        dFClassIdanII: {
+        type: String,
+        defaultValue: "0"
+        },
+        dFClassISahaja: {
+        type: String,
+        defaultValue: "0"
+        },
+        gigiKekalDMFXsamaAtauKurangDari3: {
+        type: String,
+        defaultValue: "0"
+        },
+        gigiKekalDMFXsamaAtauKurangDari1: {
+        type: String,
+        defaultValue: "0"
+        },
+        totalStatusGigiKekalSamaKosong: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusBebasKaries: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusBebasKariesTapiElebihDariSatu: {
+        type: String,
+        defaultValue: "0"
+        },
+        MBK: {
+        type: String,
+        defaultValue: "0"
+        },
+        eMoreThanZero: {
+        type: String,
+        defaultValue: "0"
+        },
+        mulutBebasGingivitis: {
+        type: String,
+        defaultValue: "0"
+        },
+        tprSMKP: {
+        type: String,
+        defaultValue: "0"
+        },
+        tprICDAS: {
+        type: String,
+        defaultValue: "0"
+        },
+        CRA: {
+        type: String,
+        required: [true, 'Sila Masukkan Jumlah Faktor Risiko Karies'],
+        },
+        craRendah: {
+        type: String,
+        defaultValue: "0"
+        },
+        craSederhana: {
+        type: String,
+        defaultValue: "0"
+        },
+        craTinggi: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsDibuatPadaTahunLepas: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsDibuatPadaTahunSemasaResin: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsDibuatPadaTahunSemasaGIC: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFSMuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFSMuridS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFSGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFSGigiS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFsBilGigiFailed: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFvMuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFvMuridS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFvGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluFvGigiS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluPRR1MuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluPRR1MuridS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluPRR1BGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluPRR1BGigiS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluPRRatauFissureSealantAtauKeduaDua: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAntGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAntGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAntGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAntGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanPosGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanPosGdS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanPosGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanPosGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAmgGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAmgGdS: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAmgGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        perluTampalanAmgGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFSMuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFSMuridS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFSGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFSGigiS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFVMuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFVMuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFVGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFVGigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahPRR1GigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahPRR1MuridB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahPRR1GigiB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahPRR1GigiS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahFsOrPrr: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAntGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAntGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAntGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAntGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanPosGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanPosGdS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanPosGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanPosGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAmgGdB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAmgGdS: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAmgGkB: {
+        type: String,
+        defaultValue: "0"
+        },
+        telahTampalanAmgGkS: {
+        type: String,
+        defaultValue: "0"
+        },
+        jumlahTampalanB: {
+        type: String,
+        defaultValue: "0"
+        },
+        jumlahTampalanS: {
+        type: String,
+        defaultValue: "0"
+        },
+        tampalanSementara: {
+        type: String,
+        defaultValue: "0"
+        },
+        cabutanGd: {
+        type: String,
+        defaultValue: "0"
+        },
+        cabutanGk: {
+        type: String,
+        defaultValue: "0"
+        },
+        penskaleran: {
+        type: String,
+        defaultValue: "0"
+        },
+        abses: {
+        type: String,
+        defaultValue: "0"
+        },
+        pulpotomi: {
+        type: String,
+        defaultValue: "0"
+        },
+        rawatanEndo: {
+        type: String,
+        defaultValue: "0"
+        },
+        kesSelesaiICDAS: {
+        type: String,
+        defaultValue: "0"
+        },
+        kesSelesai: {
+        type: String,
+        defaultValue: "0"
+        },
+        rujuk: {
+        type: String,
+        defaultValue: "0"
+        },
+        kotakJumlahIntervensiLanjutanYangDisertai: {
+        type: String,
+        defaultValue: "0"
+        },
+        kotakAdaQuitDate: {
+        type: String,
+        defaultValue: "0"
+        },
+        kotakTiadaQuitDate: {
+        type: String,
+        defaultValue: "0"
+        },
+        kotakPerokokDirujukKepadaGuruKaunseling: {
+        type: String,
+        defaultValue: "0"
+        },
+        catatan: {
+        type: String,
+        defaultValue: "0"
+        },
+        namaOperatorCharting: {
+        type: String,
+        required: [true, 'Sila Masukkan Nama Operator'],
+        trim: true
+        },
+        sekolahRendah: {
+        type: String,
+        defaultValue: "0"
+        },
+        sekolahMenengah: {
+        type: String,
+        defaultValue: "0"
+        },
+        namaSekolah: {
+        type: String,
+        required: [true, 'Please provide value'],
+        trim: true
+        },
+        namaKlinikPergigian: {
+        type: String,
+        required: [true, 'Sila Masukkan Nama Klinik Pergigian'],
+        trim: true
+        },
+        darjah: {
+        type: String,
+        required: [true, 'Sila Masukkan Darjah'],
+        trim: true
+        },
+        tingkatan: {
+        type: String,
+        required: [true, 'Sila Masukkan Tingkatan'],
+        trim: true
+        },
+        pasukanBergerak: {
+        type: String,
+        defaultValue: "0"
+        },
+        praSekolah: {
+        type: String,
+        defaultValue: "0"
+        },
+        kanakIstimewa: {
+        type: String,
+        defaultValue: "0"
+        },
+        bpeSkor: {
+        type: String,
+        defaultValue: "0"
+        },
+        jenisRokok: {
+        type: String,
+        defaultValue: "0"
+        },
+        statusBerhentiMerokok: {
+        type: String,
+        defaultValue: "0"
+        },
+        menjalankanBEGIN: {
+        type: String,
+        defaultValue: "0"
+        },
+        gigiDesidus: {
+        type: String,
+        defaultValue: "0"
+        },
+        pemeriksaan: {
+        type: String,
+        defaultValue: "0"
+        },
+        permasyarakatan: {
+        type: String,
+        defaultValue: "0"
+        },
+        namaPenuhBapa: {
+        type: String,
+        defaultValue: "0"
+        },
+        jumlahAhliKeluargaKurangAtauDari17Tahun: {
+        type: String,
+        defaultValue: "0"
+        },
+        jumlahAhliKeluargaLebihAtauSamaDari18Tahun: {
+        type: String,
+        defaultValue: "0"
+        },
+        selesaiEmpatKaliSapuanDalamDuaTahun: {
+        type: String,
+        defaultValue: "0"
+        },
+        kekalBebasKariesSelepasEmpatKaliSapuan: {
+        type: String,
+        defaultValue: "0"
+        },
+        umurBulanUntukBayiSatuTahunKeBawah: {
+        type: String,
+        defaultValue: "0"
+        },
+        sekolahMasyarakatRujukkePP: {
+        type: String,
+        defaultValue: "0"
+        },
+        klinikPusatPergigianSekolahStatik: {
+        type: String,
+        defaultValue: "0"
+        },
+        pasukanKlinikPergigianBergerak: {
+        type: String,
+        defaultValue: "0"
+        },
+        ceramah: {
+        type: String,
+        defaultValue: "0"
+        },
+        pameran: {
+        type: String,
+        defaultValue: "0"
+        },
+        tarikhKehadiranIntervensiMerokokSesiSatu: {
+        type: String,
+        defaultValue: "0"
+        },
+        tarikhKehadiranIntervensiMerokokSesiDua: {
+        type: String,
+        defaultValue: "0"
+        },
+        tarikhKehadiranIntervensiMerokokSesiTiga: {
+        type: String,
+        defaultValue: "0"
+        },
+        tarikhKehadiranIntervensiMerokokSesiLanjutan: {
+        type: String,
+        defaultValue: "0"
+        },
+        tarikhBerhentiMerokok: {
+        type: String,
+        defaultValue: "0"
+        },
+        gigiKekal: {
+        type: String,
+        defaultValue: "0"
+        },
+        dClassI: {
+        type: String,
+        defaultValue: "0"
+        },
+        dClassII: {
+        type: String,
+        defaultValue: "0"
+        },
+        fClassI: {
+        type: String,
+        defaultValue: "0"
+        },
+        fClassII: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsTahunLepasGic: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsTahunLepasResin: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsTahunLepasLain: {
+        type: String,
+        defaultValue: "0"
+        },
+        fsTahunLepasIntactLain: {
+        type: String,
+        defaultValue: "0"
+        },
+        risikoSekolah: {
+        type: String,
+        defaultValue: "0"
+        }
 });
 
 module.exports = mongoose.model('Sekolah', sekolahSchema);

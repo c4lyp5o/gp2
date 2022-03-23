@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  .grid
+    div
+      button(onclick='history.back()' role="button") Go Back
+    div
+    div
+    div
+    div
+      form(method="post" action='/admin/logout')
+        button(type="submit" role='button') Log Out
+      
+    
+  main.container
+    h1 Selamat datang admin
+    br
+    br
+    .grid
+      div
+        a(href="/admin/kp")
+          button(type="button" role='button') Lihat KP
+      div 
+      div
+        a(href="/admin/taska")
+          button(type="button" role='button') Lihat taska
+      div
+      div
+        a(href="/admin/tadika")
+          button(type="button" role='button') Lihat tadika
+    .grid 
+      div 
+        a(href="/admin/sr")
+          button(type="button" role='button') Lihat sekolah rendah
+      div
+      div
+        a(href="/admin/sm")
+          button(type="button" role='button') Lihat sekolah menengah
+      div
+      div
+        a(href="/admin/pg")
+          button(type="button" role='button') Lihat pegawai
+  
+  

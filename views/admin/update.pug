@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .grid
+    div
+      button(onclick='history.back()' role="button") Go Back
+    div
+    div
+    div
+    div
+      form(method="post" action='/admin/logout')
+        button(type="submit" role='button') Log Out
+
+  main.container
+      h2 #{data.nama}
+      br
+      p Daerah: #{data.daerah}
+      p Negeri: #{data.negeri}
+      p KP yang bertanggungjawab: 
+      form(method='post' action='') 
+        select#kpSkrg(name='kpSkrg')
+          option(value='') -- Pilih KP --
+          each val in klinik
+            option(value=val) #{val}
+        button(type='submit' value='Submit') Submit
+  

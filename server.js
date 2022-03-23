@@ -17,6 +17,7 @@ const adminAuthLogin = require('./routes/adminAuthLogin');
 const adminTadika = require('./routes/adminTadika');
 // generate import
 const genRouter = require('./routes/generateRouter');
+const adminRouter = require('./routes/adminRouter');
 
 // IMPORT MIDDLEWARES --------------------------------------
 const authCheck = require('./middlewares/authCheck');
@@ -45,6 +46,7 @@ app.use('/api/v1/admin/auth', adminAuthLogin);
 app.use('/api/v1/admin/tadika', authCheck, adminTadika);
 // generate route
 app.use('/api/v1/generate', genRouter);
+app.use('/admin', adminRouter);
 // error handler & not found
 app.use(errorHandler);
 app.use(notFound);
