@@ -1,52 +1,31 @@
-// const token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 
-// // -------------------------------Fasiliti--------------------
+// -------------------------------Fasiliti--------------------
 
-// const pilihNamaOperatorDOM = document.getElementById('pilih-operator');
-// const reliefYaTidakDOM = document.getElementById('relief-ya-tidak');
-// const submitNamaOperatorDOM = document.getElementById('submit-nama-operator');
-// reliefYaTidakDOM.checked = false;
+const pilihNamaFasilitiDOM = document.getElementById('pilih-fasiliti');
+const submitNamaFasilitiDOM = document.getElementById('submit-nama-fasiliti');
 
-// const reqOperator = async () => {
-//     try {
-//         const { data: { operators } } = await axios.get('/api/v1/pilih/operator', { headers: { Authorization: `Bearer ${token}` } });
-//         displayOperator(operators);
-//         function displayOperator(operators) {
-//             let displayOperator = operators.map(function (singlePerson) {
-//                 return `<option value="${singlePerson.nama}">${singlePerson.nama}</option>`;
-//             });
-//             displayOperator = displayOperator.join('');
-//             pilihNamaOperatorDOM.innerHTML = displayOperator;
-//         }
+const reqFasiliti = async () => {
+    try {
+        const { data: { fasilitis } } = await axios.get('/api/v1/pilih/fasiliti', { headers: { Authorization: `Bearer ${token}` } });
+        console.log(fasilitis);
+        displayFasiliti(fasilitis);
+        function displayFasiliti(fasilitis) {
+            let displayFasiliti = fasilitis.map(function (singleKlinik) {
+                return `<option value="${singleKlinik.nama}">${singleKlinik.nama}</option>`;
+            });
+            displayFasiliti = displayFasiliti.join('');
+            pilihNamaFasilitiDOM.innerHTML = displayFasiliti;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-//         reliefYaTidakDOM.addEventListener('click', function() {
-//             const reliefYaTidak = reliefYaTidakDOM.checked;
-//             const namaOperator = pilihNamaOperatorDOM.value;
-//             console.log(namaOperator);
-//             console.log(reliefYaTidak);
-//             submitNamaOperatorDOM.addEventListener('click', function() {
-//                 if (reliefYaTidak === true) {
-//                     localStorage.setItem('namaOperator', namaOperator);
-//                     window.location.href= '/modules/pilihFasiliti.html';
-//                 }
-//                 if (reliefYaTidak === false) {
-//                     localStorage.setItem('namaOperator', namaOperator);
-//                     window.location.href = '/modules/dashboard.html';
-//                 }
-//             });
-//         });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
+submitNamaFasilitiDOM.addEventListener('click', function() {
+    const namaFasiliti = pilihNamaFasilitiDOM.value;
+    localStorage.setItem('namaFasiliti', namaFasiliti);
+    window.location.href = '/modules/dashboard.html';
+});
 
-// const reliefYaTidak = reliefYaTidakDOM.checked;
-// submitNamaOperatorDOM.addEventListener('click', function() {
-//     const namaOperator = pilihNamaOperatorDOM.value;
-//     if (reliefYaTidak === false) {
-//         localStorage.setItem('namaOperator', namaOperator);
-//         window.location.href = '/modules/dashboard.html';
-//     }
-// });
-
-// reqOperator();
+reqFasiliti();

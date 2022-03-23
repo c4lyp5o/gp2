@@ -7,9 +7,8 @@ const getOperatorList = async (req, res) => {
 }
 
 const getFasilitiList = async (req, res) => {
-    const fasiliti = await Fasiliti.find({ daerah: req.user.daerah });
-    console.log(fasiliti);
-    res.status(200).send('Fasiliti');
+    const fasilitis = await Fasiliti.find({ daerah: req.user.daerah, jenisFasiliti: 'klinik' });
+    res.status(200).json({ fasilitis });
 }
 
 module.exports = { getOperatorList, getFasilitiList };

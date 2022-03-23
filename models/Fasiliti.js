@@ -4,19 +4,19 @@ const Schema = mongoose.Schema;
 const fasilitiSchema = new Schema({
   nama: { 
       type: String, 
-      required: true
+      // required: true
     },
   negeri: { 
       type: String, 
-      required: true
+      // required: true
     },
   daerah: { 
       type: String,
-      required: true
+      // required: true
     },
   handler: { 
       type: String,
-      required: true 
+      // required: true 
     },
   jenisFasiliti: {
       type: String, 
