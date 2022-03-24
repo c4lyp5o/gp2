@@ -1,5 +1,9 @@
 const formAlertDOM = document.querySelector('.form-alert');
 const btnSaveDOM = document.querySelector('.save');
+const namaOperator = localStorage.getItem('namaOperator');
+const namaFasiliti = localStorage.getItem('namaFasiliti');
+console.log(namaFasiliti);
+console.log(namaOperator);
 
 //pendaftaran
 const namaPendaftaranTadikaDOM = document.getElementById('nama-pendaftaran-tadika');
@@ -142,6 +146,7 @@ btnSaveDOM.addEventListener('click', async () => {
     //pendaftaran
     const namaPendaftaranTadika = namaPendaftaranTadikaDOM.value;
     const umurPendaftaranTadika = umurPendaftaranTadikaDOM.value;
+    const bangsaPendaftaranTadika = bangsaPendaftaranTadikaDOM.value;
     const kelasPendaftaranTadika = kelasPendaftaranTadikaDOM.value;
     const namaTaskaTadikaPendaftaranTadika = namaTaskaTadikaPendaftaranTadikaDOM.value;
     //FASILITI
@@ -275,8 +280,11 @@ btnSaveDOM.addEventListener('click', async () => {
     
     try {
         await axios.post('/api/v1/tadika', { 
+            namaOperator,
+            namaFasiliti,
             namaPendaftaranTadika,
             umurPendaftaranTadika,
+            bangsaPendaftaranTadika,
             kelasPendaftaranTadika,
             namaTaskaTadikaPendaftaranTadika,
             taskaPendaftaranTadika,
@@ -409,6 +417,7 @@ btnSaveDOM.addEventListener('click', async () => {
         namaPendaftaranTadikaDOM.value = '';
         umurPendaftaranTadikaDOM.value = '';
         bangsaPendaftaranTadikaDOM.value = '';
+
         kelasPendaftaranTadikaDOM.value = '';
         namaTaskaTadikaPendaftaranTadika.value = '';
         taskaPendaftaranTadika.value = '';
@@ -545,6 +554,7 @@ btnSaveDOM.addEventListener('click', async () => {
         formAlertDOM.classList.add('text-success');
         formAlertDOM.textContent = 'Success, data added';
     } catch (error) {
+        console.log(error);
         formAlertDOM.style.display = 'block';
         formAlertDOM.textContent = 'Please fill all data correctly';
     }
