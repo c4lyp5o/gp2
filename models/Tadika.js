@@ -580,6 +580,91 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
+    //tambah model baru by Leong 
+    jenisTadikaKerajaanPendaftaranTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    adaPendaftaranTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    tiadaPendaftaranTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    faktorRisikoPemeriksaanAwalTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    gicIntactPemeriksaanAwalTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    resinIntactPemeriksaanAwalTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    lainLainIntactPemeriksaanAwalTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    tidakPerluFvPerluDibuatTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    sesiFvPerludiBuatSATUPenyataAkhirSatuTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    sesiFvPerludiBuatDUAPenyataAkhirSatuTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahTigaPuluhEmpatPuluhSembilanAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahLimaPuluhLimaPuluhSembilanAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    jumlahEnamPuluhAGPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    toddlerLMG: {
+	type: String,
+	defaultValue: "0"
+	},
+    tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika:{
+    type: String,
+    defaultValue: "0"
+    },
+    txEndo:{
+    type: String,
+    defaultValue: "0"
+    },
 });
 
 module.exports = mongoose.model('Tadika', TadikaSchema);
