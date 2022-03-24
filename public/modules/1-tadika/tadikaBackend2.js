@@ -133,7 +133,9 @@ btnSaveDOM.addEventListener('click', async () => {
     const catatanPenyataAkhirDUATadika = catatanPenyataAkhirDUATadikaDOM.value;
     
     try {
-        await axios.post('/api/v1/tadika', { baruJumlahGigiTelahDibuatFSPenyataAkhir,
+        await axios.post('/api/v1/tadika', { 
+            //PENYATA AKHIR 1
+            baruJumlahGigiTelahDibuatFSPenyataAkhir,
             semulaJumlahGigiTelahDibuatFSPenyataAkhir,
             sesiFvPerludiBuatSATUPenyataAkhirSatuTadika,
             sesiFvPerludiBuatDUAPenyataAkhirSatuTadika,
