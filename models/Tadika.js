@@ -298,7 +298,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    perluTampalanAntGdB: {
+    perluTampalanAntGdS: {
     type: String,
     defaultValue: "0"
     },

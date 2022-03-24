@@ -58,8 +58,116 @@ const createPersonTadika = async (req, res) => {
     createPersonTadika.jenisTadika = 'ayam';
     createPersonTadika.pasukanPergigian = 'pasukan ayam';
 
-    //---------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    createPersonTadika.perluFSGigiB = req.body.baruJumlahGigiPerluFsPerluDibuatTadika;
+    createPersonTadika.perluFSGigiS = req.body.semulaJumlahGigiPerluFsPerluDibuatTadika;
+    createPersonTadika.perluFsBilGigiFailed = req.body.failedJumlahGigiPerluFsPerluDibuatTadika;
+    createPersonTadika.perluFvGigiB = req.body.yaPerluFvPerluDibuatTadika;
+    createPersonTadika.tidakPerluFvPerluDibuatTadika = req.body.tidakPerluFvPerluDibuatTadika; // X
+    createPersonTadika.perluPRR1MuridB = req.body.baruJumlahGigiPerluPrrPerluDibuatTadika;
+    createPersonTadika.perluPRR1MuridS = req.body.semulaJumlahGigiPerluPrrPerluDibuatTadika;
+    createPersonTadika.perluTampalanAntGdB = req.body.gdBaruAnteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanAntGdS = req.body.gdSemulaAnteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanAntGkB = req.body.gkBaruAnteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanAntGkS = req.body.gkSemulaAnteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanPosGdB = req.body.gdBaruPosteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanPosGdS = req.body.gdSemulaPosteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanPosGkB = req.body.gkBaruPosteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanPosGkS = req.body.gkSemulaPosteriorSewarnaPerluDibuatTadika;
+    createPersonTadika.perluTampalanAmgGdB = req.body.gdBaruPosteriorAmalgamPerluDibuatTadika;
+    createPersonTadika.perluTampalanAmgGdS = req.body.gdSemulaPosteriorAmalgamPerluDibuatTadika;
+    createPersonTadika.perluTampalanAmgGkB = req.body.gkBaruPosteriorAmalgamPerluDibuatTadika;
+    createPersonTadika.perluTampalanAmgGkS = req.body.gkSemulaPosteriorAmalgamPerluDibuatTadika;
+    //PENYATA AKHIR 1
     const tadika = await Tadika.create(createPersonTadika);
     res.status(201).json({ tadika });
 };
