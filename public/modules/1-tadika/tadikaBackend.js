@@ -22,7 +22,7 @@ const engganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-t
 const tidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
 const adaPendaftaranTadikaDOM = document.getElementById('ada-pendaftaran-tadika');
 const tiadaPendaftaranTadikaDOM = document.getElementById('tiada-pendaftaran-tadika');
-const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika');
+const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika'); // this should be pulled from localstorage
 const namaPasukanBergerakPendaftaranTadikaDOM = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 //pemeriksaan awal
 const adaCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-cleft-pemeriksaan-awal-tadika');

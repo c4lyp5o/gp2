@@ -26,37 +26,44 @@ const createPersonTadika = async (req, res) => {
 
     // convert from frontend req.body to match Tadika Model
     const createPersonTadika = {};
-    createPersonTadika.operator = req.body.namaOperator;
     createPersonTadika.createdByNegeri = req.user.negeri;
     createPersonTadika.createdByDaerah = req.user.daerah;
-    
     if (req.body.namaFasiliti === null) {
         createPersonTadika.createdByKp = req.user.kp;
     } else {
         createPersonTadika.createdByKp = req.body.namaFasiliti;
     }
 
+    createPersonTadika.operator = req.body.namaOperator;
+    
     if (req.body.namaFasiliti === null) {
         createPersonTadika.klinikPergigian = req.user.kp;
     } else {
         createPersonTadika.klinikPergigian = req.body.namaFasiliti;
     }
-
-    createPersonTadika.kelas = req.body.kelasPendaftaranTadika;
+    
+    // pendaftaran tadika
     createPersonTadika.nama = req.body.namaPendaftaranTadika;
-    createPersonTadika.kedatanganBaru = '1';
-
-    // createPersonTadika.kedatanganUlangan = req.body.?;
-    // createPersonTadika.kedatanganEnggan = req.body.?;
-    // createPersonTadika.kedatanganTidakHadir = req.body.?;
-    // createPersonTadika.cleftAda = req.body.?;
-    // createPersonTadika.cleftRujuk = req.body.?;
-    // createPersonTadika.traumaToothSurfaceLoss = req.body.?;
-
     createPersonTadika.umur = req.body.umurPendaftaranTadika;
+    createPersonTadika.bangsa = req.body.bangsaPendaftaranTadika;
+    createPersonTadika.kelas = req.body.kelasPendaftaranTadika;
     createPersonTadika.namaTadika = req.body.namaTaskaTadikaPendaftaranTadika;
-    createPersonTadika.jenisTadika = 'ayam';
-    createPersonTadika.pasukanPergigian = 'pasukan ayam';
+    createPersonTadika.taska = req.body.taskaPendaftaranTadika;
+    createPersonTadika.tadika = req.body.tadikaPendaftaranTadika;
+    createPersonTadika.jenisTadika = req.body.jenisTadikaPendaftaranTadika;
+    createPersonTadika.jenisTadikaKerajaanPendaftaranTadika = req.body.jenisTadikaKerajaanPendaftaranTadika; // X
+    createPersonTadika.kedatanganBaru = req.body.baruPendaftaranTadika;
+    createPersonTadika.
+    createPersonTadika.kedatanganUlangan = req.body.ulanganPendaftaranTadika;
+    createPersonTadika.kedatanganEnggan = req.body.engganPendaftaranTadika;
+    createPersonTadika.kedatanganTidakHadir = req.body.tidakHadirPendaftaranTadika;
+    createPersonTadika.adaPendaftaranTadika = req.body.adaPendaftaranTadika; // X
+    createPersonTadika.tiadaPendaftaranTadika = req.body.tiadaPendaftaranTadika; // X
+    // createPersonTadika.operator = req.body.namaOperator; // should be skipped
+    createPersonTadika.pasukanPergigian = req.body.namaPasukanBergerakPendaftaranTadika;
+    
+    // pemeriksaan awal
+    
 
     //---------------------------------------------------------------------------
 
