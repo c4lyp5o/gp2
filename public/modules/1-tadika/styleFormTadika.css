@@ -135,6 +135,14 @@
     width: 3rem;
 }
 
+.jika-ada-desidus {
+    display: block;
+}
+
+.status-gigi-desidus-tadika {
+    display: none;
+}
+
 .btn-status-gigi-kekal-tadika.tiada {
     background-color: var(--btn-tiada);
     border-color: black;
@@ -159,6 +167,14 @@
     transition: var(--transition);
     padding: 0.2rem;
     width: 3rem;
+}
+
+.jika-ada-kekal {
+    display: block;
+}
+
+.status-gigi-kekal-tadika {
+    display: none;
 }
 
 .btn-status-gigi-desidus-tadika:hover, .btn-status-gigi-kekal-tadika:hover {

@@ -132,7 +132,6 @@ const lmgPromosiPenyataAkhirDUATadikaDOM = document.getElementById('lmg-promosi-
 const yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('ya-melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');
 const tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('tidak-melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');
 //AG
-const aGuidancePenyataAkhirDUATadikaDOM = document.getElementById('a-guidance-penyata-akhir-2-tadika');
 const jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-15-17-ag-penyata-akhir-2-tadika');
 const jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-18-19-ag-penyata-akhir-2-tadika');
 const jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-20-29-ag-penyata-akhir-2-tadika');
@@ -268,7 +267,6 @@ btnSaveDOM.addEventListener('click', async () => {
     const yaMelaksanakanAktivitiBeginPenyataAkhirDUATadika = yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value;
     const tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika = tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value;
     //AG
-    const aGuidancePenyataAkhirDUATadika = aGuidancePenyataAkhirDUATadikaDOM.value;
     const jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika = jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value;
     const jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika = jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value;
     const jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika = jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value;
@@ -400,15 +398,14 @@ btnSaveDOM.addEventListener('click', async () => {
             lmgPromosiPenyataAkhirDUATadika,
             //BEGIN
             yaMelaksanakanAktivitiBeginPenyataAkhirDUATadika,
-            tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika, //x13 /dah tambah13
+            tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika,
             //AG
-            aGuidancePenyataAkhirDUATadika, //x13 / dah tambah13 
-            jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika,//x14 //dah tambah14
-            jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika,//x15 //dah tambah15
-            jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika,//x16 //dah tambah16
-            jumlahTigaPuluhEmpatPuluhSembilanAGPenyataAkhirDUATadika,//x17 //dah tambah17
-            jumlahLimaPuluhLimaPuluhSembilanAGPenyataAkhirDUATadika,//x18 //dah tambah18
-            jumlahEnamPuluhAGPenyataAkhirDUATadika,//x19 //dah tambah19
+            jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika,
+            jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika,
+            jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika,
+            jumlahTigaPuluhEmpatPuluhSembilanAGPenyataAkhirDUATadika,
+            jumlahLimaPuluhLimaPuluhSembilanAGPenyataAkhirDUATadika,
+            jumlahEnamPuluhAGPenyataAkhirDUATadika,
             //CATATAN
             catatanPenyataAkhirDUATadika,
         }, { headers: { Authorization: `Bearer ${token}` } });
@@ -538,7 +535,6 @@ btnSaveDOM.addEventListener('click', async () => {
         yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '';
         tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = ''; 
         //AG
-        aGuidancePenyataAkhirDUATadikaDOM.value = '';
         jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value = '';
         jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value = '';
         jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value = '';
