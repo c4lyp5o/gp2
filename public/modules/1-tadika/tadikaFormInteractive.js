@@ -28,24 +28,12 @@ function pendaftaranTadika(){
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
-        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-        btnAdaTiadaGigiDesidus.classList.remove('ada');
-        btnAdaTiadaGigiDesidus.classList.add('tiada');
-
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
-        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-        btnAdaTiadaGigiKekal.textContent = 'Tiada';
-        btnAdaTiadaGigiKekal.classList.remove('ada');
-        btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
         const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
         const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
         btnPerluDibuat.innerHTML = '<i class="fas fa-plus"></i> Perlu Dibuat';
         formPerluDibuat.classList.add('close');
+
         // close penyata akhir 1
         const btnPenyataAkhir1 = document.querySelector('.penyata-akhir-1-header-tadika');
         const formPenyataAkhir1 = document.querySelector('.form-penyata-akhir-1-tadika');
@@ -74,16 +62,6 @@ function pemeriksaanAwalTadika(){
         } else {
             formPemeriksaanAwal.classList.add('close');
             btnPemeriksaanAwalTadika.innerHTML = iconPlusPemeriksaanAwal;
-            // change status gigi desidus to 'tiada'
-            statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-            btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-            btnAdaTiadaGigiDesidus.classList.remove('ada');
-            btnAdaTiadaGigiDesidus.classList.add('tiada');
-            //change status gigi kekal to 'tiada'
-            statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-            btnAdaTiadaGigiKekal.textContent = 'Tiada';
-            btnAdaTiadaGigiKekal.classList.remove('ada');
-            btnAdaTiadaGigiKekal.classList.add('tiada');
         }
         // to close other form when opening this form ----------
         // close pendaftaran
@@ -91,6 +69,7 @@ function pemeriksaanAwalTadika(){
         const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
+
         // close perlu dibuat
         const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
         const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
@@ -112,54 +91,42 @@ function pemeriksaanAwalTadika(){
     });
     
     const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
+    const jikaAdaDesidus = document.querySelector('.jika-ada-desidus');
     const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
 
     btnAdaTiadaGigiDesidus.addEventListener('click', function(){
         if (btnAdaTiadaGigiDesidus.classList.contains('tiada')){
-            statusGigiDesidus.innerHTML = ` <br>
-                                            <label for="decay-desidus-pemeriksaan-awal-tadika">d</label>
-                                            <input type="number" id="decay-desidus-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="missing-desidus-pemeriksaan-awal-tadika">m</label>
-                                            <input type="number" id="missing-desidus-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="filled-desidus-pemeriksaan-awal-tadika">f</label>
-                                            <input type="number" id="filled-desidus-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="for-extraction-desidus-pemeriksaan-awal-tadika">x</label>
-                                            <input type="number" id="for-extraction-desidus-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">`;
-            btnAdaTiadaGigiDesidus.textContent = 'Ada';
             btnAdaTiadaGigiDesidus.classList.remove('tiada');
             btnAdaTiadaGigiDesidus.classList.add('ada');
+            btnAdaTiadaGigiDesidus.textContent = 'Ada';
+            jikaAdaDesidus.style.display = 'none';
+            statusGigiDesidus.style.display = 'block';
         } else {
-            statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-            btnAdaTiadaGigiDesidus.textContent = 'Tiada';
             btnAdaTiadaGigiDesidus.classList.remove('ada');
             btnAdaTiadaGigiDesidus.classList.add('tiada');
+            btnAdaTiadaGigiDesidus.textContent = 'Tiada';
+            statusGigiDesidus.style.display = 'none';
+            jikaAdaDesidus.style.display = 'block';
         }
     });
 
     const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
+    const jikaAdaKekal = document.querySelector('.jika-ada-kekal');
     const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
 
     btnAdaTiadaGigiKekal.addEventListener('click', function(){
         if (btnAdaTiadaGigiKekal.classList.contains('tiada')){
-            statusGigiKekal.innerHTML = `   <br>
-                                            <label for="decay-kekal-pemeriksaan-awal-tadika">D</label>
-                                            <input type="number" id="decay-kekal-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="missing-kekal-pemeriksaan-awal-tadika">M</label>
-                                            <input type="number" id="missing-kekal-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="filled-kekal-pemeriksaan-awal-tadika">F</label>
-                                            <input type="number" id="filled-kekal-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="for-extraction-kekal-pemeriksaan-awal-tadika">X</label>
-                                            <input type="number" id="for-extraction-kekal-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                            <label for="e-kekal-pemeriksaan-awal-tadika">E</label>
-                                            <input type="number" id="e-kekal-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">`;
-            btnAdaTiadaGigiKekal.textContent = 'Ada';
             btnAdaTiadaGigiKekal.classList.remove('tiada');
             btnAdaTiadaGigiKekal.classList.add('ada');
+            btnAdaTiadaGigiKekal.textContent = 'Ada';
+            jikaAdaKekal.style.display = 'none';
+            statusGigiKekal.style.display = 'block';
         } else {
-            statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-            btnAdaTiadaGigiKekal.textContent = 'Tiada';
             btnAdaTiadaGigiKekal.classList.remove('ada');
             btnAdaTiadaGigiKekal.classList.add('tiada');
+            btnAdaTiadaGigiKekal.textContent = 'Tiada';
+            jikaAdaKekal.style.display = 'block';
+            statusGigiKekal.style.display = 'none';
         }
     });
 }
@@ -183,25 +150,13 @@ function perluDibuatTadika(){
         const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
+
         // close pemeriksaan awal
         const btnPemeriksaanAwalTadika = document.querySelector('.pemeriksaan-awal-header-tadika');
         const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-tadika');
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
-        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-        btnAdaTiadaGigiDesidus.classList.remove('ada');
-        btnAdaTiadaGigiDesidus.classList.add('tiada');
-
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
-        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-        btnAdaTiadaGigiKekal.textContent = 'Tiada';
-        btnAdaTiadaGigiKekal.classList.remove('ada');
-        btnAdaTiadaGigiKekal.classList.add('tiada');
         // close penyata akhir 1
         const btnPenyataAkhir1 = document.querySelector('.penyata-akhir-1-header-tadika');
         const formPenyataAkhir1 = document.querySelector('.form-penyata-akhir-1-tadika');
@@ -236,25 +191,13 @@ function penyataAkhir1Tadika(){
         const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
+
         // close pemeriksaan awal
         const btnPemeriksaanAwalTadika = document.querySelector('.pemeriksaan-awal-header-tadika');
         const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-tadika');
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
-        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-        btnAdaTiadaGigiDesidus.classList.remove('ada');
-        btnAdaTiadaGigiDesidus.classList.add('tiada');
-
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
-        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-        btnAdaTiadaGigiKekal.textContent = 'Tiada';
-        btnAdaTiadaGigiKekal.classList.remove('ada');
-        btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
         const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
         const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
@@ -289,25 +232,13 @@ function penyataAkhir2Tadika(){
         const formPendaftaran = document.querySelector('.form-pendaftaran-tadika');
         btnPendaftaran.innerHTML = '<i class="fas fa-plus"></i> Pendaftaran';
         formPendaftaran.classList.add('close');
+        
         // close pemeriksaan awal
         const btnPemeriksaanAwalTadika = document.querySelector('.pemeriksaan-awal-header-tadika');
         const formPemeriksaanAwal = document.querySelector('.form-pemeriksaan-awal-tadika');
         btnPemeriksaanAwalTadika.innerHTML = '<i class="fas fa-plus"></i> Pemeriksaan Awal';
         formPemeriksaanAwal.classList.add('close');
 
-        const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
-        const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
-        statusGigiDesidus.innerHTML = `<p>Klik butang di atas jika ada gigi desidus</p>`;
-        btnAdaTiadaGigiDesidus.textContent = 'Tiada';
-        btnAdaTiadaGigiDesidus.classList.remove('ada');
-        btnAdaTiadaGigiDesidus.classList.add('tiada');
-
-        const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
-        const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
-        statusGigiKekal.innerHTML = `<p>Klik butang di atas jika ada gigi kekal</p>`;
-        btnAdaTiadaGigiKekal.textContent = 'Tiada';
-        btnAdaTiadaGigiKekal.classList.remove('ada');
-        btnAdaTiadaGigiKekal.classList.add('tiada');
         // close perlu dibuat
         const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
         const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
