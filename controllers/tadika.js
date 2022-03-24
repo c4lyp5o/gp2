@@ -53,7 +53,6 @@ const createPersonTadika = async (req, res) => {
     createPersonTadika.jenisTadika = req.body.jenisTadikaPendaftaranTadika;
     createPersonTadika.jenisTadikaKerajaanPendaftaranTadika = req.body.jenisTadikaKerajaanPendaftaranTadika; // X
     createPersonTadika.kedatanganBaru = req.body.baruPendaftaranTadika;
-    createPersonTadika.
     createPersonTadika.kedatanganUlangan = req.body.ulanganPendaftaranTadika;
     createPersonTadika.kedatanganEnggan = req.body.engganPendaftaranTadika;
     createPersonTadika.kedatanganTidakHadir = req.body.tidakHadirPendaftaranTadika;
