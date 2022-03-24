@@ -16,7 +16,7 @@ block content
       h3(align='center')= tadika
     .uk-divider-icon
     .uk-container 
-    form(method='POST' action='tadika/reten')
+    form(method='POST' action='buatreten')
       fieldset.uk-fieldset
         .uk-margin
             legend.uk-legend Jenis Reten:
@@ -37,7 +37,7 @@ block content
             label(for="pg207") CPPC 2
             br
             input.uk-radio(type='radio', name='jenisReten', value='TOD')
-            label(for="pg207") TOD
+            label(for="tod") TOD
             |
             br
             br
@@ -158,10 +158,10 @@ block content
             .grid
               div
                 input.uk-radio(type='radio', name='jenisReten', value='CRA', checked='')
-                label(for="CRA") PGPS 2/201
+                label(for="YA C01") YA C01
                 br
                 input.uk-radio(type='radio', name='jenisReten', value='PG201')
-                label(for="pg201") PG201A                
+                label(for="CRA") CARIES RISK ASSESSMENT                
                 |
                 br
                 br

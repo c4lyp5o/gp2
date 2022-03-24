@@ -1,7 +1,7 @@
 'use strict';
 // const Tadika = require('../models/Tadika');
 // const excelHelper = require('./excelHelper');
-// const countHelper = require('./countHelper');
+const countHelper = require('./countHelper');
 // const YAData = require('../models/Sekolah'); to put in the future
 // const YAData = require('../models/YA'); to put in the future
 
@@ -93,3 +93,8 @@ exports.borangPilihRetenYA_post = function(req, res) {
 //   await excelHelper.prepareDocumentLaporan();
 //   countHelper.overView(req, res, negeri);
 // };
+
+exports.retenTODDLER = async function(req, res) {
+  // await excelHelper.prepareDocumentLaporan();
+  await countHelper.retenTOD(req, res);
+}

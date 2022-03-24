@@ -1,29 +1,28 @@
 const mongoose = require('mongoose');
-
 const TadikaSchema = mongoose.Schema({
     // negeri, daerah, kp is associated with each person
     createdByNegeri: {
         type: String,
-        required: true
+        // required: true
     },
     createdByDaerah: {
         type: String,
-        required: true
+        // required: true
     },
     createdByKp: {
         type: String,
-        required: true
+        // required: true
     },
     // --------------------------------------------------
     kelas: {
-    type: String,
-    required: [true, 'Sila Masukkan Nama Kelas'],
-    trim: true
+        type: String,
+        // required: [true, 'Sila Masukkan Nama Kelas'],
+        trim: true
     },
     nama: {
-    type: String,
-    required: [true, 'Sila Masukkan Nama Pesakit'],
-    trim: true
+        type: String,
+        // required: [true, 'Sila Masukkan Nama Pesakit'],
+        trim: true
     },
     enrolmen: {
     type: String,
@@ -31,7 +30,7 @@ const TadikaSchema = mongoose.Schema({
     },
     kedatanganBaru: {
     type: String,
-    required: [true, 'Sila tandakan Baru'],
+    // required: [true, 'Sila tandakan Baru'],
     defaultValue: "1"
     },
     kedatanganUlangan: {
@@ -218,7 +217,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    creSederhana: {
+    craSederhana: {
     type: String,
     defaultValue: "0"
     },
@@ -362,7 +361,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahFVMuridB: {
+    telahFVMuridS: {
     type: String,
     defaultValue: "0"
     },
@@ -370,7 +369,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahFVGigiB: {
+    telahFVGigiS: {
     type: String,
     defaultValue: "0"
     },
@@ -398,7 +397,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahTampalanAntGdB: {
+    telahTampalanAntGdS: {
     type: String,
     defaultValue: "0"
     },
@@ -492,32 +491,32 @@ const TadikaSchema = mongoose.Schema({
     },
     umur: {
     type: String,
-    required: [true, 'Sila Masukkan Umur Pesakit'],
+    // required: [true, 'Sila Masukkan Umur Pesakit'],
     trim: true
     },
     klinikPergigian: {
     type: String,
-    required: [true, 'Sila Masukkan Nama Klinik Pergigian'],
+    // required: [true, 'Sila Masukkan Nama Klinik Pergigian'],
     trim: true
     },
     namaTadika: {
     type: String,
-    required: [true, 'Sila Masukkan Nama Taska/Tadika'],
+    // required: [true, 'Sila Masukkan Nama Taska/Tadika'],
     trim: true
     },
     jenisTadika: {
     type: String,
-    required: [true, 'Sila Pilih Jenis Tadika'],
+    // required: [true, 'Sila Pilih Jenis Tadika'],
     trim: true
     },
     operator: {
     type: String,
-    required: [true, 'Sila Masukkan Nama Operator'],
+    // required: [true, 'Sila Masukkan Nama Operator'],
     trim: true
     },
     pasukanPergigian: {
     type: String,
-    required: [true, 'Sila Pilih Pasukan Pergigian Bergerak'],
+    // required: [true, 'Sila Pilih Pasukan Pergigian Bergerak'],
     trim: true
     },
     menjalankanBegin: {
@@ -576,6 +575,10 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
+    toddlerLMG: {
+	type: String,
+	defaultValue: "0"
+	},
     gigiDesidus: {
     type: String,
     defaultValue: "0"

@@ -4,7 +4,8 @@ const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const async = require('async');
-const { set } = require('mongoose');
+// const { set } = require('mongoose');
+const CountHelper = require('./countHelper');
 
 exports.loginPage = (req, res) => {
     res.render('admin/loginadmin');
@@ -172,7 +173,7 @@ exports.commitData = async (req, res) => {
 }
 
 exports.listTadika = (req, res) => {
-  const daerah = "Kuala Selangor";
+//   const daerah = "Kuala Selangor";
   Fasiliti.find({ jenisFasiliti: "Tadika", daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah }, (err, data) => {
     if (err) {
         console.log(err);
@@ -471,4 +472,7 @@ exports.updateNow = async (req, res) => {
         }
     })
 }
-            
+
+exports.buatReten = async (req, res) => {
+    await CountHelper.retenTOD(req, res);
+}

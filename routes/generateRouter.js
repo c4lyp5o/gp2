@@ -4,6 +4,7 @@ const router = express.Router();
 
 // Controller
 const generatecon = require ('../controllers/generateRetenController');
+const countcon = require ('../controllers/countHelper');
 
 // // Routes
 // // main menu
@@ -35,5 +36,6 @@ router.post('/sekolah', generatecon.borangPilihRetenSekolah);
 router.post('/sekolah/reten', generatecon.borangPilihRetenSekolah_post);
 router.post('/youngadult', generatecon.borangPilihRetenYA);
 router.post('/youngadult/reten', generatecon.borangPilihRetenYA_post);
+router.post('/buatreten', generatecon.borangPilihRetenTadika_post);
 
 module.exports = router;
