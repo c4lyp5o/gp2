@@ -362,7 +362,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahFVMuridB: {
+    telahFVMuridS: {
     type: String,
     defaultValue: "0"
     },
@@ -370,7 +370,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahFVGigiB: {
+    telahFVGigiS: {
     type: String,
     defaultValue: "0"
     },
@@ -398,7 +398,7 @@ const TadikaSchema = mongoose.Schema({
     type: String,
     defaultValue: "0"
     },
-    telahTampalanAntGdB: {
+    telahTampalanAntGdS: {
     type: String,
     defaultValue: "0"
     },
