@@ -26,13 +26,25 @@ const createPersonTadika = async (req, res) => {
 
     // convert from frontend req.body to match Tadika Model
     const createPersonTadika = {};
+    createPersonTadika.operator = req.body.namaOperator;
     createPersonTadika.createdByNegeri = req.user.negeri;
     createPersonTadika.createdByDaerah = req.user.daerah;
-    createPersonTadika.createdByKp = req.user.kp;
+    
+    if (req.body.namaFasiliti === null) {
+        createPersonTadika.createdByKp = req.user.kp;
+    } else {
+        createPersonTadika.createdByKp = req.body.namaFasiliti;
+    }
+
+    if (req.body.namaFasiliti === null) {
+        createPersonTadika.klinikPergigian = req.user.kp;
+    } else {
+        createPersonTadika.klinikPergigian = req.body.namaFasiliti;
+    }
 
     createPersonTadika.kelas = req.body.kelasPendaftaranTadika;
     createPersonTadika.nama = req.body.namaPendaftaranTadika;
-    createPersonTadika.kedatanganBaru = req.body.baruPendaftaranTadika;
+    createPersonTadika.kedatanganBaru = '1';
 
     // createPersonTadika.kedatanganUlangan = req.body.?;
     // createPersonTadika.kedatanganEnggan = req.body.?;
@@ -42,11 +54,9 @@ const createPersonTadika = async (req, res) => {
     // createPersonTadika.traumaToothSurfaceLoss = req.body.?;
 
     createPersonTadika.umur = req.body.umurPendaftaranTadika;
-    createPersonTadika.klinikPergigian = req.user.kp; // later can pull from localstorange frontend
     createPersonTadika.namaTadika = req.body.namaTaskaTadikaPendaftaranTadika;
-    createPersonTadika.jenisTadika = req.body.jenisTadika;
-    createPersonTadika.operator = req.body.operator;
-    createPersonTadika.pasukanPergigian = req.body.pasukanPergigian;
+    createPersonTadika.jenisTadika = 'ayam';
+    createPersonTadika.pasukanPergigian = 'pasukan ayam';
 
     //---------------------------------------------------------------------------
 
