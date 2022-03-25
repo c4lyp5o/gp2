@@ -77,7 +77,27 @@ function pendaftaranTadika(){
     //     }
     // });
 
+
+    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
     const jenisTaskaTadikaPendaftaranTadikaDOM = document.getElementById('jenis-taska-tadika-pendaftaran-tadika');
+    const divJantinaPendaftaranTadikaDOM = document.getElementById('div-jantina-pendaftaran-tadika');
+
+    taskaTadikaPraSekolahPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
+            jenisTaskaTadikaPendaftaranTadikaDOM.innerHTML = `  <option value="0"></option>
+                                                                <option value="kerajaan">Kerajaan</option>
+                                                                <option value="swasta">Swasta</option>`
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
+        } else if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'pra-sekolah') {
+            jenisTaskaTadikaPendaftaranTadikaDOM.innerHTML = `  <option value="0"></option>
+                                                                <option value="kerajaan">Kerajaan</option>`
+            divJantinaPendaftaranTadikaDOM.style.display = 'block'
+        } else if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === '0') {
+            jenisTaskaTadikaPendaftaranTadikaDOM.innerHTML = `  <option value="0"></option>`
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
+        }
+    });
+
     const divJenisTaskaTadikaKerajaanPendaftaranTadikaDOM = document.getElementById('div-jenis-taska-tadika-kerajaan-pendaftaran-tadika');
 
     jenisTaskaTadikaPendaftaranTadikaDOM.addEventListener('click', function() {
