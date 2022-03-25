@@ -47,6 +47,54 @@ function pendaftaranTadika(){
         formPenyataAkhir2.classList.add('close');
 
     });
+
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '0' ||
+            umurPendaftaranTadikaDOM.value === '1' ||
+            umurPendaftaranTadikaDOM.value === '1.5' ||
+            umurPendaftaranTadikaDOM.value === '2' ||
+            umurPendaftaranTadikaDOM.value === '3' ||
+            umurPendaftaranTadikaDOM.value === '4') {
+            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+                                                                    <option value="taska">Taska</option>`
+        }
+    });
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '5' ||
+            umurPendaftaranTadikaDOM.value === '6') {
+            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+                                                                    <option value="tadika">Tadika</option>`
+        }
+    });
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '') {
+            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
+        }
+    });
+
+    const chkbxEngganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
+    const chkbxTidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
+    const fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika');
+
+    chkbxEngganPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (chkbxEngganPendaftaranTadikaDOM.checked === true) {
+            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
+        } else if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
+            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+        }
+    });
+    chkbxTidakHadirPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (chkbxTidakHadirPendaftaranTadikaDOM.checked === true) {
+            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
+        } else if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
+            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+        }
+    })
 }
 
 function pemeriksaanAwalTadika(){

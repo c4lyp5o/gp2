@@ -288,13 +288,13 @@ btnSaveDOM.addEventListener('click', async () => {
             taskaPendaftaranTadika,
             tadikaPendaftaranTadika,
             jenisTadikaPendaftaranTadika,
-            jenisTadikaKerajaanPendaftaranTadika,
+            jenisTadikaKerajaanPendaftaranTadika,//x 1 //dah tambah 
             baruPendaftaranTadika,
             ulanganPendaftaranTadika,
             engganPendaftaranTadika,
             tidakHadirPendaftaranTadika,
-            adaPendaftaranTadika,
-            tiadaPendaftaranTadika,
+            adaPendaftaranTadika, //x2 //dah tambah
+            tiadaPendaftaranTadika, //x3 //dah tambah 
             namaOperatorPendaftaranTadika,
             namaPasukanBergerakPendaftaranTadika,
             //pemeriksaan awal
@@ -318,7 +318,7 @@ btnSaveDOM.addEventListener('click', async () => {
             missingKekalPemeriksaanAwalTadika,
             filledKekalPemeriksaanAwalTadika,
             forExtractionKekalPemeriksaanAwalTadika,
-            faktorRisikoPemeriksaanAwalTadika,
+            faktorRisikoPemeriksaanAwalTadika, //x4 //dah tambah 4 
             class1DPemeriksaanAwalTadika,
             class2DPemeriksaanAwalTadika,
             class1FPemeriksaanAwalTadika,
@@ -326,15 +326,15 @@ btnSaveDOM.addEventListener('click', async () => {
             gicLepasPemeriksaanAwalTadika,
             resinLepasPemeriksaanAwalTadika,
             lainLainLepasPemeriksaanAwalTadika,
-            gicIntactPemeriksaanAwalTadika,
-            resinIntactPemeriksaanAwalTadika,
-            lainLainIntactPemeriksaanAwalTadika,
+            gicIntactPemeriksaanAwalTadika, //x 5//dah tambah 5
+            resinIntactPemeriksaanAwalTadika, //x 6//dah tambah 6
+            lainLainIntactPemeriksaanAwalTadika,//x 7//dah tambah 7
             //perludibuat
             baruJumlahGigiPerluFsPerluDibuatTadika,
             semulaJumlahGigiPerluFsPerluDibuatTadika,
             failedJumlahGigiPerluFsPerluDibuatTadika,
             yaPerluFvPerluDibuatTadika,
-            tidakPerluFvPerluDibuatTadika,
+            tidakPerluFvPerluDibuatTadika,//x8 //dah tambah 8
             baruJumlahGigiPerluPrrPerluDibuatTadika,
             semulaJumlahGigiPerluPrrPerluDibuatTadika,
             gdBaruAnteriorSewarnaPerluDibuatTadika,
@@ -352,10 +352,10 @@ btnSaveDOM.addEventListener('click', async () => {
             //PENYATA AKHIR 1
             baruJumlahGigiTelahDibuatFSPenyataAkhir,
             semulaJumlahGigiTelahDibuatFSPenyataAkhir,
-            sesiFvPerludiBuatSATUPenyataAkhirSatuTadika,
-            sesiFvPerludiBuatDUAPenyataAkhirSatuTadika,
-            sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika,
-            sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika,
+            sesiFvPerludiBuatSATUPenyataAkhirSatuTadika,//x9 / dah tambah 
+            sesiFvPerludiBuatDUAPenyataAkhirSatuTadika,//x10 / dah tambah
+            sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika,//x11 / dah tambah
+            sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika,//x12 / dah tambah 
             // FV PRASEKOLAH
             baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika,
             semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika,
@@ -533,7 +533,7 @@ btnSaveDOM.addEventListener('click', async () => {
         lmgPromosiPenyataAkhirDUATadikaDOM.value = '';
         //BEGIN
         yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '';
-        tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '';
+        tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = ''; 
         //AG
         jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value = '';
         jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value = '';
