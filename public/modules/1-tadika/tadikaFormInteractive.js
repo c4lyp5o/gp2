@@ -252,10 +252,155 @@ function penyataAkhir2Tadika(){
         formPenyataAkhir1.classList.add('close');
 
     });
+
+    const btnStatusAnticipatoryGuidance = document.querySelector('.btn-status-anticipatory-guidance');
+    const bilanganAGuidance = document.querySelector('.bilangan-a-guidance');
+
+    btnStatusAnticipatoryGuidance.addEventListener('click', function(){
+        if (btnStatusAnticipatoryGuidance.classList.contains('tiada')){
+            btnStatusAnticipatoryGuidance.classList.remove('tiada');
+            btnStatusAnticipatoryGuidance.classList.add('ada');
+            btnStatusAnticipatoryGuidance.textContent = 'Bilangan Diberi Anticipatory Guidance';
+            bilanganAGuidance.style.display = 'block';
+        } else {
+            btnStatusAnticipatoryGuidance.classList.remove('ada');
+            btnStatusAnticipatoryGuidance.classList.add('tiada');
+            btnStatusAnticipatoryGuidance.textContent = 'Diberi Anticipatory Guidance (AG)';
+            bilanganAGuidance.style.display = 'none';
+        }
+    });
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).ready(function(){
-    $("select").change(function(){
+    $("#umur-pendaftaran-tadika").change(function(){
         $(this).find("option:selected").each(function(){
             var optionClass = $(this).attr("class");
             if(optionClass){
@@ -269,7 +414,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $('input[type="checkbox"]').click(function(){
+    $('input[type="checkbox"]#enggan-pendaftaran-tadika,#tidak-hadir-pendaftaran-tadika').click(function(){
         var inputValue = $(this).attr("value");
         $("." + inputValue).toggle();
     });

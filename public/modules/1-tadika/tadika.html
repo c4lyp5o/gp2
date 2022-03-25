@@ -534,14 +534,17 @@
                                         <input type="number" id="jumlah-endodontik-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika">
                                         <label for="jumlah-abses-rawatan-lain-penyata-akhir-2-tadika">Abses:</label>
                                         <input type="number" id="jumlah-abses-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika"><br>
-                                        <input type="checkbox" id="kes-selesai-rawatan-lain-penyata-akhir-2-tadika" value="kes-selesai">
+                                        <input type="checkbox" id="penskaleran-rawatan-lain-penyata-akhir-2-tadika" value="penskaleran-rawatan-lain">
+                                        <label for="penskaleran-rawatan-lain-penyata-akhir-2-tadika">Penskaleran</label>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Status Rawatan</legend>
+                                        <br><input type="checkbox" id="kes-selesai-rawatan-lain-penyata-akhir-2-tadika" value="kes-selesai">
                                         <label for="kes-selesai-rawatan-lain-penyata-akhir-2-tadika">Kes Selesai</label><br>
                                         <input type="checkbox" id="kes-selesai-icdas-rawatan-lain-penyata-akhir-2-tadika" value="kes-selesai-icdas">
                                         <label for="kes-selesai-icdas-rawatan-lain-penyata-akhir-2-tadika">Kes Selesai Icdas</label><br>
                                         <input type="checkbox" id="rujuk-rawatan-lain-penyata-akhir-2-tadika" value="rujuk-rawatan-lain">
-                                        <label for="rujuk-rawatan-lain-penyata-akhir-2-tadika">Rujuk</label><br>
-                                        <input type="checkbox" id="penskaleran-rawatan-lain-penyata-akhir-2-tadika" value="penskaleran-rawatan-lain">
-                                        <label for="penskaleran-rawatan-lain-penyata-akhir-2-tadika">Penskaleran</label>
+                                        <label for="rujuk-rawatan-lain-penyata-akhir-2-tadika">Rujuk</label><br>  
                                     </fieldset>
                                 </div>
                             </div>
@@ -551,14 +554,14 @@
                                         <legend>Promosi</legend>
                                         <label for="ceramah-lmg-penyata-akhir-2-tadika">Menyertai:</label>
                                         <select id="ceramah-promosi-penyata-akhir-2-tadika">
-                                            <option value="" disabled selected>Ceramah</option>
-                                            <option value="Ceramah Baru">Ceramah Baru</option>
-                                            <option value="Ceramah Ulangan">Ceramah Ulangan</option>                                            
+                                            <option value="">Ceramah</option>
+                                            <option value="ceramah-baru">Ceramah Baru</option>
+                                            <option value="ceramah-ulangan">Ceramah Ulangan</option>                                            
                                         </select>
                                         <select id="lmg-promosi-penyata-akhir-2-tadika">
-                                            <option value="" disabled selected>LMG</option>
-                                            <option value="LMG Baru">LMG Baru</option>
-                                            <option value="LMG Ulangan">LMG Ulangan</option>                                            
+                                            <option value="">LMG</option>
+                                            <option value="lmg-baru">LMG Baru</option>
+                                            <option value="lmg-ulangan">LMG Ulangan</option>                                            
                                         </select>
                                         <br>
                                         <p class="para-penyata-akhir-2">Melaksanakan Aktiviti Begin</p>
@@ -571,10 +574,11 @@
                                 <div class="toddler-hide input-wrap-todd">
                                     <fieldset>
                                         <div class="input-wrap">
-                                            <label for="ag-penyata-akhir-2-tadika">Diberi AG</label>
-                                            <input type="checkbox" id="a-guidance-penyata-akhir-2-tadika" name="ag-penyata-akhir-2-tadika" value="a-guidance">
+                                            <button class="btn-status-anticipatory-guidance tiada">
+                                                Diberi Anticipatory Guidance (AG)
+                                            </button>
                                             <br>
-                                            <div class="a-guidance bilangan-a-guidance">
+                                            <div class="bilangan-a-guidance">
                                                 <label for="jumlah-15-17-ag-penyata-akhir-2-tadika">Umur 15-17:</label>
                                                 <input type="number" id="jumlah-15-17-ag-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika">
                                                 <label for="jumlah-18-19-ag-penyata-akhir-2-tadika">Umur 18-19:</label>
