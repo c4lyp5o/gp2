@@ -32,7 +32,7 @@ const TadikaSchema = mongoose.Schema({
     kedatanganBaru: {
     type: String,
     required: [true, 'Sila tandakan Baru'],
-    defaultValue: "1"
+    defaultValue: "0"
     },
     kedatanganUlangan: {
     type: String,

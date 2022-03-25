@@ -80,66 +80,87 @@
                                     <input type="text" id="kelas-pendaftaran-tadika" placeholder="Cth : 3 Delima">
                                 </div>
                                 <div class="input-wrap">
+                                    <fieldset>
+                                        <legend>Fasiliti</legend>
+                                        <select id="taska-tadika-pra-sekolah-pendaftaran-tadika">
+                                            <!-- <option value="0"></option>
+                                            <option value="taska">Taska</option>
+                                            <option value="tadika">Tadika</option>
+                                            <option value="pra-sekolah">Pra Sekolah</option> -->
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <label for="jenis-taska-tadika-pendaftaran-tadika">Jenis Taska & Tadika</label>
+                                        <select id="jenis-taska-tadika-pendaftaran-tadika">
+                                            <option value="0"></option>
+                                            <option value="kerajaan">Kerajaan</option>
+                                            <option value="swasta">Swasta</option>
+                                        </select>
+                                        <br>
+                                        <label for="jenis-taska-tadika-kerajaan-pendaftaran-tadika">Jenis Tadika Kerajaan</label>
+                                        <select id="jenis-taska-tadika-kerajaan-pendaftaran-tadika">
+                                            <option value="0"></option>
+                                            <option value="kemas">KEMAS</option>
+                                            <option value="perpaduan">Perpaduan</option>
+                                            <option value="lain-lain">Lain-lain</option>
+                                        </select>
+                                        <br>
+                                        <input type="checkbox" id="kelas-toddler-pendaftaran-tadika" value="1">
+                                        <label for="kelas-toddler-pendaftaran-tadika">Kelas Toddler</label><br>
+                                        <label for="jantina-pendaftaran-tadika">Jantina</label>
+                                        <select id="jantina-pendaftaran-tadika">
+                                            <option value="0"></option>
+                                            <option value="lelaki">Lelaki</option>
+                                            <option value="perempuan">Perempuan</option>
+                                        </select>
+                                    </fieldset>
+                                </div>   
+                                <div class="input-wrap">
                                     <label for="nama-taska/tadika-pendaftaran-tadika">Nama Taska/Tadika</label>
                                     <select id="nama-taska/tadika-pendaftaran-tadika">
                                         <option value=""></option>
-                                        <option value="Taska Indah">Taska Indah</option>
-                                        <option value="Taska Cantik">Taska Cantik</option>
-                                        <option value="Tadika Menawan">Tadika Menawan</option>
-                                        <option value="Tadika Menarik">Tadika Menarik</option>
-                                        <option value="Pra Mudah">Pra Mudah</option>
-                                        <option value="lain-lain">Lain-lain</option>
+                                        <option value="pull-1">Pull 1</option>
+                                        <option value="pull-2">Pull 2</option>
+                                        <option value="pull-3">Pull 3</option>
+                                        <option value="pull-4">Pull 4</option>
+                                        <option value="pull-5">Pull 5</option>
                                     </select>
-                                </div> 
-                                <div class="input-wrap">
-                                    <fieldset>
-                                        <legend>Fasiliti</legend>
-                                        <input type="checkbox" id="taska-pendaftaran-tadika" value="taska">
-                                        <label for="taska-pendaftaran-tadika">Taska</label>
-                                        <input type="checkbox" id="tadika-pendaftaran-tadika" value="tadika">
-                                        <label for="tadika-pendaftaran-tadika">Tadika</label><br><br>
-                                        <label for="jenis-tadika-pendaftaran-tadika">Jenis Tadika</label><br>
-                                    <select id="jenis-tadika-pendaftaran-tadika">
-                                        <option value="tiada-jenis-tadika"></option>
-                                        <option value="kerajaan">Kerajaan</option>
-                                        <option value="swasta">Swasta</option>
-                                    </select>
-                                    <select id="jenis-tadika-kerajaan-pendaftaran-tadika">
-                                        <option value="tiada-jenis-tadika"></option>
-                                        <option value="kemas">KEMAS</option>
-                                        <option value="perpaduan">Perpaduan</option>
-                                        <option value="permata-genius">PERMATA / GENIUS</option>
-                                        <option value="lain-lain">Lain-lain</option>
-                                    </select>
-                                    </fieldset>
-                                </div>                                              
+                                </div>                                           
                             </div>
                             <div class="input-grp-right-pendaftaran-tadika">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Kedatangan</legend>
-                                        <input type="checkbox" id="baru-pendaftaran-tadika" value="baru">
+                                        <input type="checkbox" id="baru-pendaftaran-tadika" value="1">
                                         <label for="baru-pendaftaran-tadika">Baru</label>
-                                        <input type="text" id="ulangan-pendaftaran-tadika">
+                                        <input type="number" id="ulangan-pendaftaran-tadika">
                                         <label for="ulangan-pendaftaran-tadika">Ulangan</label>
-                                        <input type="checkbox" id="enggan-pendaftaran-tadika" value="tidak-hadir">
+                                        <input type="checkbox" id="enggan-pendaftaran-tadika" value="1">
                                         <label for="enggan-pendaftaran-tadika">Enggan</label>
-                                        <input type="checkbox" id="tidak-hadir-pendaftaran-tadika" value="tidak-hadir">
-                                        <label for="tidak-hadir-pendaftaran-tadika">Tidak hadir</label>
+                                        <input type="checkbox" id="tidak-hadir-pendaftaran-tadika" value="1">
+                                        <label for="tidak-hadir-pendaftaran-tadika">Tidak Hadir</label>
                                     </fieldset>
                                 </div>
-                                <div class="tidak-hadir input-wrap-pemeriksaan">
-                                    <fieldset>
+                                <div class="input-wrap">
+                                    <fieldset id="fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika">
                                         <legend>Pemeriksaan</legend>
-                                        <input type="radio" id="ada-pendaftaran-tadika" name="ada-tiada-pendaftaran-tadika" value="1">
-                                        <label for="ada-pendaftaran-tadika">Ada</label>
-                                        <input type="radio" id="tiada-pendaftaran-tadika" name="ada-tiada-pendaftaran-tadika" value="0">
-                                        <label for="tiada-pendaftaran-tadika">Tiada</label>
+                                        <select id="pemeriksaan-ada-tiada-pendaftaran-tadika">
+                                            <option value=""></option>
+                                            <option value="ada">Ada</option>
+                                            <option value="tiada">Tiada</option>    
+                                        </select>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <label for="nama-operator-pendaftaran-tadika">Nama Operator</label><br>
-                                    <input type="text" id="nama-operator-pendaftaran-tadika" required>
+                                    <select id="nama-operator-pendaftaran-tadika">
+                                        <option value=""></option>
+                                        <option value="pull-1">Pull 1</option>
+                                        <option value="pull-2">Pull 2</option>
+                                        <option value="pull-3">Pull 3</option>
+                                        <option value="pull-4">Pull 4</option>
+                                        <option value="pull-5">Pull 5</option>
+                                    </select>
                                 </div>
                                 <div class="input-wrap">
                                     <label for="nama-pasukan-bergerak-pendaftaran-tadika">Nama Pasukan Bergerak</label><br>
