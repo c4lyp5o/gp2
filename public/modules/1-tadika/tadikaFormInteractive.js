@@ -48,32 +48,43 @@ function pendaftaranTadika(){
 
     });
 
-    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
-    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    // const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '0' ||
-            umurPendaftaranTadikaDOM.value === '1' ||
-            umurPendaftaranTadikaDOM.value === '1.5' ||
-            umurPendaftaranTadikaDOM.value === '2' ||
-            umurPendaftaranTadikaDOM.value === '3' ||
-            umurPendaftaranTadikaDOM.value === '4') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-                                                                    <option value="taska">Taska</option>`
-        }
-    });
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '0' ||
+    //         umurPendaftaranTadikaDOM.value === '1' ||
+    //         umurPendaftaranTadikaDOM.value === '1.5' ||
+    //         umurPendaftaranTadikaDOM.value === '2' ||
+    //         umurPendaftaranTadikaDOM.value === '3' ||
+    //         umurPendaftaranTadikaDOM.value === '4') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+    //                                                                 <option value="taska">Taska</option>`
+    //     }
+    // });
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '5' ||
-            umurPendaftaranTadikaDOM.value === '6') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-                                                                    <option value="tadika">Tadika</option>`
-        }
-    });
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '5' ||
+    //         umurPendaftaranTadikaDOM.value === '6') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+    //                                                                 <option value="tadika">Tadika</option>`
+    //     }
+    // });
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
+    //     }
+    // });
+
+    const jenisTaskaTadikaPendaftaranTadikaDOM = document.getElementById('jenis-taska-tadika-pendaftaran-tadika');
+    const divJenisTaskaTadikaKerajaanPendaftaranTadikaDOM = document.getElementById('div-jenis-taska-tadika-kerajaan-pendaftaran-tadika');
+
+    jenisTaskaTadikaPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (jenisTaskaTadikaPendaftaranTadikaDOM.value === 'kerajaan') {
+            divJenisTaskaTadikaKerajaanPendaftaranTadikaDOM.style.display = 'block';
+        } else if (jenisTaskaTadikaPendaftaranTadikaDOM.value === '0' || jenisTaskaTadikaPendaftaranTadikaDOM.value === 'swasta') {
+            divJenisTaskaTadikaKerajaanPendaftaranTadikaDOM.style.display = 'none';
         }
     });
 
@@ -94,7 +105,7 @@ function pendaftaranTadika(){
         } else if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
         }
-    })
+    });
 }
 
 function pemeriksaanAwalTadika(){
