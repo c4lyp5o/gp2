@@ -51,7 +51,7 @@ router.post('/update/:id', admincon.updateNow);
 
 router.post('/logout', admincon.logOut);
 
-router.get('/buatreten', countcon.overView);
+router.get('/buatreten', countcon.createTOD);
 
 router.get('/ujikaji', countcon.filterbyUmur);
 

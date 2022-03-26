@@ -1,34 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 const async = require('async');
-const moment = require('moment');
 const Excel = require('exceljs');
-const json2csv = require('json2csv').parse;
 const Tadika = require('../models/Tadika');
+// const moment = require('moment');
+// const json2csv = require('json2csv').parse;
 // const YAData = require('../models/Sekolah'); to put in the future
 // const YAData = require('../models/YA'); to put in the future
-const fields = ['namaPendaftaranTadika', 'namaTaskaTadikaPendaftaranTadika', 'umurPendaftaranTadika', 'kelasPendaftaranTadika'];
-
-exports.kiraJumlahTadika = function(req, res) {
-    Tadika.distinct('namaTaskaTadikaPendaftaranTadika', {nama: new RegExp('')}, function(err, tadikas) {
-        if (err) { return res.status(500).json({ err }); }
-        res.json(tadikas);
-        }
-    );
-};
 
 exports.filterbyUmur = function(req, res) {
-  // async.parallel({
-  //     cabutan: function(callback) {
-  //       Tadika.aggregate([
-  //         { $match: { $or: [{ cabutanGd: "1" }, { cabutanGk: '1' }] } },
-  //         { $group: { _id: null, count: { $sum: 1 } } }
-  //       ], callback);
-  //     },
-  // }
   async.parallel({
     jumlahD: function(callback) {
-        Tadika.aggregate([ {$group: { _id:"$createdByDaerah",
+        Tadika.aggregate([ { $group: { _id:"$createdByDaerah",
         jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
         jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
         jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
@@ -36,19 +19,28 @@ exports.filterbyUmur = function(req, res) {
         jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
         jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
         jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
-        // jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
-        // jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
-        // jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
-        // jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuLembut" } },
-        // jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
-        // jumlahAbses: { $sum: { $toDouble:"$abses" } },
-        // jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
-        // jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
-        // jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
-        // jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
-        // jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
-        // jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } },
-      } } ], callback);
+        jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+        jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+        jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+        jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+        jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+        jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+        jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+        jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+        jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+        jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+        jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+        cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+        jumlahAbses: { $sum: { $toDouble:"$abses" } },
+        jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+        jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+        jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+        jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+        jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+        jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+        jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } },         
+      },  
+    } ], callback);
     },
   }, async function(err, results) {
     if (err) { return res.status(500).json({ err }); }
@@ -57,212 +49,7 @@ exports.filterbyUmur = function(req, res) {
   });
 }
 
-exports.filterbyDaerah = function(req, res) {
-    Tadika.aggregate([
-        { $match: { createdByDaerah: '' } } 
-      , { $project: { namaTaskaTadikaPendaftaranTadika: 1, createdByKp: 1, createdByDaerah: 1, createdByNegeri: 1 } } 
-      , { $unwind: '$namaTaskaTadikaPendaftaranTadika' } 
-      , { $group: { _id: { tadika: '$namaTaskaTadikaPendaftaranTadika', kp: '$createdByKp', daerah: '$createdByDaerah', negeri: '$createdByNegeri' }, count: { $sum: 1 } } }
-      , { $sort: { _id: -1 } }        
-    ]).exec(function(err, allResult) {
-        if (err) { return res.status(500).json({ err }); }
-        console.log(allResult);
-        res.render('countpage', { title: 'test', allresult: allResult} )
-    });
-}
-
-exports.filterEverything = function(req, res) {
-    Tadika.aggregate([
-        { $match: { createdByNegeri: '' } }
-      , { $project: { namaTaskaTadikaPendaftaranTadika: 1, createdByKp: 1, createdByDaerah: 1, createdByNegeri: 1 } }
-      , { $unwind: '$namaTaskaTadikaPendaftaranTadika' }
-      , { $group: {
-               _id: { tadika: '$namaTaskaTadikaPendaftaranTadika', kp: '$createdByKp', daerah: '$createdByDaerah', negeri: '$createdByNegeri' }
-            , count: { $sum: 1 }
-          }
-        }
-    ]).exec(function(err, allResult) {
-        if (err) { return res.status(500).json({ err }); }
-        console.log(allResult);
-        res.render('countpage', { title: 'test', allresult: allResult} )
-    });
-}
-
-exports.overView = function(req, res) {
-    async.parallel({
-        pesakitBaru: function(callback) {
-            Tadika.countDocuments({ pesakitBaru: "1" }, callback);
-        },
-        pesakitBaru: function(callback) {
-          Tadika.countDocuments({ pesakitBaru: "0" }, callback);
-        },
-        // listTadika: function(callback) {
-        //     Tadika
-        //    .find({ createdByNegeri: req.body.negeri })
-        //    .distinct('namaTaskaTadikaPendaftaranTadika', {nama: new RegExp('')}, callback);
-        // },
-        // listKP: function(callback) {
-        //     Tadika
-        //    .find({ createdByNegeri: req.body.negeri })
-        //    .distinct('createdByKp', {nama: new RegExp('')}, callback);
-        // },
-        // listAll: function(callback) {
-        //     Tadika.aggregate([
-        //         { $match: { createdByNegeri: req.body.negeri } } 
-        //       , { $project: { namaTaskaTadikaPendaftaranTadika: 1, createdByKp: 1, createdByDaerah: 1, createdByNegeri: 1, namaPendaftaranTadika: 1 } } 
-        //       , { $unwind: '$namaTaskaTadikaPendaftaranTadika' } 
-        //       , { $group: { _id: { tadika: '$namaTaskaTadikaPendaftaranTadika', kp: '$createdByKp', daerah: '$createdByDaerah', negeri: '$createdByNegeri' }, count: { $sum: 1 } } }
-        //       , { $sort: { _id: -1 } }        
-        //     ], callback);
-        // },
-        // listTNuri: function(callback) {
-        //   Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: 'Tabika Kemas Taman Nuri' }, callback);
-        // },
-        // listTWJ: function(callback) {
-        //   Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: 'Tabika Kemas Teluk Wanjah' }, callback);
-        // },
-        // listTT: function(callback) {
-        //   Tadika.countDocuments({ namaTaskaTadikaPendaftaranTadika: 'Tabika Kemas Tualang' }, callback);
-        // },
-        // listUmur4 : function(callback) {
-        //   Tadika.countDocuments({ umurPendaftaranTadika: '4' }, callback);
-        // },
-        // listUmur5 : function(callback) {
-        //   Tadika.countDocuments({ umurPendaftaranTadika: '5' }, callback);
-        // },
-        // listUmur6 : function(callback) {
-        //   Tadika.countDocuments({ umurPendaftaranTadika: '6' }, callback);
-        // },
-    }
-    , async function(err, results) {
-        console.log(results);
-        try {
-        const YearNow = moment().format('YYYY');
-        const DateNow = moment().format('DD/MM/YYYY');
-        const TimeNow = moment().format('HH:mm');
-        alltheData = results.listAll.reverse();
-        alltheTadika = results.listTadika;
-        alltheKP = results.listKP;
-        let filename = path.join(__dirname, "..", "public", "exports", "blank-template.xlsx");
-        let workbook = new Excel.Workbook();
-        await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('Sheet1');
-        let rowNew = worksheet.getRow(1);
-        rowNew.getCell(1).value = `LAPORAN DATA SEMUA TADIKA YANG ADA BAGI TAHUN ${YearNow}.`;
-        let rowNew2 = worksheet.getRow(5);
-        let rowNew3 = worksheet.getRow(6);
-        let rowNew4 = worksheet.getRow(7);
-        let rowNew5 = worksheet.getRow(8);
-        let rowNew6 = worksheet.getRow(9);
-        let rowNew7 = worksheet.getRow(12);
-        rowNew2.getCell(7).value = alltheTadika.length;
-        let b = 7;
-        alltheTadika.forEach(alltheTadika => {
-            rowNew3.getCell(b).value = alltheTadika;
-            b++;
-        });
-        rowNew4.getCell(7).value = results.jumlahPelajar;
-        rowNew5.getCell(7).value = alltheKP.length;
-        let c = 7;
-        alltheKP.forEach(alltheKP => {
-            rowNew6.getCell(c).value = alltheKP;
-            c++;            
-        });
-        rowNew7.getCell(1).value = 'Report Generated by Gi-Ret 2.0 on ' + DateNow + ' at ' + TimeNow;
-        rowNew2.commit();
-        rowNew3.commit();
-        rowNew4.commit();
-        rowNew5.commit();
-        rowNew6.commit();
-        rowNew7.commit();
-        delete a, b, c, rowNew, rowNew2, rowNew3, rowNew4, rowNew5, rowNew6, rowNew7;
-        let newfile = path.join(__dirname, "..", "public", "exports", req.body.negeri + "-Report.xlsx");
-        await workbook.xlsx.writeFile(newfile);
-        setTimeout(function () {
-            fs.unlinkSync(newfile); // delete this file after 30 seconds
-          }, 30000)
-        setTimeout(function () {
-            return res.download(newfile); // delete this file after 30 seconds
-          }, 3000)        
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ error });
-        }
-    });
-}
-
-exports.CSVexporter = function(req, res) {
-    Tadika.find().sort([['namaPendaftaranTadika', 'ascending']]).exec(function (err, list_budak) {
-        if (err) {
-          return res.status(500).json({ err });
-        }
-        else {
-          let csv
-          try {
-            csv = json2csv(list_budak, { fields });
-          } catch (err) {
-            return res.status(500).json({ err });
-          }
-          const dateTime = moment().format('YYYYMMDDhhmmss');
-          const filePath = path.join(__dirname, "..", "public", "exports", `FullData-${dateTime}.csv`)
-          fs.writeFile(filePath, csv, function (err) {
-            if (err) {
-              return res.json(err).status(500);
-            }
-            else {
-              setTimeout(function () {
-                fs.unlinkSync(filePath); // delete this file after 60 seconds
-              }, 60000)
-              setTimeout(function () {
-                res.download(filePath);
-              }, 3000)
-            }
-          });  
-        }
-      })
-    }
-
-exports.XLSXexporter = async function(req, res) {
-    Tadika.find().sort([['namaPendaftaranTadika', 'ascending']]).exec(function (err, list_budak) {
-        if (err) {
-          return res.status(500).json({ err });
-        }
-        else {
-          let csv
-          try {
-            csv = json2csv(list_budak, { fields });
-          } catch (err) {
-            return res.status(500).json({ err });
-          }
-          const dateTime = moment().format('YYYYMMDDhhmmss');
-          const filePath = path.join(__dirname, "..", "public", "exports", `FullData-${dateTime}.csv`)
-          fs.writeFile(filePath, csv, function (err) {
-            if (err) {
-              return res.json(err).status(500);
-            }
-            else {
-              setTimeout(function () {
-                fs.unlinkSync(filePath); // delete this file after 60 seconds
-              }, 60000)
-              const XLSX_file = path.join(__dirname, "..", "public", "exports", `FullData-${dateTime}.xlsx`);
-              let csvtobook = new Excel.Workbook();
-              csvtobook.csv.readFile(filePath).then(worksheet => {
-                console.log(worksheet.getRow(1).getCell(1).value);
-                csvtobook.xlsx.writeFile(XLSX_file);
-              })          
-              setTimeout(function () {
-                fs.unlinkSync(XLSX_file); // delete this file after 30 seconds
-              }, 30000)
-              setTimeout(function () {
-                res.download(XLSX_file);
-              }, 3000)
-            }
-          });  
-        }
-      })
-    }
-
-exports.retenBEGIN = (req, res) => {
+exports.createBEGIN = (req, res) => {
   async.parallel({
     pesakitBaru: function(callback) {
       Tadika.countDocuments({ pesakitBaru: "1" }, callback);
@@ -354,11 +141,11 @@ exports.retenBEGIN = (req, res) => {
         await rowNew4.commit();
         
         let rowNew5 = worksheet.getRow(20);
-        rowNew6.getCell(1).value = 'Report Generated by Gi-Ret 2.0 on ' + DateNow + ' at ' + TimeNow;
+        rowNew6.getCell(1).value = 'Report Generated by Gi-Ret 2.0';
         rowNew6.commit();
 
         delete rowNew, rowNew2, rowNew3, rowNew4, rowNew5;
-        let newfile = path.join(__dirname, "..", "public", "exports", req.body.user + "-BEGIN.xlsx");
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-BEGIN.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
@@ -376,507 +163,87 @@ exports.retenBEGIN = (req, res) => {
   });
 }
 
-// exports.retenTOD =  (req, res) => {
-//   async.parallel({
-//     jumlahPelajar: function(callback) {
-//       Tadika.countDocuments({ kedatanganBaru: "1" }, callback);
-//     },
-    // kedatanganBaru: function(callback) {
-    //   Tadika.countDocuments({ kedatanganBaru: "1" }, callback);
-    // },
-    // kedatanganUlangan: function(callback) {
-    //   Tadika.countDocuments({ kedatanganUlangan: "1" }, callback);
-    // },
-    // dStatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ dStatusDMFX: "1" }, callback);
-    // },
-    // mStatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ mStatusDMFX: "1" }, callback);
-    // },
-    // fStatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ fStatusDMFX: "1" }, callback);
-    // },
-    // xStatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ xStatusDMFX: "1" }, callback);
-    // },
-    // dmfxEqualToZero: function(callback) {
-    //   Tadika.countDocuments({ dmfxEqualToZero: "1" }, callback);
-    // },
-    // skorPlakA: function(callback) {
-    //   Tadika.countDocuments({ skorPlakA: "1" }, callback);
-    // },
-    // skorPlakC: function(callback) {
-    //   Tadika.countDocuments({ skorPlakC: "1" }, callback);
-    // },
-    // skorPlakC: function(callback) {
-    //   Tadika.countDocuments({ skorPlakC: "1" }, callback);
-    // },
-    // traumaTisuLembut: function(callback) {
-    //   Tadika.countDocuments({ traumaTisuLembut: "1" }, callback);
-    // },
-    // traumaTisuKeras: function(callback) {
-    //   Tadika.countDocuments({ traumaTisuKeras: "1" }, callback);
-    // },
-    // bilTODperluFV: function(callback) {
-    //   Tadika.countDocuments({ bilTODperluFV: "1" }, callback);
-    // },
-    // bilTodBaruDibuatFV: function(callback) {
-    //   Tadika.countDocuments({ tpr: "1" }, callback);
-    // },
-    // tampalanAnteriorB: function(callback) {
-    //   Tadika.countDocuments({ tampalanAnteriorB: "1" }, callback);
-    // },
-    // tampalanAnteriorS: function(callback) {
-    //   Tadika.countDocuments({ tampalanAnteriorS: "1" }, callback);
-    // },
-    // tampalanPosteriorB: function(callback) {
-    //   Tadika.countDocuments({ tampalanPosteriorB: "1" }, callback);
-    // },
-    // tampalanPosteriorS: function(callback) {
-    //   Tadika.countDocuments({ tampalanPosteriorS: "1" }, callback);
-    // },
-    // cabutan: function(callback) {
-    //   Tadika.countDocuments({ cabutan: "1" }, callback);
-    // },
-    // abses: function(callback) {
-    //   Tadika.countDocuments({ abses: "1" }, callback);
-    // },
-    // pulpotomi: function(callback) {
-    //   Tadika.countDocuments({ pulpotomi: "1" }, callback);
-    // },
-    // ceramahUtkToddler: function(callback) {
-    //   Tadika.countDocuments({ ceramahUtkToddler: "1" }, callback);
-    // },
-    // ceramahUtkDewasa: function(callback) {
-    //   Tadika.countDocuments({ ceramahUtkDewasa: "1" }, callback);
-    // },
-    // toddlerLMG: function(callback) {
-    //   Tadika.countDocuments({ toddlerLMG: "1" }, callback);
-    // },
-    // dirujukDariAgensiLuar: function(callback) {
-    //   Tadika.countDocuments({ dirujukDariAgensiLuar: "1" }, callback);
-    // },
-    // toddlerDirujukPadaLawatan: function(callback) {
-    //   Tadika.countDocuments({ toddlerDirujukPadaLawatan: "1" }, callback);
-    // },
-    // toddlerHadirRujukan: function(callback) {
-    //   Tadika.countDocuments({ toddlerHadirRujukan: "1" }, callback);
-    // },
-    // lowCRA: function(callback) {
-    //   Tadika.countDocuments({ lowCRA: "1" }, callback);
-    // },
-    // moderateCRA: function(callback) {
-    //   Tadika.countDocuments({ moderateCRA: "1" }, callback);
-    // },
-    // highCRA: function(callback) {
-    //   Tadika.countDocuments({ highCRA: "1" }, callback);
-    // },
-    // pbToddler: function(callback) {
-    //   Tadika.countDocuments({ pbToddler: "1" }, callback);
-    // },
-    // pbDstatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ pbDstatusDMFX: "1" }, callback);
-    // },
-    // pbMstatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ pbMstatusDMFX: "1" }, callback);
-    // },
-    // pbFstatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ pbFstatusDMFX: "1" }, callback);
-    // },
-    // pbXstatusDMFX: function(callback) {
-    //   Tadika.countDocuments({ pbXstatusDMFX: "1" }, callback);
-    // },
-    // pbDMFXequalToZero: function(callback) {
-    //   Tadika.countDocuments({ pbDMFXequalToZero: "1" }, callback);
-    // },
-    // agensiATM: function(callback) {
-    //   Tadika.countDocuments({ agensiATM: "1" }, callback);
-    // },
-    // agensiIPTA: function(callback) {
-    //   Tadika.countDocuments({ agensiIPTA: "1" }, callback);
-    // },
-    // agensiIPTS: function(callback) {
-    //   Tadika.countDocuments({ agensiIPTS: "1" }, callback);
-    // },
-    // agensiPrivateDentalClinic: function(callback) {
-    //   Tadika.countDocuments({ agensiPrivateDentalClinic: "1" }, callback);
-    // },
-    // agensiNGO: function(callback) {
-    //   Tadika.countDocuments({ agensiNGO: "1" }, callback);
-    // },
-    // agensiIndustri: function(callback) {
-    //   Tadika.countDocuments({ agensiIndustri: "1" }, callback);
-    // },
-//     async function(err, results) {
-//       Tadika.countDocuments({kedatanganBaru: "1"}, function(err, count) {
-//         console.log(count);
-//       });
-//       console.log(results);
-//       try {
-//         // Prepare the minigun
-//         let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
-//         let workbook = new Excel.Workbook();
-//         await workbook.xlsx.readFile(filename);
-//         let worksheet = workbook.getWorksheet('TOD');
-
-//         //Toddler Reten (Taska)
-//         let rowNew = worksheet.getRow(19);
-//         rowNew.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru Taska 
-//         rowNew.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan Taska 
-//         rowNew.getCell(5).value = results.dStatusDMFX; //d Status dmfx Taska
-//         rowNew.getCell(6).value = results.mStatusDMFX; //m Status dmfx Taska
-//         rowNew.getCell(7).value = results.dStatusDMFX; //f Status dmfx Taska
-//         rowNew.getCell(8).value = results.xStatusDMFX; //x Status dmfx Taska
-//         rowNew.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 Taska 	
-//         rowNew.getCell(12).value = results.skorPlakA; //Skor Plak A Taska
-//         rowNew.getCell(13).value = results.skorPlakC; //Skor Plak C Taska
-//         rowNew.getCell(14).value = results.skorPlakE; //Skor Plak E Taska
-//         rowNew.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) Taska
-//         rowNew.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut Taska
-//         rowNew.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras Taska
-//         rowNew.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV Taska
-//         rowNew.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV Taska
-//         rowNew.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru Taska
-//         rowNew.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru Taska
-//         rowNew.getCell(24).value = results.cabutan; //Bilangan Cabutan Taska 
-//         rowNew.getCell(25).value = results.abses; //Bilangan Abses Taska
-//         rowNew.getCell(26).value = results.pulpotomi; //Pulpotomi Taska 
-//         rowNew.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler Taska
-//         rowNew.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa Taska
-//         rowNew.getCell(29).value = results.toddlerLMG; //LMG Toddler Taska
-//         rowNew.getCell(33).value = results.lowCRA; //CRA Rendah Taska
-//         rowNew.getCell(34).value = results.moderateCRA; //CRA Sederhana Taska
-//         rowNew.getCell(35).value = results.highCRA; //CRA Tinggi Taska
-
-//         //Toddler Reten (Taska)
-//         let rowNew2 = worksheet.getRow(20);
-//         rowNew2.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV Taska
-//         rowNew2.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan Taska 
-//         rowNew2.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan Taska
-
-//         //Toddler Reten (Tadika)
-//         let rowNew3 = worksheet.getRow(21);
-//         rowNew3.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru Tadika 
-//         rowNew3.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan Tadika 
-//         rowNew3.getCell(5).value = results.dStatusDMFX; //d Status dmfx Tadika
-//         rowNew3.getCell(6).value = results.mStatusDMFX; //m Status dmfx Tadika
-//         rowNew3.getCell(7).value = results.dStatusDMFX; //f Status dmfx Tadika
-//         rowNew3.getCell(8).value = results.xStatusDMFX; //x Status dmfx Tadika
-//         rowNew3.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 Tadika 	
-//         rowNew3.getCell(12).value = results.skorPlakA; //Skor Plak A Tadika
-//         rowNew3.getCell(13).value = results.skorPlakC; //Skor Plak C Tadika
-//         rowNew3.getCell(14).value = results.skorPlakE; //Skor Plak E Tadika
-//         rowNew3.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) Tadika
-//         rowNew3.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut Tadika
-//         rowNew3.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras Tadika
-//         rowNew3.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV Tadika
-//         rowNew3.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV Tadika
-//         rowNew3.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru Tadika
-//         rowNew3.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru Tadika
-//         rowNew3.getCell(24).value = results.cabutan; //Bilangan Cabutan Tadika 
-//         rowNew3.getCell(25).value = results.abses; //Bilangan Abses Tadika
-//         rowNew3.getCell(26).value = results.pulpotomi; //Pulpotomi Tadika 
-//         rowNew3.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler Tadika
-//         rowNew3.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa Tadika
-//         rowNew3.getCell(29).value = results.toddlerLMG; //LMG Toddler Tadika
-//         rowNew3.getCell(33).value = results.lowCRA; //CRA Rendah Tadika
-//         rowNew3.getCell(34).value = results.moderateCRA; //CRA Sederhana Tadika
-//         rowNew3.getCell(35).value = results.highCRA; //CRA Tinggi Tadika
-
-//         //Toddler Reten (Tadika)       
-//         let rowNew4 = worksheet.getRow(22);
-//         rowNew4.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV Tadika
-//         rowNew4.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan Tadika 
-//         rowNew4.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan Tadika
-
-//         // Execute batch five KKIA
-//         let rowNew5 = worksheet.getRow(23);
-//         rowNew5.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru KKIA 
-//         rowNew5.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan KKIA 
-//         rowNew5.getCell(5).value = results.dStatusDMFX; //d Status dmfx KKIA
-//         rowNew5.getCell(6).value = results.mStatusDMFX; //m Status dmfx KKIA
-//         rowNew5.getCell(7).value = results.dStatusDMFX; //f Status dmfx KKIA
-//         rowNew5.getCell(8).value = results.xStatusDMFX; //x Status dmfx KKIA
-//         rowNew5.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 KKIA 	
-//         rowNew5.getCell(12).value = results.skorPlakA; //Skor Plak A KKIA
-//         rowNew5.getCell(13).value = results.skorPlakC; //Skor Plak C KKIA
-//         rowNew5.getCell(14).value = results.skorPlakE; //Skor Plak E KKIA
-//         rowNew5.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) KKIA
-//         rowNew5.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut KKIA
-//         rowNew5.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras KKIA
-//         rowNew5.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV KKIA
-//         rowNew5.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV KKIA
-//         rowNew5.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru KKIA
-//         rowNew5.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru KKIA
-//         rowNew5.getCell(24).value = results.cabutan; //Bilangan Cabutan KKIA 
-//         rowNew5.getCell(25).value = results.abses; //Bilangan Abses KKIA
-//         rowNew5.getCell(26).value = results.pulpotomi; //Pulpotomi KKIA 
-//         rowNew5.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler KKIA
-//         rowNew5.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa KKIA
-//         rowNew5.getCell(29).value = results.toddlerLMG; //LMG Toddler KKIA
-//         rowNew5.getCell(33).value = results.lowCRA; //CRA Rendah KKIA
-//         rowNew5.getCell(34).value = results.moderateCRA; //CRA Sederhana KKIA
-//         rowNew5.getCell(35).value = results.highCRA; //CRA Tinggi KKIA
-
-//         let rowNew6 = worksheet.getRow(24);
-//         rowNew6.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV KKIA
-//         rowNew6.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan KKIA 
-//         rowNew6.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan KKIA
-
-//         // PESAKIT LUAR
-//         let rowNew7 = worksheet.getRow(25);
-//         rowNew7.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru PESAKIT LUAR 
-//         rowNew7.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan PESAKIT LUAR 
-//         rowNew7.getCell(5).value = results.dStatusDMFX; //d Status dmfx PESAKIT LUAR
-//         rowNew7.getCell(6).value = results.mStatusDMFX; //m Status dmfx PESAKIT LUAR
-//         rowNew7.getCell(7).value = results.dStatusDMFX; //f Status dmfx PESAKIT LUAR
-//         rowNew7.getCell(8).value = results.xStatusDMFX; //x Status dmfx PESAKIT LUAR
-//         rowNew7.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 PESAKIT LUAR 	
-//         rowNew7.getCell(12).value = results.skorPlakA; //Skor Plak A PESAKIT LUAR
-//         rowNew7.getCell(13).value = results.skorPlakC; //Skor Plak C PESAKIT LUAR
-//         rowNew7.getCell(14).value = results.skorPlakE; //Skor Plak E PESAKIT LUAR
-//         rowNew7.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) PESAKIT LUAR
-//         rowNew7.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut PESAKIT LUAR
-//         rowNew7.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras PESAKIT LUAR
-//         rowNew7.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV PESAKIT LUAR
-//         rowNew7.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV PESAKIT LUAR
-//         rowNew7.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru PESAKIT LUAR
-//         rowNew7.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru PESAKIT LUAR
-//         rowNew7.getCell(24).value = results.cabutan; //Bilangan Cabutan PESAKIT LUAR 
-//         rowNew7.getCell(25).value = results.abses; //Bilangan Abses PESAKIT LUAR
-//         rowNew7.getCell(26).value = results.pulpotomi; //Pulpotomi PESAKIT LUAR 
-//         rowNew7.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler PESAKIT LUAR
-//         rowNew7.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa PESAKIT LUAR
-//         rowNew7.getCell(29).value = results.toddlerLMG; //LMG Toddler PESAKIT LUAR
-//         rowNew7.getCell(30).value = results.dirujukDariAgensiLuar; //dirujuk daripada Agensi Luar 
-//         rowNew7.getCell(33).value = results.lowCRA; //CRA Rendah PESAKIT LUAR
-//         rowNew7.getCell(34).value = results.moderateCRA; //CRA Sederhana PESAKIT LUAR
-//         rowNew7.getCell(35).value = results.highCRA; //CRA Tinggi PESAKIT LUAR
-
-//         let rowNew8 = worksheet.getRow(26);
-//         rowNew8.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV PESAKIT LUAR
-//         rowNew8.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan PESAKIT LUAR 
-
-//         // LAIN LAIN
-//         let rowNew9 = worksheet.getRow(27);
-//         rowNew9.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru LAIN-LAIN 
-//         rowNew9.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan LAIN-LAIN 
-//         rowNew9.getCell(5).value = results.dStatusDMFX; //d Status dmfx LAIN-LAIN
-//         rowNew9.getCell(6).value = results.mStatusDMFX; //m Status dmfx LAIN-LAIN
-//         rowNew9.getCell(7).value = results.dStatusDMFX; //f Status dmfx LAIN-LAIN
-//         rowNew9.getCell(8).value = results.xStatusDMFX; //x Status dmfx LAIN-LAIN
-//         rowNew9.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 LAIN-LAIN 	
-//         rowNew9.getCell(12).value = results.skorPlakA; //Skor Plak A LAIN-LAIN
-//         rowNew9.getCell(13).value = results.skorPlakC; //Skor Plak C LAIN-LAIN
-//         rowNew9.getCell(14).value = results.skorPlakE; //Skor Plak E LAIN-LAIN
-//         rowNew9.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) LAIN-LAIN
-//         rowNew9.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut LAIN-LAIN
-//         rowNew9.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras LAIN-LAIN
-//         rowNew9.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV LAIN-LAIN
-//         rowNew9.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV LAIN-LAIN
-//         rowNew9.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru LAIN-LAIN
-//         rowNew9.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru LAIN-LAIN
-//         rowNew9.getCell(24).value = results.cabutan; //Bilangan Cabutan LAIN-LAIN 
-//         rowNew9.getCell(25).value = results.abses; //Bilangan Abses LAIN-LAIN
-//         rowNew9.getCell(26).value = results.pulpotomi; //Pulpotomi LAIN-LAIN 
-//         rowNew9.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler LAIN-LAIN
-//         rowNew9.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa LAIN-LAIN
-//         rowNew9.getCell(29).value = results.toddlerLMG; //LMG Toddler LAIN-LAIN
-//         rowNew9.getCell(33).value = results.lowCRA; //CRA Rendah LAIN-LAIN
-//         rowNew9.getCell(34).value = results.moderateCRA; //CRA Sederhana LAIN-LAIN
-//         rowNew9.getCell(35).value = results.highCRA; //CRA Tinggi LAIN-LAIN
-
-//         let rowNew10 = worksheet.getRow(28);
-//         rowNew10.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV LAIN-LAIN
-//         rowNew10.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan LAIN-LAIN 
-//         rowNew10.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan LAIN-LAIN
-
-//         // AGENSI LUAR
-//         let rowNew11 = worksheet.getRow(31);
-//         rowNew11.getCell(3).value = results.kedatanganBaru; //Kedatangan Baru AGENSI LUAR 
-//         rowNew11.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan AGENSI LUAR 
-//         rowNew11.getCell(5).value = results.dStatusDMFX; //d Status dmfx AGENSI LUAR
-//         rowNew11.getCell(6).value = results.mStatusDMFX; //m Status dmfx AGENSI LUAR
-//         rowNew11.getCell(7).value = results.dStatusDMFX; //f Status dmfx AGENSI LUAR
-//         rowNew11.getCell(8).value = results.xStatusDMFX; //x Status dmfx AGENSI LUAR
-//         rowNew11.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 AGENSI LUAR 	
-//         rowNew11.getCell(12).value = results.skorPlakA; //Skor Plak A AGENSI LUAR
-//         rowNew11.getCell(13).value = results.skorPlakC; //Skor Plak C AGENSI LUAR
-//         rowNew11.getCell(14).value = results.skorPlakE; //Skor Plak E AGENSI LUAR
-//         rowNew11.getCell(15).value = results.tpr; //Tidak Perlu Rawatan (TPR) AGENSI LUAR
-//         rowNew11.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV AGENSI LUAR
-//         rowNew11.getCell(25).value = results.abses; //Bilangan Abses AGENSI LUAR
-//         rowNew11.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler AGENSI LUAR
-//         rowNew11.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa AGENSI LUAR
-//         rowNew11.getCell(29).value = results.toddlerLMG; //LMG Toddler AGENSI LUAR
-//         rowNew11.getCell(31).value = results.toddlerDirujukPadaLawatan; //Toddler dirujuk pada Lawatan AGENSI Luar
-//         rowNew11.getCell(32).value = results.toddlerHadirRujukan; //Toddler hadir rujukan AGENSI LUAR
-//         rowNew11.getCell(33).value = results.lowCRA; //CRA Rendah AGENSI LUAR
-//         rowNew11.getCell(34).value = results.moderateCRA; //CRA Sederhana AGENSI LUAR
-//         rowNew11.getCell(35).value = results.highCRA; //CRA Tinggi AGENSI LUAR
-
-//         let rowNew12 = worksheet.getRow(32);
-//         rowNew12.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV AGENSI LUAR
-//         rowNew12.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan AGENSI LUAR 
-//         rowNew12.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan AGENSI LUAR
-        
-//         let rowNew13 = worksheet.getRow(20);
-//         rowNew13.getCell(2).value = 'Report Generated by Gi-Ret 2.0 on ' + DateNow + ' at ' + TimeNow;
-//         rowNew13.commit();
-
-//         delete rowNew, rowNew2, rowNew3, rowNew4, rowNew5, rowNew6, rowNew7, rowNew8, rowNew9, rowNew10, rowNew11, rowNew12, rowNew13;
-
-//         let newfile = path.join(__dirname, "..", "public", "exports", req.body.user + "-TOD.xlsx");
-
-//         // Write the file
-//         await workbook.xlsx.writeFile(newfile);
-//         setTimeout(function () {
-//             fs.unlinkSync(newfile); // delete this file after 30 seconds
-//           }, 30000)
-//         setTimeout(function () {
-//             return res.download(newfile); // download the file after 3 seconds
-//           }, 3000)
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//   });
-// }
-
 exports.createTOD = function(req, res) {
   async.parallel({
-      pesakitBaru: function(callback) {
-        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
-      },
-      kedatanganUlangan: function(callback) {
-        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
-      },
-      dStatusDMFX: function(callback) {
-        Tadika.aggregate([ {$group:{_id:"$createdByDaerah", sum_val:{$sum:{ $toDouble:"$statusGigidesidusD" }}}} ], callback);
-      },
-      mStatusDMFX: function(callback) {
-        Tadika.aggregate([ {$group:{_id:"$createdByDaerah", sum_val:{$sum:{ $toDouble:"$statusGigidesidusM" }}}} ], callback);
-      },
-      fStatusDMFX: function(callback) {
-        Tadika.aggregate([ {$group:{_id:"$createdByDaerah", sum_val:{$sum:{ $toDouble:"$statusGigidesidusF" }}}} ], callback);
-      },
-      xStatusDMFX: function(callback) {
-        Tadika.aggregate([ {$group:{_id:"$createdByDaerah", sum_val:{$sum:{ $toDouble:"$statusGigidesidusX" }}}} ], callback);
-      },
       dmfxEqualToZero: function(callback) {
         Tadika.countDocuments({ statusGigidesidusD: "0", statusGigidesidusM: "0", statusGigidesidusF: "0", statusGigidesidusX: 0, kedatanganBaru: 1  }, callback);
       },
-      skorPlakA: function(callback) {
-        Tadika.countDocuments({ kebersihanMulutA: "1", kedatanganBaru: 1 }, callback);
-      },
-      skorPlakC: function(callback) {
-        Tadika.countDocuments({ kebersihanMulutC: "1", kedatanganBaru: 1 }, callback);
-      },
-      skorPlakE: function(callback) {
-        Tadika.countDocuments({ kebersihanMulutE: "1", kedatanganBaru: 1 }, callback);
-      },
-      traumaTisuLembut: function(callback) {
-        Tadika.countDocuments({ traumaTisuLembut: { $gte: 1 } }, callback);
-      },
-      traumaTisuKeras: function(callback) {
-        Tadika.countDocuments({ traumaTisuKeras: { $gte: 1 } }, callback);
-      },
-      bilTODperluFV: function(callback) {
-        Tadika.countDocuments({ perluFvMuridB: "1", kedatanganBaru: 1 }, callback);
-      },
-      bilTodBaruDibuatFV: function(callback) {
-        Tadika.countDocuments({ telahFVMuridB: "1" }, callback);
-      },
-      tampalanAnteriorB: function(callback) {
-        Tadika.countDocuments({ telahTampalanAntGdB: { $gte: 1 }, kedatanganBaru: 1 }, callback);
-      },
-      tampalanAnteriorS: function(callback) {
-        Tadika.countDocuments({ telahTampalanAntGdS: { $gte: 1 }, kedatanganUlangan: 1 }, callback);
-      },
-      tampalanPosteriorB: function(callback) {
-        Tadika.countDocuments({ telahTampalanPosGdB: { $gte: 1 }, kedatanganBaru: 1 }, callback);
-      },
-      tampalanPosteriorS: function(callback) {
-        Tadika.countDocuments({ telahTampalanPosGdS: { $gte: 1 }, kedatanganUlangan: 1 }, callback);
-      },
-      cabutan: function(callback) {
-        // Tadika.aggregate([
-        //   { $match: { $and: [{ telahCabut: "1" }, { telahFVMuridB: "1" }] } },
-        //   { $group: { _id: null, count: { $sum: 1 } } }
-        // ], callback);
-        Tadika.countDocuments({ cabutanGd: { $gte: 1 } }, callback);
-      },
-      abses: function(callback) {
-        Tadika.countDocuments({ abses: "1" }, callback);
-      },
-      pulpotomi: function(callback) {
-        Tadika.countDocuments({ pulpotomi: "1" }, callback);
-      },
-      ceramahUtkToddler: function(callback) {
-        Tadika.countDocuments({ ceramahToddler: "1" }, callback);
-      },
-      ceramahUtkDewasa: function(callback) {
-        Tadika.countDocuments({ ceramahPenjaga: "1" }, callback);
-      },
-      toddlerLMG: function(callback) {
-        Tadika.countDocuments({ toddlerLMG: "1" }, callback);
-      },
-      dirujukDariAgensiLuar: function(callback) {
-        Tadika.countDocuments({ rujuk: "1" }, callback);
-      },
-      toddlerDirujukPadaLawatan: function(callback) {
-        Tadika.countDocuments({ toddlerDirujukPadaLawatan: "1" }, callback);
-      },
-      toddlerHadirRujukan: function(callback) {
-        Tadika.countDocuments({ toddlerHadirRujukan: "1" }, callback);
-      },
-      lowCRA: function(callback) {
-        Tadika.countDocuments({ craRendah: "1", kedatanganBaru: "1" }, callback);
-      },
-      moderateCRA: function(callback) {
-        Tadika.countDocuments({ craSederhana: "1", kedatanganBaru: "1" }, callback);
-      },
-      highCRA: function(callback) {
-        Tadika.countDocuments({ craTinggi: "1", kedatanganBaru: "1" }, callback);
-      },
-      pbToddler: function(callback) {
-        Tadika.countDocuments({ pbToddler: "1" }, callback);
-      },
-      pbDstatusDMFX: function(callback) {
-        Tadika.countDocuments({ pbDstatusDMFX: "1" }, callback);
-      },
-      pbMstatusDMFX: function(callback) {
-        Tadika.countDocuments({ pbMstatusDMFX: "1" }, callback);
-      },
-      pbFstatusDMFX: function(callback) {
-        Tadika.countDocuments({ pbFstatusDMFX: "1" }, callback);
-      },
-      pbXstatusDMFX: function(callback) {
-        Tadika.countDocuments({ pbXstatusDMFX: "1" }, callback);
-      },
-      pbDMFXequalToZero: function(callback) {
-        Tadika.countDocuments({ pbDMFXequalToZero: "1" }, callback);
-      },
-      agensiATM: function(callback) {
-        Tadika.countDocuments({ agensiATM: "1" }, callback);
-      },
-      agensiIPTA: function(callback) {
-        Tadika.countDocuments({ agensiIPTA: "1" }, callback);
-      },
-      agensiIPTS: function(callback) {
-        Tadika.countDocuments({ agensiIPTS: "1" }, callback);
-      },
-      agensiPrivateDentalClinic: function(callback) {
-        Tadika.countDocuments({ agensiPrivateDentalClinic: "1" }, callback);
-      },
-      agensiNGO: function(callback) {
-        Tadika.countDocuments({ agensiNGO: "1" }, callback);
-      },
-      agensiIndustri: function(callback) {
-        Tadika.countDocuments({ agensiIndustri: "1" }, callback);
-      },
-  }
-  , async function(err, results) {
+      theMother: function(callback) {
+        Tadika.aggregate([ { $group: { _id:"$createdByDaerah",
+        jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+        jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+        jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+        jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+        jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+        jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+        jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+        jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+        jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+        jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+        jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+        jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+        jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+        jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+        jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+        jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+        jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+        jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+        cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+        jumlahAbses: { $sum: { $toDouble:"$abses" } },
+        jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+        jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+        jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+        jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+        jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+        jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+        jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, }, } ], callback);
+       },      
+      // dirujukDariAgensiLuar: function(callback) {
+      //   Tadika.countDocuments({ rujuk: "1" }, callback);
+      // },
+      // toddlerDirujukPadaLawatan: function(callback) {
+      //   Tadika.countDocuments({ toddlerDirujukPadaLawatan: "1" }, callback);
+      // },
+      // toddlerHadirRujukan: function(callback) {
+      //   Tadika.countDocuments({ toddlerHadirRujukan: "1" }, callback);
+      // },
+      // pbToddler: function(callback) {
+      //   Tadika.countDocuments({ pbToddler: "1" }, callback);
+      // },
+      // pbDstatusDMFX: function(callback) {
+      //   Tadika.countDocuments({ pbDstatusDMFX: "1" }, callback);
+      // },
+      // pbMstatusDMFX: function(callback) {
+      //   Tadika.countDocuments({ pbMstatusDMFX: "1" }, callback);
+      // },
+      // pbFstatusDMFX: function(callback) {
+      //   Tadika.countDocuments({ pbFstatusDMFX: "1" }, callback);
+      // },
+      // pbXstatusDMFX: function(callback) {
+      //   Tadika.countDocuments({ pbXstatusDMFX: "1" }, callback);
+      // },
+      // pbDMFXequalToZero: function(callback) {
+      //   Tadika.countDocuments({ pbDMFXequalToZero: "1" }, callback);
+      // },
+      // agensiATM: function(callback) {
+      //   Tadika.countDocuments({ agensiATM: "1" }, callback);
+      // },
+      // agensiIPTA: function(callback) {
+      //   Tadika.countDocuments({ agensiIPTA: "1" }, callback);
+      // },
+      // agensiIPTS: function(callback) {
+      //   Tadika.countDocuments({ agensiIPTS: "1" }, callback);
+      // },
+      // agensiPrivateDentalClinic: function(callback) {
+      //   Tadika.countDocuments({ agensiPrivateDentalClinic: "1" }, callback);
+      // },
+      // agensiNGO: function(callback) {
+      //   Tadika.countDocuments({ agensiNGO: "1" }, callback);
+      // },
+      // agensiIndustri: function(callback) {
+      //   Tadika.countDocuments({ agensiIndustri: "1" }, callback);
+      // },
+  }, async function(err, results) {
       console.log(results);
       try {
         let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
@@ -885,38 +252,38 @@ exports.createTOD = function(req, res) {
         let worksheet = workbook.getWorksheet('TOD');
 
         let rowNew = worksheet.getRow(19);
-        rowNew.getCell(3).value = results.pesakitBaru; //Kedatangan Baru Taska 
-        rowNew.getCell(4).value = results.kedatanganUlangan; //Kedatangan Ulangan Taska 
-        rowNew.getCell(5).value = results.dStatusDMFX.sum_val; //d Status dmfx Taska
-        rowNew.getCell(6).value = results.mStatusDMFX.sum_val; //m Status dmfx Taska
-        rowNew.getCell(7).value = results.fStatusDMFX.sum_val; //f Status dmfx Taska
-        rowNew.getCell(8).value = results.xStatusDMFX.sum_val; //x Status dmfx Taska
+        rowNew.getCell(3).value = results.theMother[0].jumlahBaru; //Kedatangan Baru Taska 
+        rowNew.getCell(4).value = results.theMother[0].jumlahUlangan; //Kedatangan Ulangan Taska 
+        rowNew.getCell(5).value = results.theMother[0].jumlahD; //d Status dmfx Taska
+        rowNew.getCell(6).value = results.theMother[0].jumlahM; //m Status dmfx Taska
+        rowNew.getCell(7).value = results.theMother[0].jumlahF; //f Status dmfx Taska
+        rowNew.getCell(8).value = results.theMother[0].jumlahX; //x Status dmfx Taska
         rowNew.getCell(11).value = results.dmfxEqualToZero; //dmfx = 0 Taska 	
-        rowNew.getCell(12).value = results.skorPlakA; //Skor Plak A Taska
-        rowNew.getCell(13).value = results.skorPlakC; //Skor Plak C Taska
-        rowNew.getCell(14).value = results.skorPlakE; //Skor Plak E Taska
-        rowNew.getCell(15).value = results.dmfx; //Tidak Perlu Rawatan (TPR) Taska
-        rowNew.getCell(16).value = results.traumaTisuLembut; //Trauma Tisu Lembut Taska
-        rowNew.getCell(17).value = results.traumaTisuKeras; //Trauma Tisu Keras Taska
-        rowNew.getCell(19).value = results.bilTODperluFV; //Bilangan Toddler Baru Perlu FV Taska
-        rowNew.getCell(20).value = results.bilTodBaruDibuatFV; //Bilangan Toddler Baru Dibuat FV Taska
-        rowNew.getCell(21).value = results.tampalanAnteriorB; //Bilangan Tampalan Anterior baru Taska
-        rowNew.getCell(22).value = results.tampalanPosteriorB; //Bilangan Tampalan Posterior baru Taska
-        rowNew.getCell(24).value = results.cabutan; //Bilangan Cabutan Taska 
-        rowNew.getCell(25).value = results.abses; //Bilangan Abses Taska
-        rowNew.getCell(26).value = results.pulpotomi; //Pulpotomi Taska 
-        rowNew.getCell(27).value = results.ceramahUtkToddler; //Ceramah Toddler Taska
-        rowNew.getCell(28).value = results.ceramahUtkDewasa; //Ceramah Dewasa Taska
-        rowNew.getCell(29).value = results.toddlerLMG; //LMG Toddler Taska
-        rowNew.getCell(33).value = results.lowCRA; //CRA Rendah Taska
-        rowNew.getCell(34).value = results.moderateCRA; //CRA Sederhana Taska
-        rowNew.getCell(35).value = results.highCRA; //CRA Tinggi Taska
+        rowNew.getCell(12).value = results.theMother[0].jumlahSpA; //Skor Plak A Taska
+        rowNew.getCell(13).value = results.theMother[0].jumlahSpC; //Skor Plak C Taska
+        rowNew.getCell(14).value = results.theMother[0].jumlahSpE; //Skor Plak E Taska
+        rowNew.getCell(15).value = results.dmfxEqualToZero; //Tidak Perlu Rawatan (TPR) Taska
+        rowNew.getCell(16).value = results.theMother[0].jumlahTisuKeras; //Trauma Tisu Lembut Taska
+        rowNew.getCell(17).value = results.theMother[0].jumlahTisuLembut; //Trauma Tisu Keras Taska
+        rowNew.getCell(19).value = results.theMother[0].jumlahPerluFV; //Bilangan Toddler Baru Perlu FV Taska
+        rowNew.getCell(20).value = results.theMother[0].jumlahTelahFVB; //Bilangan Toddler Baru Dibuat FV Taska
+        rowNew.getCell(21).value = results.theMother[0].jumlahTelahTampalAntB; //Bilangan Tampalan Anterior baru Taska
+        rowNew.getCell(22).value = results.theMother[0].jumlahTelahTampalPosB; //Bilangan Tampalan Posterior baru Taska
+        rowNew.getCell(24).value = results.theMother[0].cabutan; //Bilangan Cabutan Taska 
+        rowNew.getCell(25).value = results.theMother[0].jumlahAbses; //Bilangan Abses Taska
+        rowNew.getCell(26).value = results.theMother[0].jumlahPulpotomi; //Pulpotomi Taska 
+        rowNew.getCell(27).value = results.theMother[0].jumlahCTod; //Ceramah Toddler Taska
+        rowNew.getCell(28).value = results.theMother[0].jumlahCPar; //Ceramah Dewasa Taska
+        rowNew.getCell(29).value = results.theMother[0].jumlahLMG; //LMG Toddler Taska
+        rowNew.getCell(33).value = results.theMother[0].jumlahCRAlow; //CRA Rendah Taska
+        rowNew.getCell(34).value = results.theMother[0].jumlahCRAmid; //CRA Sederhana Taska
+        rowNew.getCell(35).value = results.theMother[0].jumlahCRAhi; //CRA Tinggi Taska
         await rowNew.commit();
         //Toddler Reten (Taska)
         let rowNew2 = worksheet.getRow(20);
-        rowNew2.getCell(20).value = results.bilTodSemulaDibuatFV; //Bilangan Toddler Semula Dibuat FV Taska
-        rowNew2.getCell(21).value = results.tampalanAnteriorS; //Bilangan Tampalan Anterior Ulangan Taska 
-        rowNew2.getCell(22).value = results.tampalanPosteriorS; //Bilangan Tampalan Posterior Ulangan Taska
+        rowNew2.getCell(20).value = results.theMother[0].jumlahTelahFVS; //Bilangan Toddler Semula Dibuat FV Taska
+        rowNew2.getCell(21).value = results.theMother[0].jumlahTelahTampalAntS; //Bilangan Tampalan Anterior Ulangan Taska 
+        rowNew2.getCell(22).value = results.theMother[0].jumlahTelahTampalPosS; //Bilangan Tampalan Posterior Ulangan Taska
         await rowNew2.commit();
 
         // //Toddler Reten (Tadika)
@@ -1099,10 +466,7 @@ exports.createTOD = function(req, res) {
         rowNew13.commit();
 
         let newfile = path.join(__dirname, "..", "public", "exports", "test-TOD.xlsx");
-
-        // Write the file
         await workbook.xlsx.writeFile(newfile);
-
         setTimeout(function () {
             fs.unlinkSync(newfile); // delete this file after 30 seconds
           }, 30000)
@@ -1116,7 +480,7 @@ exports.createTOD = function(req, res) {
   });
 }
 
-exports.createPGPS201 = function(req, res) {
+exports.createPGPS2201 = function(req, res) {
   async.parallel({
       pesakitBaru: function(callback) {
         Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
@@ -1252,10 +616,10 @@ exports.createPGPS201 = function(req, res) {
   , async function(err, results) {
       console.log(results);
       try {
-        let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
+        let filename = path.join(__dirname, "..", "public", "exports", "PGPS2201.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('TOD');
+        let worksheet = workbook.getWorksheet('PGPS2201');
 
         /// 5 tahun
         let rowNew = worksheet.getRow(18);
@@ -1396,7 +760,6 @@ exports.createPGPS201 = function(req, res) {
         rowNew4.getCell(57).value =   results.penskaleran; //BE21      6 tahun
         rowNew4.getCell(58).value =   results.kesSelesai; //BF21      6 tahun
         rowNew4.commit();
-
         
         let rowNew5 = worksheet.getRow(22);
         rowNew5.getCell(8).value =   results.kebersihanMulutC; //H22      6 tahun
@@ -1493,7 +856,7 @@ exports.createPGPS201 = function(req, res) {
         rowNew15.getCell(10).value = 'Report Generated by Gi-Ret 2.0';
         rowNew15.commit();
 
-        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGPS201.xlsx");
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGPS2201.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
@@ -1511,7 +874,7 @@ exports.createPGPS201 = function(req, res) {
   });
 }
 
-exports.createPGPS202 = function(req, res) {
+exports.createPGPS2202 = function(req, res) {
   async.parallel({
       pesakitBaru: function(callback) {
         Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
@@ -1647,10 +1010,10 @@ exports.createPGPS202 = function(req, res) {
   , async function(err, results) {
       console.log(results);
       try {
-        let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
+        let filename = path.join(__dirname, "..", "public", "exports", "PGPS2202.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('TOD');
+        let worksheet = workbook.getWorksheet('PGPS202');
 
         // 5 tahun kerajaan
         let rowNew = worksheet.getRow(16);
@@ -1920,7 +1283,7 @@ exports.createPGPS202 = function(req, res) {
         rowNew8.getCell(44).value =   results.jumlahTampalanS; //AR25      6 swasta
         rowNew8.commit();
 
-        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGPS202.xlsx");
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGPS2202.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
@@ -1965,29 +1328,428 @@ exports.createMMI = function(req, res) {
   , async function(err, results) {
       console.log(results);
       try {
-        let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
+        let filename = path.join(__dirname, "..", "public", "exports", "MMI.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('TOD');
+        let worksheet = workbook.getWorksheet('MMI');
 
-        let rowNew = worksheet.getRow(5);
-        rowNew.getCell(2).value =   results.negeri; //B5      negeri"
+        ////  Pra Sekolah 5 tahun
+        let rowNew = worksheet.getRow(14);
+        rowNew.getCell(2).value = results.kedatanganBaru; //B14      Pra sekolah 5 tahun
+        rowNew.getCell(3).value = results.statusGigiKekalD; //C14      Pra sekolah 5 tahun
+        rowNew.getCell(4).value = results.meanD; //D14      Pra sekolah 5 tahun
+        rowNew.getCell(5).value = results.bilMuridEmore0; //E14      Pra sekolah 5 tahun
+        rowNew.getCell(6).value = results.prevalenceCariesAwal; //F14      Pra sekolah 5 tahun
+        rowNew.getCell(7).value = results.bilBKEMoreThan0; //G14      Pra sekolah 5 tahun
+        rowNew.getCell(8).value = results.peratusMuridBKEmore0; //H14      Pra sekolah 5 tahun
+        rowNew.getCell(10).value = results.perluFSMuridB; //J14      Pra sekolah 5 tahun
+        rowNew.getCell(11).value = results.perluFSGigiB; //K14      Pra sekolah 5 tahun
+        rowNew.getCell(12).value = results.perluFvMuridB; //L14      Pra sekolah 5 tahun
+        rowNew.getCell(13).value = results.perluFvGigiB; //M14      Pra sekolah 5 tahun
+        rowNew.getCell(14).value = results.perluPRR1MuridB; //N14      Pra sekolah 5 tahun
+        rowNew.getCell(15).value = results.perluPRR1BGigiB; //O14      Pra sekolah 5 tahun
+        rowNew.getCell(17).value = results.telahFSMuridB; //Q14      Pra sekolah 5 tahun
+        rowNew.getCell(18).value = results.telahFSGigiB; //R14      Pra sekolah 5 tahun
+        rowNew.getCell(19).value = results.telahFVMuridB; //S14      Pra sekolah 5 tahun
+        rowNew.getCell(20).value = results.telahFVGigiB; //T14      Pra sekolah 5 tahun
+        rowNew.getCell(21).value = results.telahPRR1GigiB; //U14      Pra sekolah 5 tahun
+        rowNew.getCell(22).value = results.telahPRR1GigiB; //V14      Pra sekolah 5 tahun
         rowNew.commit();
 
-        let rowNew2 = worksheet.getRow(6);
-        rowNew2.getCell(6).value =   results.jumlahSRnegeri; //F6      Jumlah SR seluruh negeri: "
+        let rowNew2 = worksheet.getRow(15);
+        rowNew2.getCell(11).value = results.perluFSGigiS; //K15      Pra sekolah 5 tahun
+        rowNew2.getCell(13).value = results.perluFvGigiS; //M15      Pra sekolah 5 tahun
+        rowNew2.getCell(15).value = results.perluPRR1BGigiS; //O15      Pra sekolah 5 tahun
+        rowNew2.getCell(17).value = results.telahFSMuridS; //Q15      Pra sekolah 5 tahun
+        rowNew2.getCell(18).value = results.telahFSGigiS; //R15      Pra sekolah 5 tahun
+        rowNew2.getCell(19).value = results.telahFVMuridS; //S15      Pra sekolah 5 tahun
+        rowNew2.getCell(20).value = results.telahFVGigiS; //T15      Pra sekolah 5 tahun
+        rowNew2.getCell(21).value = results.telahPRR1MuridS; //U15      Pra sekolah 5 tahun
+        rowNew2.getCell(22).value = results.telahPRR1GigiS; //V15      Pra sekolah 5 tahun
         rowNew2.commit();
 
-        let rowNew3 = worksheet.getRow(7);
-        rowNew3.getCell(6).value =   results.jumlahEnrolmenSr; //F7      Jumlah enrolmen SR seluruh negeri:"
+        //// Pras sekolah 6 tahun
+        let rowNew3 = worksheet.getRow(16);
+        rowNew3.getCell(2).value = results.kedatanganBaru; //B16      Pra sekolah 6 tahun
+        rowNew3.getCell(3).value = results.statusGigiKekalD; //C16      Pra sekolah 6 tahun
+        rowNew3.getCell(4).value = results.meanD; //D16      Pra sekolah 6 tahun
+        rowNew3.getCell(5).value = results.bilMuridEmore0; //E16      Pra sekolah 6 tahun
+        rowNew3.getCell(6).value = results.prevalenceCariesAwal; //F16      Pra sekolah 6 tahun
+        rowNew3.getCell(7).value = results.bilBKEMoreThan0; //G16      Pra sekolah 6 tahun
+        rowNew3.getCell(8).value = results.peratusMuridBKEmore0; //H16      Pra sekolah 6 tahun
+        rowNew3.getCell(10).value = results.perluFSMuridB; //J16      Pra sekolah 6 tahun
+        rowNew3.getCell(11).value = results.perluFSGigiB; //K16      Pra sekolah 6 tahun
+        rowNew3.getCell(12).value = results.perluFvMuridB; //L16      Pra sekolah 6 tahun
+        rowNew3.getCell(13).value = results.perluFvGigiB; //M16      Pra sekolah 6 tahun
+        rowNew3.getCell(14).value = results.perluPRR1MuridB; //N16      Pra sekolah 6 tahun
+        rowNew3.getCell(15).value = results.perluPRR1BGigiB; //O16      Pra sekolah 6 tahun
+        rowNew3.getCell(17).value = results.telahFSMuridB; //Q16      Pra sekolah 6 tahun
+        rowNew3.getCell(18).value = results.telahFSGigiB; //R16      Pra sekolah 6 tahun
+        rowNew3.getCell(19).value = results.telahFVMuridB; //S16      Pra sekolah 6 tahun
+        rowNew3.getCell(20).value = results.telahFVGigiB; //T16      Pra sekolah 6 tahun
+        rowNew3.getCell(21).value = results.telahPRR1GigiB; //U16      Pra sekolah 6 tahun
+        rowNew3.getCell(22).value = results.telahPRR1GigiB; //V16      Pra sekolah 6 tahun
         rowNew3.commit();
 
-        let rowNew4 = worksheet.getRow(8);
-        rowNew4.getCell(6).value =   results.jumlahSrTerlibatMMI; //F8      Jumlah SR yang terlibat MMI:"
-        rowNew4.getCell(11).value =   results.tahun; //K6      Tahun:
-        rowNew4.getCell(11).value =   results.sekolah; //K7      Sekolah:
-        rowNew4.getCell(11).value =   results.klinik; //K8      Klinik:
+        let rowNew4 = worksheet.getRow(17);
+        rowNew4.getCell(11).value = results.perluFSGigiS; //K17      Pra sekolah 6 tahun
+        rowNew4.getCell(13).value = results.perluFvGigiS; //M17      Pra sekolah 6 tahun
+        rowNew4.getCell(15).value = results.perluPRR1BGigiS; //O17      Pra sekolah 6 tahun
+        rowNew4.getCell(17).value = results.telahFSMuridS; //Q17      Pra sekolah 6 tahun
+        rowNew4.getCell(18).value = results.telahFSGigiS; //R17      Pra sekolah 6 tahun
+        rowNew4.getCell(19).value = results.telahFVMuridS; //S17      Pra sekolah 6 tahun
+        rowNew4.getCell(20).value = results.telahFVGigiS; //T17      Pra sekolah 6 tahun
+        rowNew4.getCell(21).value = results.telahPRR1MuridS; //U17      Pra sekolah 6 tahun
+        rowNew4.getCell(22).value = results.telahPRR1GigiS; //V17      Pra sekolah 6 tahun
         rowNew4.commit();
+
+        //// Tahun 1
+        let rowNew5 = worksheet.getRow(18);
+        rowNew5.getCell(2).value = results.kedatanganBaru; //B18      Tahun 1
+        rowNew5.getCell(3).value = results.statusGigiKekalD; //C18      Tahun 1
+        rowNew5.getCell(4).value = results.meanD; //D18      Tahun 1
+        rowNew5.getCell(5).value = results.bilMuridEmore0; //E18      Tahun 1
+        rowNew5.getCell(6).value = results.prevalenceCariesAwal; //F18      Tahun 1
+        rowNew5.getCell(7).value = results.bilBKEMoreThan0; //G18      Tahun 1
+        rowNew5.getCell(8).value = results.peratusMuridBKEmore0; //H18      Tahun 1
+        rowNew5.getCell(10).value = results.perluFSMuridB; //J18      Tahun 1
+        rowNew5.getCell(11).value = results.perluFSGigiB; //K18      Tahun 1
+        rowNew5.getCell(12).value = results.perluFvMuridB; //L18      Tahun 1
+        rowNew5.getCell(13).value = results.perluFvGigiB; //M18      Tahun 1
+        rowNew5.getCell(14).value = results.perluPRR1MuridB; //N18      Tahun 1
+        rowNew5.getCell(15).value = results.perluPRR1BGigiB; //O18      Tahun 1
+        rowNew5.getCell(17).value = results.telahFSMuridB; //Q18      Tahun 1
+        rowNew5.getCell(18).value = results.telahFSGigiB; //R18      Tahun 1
+        rowNew5.getCell(19).value = results.telahFVMuridB; //S18      Tahun 1
+        rowNew5.getCell(20).value = results.telahFVGigiB; //T18      Tahun 1
+        rowNew5.getCell(21).value = results.telahPRR1GigiB; //U18      Tahun 1
+        rowNew5.getCell(22).value = results.telahPRR1GigiB; //V18      Tahun 1
+        rowNew5.commit();
+
+        let rowNew6 = worksheet.getRow(19);
+        rowNew6.getCell(11).value = results.perluFSGigiS; //K19      Tahun 1
+        rowNew6.getCell(13).value = results.perluFvGigiS; //M19      Tahun 1
+        rowNew6.getCell(15).value = results.perluPRR1BGigiS; //O19      Tahun 1
+        rowNew6.getCell(17).value = results.telahFSMuridS; //Q19      Tahun 1
+        rowNew6.getCell(18).value = results.telahFSGigiS; //R19      Tahun 1
+        rowNew6.getCell(19).value = results.telahFVMuridS; //S19      Tahun 1
+        rowNew6.getCell(20).value = results.telahFVGigiS; //T19      Tahun 1
+        rowNew6.getCell(21).value = results.telahPRR1MuridS; //U19      Tahun 1
+        rowNew6.getCell(22).value = results.telahPRR1GigiS; //V19      Tahun 1
+        rowNew6.commit();
+
+        //// Tahun 2 
+        let rowNew7 = worksheet.getRow(20);
+        rowNew7.getCell(2).value = results.kedatanganBaru; //B20      Tahun 2
+        rowNew7.getCell(3).value = results.statusGigiKekalD; //C20      Tahun 2
+        rowNew7.getCell(4).value = results.meanD; //D20      Tahun 2
+        rowNew7.getCell(5).value = results.bilMuridEmore0; //E20      Tahun 2
+        rowNew7.getCell(6).value = results.prevalenceCariesAwal; //F20      Tahun 2
+        rowNew7.getCell(7).value = results.bilBKEMoreThan0; //G20      Tahun 2
+        rowNew7.getCell(8).value = results.peratusMuridBKEmore0; //H20      Tahun 2
+        rowNew7.getCell(10).value = results.perluFSMuridB; //J20      Tahun 2
+        rowNew7.getCell(11).value = results.perluFSGigiB; //K20      Tahun 2
+        rowNew7.getCell(12).value = results.perluFvMuridB; //L20      Tahun 2
+        rowNew7.getCell(13).value = results.perluFvGigiB; //M20      Tahun 2
+        rowNew7.getCell(14).value = results.perluPRR1MuridB; //N20      Tahun 2
+        rowNew7.getCell(15).value = results.perluPRR1BGigiB; //O20      Tahun 2
+        rowNew7.getCell(17).value = results.telahFSMuridB; //Q20      Tahun 2
+        rowNew7.getCell(18).value = results.telahFSGigiB; //R20      Tahun 2
+        rowNew7.getCell(19).value = results.telahFVMuridB; //S20      Tahun 2
+        rowNew7.getCell(20).value = results.telahFVGigiB; //T20      Tahun 2
+        rowNew7.getCell(21).value = results.telahPRR1GigiB; //U20      Tahun 2
+        rowNew7.getCell(22).value = results.telahPRR1GigiB; //V20      Tahun 2
+        rowNew7.commit();
+
+        let rowNew8 = worksheet.getRow(21);
+        rowNew8.getCell(11).value = results.perluFSGigiS; //K21      Tahun 2
+        rowNew8.getCell(13).value = results.perluFvGigiS; //M21      Tahun 2
+        rowNew8.getCell(15).value = results.perluPRR1BGigiS; //O21      Tahun 2
+        rowNew8.getCell(17).value = results.telahFSMuridS; //Q21      Tahun 2
+        rowNew8.getCell(18).value = results.telahFSGigiS; //R21      Tahun 2
+        rowNew8.getCell(19).value = results.telahFVMuridS; //S21      Tahun 2
+        rowNew8.getCell(20).value = results.telahFVGigiS; //T21      Tahun 2
+        rowNew8.getCell(21).value = results.telahPRR1MuridS; //U21      Tahun 2
+        rowNew8.getCell(22).value = results.telahPRR1GigiS; //V21      Tahun 2
+        rowNew8.commit();
+
+        ///  Tahun 3
+        let rowNew9 = worksheet.getRow(22);
+        rowNew9.getCell(2).value = results.kedatanganBaru; //B22      Tahun 3
+        rowNew9.getCell(3).value = results.statusGigiKekalD; //C22      Tahun 3
+        rowNew9.getCell(4).value = results.meanD; //D22      Tahun 3
+        rowNew9.getCell(5).value = results.bilMuridEmore0; //E22      Tahun 3
+        rowNew9.getCell(6).value = results.prevalenceCariesAwal; //F22      Tahun 3
+        rowNew9.getCell(7).value = results.bilBKEMoreThan0; //G22      Tahun 3
+        rowNew9.getCell(8).value = results.peratusMuridBKEmore0; //H22      Tahun 3
+        rowNew9.getCell(10).value = results.perluFSMuridB; //J22      Tahun 3
+        rowNew9.getCell(11).value = results.perluFSGigiB; //K22      Tahun 3
+        rowNew9.getCell(12).value = results.perluFvMuridB; //L22      Tahun 3
+        rowNew9.getCell(13).value = results.perluFvGigiB; //M22      Tahun 3
+        rowNew9.getCell(14).value = results.perluPRR1MuridB; //N22      Tahun 3
+        rowNew9.getCell(15).value = results.perluPRR1BGigiB; //O22      Tahun 3
+        rowNew9.getCell(17).value = results.telahFSMuridB; //Q22      Tahun 3
+        rowNew9.getCell(18).value = results.telahFSGigiB; //R22      Tahun 3
+        rowNew9.getCell(19).value = results.telahFVMuridB; //S22      Tahun 3
+        rowNew9.getCell(20).value = results.telahFVGigiB; //T22      Tahun 3
+        rowNew9.getCell(21).value = results.telahPRR1GigiB; //U22      Tahun 3
+        rowNew9.getCell(22).value = results.telahPRR1GigiB; //V22      Tahun 3
+        rowNew9.commit();         
+
+        let rowNew10 = worksheet.getRow(23);
+        rowNew10.getCell(11).value = results.perluFSGigiS; //K23      Tahun 3
+        rowNew10.getCell(13).value = results.perluFvGigiS; //M23      Tahun 3
+        rowNew10.getCell(15).value = results.perluPRR1BGigiS; //O23      Tahun 3
+        rowNew10.getCell(17).value = results.telahFSMuridS; //Q23      Tahun 3
+        rowNew10.getCell(18).value = results.telahFSGigiS; //R23      Tahun 3
+        rowNew10.getCell(19).value = results.telahFVMuridS; //S23      Tahun 3
+        rowNew10.getCell(20).value = results.telahFVGigiS; //T23      Tahun 3
+        rowNew10.getCell(21).value = results.telahPRR1MuridS; //U23      Tahun 3
+        rowNew10.getCell(22).value = results.telahPRR1GigiS; //V23      Tahun 3
+        rowNew10.commit();
+
+        /// Tahun 4 
+        let rowNew11 = worksheet.getRow(24);
+        rowNew11.getCell(2).value = results.kedatanganBaru; //B24      Tahun 4
+        rowNew11.getCell(3).value = results.statusGigiKekalD; //C24      Tahun 4
+        rowNew11.getCell(4).value = results.meanD; //D24      Tahun 4
+        rowNew11.getCell(5).value = results.bilMuridEmore0; //E24      Tahun 4
+        rowNew11.getCell(6).value = results.prevalenceCariesAwal; //F24      Tahun 4
+        rowNew11.getCell(7).value = results.bilBKEMoreThan0; //G24      Tahun 4
+        rowNew11.getCell(8).value = results.peratusMuridBKEmore0; //H24      Tahun 4
+        rowNew11.getCell(10).value = results.perluFSMuridB; //J24      Tahun 4
+        rowNew11.getCell(11).value = results.perluFSGigiB; //K24      Tahun 4
+        rowNew11.getCell(12).value = results.perluFvMuridB; //L24      Tahun 4
+        rowNew11.getCell(13).value = results.perluFvGigiB; //M24      Tahun 4
+        rowNew11.getCell(14).value = results.perluPRR1MuridB; //N24      Tahun 4
+        rowNew11.getCell(15).value = results.perluPRR1BGigiB; //O24      Tahun 4
+        rowNew11.getCell(17).value = results.telahFSMuridB; //Q24      Tahun 4
+        rowNew11.getCell(18).value = results.telahFSGigiB; //R24      Tahun 4
+        rowNew11.getCell(19).value = results.telahFVMuridB; //S24      Tahun 4
+        rowNew11.getCell(20).value = results.telahFVGigiB; //T24      Tahun 4
+        rowNew11.getCell(21).value = results.telahPRR1GigiB; //U24      Tahun 4
+        rowNew11.getCell(22).value = results.telahPRR1GigiB; //V24      Tahun 4
+        rowNew11.commit();
+
+        let rowNew12 = worksheet.getRow(25);
+        rowNew12.getCell(11).value = results.perluFSGigiS; //K25      Tahun 4
+        rowNew12.getCell(13).value = results.perluFvGigiS; //M25      Tahun 4
+        rowNew12.getCell(15).value = results.perluPRR1BGigiS; //O25      Tahun 4
+        rowNew12.getCell(17).value = results.telahFSMuridS; //Q25      Tahun 4
+        rowNew12.getCell(18).value = results.telahFSGigiS; //R25      Tahun 4
+        rowNew12.getCell(19).value = results.telahFVMuridS; //S25      Tahun 4
+        rowNew12.getCell(20).value = results.telahFVGigiS; //T25      Tahun 4
+        rowNew12.getCell(21).value = results.telahPRR1MuridS; //U25      Tahun 4
+        rowNew12.getCell(22).value = results.telahPRR1GigiS; //V25      Tahun 4
+        rowNew12.commit();
+
+        /// Tahun 5
+        let rowNew13 = worksheet.getRow(26);
+        rowNew13.getCell(2).value = results.kedatanganBaru; //B26      Tahun 5
+        rowNew13.getCell(3).value = results.statusGigiKekalD; //C26      Tahun 5
+        rowNew13.getCell(4).value = results.meanD; //D26      Tahun 5
+        rowNew13.getCell(5).value = results.bilMuridEmore0; //E26      Tahun 5
+        rowNew13.getCell(6).value = results.prevalenceCariesAwal; //F26      Tahun 5
+        rowNew13.getCell(7).value = results.bilBKEMoreThan0; //G26      Tahun 5
+        rowNew13.getCell(8).value = results.peratusMuridBKEmore0; //H26      Tahun 5
+        rowNew13.getCell(10).value = results.perluFSMuridB; //J26      Tahun 5
+        rowNew13.getCell(11).value = results.perluFSGigiB; //K26      Tahun 5
+        rowNew13.getCell(12).value = results.perluFvMuridB; //L26      Tahun 5
+        rowNew13.getCell(13).value = results.perluFvGigiB; //M26      Tahun 5
+        rowNew13.getCell(14).value = results.perluPRR1MuridB; //N26      Tahun 5
+        rowNew13.getCell(15).value = results.perluPRR1BGigiB; //O26      Tahun 5
+        rowNew13.getCell(17).value = results.telahFSMuridB; //Q26      Tahun 5
+        rowNew13.getCell(18).value = results.telahFSGigiB; //R26      Tahun 5
+        rowNew13.getCell(19).value = results.telahFVMuridB; //S26      Tahun 5
+        rowNew13.getCell(20).value = results.telahFVGigiB; //T26      Tahun 5
+        rowNew13.getCell(21).value = results.telahPRR1GigiB; //U26      Tahun 5
+        rowNew13.getCell(22).value = results.telahPRR1GigiB; //V26      Tahun 5
+        rowNew13.commit();
+
+        let rowNew14 = worksheet.getRow(27);
+        rowNew14.getCell(11).value = results.perluFSGigiS; //K27      Tahun 5
+        rowNew14.getCell(13).value = results.perluFvGigiS; //M27      Tahun 5
+        rowNew14.getCell(15).value = results.perluPRR1BGigiS; //O27      Tahun 5
+        rowNew14.getCell(17).value = results.telahFSMuridS; //Q27      Tahun 5
+        rowNew14.getCell(18).value = results.telahFSGigiS; //R27      Tahun 5
+        rowNew14.getCell(19).value = results.telahFVMuridS; //S27      Tahun 5
+        rowNew14.getCell(20).value = results.telahFVGigiS; //T27      Tahun 5
+        rowNew14.getCell(21).value = results.telahPRR1MuridS; //U27      Tahun 5
+        rowNew14.getCell(22).value = results.telahPRR1GigiS; //V27      Tahun 5
+        rowNew14.commit();
+
+        //// Tahun 6/Peralihan
+        let rowNew15 = worksheet.getRow(28);
+        rowNew15.getCell(2).value = results.kedatanganBaru; //B28      Tahun 6"
+        rowNew15.getCell(3).value = results.statusGigiKekalD; //C28      Tahun 6
+        rowNew15.getCell(4).value = results.meanD; //D28      Tahun 6
+        rowNew15.getCell(5).value = results.bilMuridEmore0; //E28      Tahun 6
+        rowNew15.getCell(6).value = results.prevalenceCariesAwal; //F28      Tahun 6
+        rowNew15.getCell(7).value = results.bilBKEMoreThan0; //G28      Tahun 6
+        rowNew15.getCell(8).value = results.peratusMuridBKEmore0; //H28      Tahun 6
+        rowNew15.getCell(10).value = results.perluFSMuridB; //J28      Tahun 6
+        rowNew15.getCell(11).value = results.perluFSGigiB; //K28      Tahun 6
+        rowNew15.getCell(12).value = results.perluFvMuridB; //L28      Tahun 6
+        rowNew15.getCell(13).value = results.perluFvGigiB; //M28      Tahun 6
+        rowNew15.getCell(14).value = results.perluPRR1MuridB; //N28      Tahun 6
+        rowNew15.getCell(15).value = results.perluPRR1BGigiB; //O28      Tahun 6
+        rowNew15.getCell(17).value = results.telahFSMuridB; //Q28      Tahun 6
+        rowNew15.getCell(18).value = results.telahFSGigiB; //R28      Tahun 6
+        rowNew15.getCell(19).value = results.telahFVMuridB; //S28      Tahun 6
+        rowNew15.getCell(20).value = results.telahFVGigiB; //T28      Tahun 6
+        rowNew15.getCell(21).value = results.telahPRR1GigiB; //U28      Tahun 6
+        rowNew15.getCell(22).value = results.telahPRR1GigiB; //V28      Tahun 6
+        rowNew15.commit();
+
+        let rowNew16 = worksheet.getRow(29);
+        rowNew16.getCell(11).value = results.perluFSGigiS; //K29      Tahun 6
+        rowNew16.getCell(13).value = results.perluFvGigiS; //M29      Tahun 6
+        rowNew16.getCell(15).value = results.perluPRR1BGigiS; //O29      Tahun 6
+        rowNew16.getCell(17).value = results.telahFSMuridS; //Q29      Tahun 6
+        rowNew16.getCell(18).value = results.telahFSGigiS; //R29      Tahun 6
+        rowNew16.getCell(19).value = results.telahFVMuridS; //S29      Tahun 6
+        rowNew16.getCell(20).value = results.telahFVGigiS; //T29      Tahun 6
+        rowNew16.getCell(21).value = results.telahPRR1MuridS; //U29      Tahun 6
+        rowNew16.getCell(22).value = results.telahPRR1GigiS; //V29      Tahun 6
+        rowNew16.commit();
+
+        ///KKI
+        let rowNew17 = worksheet.getRow(30);
+        rowNew17.getCell(2).value = results.kedatanganBaru; //B30      KKI
+        rowNew17.getCell(3).value = results.statusGigiKekalD; //C30      KKI
+        rowNew17.getCell(4).value = results.meanD; //D30      KKI
+        rowNew17.getCell(5).value = results.bilMuridEmore0; //E30      KKI
+        rowNew17.getCell(6).value = results.prevalenceCariesAwal; //F30      KKI
+        rowNew17.getCell(7).value = results.bilBKEMoreThan0; //G30      KKI
+        rowNew17.getCell(8).value = results.peratusMuridBKEmore0; //H30      KKI
+        rowNew17.getCell(10).value = results.perluFSMuridB; //J30      KKI
+        rowNew17.getCell(11).value = results.perluFSGigiB; //K30      KKI
+        rowNew17.getCell(12).value = results.perluFvMuridB; //L30      KKI
+        rowNew17.getCell(13).value = results.perluFvGigiB; //M30      KKI
+        rowNew17.getCell(14).value = results.perluPRR1MuridB; //N30      KKI
+        rowNew17.getCell(15).value = results.perluPRR1BGigiB; //O30      KKI
+        rowNew17.getCell(17).value = results.telahFSMuridB; //Q30      KKI
+        rowNew17.getCell(18).value = results.telahFSGigiB; //R30      KKI
+        rowNew17.getCell(19).value = results.telahFVMuridB; //S30      KKI
+        rowNew17.getCell(20).value = results.telahFVGigiB; //T30      KKI
+        rowNew17.getCell(21).value = results.telahPRR1GigiB; //U30      KKI
+        rowNew17.getCell(22).value = results.telahPRR1GigiB; //V30      KKI
+        rowNew17.commit();
+
+        let rowNew18 = worksheet.getRow(31);
+        rowNew18.getCell(11).value = results.perluFSGigiS; //K31      KKI
+        rowNew18.getCell(13).value = results.perluFvGigiS; //M31      KKI
+        rowNew18.getCell(15).value = results.perluPRR1BGigiS; //O31      KKI
+        rowNew18.getCell(17).value = results.telahFSMuridS; //Q31      KKI
+        rowNew18.getCell(18).value = results.telahFSGigiS; //R31      KKI
+        rowNew18.getCell(19).value = results.telahFVMuridS; //S31      KKI
+        rowNew18.getCell(20).value = results.telahFVGigiS; //T31      KKI
+        rowNew18.getCell(21).value = results.telahPRR1MuridS; //U31      KKI
+        rowNew18.getCell(22).value = results.telahPRR1GigiS; //V31      KKI
+        rowNew18.commit();
+
+        /// Others
+        let rowNew19 = worksheet.getRow(5);
+        rowNew19.getCell(2).value = results.negeri; //B5      negeri
+        rowNew19.commit();
+
+        let rowNew20 = worksheet.getRow(6);
+        rowNew20.getCell(6).value = results.jumlahSRnegeri; //F6      Jumlah SR seluruh negeri: 
+        rowNew20.getCell(11).value = results.tahun; //K6      Tahun:
+        rowNew20.commit();
+
+        let rowNew21 = worksheet.getRow(7);
+        rowNew21.getCell(6).value = results.jumlahEnrolmenSr; //F7      Jumlah enrolmen SR seluruh negeri:
+        rowNew21.getCell(11).value = results.sekolah; //K7      Sekolah:
+        rowNew21.commit();
+
+        let rowNew22 = worksheet.getRow(8);
+        rowNew22.getCell(6).value = results.jumlahSrTerlibatMMI; //F8      Jumlah SR yang terlibat MMI:
+        rowNew22.getCell(11).value = results.klinik; //K8      Klinik:
+        rowNew22.commit();
+
+        // // 5 thn kerajaaan
+        // let rowNew = worksheet.getRow(17);
+        // rowNew.getCell(26).value = results.perluFSGigiS; //Z17      5 tahun kerajaan"
+        // rowNew.getCell(28).value = results.perluFvGigiS; //AB17      5 tahun kerajaan
+        // rowNew.getCell(30).value = results.perluPRR1BGigiS; //AD17      5 tahun kerajaan
+        // rowNew.getCell(33).value = results.perluFSGigiS; //AG17      5 tahun kerajaan
+        // rowNew.getCell(35).value = results.perluFvGigiS; //AI17      5 tahun kerajaan
+        // rowNew.getCell(37).value = results.perluPRR1BGigiS; //AK17      5 tahun kerajaan
+        // rowNew.getCell(38).value = results.telahTampalanAntGdS; //AL17      5 tahun kerajaan
+        // rowNew.getCell(39).value = results.telahTampalanAntGkS; //AM17      5 tahun kerajaan
+        // rowNew.getCell(40).value = results.telahTampalanPosGdS; //AN17      5 tahun kerajaan
+        // rowNew.getCell(41).value = results.telahTampalanPosGkS; //AO17      5 tahun kerajaan
+        // rowNew.getCell(42).value = results.telahTampalanAmgGdS; //AP17      5 tahun kerajaan
+        // rowNew.getCell(43).value = results.telahTampalanAmgGkS; //AQ17      5 tahun kerajaan
+        // rowNew.getCell(44).value = results.jumlahTampalanS; //AR17      5 tahun kerajaan
+
+        // // 6 thn kerajaan
+        // let rowNew2 = worksheet.getRow(19);
+        // rowNew2.getCell(26).value = results.perluFSGigiS; //Z19      6 kerajaan"
+        // rowNew2.getCell(28).value = results.perluFvGigiS; //AB19      6 kerajaan
+        // rowNew2.getCell(30).value = results.perluPRR1BGigiS; //AD19      6 kerajaan
+        // rowNew2.getCell(33).value = results.perluFSGigiS; //AG19      6 kerajaan
+        // rowNew2.getCell(35).value = results.perluFvGigiS; //AI19      6 kerajaan
+        // rowNew2.getCell(37).value = results.perluPRR1BGigiS; //AK19      6 kerajaan
+        // rowNew2.getCell(38).value = results.telahTampalanAntGdS; //AL19      6 kerajaan
+        // rowNew2.getCell(39).value = results.telahTampalanAntGkS; //AM19      6 kerajaan
+        // rowNew2.getCell(40).value = results.telahTampalanPosGdS; //AN19      6 kerajaan
+        // rowNew2.getCell(41).value = results.telahTampalanPosGkS; //AO19      6 kerajaan
+        // rowNew2.getCell(42).value = results.telahTampalanAmgGdS; //AP19      6 kerajaan
+        // rowNew2.getCell(43).value = results.telahTampalanAmgGkS; //AQ19      6 kerajaan
+        // rowNew2.getCell(44).value = results.jumlahTampalanS; //AR19      6 kerajaan
+
+        // // 5 thn swasta
+        // let rowNew3 = worksheet.getRow(23);
+        // rowNew3.getCell(26).value = results.perluFSGigiS; //Z23      5 tahun swasta
+        // rowNew3.getCell(28).value = results.perluFvGigiS; //AB23      5 tahun swasta
+        // rowNew3.getCell(30).value = results.perluPRR1BGigiS; //AD23      5 tahun swasta
+        // rowNew3.getCell(33).value = results.perluFSGigiS; //AG23      5 tahun swasta
+        // rowNew3.getCell(35).value = results.perluFvGigiS; //AI23      5 tahun swasta
+        // rowNew3.getCell(37).value = results.perluPRR1BGigiS; //AK23      5 tahun swasta
+        // rowNew3.getCell(38).value = results.telahTampalanAntGdS; //AL23      5 tahun swasta
+        // rowNew3.getCell(39).value = results.telahTampalanAntGkS; //AM23      5 tahun swasta
+        // rowNew3.getCell(40).value = results.telahTampalanPosGdS; //AN23      5 tahun swasta
+        // rowNew3.getCell(41).value = results.telahTampalanPosGkS; //AO23      5 tahun swasta
+        // rowNew3.getCell(42).value = results.telahTampalanAmgGdS; //AP23      5 tahun swasta
+        // rowNew3.getCell(43).value = results.telahTampalanAmgGkS; //AQ23      5 tahun swasta
+        // rowNew3.getCell(44).value = results.jumlahTampalanS; //AR23      5 tahun swasta
+
+        // // 6 thn swasta
+        // let rowNew4 = worksheet.getRow(25);
+        // rowNew4.getCell(26).value = results.perluFSGigiS; //Z25      6 swasta"
+        // rowNew4.getCell(28).value = results.perluFvGigiS; //AB25      6 swasta
+        // rowNew4.getCell(30).value = results.perluPRR1BGigiS; //AD25      6 swasta
+        // rowNew4.getCell(33).value = results.perluFSGigiS; //AG25      6 swasta
+        // rowNew4.getCell(35).value = results.perluFvGigiS; //AI25      6 swasta
+        // rowNew4.getCell(37).value = results.perluPRR1BGigiS; //AK25      6 swasta
+        // rowNew4.getCell(38).value = results.telahTampalanAntGdS; //AL25      6 swasta
+        // rowNew4.getCell(39).value = results.telahTampalanAntGkS; //AM25      6 swasta
+        // rowNew4.getCell(40).value = results.telahTampalanPosGdS; //AN25      6 swasta
+        // rowNew4.getCell(41).value = results.telahTampalanPosGkS; //AO25      6 swasta
+        // rowNew4.getCell(42).value = results.telahTampalanAmgGdS; //AP25      6 swasta
+        // rowNew4.getCell(43).value = results.telahTampalanAmgGkS; //AQ25      6 swasta
+        // rowNew4.getCell(44).value = results.jumlahTampalanS; //AR25      6 swasta
+
+        // let rowNew5 = worksheet.getRow(5);
+        // rowNew5.getCell(2).value =   results.negeri; //B5      negeri"
+        // rowNew5.commit();
+
+        // let rowNew6 = worksheet.getRow(6);
+        // rowNew6.getCell(6).value =   results.jumlahSRnegeri; //F6      Jumlah SR seluruh negeri: "
+        // rowNew6.commit();
+
+        // let rowNew7 = worksheet.getRow(7);
+        // rowNew7.getCell(6).value =   results.jumlahEnrolmenSr; //F7      Jumlah enrolmen SR seluruh negeri:"
+        // rowNew7.commit();
+
+        // let rowNew8 = worksheet.getRow(8);
+        // rowNew8.getCell(6).value =   results.jumlahSrTerlibatMMI; //F8      Jumlah SR yang terlibat MMI:"
+        // rowNew8.getCell(11).value =   results.tahun; //K6      Tahun:
+        // rowNew8.getCell(11).value =   results.sekolah; //K7      Sekolah:
+        // rowNew8.getCell(11).value =   results.klinik; //K8      Klinik:
+        // rowNew8.commit();
 
         let newfile = path.join(__dirname, "..", "public", "exports", "test-MMI.xlsx");
 
@@ -2034,10 +1796,10 @@ exports.createOA = function(req, res) {
   , async function(err, results) {
       console.log(results);
       try {
-        let filename = path.join(__dirname, "..", "public", "exports", "TOD.xlsx");
+        let filename = path.join(__dirname, "..", "public", "exports", "OA.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('TOD');
+        let worksheet = workbook.getWorksheet('OA');
 
         //Toddler OA RETEN 
         let rowNew = worksheet.getRow(19);
@@ -2106,7 +1868,7 @@ exports.createOA = function(req, res) {
         rowNew2.commit();
 
         //Pra Sekolah RETEN
-        let rowNew3 = results.worksheet.getRow(21);
+        let rowNew3 = worksheet.getRow(21);
         rowNew3.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Pra Sekolah
         rowNew3.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Pra Sekolah
         rowNew3.getCell(4).value = results.dStatusdfx; //d Status dfx Pra Sekolah
@@ -2164,7 +1926,7 @@ exports.createOA = function(req, res) {
         rowNew3.getCell(66).value = results.highCRA; //tinggi CRA Pra Sekolah
         rowNew3.commit();
 
-        let rowNew4 = results.worksheet.getRow(22);
+        let rowNew4 = worksheet.getRow(22);
         rowNew4.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Pra Sekolah
         rowNew4.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Pra Sekolah
         rowNew4.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Pra Sekolah
@@ -2184,7 +1946,7 @@ exports.createOA = function(req, res) {
         rowNew4.commit();
 
         //Sekolah Rendah RETEN
-        let rowNew5 = results.worksheet.getRow(23);
+        let rowNew5 = worksheet.getRow(23);
         rowNew5.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Sekolah Rendah
         rowNew5.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Sekolah Rendah
         rowNew5.getCell(4).value = results.dStatusdfx; //d Status dfx Sekolah Rendah
@@ -2241,7 +2003,7 @@ exports.createOA = function(req, res) {
         rowNew5.getCell(66).value = results.highCRA; //tinggi CRA Sekolah Rendah
         rowNew5.commit();
 
-        let rowNew6 = results.worksheet.getRow(24);
+        let rowNew6 = worksheet.getRow(24);
         rowNew6.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Sekolah Rendah
         rowNew6.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Sekolah Rendah
         rowNew6.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Sekolah Rendah
@@ -2261,7 +2023,7 @@ exports.createOA = function(req, res) {
         rowNew6.commit();
 
         //Sekolah Menengah RETEN 
-        let rowNew7 = results.worksheet.getRow(25);
+        let rowNew7 = worksheet.getRow(25);
         rowNew7.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Sekolah Menengah
         rowNew7.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Sekolah Menengah
         rowNew7.getCell(4).value = results.dStatusdfx; //d Status dfx Sekolah Menengah
@@ -2324,7 +2086,7 @@ exports.createOA = function(req, res) {
         rowNew7.getCell(66).value = results.highCRA; //tinggi CRA Sekolah Menengah
         rowNew7.commit();
 
-        let rowNew8 = results.worksheet.getRow(26);
+        let rowNew8 = worksheet.getRow(26);
         rowNew8.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Sekolah Menengah
         rowNew8.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Sekolah Menengah
         rowNew8.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Sekolah Menengah
@@ -2344,7 +2106,7 @@ exports.createOA = function(req, res) {
         rowNew8.commit();
 
         //Keperluan Khas RETEN 
-        let rowNew9 = results.worksheet.getRow(27);
+        let rowNew9 = worksheet.getRow(27);
         rowNew9.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Keperluan Khas
         rowNew9.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Keperluan Khas
         rowNew9.getCell(4).value = results.dStatusdfx; //d Status dfx Keperluan Khas
@@ -2407,7 +2169,7 @@ exports.createOA = function(req, res) {
         rowNew9.getCell(66).value = results.highCRA; //tinggi CRA Keperluan Khas
         rowNew9.commit();
 
-        let rowNew10 = results.worksheet.getRow(28);
+        let rowNew10 = worksheet.getRow(28);
         rowNew10.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Keperluan Khas
         rowNew10.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Keperluan Khas
         rowNew10.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Keperluan Khas
@@ -2427,7 +2189,7 @@ exports.createOA = function(req, res) {
         rowNew10.commit();
 
         //Ibu Mengandung RETEN
-        let rowNew11 = results.worksheet.getRow(29);
+        let rowNew11 = worksheet.getRow(29);
         rowNew11.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Ibu Mengandung
         rowNew11.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Ibu Mengandung
         rowNew11.getCell(4).value = results.dStatusdfx; //d Status dfx Ibu Mengandung
@@ -2490,7 +2252,7 @@ exports.createOA = function(req, res) {
         rowNew11.getCell(66).value = results.highCRA; //tinggi CRA Ibu Mengandung
         rowNew11.commit();
 
-        let rowNew12 = results.worksheet.getRow(30);
+        let rowNew12 = worksheet.getRow(30);
         rowNew12.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Ibu Mengandung
         rowNew12.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Ibu Mengandung
         rowNew12.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Ibu Mengandung
@@ -2510,7 +2272,7 @@ exports.createOA = function(req, res) {
         rowNew12.commit();
 
         //Orang Dewasa RETEN 
-        let rowNew13 = results.worksheet.getRow(31);
+        let rowNew13 = worksheet.getRow(31);
         rowNew13.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Orang Dewasa
         rowNew13.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Orang Dewasa
         rowNew13.getCell(4).value = results.dStatusdfx; //d Status dfx Orang Dewasa
@@ -2572,7 +2334,7 @@ exports.createOA = function(req, res) {
         rowNew13.getCell(65).value = results.moderateCRA; //sederhana CRA Orang Dewas
         rowNew13.commit();
 
-        let rowNew14 = results.worksheet.getRow(32);
+        let rowNew14 = worksheet.getRow(32);
         rowNew14.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Orang Dewasa
         rowNew14.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Orang Dewasa
         rowNew14.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Orang Dewasa
@@ -2592,7 +2354,7 @@ exports.createOA = function(req, res) {
         rowNew14.commit();
 
         //Warga Emas RETEN 
-        let rowNew15 = results.worksheet.getRow(33);
+        let rowNew15 = worksheet.getRow(33);
         rowNew15.getCell(2).value = results.kedatanganBaru; //Pesakit Baru Warga Emas
         rowNew15.getCell(3).value = results.kedatanganUlangan; //Pesakit Ulangan Warga Emas
         rowNew15.getCell(4).value = results.dStatusdfx; //d Status dfx Warga Emas
@@ -2655,7 +2417,7 @@ exports.createOA = function(req, res) {
         rowNew15.getCell(66).value = results.highCRA; //tinggi CRA Warga Emas
         rowNew15.commit();
         
-        let rowNew16 = results.worksheet.getRow(34);
+        let rowNew16 = worksheet.getRow(34);
         rowNew16.getCell(32).value = results.sapuanFluoridaUlangan; //Sapuan Fluorida Ulangan Warga Emas
         rowNew16.getCell(33).value = results.muridUlanganPerluFS; //Murid Ulangan Perlu Sealan Fisur Warga Emas
         rowNew16.getCell(34).value = results.gigiUlanganPerluFS; //Gigi Ulangan Perlu Sealan Fisur Warga Emas
@@ -2722,7 +2484,7 @@ exports.createPGPR201 = function(req, res) {
         let filename = path.join(__dirname, "..", "public", "exports", "PGPR201.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PGPR201');
+        let worksheet = workbook.getWorksheet('PGPR 201');
 
         //Reten PGPR 201 Coding 
         //Bawah 1 Tahun           
@@ -2777,7 +2539,7 @@ exports.createPGPR201 = function(req, res) {
         rowNew3.commit();
 
         //Antara 7 hingga 9 tahun 	
-        let rowNew4 = results.worksheet.getRow(17);
+        let rowNew4 = worksheet.getRow(17);
         rowNew4.getCell(2).value = results.baruLMG; //LMG Baru 7 - 9 tahun 
         rowNew4.getCell(3).value = results.ulanganLMG; //LMG Ulangan 7 - 9 tahun 
         rowNew4.getCell(4).value = results.baruCeramah; //Ceramah Baru 7 - 9 tahun 
@@ -3075,7 +2837,7 @@ exports.createPPIM03 = function(req, res) {
         let filename = path.join(__dirname, "..", "public", "exports", "PPIM03.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PPIM');
+        let worksheet = workbook.getWorksheet('PPIM03');
 
         //Reten PPIM03
         //PPIM03 Pra Sekolah 5 Tahun           
@@ -3175,7 +2937,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew4.commit();
         
         //PPIM03 Darjah 3 Atau Tingkatan 3
-        let rowNew5 = results.worksheet.getRow(17);
+        let rowNew5 = worksheet.getRow(17);
         rowNew5.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 3 Atau Tingkatan 3 
         rowNew5.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 3 Atau Tingkatan 3 
         rowNew5.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 3 Atau Tingkatan 3 
@@ -3199,7 +2961,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew5.commit();
 
         //PPIM03 Darjah 4 Atau Tingkatan 4
-        let rowNew6 = results.worksheet.getRow(18);
+        let rowNew6 = worksheet.getRow(18);
         rowNew6.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 4 Atau Tingkatan 4 
         rowNew6.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 4 Atau Tingkatan 4 
         rowNew6.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 4 Atau Tingkatan 4 
@@ -3223,7 +2985,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew6.commit();
 
         //PPIM03 Darjah 5 Atau Tingkatan 5
-        let rowNew7 = results.worksheet.getRow(19);
+        let rowNew7 = worksheet.getRow(19);
         rowNew7.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 5 Atau Tingkatan 5 
         rowNew7.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 5 Atau Tingkatan 5 
         rowNew7.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 5 Atau Tingkatan 5 
@@ -3247,7 +3009,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew7.commit();
 
         //PPIM03 Darjah 6 (Sekolah Rendah)
-        let rowNew8 = results.worksheet.getRow(20);
+        let rowNew8 = worksheet.getRow(20);
         rowNew8.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 6 (Sekolah Rendah) 
         rowNew8.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 6 (Sekolah Rendah) 
         rowNew8.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 6 (Sekolah Rendah) 
@@ -3271,7 +3033,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew8.commit();
 
         //PPIM03 Peralihan
-        let rowNew9 = results.worksheet.getRow(21);
+        let rowNew9 = worksheet.getRow(21);
         rowNew9.getCell(2).value = results.enrolmen; //Bil Enrolment Peralihan 
         rowNew9.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Peralihan 
         rowNew9.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Peralihan 
@@ -3295,7 +3057,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew9.commit();
 
         //PPIM03 KKI (SR & SM)
-        let rowNew10 = results.worksheet.getRow(22);
+        let rowNew10 = worksheet.getRow(22);
         rowNew10.getCell(2).value = results.enrolmen; //Bil Enrolment KKI (SR & SM) 
         rowNew10.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu KKI (SR & SM) 
         rowNew10.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina KKI (SR & SM) 
@@ -3318,7 +3080,7 @@ exports.createPPIM03 = function(req, res) {
         rowNew10.getCell(34).value = results.bukanPerokokPerempuan; //Bukan Perokok Perempuan KKI (SR & SM)
         rowNew10.commit();
 
-        let newfile = path.join(__dirname, "..", "public", "exports", "test-PPIM.xlsx");
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PPIM03.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
@@ -3366,7 +3128,7 @@ exports.createPG201A = function(req, res) {
         let filename = path.join(__dirname, "..", "public", "exports", "PG201A.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PPIM01');
+        let worksheet = workbook.getWorksheet('PG201A');
 
         //PG201A
         // Reten Sekolah (Darjah 1)
@@ -3436,10 +3198,12 @@ exports.createPG201A = function(req, res) {
         rowNew.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 1)
         rowNew.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 1)
         rowNew.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 1)
-        rowNew.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 1)
+        rowNew.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 1)
+        rowNew.commit();
 
         let rowNew2 = worksheet.getRow(18);
         rowNew2.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 1)
+        rowNew2.commit();
 
         let rowNew3 = worksheet.getRow(19);
         rowNew3.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 1)
@@ -3469,7 +3233,8 @@ exports.createPG201A = function(req, res) {
         rowNew3.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 1)
         rowNew3.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 1)
         rowNew3.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 1)
-        rowNew3.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 1)
+        rowNew3.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 1)
+        rowNew3.commit();
 
         // Reten Sekolah (Darjah 2)
         let rowNew4 = worksheet.getRow(17);
@@ -3538,10 +3303,12 @@ exports.createPG201A = function(req, res) {
         rowNew4.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 2)
         rowNew4.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 2)
         rowNew4.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 2)
-        rowNew4.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 2)
+        rowNew4.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 2)
+        rowNew4.commit();
 
         let rowNew5 = worksheet.getRow(18);
 	      rowNew5.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 2)
+        rowNew5.commit();
 
         let rowNew6 = worksheet.getRow(19);
         rowNew6.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 2)
@@ -3571,7 +3338,8 @@ exports.createPG201A = function(req, res) {
         rowNew6.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 2)
         rowNew6.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 2)
         rowNew6.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 2)
-        rowNew6.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 2)
+        rowNew6.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 2)
+        rowNew6.commit();
 
         // Reten Sekolah (Darjah 3)
         let rowNew7 = worksheet.getRow(17);
@@ -3640,10 +3408,12 @@ exports.createPG201A = function(req, res) {
         rowNew7.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 3)
         rowNew7.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 3)
         rowNew7.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 3)
-        rowNew7.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 3)
-
+        rowNew7.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 3)
+        rowNew7.commit();
+        
         let rowNew8 = worksheet.getRow(18);
         rowNew8.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 3)
+        rowNew8.commit();
 
         let rowNew9 = worksheet.getRow(19);
         rowNew9.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 3)
@@ -3673,7 +3443,8 @@ exports.createPG201A = function(req, res) {
         rowNew9.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 3)
         rowNew9.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 3)
         rowNew9.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 3)
-        rowNew9.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 3)
+        rowNew9.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 3)
+        rowNew9.commit();
 
         // Reten Sekolah (Darjah 4)
         let rowNew10 = worksheet.getRow(17);
@@ -3742,10 +3513,12 @@ exports.createPG201A = function(req, res) {
         rowNew10.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 4)
         rowNew10.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 4)
         rowNew10.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 4)
-        rowNew10.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 4)
+        rowNew10.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 4)
+        rowNew10.commit();
 
         let rowNew11 = worksheet.getRow(18);
         rowNew11.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 4)
+        rowNew11.commit();
 
         let rowNew12 = worksheet.getRow(19);
         rowNew12.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 4)
@@ -3775,7 +3548,8 @@ exports.createPG201A = function(req, res) {
         rowNew12.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 4)
         rowNew12.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 4)
         rowNew12.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 4)
-        rowNew12.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 4)
+        rowNew12.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 4)
+        rowNew12.commit();
 
         // Reten Sekolah (Darjah 5)
         let rowNew13 = worksheet.getRow(17);
@@ -3844,10 +3618,12 @@ exports.createPG201A = function(req, res) {
         rowNew13.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 5)
         rowNew13.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 5)
         rowNew13.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 5)
-        rowNew13.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 5)
+        rowNew13.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 5)
+        rowNew13.commit();
 
         let rowNew14 = worksheet.getRow(18);
         rowNew14.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 5)
+        rowNew14.commit();
 
         let rowNew15 = worksheet.getRow(19);
         rowNew15.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 5)
@@ -3877,7 +3653,8 @@ exports.createPG201A = function(req, res) {
         rowNew15.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 5)
         rowNew15.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 5)
         rowNew15.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 5)
-        rowNew15.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 5)
+        rowNew15.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 5)
+        rowNew15.commit();
 
         // Reten Sekolah (Darjah 6 OR Peralihan)
         let rowNew16 = worksheet.getRow(17);
@@ -3946,12 +3723,14 @@ exports.createPG201A = function(req, res) {
         rowNew16.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 6 OR Peralihan)
         rowNew16.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 6 OR Peralihan)
         rowNew16.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 6 OR Peralihan)
-        
+        rowNew16.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew16.commit();
+
         let rowNew17 = worksheet.getRow(18);
 	      rowNew17.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (Darjah 6 OR Peralihan)
+        rowNew17.commit();
 
-        let rowNew183 = worksheet.getRow(19);
+        let rowNew18 = worksheet.getRow(19);
         rowNew18.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (Darjah 6 OR Peralihan)
         rowNew18.getCell(33).value = results.perluFSGigiS; //Bil. Gigi Semula perlu Fisur Sealan	(Darjah 6 OR Peralihan) 
         rowNew18.getCell(35).value = results.perluFvMuridS; //Bil. Murid Semula perlu Fluoride varnish (Darjah 6 OR Peralihan) 
@@ -3979,7 +3758,8 @@ exports.createPG201A = function(req, res) {
         rowNew18.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 6 OR Peralihan)
         rowNew18.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 6 OR Peralihan)
         rowNew18.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew18.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew18.commit();
 
         // Reten Sekolah (KKI)
         let rowNew19 = worksheet.getRow(17);
@@ -4048,10 +3828,12 @@ exports.createPG201A = function(req, res) {
         rowNew19.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (KKI)
         rowNew19.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (KKI)
         rowNew19.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (KKI)
-        rowNew19.getCel(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (KKI)
+        rowNew19.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (KKI)
+        rowNew19.commit();
 
         let rowNew20 = worksheet.getRow(18);
         rowNew20.getCell(8).value = results.skorPlakC; //Kebersihan Mulut Skor C (KKI)
+        rowNew20.commit();
 
         let rowNew21 = worksheet.getRow(19);
         rowNew21.getCell(8).value = results.skorPlakE; //Kebersihan Mulut Skor E (KKI)
@@ -4081,8 +3863,9 @@ exports.createPG201A = function(req, res) {
         rowNew21.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (KKI)
         rowNew21.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (KKI)
         rowNew21.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (KKI)
-        rowNew21.getCel(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (KKI)
-
+        rowNew21.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (KKI)
+        rowNew21.commit();
+        
         let newfile = path.join(__dirname, "..", "public", "exports", "test-PG201A.xlsx");
 
         // Write the file
@@ -4101,7 +3884,7 @@ exports.createPG201A = function(req, res) {
   });
 }
 
-exports.createPG201A = function(req, res) {
+exports.createPGS203 = function(req, res) {
   async.parallel({
       negeri: function(callback) {
         Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
@@ -4128,10 +3911,10 @@ exports.createPG201A = function(req, res) {
   , async function(err, results) {
       console.log(results);
       try {
-        let filename = path.join(__dirname, "..", "public", "exports", "PG201A.xlsx");
+        let filename = path.join(__dirname, "..", "public", "exports", "PGS203.xlsx");
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PPIM01');
+        let worksheet = workbook.getWorksheet('PGS 203');
 
         //Reten PGS 203
         //PraSekolah Tadika (Kerajaan) 
@@ -4331,9 +4114,10 @@ exports.createPG201A = function(req, res) {
         rowNew3.getCell(71).value = results.cabutanGk; //Cabutan GK PraSekolah Tadika (Murid Pendidikan Khas) 
         rowNew3.getCell(73).value = results.penskaleran; //Penskaleran PraSekolah Tadika (Murid Pendidikan Khas) 
         rowNew3.getCell(74).value = results.caseCompleted; //Kes Selesai PraSekolah Tadika (Murid Pendidikan Khas)
+        rowNew3.commit();
 
         //Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        let rowNew4 = results.worksheet.getRow(20);
+        let rowNew4 = worksheet.getRow(20);
         rowNew4.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
         rowNew4.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
         rowNew4.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
@@ -4396,10 +4180,11 @@ exports.createPG201A = function(req, res) {
         rowNew4.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
         rowNew4.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
         rowNew4.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Tahun 1) 
-        rowNew4.getCell(74).value = results.caseCompleted; //Kes Selesai Klinik atau Pusat Pergigian Sekolah (Tahun 1)
+        rowNew4.getCell(74).value = results.caseCompleted; //Kes Selesai Klinik atau Pusat Pergigian Sekolah (Tahun 1)a
+        rowNew4.commit();
 
         //Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
-        let rowNew5 = results.worksheet.getRow(21);
+        let rowNew5 = worksheet.getRow(21);
         rowNew5.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Tahun 1) 
         rowNew5.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tahun 1) 
         rowNew5.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 1) 
@@ -4463,9 +4248,10 @@ exports.createPG201A = function(req, res) {
         rowNew5.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Tahun 1) 
         rowNew5.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Tahun 1) 
         rowNew5.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
+        rowNew5.commit();
 
         //Klinik atau Pusat Pergigian Sekolah (Tahun 6)
-        let rowNew6 = results.worksheet.getRow(23);
+        let rowNew6 = worksheet.getRow(23);
         rowNew6.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 6)
@@ -4529,8 +4315,746 @@ exports.createPG201A = function(req, res) {
         rowNew6.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(74).value = results.caseCompleted; //Kes Selesai Klinik atau Pusat Pergigian Sekolah (Tahun 6)
+        rowNew6.commit();
 
-        let newfile = path.join(__dirname, "..", "public", "exports", "test-PG201A.xlsx");
+        //Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        let rowNew7 = worksheet.getRow(24);
+        rowNew7.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Tahun 6) 
+        rowNew7.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
+        rowNew7.commit();
+        
+        //Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        let rowNew8 = worksheet.getRow(26);
+        rowNew8.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(13).value = results.xStatusDMFX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(25).value = results.tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(26).value = results.skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(27).value = results.skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(28).value = results.skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(29).value = results.skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(50).value = results.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(74).value = results.caseCompleted; //Kes Selesai Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.commit();
+
+        //Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        let rowNew9 = worksheet.getRow(27);
+        rowNew9.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.commit();
+
+        //Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        let rowNew10 = worksheet.getRow(29);
+        rowNew10.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(13).value = results.xStatusDMFX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(25).value = results.tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(26).value = results.skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(27).value = results.skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(28).value = results.skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(29).value = results.skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(50).value = results.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(74).value = results.caseCompleted; //Kes Selesai Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.commit();
+
+        //Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        let rowNew11 = worksheet.getRow(30);
+        rowNew11.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.commit();
+
+        //Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        let rowNew12 = worksheet.getRow(32);
+        rowNew12.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(13).value = results.xStatusDMFX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(25).value = results.tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(26).value = results.skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(27).value = results.skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(28).value = results.skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(29).value = results.skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(50).value = results.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(74).value = results.caseCompleted; //Kes Selesai Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.commit();
+
+        //Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        let rowNew13 = worksheet.getRow(33);
+        rowNew13.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)\
+        rowNew13.commit();
+
+        //Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        let rowNew14 = worksheet.getRow(35);
+        rowNew14.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(13).value = results.xStatusDMFX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(25).value = results.tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(26).value = results.skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(27).value = results.skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(28).value = results.skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(29).value = results.skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(50).value = results.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(74).value = results.caseCompleted; //Kes Selesai Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.commit();
+
+        //Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        let rowNew15 = worksheet.getRow(36);
+        rowNew15.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.commit();
+
+        //Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        let rowNew16 = worksheet.getRow(38);
+        rowNew16.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(13).value = results.xStatusDMFX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(25).value = results.tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(26).value = results.skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(27).value = results.skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(28).value = results.skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(29).value = results.skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(50).value = results.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(70).value = results.cabutanGd; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(71).value = results.cabutanGk; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(73).value = results.penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(74).value = results.caseCompleted; //Kes Selesai Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.commit();
+
+        //Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        let rowNew17 = worksheet.getRow(39);
+        rowNew17.getCell(3).value = results.kedatanganEnggan; //Kedatangan Baru Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(13).value = results.xStatusDMFX; //x Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(16).value = results.mbk; //Mulut Bebas Karies (MBK) Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(17).value = results.dfxEqualToZero; //dfx = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(18).value = results.statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(19).value = results.totalStatusGigiKekalSamaKosong; //X + M = results.0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(20).value = results.gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(21).value = results.gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(22).value = results.eMoreThanZero; //E ≥ 1 (ada karies awal) Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(23).value = results.statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(24).value = results.kecederaanGigiAnterior; //Kecederaan Gigi Anterior Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(25).value = results.tpr; //TPR Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(26).value = results.skorGIS0; //Skor GIS 0 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(27).value = results.skorGIS1; //Skor GIS 1 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(28).value = results.skorGIS2; //Skor GIS 2 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(29).value = results.skorGIS3; //Skor GIS 3 Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(30).value = results.perluFvMurid; //Perlu FV Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(31).value = results.perluPRR1Murid; //Perlu PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(32).value = results.perluFSMuridB; //Perlu FS Murid B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(33).value = results.perluFSMuridS; //Perlu FS Murid S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(34).value = results.perluFSGigiB; //Perlu FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(35).value = results.perluFSGigiS; //Perlu FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(36).value = results.perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(37).value = results.perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(38).value = results.perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(39).value = results.perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(40).value = results.perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(41).value = results.perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(42).value = results.perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(43).value = results.perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(44).value = results.perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(45).value = results.perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(46).value = results.perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(47).value = results.perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(50).value = results.telahFvMurid; //Telah FV Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(51).value = results.telahPRR1Murid; //Telah PRR1 Murid Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(52).value = results.telahFSMuridB; //Telah FS Murid B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(53).value = results.telahFSMuridS; //Telah FS Murid S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(54).value = results.telahFSGigiB; //Telah FS Gigi B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(55).value = results.telahFSGigiS; //Telah FS Gigi S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(56).value = results.telahTampalanAntGdB; //Telah Tampalan Anterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(57).value = results.telahTampalanAntGdS; //Telah Tampalan Anterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(58).value = results.telahTampalanAntGkB; //Telah Tampalan Anterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(59).value = results.telahTampalanAntGkS; //Telah Tampalan Anterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(60).value = results.telahTampalanPosGdB; //Telah Tampalan Posterior Sewarna GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(61).value = results.telahTampalanPosGdS; //Telah Tampalan Posterior Sewarna GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(62).value = results.telahTampalanPosGkB; //Telah Tampalan Posterior Sewarna GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(63).value = results.telahTampalanPosGkS; //Telah Tampalan Posterior Sewarna GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(64).value = results.telahTampalanAmgGdB; //Telah Tampalan Posterior Amalgam GD B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(65).value = results.telahTampalanAmgGdS; //Telah Tampalan Posterior Amalgam GD S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(66).value = results.telahTampalanAmgGkB; //Telah Tampalan Posterior Amalgam GK B Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(67).value = results.telahTampalanAmgGkS; //Telah Tampalan Posterior Amalgam GK S Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(70).value = results.cabutanGd; //Cabutan GD Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(71).value = results.cabutanGk; //Cabutan GK Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(73).value = results.penskaleran; //Penskaleran Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(74).value = results.caseCompleted; //Kes Selesai Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.commit();
+
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGS203.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
@@ -4547,3 +5071,633 @@ exports.createPG201A = function(req, res) {
         }
   });
 }
+
+exports.createPG201SMKP = function(req, res) {
+  async.parallel({
+      negeri: function(callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function(callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRterlibatMMI: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      tahun: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      sekolah: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      klinik: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusD: "0", statusGigidesidusM: "0", statusGigidesidusF: "0", statusGigidesidusX: 0, kedatanganBaru: 1  }, callback);
+      },
+    }
+  , async function(err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(__dirname, "..", "public", "exports", "PG201SMKP.xlsx");
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PGS201SMKP');
+
+        // darjah/tingkatan 1
+        let rowNew = worksheet.getRow(17);
+        rowNew.getCell(2).value = results.kedatanganEnggan; // Kedatangan  darjah/tingkatan 1
+        rowNew.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  darjah/tingkatan 1
+        rowNew.getCell(4).value = results.enrolmen; // Kedatangan  darjah/tingkatan 1
+        rowNew.getCell(5).value = results.kedatanganbaru; // Kedatangan  darjah/tingkatan 1
+        rowNew.getCell(6).value = results.kedatanganUlangan; // Kedatangan  darjah/tingkatan 1
+        rowNew.getCell(7).value = results.skorPlakA; // Skor Plak A darjah/tingkatan 1
+        rowNew.getCell(9).value = results.dStatusdfx; // d  darjah/tingkatan 1
+        rowNew.getCell(10).value = results.fStatusdfx; // f  darjah/tingkatan 1
+        rowNew.getCell(11).value = results.xStatusdfx; // x  darjah/tingkatan 1
+        rowNew.getCell(13).value = results.dStatusDMFX; // D  darjah/tingkatan 1
+        rowNew.getCell(14).value = results.mStatusDMFX; // M  darjah/tingkatan 1
+        rowNew.getCell(15).value = results.fStatusDMFX; // F  darjah/tingkatan 1
+        rowNew.getCell(16).value = results.xStatusDMFX; // X  darjah/tingkatan 1
+        rowNew.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 darjah/tingkatan 1
+        rowNew.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  darjah/tingkatan 1
+        rowNew.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  darjah/tingkatan 1
+        rowNew.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  darjah/tingkatan 1
+        rowNew.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   darjah/tingkatan 1
+        rowNew.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  darjah/tingkatan 1
+        rowNew.getCell(24).value = results.tpr; // Tidak perlu rawatan  darjah/tingkatan 1
+        rowNew.getCell(25).value = results.kecederaanGigiAnterior; // X  darjah/tingkatan 1
+        rowNew.getCell(26).value = results.cleftAda; // X  darjah/tingkatan 1
+        rowNew.getCell(27).value = results.cleftRujuk; // X  darjah/tingkatan 1
+        rowNew.getCell(29).value = results.perluFSMuridB; // X  darjah/tingkatan 1
+        rowNew.getCell(30).value = results.perluFSGigiB; // X  darjah/tingkatan 1
+        rowNew.getCell(31).value = results.perluFsBilGigiFailed; // X  darjah/tingkatan 1
+        rowNew.getCell(32).value = results.perluTampalanAntGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(33).value = results.perluTampalanAntGkB; // X  darjah/tingkatan 1
+        rowNew.getCell(34).value = results.perluTampalanPosGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(35).value = results.perluTampalanPosGkB; // X  darjah/tingkatan 1
+        rowNew.getCell(36).value = results.perluTampalanAmgGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(37).value = results.perluTampalanAmgGkB; // X  darjah/tingkatan 1         
+        rowNew.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  darjah/tingkatan 1
+        rowNew.getCell(40).value = results.telahFSGigiB; //   darjah/tingkatan 1
+        rowNew.getCell(41).value = results.telahTampalanAntGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(42).value = results.telahTampalanAntGkB; // X  darjah/tingkatan 1
+        rowNew.getCell(43).value = results.telahTampalanPosGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(44).value = results.telahTampalanPosGkB; // X  darjah/tingkatan 1
+        rowNew.getCell(45).value = results.telahTampalanAmgGdB; // X  darjah/tingkatan 1
+        rowNew.getCell(46).value = results.telahTampalanAmgGkB; // X  darjah/tingkatan 1
+        rowNew.getCell(48).value = results.cabutanGd// Cabutan GD  darjah/tingkatan 1
+        rowNew.getCell(49).value = results.cabutanGk// Cabutan GK  darjah/tingkatan 1
+        rowNew.getCell(50).value = results.penskaleran// Penskaleran  darjah/tingkatan 1
+        rowNew.getCell(51).value = results.kesSelesai// Kes selesai  darjah/tingkatan 1
+        rowNew.getCell(52).value = results.skorGIS0// Skor GIS 0  darjah/tingkatan 1
+        rowNew.getCell(53).value = results.skorGIS1// Skor GIS 1  darjah/tingkatan 1
+        rowNew.getCell(54).value = results.skorGIS2// Skor GIS 2  darjah/tingkatan 1
+        rowNew.getCell(55).value = results.skorGIS3// Skor GIS 3  darjah/tingkatan 1
+        rowNew.commit();        
+        
+        let rowNew2 = worksheet.getRow(18);
+        rowNew2.getCell(2).value = results.skorPlakC; // darjah/tingkatan 1
+        rowNew2.commit();
+
+        let rowNew3 = worksheet.getRow(19);
+        rowNew3.getCell(2).value = results.skorPlakE; // darjah/tingkatan 1
+        rowNew3.commit();
+
+        let rowNew4 = worksheet.getRow(19);
+        rowNew4.getCell(30).value = results.perluFSGigiS; // darjah/tingkatan 1
+        rowNew4.getCell(32).value = results.perluTampalanAntGdS//   darjah/tingkatan 1
+        rowNew4.getCell(33).value = results.perluTampalanAntGkS//   darjah/tingkatan 1
+        rowNew4.getCell(34).value = results.perluTampalanPosGdS//   darjah/tingkatan 1
+        rowNew4.getCell(35).value = results.perluTampalanPosGkS//   darjah/tingkatan 1
+        rowNew4.getCell(36).value = results.perluTampalanAmgGdS//   darjah/tingkatan 1
+        rowNew4.getCell(37).value = results.perluTampalanAmgGkS//   darjah/tingkatan 1
+        rowNew4.getCell(39).value = results.telahFSMuridS//   darjah/tingkatan 1
+        rowNew4.getCell(40).value = results.telahFSGigiS//   darjah/tingkatan 1
+        rowNew4.getCell(41).value = results.telahTampalanAntGdS//   darjah/tingkatan 1
+        rowNew4.getCell(42).value = results.telahTampalanAntGkS//   darjah/tingkatan 1
+        rowNew4.getCell(43).value = results.telahTampalanPosGdS//   darjah/tingkatan 1
+        rowNew4.getCell(44).value = results.telahTampalanPosGkS//   darjah/tingkatan 1
+        rowNew4.getCell(45).value = results.telahTampalanAmgGkS//   darjah/tingkatan 1
+        rowNew4.getCell(46).value = results.telahTampalanAmgGkS//   darjah/tingkatan 1
+        rowNew4.commit();
+
+        // darjah/tingkatan 2
+        let rowNew5 = worksheet.getRow(20);
+        rowNew5.getCell(2).value = results.kedatanganEnggan; // Kedatangan  darjah/tingkatan 2
+        rowNew5.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  darjah/tingkatan 2
+        rowNew5.getCell(4).value = results.enrolmen; // Kedatangan  darjah/tingkatan 2
+        rowNew5.getCell(5).value = results.kedatanganbaru; // Kedatangan  darjah/tingkatan 2
+        rowNew5.getCell(6).value = results.kedatanganUlangan; // Kedatangan  darjah/tingkatan 2
+        rowNew5.getCell(7).value = results.skorPlakA; // Skor Plak A darjah/tingkatan 2
+        rowNew5.getCell(9).value = results.dStatusdfx; // d  darjah/tingkatan 2
+        rowNew5.getCell(10).value = results.fStatusdfx; // f  darjah/tingkatan 2
+        rowNew5.getCell(11).value = results.xStatusdfx; // x  darjah/tingkatan 2
+        rowNew5.getCell(13).value = results.dStatusDMFX; // D  darjah/tingkatan 2
+        rowNew5.getCell(14).value = results.mStatusDMFX; // M  darjah/tingkatan 2
+        rowNew5.getCell(15).value = results.fStatusDMFX; // F  darjah/tingkatan 2
+        rowNew5.getCell(16).value = results.xStatusDMFX; // X  darjah/tingkatan 2
+        rowNew5.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 darjah/tingkatan 2
+        rowNew5.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  darjah/tingkatan 2
+        rowNew5.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  darjah/tingkatan 2
+        rowNew5.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  darjah/tingkatan 2
+        rowNew5.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   darjah/tingkatan 2
+        rowNew5.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  darjah/tingkatan 2
+        rowNew5.getCell(24).value = results.tpr; // Tidak perlu rawatan  darjah/tingkatan 2
+        rowNew5.getCell(25).value = results.kecederaanGigiAnterior; // X  darjah/tingkatan 2
+        rowNew5.getCell(26).value = results.cleftAda; // X  darjah/tingkatan 2
+        rowNew5.getCell(27).value = results.cleftRujuk; // X  darjah/tingkatan 2
+        rowNew5.getCell(29).value = results.perluFSMuridB; // X  darjah/tingkatan 2
+        rowNew5.getCell(30).value = results.perluFSGigiB; // X  darjah/tingkatan 2
+        rowNew5.getCell(31).value = results.perluFsBilGigiFailed; // X  darjah/tingkatan 2
+        rowNew5.getCell(32).value = results.perluTampalanAntGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(33).value = results.perluTampalanAntGkB; // X  darjah/tingkatan 2
+        rowNew5.getCell(34).value = results.perluTampalanPosGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(35).value = results.perluTampalanPosGkB; // X  darjah/tingkatan 2
+        rowNew5.getCell(36).value = results.perluTampalanAmgGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(37).value = results.perluTampalanAmgGkB; // X  darjah/tingkatan 2         
+        rowNew5.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  darjah/tingkatan 2
+        rowNew5.getCell(40).value = results.telahFSGigiB; //   darjah/tingkatan 2
+        rowNew5.getCell(41).value = results.telahTampalanAntGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(42).value = results.telahTampalanAntGkB; // X  darjah/tingkatan 2
+        rowNew5.getCell(43).value = results.telahTampalanPosGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(44).value = results.telahTampalanPosGkB; // X  darjah/tingkatan 2
+        rowNew5.getCell(45).value = results.telahTampalanAmgGdB; // X  darjah/tingkatan 2
+        rowNew5.getCell(46).value = results.telahTampalanAmgGkB; // X  darjah/tingkatan 2
+        rowNew5.getCell(48).value = results.cabutanGd// Cabutan GD  darjah/tingkatan 2
+        rowNew5.getCell(49).value = results.cabutanGk// Cabutan GK  darjah/tingkatan 2
+        rowNew5.getCell(50).value = results.penskaleran// Penskaleran  darjah/tingkatan 2
+        rowNew5.getCell(51).value = results.kesSelesai// Kes selesai  darjah/tingkatan 2
+        rowNew5.getCell(52).value = results.skorGIS0// Skor GIS 0  darjah/tingkatan 2
+        rowNew5.getCell(53).value = results.skorGIS1// Skor GIS 1  darjah/tingkatan 2
+        rowNew5.getCell(54).value = results.skorGIS2// Skor GIS 2  darjah/tingkatan 2
+        rowNew5.getCell(55).value = results.skorGIS3// Skor GIS 3  darjah/tingkatan 2
+        rowNew5.commit();
+
+        let rowNew6 = worksheet.getRow(21);
+        rowNew6.getCell(2).value = results.skorPlakC; // darjah/tingkatan 2
+        rowNew6.commit();
+
+        let rowNew7 = worksheet.getRow(22);
+        rowNew7.getCell(2).value = results.skorPlakE; // darjah/tingkatan 2
+        rowNew7.commit();
+
+        let rowNew8 = worksheet.getRow(22);
+        rowNew8.getCell(30).value = results.perluFSGigiS; // darjah/tingkatan 2
+        rowNew8.getCell(32).value = results.perluTampalanAntGdS//   darjah/tingkatan 2
+        rowNew8.getCell(33).value = results.perluTampalanAntGkS//   darjah/tingkatan 2
+        rowNew8.getCell(34).value = results.perluTampalanPosGdS//   darjah/tingkatan 2
+        rowNew8.getCell(35).value = results.perluTampalanPosGkS//   darjah/tingkatan 2
+        rowNew8.getCell(36).value = results.perluTampalanAmgGdS//   darjah/tingkatan 2
+        rowNew8.getCell(37).value = results.perluTampalanAmgGkS//   darjah/tingkatan 2
+        rowNew8.getCell(39).value = results.telahFSMuridS//   darjah/tingkatan 2
+        rowNew8.getCell(40).value = results.telahFSGigiS//   darjah/tingkatan 2
+        rowNew8.getCell(41).value = results.telahTampalanAntGdS//   darjah/tingkatan 2
+        rowNew8.getCell(42).value = results.telahTampalanAntGkS//   darjah/tingkatan 2
+        rowNew8.getCell(43).value = results.telahTampalanPosGdS//   darjah/tingkatan 2
+        rowNew8.getCell(44).value = results.telahTampalanPosGkS//   darjah/tingkatan 2
+        rowNew8.getCell(45).value = results.telahTampalanAmgGkS//   darjah/tingkatan 2
+        rowNew8.getCell(46).value = results.telahTampalanAmgGkS//   darjah/tingkatan 2
+        rowNew8.commit();
+
+        // darjah/tingkatan 3
+        let rowNew9 = worksheet.getRow(23);
+        rowNew9.getCell(2).value = results.kedatanganEnggan; // Kedatangan  darjah/tingkatan 3
+        rowNew9.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  darjah/tingkatan 3
+        rowNew9.getCell(4).value = results.enrolmen; // Kedatangan  darjah/tingkatan 3
+        rowNew9.getCell(5).value = results.kedatanganbaru; // Kedatangan  darjah/tingkatan 3
+        rowNew9.getCell(6).value = results.kedatanganUlangan; // Kedatangan  darjah/tingkatan 3
+        rowNew9.getCell(7).value = results.skorPlakA; // Skor Plak A darjah/tingkatan 3
+        rowNew9.getCell(9).value = results.dStatusdfx; // d  darjah/tingkatan 3
+        rowNew9.getCell(10).value = results.fStatusdfx; // f  darjah/tingkatan 3
+        rowNew9.getCell(11).value = results.xStatusdfx; // x  darjah/tingkatan 3
+        rowNew9.getCell(13).value = results.dStatusDMFX; // D  darjah/tingkatan 3
+        rowNew9.getCell(14).value = results.mStatusDMFX; // M  darjah/tingkatan 3
+        rowNew9.getCell(15).value = results.fStatusDMFX; // F  darjah/tingkatan 3
+        rowNew9.getCell(16).value = results.xStatusDMFX; // X  darjah/tingkatan 3
+        rowNew9.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 darjah/tingkatan 3
+        rowNew9.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  darjah/tingkatan 3
+        rowNew9.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  darjah/tingkatan 3
+        rowNew9.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  darjah/tingkatan 3
+        rowNew9.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   darjah/tingkatan 3
+        rowNew9.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  darjah/tingkatan 3
+        rowNew9.getCell(24).value = results.tpr; // Tidak perlu rawatan  darjah/tingkatan 3
+        rowNew9.getCell(25).value = results.kecederaanGigiAnterior; // X  darjah/tingkatan 3
+        rowNew9.getCell(26).value = results.cleftAda; // X  darjah/tingkatan 3
+        rowNew9.getCell(27).value = results.cleftRujuk; // X  darjah/tingkatan 3
+        rowNew9.getCell(29).value = results.perluFSMuridB; // X  darjah/tingkatan 3
+        rowNew9.getCell(30).value = results.perluFSGigiB; // X  darjah/tingkatan 3
+        rowNew9.getCell(31).value = results.perluFsBilGigiFailed; // X  darjah/tingkatan 3
+        rowNew9.getCell(32).value = results.perluTampalanAntGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(33).value = results.perluTampalanAntGkB; // X  darjah/tingkatan 3
+        rowNew9.getCell(34).value = results.perluTampalanPosGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(35).value = results.perluTampalanPosGkB; // X  darjah/tingkatan 3
+        rowNew9.getCell(36).value = results.perluTampalanAmgGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(37).value = results.perluTampalanAmgGkB; // X  darjah/tingkatan 3         
+        rowNew9.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  darjah/tingkatan 3
+        rowNew9.getCell(40).value = results.telahFSGigiB; //   darjah/tingkatan 3
+        rowNew9.getCell(41).value = results.telahTampalanAntGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(42).value = results.telahTampalanAntGkB; // X  darjah/tingkatan 3
+        rowNew9.getCell(43).value = results.telahTampalanPosGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(44).value = results.telahTampalanPosGkB; // X  darjah/tingkatan 3
+        rowNew9.getCell(45).value = results.telahTampalanAmgGdB; // X  darjah/tingkatan 3
+        rowNew9.getCell(46).value = results.telahTampalanAmgGkB; // X  darjah/tingkatan 3
+        rowNew9.getCell(48).value = results.cabutanGd// Cabutan GD  darjah/tingkatan 3
+        rowNew9.getCell(49).value = results.cabutanGk// Cabutan GK  darjah/tingkatan 3
+        rowNew9.getCell(50).value = results.penskaleran// Penskaleran  darjah/tingkatan 3
+        rowNew9.getCell(51).value = results.kesSelesai// Kes selesai  darjah/tingkatan 3
+        rowNew9.getCell(52).value = results.skorGIS0// Skor GIS 0  darjah/tingkatan 3
+        rowNew9.getCell(53).value = results.skorGIS1// Skor GIS 1  darjah/tingkatan 3
+        rowNew9.getCell(54).value = results.skorGIS2// Skor GIS 2  darjah/tingkatan 3
+        rowNew9.getCell(55).value = results.skorGIS3// Skor GIS 3  darjah/tingkatan 3
+        rowNew9.commit();
+
+        let rowNew10 = worksheet.getRow(24);
+        rowNew10.getCell(2).value = results.skorPlakC; // darjah/tingkatan 3
+        rowNew10.commit();
+        
+        let rowNew11 = worksheet.getRow(25);
+        rowNew11.getCell(2).value = results.skorPlakE; // darjah/tingkatan 3
+        rowNew11.commit();
+
+        let rowNew12 = worksheet.getRow(25);
+        rowNew12.getCell(30).value = results.perluFSGigiS; // darjah/tingkatan 3
+        rowNew12.getCell(32).value = results.perluTampalanAntGdS//   darjah/tingkatan 3
+        rowNew12.getCell(33).value = results.perluTampalanAntGkS//   darjah/tingkatan 3
+        rowNew12.getCell(34).value = results.perluTampalanPosGdS//   darjah/tingkatan 3
+        rowNew12.getCell(35).value = results.perluTampalanPosGkS//   darjah/tingkatan 3
+        rowNew12.getCell(36).value = results.perluTampalanAmgGdS//   darjah/tingkatan 3
+        rowNew12.getCell(37).value = results.perluTampalanAmgGkS//   darjah/tingkatan 3
+        rowNew12.getCell(39).value = results.telahFSMuridS//   darjah/tingkatan 3
+        rowNew12.getCell(40).value = results.telahFSGigiS//   darjah/tingkatan 3
+        rowNew12.getCell(41).value = results.telahTampalanAntGdS//   darjah/tingkatan 3
+        rowNew12.getCell(42).value = results.telahTampalanAntGkS//   darjah/tingkatan 3
+        rowNew12.getCell(43).value = results.telahTampalanPosGdS//   darjah/tingkatan 3
+        rowNew12.getCell(44).value = results.telahTampalanPosGkS//   darjah/tingkatan 3
+        rowNew12.getCell(45).value = results.telahTampalanAmgGkS//   darjah/tingkatan 3
+        rowNew12.getCell(46).value = results.telahTampalanAmgGkS//   darjah/tingkatan 3
+        rowNew12.commit();
+
+        // darjah/tingkatan 4
+        let rowNew13 = worksheet.getRow(26);
+        rowNew13.getCell(2).value = results.kedatanganEnggan; // Kedatangan  darjah/tingkatan 4
+        rowNew13.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  darjah/tingkatan 4
+        rowNew13.getCell(4).value = results.enrolmen; // Kedatangan  darjah/tingkatan 4
+        rowNew13.getCell(5).value = results.kedatanganbaru; // Kedatangan  darjah/tingkatan 4
+        rowNew13.getCell(6).value = results.kedatanganUlangan; // Kedatangan  darjah/tingkatan 4
+        rowNew13.getCell(7).value = results.skorPlakA; // Skor Plak A darjah/tingkatan 4
+        rowNew13.getCell(9).value = results.dStatusdfx; // d  darjah/tingkatan 4
+        rowNew13.getCell(10).value = results.fStatusdfx; // f  darjah/tingkatan 4
+        rowNew13.getCell(11).value = results.xStatusdfx; // x  darjah/tingkatan 4
+        rowNew13.getCell(13).value = results.dStatusDMFX; // D  darjah/tingkatan 4
+        rowNew13.getCell(14).value = results.mStatusDMFX; // M  darjah/tingkatan 4
+        rowNew13.getCell(15).value = results.fStatusDMFX; // F  darjah/tingkatan 4
+        rowNew13.getCell(16).value = results.xStatusDMFX; // X  darjah/tingkatan 4
+        rowNew13.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 darjah/tingkatan 4
+        rowNew13.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  darjah/tingkatan 4
+        rowNew13.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  darjah/tingkatan 4
+        rowNew13.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  darjah/tingkatan 4
+        rowNew13.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   darjah/tingkatan 4
+        rowNew13.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  darjah/tingkatan 4
+        rowNew13.getCell(24).value = results.tpr; // Tidak perlu rawatan  darjah/tingkatan 4
+        rowNew13.getCell(25).value = results.kecederaanGigiAnterior; // X  darjah/tingkatan 4
+        rowNew13.getCell(26).value = results.cleftAda; // X  darjah/tingkatan 4
+        rowNew13.getCell(27).value = results.cleftRujuk; // X  darjah/tingkatan 4
+        rowNew13.getCell(29).value = results.perluFSMuridB; // X  darjah/tingkatan 4
+        rowNew13.getCell(30).value = results.perluFSGigiB; // X  darjah/tingkatan 4
+        rowNew13.getCell(31).value = results.perluFsBilGigiFailed; // X  darjah/tingkatan 4
+        rowNew13.getCell(32).value = results.perluTampalanAntGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(33).value = results.perluTampalanAntGkB; // X  darjah/tingkatan 4
+        rowNew13.getCell(34).value = results.perluTampalanPosGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(35).value = results.perluTampalanPosGkB; // X  darjah/tingkatan 4
+        rowNew13.getCell(36).value = results.perluTampalanAmgGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(37).value = results.perluTampalanAmgGkB; // X  darjah/tingkatan 4         
+        rowNew13.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  darjah/tingkatan 4
+        rowNew13.getCell(40).value = results.telahFSGigiB; //   darjah/tingkatan 4
+        rowNew13.getCell(41).value = results.telahTampalanAntGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(42).value = results.telahTampalanAntGkB; // X  darjah/tingkatan 4
+        rowNew13.getCell(43).value = results.telahTampalanPosGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(44).value = results.telahTampalanPosGkB; // X  darjah/tingkatan 4
+        rowNew13.getCell(45).value = results.telahTampalanAmgGdB; // X  darjah/tingkatan 4
+        rowNew13.getCell(46).value = results.telahTampalanAmgGkB; // X  darjah/tingkatan 4
+        rowNew13.getCell(48).value = results.cabutanGd// Cabutan GD  darjah/tingkatan 4
+        rowNew13.getCell(49).value = results.cabutanGk// Cabutan GK  darjah/tingkatan 4
+        rowNew13.getCell(50).value = results.penskaleran// Penskaleran  darjah/tingkatan 4
+        rowNew13.getCell(51).value = results.kesSelesai// Kes selesai  darjah/tingkatan 4
+        rowNew13.getCell(52).value = results.skorGIS0// Skor GIS 0  darjah/tingkatan 4
+        rowNew13.getCell(53).value = results.skorGIS1// Skor GIS 1  darjah/tingkatan 4
+        rowNew13.getCell(54).value = results.skorGIS2// Skor GIS 2  darjah/tingkatan 4
+        rowNew13.getCell(55).value = results.skorGIS3// Skor GIS 3  darjah/tingkatan 4
+        rowNew13.commit();
+
+        let rowNew14 = worksheet.getRow(27);
+        rowNew14.getCell(2).value = results.skorPlakC; // darjah/tingkatan 4     
+        rowNew14.commit();   
+
+        let rowNew15 = worksheet.getRow(28);
+        rowNew15.getCell(2).value = results.skorPlakE; // darjah/tingkatan 4
+        rowNew15.commit();
+
+        let rowNew16 = worksheet.getRow(28);
+        rowNew16.getCell(30).value = results.perluFSGigiS; // darjah/tingkatan 4
+        rowNew16.getCell(32).value = results.perluTampalanAntGdS//   darjah/tingkatan 4
+        rowNew16.getCell(33).value = results.perluTampalanAntGkS//   darjah/tingkatan 4
+        rowNew16.getCell(34).value = results.perluTampalanPosGdS//   darjah/tingkatan 4
+        rowNew16.getCell(35).value = results.perluTampalanPosGkS//   darjah/tingkatan 4
+        rowNew16.getCell(36).value = results.perluTampalanAmgGdS//   darjah/tingkatan 4
+        rowNew16.getCell(37).value = results.perluTampalanAmgGkS//   darjah/tingkatan 4
+        rowNew16.getCell(39).value = results.telahFSMuridS//   darjah/tingkatan 4
+        rowNew16.getCell(40).value = results.telahFSGigiS//   darjah/tingkatan 4
+        rowNew16.getCell(41).value = results.telahTampalanAntGdS//   darjah/tingkatan 4
+        rowNew16.getCell(42).value = results.telahTampalanAntGkS//   darjah/tingkatan 4
+        rowNew16.getCell(43).value = results.telahTampalanPosGdS//   darjah/tingkatan 4
+        rowNew16.getCell(44).value = results.telahTampalanPosGkS//   darjah/tingkatan 4
+        rowNew16.getCell(45).value = results.telahTampalanAmgGkS//   darjah/tingkatan 4
+        rowNew16.getCell(46).value = results.telahTampalanAmgGkS//   darjah/tingkatan 4
+        rowNew16.commit();
+
+        // darjah/tingkatan 5
+        let rowNew17 = worksheet.getRow(29);
+        rowNew17.getCell(2).value = results.kedatanganEnggan; // Kedatangan  darjah/tingkatan 5
+        rowNew17.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  darjah/tingkatan 5
+        rowNew17.getCell(4).value = results.enrolmen; // Kedatangan  darjah/tingkatan 5
+        rowNew17.getCell(5).value = results.kedatanganbaru; // Kedatangan  darjah/tingkatan 5
+        rowNew17.getCell(6).value = results.kedatanganUlangan; // Kedatangan  darjah/tingkatan 5
+        rowNew17.getCell(7).value = results.skorPlakA; // Skor Plak A darjah/tingkatan 5
+        rowNew17.getCell(9).value = results.dStatusdfx; // d  darjah/tingkatan 5
+        rowNew17.getCell(10).value = results.fStatusdfx; // f  darjah/tingkatan 5
+        rowNew17.getCell(11).value = results.xStatusdfx; // x  darjah/tingkatan 5
+        rowNew17.getCell(13).value = results.dStatusDMFX; // D  darjah/tingkatan 5
+        rowNew17.getCell(14).value = results.mStatusDMFX; // M  darjah/tingkatan 5
+        rowNew17.getCell(15).value = results.fStatusDMFX; // F  darjah/tingkatan 5
+        rowNew17.getCell(16).value = results.xStatusDMFX; // X  darjah/tingkatan 5
+        rowNew17.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 darjah/tingkatan 5
+        rowNew17.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  darjah/tingkatan 5
+        rowNew17.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  darjah/tingkatan 5
+        rowNew17.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  darjah/tingkatan 5
+        rowNew17.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   darjah/tingkatan 5
+        rowNew17.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  darjah/tingkatan 5
+        rowNew17.getCell(24).value = results.tpr; // Tidak perlu rawatan  darjah/tingkatan 5
+        rowNew17.getCell(25).value = results.kecederaanGigiAnterior; // X  darjah/tingkatan 5
+        rowNew17.getCell(26).value = results.cleftAda; // X  darjah/tingkatan 5
+        rowNew17.getCell(27).value = results.cleftRujuk; // X  darjah/tingkatan 5
+        rowNew17.getCell(29).value = results.perluFSMuridB; // X  darjah/tingkatan 5
+        rowNew17.getCell(30).value = results.perluFSGigiB; // X  darjah/tingkatan 5
+        rowNew17.getCell(31).value = results.perluFsBilGigiFailed; // X  darjah/tingkatan 5
+        rowNew17.getCell(32).value = results.perluTampalanAntGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(33).value = results.perluTampalanAntGkB; // X  darjah/tingkatan 5
+        rowNew17.getCell(34).value = results.perluTampalanPosGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(35).value = results.perluTampalanPosGkB; // X  darjah/tingkatan 5
+        rowNew17.getCell(36).value = results.perluTampalanAmgGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(37).value = results.perluTampalanAmgGkB; // X  darjah/tingkatan 5         
+        rowNew17.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  darjah/tingkatan 5
+        rowNew17.getCell(40).value = results.telahFSGigiB; //   darjah/tingkatan 5
+        rowNew17.getCell(41).value = results.telahTampalanAntGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(42).value = results.telahTampalanAntGkB; // X  darjah/tingkatan 5
+        rowNew17.getCell(43).value = results.telahTampalanPosGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(44).value = results.telahTampalanPosGkB; // X  darjah/tingkatan 5
+        rowNew17.getCell(45).value = results.telahTampalanAmgGdB; // X  darjah/tingkatan 5
+        rowNew17.getCell(46).value = results.telahTampalanAmgGkB; // X  darjah/tingkatan 5
+        rowNew17.getCell(48).value = results.cabutanGd// Cabutan GD  darjah/tingkatan 5
+        rowNew17.getCell(49).value = results.cabutanGk// Cabutan GK  darjah/tingkatan 5
+        rowNew17.getCell(50).value = results.penskaleran// Penskaleran  darjah/tingkatan 5
+        rowNew17.getCell(51).value = results.kesSelesai// Kes selesai  darjah/tingkatan 5
+        rowNew17.getCell(52).value = results.skorGIS0// Skor GIS 0  darjah/tingkatan 5
+        rowNew17.getCell(53).value = results.skorGIS1// Skor GIS 1  darjah/tingkatan 5
+        rowNew17.getCell(54).value = results.skorGIS2// Skor GIS 2  darjah/tingkatan 5
+        rowNew17.getCell(55).value = results.skorGIS3// Skor GIS 3  darjah/tingkatan 5
+        rowNew17.commit();
+
+        let rowNew18 = worksheet.getRow(30);
+        rowNew18.getCell(2).value = results.skorPlakC; // darjah/tingkatan 5
+        rowNew18.commit();
+
+        let rowNew19 = worksheet.getRow(31);
+        rowNew19.getCell(2).value = results.skorPlakE; // darjah/tingkatan 5
+        rowNew19.commit();
+
+        let rowNew20 = worksheet.getRow(31);
+        rowNew20.getCell(30).value = results.perluFSGigiS; // darjah/tingkatan 5
+        rowNew20.getCell(32).value = results.perluTampalanAntGdS//   darjah/tingkatan 5
+        rowNew20.getCell(33).value = results.perluTampalanAntGkS//   darjah/tingkatan 5
+        rowNew20.getCell(34).value = results.perluTampalanPosGdS//   darjah/tingkatan 5
+        rowNew20.getCell(35).value = results.perluTampalanPosGkS//   darjah/tingkatan 5
+        rowNew20.getCell(36).value = results.perluTampalanAmgGdS//   darjah/tingkatan 5
+        rowNew20.getCell(37).value = results.perluTampalanAmgGkS//   darjah/tingkatan 5
+        rowNew20.getCell(39).value = results.telahFSMuridS//   darjah/tingkatan 5
+        rowNew20.getCell(40).value = results.telahFSGigiS//   darjah/tingkatan 5
+        rowNew20.getCell(41).value = results.telahTampalanAntGdS//   darjah/tingkatan 5
+        rowNew20.getCell(42).value = results.telahTampalanAntGkS//   darjah/tingkatan 5
+        rowNew20.getCell(43).value = results.telahTampalanPosGdS//   darjah/tingkatan 5
+        rowNew20.getCell(44).value = results.telahTampalanPosGkS//   darjah/tingkatan 5
+        rowNew20.getCell(45).value = results.telahTampalanAmgGkS//   darjah/tingkatan 5
+        rowNew20.getCell(46).value = results.telahTampalanAmgGkS//   darjah/tingkatan 5
+        rowNew20.commit();
+
+        // 6 /peralihan
+        let rowNew21 = worksheet.getRow(32);
+        rowNew21.getCell(2).value = results.kedatanganEnggan; // Kedatangan  6 /peralihan
+        rowNew21.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  6 /peralihan
+        rowNew21.getCell(4).value = results.enrolmen; // Kedatangan  6 /peralihan
+        rowNew21.getCell(5).value = results.kedatanganbaru; // Kedatangan  6 /peralihan
+        rowNew21.getCell(6).value = results.kedatanganUlangan; // Kedatangan  6 /peralihan
+        rowNew21.getCell(7).value = results.skorPlakA; // Skor Plak A 6 /peralihan
+        rowNew21.getCell(9).value = results.dStatusdfx; // d  6 /peralihan
+        rowNew21.getCell(10).value = results.fStatusdfx; // f  6 /peralihan
+        rowNew21.getCell(11).value = results.xStatusdfx; // x  6 /peralihan
+        rowNew21.getCell(13).value = results.dStatusDMFX; // D  6 /peralihan
+        rowNew21.getCell(14).value = results.mStatusDMFX; // M  6 /peralihan
+        rowNew21.getCell(15).value = results.fStatusDMFX; // F  6 /peralihan
+        rowNew21.getCell(16).value = results.xStatusDMFX; // X  6 /peralihan
+        rowNew21.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 6 /peralihan
+        rowNew21.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  6 /peralihan
+        rowNew21.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  6 /peralihan
+        rowNew21.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  6 /peralihan
+        rowNew21.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   6 /peralihan
+        rowNew21.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  6 /peralihan
+        rowNew21.getCell(24).value = results.tpr; // Tidak perlu rawatan  6 /peralihan
+        rowNew21.getCell(25).value = results.kecederaanGigiAnterior; // X  6 /peralihan
+        rowNew21.getCell(26).value = results.cleftAda; // X  6 /peralihan
+        rowNew21.getCell(27).value = results.cleftRujuk; // X  6 /peralihan
+        rowNew21.getCell(29).value = results.perluFSMuridB; // X  6 /peralihan
+        rowNew21.getCell(30).value = results.perluFSGigiB; // X  6 /peralihan
+        rowNew21.getCell(31).value = results.perluFsBilGigiFailed; // X  6 /peralihan
+        rowNew21.getCell(32).value = results.perluTampalanAntGdB; // X  6 /peralihan
+        rowNew21.getCell(33).value = results.perluTampalanAntGkB; // X  6 /peralihan
+        rowNew21.getCell(34).value = results.perluTampalanPosGdB; // X  6 /peralihan
+        rowNew21.getCell(35).value = results.perluTampalanPosGkB; // X  6 /peralihan
+        rowNew21.getCell(36).value = results.perluTampalanAmgGdB; // X  6 /peralihan
+        rowNew21.getCell(37).value = results.perluTampalanAmgGkB; // X  6 /peralihan         
+        rowNew21.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  6 /peralihan
+        rowNew21.getCell(40).value = results.telahFSGigiB; //   6 /peralihan
+        rowNew21.getCell(41).value = results.telahTampalanAntGdB; // X  6 /peralihan
+        rowNew21.getCell(42).value = results.telahTampalanAntGkB; // X  6 /peralihan
+        rowNew21.getCell(43).value = results.telahTampalanPosGdB; // X  6 /peralihan
+        rowNew21.getCell(44).value = results.telahTampalanPosGkB; // X  6 /peralihan
+        rowNew21.getCell(45).value = results.telahTampalanAmgGdB; // X  6 /peralihan
+        rowNew21.getCell(46).value = results.telahTampalanAmgGkB; // X  6 /peralihan
+        rowNew21.getCell(48).value = results.cabutanGd// Cabutan GD  6 /peralihan
+        rowNew21.getCell(49).value = results.cabutanGk// Cabutan GK  6 /peralihan
+        rowNew21.getCell(50).value = results.penskaleran// Penskaleran  6 /peralihan
+        rowNew21.getCell(51).value = results.kesSelesai// Kes selesai  6 /peralihan
+        rowNew21.getCell(52).value = results.skorGIS0// Skor GIS 0  6 /peralihan
+        rowNew21.getCell(53).value = results.skorGIS1// Skor GIS 1  6 /peralihan
+        rowNew21.getCell(54).value = results.skorGIS2// Skor GIS 2  6 /peralihan
+        rowNew21.getCell(55).value = results.skorGIS3// Skor GIS 3  6 /peralihan
+        rowNew21.commit();
+        
+        let rowNew22 = worksheet.getRow(33);
+        rowNew22.getCell(2).value = results.skorPlakC; // 6 /peralihan
+        rowNew22.commit();
+
+        let rowNew23 = worksheet.getRow(34);
+        rowNew23.getCell(2).value = results.skorPlakE; // 6 /peralihan
+        rowNew23.commit();
+
+        let rowNew24 = worksheet.getRow(34);
+        rowNew24.getCell(30).value = results.perluFSGigiS; // 6 /peralihan
+        rowNew24.getCell(32).value = results.perluTampalanAntGdS//   6 /peralihan
+        rowNew24.getCell(33).value = results.perluTampalanAntGkS//   6 /peralihan
+        rowNew24.getCell(34).value = results.perluTampalanPosGdS//   6 /peralihan
+        rowNew24.getCell(35).value = results.perluTampalanPosGkS//   6 /peralihan
+        rowNew24.getCell(36).value = results.perluTampalanAmgGdS//   6 /peralihan
+        rowNew24.getCell(37).value = results.perluTampalanAmgGkS//   6 /peralihan
+        rowNew24.getCell(39).value = results.telahFSMuridS//   6 /peralihan
+        rowNew24.getCell(40).value = results.telahFSGigiS//   6 /peralihan
+        rowNew24.getCell(41).value = results.telahTampalanAntGdS//   6 /peralihan
+        rowNew24.getCell(42).value = results.telahTampalanAntGkS//   6 /peralihan
+        rowNew24.getCell(43).value = results.telahTampalanPosGdS//   6 /peralihan
+        rowNew24.getCell(44).value = results.telahTampalanPosGkS//   6 /peralihan
+        rowNew24.getCell(45).value = results.telahTampalanAmgGkS//   6 /peralihan
+        rowNew24.getCell(46).value = results.telahTampalanAmgGkS//   6 /peralihan
+        rowNew24.commit();
+
+        // kki
+        let rowNew25 = worksheet.getRow(32);
+        rowNew25.getCell(2).value = results.kedatanganEnggan; // Kedatangan  kki
+        rowNew25.getCell(3).value = results.kedatanganTidakHadir; // Kedatangan  kki
+        rowNew25.getCell(4).value = results.enrolmen; // Kedatangan  kki
+        rowNew25.getCell(5).value = results.kedatanganbaru; // Kedatangan  kki
+        rowNew25.getCell(6).value = results.kedatanganUlangan; // Kedatangan  kki
+        rowNew25.getCell(7).value = results.skorPlakA; // Skor Plak A kki
+        rowNew25.getCell(9).value = results.dStatusdfx; // d  kki
+        rowNew25.getCell(10).value = results.fStatusdfx; // f  kki
+        rowNew25.getCell(11).value = results.xStatusdfx; // x  kki
+        rowNew25.getCell(13).value = results.dStatusDMFX; // D  kki
+        rowNew25.getCell(14).value = results.mStatusDMFX; // M  kki
+        rowNew25.getCell(15).value = results.fStatusDMFX; // F  kki
+        rowNew25.getCell(16).value = results.xStatusDMFX; // X  kki
+        rowNew25.getCell(18).value = results.gigiKekalDMFXsamaAtauKurangDari3; // Status Gigi Kekal DMFX <= 3 kki
+        rowNew25.getCell(19).value = results.totalStatusGigiKekalSamaKosong; // Status Gigi Kekal X+M = results.0  kki
+        rowNew25.getCell(20).value = results.mbk; // Mulut Bebas Karies (MBK)  kki
+        rowNew25.getCell(21).value = results.statusBebasKaries; // Status Gigi Kekal Bebas Karies (BK) DMFX = results.0  kki
+        rowNew25.getCell(22).value = results.dfxEqualToZero; // dfx = results.0   kki
+        rowNew25.getCell(23).value = results.mulutBebasGingivitis; // Mulut Bebas Gingivitis (MBG)  kki
+        rowNew25.getCell(24).value = results.tpr; // Tidak perlu rawatan  kki
+        rowNew25.getCell(25).value = results.kecederaanGigiAnterior; // X  kki
+        rowNew25.getCell(26).value = results.cleftAda; // X  kki
+        rowNew25.getCell(27).value = results.cleftRujuk; // X  kki
+        rowNew25.getCell(29).value = results.perluFSMuridB; // X  kki
+        rowNew25.getCell(30).value = results.perluFSGigiB; // X  kki
+        rowNew25.getCell(31).value = results.perluFsBilGigiFailed; // X  kki
+        rowNew25.getCell(32).value = results.perluTampalanAntGdB; // X  kki
+        rowNew25.getCell(33).value = results.perluTampalanAntGkB; // X  kki
+        rowNew25.getCell(34).value = results.perluTampalanPosGdB; // X  kki
+        rowNew25.getCell(35).value = results.perluTampalanPosGkB; // X  kki
+        rowNew25.getCell(36).value = results.perluTampalanAmgGdB; // X  kki
+        rowNew25.getCell(37).value = results.perluTampalanAmgGkB; // X  kki         
+        rowNew25.getCell(39).value = results.telahFSMuridB; // telahFSMuridS  kki
+        rowNew25.getCell(40).value = results.telahFSGigiB; //   kki
+        rowNew25.getCell(41).value = results.telahTampalanAntGdB; // X  kki
+        rowNew25.getCell(42).value = results.telahTampalanAntGkB; // X  kki
+        rowNew25.getCell(43).value = results.telahTampalanPosGdB; // X  kki
+        rowNew25.getCell(44).value = results.telahTampalanPosGkB; // X  kki
+        rowNew25.getCell(45).value = results.telahTampalanAmgGdB; // X  kki
+        rowNew25.getCell(46).value = results.telahTampalanAmgGkB; // X  kki
+        rowNew25.getCell(48).value = results.cabutanGd// Cabutan GD  kki
+        rowNew25.getCell(49).value = results.cabutanGk// Cabutan GK  kki
+        rowNew25.getCell(50).value = results.penskaleran// Penskaleran  kki
+        rowNew25.getCell(51).value = results.kesSelesai// Kes selesai  kki
+        rowNew25.getCell(52).value = results.skorGIS0// Skor GIS 0  kki
+        rowNew25.getCell(53).value = results.skorGIS1// Skor GIS 1  kki
+        rowNew25.getCell(54).value = results.skorGIS2// Skor GIS 2  kki
+        rowNew25.getCell(55).value = results.skorGIS3// Skor GIS 3  kki
+        rowNew25.commit();
+
+        let rowNew26 = worksheet.getRow(33);
+        rowNew26.getCell(2).value = results.skorPlakC; // kki
+        rowNew26.commit();
+
+        let rowNew27 = worksheet.getRow(34);
+        rowNew27.getCell(2).value = results.skorPlakE; // kki
+        rowNew27.commit();
+        
+        let rowNew28 = worksheet.getRow(34);
+        rowNew28.getCell(30).value = results.perluFSGigiS; // kki
+        rowNew28.getCell(32).value = results.perluTampalanAntGdS//   kki
+        rowNew28.getCell(33).value = results.perluTampalanAntGkS//   kki
+        rowNew28.getCell(34).value = results.perluTampalanPosGdS//   kki
+        rowNew28.getCell(35).value = results.perluTampalanPosGkS//   kki
+        rowNew28.getCell(36).value = results.perluTampalanAmgGdS//   kki
+        rowNew28.getCell(37).value = results.perluTampalanAmgGkS//   kki
+        rowNew28.getCell(39).value = results.telahFSMuridS//   kki
+        rowNew28.getCell(40).value = results.telahFSGigiS//   kki
+        rowNew28.getCell(41).value = results.telahTampalanAntGdS//   kki
+        rowNew28.getCell(42).value = results.telahTampalanAntGkS//   kki
+        rowNew28.getCell(43).value = results.telahTampalanPosGdS//   kki
+        rowNew28.getCell(44).value = results.telahTampalanPosGkS//   kki
+        rowNew28.getCell(45).value = results.telahTampalanAmgGkS//   kki
+        rowNew28.getCell(46).value = results.telahTampalanAmgGkS//   kki
+        rowNew28.commit();
+
+        // others
+        let rowNew29 = worksheet.getRow(7);
+        rowNew29.getCell(9).value = results.klinik; // 
+        rowNew29.commit();
+
+        let rowNew30 = worksheet.getRow(8);
+        rowNew30.getCell(9).value = results.sekolah; // 
+        rowNew30.commit();
+
+        let rowNew31 = worksheet.getRow(9);
+        rowNew31.getCell(9).value = results.jenisPerkhidmatanPergigian; // 
+        rowNew31.commit();
+
+        let rowNew32 = worksheet.getRow(7);
+        rowNew32.getCell(27).value = results.tarikhTempat; // 
+        rowNew32.commit();
+
+        let rowNew33 = worksheet.getRow(8);
+        rowNew33.getCell(27).value = results.bilHariProjek; // 
+        rowNew32.commit();
+
+        let rowNew34 = worksheet.getRow(7);
+        rowNew34.getCell(44).value = results.tarikhMula; // 
+        rowNew34.commit();
+
+        let rowNew35 = worksheet.getRow(8);
+        rowNew35.getCell(44).value = results.tarikhSelesai; // 
+        rowNew35.commit();
+
+        let rowNew36 = worksheet.getRow(9);
+        rowNew36.getCell(44).value = results.namaPetugas; //
+        rowNew36.commit();
+
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PGS203.xlsx");
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+            fs.unlinkSync(newfile); // delete this file after 30 seconds
+          }, 30000)
+        setTimeout(function () {
+            return res.download(newfile); // delete this file after 30 seconds
+          }, 3000)        
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error });
+        }
+  });
+}
+
