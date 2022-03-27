@@ -54,13 +54,21 @@
     width: 2rem;
 }
 
-#div-jenis-taska-tadika-kerajaan-pendaftaran-tadika {
+/* #div-kerajaan-swasta-pendaftaran-tadika {
+    display: none;
+}
+
+#div-kemas-perpaduan-lain2-pendaftaran-tadika {
     display: none;
 }
 
 #div-jantina-pendaftaran-tadika {
     display: none;
 }
+
+#div-kelas-toddler-pendaftaran-tadika {
+    display: none;
+} */
 
 #fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika {
     display: none;
