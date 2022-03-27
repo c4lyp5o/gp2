@@ -10,42 +10,49 @@ const Tadika = require('../models/Tadika');
 
 exports.filterbyUmur = function(req, res) {
   async.parallel({
-    jumlahD: function(callback) {
-        Tadika.aggregate([ { $group: { _id:"$createdByDaerah",
-        jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
-        jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
-        jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
-        jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
-        jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
-        jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
-        jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
-        jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
-        jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
-        jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
-        jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
-        jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
-        jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
-        jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
-        jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
-        jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
-        jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
-        jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
-        cabutan: { $sum: { $toDouble:'$cabutanGd' } },
-        jumlahAbses: { $sum: { $toDouble:"$abses" } },
-        jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
-        jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
-        jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
-        jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
-        jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
-        jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
-        jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } },         
-      },  
-    } ], callback);
+    resultTaska: function(callback) {
+      Tadika.aggregate([
+
+        { $match: { taska: "1" } },
+
+        { $group: { _id:"$createdByDaerah",
+          jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+          jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+          jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+          jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+          jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+          jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+          jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+          jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+          jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+          jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+          jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+          jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+          jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+          jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+          jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+          jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+          jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+          jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+          jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+          cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+          jumlahAbses: { $sum: { $toDouble:"$abses" } },
+          jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+          jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+          jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+          jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+          jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+          jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+          jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+
+        { $sort: { _id: 1 } },
+
+        ], callback);
     },
-  }, async function(err, results) {
+}, async function(err, results) {
     if (err) { return res.status(500).json({ err }); }
-    console.log(results.jumlahD[0].sum_val);
-    res.send(results.jumlahD[0]); 
+    console.log(results.resultTaska[1]);
+    res.send(results); 
   });
 }
 
@@ -168,36 +175,38 @@ exports.createTOD = function(req, res) {
       dmfxEqualToZero: function(callback) {
         Tadika.countDocuments({ statusGigidesidusD: "0", statusGigidesidusM: "0", statusGigidesidusF: "0", statusGigidesidusX: 0, kedatanganBaru: 1  }, callback);
       },
-      theMother: function(callback) {
-        Tadika.aggregate([ { $group: { _id:"$createdByDaerah",
-        jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
-        jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
-        jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
-        jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
-        jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
-        jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
-        jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
-        jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
-        jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
-        jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
-        jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
-        jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
-        jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
-        jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
-        jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
-        jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
-        jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
-        jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
-        cabutan: { $sum: { $toDouble:'$cabutanGd' } },
-        jumlahAbses: { $sum: { $toDouble:"$abses" } },
-        jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
-        jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
-        jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
-        jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
-        jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
-        jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
-        jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, }, } ], callback);
-       },      
+      resultTaska: function(callback) {
+        Tadika.aggregate([
+          { $match: { taska: "1" } },
+          { $group: { _id:"$createdByDaerah",
+            jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+            jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+            jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+            jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+            jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+            jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+            jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+            jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+            jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+            jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+            jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+            jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+            jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+            jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+            jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+            jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+            jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+            jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+            cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+            jumlahAbses: { $sum: { $toDouble:"$abses" } },
+            jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+            jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+            jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+            jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+            jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+            jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+            jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, }, } ], callback);
+      },      
       // dirujukDariAgensiLuar: function(callback) {
       //   Tadika.countDocuments({ rujuk: "1" }, callback);
       // },
