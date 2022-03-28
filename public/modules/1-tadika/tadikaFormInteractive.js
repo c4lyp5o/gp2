@@ -188,9 +188,24 @@ function pendaftaranTadika(){
     });
 
     // clear all pendaftaran value on page load
+    const bangsaPendaftaranTadika = document.getElementById('bangsa-pendaftaran-tadika');
+    const kelasPendaftaranTadika = document.getElementById('kelas-pendaftaran-tadika');
+    const baruPendaftaranTadika = document.getElementById('baru-pendaftaran-tadika');
+    const ulanganPendaftaranTadika = document.getElementById('ulangan-pendaftaran-tadika');
+    const namaPasukanBergerakPendaftaranTadika = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
+
+    namaPendaftaranTadika.value = '';
     umurPendaftaranTadikaDOM.value = '-';
+    bangsaPendaftaranTadika.value = '0';
+    kelasPendaftaranTadika.value = '';
     taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0';
+    kelasToddlerPendaftaranTadikaDOM.checked = false;
     enrolmenPendaftaranTadika.checked = false;
+    baruPendaftaranTadika.checked = false;
+    ulanganPendaftaranTadika.value = '';
+    chkbxEngganPendaftaranTadikaDOM.checked = false;
+    chkbxTidakHadirPendaftaranTadikaDOM.checked = false;
+    namaPasukanBergerakPendaftaranTadika.value = '';
 }
 
 function pemeriksaanAwalTadika(){
