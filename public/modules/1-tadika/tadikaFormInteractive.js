@@ -53,10 +53,14 @@ function pendaftaranTadika(){
     // if any change to umur, reset everything
     umurPendaftaranTadikaDOM.addEventListener('change', function() {
         taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0'
+        divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'none';
         kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
         kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        divJantinaPendaftaranTadikaDOM.style.display = 'none';
         jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+        kelasToddlerPendaftaranTadikaDOM.checked = false;
     });
 
     const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
@@ -73,13 +77,17 @@ function pendaftaranTadika(){
         // kalau pilih taska || tadika
         if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
             // set
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'block';
             kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
                                                             <option value="kerajaan">Kerajaan</option>
                                                             <option value="swasta">Swasta</option>`;
             // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
             jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
             divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
         }
         // kalau pilih tadika && umur 4 tahun ke bawah
         if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika' && parseInt(umurPendaftaranTadikaDOM.value) <= 4) {
@@ -89,27 +97,36 @@ function pendaftaranTadika(){
         // kalau pilih pra sekolah
         if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'pra-sekolah') {
             // set
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'block';
             kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
                                                             <option value="kerajaan">Kerajaan</option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'block';
             jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
                                                     <option value="lelaki">Lelaki</option>
                                                     <option value="perempuan">Perempuan</option>`
             // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
             divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
         }
-        // kalau pilih 0
+        // kalau pilih empty
         if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === '0') {
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'none';
             kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
             jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
             divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
         }
     });
     kerajaanSwastaPendaftaranTadikaDOM.addEventListener('change', function() {
-        // kalau pilih kerajaan && taska || tadika
+        // kalau pilih kerajaan && taska || kerajaan && tadika
         if (kerajaanSwastaPendaftaranTadikaDOM.value === 'kerajaan' && taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || kerajaanSwastaPendaftaranTadikaDOM.value === 'kerajaan' && taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
             // set
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'block';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
                                                                 <option value="kemas">KEMAS</option>
                                                                 <option value="perpaduan">Perpaduan</option>
@@ -117,11 +134,13 @@ function pendaftaranTadika(){
         }
         // kalau pilih swasta
         if (kerajaanSwastaPendaftaranTadikaDOM.value === 'swasta') {
-            // set
+            // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         }
-        // kalau pilih 0
+        // kalau pilih empty
         if (kerajaanSwastaPendaftaranTadikaDOM.value === '0') {
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
             kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         }
     });
