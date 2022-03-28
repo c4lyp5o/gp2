@@ -27,7 +27,7 @@
     max-width: 95%;
     margin: auto;
     padding: 0.5rem;
-    height: 24rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    height: 30rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
     padding-bottom: 0.7rem;
     transition: var(--transition);
     margin-bottom: 0.3rem;
@@ -64,11 +64,11 @@
 
 #div-jantina-pendaftaran-tadika {
     display: none;
-}
+} */
 
 #div-kelas-toddler-pendaftaran-tadika {
     display: none;
-} */
+}
 
 #fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika {
     display: none;
