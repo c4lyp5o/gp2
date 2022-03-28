@@ -148,21 +148,30 @@ function pendaftaranTadika(){
     const chkbxEngganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
     const chkbxTidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
     const fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika');
+    const pemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('pemeriksaan-ada-tiada-pendaftaran-tadika')
 
-    chkbxEngganPendaftaranTadikaDOM.addEventListener('click', function() {
+    chkbxEngganPendaftaranTadikaDOM.addEventListener('change', function() {
         if (chkbxEngganPendaftaranTadikaDOM.checked === true) {
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                <option value="ada">Ada</option>
+                                                                <option value="tiada">Tiada</option>`;
         }
         if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         }
     });
-    chkbxTidakHadirPendaftaranTadikaDOM.addEventListener('click', function() {
+    chkbxTidakHadirPendaftaranTadikaDOM.addEventListener('change', function() {
         if (chkbxTidakHadirPendaftaranTadikaDOM.checked === true) {
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                <option value="ada">Ada</option>
+                                                                <option value="tiada">Tiada</option>`;
         }
         if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         }
     });
 
