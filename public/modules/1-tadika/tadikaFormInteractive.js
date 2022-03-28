@@ -48,9 +48,31 @@ function pendaftaranTadika(){
 
     });
 
-    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // logic enrolmen
+    const namaPendaftaranTadika = document.getElementById('nama-pendaftaran-tadika');
+    const enrolmenPendaftaranTadika = document.getElementById('enrolmen-pendaftaran-tadika');
 
-    // if any change to umur, reset everything
+    namaPendaftaranTadika.addEventListener('input', function() {
+        if (namaPendaftaranTadika.value) {
+            enrolmenPendaftaranTadika.checked = true;
+        } else if (!namaPendaftaranTadika.value) {
+            enrolmenPendaftaranTadika.checked = false;
+        }
+    });
+
+    // logic fasiliti
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    const divKerajaanSwastaPendaftaranTadikaDOM = document.getElementById('div-kerajaan-swasta-pendaftaran-tadika');
+    const kerajaanSwastaPendaftaranTadikaDOM = document.getElementById('kerajaan-swasta-pendaftaran-tadika');
+    const divKemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('div-kemas-perpaduan-lain2-pendaftaran-tadika');
+    const kemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('kemas-perpaduan-lain2-pendaftaran-tadika');
+    const divJantinaPendaftaranTadikaDOM = document.getElementById('div-jantina-pendaftaran-tadika');
+    const jantinaPendaftaranTadikaDOM = document.getElementById('jantina-pendaftaran-tadika');
+    const divKelasToddlerPendaftaranTadikaDOM = document.getElementById('div-kelas-toddler-pendaftaran-tadika');
+    const kelasToddlerPendaftaranTadikaDOM = document.getElementById('kelas-toddler-pendaftaran-tadika');
+
+    // if any change to umur, reset logic fasiliti
     umurPendaftaranTadikaDOM.addEventListener('change', function() {
         taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0'
         divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'none';
@@ -62,17 +84,6 @@ function pendaftaranTadika(){
         divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
         kelasToddlerPendaftaranTadikaDOM.checked = false;
     });
-
-    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
-    const divKerajaanSwastaPendaftaranTadikaDOM = document.getElementById('div-kerajaan-swasta-pendaftaran-tadika');
-    const kerajaanSwastaPendaftaranTadikaDOM = document.getElementById('kerajaan-swasta-pendaftaran-tadika');
-    const divKemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('div-kemas-perpaduan-lain2-pendaftaran-tadika');
-    const kemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('kemas-perpaduan-lain2-pendaftaran-tadika');
-    const divJantinaPendaftaranTadikaDOM = document.getElementById('div-jantina-pendaftaran-tadika');
-    const jantinaPendaftaranTadikaDOM = document.getElementById('jantina-pendaftaran-tadika');
-    const divKelasToddlerPendaftaranTadikaDOM = document.getElementById('div-kelas-toddler-pendaftaran-tadika');
-    const kelasToddlerPendaftaranTadikaDOM = document.getElementById('kelas-toddler-pendaftaran-tadika');
-
     taskaTadikaPraSekolahPendaftaranTadikaDOM.addEventListener('change', function() {
         // kalau pilih taska || tadika
         if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
@@ -145,6 +156,7 @@ function pendaftaranTadika(){
         }
     });
 
+    // logic pemeriksaan ada tiada
     const chkbxEngganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
     const chkbxTidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
     const fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika');
@@ -175,9 +187,10 @@ function pendaftaranTadika(){
         }
     });
 
-    // clear all value on page load
+    // clear all pendaftaran value on page load
     umurPendaftaranTadikaDOM.value = '-';
     taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0';
+    enrolmenPendaftaranTadika.checked = false;
 }
 
 function pemeriksaanAwalTadika(){
