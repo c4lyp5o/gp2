@@ -187,7 +187,7 @@ function pendaftaranTadika(){
         }
     });
 
-    // clear all pendaftaran value on page load
+    // clear all pendaftaran field on page load
     const bangsaPendaftaranTadika = document.getElementById('bangsa-pendaftaran-tadika');
     const kelasPendaftaranTadika = document.getElementById('kelas-pendaftaran-tadika');
     const baruPendaftaranTadika = document.getElementById('baru-pendaftaran-tadika');
