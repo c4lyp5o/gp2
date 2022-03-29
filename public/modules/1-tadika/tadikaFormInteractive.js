@@ -296,6 +296,10 @@ function pemeriksaanAwalTadika(){
     const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
     const jikaAdaDesidus = document.querySelector('.jika-ada-desidus');
     const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
+    const decayDesidusPemeriksaanAwalTadika = document.getElementById('decay-desidus-pemeriksaan-awal-tadika');
+    const missingDesidusPemeriksaanAwalTadika = document.getElementById('missing-desidus-pemeriksaan-awal-tadika');
+    const filledDesidusPemeriksaanAwalTadika = document.getElementById('filled-desidus-pemeriksaan-awal-tadika');
+    const forExtractionDesidusPemeriksaanAwalTadika = document.getElementById('for-extraction-desidus-pemeriksaan-awal-tadika');
 
     btnAdaTiadaGigiDesidus.addEventListener('click', function(){
         if (btnAdaTiadaGigiDesidus.classList.contains('tiada')){
@@ -310,12 +314,21 @@ function pemeriksaanAwalTadika(){
             btnAdaTiadaGigiDesidus.textContent = 'Tiada';
             statusGigiDesidus.style.display = 'none';
             jikaAdaDesidus.style.display = 'block';
+            decayDesidusPemeriksaanAwalTadika.value = '';
+            missingDesidusPemeriksaanAwalTadika.value = '';
+            filledDesidusPemeriksaanAwalTadika.value = '';
+            forExtractionDesidusPemeriksaanAwalTadika.value = '';
         }
     });
 
     const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
     const jikaAdaKekal = document.querySelector('.jika-ada-kekal');
     const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
+    const decayKekalPemeriksaanAwalTadika = document.getElementById('decay-kekal-pemeriksaan-awal-tadika');
+    const missingKekalPemeriksaanAwalTadika = document.getElementById('missing-kekal-pemeriksaan-awal-tadika');
+    const filledKekalPemeriksaanAwalTadika = document.getElementById('filled-kekal-pemeriksaan-awal-tadika');
+    const forExtractionKekalPemeriksaanAwalTadika = document.getElementById('for-extraction-kekal-pemeriksaan-awal-tadika');
+    const eKekalPemeriksaanAwalTadika = document.getElementById('e-kekal-pemeriksaan-awal-tadika');
 
     btnAdaTiadaGigiKekal.addEventListener('click', function(){
         if (btnAdaTiadaGigiKekal.classList.contains('tiada')){
@@ -330,6 +343,11 @@ function pemeriksaanAwalTadika(){
             btnAdaTiadaGigiKekal.textContent = 'Tiada';
             jikaAdaKekal.style.display = 'block';
             statusGigiKekal.style.display = 'none';
+            decayKekalPemeriksaanAwalTadika.value = '';
+            missingKekalPemeriksaanAwalTadika.value = '';
+            filledKekalPemeriksaanAwalTadika.value = '';
+            forExtractionKekalPemeriksaanAwalTadika.value = '';
+            eKekalPemeriksaanAwalTadika.value = '';
         }
     });
 }
