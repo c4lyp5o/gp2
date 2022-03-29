@@ -25,38 +25,35 @@ const pemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('pemerik
 const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika'); // this should be pulled from localstorage
 const namaPasukanBergerakPendaftaranTadikaDOM = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 
-// //pemeriksaan awal
-// const adaCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-cleft-pemeriksaan-awal-tadika');
-// const rujukPemeriksaanAwalTadikaDOM = document.getElementById('rujuk-pemeriksaan-awal-tadika');
-// const adaDenturePemeriksaanAwalTadikaDOM = document.getElementById('ada-denture-pemeriksaan-awal-tadika');
-// const perluPemeriksaanAwalTadikaDOM = document.getElementById('perlu-pemeriksaan-awal-tadika');
-// const perluBaruPemeriksaanAwalTadikaDOM = document.getElementById('perlu-baru-pemeriksaan-awal-tadika');
-// const perluSemulaPemeriksaanAwalTadikaDOM = document.getElementById('perlu-semula-pemeriksaan-awal-tadika');
-// const toothSurfaceLossPemeriksaanAwalTadikaDOM = document.getElementById('tooth-surface-loss-pemeriksaan-awal-tadika');
-// const kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM = document.getElementById('kecederaan-gigi-anterior-pemeriksaan-awal-tadika');
-// const tisuLembutPemeriksaanAwalTadikaDOM = document.getElementById('tisu-lembut-pemeriksaan-awal-tadika');
-// const tisuKerasPemeriksaanAwalTadikaDOM = document.getElementById('tisu-keras-pemeriksaan-awal-tadika');
-// const kebersihanMulutPemeriksaanAwalTadikaDOM = document.getElementById('kebersihan-mulut-pemeriksaan-awal-tadika');
-// const GISSkorPemeriksaanAwalTadikaDOM = document.getElementById('GIS-skor-pemeriksaan-awal-tadika');
-// const decayDesidusPemeriksaanAwalTadikaDOM = document.getElementById('decay-desidus-pemeriksaan-awal-tadika');
-// const missingDesidusPemeriksaanAwalTadikaDOM = document.getElementById('missing-desidus-pemeriksaan-awal-tadika');
-// const filledDesidusPemeriksaanAwalTadikaDOM = document.getElementById('filled-desidus-pemeriksaan-awal-tadika');
-// const forExtractionDesidusPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-desidus-pemeriksaan-awal-tadika');
-// const decayKekalPemeriksaanAwalTadikaDOM = document.getElementById('decay-kekal-pemeriksaan-awal-tadika');
-// const missingKekalPemeriksaanAwalTadikaDOM = document.getElementById('missing-kekal-pemeriksaan-awal-tadika');
-// const filledKekalPemeriksaanAwalTadikaDOM = document.getElementById('filled-kekal-pemeriksaan-awal-tadika');
-// const forExtractionKekalPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-kekal-pemeriksaan-awal-tadika');
-// const faktorRisikoPemeriksaanAwalTadikaDOM = document.getElementById('faktor-risiko-pemeriksaan-awal-tadika');
-// const class1DPemeriksaanAwalTadikaDOM = document.getElementById('class1-d-pemeriksaan-awal-tadika');
-// const class2DPemeriksaanAwalTadikaDOM = document.getElementById('class2-d-pemeriksaan-awal-tadika');
-// const class1FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
-// const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
-// const gicLepasPemeriksaanAwalTadikaDOM = document.getElementById('gic-lepas-pemeriksaan-awal-tadika');
-// const resinLepasPemeriksaanAwalTadikaDOM = document.getElementById('resin-lepas-pemeriksaan-awal-tadika');
-// const lainLainLepasPemeriksaanAwalTadikaDOM = document.getElementById('lain-lain-lepas-pemeriksaan-awal-tadika');
-// const gicIntactPemeriksaanAwalTadikaDOM = document.getElementById('gic-intact-pemeriksaan-awal-tadika');
-// const resinIntactPemeriksaanAwalTadikaDOM = document.getElementById('resin-intact-pemeriksaan-awal-tadika');
-// const lainLainIntactPemeriksaanAwalTadikaDOM = document.getElementById('lain-lain-intact-pemeriksaan-awal-tadika');
+// pemeriksaan awal
+const adaRujukCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-rujuk-cleft-pemeriksaan-awal-tadika');
+const dentureSediaAdaPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-pemeriksaan-awal-tadika');
+const dentureSediaAdaAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-atas-pemeriksaan-awal-tadika');
+const dentureSediaAdaBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-bawah-pemeriksaan-awal-tadika');
+const denturePerluPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-pemeriksaan-awal-tadika');
+const denturePerluAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-atas-pemeriksaan-awal-tadika');
+const denturePerluBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-bawah-pemeriksaan-awal-tadika');
+const toothSurfaceLossPemeriksaanAwalTadikaDOM = document.getElementById('tooth-surface-loss-pemeriksaan-awal-tadika');
+const kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM = document.getElementById('kecederaan-gigi-anterior-pemeriksaan-awal-tadika');
+const tisuLembutPemeriksaanAwalTadikaDOM = document.getElementById('tisu-lembut-pemeriksaan-awal-tadika');
+const tisuKerasPemeriksaanAwalTadikaDOM = document.getElementById('tisu-keras-pemeriksaan-awal-tadika');
+const kebersihanMulutPemeriksaanAwalTadikaDOM = document.getElementById('kebersihan-mulut-pemeriksaan-awal-tadika');
+const gisSkorPemeriksaanAwalTadikaDOM = document.getElementById('gis-skor-pemeriksaan-awal-tadika');
+const decayDesidusPemeriksaanAwalTadikaDOM = document.getElementById('decay-desidus-pemeriksaan-awal-tadika');
+const missingDesidusPemeriksaanAwalTadikaDOM = document.getElementById('missing-desidus-pemeriksaan-awal-tadika');
+const filledDesidusPemeriksaanAwalTadikaDOM = document.getElementById('filled-desidus-pemeriksaan-awal-tadika');
+const forExtractionDesidusPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-desidus-pemeriksaan-awal-tadika');
+const decayKekalPemeriksaanAwalTadikaDOM = document.getElementById('decay-kekal-pemeriksaan-awal-tadika');
+const missingKekalPemeriksaanAwalTadikaDOM = document.getElementById('missing-kekal-pemeriksaan-awal-tadika');
+const filledKekalPemeriksaanAwalTadikaDOM = document.getElementById('filled-kekal-pemeriksaan-awal-tadika');
+const forExtractionKekalPemeriksaanAwalTadikaDOM = document.getElementById('for-extraction-kekal-pemeriksaan-awal-tadika');
+const eKekalPemeriksaanAwalTadikaDOM = document.getElementById('e-kekal-pemeriksaan-awal-tadika');
+const jumlahFaktorRisikoPemeriksaanAwalTadikaDOM = document.getElementById('jumlah-faktor-risiko-pemeriksaan-awal-tadika');
+const class1DPemeriksaanAwalTadikaDOM = document.getElementById('class1-d-pemeriksaan-awal-tadika');
+const class2DPemeriksaanAwalTadikaDOM = document.getElementById('class2-d-pemeriksaan-awal-tadika');
+const class1FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
+const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class2-f-pemeriksaan-awal-tadika');
+
 // //perludibuat
 // const baruJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
 // const semulaJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
@@ -186,38 +183,52 @@ btnSaveDOM.addEventListener('click', async () => {
     const namaOperatorPendaftaranTadika = namaOperatorPendaftaranTadikaDOM.value;
     const namaPasukanBergerakPendaftaranTadika = namaPasukanBergerakPendaftaranTadikaDOM.value;
 
-    // //pemeriksaan awal
-    // const adaCleftPemeriksaanAwalTadika = adaCleftPemeriksaanAwalTadikaDOM.value;
-    // const rujukPemeriksaanAwalTadika = rujukPemeriksaanAwalTadikaDOM.value;
-    // const adaDenturePemeriksaanAwalTadika = adaDenturePemeriksaanAwalTadikaDOM.value;
-    // const perluPemeriksaanAwalTadika = perluPemeriksaanAwalTadikaDOM.value;
-    // const perluBaruPemeriksaanAwalTadika = perluBaruPemeriksaanAwalTadikaDOM.value;
-    // const perluSemulaPemeriksaanAwalTadika = perluSemulaPemeriksaanAwalTadikaDOM.value;
-    // const toothSurfaceLossPemeriksaanAwalTadika = toothSurfaceLossPemeriksaanAwalTadikaDOM.value;
-    // const kecederaanGigiAnteriorPemeriksaanAwalTadika = kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM.value;
-    // const tisuLembutPemeriksaanAwalTadika = tisuLembutPemeriksaanAwalTadikaDOM.value;
-    // const tisuKerasPemeriksaanAwalTadika = tisuKerasPemeriksaanAwalTadikaDOM.value;
-    // const kebersihanMulutPemeriksaanAwalTadika = kebersihanMulutPemeriksaanAwalTadikaDOM.value;
-    // const GISSkorPemeriksaanAwalTadika = GISSkorPemeriksaanAwalTadikaDOM.value;
-    // const decayDesidusPemeriksaanAwalTadika = decayDesidusPemeriksaanAwalTadikaDOM.value;
-    // const missingDesidusPemeriksaanAwalTadika = missingDesidusPemeriksaanAwalTadikaDOM.value;
-    // const filledDesidusPemeriksaanAwalTadika = filledDesidusPemeriksaanAwalTadikaDOM.value;
-    // const forExtractionDesidusPemeriksaanAwalTadika = forExtractionDesidusPemeriksaanAwalTadikaDOM.value;
-    // const decayKekalPemeriksaanAwalTadika = decayKekalPemeriksaanAwalTadikaDOM.value;
-    // const missingKekalPemeriksaanAwalTadika = missingKekalPemeriksaanAwalTadikaDOM.value;
-    // const filledKekalPemeriksaanAwalTadika = filledKekalPemeriksaanAwalTadikaDOM.value;
-    // const forExtractionKekalPemeriksaanAwalTadika = forExtractionKekalPemeriksaanAwalTadikaDOM.value;
-    // const faktorRisikoPemeriksaanAwalTadika = faktorRisikoPemeriksaanAwalTadikaDOM.value;
-    // const class1DPemeriksaanAwalTadika = class1DPemeriksaanAwalTadikaDOM.value;
-    // const class2DPemeriksaanAwalTadika = class2DPemeriksaanAwalTadikaDOM.value;
-    // const class1FPemeriksaanAwalTadika = class1FPemeriksaanAwalTadikaDOM.value;
-    // const class2FPemeriksaanAwalTadika = class2FPemeriksaanAwalTadikaDOM.value;
-    // const gicLepasPemeriksaanAwalTadika = gicLepasPemeriksaanAwalTadikaDOM.value;
-    // const resinLepasPemeriksaanAwalTadika = resinLepasPemeriksaanAwalTadikaDOM.value;
-    // const lainLainLepasPemeriksaanAwalTadika = lainLainLepasPemeriksaanAwalTadikaDOM.value;
-    // const gicIntactPemeriksaanAwalTadika = gicIntactPemeriksaanAwalTadikaDOM.value;
-    // const resinIntactPemeriksaanAwalTadika = resinIntactPemeriksaanAwalTadikaDOM.value;
-    // const lainLainIntactPemeriksaanAwalTadika = lainLainLepasPemeriksaanAwalTadikaDOM.value;
+    // pemeriksaan awal
+    const adaRujukCleftPemeriksaanAwalTadika = adaRujukCleftPemeriksaanAwalTadikaDOM.value;
+    const dentureSediaAdaPemeriksaanAwalTadika = dentureSediaAdaPemeriksaanAwalTadikaDOM.value;
+    const dentureSediaAdaAtasPemeriksaanAwalTadika = dentureSediaAdaAtasPemeriksaanAwalTadikaDOM.value;
+    const dentureSediaAdaBawahPemeriksaanAwalTadika = dentureSediaAdaBawahPemeriksaanAwalTadikaDOM.value;
+    const denturePerluPemeriksaanAwalTadika = denturePerluPemeriksaanAwalTadikaDOM.value;
+    const denturePerluAtasPemeriksaanAwalTadika = denturePerluAtasPemeriksaanAwalTadikaDOM.value;
+    const denturePerluBawahPemeriksaanAwalTadika = denturePerluBawahPemeriksaanAwalTadikaDOM.value;
+    
+    let toothSurfaceLossPemeriksaanAwalTadika = '0';
+    if (toothSurfaceLossPemeriksaanAwalTadikaDOM.checked === true) {
+        toothSurfaceLossPemeriksaanAwalTadika = '1';
+    }
+
+    let kecederaanGigiAnteriorPemeriksaanAwalTadika = '0';
+    if (kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM.checked === true) {
+        kecederaanGigiAnteriorPemeriksaanAwalTadika = '1';
+    }
+
+    let tisuLembutPemeriksaanAwalTadika = '0';
+    if (tisuLembutPemeriksaanAwalTadikaDOM.checked === true) {
+        tisuLembutPemeriksaanAwalTadika = '1';
+    }
+
+    let tisuKerasPemeriksaanAwalTadika = '0';
+    if (tisuKerasPemeriksaanAwalTadikaDOM.checked === true) {
+        tisuKerasPemeriksaanAwalTadika = '1';
+    }
+
+    const kebersihanMulutPemeriksaanAwalTadika = kebersihanMulutPemeriksaanAwalTadikaDOM.value;
+    const gisSkorPemeriksaanAwalTadika = gisSkorPemeriksaanAwalTadikaDOM.value;
+    const decayDesidusPemeriksaanAwalTadika = decayDesidusPemeriksaanAwalTadikaDOM.value;
+    const missingDesidusPemeriksaanAwalTadika = missingDesidusPemeriksaanAwalTadikaDOM.value;
+    const filledDesidusPemeriksaanAwalTadika = filledDesidusPemeriksaanAwalTadikaDOM.value;
+    const forExtractionDesidusPemeriksaanAwalTadika = forExtractionDesidusPemeriksaanAwalTadikaDOM.value;
+    const decayKekalPemeriksaanAwalTadika = decayKekalPemeriksaanAwalTadikaDOM.value;
+    const missingKekalPemeriksaanAwalTadika = missingKekalPemeriksaanAwalTadikaDOM.value;
+    const filledKekalPemeriksaanAwalTadika = filledKekalPemeriksaanAwalTadikaDOM.value;
+    const forExtractionKekalPemeriksaanAwalTadika = forExtractionKekalPemeriksaanAwalTadikaDOM.value;
+    const eKekalPemeriksaanAwalTadika = eKekalPemeriksaanAwalTadikaDOM.value;
+    const jumlahFaktorRisikoPemeriksaanAwalTadika = jumlahFaktorRisikoPemeriksaanAwalTadikaDOM.value;
+    const class1DPemeriksaanAwalTadika = class1DPemeriksaanAwalTadikaDOM.value;
+    const class2DPemeriksaanAwalTadika = class2DPemeriksaanAwalTadikaDOM.value;
+    const class1FPemeriksaanAwalTadika = class1FPemeriksaanAwalTadikaDOM.value;
+    const class2FPemeriksaanAwalTadika = class2FPemeriksaanAwalTadikaDOM.value;
+
     // //perludibuat
     // const baruJumlahGigiPerluFsPerluDibuatTadika = baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
     // const semulaJumlahGigiPerluFsPerluDibuatTadika = semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
@@ -320,39 +331,37 @@ btnSaveDOM.addEventListener('click', async () => {
             tidakHadirPendaftaranTadika,
             pemeriksaanAdaTiadaPendaftaranTadika,
             namaOperatorPendaftaranTadika,
-            namaPasukanBergerakPendaftaranTadika
-            // //pemeriksaan awal
-            // adaCleftPemeriksaanAwalTadika,
-            // rujukPemeriksaanAwalTadika,
-            // adaDenturePemeriksaanAwalTadika,
-            // perluPemeriksaanAwalTadika,
-            // perluBaruPemeriksaanAwalTadika,
-            // perluSemulaPemeriksaanAwalTadika,
-            // toothSurfaceLossPemeriksaanAwalTadika,
-            // kecederaanGigiAnteriorPemeriksaanAwalTadika,
-            // tisuLembutPemeriksaanAwalTadika,
-            // tisuKerasPemeriksaanAwalTadika,
-            // kebersihanMulutPemeriksaanAwalTadika,
-            // GISSkorPemeriksaanAwalTadika,
-            // decayDesidusPemeriksaanAwalTadika,
-            // missingDesidusPemeriksaanAwalTadika,
-            // filledDesidusPemeriksaanAwalTadika,
-            // forExtractionDesidusPemeriksaanAwalTadika,
-            // decayKekalPemeriksaanAwalTadika,
-            // missingKekalPemeriksaanAwalTadika,
-            // filledKekalPemeriksaanAwalTadika,
-            // forExtractionKekalPemeriksaanAwalTadika,
-            // faktorRisikoPemeriksaanAwalTadika, //x4 //dah tambah 4 
-            // class1DPemeriksaanAwalTadika,
-            // class2DPemeriksaanAwalTadika,
-            // class1FPemeriksaanAwalTadika,
-            // class2FPemeriksaanAwalTadika,
-            // gicLepasPemeriksaanAwalTadika,
-            // resinLepasPemeriksaanAwalTadika,
-            // lainLainLepasPemeriksaanAwalTadika,
-            // gicIntactPemeriksaanAwalTadika, //x 5//dah tambah 5
-            // resinIntactPemeriksaanAwalTadika, //x 6//dah tambah 6
-            // lainLainIntactPemeriksaanAwalTadika,//x 7//dah tambah 7
+            namaPasukanBergerakPendaftaranTadika,
+            
+            // pemeriksaan awal
+            adaRujukCleftPemeriksaanAwalTadika,
+            dentureSediaAdaPemeriksaanAwalTadika,
+            dentureSediaAdaAtasPemeriksaanAwalTadika,
+            dentureSediaAdaBawahPemeriksaanAwalTadika,
+            denturePerluPemeriksaanAwalTadika,
+            denturePerluAtasPemeriksaanAwalTadika,
+            denturePerluBawahPemeriksaanAwalTadika,
+            toothSurfaceLossPemeriksaanAwalTadika,
+            kecederaanGigiAnteriorPemeriksaanAwalTadika,
+            tisuLembutPemeriksaanAwalTadika,
+            tisuKerasPemeriksaanAwalTadika,
+            kebersihanMulutPemeriksaanAwalTadika,
+            gisSkorPemeriksaanAwalTadika,
+            decayDesidusPemeriksaanAwalTadika,
+            missingDesidusPemeriksaanAwalTadika,
+            filledDesidusPemeriksaanAwalTadika,
+            forExtractionDesidusPemeriksaanAwalTadika,
+            decayKekalPemeriksaanAwalTadika,
+            missingKekalPemeriksaanAwalTadika,
+            filledKekalPemeriksaanAwalTadika,
+            forExtractionKekalPemeriksaanAwalTadika,
+            eKekalPemeriksaanAwalTadika,
+            jumlahFaktorRisikoPemeriksaanAwalTadika,
+            class1DPemeriksaanAwalTadika,
+            class2DPemeriksaanAwalTadika,
+            class1FPemeriksaanAwalTadika,
+            class2FPemeriksaanAwalTadika
+
             // //perludibuat
             // baruJumlahGigiPerluFsPerluDibuatTadika,
             // semulaJumlahGigiPerluFsPerluDibuatTadika,
