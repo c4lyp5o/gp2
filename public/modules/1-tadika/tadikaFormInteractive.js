@@ -249,6 +249,7 @@ function pemeriksaanAwalTadika(){
 
     });
 
+    // logic denture sedia ada perlu
     const dentureSediaAdaPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-pemeriksaan-awal-tadika');
     const divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM = document.getElementById('div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika');
     const dentureSediaAdaAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-atas-pemeriksaan-awal-tadika');
@@ -293,6 +294,7 @@ function pemeriksaanAwalTadika(){
         }
     });
     
+    // logic ada tiada gigi desidus
     const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
     const jikaAdaDesidus = document.querySelector('.jika-ada-desidus');
     const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
@@ -321,6 +323,7 @@ function pemeriksaanAwalTadika(){
         }
     });
 
+    //logic ada tiada gigi kekal
     const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
     const jikaAdaKekal = document.querySelector('.jika-ada-kekal');
     const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
@@ -350,7 +353,46 @@ function pemeriksaanAwalTadika(){
             eKekalPemeriksaanAwalTadika.value = '';
         }
     });
+
+    // clear all pemeriksaan awal field on page load
+    const adaRujukCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-rujuk-cleft-pemeriksaan-awal-tadika');
+    const toothSurfaceLossPemeriksaanAwalTadikaDOM = document.getElementById('tooth-surface-loss-pemeriksaan-awal-tadika');
+    const kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM = document.getElementById('kecederaan-gigi-anterior-pemeriksaan-awal-tadika');
+    const tisuLembutPemeriksaanAwalTadikaDOM = document.getElementById('tisu-lembut-pemeriksaan-awal-tadika');
+    const tisuKerasPemeriksaanAwalTadikaDOM = document.getElementById('tisu-keras-pemeriksaan-awal-tadika');
+    const kebersihanMulutPemeriksaanAwalTadikaDOM = document.getElementById('kebersihan-mulut-pemeriksaan-awal-tadika');
+    const gisSkorPemeriksaanAwalTadikaDOM = document.getElementById('gis-skor-pemeriksaan-awal-tadika');
+    const jumlahFaktorRisikoPemeriksaanAwalTadikaDOM = document.getElementById('jumlah-faktor-risiko-pemeriksaan-awal-tadika');
+    const class1DPemeriksaanAwalTadikaDOM = document.getElementById('class1-d-pemeriksaan-awal-tadika');
+    const class2DPemeriksaanAwalTadikaDOM = document.getElementById('class2-d-pemeriksaan-awal-tadika');
+    const class1FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
+    const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class2-f-pemeriksaan-awal-tadika');
+
+    adaRujukCleftPemeriksaanAwalTadikaDOM.value = '0';
+    dentureSediaAdaPemeriksaanAwalTadikaDOM.value = '0';
+    denturePerluPemeriksaanAwalTadikaDOM.value = '0';
+    toothSurfaceLossPemeriksaanAwalTadikaDOM.checked = false;
+    kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM.checked = false;
+    tisuLembutPemeriksaanAwalTadikaDOM.checked = false;
+    tisuKerasPemeriksaanAwalTadikaDOM.checked = false;
+    kebersihanMulutPemeriksaanAwalTadikaDOM.value = '0';
+    gisSkorPemeriksaanAwalTadikaDOM.value = '-';
+    decayDesidusPemeriksaanAwalTadika.value = '';
+    missingDesidusPemeriksaanAwalTadika.value = '';
+    filledDesidusPemeriksaanAwalTadika.value = '';
+    forExtractionDesidusPemeriksaanAwalTadika.value = '';
+    decayKekalPemeriksaanAwalTadika.value = '';
+    missingKekalPemeriksaanAwalTadika.value = '';
+    filledKekalPemeriksaanAwalTadika.value = '';
+    forExtractionKekalPemeriksaanAwalTadika.value = '';
+    eKekalPemeriksaanAwalTadika.value = '';
+    jumlahFaktorRisikoPemeriksaanAwalTadikaDOM.value = '';
+    class1DPemeriksaanAwalTadikaDOM.value = '';
+    class2DPemeriksaanAwalTadikaDOM.value = '';
+    class1FPemeriksaanAwalTadikaDOM.value = '';
+    class2FPemeriksaanAwalTadikaDOM.value = '';
 }
+
 function perluDibuatTadika(){
     const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
     const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');
