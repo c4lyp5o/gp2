@@ -248,6 +248,50 @@ function pemeriksaanAwalTadika(){
         formPenyataAkhir2.classList.add('close');
 
     });
+
+    const dentureSediaAdaPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-pemeriksaan-awal-tadika');
+    const divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM = document.getElementById('div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika');
+    const dentureSediaAdaAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-atas-pemeriksaan-awal-tadika');
+    const dentureSediaAdaBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-bawah-pemeriksaan-awal-tadika');
+
+    dentureSediaAdaPemeriksaanAwalTadikaDOM.addEventListener('change', function() {
+        if (dentureSediaAdaPemeriksaanAwalTadikaDOM.value === 'ya') {
+            divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM.style.display = 'block';
+            dentureSediaAdaAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+            dentureSediaAdaBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+        }
+        if (dentureSediaAdaPemeriksaanAwalTadikaDOM.value === 'tidak' || dentureSediaAdaPemeriksaanAwalTadikaDOM.value === '0') {
+            divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM.style.display = 'none';
+            dentureSediaAdaAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+            dentureSediaAdaBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
+
+    const denturePerluPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-pemeriksaan-awal-tadika');
+    const divDenturePerluAtasBawahPemeriksaanTadikaDOM = document.getElementById('div-denture-perlu-atas-bawah-pemeriksaan-awal-tadika');
+    const denturePerluAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-atas-pemeriksaan-awal-tadika');
+    const denturePerluBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-bawah-pemeriksaan-awal-tadika');
+
+    denturePerluPemeriksaanAwalTadikaDOM.addEventListener('change', function() {
+        if (denturePerluPemeriksaanAwalTadikaDOM.value === 'ya') {
+            divDenturePerluAtasBawahPemeriksaanTadikaDOM.style.display = 'block';
+            denturePerluAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+            denturePerluBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+        }
+        if (denturePerluPemeriksaanAwalTadikaDOM.value === 'tidak' || denturePerluPemeriksaanAwalTadikaDOM.value === '0') {
+            divDenturePerluAtasBawahPemeriksaanTadikaDOM.style.display = 'none';
+            denturePerluAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+            denturePerluBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
     
     const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
     const jikaAdaDesidus = document.querySelector('.jika-ada-desidus');

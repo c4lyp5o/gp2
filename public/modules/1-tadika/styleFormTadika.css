@@ -121,6 +121,14 @@
     width: 3rem;
 }
 
+#div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika {
+    display: none;
+}
+
+#div-denture-perlu-atas-bawah-pemeriksaan-awal-tadika {
+    display: none;
+}
+
 .btn-status-gigi-desidus-tadika.tiada {
     background-color: var(--btn-tiada);
     border-color: black;
