@@ -1,11 +1,9 @@
-window.addEventListener('DOMContentLoaded', function(){
-    // tadika
-    pendaftaranTadika();
-    pemeriksaanAwalTadika();
-    perluDibuatTadika();
-    penyataAkhir1Tadika();
-    penyataAkhir2Tadika();
-});
+// tadika
+pendaftaranTadika();
+pemeriksaanAwalTadika();
+perluDibuatTadika();
+penyataAkhir1Tadika();
+penyataAkhir2Tadika();
 
 function pendaftaranTadika(){
     const btnPendaftaran = document.querySelector('.pendaftaran-header-tadika');
