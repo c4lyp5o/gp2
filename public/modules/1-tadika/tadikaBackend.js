@@ -140,7 +140,8 @@ const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class2-f-pemeri
 // //CATATAN
 // const catatanPenyataAkhirDUATadikaDOM = document.getElementById('catatan-penyata-akhir-2-tadika');
 
-btnSaveDOM.addEventListener('click', async () => {
+formOptionContainerTadika.addEventListener('submit', async (e) => {
+    e.preventDefault();
     // pendaftaran
     const namaPendaftaranTadika = namaPendaftaranTadikaDOM.value;
     const umurPendaftaranTadika = umurPendaftaranTadikaDOM.value;
