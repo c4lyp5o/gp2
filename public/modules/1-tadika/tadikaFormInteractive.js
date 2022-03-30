@@ -48,34 +48,34 @@ function pendaftaranTadika(){
 
     });
 
-    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
-    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    // const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '0' ||
-            umurPendaftaranTadikaDOM.value === '1' ||
-            umurPendaftaranTadikaDOM.value === '1.5' ||
-            umurPendaftaranTadikaDOM.value === '2' ||
-            umurPendaftaranTadikaDOM.value === '3' ||
-            umurPendaftaranTadikaDOM.value === '4') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-                                                                    <option value="taska">Taska</option>`
-        }
-    });
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '0' ||
+    //         umurPendaftaranTadikaDOM.value === '1' ||
+    //         umurPendaftaranTadikaDOM.value === '1.5' ||
+    //         umurPendaftaranTadikaDOM.value === '2' ||
+    //         umurPendaftaranTadikaDOM.value === '3' ||
+    //         umurPendaftaranTadikaDOM.value === '4') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+    //                                                                 <option value="taska">Taska</option>`
+    //     }
+    // });
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '5' ||
-            umurPendaftaranTadikaDOM.value === '6') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-                                                                    <option value="tadika">Tadika</option>`
-        }
-    });
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '5' ||
+    //         umurPendaftaranTadikaDOM.value === '6') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
+    //                                                                 <option value="tadika">Tadika</option>`
+    //     }
+    // });
 
-    umurPendaftaranTadikaDOM.addEventListener('click', function() {
-        if (umurPendaftaranTadikaDOM.value === '') {
-            taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
-        }
-    });
+    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
+    //     if (umurPendaftaranTadikaDOM.value === '') {
+    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
+    //     }
+    // });
 
     const chkbxEngganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
     const chkbxTidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
@@ -218,6 +218,29 @@ function perluDibuatTadika(){
         formPenyataAkhir2.classList.add('close');
 
     });
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    const toddler = document.getElementById('input-wrap-todd-fv-penyata-akhir-1');
+    const prasekolahPrr = document.getElementById('input-wrap-prasekolah-prr-perlu-dibuat');
+    const prasekolahFs = document.getElementById('input-wrap-prasekolah-fs-perlu-dibuat');
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '0' ||
+            umurPendaftaranTadikaDOM.value === '1' ||
+            umurPendaftaranTadikaDOM.value === '1.5' ||
+            umurPendaftaranTadikaDOM.value === '2' ||
+            umurPendaftaranTadikaDOM.value === '3' ||
+            umurPendaftaranTadikaDOM.value === '4') {
+            toddler.style.display = 'block';
+            prasekolahPrr.style.display = 'none';
+            prasekolahFs.style.display = 'none';
+        } else if (umurPendaftaranTadikaDOM.value === '5' ||
+            umurPendaftaranTadikaDOM.value === '6') {
+            toddler.style.display = 'none';
+            prasekolahPrr.style.display = 'block';
+            prasekolahFs.style.display = 'block';
+        }
+    });
 }
 function penyataAkhir1Tadika(){
     const btnPenyataAkhir1 = document.querySelector('.penyata-akhir-1-header-tadika');
@@ -258,6 +281,32 @@ function penyataAkhir1Tadika(){
         btnPenyataAkhir2.innerHTML = '<i class="fas fa-plus"></i> Penyata Akhir 2';
         formPenyataAkhir2.classList.add('close');
 
+    });
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    const toddler = document.getElementById('input-wrap-todd-fv-penyata-akhir-1');
+    const prasekolahPrr = document.getElementById('input-wrap-prasekolah-prr-jenis-1-penyata-akhir-1');
+    const prasekolahFv = document.getElementById('input-wrap-prasekolah-fv-penyata-akhir-1');
+    const prasekolahFs = document.getElementById('input-wrap-prasekolah-fs-penyata-akhir-1');
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '0' ||
+            umurPendaftaranTadikaDOM.value === '1' ||
+            umurPendaftaranTadikaDOM.value === '1.5' ||
+            umurPendaftaranTadikaDOM.value === '2' ||
+            umurPendaftaranTadikaDOM.value === '3' ||
+            umurPendaftaranTadikaDOM.value === '4') {
+            toddler.style.display = 'block';
+            prasekolahPrr.style.display = 'none';
+            prasekolahFv.style.display = 'none';
+            prasekolahFs.style.display = 'none';
+        } else if (umurPendaftaranTadikaDOM.value === '5' ||
+            umurPendaftaranTadikaDOM.value === '6') {
+            toddler.style.display = 'none';
+            prasekolahPrr.style.display = 'block';
+            prasekolahFv.style.display = 'block';
+            prasekolahFs.style.display = 'block';
+        }
     });
 }
 function penyataAkhir2Tadika(){
@@ -317,153 +366,23 @@ function penyataAkhir2Tadika(){
             bilanganAGuidance.style.display = 'none';
         }
     });
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function(){
-    $("#umur-pendaftaran-tadika").change(function(){
-        $(this).find("option:selected").each(function(){
-            var optionClass = $(this).attr("class");
-            if(optionClass){
-                $(".input-wrap-todd").not("." + optionClass).hide();
-                $("." + optionClass).show();
-            } else{
-                $(".input-wrap-todd").hide();
-            }
-        });
-    }).change();
-});
-
-$(document).ready(function(){
-    $('input[type="checkbox"]#enggan-pendaftaran-tadika,#tidak-hadir-pendaftaran-tadika').click(function(){
-        var inputValue = $(this).attr("value");
-        $("." + inputValue).toggle();
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    const toddler = document.getElementById('input-wrap-todd-a-guidance');
+
+    umurPendaftaranTadikaDOM.addEventListener('click', function() {
+        if (umurPendaftaranTadikaDOM.value === '0' ||
+            umurPendaftaranTadikaDOM.value === '1' ||
+            umurPendaftaranTadikaDOM.value === '1.5' ||
+            umurPendaftaranTadikaDOM.value === '2' ||
+            umurPendaftaranTadikaDOM.value === '3' ||
+            umurPendaftaranTadikaDOM.value === '4') {
+            toddler.style.display = 'block';
+        } else if (umurPendaftaranTadikaDOM.value === '5' ||
+            umurPendaftaranTadikaDOM.value === '6') {
+            toddler.style.display = 'none';
+        }
     });
-});
+
+}

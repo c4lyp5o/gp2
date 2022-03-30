@@ -339,7 +339,7 @@
                         </button>
                         <div class="form-perlu-dibuat-tadika close">
                             <div class="input-grp-left-perlu-dibuat-tadika">
-                                <div class="prasekolah-hide input-wrap-todd">
+                                <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-fs-perlu-dibuat">
                                     <fieldset>
                                         <legend>Fisur Sealan</legend>
                                         <p>Jumlah Gigi Perlu FS:</p>
@@ -351,7 +351,7 @@
                                         <input type="number" id="failed-jumlah-gigi-perlu-fs-perlu-dibuat-tadika" class="number-input-perlu-dibuat-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="toddler-hide prasekolah-hide input-wrap-todd">
+                                <div class="input-wrap-todd-fv-perlu-dibuat-class" id="input-wrap-todd-fv-perlu-dibuat">
                                     <fieldset>
                                         <legend>Fluoride Varnish</legend>
                                         <p>Perlu Sapuan:</p>
@@ -361,7 +361,7 @@
                                         <input type="radio" id="tidak-perlu-fv-perlu-dibuat-tadika" name="perlu-fv-perlu-dibuat-tadika"  value="0" class="radio-input-perlu-dibuat-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="prasekolah-hide input-wrap-todd">
+                                <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-prr-perlu-dibuat">
                                     <fieldset>
                                         <legend>PRR Jenis 1</legend>
                                         <p>Jumlah Gigi Perlu PRR Jenis 1:</p>
@@ -427,17 +427,17 @@
                         </button>
                         <div class="form-penyata-akhir-1-tadika close">
                             <div class="input-grp-left-penyata-akhir-1-tadika">
-                                <div class="prasekolah-hide input-wrap-todd">
+                                <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-fs-penyata-akhir-1">
                                     <fieldset>
                                         <legend>Fisur Sealan</legend>
                                         <p class="para-penyata-akhir-1">Jumlah Gigi Telah Dibuat FS:</p>
                                         <label for="baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika">Baru:</label>
-                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="20">
                                         <label for="semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika">Semula:</label>
-                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="20">
                                     </fieldset>
                                 </div>
-                                <div class="toddler-hide input-wrap-todd">
+                                <div class="toddler-hide input-wrap-todd" id="input-wrap-todd-fv-penyata-akhir-1">
                                     <fieldset>
                                         <legend>Fluoride Varnish</legend>
                                         <p>Sesi Sapuan:</p>
@@ -451,26 +451,26 @@
                                         <input type="radio" id="sesi-fv-perlu-dibuat-4-penyata-akhir-1-tadika" name="sesi-fv-perlu-dibuat-tadika" value="4"   class="radio-input-perlu-dibuat-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="prasekolah-hide input-wrap-todd">
+                                <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-fv-penyata-akhir-1">
                                     <fieldset>
                                         <legend>Fluoride Varnish</legend>
                                         </p>
                                         <p class="para-penyata-akhir-1">Jumlah Gigi Telah Dibuat FV:</p>
                                         <label for="baru-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika">Baru:</label>
-                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="32">
                                         <label for="semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika">Semula:</label>
-                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="32">
                                     </fieldset>
                                 </div>
-                                <div class="prasekolah-hide input-wrap-todd">
+                                <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-prr-jenis-1-penyata-akhir-1">
                                     <fieldset>
                                         <legend>PRR Jenis 1</legend>
                                         </p>
                                         <p class="para-penyata-akhir-1">Jumlah Gigi Telah Dibuat PRR Jenis 1:</p>
                                         <label for="baru-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika">Baru:</label>
-                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="baru-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="20"> 
                                         <label for="semula-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika">Semula:</label>
-                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika">
+                                        <input type="number" id="semula-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika" class="number-input-penyata-akhir-1-tadika" min="1" max="20">
                                     </fieldset>
                                 </div>
                             </div>
@@ -550,9 +550,9 @@
                                     <fieldset>
                                         <legend>Rawatan lain telah dilakukan</legend>
                                         <label for="jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-tadika">Pulpotomi:</label>
-                                        <input type="number" id="jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika">
+                                        <input type="number" id="jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika" min="1" max="20"> 
                                         <label for="jumlah-endodontik-rawatan-lain-penyata-akhir-2-tadika">Endodontik:</label>
-                                        <input type="number" id="jumlah-endodontik-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika">
+                                        <input type="number" id="jumlah-endodontik-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika" min="1" max="32">
                                         <label for="jumlah-abses-rawatan-lain-penyata-akhir-2-tadika">Abses:</label>
                                         <input type="number" id="jumlah-abses-rawatan-lain-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika"><br>
                                         <input type="checkbox" id="penskaleran-rawatan-lain-penyata-akhir-2-tadika" value="penskaleran-rawatan-lain">
@@ -592,7 +592,7 @@
                                         <input type="radio" id="tidak-melaksanakan-aktiviti-begin-penyata-akhir-2-tadika" name="melaksanakan-aktiviti-begin-penyata-akhir-2-tadika" value="0">
                                     </fieldset>
                                 </div>  
-                                <div class="toddler-hide input-wrap-todd">
+                                <div class="toddler-hide input-wrap-todd" id="input-wrap-todd-a-guidance">
                                     <fieldset>
                                         <div class="input-wrap">
                                             <button class="btn-status-anticipatory-guidance tiada">
@@ -600,6 +600,8 @@
                                             </button>
                                             <br>
                                             <div class="bilangan-a-guidance">
+                                                <input type="checkbox" id="a-guidance-4-tahun" value="1">
+                                                <label for="a-guidance-4-tahun">Umur 4 Tahun</label><br>
                                                 <label for="jumlah-15-17-ag-penyata-akhir-2-tadika">Umur 15-17:</label>
                                                 <input type="number" id="jumlah-15-17-ag-penyata-akhir-2-tadika" class="number-input-penyata-akhir-2-tadika">
                                                 <label for="jumlah-18-19-ag-penyata-akhir-2-tadika">Umur 18-19:</label>
