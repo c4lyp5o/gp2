@@ -193,8 +193,8 @@ function pendaftaranTadika(){
     const namaPasukanBergerakPendaftaranTadika = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 
     namaPendaftaranTadika.value = '';
-    umurPendaftaranTadikaDOM.value = '-';
-    bangsaPendaftaranTadika.value = '0';
+    umurPendaftaranTadikaDOM.value = '';
+    bangsaPendaftaranTadika.value = '';
     kelasPendaftaranTadika.value = '';
     taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0';
     kelasToddlerPendaftaranTadikaDOM.checked = false;
