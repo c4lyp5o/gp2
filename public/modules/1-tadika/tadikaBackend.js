@@ -1,10 +1,8 @@
 const formOptionContainerTadika = document.getElementById('form-option-container-tadika')
 const formAlertDOM = document.querySelector('.form-alert');
 const btnSaveDOM = document.querySelector('.save');
-const namaOperator = localStorage.getItem('namaOperator');
-const namaFasiliti = localStorage.getItem('namaFasiliti');
-console.log(namaFasiliti);
 console.log(namaOperator);
+console.log(namaFasiliti);
 
 // pendaftaran
 const namaPendaftaranTadikaDOM = document.getElementById('nama-pendaftaran-tadika');
@@ -23,7 +21,7 @@ const ulanganPendaftaranTadikaDOM = document.getElementById('ulangan-pendaftaran
 const engganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
 const tidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
 const pemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('pemeriksaan-ada-tiada-pendaftaran-tadika');
-const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika'); // this should be pulled from localstorage
+const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika'); // watch localStorage
 const namaPasukanBergerakPendaftaranTadikaDOM = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 
 // pemeriksaan awal
@@ -316,6 +314,7 @@ formOptionContainerTadika.addEventListener('submit', async (e) => {
     
     try {
         await axios.post('/api/v1/tadika', { 
+            namaFasiliti,
             namaPendaftaranTadika,
             umurPendaftaranTadika,
             bangsaPendaftaranTadika,

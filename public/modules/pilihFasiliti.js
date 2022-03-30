@@ -22,10 +22,10 @@ const reqFasiliti = async () => {
     }
 };
 
+reqFasiliti();
+
 submitNamaFasilitiDOM.addEventListener('click', function() {
     const namaFasiliti = pilihNamaFasilitiDOM.value;
     localStorage.setItem('namaFasiliti', namaFasiliti);
     window.location.href = '/modules/dashboard.html';
 });
-
-reqFasiliti();

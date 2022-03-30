@@ -24,23 +24,16 @@ const createPersonTadika = async (req, res) => {
     // req.body.namaTaskaTadikaPendaftaranTadika = req.body.namaTaskaTadikaPendaftaranTadika.toUpperCase();
     // ---------------------------------------------------------------------------
 
-    // // convert from frontend req.body to match Tadika Model
-    // const createPersonTadika = {};
-    // createPersonTadika.createdByNegeri = req.user.negeri;
-    // createPersonTadika.createdByDaerah = req.user.daerah;
-    // if (req.body.namaFasiliti === null) {
-    //     createPersonTadika.createdByKp = req.user.kp;
-    // } else {
-    //     createPersonTadika.createdByKp = req.body.namaFasiliti;
-    // }
-
-    // createPersonTadika.operator = req.body.namaOperator;
-    
-    // if (req.body.namaFasiliti === null) {
-    //     createPersonTadika.klinikPergigian = req.user.kp;
-    // } else {
-    //     createPersonTadika.klinikPergigian = req.body.namaFasiliti;
-    // }
+    // convert from frontend req.body to match Tadika Model
+    const createPersonTadika = {};
+    createPersonTadika.createdByNegeri = req.user.negeri;
+    createPersonTadika.createdByDaerah = req.user.daerah;
+    if (!req.body.namaFasiliti) {
+        createPersonTadika.createdByKp = req.user.kp;
+    }
+    if (req.body.namaFasiliti) {
+        createPersonTadika.createdByKp = req.body.namaFasiliti;
+    }
     
     // // pendaftaran tadika
     // createPersonTadika.nama = req.body.namaPendaftaranTadika;
@@ -161,6 +154,7 @@ const createPersonTadika = async (req, res) => {
 
     // const tadika = await Tadika.create(createPersonTadika);
     // res.status(201).json({ tadika });
+    console.log(createPersonTadika);
     console.log(req.body);
     res.status(201).send(req.body);
 };
