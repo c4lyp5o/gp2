@@ -61,15 +61,11 @@ const port = process.env.PORT;
 
 const start = async () => {
     try {
-        await connectDB(process.env.MONGO_URI)
-        .then(() => {
-            console.log('Connected to Giret Database!');
-        })
-        .catch(err => {
-            console.error('Could not Connect to Giret Database!', err);
-        });
+        await connectDB(process.env.MONGO_URI);
+        console.log('Connected to Giret Database!');
         app.listen(port, console.log(`Server is listening at port: ${port}. Lessgo!`));
     } catch (error) {
+        console.log('Could not Connect to Giret Database!');
         console.log(error);
     }
 }

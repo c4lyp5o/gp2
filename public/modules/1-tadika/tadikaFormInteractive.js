@@ -188,14 +188,26 @@ function pendaftaranTadika(){
     // clear all pendaftaran field on page load
     const bangsaPendaftaranTadika = document.getElementById('bangsa-pendaftaran-tadika');
     const kelasPendaftaranTadika = document.getElementById('kelas-pendaftaran-tadika');
+    const namaFasilitiPendaftaranTadikaDOM = document.getElementById('nama-fasiliti-tadika-pendaftaran-tadika');
     const baruPendaftaranTadika = document.getElementById('baru-pendaftaran-tadika');
     const ulanganPendaftaranTadika = document.getElementById('ulangan-pendaftaran-tadika');
+    const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika');
     const namaPasukanBergerakPendaftaranTadika = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
 
     namaPendaftaranTadika.value = '';
     umurPendaftaranTadikaDOM.value = '';
     bangsaPendaftaranTadika.value = '';
     kelasPendaftaranTadika.value = '';
+    // if (!namaFasiliti) {
+    //     const assignNamaFasiliti = async () => {
+    //         const identity = await dataIdentity();
+    //         namaFasilitiPendaftaranTadikaDOM.innerHTML = `<option value="${identity.kp}" disabled selected>${identity.kp}</option>`;
+    //     }
+    //     assignNamaFasiliti();
+    // }
+    // if (namaFasiliti) {
+    //     namaFasilitiPendaftaranTadikaDOM.innerHTML = `<option value="${namaFasiliti}" disabled selected>${namaFasiliti}</option>`;
+    // }
     taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0';
     kelasToddlerPendaftaranTadikaDOM.checked = false;
     enrolmenPendaftaranTadika.checked = false;
@@ -203,6 +215,7 @@ function pendaftaranTadika(){
     ulanganPendaftaranTadika.value = '';
     chkbxEngganPendaftaranTadikaDOM.checked = false;
     chkbxTidakHadirPendaftaranTadikaDOM.checked = false;
+    namaOperatorPendaftaranTadikaDOM.innerHTML = `<option value="${namaOperator}" disabled selected>${namaOperator}</option>`
     namaPasukanBergerakPendaftaranTadika.value = '';
 }
 

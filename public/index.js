@@ -9,9 +9,7 @@ logInBtnDOM.addEventListener('click', async () => {
     try {
         const { data } = await axios.post('/api/v1/auth/login', { username, password });
         localStorage.setItem('token', data.token);
-        const currentUrl = window.location.href;
-        const newUrl = currentUrl.concat(data.redirectLogin);
-        window.location.replace(newUrl);
+        window.location.href = data.redirectLogin;
     } catch (error) {
         wrongUsernamePasswordDOM.textContent = error.response.data.msg;
         localStorage.removeItem('token');
