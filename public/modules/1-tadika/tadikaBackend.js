@@ -60,8 +60,8 @@ const lainLainIntactPemeriksaanAwalTadikaDOM = document.getElementById('lain-lai
 const baruJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
 const semulaJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
 const failedJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('failed-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
-const yaPerluFvPerluDibuatTadikaDOM = document.getElementById('ya-perlu-fv-perlu-dibuat-tadika');
-const tidakPerluFvPerluDibuatTadikaDOM = document.getElementById('tidak-perlu-fv-perlu-dibuat-tadika');
+const perluFvPerluDibuatTadikaDOM = document.getElementById('perlu-fv-perlu-dibuat-tadika');//tuka radio ke select
+// const tidakPerluFvPerluDibuatTadikaDOM = document.getElementById('tidak-perlu-fv-perlu-dibuat-tadika');
 const baruJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
 const semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
 const gdBaruAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-baru-anterior-sewarna-perlu-dibuat-tadika');
@@ -82,10 +82,10 @@ const gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gk
 const baruJumlahGigiTelahDibuatFSPenyataAkhirDOM = document.getElementById('baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika');
 const semulaJumlahGigiTelahDibuatFSPenyataAkhirDOM = document.getElementById('semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika');
 // FV TODD
-const sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-1-penyata-akhir-1-tadika');
-const sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-2-penyata-akhir-1-tadika');
-const sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-3-penyata-akhir-1-tadika');
-const sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-4-penyata-akhir-1-tadika');
+const sesiFvPerluDibuatPenyataAkhir1TadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-penyata-akhir-1-tadika');//tuka radio ke select
+// const sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-2-penyata-akhir-1-tadika');
+// const sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-3-penyata-akhir-1-tadika');
+// const sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-4-penyata-akhir-1-tadika');
 // FV PRASEKOLAH
 const baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM = document.getElementById('baru-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika');
 const semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM = document.getElementById('semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika');
@@ -129,9 +129,9 @@ const penskaleranRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('
 const ceramahPromosiPenyataAkhirDUATadikaDOM = document.getElementById('ceramah-promosi-penyata-akhir-2-tadika');
 const lmgPromosiPenyataAkhirDUATadikaDOM = document.getElementById('lmg-promosi-penyata-akhir-2-tadika');
 //BEGIN
-const yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('ya-melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');
-const tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('tidak-melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');
+const melaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');//tuka radio ke select
 //AG
+const aGuidance4TahunDOM = document.getElementById('a-guidance-4-tahun');
 const jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-15-17-ag-penyata-akhir-2-tadika');
 const jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-18-19-ag-penyata-akhir-2-tadika');
 const jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-20-29-ag-penyata-akhir-2-tadika');
@@ -197,8 +197,8 @@ btnSaveDOM.addEventListener('click', async () => {
     const baruJumlahGigiPerluFsPerluDibuatTadika = baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
     const semulaJumlahGigiPerluFsPerluDibuatTadika = semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
     const failedJumlahGigiPerluFsPerluDibuatTadika = failedJumlahGigiPerluFsPerluDibuatTadikaDOM.value;
-    const yaPerluFvPerluDibuatTadika = yaPerluFvPerluDibuatTadikaDOM.value;
-    const tidakPerluFvPerluDibuatTadika = tidakPerluFvPerluDibuatTadikaDOM.value;
+    const perluFvPerluDibuatTadika = perluFvPerluDibuatTadikaDOM.value;//tuka radio ke select
+    // const tidakPerluFvPerluDibuatTadika = tidakPerluFvPerluDibuatTadikaDOM.value;
     const baruJumlahGigiPerluPrrPerluDibuatTadika = baruJumlahGigiPerluPrrPerluDibuatTadikaDOM.value;
     const semulaJumlahGigiPerluPrrPerluDibuatTadika = semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM.value;
     const gdBaruAnteriorSewarnaPerluDibuatTadika = gdBaruAnteriorSewarnaPerluDibuatTadikaDOM.value;
@@ -218,10 +218,10 @@ btnSaveDOM.addEventListener('click', async () => {
     const baruJumlahGigiTelahDibuatFSPenyataAkhir = baruJumlahGigiTelahDibuatFSPenyataAkhirDOM.value;
     const semulaJumlahGigiTelahDibuatFSPenyataAkhir = semulaJumlahGigiTelahDibuatFSPenyataAkhirDOM.value;
     // FV TODD
-    const sesiFvPerludiBuatSATUPenyataAkhirSatuTadika = sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM.value;
-    const sesiFvPerludiBuatDUAPenyataAkhirSatuTadika = sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM.value;
-    const sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika = sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM.value;
-    const sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika = sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM.value;
+    const sesiFvPerluDibuatPenyataAkhir1Tadika = sesiFvPerluDibuatPenyataAkhir1TadikaDOM.value;//tuka radio ke select
+    // const sesiFvPerludiBuatDUAPenyataAkhirSatuTadika = sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM.value;
+    // const sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika = sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM.value;
+    // const sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika = sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM.value;
     // FV PRASEKOLAH
     const baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika = baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value;
     const semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika = semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value;
@@ -264,9 +264,9 @@ btnSaveDOM.addEventListener('click', async () => {
     const ceramahPromosiPenyataAkhirDUATadika = ceramahPromosiPenyataAkhirDUATadikaDOM.value;
     const lmgPromosiPenyataAkhirDUATadika = lmgPromosiPenyataAkhirDUATadikaDOM.value;
     //BEGIN
-    const yaMelaksanakanAktivitiBeginPenyataAkhirDUATadika = yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value;
-    const tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika = tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value;
+    const melaksanakanAktivitiBeginPenyataAkhirDUATadika = melaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value;//tuka radio ke select
     //AG
+    const aGuidance4Tahun = aGuidance4TahunDOM.value;
     const jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika = jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value;
     const jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika = jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value;
     const jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika = jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value;
@@ -333,8 +333,8 @@ btnSaveDOM.addEventListener('click', async () => {
             baruJumlahGigiPerluFsPerluDibuatTadika,
             semulaJumlahGigiPerluFsPerluDibuatTadika,
             failedJumlahGigiPerluFsPerluDibuatTadika,
-            yaPerluFvPerluDibuatTadika,
-            tidakPerluFvPerluDibuatTadika,//x8 //dah tambah 8
+            perluFvPerluDibuatTadika,//tuka radio ke select
+            // tidakPerluFvPerluDibuatTadika,//x8 //dah tambah 8
             baruJumlahGigiPerluPrrPerluDibuatTadika,
             semulaJumlahGigiPerluPrrPerluDibuatTadika,
             gdBaruAnteriorSewarnaPerluDibuatTadika,
@@ -352,10 +352,11 @@ btnSaveDOM.addEventListener('click', async () => {
             //PENYATA AKHIR 1
             baruJumlahGigiTelahDibuatFSPenyataAkhir,
             semulaJumlahGigiTelahDibuatFSPenyataAkhir,
-            sesiFvPerludiBuatSATUPenyataAkhirSatuTadika,//x9 / dah tambah 
-            sesiFvPerludiBuatDUAPenyataAkhirSatuTadika,//x10 / dah tambah
-            sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika,//x11 / dah tambah
-            sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika,//x12 / dah tambah 
+            sesiFvPerluDibuatPenyataAkhir1TadikaDOM,//tuka radio ke select
+            // sesiFvPerludiBuatSATUPenyataAkhirSatuTadika,//x9 / dah tambah 
+            // sesiFvPerludiBuatDUAPenyataAkhirSatuTadika,//x10 / dah tambah
+            // sesiFvPerludiBuatTIGAPenyataAkhirSatuTadika,//x11 / dah tambah
+            // sesiFvPerludiBuatEMPATPenyataAkhirSatuTadika,//x12 / dah tambah 
             // FV PRASEKOLAH
             baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika,
             semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadika,
@@ -397,9 +398,9 @@ btnSaveDOM.addEventListener('click', async () => {
             ceramahPromosiPenyataAkhirDUATadika,
             lmgPromosiPenyataAkhirDUATadika,
             //BEGIN
-            yaMelaksanakanAktivitiBeginPenyataAkhirDUATadika,
-            tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadika,
+            melaksanakanAktivitiBeginPenyataAkhirDUATadika,//tuka radio ke select
             //AG
+            aGuidance4Tahun,
             jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadika,
             jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadika,
             jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadika,
@@ -465,31 +466,32 @@ btnSaveDOM.addEventListener('click', async () => {
         baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
         semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
         failedJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
-        yaPerluFvPerluDibuatTadikaDOM.value = '';
-        tidakPerluFvPerluDibuatTadikaDOM.value = '';
+        perluFvPerluDibuatTadikaDOM.value = '';//tuka radio ke select
+        // tidakPerluFvPerluDibuatTadikaDOM.value = '';
         baruJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
         semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
         gdBaruAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
-        gkBaruAnteriorSewarnaPerluDibuatTadika.value = '';
+        gkBaruAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gdBaruPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
-        gkBaruPosteriorSewarnaPerluDibuatTadika.value = '';
+        gkBaruPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
         gdBaruPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
         gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
-        gkBaruPosteriorAmalgamPerluDibuatTadika.value = '';
+        gkBaruPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
         gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
         //PENYATA AKHIR 1
         // FS
         baruJumlahGigiTelahDibuatFSPenyataAkhirDOM.value = '';
         semulaJumlahGigiTelahDibuatFSPenyataAkhirDOM.value = '';
         // FV TODD
-        sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM.value = '';
-        sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM.value = '';
-        sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM.value = '';
-        sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM.value = '';
+        sesiFvPerluDibuatPenyataAkhir1TadikaDOM.value = '0';//tuka radio ke select
+        // sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM.value = '';
         // FV PRASEKOLAH
         baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value = '';
         semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value = '';
@@ -526,15 +528,15 @@ btnSaveDOM.addEventListener('click', async () => {
         jumlahAbsesRawatanLainPenyataAkhirDUATadikaDOM.value = '';
         kesSelesaiRawatanLainPenyataAkhirDUATadikaDOM.value = '';
         kesSelesaiIcdasRawatanLainPenyataAkhirDUAtadikaDOM.value = '';
-        rujukRawatanLainPenyataAkhirDUATadikaDOM = '';
+        rujukRawatanLainPenyataAkhirDUATadikaDOM.value = '';
         penskaleranRawatanLainPenyataAkhirDUATadikaDOM.value = '';
         //PROMOSI
         ceramahPromosiPenyataAkhirDUATadikaDOM.value = '';
         lmgPromosiPenyataAkhirDUATadikaDOM.value = '';
         //BEGIN
-        yaMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '';
-        tidakMelaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = ''; 
+        melaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '0';//tuka radio ke select
         //AG
+        aGuidance4TahunDOM.checked = false;
         jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value = '';
         jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value = '';
         jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value = '';

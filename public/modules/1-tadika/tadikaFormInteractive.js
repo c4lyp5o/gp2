@@ -241,6 +241,46 @@ function perluDibuatTadika(){
             prasekolahFs.style.display = 'block';
         }
     });
+    // clear all perlu dibuat field on page load
+    const baruJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+    const semulaJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+    const failedJumlahGigiPerluFsPerluDibuatTadikaDOM = document.getElementById('failed-jumlah-gigi-perlu-fs-perlu-dibuat-tadika');
+    const perluFvPerluDibuatTadikaDOM = document.getElementById('perlu-fv-perlu-dibuat-tadika');
+    // const tidakPerluFvPerluDibuatTadikaDOM = document.getElementById('tidak-perlu-fv-perlu-dibuat-tadika');
+    const baruJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('baru-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
+    const semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM = document.getElementById('semula-jumlah-gigi-perlu-prr-perlu-dibuat-tadika');
+    const gdBaruAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-baru-anterior-sewarna-perlu-dibuat-tadika');
+    const gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-semula-anterior-sewarna-perlu-dibuat-tadika');
+    const gkBaruAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-baru-anterior-sewarna-perlu-dibuat-tadika');
+    const gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-semula-anterior-sewarna-perlu-dibuat-tadika');
+    const gdBaruPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-baru-posterior-sewarna-perlu-dibuat-tadika');
+    const gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gd-semula-posterior-sewarna-perlu-dibuat-tadika');
+    const gkBaruPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-baru-posterior-sewarna-perlu-dibuat-tadika');
+    const gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM = document.getElementById('gk-semula-posterior-sewarna-perlu-dibuat-tadika');
+
+    const gdBaruPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gd-baru-posterior-amalgam-perlu-dibuat-tadika');
+    const gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gd-semula-posterior-amalgam-perlu-dibuat-tadika');
+    const gkBaruPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gk-baru-posterior-amalgam-perlu-dibuat-tadika');
+    const gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM = document.getElementById('gk-semula-posterior-amalgam-perlu-dibuat-tadika');
+
+        baruJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        semulaJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        failedJumlahGigiPerluFsPerluDibuatTadikaDOM.value = '';
+        perluFvPerluDibuatTadikaDOM.value = '0';
+        baruJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
+        semulaJumlahGigiPerluPrrPerluDibuatTadikaDOM.value = '';
+        gdBaruAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkBaruAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkSemulaAnteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdBaruPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkBaruPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gkSemulaPosteriorSewarnaPerluDibuatTadikaDOM.value = '';
+        gdBaruPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+        gdSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+        gkBaruPosteriorAmalgamPerluDibuatTadikaDOM.value = '';
+        gkSemulaPosteriorAmalgamPerluDibuatTadikaDOM.value = '';    
 }
 function penyataAkhir1Tadika(){
     const btnPenyataAkhir1 = document.querySelector('.penyata-akhir-1-header-tadika');
@@ -308,6 +348,75 @@ function penyataAkhir1Tadika(){
             prasekolahFs.style.display = 'block';
         }
     });
+    // clear all penyata akhir 1 field on page load
+    // FISUR SELAN
+    const baruJumlahGigiTelahDibuatFSPenyataAkhirDOM = document.getElementById('baru-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika');
+    const semulaJumlahGigiTelahDibuatFSPenyataAkhirDOM = document.getElementById('semula-jumlah-gigi-telah-dibuat-fs-penyata-akhir-1-tadika');
+    // FV TODD
+    const sesiFvPerluDibuatPenyataAkhir1TadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-penyata-akhir-1-tadika');
+    // const sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-1-penyata-akhir-1-tadika');
+    // const sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-2-penyata-akhir-1-tadika');
+    // const sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-3-penyata-akhir-1-tadika');
+    // const sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM = document.getElementById('sesi-fv-perlu-dibuat-4-penyata-akhir-1-tadika');
+    // FV PRASEKOLAH
+    const baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM = document.getElementById('baru-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika');
+    const semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM = document.getElementById('semula-jumlah-gigi-telah-dibuat-fv-penyata-akhir-1-tadika');
+    // PRR JENIS 1
+    const baruJumlahGigiTelahDibuatPrrPenyataAkhirSATUTadikaDOM = document.getElementById('baru-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika');
+    const semulaJumlahGigiTelahDibuatPrrPenyataAkhirSATUTadikaDOM = document.getElementById('semula-jumlah-gigi-telah-dibuat-prr-penyata-akhir-1-tadika');
+    // JUMLAH TAMPALAN TELAH DILAKUKAN
+    // GD ANTERIOR SEWARNA
+    const gdBaruAnteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gd-baru-anterior-sewarna-penyata-akhir-1-tadika');
+    const gdSemulaAnteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gd-semula-anterior-sewarna-penyata-akhir-1-tadika');
+    // GK ANT SEWARNA
+    const gkBaruAnteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gk-baru-anterior-sewarna-penyata-akhir-1-tadika');
+    const gkSemulaAnteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gk-semula-anterior-sewarna-penyata-akhir-1-tadika');
+    // GD POST SEWARNA
+    const gdBaruPosteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gd-baru-posterior-sewarna-penyata-akhir-1-tadika');
+    const gdSemulaPosteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gd-semula-posterior-sewarna-penyata-akhir-1-tadika');
+    //GK POST SEWARNA
+    const gkBaruPosteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gk-baru-posterior-sewarna-penyata-akhir-1-tadika');
+    const gkSemulaPosteriorSewarnaPenyataAkhirSATUTadikaDOM = document.getElementById('gk-semula-posterior-sewarna-penyata-akhir-1-tadika');
+    // GD POST AMALGAM
+    const gdBaruPosteriorAmalgamPenyataAkhirSATUTadikaDOM = document.getElementById('gd-baru-posterior-amalgam-penyata-akhir-1-tadika');
+    const gdSemulaPosteriorAmalgamPenyataAkhirSATUTadikaDOM = document.getElementById('gd-semula-posterior-amalgam-penyata-akhir-1-tadika');
+    // GK POST AMALGAM
+    const gkBaruPosteriorAmalgamPenyataAkhirSATUTadikaDOM = document.getElementById('gk-baru-posterior-amalgam-penyata-akhir-1-tadika');
+    const gkSemulaPosteriorAmalgamPenyataAkhirSATUTadikaDOM = document.getElementById('gk-semula-posterior-amalgam-penyata-akhir-1-tadika');
+
+        // FS
+        baruJumlahGigiTelahDibuatFSPenyataAkhirDOM.value = '';
+        semulaJumlahGigiTelahDibuatFSPenyataAkhirDOM.value = '';
+        // FV TODD
+        sesiFvPerluDibuatPenyataAkhir1TadikaDOM.value = '0';
+        // sesiFvPerludiBuatSATUPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatDUAPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatTIGAPenyataAkhirSatuTadikaDOM.value = '';
+        // sesiFvPerludiBuatEMPATPenyataAkhirSatuTadikaDOM.value = '';
+        // FV PRASEKOLAH
+        baruJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value = '';
+        semulaJumlahGigiTelahDibuatFVPenyataAkhirSATUTadikaDOM.value = '';
+        // PRR 1
+        baruJumlahGigiTelahDibuatPrrPenyataAkhirSATUTadikaDOM.value = '';
+        semulaJumlahGigiTelahDibuatPrrPenyataAkhirSATUTadikaDOM.value = '';
+        // GD ANT SEWARNA
+        gdBaruAnteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        gdSemulaAnteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        // GK ANT SEWARNA
+        gkBaruAnteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        gkSemulaAnteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        // GD POST SEWARNA
+        gdBaruPosteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        gdSemulaPosteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        //GK POST SEWARNA
+        gkBaruPosteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        gkSemulaPosteriorSewarnaPenyataAkhirSATUTadikaDOM.value = '';
+        //GD POST AMALGAM
+        gdBaruPosteriorAmalgamPenyataAkhirSATUTadikaDOM.value = '';
+        gdSemulaPosteriorAmalgamPenyataAkhirSATUTadikaDOM.value = '';
+        //GK POST AMALGAM
+        gkBaruPosteriorAmalgamPenyataAkhirSATUTadikaDOM.value = '';
+        gkSemulaPosteriorAmalgamPenyataAkhirSATUTadikaDOM.value = '';;
 }
 function penyataAkhir2Tadika(){
     const btnPenyataAkhir2 = document.querySelector('.penyata-akhir-2-header-tadika');
@@ -384,5 +493,64 @@ function penyataAkhir2Tadika(){
             toddler.style.display = 'none';
         }
     });
+
+    // clear all penyata akhir 2 field on page load
+    //CABUTAN
+    const desidusJumlahGigiTelahDicabutPenyataAkhirDUATadikaDOM = document.getElementById('desidus-jumlah-gigi-telah-dicabut-penyata-akhir-2-tadika');
+    const kekalJumlahGigiTelahDicabutPenyataAkhirDUATadikaDOM = document.getElementById('kekal-jumlah-gigi-telah-dicabut-penyata-akhir-2-tadika');
+    //TAMPALANSEMENTARA
+    const jumlahGigiTampalanSementaraPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-gigi-tampalan-sementara-penyata-akhir-2-tadika');
+    //RAWATAN LAIN
+    const jumlahPulpotomiRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-pulpotomi-rawatan-lain-penyata-akhir-2-tadika');
+    const jumlahEndodontikRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-endodontik-rawatan-lain-penyata-akhir-2-tadika');
+    const jumlahAbsesRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-abses-rawatan-lain-penyata-akhir-2-tadika');
+    const kesSelesaiRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('kes-selesai-rawatan-lain-penyata-akhir-2-tadika');
+    const kesSelesaiIcdasRawatanLainPenyataAkhirDUAtadikaDOM = document.getElementById('kes-selesai-icdas-rawatan-lain-penyata-akhir-2-tadika');
+    const rujukRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('rujuk-rawatan-lain-penyata-akhir-2-tadika');
+    const penskaleranRawatanLainPenyataAkhirDUATadikaDOM = document.getElementById('penskaleran-rawatan-lain-penyata-akhir-2-tadika');
+    //PROMOSI
+    const ceramahPromosiPenyataAkhirDUATadikaDOM = document.getElementById('ceramah-promosi-penyata-akhir-2-tadika');
+    const lmgPromosiPenyataAkhirDUATadikaDOM = document.getElementById('lmg-promosi-penyata-akhir-2-tadika');
+    //BEGIN
+    const melaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM = document.getElementById('melaksanakan-aktiviti-begin-penyata-akhir-2-tadika');
+    //AG
+    const aGuidancePenyataAkhirDUATadikaDOM = document.getElementById('a-guidance-penyata-akhir-2-tadika');
+    const jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-15-17-ag-penyata-akhir-2-tadika');
+    const jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-18-19-ag-penyata-akhir-2-tadika');
+    const jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-20-29-ag-penyata-akhir-2-tadika');
+    const jumlahTigaPuluhEmpatPuluhSembilanAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-30-49-ag-penyata-akhir-2-tadika');
+    const jumlahLimaPuluhLimaPuluhSembilanAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-50-59-ag-penyata-akhir-2-tadika');
+    const jumlahEnamPuluhAGPenyataAkhirDUATadikaDOM = document.getElementById('jumlah-60-ag-penyata-akhir-2-tadika');
+    //CATATAN
+    const catatanPenyataAkhirDUATadikaDOM = document.getElementById('catatan-penyata-akhir-2-tadika');
+
+    //CABUTAN
+    desidusJumlahGigiTelahDicabutPenyataAkhirDUATadikaDOM.value = '';
+    kekalJumlahGigiTelahDicabutPenyataAkhirDUATadikaDOM.value = '';
+    //TAMPALAN SEMENTARA
+    jumlahGigiTampalanSementaraPenyataAkhirDUATadikaDOM.value = '';
+    //RAWATAN LAIN
+    jumlahPulpotomiRawatanLainPenyataAkhirDUATadikaDOM.value = '';
+    jumlahEndodontikRawatanLainPenyataAkhirDUATadikaDOM.value = '';
+    jumlahAbsesRawatanLainPenyataAkhirDUATadikaDOM.value = '';
+    kesSelesaiRawatanLainPenyataAkhirDUATadikaDOM.checked = false;
+    kesSelesaiIcdasRawatanLainPenyataAkhirDUAtadikaDOM.checked = false;
+    rujukRawatanLainPenyataAkhirDUATadikaDOM.checked = false;
+    penskaleranRawatanLainPenyataAkhirDUATadikaDOM.checked = false;
+    //PROMOSI
+    ceramahPromosiPenyataAkhirDUATadikaDOM.value = '0';
+    lmgPromosiPenyataAkhirDUATadikaDOM.value = '0';
+    //BEGIN
+    melaksanakanAktivitiBeginPenyataAkhirDUATadikaDOM.value = '0';
+    //AG
+    aGuidancePenyataAkhirDUATadikaDOM.value = '';
+    jumlahLimaBelasTujuhBelasAGPenyataAkhirDUATadikaDOM.value = '';
+    jumlahLapanBelasSembilanBelasAGPenyataAkhirDUATadikaDOM.value = '';
+    jumlahDuaPuluhDuaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value = '';
+    jumlahTigaPuluhEmpatPuluhSembilanAGPenyataAkhirDUATadikaDOM.value = '';
+    jumlahLimaPuluhLimaPuluhSembilanAGPenyataAkhirDUATadikaDOM.value = '';
+    jumlahEnamPuluhAGPenyataAkhirDUATadikaDOM.value = '';
+    //CATATAN
+    catatanPenyataAkhirDUATadikaDOM.value = '';
 
 }
