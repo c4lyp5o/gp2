@@ -48,6 +48,196 @@ exports.filterbyUmur = function(req, res) {
         { $sort: { _id: 1 } },
 
         ], callback);
+      
+        Tadika.aggregate([
+
+          { $match: { tadika: "1" } },
+  
+          { $group: { _id:"$createdByDaerah",
+            jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+            jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+            jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+            jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+            jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+            jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+            jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+            jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+            jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+            jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+            jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+            jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+            jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+            jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+            jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+            jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+            jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+            jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+            jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+            cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+            jumlahAbses: { $sum: { $toDouble:"$abses" } },
+            jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+            jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+            jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+            jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+            jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+            jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+            jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+  
+          { $sort: { _id: 1 } },
+  
+          ], callback);
+        
+        Tadika.aggregate([
+
+          { $match: { kkia: "1" } }, // nak ambil data dari mana?
+  
+          { $group: { _id:"$createdByDaerah",
+            jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+            jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+            jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+            jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+            jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+            jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+            jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+            jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+            jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+            jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+            jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+            jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+            jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+            jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+            jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+            jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+            jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+            jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+            jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+            cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+            jumlahAbses: { $sum: { $toDouble:"$abses" } },
+            jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+            jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+            jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+            jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+            jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+            jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+            jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+  
+          { $sort: { _id: 1 } },
+  
+          ], callback);
+
+        Tadika.aggregate([
+
+          { $match: { outpatient: "1" } }, // nak ambil data dari mana?
+
+          { $group: { _id:"$createdByDaerah",
+            jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+            jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+            jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+            jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+            jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+            jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+            jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+            jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+            jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+            jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+            jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+            jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+            jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+            jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+            jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+            jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+            jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+            jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+            jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+            cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+            jumlahAbses: { $sum: { $toDouble:"$abses" } },
+            jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+            jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+            jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+            jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+            jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+            jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+            jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+
+          { $sort: { _id: 1 } },
+
+          ], callback);
+
+          Tadika.aggregate([
+
+            { $match: { lain2: "1" } }, // nak ambil data dari mana?
+  
+            { $group: { _id:"$createdByDaerah",
+              jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+              jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+              jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+              jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+              jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+              jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+              jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+              jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+              jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+              jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+              jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+              jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+              jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+              jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+              jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+              jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+              jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+              jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+              jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+              cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+              jumlahAbses: { $sum: { $toDouble:"$abses" } },
+              jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+              jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+              jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+              jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+              jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+              jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+              jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+  
+            { $sort: { _id: 1 } },
+  
+            ], callback);
+
+            Tadika.aggregate([
+
+              { $match: { agensiluar: "1" } }, // nak ambil data dari mana?
+    
+              { $group: { _id:"$createdByDaerah",
+                jumlahBaru : { $sum: { $toDouble:'$kedatanganBaru' } },
+                jumlahUlangan : { $sum: { $toDouble:'$kedatanganUlangan' } }, 
+                jumlahD : { $sum: { $toDouble:"$statusGigidesidusD" } },
+                jumlahM : { $sum: { $toDouble:"$statusGigidesidusM" } },
+                jumlahF : { $sum: { $toDouble:"$statusGigidesidusF" } },
+                jumlahX : { $sum: { $toDouble:"$statusGigidesidusX" } },
+                jumlahDMFX : { $sum: { $cond: [ { $and: [ { $eq: ["$statusGigidesidusD", '0'] }, { $eq: ["$statusGigidesidusM", '0'] }, { $eq: ["$statusGigidesidusF", '0'] }, { $eq: ["$statusGigidesidusX", '0'] } ] }, 1, 0 ] } },
+                jumlahSpA : { $sum: { $toDouble:"$kebersihanMulutA" } },
+                jumlahSpC : { $sum: { $toDouble:"$kebersihanMulutC" } },
+                jumlahSpE : { $sum: { $toDouble:"$kebersihanMulutE" } },
+                jumlahTisuKeras : { $sum: { $toDouble:"$traumaTisuKeras" } },
+                jumlahTisuLembut : { $sum: { $toDouble:"$traumaTisuLembut" } },
+                jumlahPerluFV : { $sum: { $toDouble:"$perluFvMuridB" } },
+                jumlahTelahFVB : { $sum: { $toDouble:"$telahFVMuridB" } },
+                jumlahTelahFVS : { $sum: { $toDouble:"$telahFVMuridS" } },
+                jumlahTelahTampalAntB : { $sum: { $toDouble:"$telahTampalanAntGdB" } },
+                jumlahTelahTampalAntS : { $sum: { $toDouble:"$telahTampalanAntGdS" } },
+                jumlahTelahTampalPosB : { $sum: { $toDouble:"$telahTampalanPosGdB" } },
+                jumlahTelahTampalPosS : { $sum: { $toDouble:"$telahTampalanPosGdS" } },
+                cabutan: { $sum: { $toDouble:'$cabutanGd' } },
+                jumlahAbses: { $sum: { $toDouble:"$abses" } },
+                jumlahPulpotomi: { $sum: { $toDouble:"$pulpotomi" } },
+                jumlahCTod: { $sum: { $toDouble:"$ceramahToddler" } },
+                jumlahCPar: { $sum: { $toDouble:"$ceramahPenjaga" } },
+                jumlahLMG: { $sum: { $toDouble:"$toddlerLMG" } },
+                jumlahCRAlow: { $sum: { $toDouble:"$craRendah" } },
+                jumlahCRAmid: { $sum: { $toDouble:"$craSederhana" } },
+                jumlahCRAhi: { $sum: { $toDouble:"$craTinggi" } }, },},
+    
+              { $sort: { _id: 1 } },
+    
+              ], callback);
     },
 }, async function(err, results) {
     if (err) { return res.status(500).json({ err }); }
@@ -5693,6 +5883,203 @@ exports.createPG201SMKP = function(req, res) {
         rowNew36.commit();
 
         let newfile = path.join(__dirname, "..", "public", "exports", "test-PGS203.xlsx");
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+            fs.unlinkSync(newfile); // delete this file after 30 seconds
+          }, 30000)
+        setTimeout(function () {
+            return res.download(newfile); // delete this file after 30 seconds
+          }, 3000)        
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error });
+        }
+  });
+}
+
+exports.createPPIM05 = function(req, res) {
+  async.parallel({
+      negeri: function(callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function(callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRterlibatMMI: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      tahun: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      sekolah: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 }, callback);
+      },
+      klinik: function(callback) {
+        Tadika.countDocuments({ statusGigidesidusD: "0", statusGigidesidusM: "0", statusGigidesidusF: "0", statusGigidesidusX: 0, kedatanganBaru: 1  }, callback);
+      },
+    }
+  , async function(err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(__dirname, "..", "public", "exports", "PPIM05.xlsx");
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PPIM05');
+
+        // 5 tahun
+        let rowNew = worksheet.getRow(12);
+        rowNew.getCell(2).value = results.perokok; // bilanganperokoksemasa 5 tahun
+        rowNew.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi 5 tahun
+        rowNew.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date 5 tahun
+        rowNew.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date 5 tahun
+        rowNew.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date 5 tahun
+        rowNew.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date 5 tahun
+        rowNew.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling 5 tahun
+        rowNew.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" 5 tahun
+        rowNew.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" 5 tahun
+        rowNew.commit();
+
+        // 6 tahun
+        let rowNew2 = worksheet.getRow(13);
+        rowNew2.getCell(2).value = results.perokok; // bilanganperokoksemasa 6 tahun
+        rowNew2.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi 6 tahun
+        rowNew2.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date 6 tahun
+        rowNew2.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date 6 tahun
+        rowNew2.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date 6 tahun
+        rowNew2.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date 6 tahun
+        rowNew2.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling 6 tahun
+        rowNew2.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" 6 tahun
+        rowNew2.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" 6 tahun
+        rowNew2.commit();
+
+        //Tahun/ tingkatan 1
+        let rowNew3 = worksheet.getRow(14);
+        rowNew3.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/Tingkatan1
+        rowNew3.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/Tingkatan1
+        rowNew3.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/Tingkatan1
+        rowNew3.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/Tingkatan1
+        rowNew3.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/Tingkatan1
+        rowNew3.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/Tingkatan1
+        rowNew3.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/Tingkatan1
+        rowNew3.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/Tingkatan1
+        rowNew3.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/Tingkatan1
+        rowNew3.commit();
+
+        //Tahun/ tingkatan 2
+        let rowNew4 = worksheet.getRow(15);
+        rowNew4.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/ tingkatan 2
+        rowNew4.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/ tingkatan 2
+        rowNew4.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/ tingkatan 2
+        rowNew4.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/ tingkatan 2
+        rowNew4.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/ tingkatan 2
+        rowNew4.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/ tingkatan 2
+        rowNew4.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/ tingkatan 2
+        rowNew4.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/ tingkatan 2
+        rowNew4.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/ tingkatan 2
+        rowNew4.commit();
+
+        //Tahun/ tingkatan 3
+        let rowNew5 = worksheet.getRow(16);
+        rowNew5.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/ tingkatan 3
+        rowNew5.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/ tingkatan 3
+        rowNew5.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/ tingkatan 3
+        rowNew5.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/ tingkatan 3
+        rowNew5.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/ tingkatan 3
+        rowNew5.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/ tingkatan 3
+        rowNew5.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/ tingkatan 3
+        rowNew5.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/ tingkatan 3
+        rowNew5.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/ tingkatan 3
+        rowNew5.commit();
+
+       //Tahun/ tingkatan 4
+        let rowNew6 = worksheet.getRow(17);
+        rowNew6.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/ tingkatan 4
+        rowNew6.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/ tingkatan 4
+        rowNew6.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/ tingkatan 4
+        rowNew6.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/ tingkatan 4
+        rowNew6.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/ tingkatan 4
+        rowNew6.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/ tingkatan 4
+        rowNew6.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/ tingkatan 4
+        rowNew6.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/ tingkatan 4
+        rowNew6.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/ tingkatan 4
+        rowNew6.commit();
+
+        //Tahun/ tingkatan 5
+        let rowNew7 = worksheet.getRow(18);
+        rowNew7.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/ tingkatan 5
+        rowNew7.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/ tingkatan 5
+        rowNew7.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/ tingkatan 5
+        rowNew7.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/ tingkatan 5
+        rowNew7.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/ tingkatan 5
+        rowNew7.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/ tingkatan 5
+        rowNew7.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/ tingkatan 5
+        rowNew7.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/ tingkatan 5
+        rowNew7.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/ tingkatan 5
+        rowNew7.commit();
+
+        //Tahun/ tingkatan 6
+        let rowNew8 = worksheet.getRow(19);
+        rowNew8.getCell(2).value = results.perokok; // bilanganperokoksemasa Tahun/ tingkatan 6
+        rowNew8.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Tahun/ tingkatan 6
+        rowNew8.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Tahun/ tingkatan 6
+        rowNew8.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Tahun/ tingkatan 6
+        rowNew8.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Tahun/ tingkatan 6
+        rowNew8.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Tahun/ tingkatan 6
+        rowNew8.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Tahun/ tingkatan 6
+        rowNew8.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Tahun/ tingkatan 6
+        rowNew8.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Tahun/ tingkatan 6
+        rowNew8.commit();
+
+        //Peralihan (SM)
+        let rowNew9 = worksheet.getRow(20);
+        rowNew9.getCell(2).value = results.perokok; // bilanganperokoksemasa Peralihan (SM)
+        rowNew9.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi Peralihan (SM)
+        rowNew9.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date Peralihan (SM)
+        rowNew9.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date Peralihan (SM)
+        rowNew9.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date Peralihan (SM)
+        rowNew9.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date Peralihan (SM)
+        rowNew9.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling Peralihan (SM)
+        rowNew9.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" Peralihan (SM)
+        rowNew9.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" Peralihan (SM)
+        rowNew9.commit();
+
+        //KKI (SR & SM)
+        let rowNew10 = worksheet.getRow(21);
+        rowNew10.getCell(2).value = results.perokok; // bilanganperokoksemasa KKI (SR & SM)
+        rowNew10.getCell(3).value = results.sertaiIntervensi; // Bil. Perokok Menyertai Intervensi KKI (SR & SM)
+        rowNew10.getCell(4).value = results.intervensi3WithQDate; // # perokok menyertai intervensi >3 ada quit date KKI (SR & SM)
+        rowNew10.getCell(6).value = results.intervensi3NoQDate; // # perokok menyertai intervensi >3 tiada quit date KKI (SR & SM)
+        rowNew10.getCell(8).value = results.intervensiLess3WithQDate; // # perokok menyertai intervensi <3 ada quit date KKI (SR & SM)
+        rowNew10.getCell(10).value = results.intervensiLess3NoQDate; // # perokok menyertai intervensi <3 tiada quit date KKI (SR & SM)
+        rowNew10.getCell(14).value = results.dirujukKaunseling; // # Perokok dirujuk ke guru kaunseling KKI (SR & SM)
+        rowNew10.getCell(15).value = results.berhentiRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Berhenti" KKI (SR & SM)
+        rowNew10.getCell(16).value = results.masihRokok6Bulan; // "Status berhenti merokok selepas 6 bulan Tidak Berhenti" KKI (SR & SM)
+        rowNew10.commit();
+        
+        // others
+        let rowNew11 = worksheet.getRow(5);
+        rowNew11.getCell(2).value = results.tahun; // 
+        rowNew11.commit();
+
+        let rowNew12 = worksheet.getRow(6);
+        rowNew12.getCell(2).value = results.daerah; // 
+        rowNew12.commit();
+
+        let rowNew13 = worksheet.getRow(7);
+        rowNew13.getCell(2).value = results.klinik; // 
+        rowNew13.commit();
+
+        let rowNew14 = worksheet.getRow(8);
+        rowNew14.getCell(2).value = results.sekolah; // 
+        rowNew14.commit();
+
+        let newfile = path.join(__dirname, "..", "public", "exports", "test-PPIM05.xlsx");
 
         // Write the file
         await workbook.xlsx.writeFile(newfile);
