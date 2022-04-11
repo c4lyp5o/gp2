@@ -22,8 +22,6 @@ const reqOperator = async () => {
         reliefYaTidakDOM.addEventListener('click', function() {
             const reliefYaTidak = reliefYaTidakDOM.checked;
             const namaOperator = pilihNamaOperatorDOM.value;
-            console.log(namaOperator);
-            console.log(reliefYaTidak);
             submitNamaOperatorDOM.addEventListener('click', function() {
                 if (reliefYaTidak === true) {
                     localStorage.setItem('namaOperator', namaOperator);
@@ -40,6 +38,8 @@ const reqOperator = async () => {
     }
 };
 
+reqOperator();
+
 const reliefYaTidak = reliefYaTidakDOM.checked;
 submitNamaOperatorDOM.addEventListener('click', function() {
     const namaOperator = pilihNamaOperatorDOM.value;
@@ -48,5 +48,3 @@ submitNamaOperatorDOM.addEventListener('click', function() {
         window.location.href = '/modules/dashboard.html';
     }
 });
-
-reqOperator();
