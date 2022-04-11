@@ -2,7 +2,12 @@ function AdminHeader() {
   return (
     <div className='admin-header-container'>
       <div className='jata-container'>
-        <img src='' alt='missing jata negara' />
+        <img
+          width={100}
+          height={100}
+          src='https://www.clipartmax.com/png/middle/453-4539929_jata-negara-malaysia-png-coat-of-arms-of-malaysia.png'
+          alt='missing jata negara'
+        />
         <p>kementerian kesihatan malaysia</p>
         <p>program kesihatan pergigian</p>
       </div>

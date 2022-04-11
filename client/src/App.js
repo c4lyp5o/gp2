@@ -1,6 +1,6 @@
 // import './App.css';
 import './admin/admin.css';
-import AdminHeader from './admin/adminComponent/AdminHeader';
+import AdminHeader from './admin/adminComponents/AdminHeader';
 
 function App() {
   return (
