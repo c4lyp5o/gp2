@@ -9,15 +9,31 @@
   font-size: 16px;
 }
 
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   text-transform: capitalize;
 }
 
+.canvas {
+  position: relative;
+}
+
+/* admin header */
 .admin-header-container {
+  position: absolute;
+  z-index: 0;
   background-color: var(--color-1);
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .jata-container {
@@ -35,4 +51,47 @@ body {
 
 .text-container h1 {
   color: var(--color-4);
+}
+
+/* admin navbar */
+.nav-container {
+  position: absolute;
+  z-index: 1;
+}
+
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.nav-toggle {
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: var(--color-1);
+  border-color: transparent;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.links {
+  list-style-type: none;
+}
+
+.links a {
+  text-decoration: none;
+  color: var(--clr-grey-3);
+  display: block;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+}
+
+.links-container {
+  background-color: red;
+  height: auto;
+  width: 100%;
+  overflow: hidden;
 }
