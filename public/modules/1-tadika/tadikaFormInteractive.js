@@ -1,11 +1,9 @@
-window.addEventListener('DOMContentLoaded', function(){
-    // tadika
-    pendaftaranTadika();
-    pemeriksaanAwalTadika();
-    perluDibuatTadika();
-    penyataAkhir1Tadika();
-    penyataAkhir2Tadika();
-});
+// tadika
+pendaftaranTadika();
+pemeriksaanAwalTadika();
+perluDibuatTadika();
+penyataAkhir1Tadika();
+penyataAkhir2Tadika();
 
 function pendaftaranTadika(){
     const btnPendaftaran = document.querySelector('.pendaftaran-header-tadika');
@@ -47,54 +45,178 @@ function pendaftaranTadika(){
         formPenyataAkhir2.classList.add('close');
 
     });
+  
+    // logic enrolmen
+    const namaPendaftaranTadika = document.getElementById('nama-pendaftaran-tadika');
+    const enrolmenPendaftaranTadika = document.getElementById('enrolmen-pendaftaran-tadika');
 
-    // const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
-    // const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    namaPendaftaranTadika.addEventListener('input', function() {
+        if (namaPendaftaranTadika.value) {
+            enrolmenPendaftaranTadika.checked = true;
+        } else if (!namaPendaftaranTadika.value) {
+            enrolmenPendaftaranTadika.checked = false;
+        }
+    });
 
-    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
-    //     if (umurPendaftaranTadikaDOM.value === '0' ||
-    //         umurPendaftaranTadikaDOM.value === '1' ||
-    //         umurPendaftaranTadikaDOM.value === '1.5' ||
-    //         umurPendaftaranTadikaDOM.value === '2' ||
-    //         umurPendaftaranTadikaDOM.value === '3' ||
-    //         umurPendaftaranTadikaDOM.value === '4') {
-    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-    //                                                                 <option value="taska">Taska</option>`
-    //     }
-    // });
+    // logic fasiliti
+    const umurPendaftaranTadikaDOM = document.getElementById('umur-pendaftaran-tadika');
+    const taskaTadikaPraSekolahPendaftaranTadikaDOM = document.getElementById('taska-tadika-pra-sekolah-pendaftaran-tadika');
+    const divKerajaanSwastaPendaftaranTadikaDOM = document.getElementById('div-kerajaan-swasta-pendaftaran-tadika');
+    const kerajaanSwastaPendaftaranTadikaDOM = document.getElementById('kerajaan-swasta-pendaftaran-tadika');
+    const divKemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('div-kemas-perpaduan-lain2-pendaftaran-tadika');
+    const kemasPerpaduanLain2PendaftaranTadikaDOM = document.getElementById('kemas-perpaduan-lain2-pendaftaran-tadika');
+    const divJantinaPendaftaranTadikaDOM = document.getElementById('div-jantina-pendaftaran-tadika');
+    const jantinaPendaftaranTadikaDOM = document.getElementById('jantina-pendaftaran-tadika');
+    const divKelasToddlerPendaftaranTadikaDOM = document.getElementById('div-kelas-toddler-pendaftaran-tadika');
+    const kelasToddlerPendaftaranTadikaDOM = document.getElementById('kelas-toddler-pendaftaran-tadika');
 
-    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
-    //     if (umurPendaftaranTadikaDOM.value === '5' ||
-    //         umurPendaftaranTadikaDOM.value === '6') {
-    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0"></option>
-    //                                                                 <option value="tadika">Tadika</option>`
-    //     }
-    // });
+    // if any change to umur, reset logic fasiliti
+    umurPendaftaranTadikaDOM.addEventListener('change', function() {
+        taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0'
+        divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'none';
+        kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+        kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        divJantinaPendaftaranTadikaDOM.style.display = 'none';
+        jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+        kelasToddlerPendaftaranTadikaDOM.checked = false;
+    });
+    taskaTadikaPraSekolahPendaftaranTadikaDOM.addEventListener('change', function() {
+        // kalau pilih taska || tadika
+        if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
+            // set
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'block';
+            kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                            <option value="kerajaan">Kerajaan</option>
+                                                            <option value="swasta">Swasta</option>`;
+            // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
+            jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
+        }
+        // kalau pilih tadika && umur 4 tahun ke bawah
+        if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika' && parseInt(umurPendaftaranTadikaDOM.value) <= 4) {
+            // set
+            divKelasToddlerPendaftaranTadikaDOM.style.display = 'block';
+        }
+        // kalau pilih pra sekolah
+        if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'pra-sekolah') {
+            // set
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'block';
+            kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                            <option value="kerajaan">Kerajaan</option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'block';
+            jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                    <option value="lelaki">Lelaki</option>
+                                                    <option value="perempuan">Perempuan</option>`
+            // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
+        }
+        // kalau pilih empty
+        if (taskaTadikaPraSekolahPendaftaranTadikaDOM.value === '0') {
+            divKerajaanSwastaPendaftaranTadikaDOM.style.display = 'none';
+            kerajaanSwastaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divJantinaPendaftaranTadikaDOM.style.display = 'none';
+            jantinaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+            divKelasToddlerPendaftaranTadikaDOM.style.display = 'none';
+            kelasToddlerPendaftaranTadikaDOM.checked = false;
+        }
+    });
+    kerajaanSwastaPendaftaranTadikaDOM.addEventListener('change', function() {
+        // kalau pilih kerajaan && taska || kerajaan && tadika
+        if (kerajaanSwastaPendaftaranTadikaDOM.value === 'kerajaan' && taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'taska' || kerajaanSwastaPendaftaranTadikaDOM.value === 'kerajaan' && taskaTadikaPraSekolahPendaftaranTadikaDOM.value === 'tadika') {
+            // set
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'block';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                <option value="kemas">KEMAS</option>
+                                                                <option value="perpaduan">Perpaduan</option>
+                                                                <option value="lain-lain">Lain-lain</option>`;
+        }
+        // kalau pilih swasta
+        if (kerajaanSwastaPendaftaranTadikaDOM.value === 'swasta') {
+            // reset
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+        // kalau pilih empty
+        if (kerajaanSwastaPendaftaranTadikaDOM.value === '0') {
+            divKemasPerpaduanLain2PendaftaranTadikaDOM.style.display = 'none';
+            kemasPerpaduanLain2PendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
 
-    // umurPendaftaranTadikaDOM.addEventListener('click', function() {
-    //     if (umurPendaftaranTadikaDOM.value === '') {
-    //         taskaTadikaPraSekolahPendaftaranTadikaDOM.innerHTML = ` <option value="0">Hensem</option>`
-    //     }
-    // });
-
+    // logic pemeriksaan ada tiada
     const chkbxEngganPendaftaranTadikaDOM = document.getElementById('enggan-pendaftaran-tadika');
     const chkbxTidakHadirPendaftaranTadikaDOM = document.getElementById('tidak-hadir-pendaftaran-tadika');
     const fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika');
+    const pemeriksaanAdaTiadaPendaftaranTadikaDOM = document.getElementById('pemeriksaan-ada-tiada-pendaftaran-tadika')
 
-    chkbxEngganPendaftaranTadikaDOM.addEventListener('click', function() {
+    chkbxEngganPendaftaranTadikaDOM.addEventListener('change', function() {
         if (chkbxEngganPendaftaranTadikaDOM.checked === true) {
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
-        } else if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                <option value="ada">Ada</option>
+                                                                <option value="tiada">Tiada</option>`;
+        }
+        if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
         }
     });
-    chkbxTidakHadirPendaftaranTadikaDOM.addEventListener('click', function() {
+    chkbxTidakHadirPendaftaranTadikaDOM.addEventListener('change', function() {
         if (chkbxTidakHadirPendaftaranTadikaDOM.checked === true) {
             fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'block';
-        } else if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
-            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                <option value="ada">Ada</option>
+                                                                <option value="tiada">Tiada</option>`;
         }
-    })
+        if (chkbxEngganPendaftaranTadikaDOM.checked === false && chkbxTidakHadirPendaftaranTadikaDOM.checked === false){
+            fieldsetPemeriksaanAdaTiadaPendaftaranTadikaDOM.style.display = 'none';
+            pemeriksaanAdaTiadaPendaftaranTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
+
+    // clear all pendaftaran field on page load
+    const bangsaPendaftaranTadika = document.getElementById('bangsa-pendaftaran-tadika');
+    const kelasPendaftaranTadika = document.getElementById('kelas-pendaftaran-tadika');
+    const namaFasilitiPendaftaranTadikaDOM = document.getElementById('nama-fasiliti-tadika-pendaftaran-tadika');
+    const baruPendaftaranTadika = document.getElementById('baru-pendaftaran-tadika');
+    const ulanganPendaftaranTadika = document.getElementById('ulangan-pendaftaran-tadika');
+    const namaOperatorPendaftaranTadikaDOM = document.getElementById('nama-operator-pendaftaran-tadika');
+    const namaPasukanBergerakPendaftaranTadika = document.getElementById('nama-pasukan-bergerak-pendaftaran-tadika');
+
+    namaPendaftaranTadika.value = '';
+    umurPendaftaranTadikaDOM.value = '';
+    bangsaPendaftaranTadika.value = '';
+    kelasPendaftaranTadika.value = '';
+    // if (!namaFasiliti) {
+    //     const assignNamaFasiliti = async () => {
+    //         const identity = await dataIdentity();
+    //         namaFasilitiPendaftaranTadikaDOM.innerHTML = `<option value="${identity.kp}" disabled selected>${identity.kp}</option>`;
+    //     }
+    //     assignNamaFasiliti();
+    // }
+    // if (namaFasiliti) {
+    //     namaFasilitiPendaftaranTadikaDOM.innerHTML = `<option value="${namaFasiliti}" disabled selected>${namaFasiliti}</option>`;
+    // }
+    taskaTadikaPraSekolahPendaftaranTadikaDOM.value = '0';
+    kelasToddlerPendaftaranTadikaDOM.checked = false;
+    enrolmenPendaftaranTadika.checked = false;
+    baruPendaftaranTadika.checked = false;
+    ulanganPendaftaranTadika.value = '';
+    chkbxEngganPendaftaranTadikaDOM.checked = false;
+    chkbxTidakHadirPendaftaranTadikaDOM.checked = false;
+    namaOperatorPendaftaranTadikaDOM.innerHTML = `<option value="${namaOperator}" disabled selected>${namaOperator}</option>`
+    namaPasukanBergerakPendaftaranTadika.value = '';
 }
 
 function pemeriksaanAwalTadika(){
@@ -137,10 +259,60 @@ function pemeriksaanAwalTadika(){
         formPenyataAkhir2.classList.add('close');
 
     });
+
+    // logic denture sedia ada perlu
+    const dentureSediaAdaPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-pemeriksaan-awal-tadika');
+    const divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM = document.getElementById('div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika');
+    const dentureSediaAdaAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-atas-pemeriksaan-awal-tadika');
+    const dentureSediaAdaBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-sedia-ada-bawah-pemeriksaan-awal-tadika');
+
+    dentureSediaAdaPemeriksaanAwalTadikaDOM.addEventListener('change', function() {
+        if (dentureSediaAdaPemeriksaanAwalTadikaDOM.value === 'ya') {
+            divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM.style.display = 'block';
+            dentureSediaAdaAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+            dentureSediaAdaBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+        }
+        if (dentureSediaAdaPemeriksaanAwalTadikaDOM.value === 'tidak' || dentureSediaAdaPemeriksaanAwalTadikaDOM.value === '0') {
+            divDentureSediaAdaAtasBawahPemeriksaanTadikaDOM.style.display = 'none';
+            dentureSediaAdaAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+            dentureSediaAdaBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
+
+    const denturePerluPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-pemeriksaan-awal-tadika');
+    const divDenturePerluAtasBawahPemeriksaanTadikaDOM = document.getElementById('div-denture-perlu-atas-bawah-pemeriksaan-awal-tadika');
+    const denturePerluAtasPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-atas-pemeriksaan-awal-tadika');
+    const denturePerluBawahPemeriksaanAwalTadikaDOM = document.getElementById('denture-perlu-bawah-pemeriksaan-awal-tadika');
+
+    denturePerluPemeriksaanAwalTadikaDOM.addEventListener('change', function() {
+        if (denturePerluPemeriksaanAwalTadikaDOM.value === 'ya') {
+            divDenturePerluAtasBawahPemeriksaanTadikaDOM.style.display = 'block';
+            denturePerluAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+            denturePerluBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>
+                                                                    <option value="separa">Separa</option>
+                                                                    <option value="penuh">Penuh</option>`;
+        }
+        if (denturePerluPemeriksaanAwalTadikaDOM.value === 'tidak' || denturePerluPemeriksaanAwalTadikaDOM.value === '0') {
+            divDenturePerluAtasBawahPemeriksaanTadikaDOM.style.display = 'none';
+            denturePerluAtasPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+            denturePerluBawahPemeriksaanAwalTadikaDOM.innerHTML = `<option value="0"></option>`;
+        }
+    });
     
+    // logic ada tiada gigi desidus
     const btnAdaTiadaGigiDesidus = document.querySelector('.btn-status-gigi-desidus-tadika');
     const jikaAdaDesidus = document.querySelector('.jika-ada-desidus');
     const statusGigiDesidus = document.querySelector('.status-gigi-desidus-tadika');
+    const decayDesidusPemeriksaanAwalTadika = document.getElementById('decay-desidus-pemeriksaan-awal-tadika');
+    const missingDesidusPemeriksaanAwalTadika = document.getElementById('missing-desidus-pemeriksaan-awal-tadika');
+    const filledDesidusPemeriksaanAwalTadika = document.getElementById('filled-desidus-pemeriksaan-awal-tadika');
+    const forExtractionDesidusPemeriksaanAwalTadika = document.getElementById('for-extraction-desidus-pemeriksaan-awal-tadika');
 
     btnAdaTiadaGigiDesidus.addEventListener('click', function(){
         if (btnAdaTiadaGigiDesidus.classList.contains('tiada')){
@@ -155,12 +327,22 @@ function pemeriksaanAwalTadika(){
             btnAdaTiadaGigiDesidus.textContent = 'Tiada';
             statusGigiDesidus.style.display = 'none';
             jikaAdaDesidus.style.display = 'block';
+            decayDesidusPemeriksaanAwalTadika.value = '';
+            missingDesidusPemeriksaanAwalTadika.value = '';
+            filledDesidusPemeriksaanAwalTadika.value = '';
+            forExtractionDesidusPemeriksaanAwalTadika.value = '';
         }
     });
 
+    //logic ada tiada gigi kekal
     const btnAdaTiadaGigiKekal = document.querySelector('.btn-status-gigi-kekal-tadika');
     const jikaAdaKekal = document.querySelector('.jika-ada-kekal');
     const statusGigiKekal = document.querySelector('.status-gigi-kekal-tadika');
+    const decayKekalPemeriksaanAwalTadika = document.getElementById('decay-kekal-pemeriksaan-awal-tadika');
+    const missingKekalPemeriksaanAwalTadika = document.getElementById('missing-kekal-pemeriksaan-awal-tadika');
+    const filledKekalPemeriksaanAwalTadika = document.getElementById('filled-kekal-pemeriksaan-awal-tadika');
+    const forExtractionKekalPemeriksaanAwalTadika = document.getElementById('for-extraction-kekal-pemeriksaan-awal-tadika');
+    const eKekalPemeriksaanAwalTadika = document.getElementById('e-kekal-pemeriksaan-awal-tadika');
 
     btnAdaTiadaGigiKekal.addEventListener('click', function(){
         if (btnAdaTiadaGigiKekal.classList.contains('tiada')){
@@ -175,9 +357,53 @@ function pemeriksaanAwalTadika(){
             btnAdaTiadaGigiKekal.textContent = 'Tiada';
             jikaAdaKekal.style.display = 'block';
             statusGigiKekal.style.display = 'none';
+            decayKekalPemeriksaanAwalTadika.value = '';
+            missingKekalPemeriksaanAwalTadika.value = '';
+            filledKekalPemeriksaanAwalTadika.value = '';
+            forExtractionKekalPemeriksaanAwalTadika.value = '';
+            eKekalPemeriksaanAwalTadika.value = '';
         }
     });
+
+    // clear all pemeriksaan awal field on page load
+    const adaRujukCleftPemeriksaanAwalTadikaDOM = document.getElementById('ada-rujuk-cleft-pemeriksaan-awal-tadika');
+    const toothSurfaceLossPemeriksaanAwalTadikaDOM = document.getElementById('tooth-surface-loss-pemeriksaan-awal-tadika');
+    const kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM = document.getElementById('kecederaan-gigi-anterior-pemeriksaan-awal-tadika');
+    const tisuLembutPemeriksaanAwalTadikaDOM = document.getElementById('tisu-lembut-pemeriksaan-awal-tadika');
+    const tisuKerasPemeriksaanAwalTadikaDOM = document.getElementById('tisu-keras-pemeriksaan-awal-tadika');
+    const kebersihanMulutPemeriksaanAwalTadikaDOM = document.getElementById('kebersihan-mulut-pemeriksaan-awal-tadika');
+    const gisSkorPemeriksaanAwalTadikaDOM = document.getElementById('gis-skor-pemeriksaan-awal-tadika');
+    const jumlahFaktorRisikoPemeriksaanAwalTadikaDOM = document.getElementById('jumlah-faktor-risiko-pemeriksaan-awal-tadika');
+    const class1DPemeriksaanAwalTadikaDOM = document.getElementById('class1-d-pemeriksaan-awal-tadika');
+    const class2DPemeriksaanAwalTadikaDOM = document.getElementById('class2-d-pemeriksaan-awal-tadika');
+    const class1FPemeriksaanAwalTadikaDOM = document.getElementById('class1-f-pemeriksaan-awal-tadika');
+    const class2FPemeriksaanAwalTadikaDOM = document.getElementById('class2-f-pemeriksaan-awal-tadika');
+
+    adaRujukCleftPemeriksaanAwalTadikaDOM.value = '0';
+    dentureSediaAdaPemeriksaanAwalTadikaDOM.value = '0';
+    denturePerluPemeriksaanAwalTadikaDOM.value = '0';
+    toothSurfaceLossPemeriksaanAwalTadikaDOM.checked = false;
+    kecederaanGigiAnteriorPemeriksaanAwalTadikaDOM.checked = false;
+    tisuLembutPemeriksaanAwalTadikaDOM.checked = false;
+    tisuKerasPemeriksaanAwalTadikaDOM.checked = false;
+    kebersihanMulutPemeriksaanAwalTadikaDOM.value = '0';
+    gisSkorPemeriksaanAwalTadikaDOM.value = '-';
+    decayDesidusPemeriksaanAwalTadika.value = '';
+    missingDesidusPemeriksaanAwalTadika.value = '';
+    filledDesidusPemeriksaanAwalTadika.value = '';
+    forExtractionDesidusPemeriksaanAwalTadika.value = '';
+    decayKekalPemeriksaanAwalTadika.value = '';
+    missingKekalPemeriksaanAwalTadika.value = '';
+    filledKekalPemeriksaanAwalTadika.value = '';
+    forExtractionKekalPemeriksaanAwalTadika.value = '';
+    eKekalPemeriksaanAwalTadika.value = '';
+    jumlahFaktorRisikoPemeriksaanAwalTadikaDOM.value = '';
+    class1DPemeriksaanAwalTadikaDOM.value = '';
+    class2DPemeriksaanAwalTadikaDOM.value = '';
+    class1FPemeriksaanAwalTadikaDOM.value = '';
+    class2FPemeriksaanAwalTadikaDOM.value = '';
 }
+
 function perluDibuatTadika(){
     const btnPerluDibuat = document.querySelector('.perlu-dibuat-header-tadika');
     const formPerluDibuat = document.querySelector('.form-perlu-dibuat-tadika');

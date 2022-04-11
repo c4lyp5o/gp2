@@ -27,7 +27,7 @@
     max-width: 95%;
     margin: auto;
     padding: 0.5rem;
-    height: 24rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
+    height: 30rem; /* IMPORTANT TO CHANGE HEIGHT FOR EACH FORM */
     padding-bottom: 0.7rem;
     transition: var(--transition);
     margin-bottom: 0.3rem;
@@ -54,11 +54,23 @@
     width: 2rem;
 }
 
-#fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika {
+#div-kerajaan-swasta-pendaftaran-tadika {
     display: none;
 }
 
-.input-wrap-todd {
+#div-kemas-perpaduan-lain2-pendaftaran-tadika {
+    display: none;
+}
+
+#div-jantina-pendaftaran-tadika {
+    display: none;
+}
+
+#div-kelas-toddler-pendaftaran-tadika {
+    display: none;
+}
+
+#fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika {
     display: none;
 }
 
@@ -109,6 +121,14 @@
     width: 3rem;
 }
 
+#div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika {
+    display: none;
+}
+
+#div-denture-perlu-atas-bawah-pemeriksaan-awal-tadika {
+    display: none;
+}
+
 .btn-status-gigi-desidus-tadika.tiada {
     background-color: var(--btn-tiada);
     border-color: black;
@@ -120,6 +140,8 @@
     transition: var(--transition);
     padding: 0.2rem;
     width: 3rem;
+    text-align: center;
+    color: black;
 }
 
 .btn-status-gigi-desidus-tadika.ada {
@@ -133,6 +155,8 @@
     transition: var(--transition);
     padding: 0.2rem;
     width: 3rem;
+    text-align: center;
+    color: black;
 }
 
 .jika-ada-desidus {
@@ -154,6 +178,8 @@
     transition: var(--transition);
     padding: 0.2rem;
     width: 3rem;
+    text-align: center;
+    color: black;
 }
 
 .btn-status-gigi-kekal-tadika.ada {
@@ -167,6 +193,8 @@
     transition: var(--transition);
     padding: 0.2rem;
     width: 3rem;
+    text-align: center;
+    color: black;
 }
 
 .jika-ada-kekal {
@@ -181,7 +209,7 @@
     background-color: white;
 }
 
-.rendah-tinggi-pemeriksaan-awal-tadika {
+.rendah-sederhana-tinggi-pemeriksaan-awal-tadika {
     background-color: var(--btn-ada);
     width: max-content;
     padding: 0.5rem;

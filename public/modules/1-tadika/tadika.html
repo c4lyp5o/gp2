@@ -38,89 +38,106 @@
             </nav>
             <div class="center-data">
                 <!-- start of tadika -->
-                <div class="form-option-container-tadika">
+                <form id="form-option-container-tadika" class="form-option-container-tadika">
                     <div class="form-alert"></div>
                     <div class="option pendaftaran-tadika">
-                        <button class="pendaftaran-header-tadika">
+                        <div class="pendaftaran-header-tadika">
                             <!-- <i class="fas fa-minus"></i> -->
                             <i class="fas fa-plus"></i>
                             Pendaftaran
-                        </button>
+                        </div>
                         <div class="form-pendaftaran-tadika close">
                             <div class="input-grp-left-pendaftaran-tadika">
                                 <div class="input-wrap">
                                     <label for="nama-pendaftaran-tadika">Nama</label><br>
-                                    <input type="text" id="nama-pendaftaran-tadika">
+                                    <input type="text" id="nama-pendaftaran-tadika" required>
                                 </div>
                                 <div class="input-wrap">
                                     <label for="umur-pendaftaran-tadika">Umur</label>
-                                    <select id="umur-pendaftaran-tadika">
+                                    <select id="umur-pendaftaran-tadika" required>
                                         <option value=""></option>
-                                        <option value="0" class="toddler-hide">0</option>
-                                        <option value="1" class="toddler-hide">1</option>
-                                        <option value="1.5" class="toddler-hide">1.5</option>
-                                        <option value="2" class="toddler-hide">2</option>
-                                        <option value="3" class="toddler-hide">3</option>
-                                        <option value="4" class="toddler-hide">4</option>
-                                        <option value="5" class="prasekolah-hide">5</option>
-                                        <option value="6" class="prasekolah-hide">6</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
                                     </select>
                                     <label for="bangsa-pendaftaran-tadika">Bangsa</label>
-                                    <select id="bangsa-pendaftaran-tadika">
+                                    <select id="bangsa-pendaftaran-tadika" required>
                                         <option value=""></option>
                                         <option value="melayu">Melayu</option>
                                         <option value="cina">Cina</option>
                                         <option value="india">India</option>
-                                        <option value="sabah&sarawak">Sabah & Sarawak</option>
+                                        <option value="dusun">Dusun</option>
+                                        <option value="kadazan">Kadazan</option>
+                                        <option value="murut">Murut</option>
+                                        <option value="bumiputera-sabah-lain">Bumiputera Sabah Lain</option>
+                                        <option value="melanau">Melanau</option>
+                                        <option value="kedayan">Kedayan</option>
+                                        <option value="iban">Iban</option>
+                                        <option value="bidayuh">Bidayuh</option>
+                                        <option value="bumiputera-sarawak-lain">Bumiputera Sarawak Lain</option>
                                         <option value="orang-asli-semenanjung">Orang Asli Semenanjung</option>
                                         <option value="lain-lain">Lain-lain</option>
+                                        <option value="bukan-warganegara">Bukan Warganegara</option>
                                     </select>
                                     <br>
                                     <label for="kelas-pendaftaran-tadika">Kelas</label>
-                                    <input type="text" id="kelas-pendaftaran-tadika" placeholder="Cth : 3 Delima">
+                                    <input type="text" id="kelas-pendaftaran-tadika" placeholder="Cth : 3 Delima" required>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Fasiliti</legend>
                                         <select id="taska-tadika-pra-sekolah-pendaftaran-tadika">
-                                            <!-- <option value="0"></option>
+                                            <option value="0"></option>
                                             <option value="taska">Taska</option>
                                             <option value="tadika">Tadika</option>
-                                            <option value="pra-sekolah">Pra Sekolah</option> -->
+                                            <option value="pra-sekolah">Pra Sekolah</option>
                                         </select>
                                         <br>
                                         <br>
-                                        <label for="jenis-taska-tadika-pendaftaran-tadika">Jenis Taska & Tadika</label>
-                                        <select id="jenis-taska-tadika-pendaftaran-tadika">
-                                            <option value="0"></option>
-                                            <option value="kerajaan">Kerajaan</option>
-                                            <option value="swasta">Swasta</option>
-                                        </select>
+                                        <div id="div-kerajaan-swasta-pendaftaran-tadika">
+                                            <label for="kerajaan-swasta-pendaftaran-tadika">Jenis Taska & Tadika</label>
+                                            <select id="kerajaan-swasta-pendaftaran-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="kerajaan">Kerajaan</option>
+                                                <option value="swasta">Swasta</option> -->
+                                            </select>
+                                        </div>
                                         <br>
-                                        <label for="jenis-taska-tadika-kerajaan-pendaftaran-tadika">Jenis Tadika Kerajaan</label>
-                                        <select id="jenis-taska-tadika-kerajaan-pendaftaran-tadika">
-                                            <option value="0"></option>
-                                            <option value="kemas">KEMAS</option>
-                                            <option value="perpaduan">Perpaduan</option>
-                                            <option value="lain-lain">Lain-lain</option>
-                                        </select>
+                                        <div id="div-kemas-perpaduan-lain2-pendaftaran-tadika">
+                                            <label for="kemas-perpaduan-lain2-pendaftaran-tadika">Jenis Tadika Kerajaan</label>
+                                            <select id="kemas-perpaduan-lain2-pendaftaran-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="kemas">KEMAS</option>
+                                                <option value="perpaduan">Perpaduan</option>
+                                                <option value="lain-lain">Lain-lain</option> -->
+                                            </select>
+                                        </div>
                                         <br>
-                                        <input type="checkbox" id="kelas-toddler-pendaftaran-tadika" value="1">
-                                        <label for="kelas-toddler-pendaftaran-tadika">Kelas Toddler</label><br>
-                                        <label for="jantina-pendaftaran-tadika">Jantina</label>
-                                        <select id="jantina-pendaftaran-tadika">
-                                            <option value="0"></option>
-                                            <option value="lelaki">Lelaki</option>
-                                            <option value="perempuan">Perempuan</option>
-                                        </select>
+                                        <div id="div-jantina-pendaftaran-tadika">
+                                            <label for="jantina-pendaftaran-tadika">Jantina</label>
+                                            <select id="jantina-pendaftaran-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="lelaki">Lelaki</option>
+                                                <option value="perempuan">Perempuan</option> -->
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <div id="div-kelas-toddler-pendaftaran-tadika">
+                                            <input type="checkbox" id="kelas-toddler-pendaftaran-tadika" value="1">
+                                            <label for="kelas-toddler-pendaftaran-tadika">Kelas Toddler</label>
+                                        </div>
                                     </fieldset>
                                 </div>   
                                 <div class="input-wrap">
-                                    <label for="nama-taska/tadika-pendaftaran-tadika">Nama Taska/Tadika</label>
-                                    <select id="nama-taska/tadika-pendaftaran-tadika">
-                                        <option value=""></option>
-                                        <option value="pull-1">Pull 1</option>
-                                        <option value="pull-2">Pull 2</option>
+                                    <label for="nama-fasiliti-tadika-pendaftaran-tadika">Nama Fasiliti</label>
+                                    <select id="nama-fasiliti-tadika-pendaftaran-tadika">
+                                        <option value="0"></option>
+                                        <option value="pull-1">Pull 1 nama tadika?</option>
+                                        <option value="pull-2">Pull 2 atau nama klinik?</option>
                                         <option value="pull-3">Pull 3</option>
                                         <option value="pull-4">Pull 4</option>
                                         <option value="pull-5">Pull 5</option>
@@ -128,6 +145,8 @@
                                 </div>                                           
                             </div>
                             <div class="input-grp-right-pendaftaran-tadika">
+                                <label for="enrolmen-pendaftaran-tadika">Enrolmen</label>
+                                <input type="checkbox" id="enrolmen-pendaftaran-tadika" value="1">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Kedatangan</legend>
@@ -145,16 +164,16 @@
                                     <fieldset id="fieldset-pemeriksaan-ada-tiada-pendaftaran-tadika">
                                         <legend>Pemeriksaan</legend>
                                         <select id="pemeriksaan-ada-tiada-pendaftaran-tadika">
-                                            <option value=""></option>
-                                            <option value="ada">Ada</option>
-                                            <option value="tiada">Tiada</option>    
+                                            <option value="0"></option>
+                                            <!-- <option value="ada">Ada</option>
+                                            <option value="tiada">Tiada</option> -->
                                         </select>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <label for="nama-operator-pendaftaran-tadika">Nama Operator</label><br>
                                     <select id="nama-operator-pendaftaran-tadika">
-                                        <option value=""></option>
+                                        <option value="0"></option>
                                         <option value="pull-1">Pull 1</option>
                                         <option value="pull-2">Pull 2</option>
                                         <option value="pull-3">Pull 3</option>
@@ -164,52 +183,90 @@
                                 </div>
                                 <div class="input-wrap">
                                     <label for="nama-pasukan-bergerak-pendaftaran-tadika">Nama Pasukan Bergerak</label><br>
-                                    <input type="text" id="nama-pasukan-bergerak-pendaftaran-tadika" required>
+                                    <input type="text" id="nama-pasukan-bergerak-pendaftaran-tadika">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- siap sampai sini -->
                     <div class="option pemeriksaan-awal-tadika">
-                        <button class="pemeriksaan-awal-header-tadika">
+                        <div class="pemeriksaan-awal-header-tadika">
                             <!-- <i class="fas fa-minus"></i> -->
                             <i class="fas fa-plus"></i>
                             Pemeriksaan Awal
-                        </button>
+                        </div>
                         <div class="form-pemeriksaan-awal-tadika close">
                             <div class="input-grp-left-pemeriksaan-awal-tadika">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Cleft Lip/Palate</legend>
-                                        <input type="checkbox" id="ada-cleft-pemeriksaan-awal-tadika" value="ada">
-                                        <label for="ada-cleft-pemeriksaan-awal-tadika">Ada</label>
-                                        <input type="checkbox" id="rujuk-pemeriksaan-awal-tadika" value="rujuk">
-                                        <label for="rujuk-pemeriksaan-awal-tadika">Rujuk</label>
+                                        <select id="ada-rujuk-cleft-pemeriksaan-awal-tadika">
+                                            <option value="0"></option>
+                                            <option value="ada">Ada</option>
+                                            <option value="rujuk">Rujuk</option>
+                                        </select>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Status Denture</legend>
-                                        <input type="checkbox" id="ada-denture-pemeriksaan-awal-tadika" value="ada">
-                                        <label for="ada-denture-pemeriksaan-awal-tadika">Ada</label>
-                                        <input type="checkbox" id="perlu-pemeriksaan-awal-tadika" value="perlu">
-                                        <label for="perlu-pemeriksaan-awal-tadika">Perlu</label>
-                                        <input type="checkbox" id="perlu-baru-pemeriksaan-awal-tadika" value="perlu-baru">
-                                        <label for="perlu-baru-pemeriksaan-awal-tadika">Perlu Baru</label>
-                                        <input type="checkbox" id="perlu-semula-pemeriksaan-awal-tadika" value="perlu-semula">
-                                        <label for="perlu-semula-pemeriksaan-awal-tadika">Perlu Semula</label>
+                                        <label for="denture-sedia-ada-pemeriksaan-awal-tadika">Sedia ada?</label>
+                                        <select id="denture-sedia-ada-pemeriksaan-awal-tadika">
+                                            <option value="0"></option>
+                                            <option value="ya">Ya</option>
+                                            <option value="tidak">Tidak</option>
+                                        </select>
+                                        <br>
+                                        <div id="div-denture-sedia-ada-atas-bawah-pemeriksaan-awal-tadika">
+                                            <label for="denture-sedia-ada-atas-pemeriksaan-awal-tadika">Atas</label>
+                                            <select id="denture-sedia-ada-atas-pemeriksaan-awal-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="separa">Separa</option>
+                                                <option value="penuh">Penuh</option> -->
+                                            </select>
+                                            <br>
+                                            <label for="denture-sedia-ada-bawah-pemeriksaan-awal-tadika">Bawah</label>
+                                            <select id="denture-sedia-ada-bawah-pemeriksaan-awal-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="separa">Separa</option>
+                                                <option value="penuh">Penuh</option> -->
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <label for="denture-perlu-pemeriksaan-awal-tadika">Perlu?</label>
+                                        <select id="denture-perlu-pemeriksaan-awal-tadika">
+                                            <option value="0"></option>
+                                            <option value="ya">Ya</option>
+                                            <option value="tidak">Tidak</option>
+                                        </select>
+                                        <br>
+                                        <div id="div-denture-perlu-atas-bawah-pemeriksaan-awal-tadika">
+                                            <label for="denture-perlu-atas-pemeriksaan-awal-tadika">Atas</label>
+                                            <select id="denture-perlu-atas-pemeriksaan-awal-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="separa">Separa</option>
+                                                <option value="penuh">Penuh</option> -->
+                                            </select>
+                                            <br>
+                                            <label for="denture-perlu-bawah-pemeriksaan-awal-tadika">Bawah</label>
+                                            <select id="denture-perlu-bawah-pemeriksaan-awal-tadika">
+                                                <option value="0"></option>
+                                                <!-- <option value="separa">Separa</option>
+                                                <option value="penuh">Penuh</option> -->
+                                            </select>
+                                        </div>
                                     </fieldset>
                                 </div>
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Trauma</legend>
-                                        <input type="checkbox" id="tooth-surface-loss-pemeriksaan-awal-tadika" value="tooth-surface-loss">
+                                        <input type="checkbox" id="tooth-surface-loss-pemeriksaan-awal-tadika" value="1">
                                         <label for="tooth-surface-loss-pemeriksaan-awal-tadika">Tooth Surface Loss</label>
-                                        <input type="checkbox" id="kecederaan-gigi-anterior-pemeriksaan-awal-tadika" value="kecederaan-gigi-anterior">
+                                        <input type="checkbox" id="kecederaan-gigi-anterior-pemeriksaan-awal-tadika" value="1">
                                         <label for="kecederaan-gigi-anterior-pemeriksaan-awal-tadika">Kecederaan Gigi Anterior</label><br>
-                                        <input type="checkbox" id="tisu-lembut-pemeriksaan-awal-tadika" value="tisu-lembut">
+                                        <input type="checkbox" id="tisu-lembut-pemeriksaan-awal-tadika" value="1">
                                         <label for="tisu-lembut-pemeriksaan-awal-tadika">Tisu Lembut</label>
-                                        <input type="checkbox" id="tisu-keras-pemeriksaan-awal-tadika" value="tisu-keras">
+                                        <input type="checkbox" id="tisu-keras-pemeriksaan-awal-tadika" value="1">
                                         <label for="tisu-keras-pemeriksaan-awal-tadika">Tisu Keras</label>
                                     </fieldset>
                                 </div>
@@ -218,27 +275,29 @@
                                         <legend>Oral Hygiene</legend>
                                         <label for="kebersihan-mulut-pemeriksaan-awal-tadika">Kebersihan Mulut</label>
                                         <select id="kebersihan-mulut-pemeriksaan-awal-tadika">
-                                            <option value="tiada-kebersihan-mulut"></option>
+                                            <option value="0"></option>
                                             <option value="A">A</option>
                                             <option value="C">C</option>
                                             <option value="E">E</option>
                                         </select>
-                                        <label for="GIS-skor-pemeriksaan-awal-tadika">GIS Skor</label>
-                                        <select id="GIS-skor-pemeriksaan-awal-tadika">
-                                            <option value="tiada-GIS-skor"></option>
-                                            <option value="kosong">0</option>
-                                            <option value="satu">1</option>
-                                            <option value="dua">2</option>
-                                            <option value="tiga">3</option>
+                                        <label for="gis-skor-pemeriksaan-awal-tadika">GIS Skor</label>
+                                        <select id="gis-skor-pemeriksaan-awal-tadika">
+                                            <option value="-"></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
                                         </select>
                                     </fieldset>
                                 </div>
+                            </div>
+                            <div class="input-grp-right-pemeriksaan-awal-tadika">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Status Gigi Desidus</legend>
-                                        <button class="btn-status-gigi-desidus-tadika tiada">
+                                        <div class="btn-status-gigi-desidus-tadika tiada">
                                             Tiada
-                                        </button>
+                                        </div>
                                         <p class="jika-ada-desidus">Klik butang di atas jika ada gigi desidus</p>
                                         <div class="status-gigi-desidus-tadika">
                                             <br>
@@ -256,9 +315,9 @@
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Status Gigi Kekal</legend>
-                                        <button class="btn-status-gigi-kekal-tadika tiada">
+                                        <div class="btn-status-gigi-kekal-tadika tiada">
                                             Tiada
-                                        </button>
+                                        </div>
                                         <p class="jika-ada-kekal">Klik butang di atas jika ada gigi kekal</p>
                                         <div class="status-gigi-kekal-tadika">
                                             <br>
@@ -275,14 +334,12 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                            </div>
-                            <div class="input-grp-right-pemeriksaan-awal-tadika">
                                 <div class="input-wrap">
                                     <fieldset>
                                         <legend>Risiko Karies</legend>
-                                        <label for="faktor-risiko-pemeriksaan-awal-tadika">Jumlah faktor risiko :</label>
-                                        <input type="number" id="faktor-risiko-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
-                                        <p class="rendah-tinggi-pemeriksaan-awal-tadika">
+                                        <label for="jumlah-faktor-risiko-pemeriksaan-awal-tadika">Jumlah faktor risiko :</label>
+                                        <input type="number" id="jumlah-faktor-risiko-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
+                                        <p class="rendah-sederhana-tinggi-pemeriksaan-awal-tadika">
                                             Rendah
                                         </p>
                                     </fieldset>
@@ -307,7 +364,7 @@
                                         <input type="number" id="class2-f-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
                                     </fieldset>
                                 </div>
-                                <div class="input-wrap">
+                                <!-- <div class="input-wrap">
                                     <fieldset>
                                         <legend>Fisur Sealan Dibuat Tahun Lepas</legend>
                                         <label for="gic-lepas-pemeriksaan-awal-tadika">GIC: </label>
@@ -328,15 +385,16 @@
                                         <label for="lain-lain-intact-pemeriksaan-awal-tadika">Lain-lain: </label>
                                         <input type="number" id="lain-lain-intact-pemeriksaan-awal-tadika" class="number-input-pemeriksaan-awal-tadika">
                                     </fieldset>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
+                    <!-- siap sampai sini -->
                     <div class="option perlu-dibuat-tadika">
-                        <button class="perlu-dibuat-header-tadika">
+                        <div class="perlu-dibuat-header-tadika">
                             <i class="fas fa-plus"></i>
                             Perlu dibuat
-                        </button>
+                        </div>
                         <div class="form-perlu-dibuat-tadika close">
                             <div class="input-grp-left-perlu-dibuat-tadika">
                                 <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-fs-perlu-dibuat">
@@ -426,10 +484,10 @@
                         </div>
                     </div>
                     <div class="option penyata-akhir-1-tadika">
-                        <button class="penyata-akhir-1-header-tadika">
+                        <div class="penyata-akhir-1-header-tadika">
                             <i class="fas fa-plus"></i>
                             Penyata akhir 1
-                        </button>
+                        </div>
                         <div class="form-penyata-akhir-1-tadika close">
                             <div class="input-grp-left-penyata-akhir-1-tadika">
                                 <div class="prasekolah-hide input-wrap-todd" id="input-wrap-prasekolah-fs-penyata-akhir-1">
@@ -535,10 +593,10 @@
                         </div>
                     </div>
                     <div class="option penyata-akhir-2-tadika">
-                        <button class="penyata-akhir-2-header-tadika">
+                        <div class="penyata-akhir-2-header-tadika">
                             <i class="fas fa-plus"></i>
                             Penyata akhir 2
-                        </button>
+                        </div>
                         <div class="form-penyata-akhir-2-tadika close">
                             <div class="input-grp-left-penyata-akhir-2-tadika">
                                 <div class="input-wrap">
@@ -633,15 +691,15 @@
                                 </div>                   
                                 <div class="input-wrap">
                                     <label for="catatan-penyata-akhir-2-tadika">Catatan:</label><br>
-                                    <textarea id="catatan-penyata-akhir-2-tadika" class="text-input-penyata-akhir-2-tadika" name="catatan"></textarea>
+                                    <textarea id="catatan-penyata-akhir-2-tadika" class="text-input-penyata-akhir-2-tadika"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="side-btn">
-                <button class="btn-operation save">save</button>
+                <button type="submit" form="form-option-container-tadika" class="btn-operation save">save</button>
                 <!-- <button class="btn-operation find">find</button> -->
                 <!-- <button class="btn-operation modify">modify</button> -->
                 <button class="btn-operation clear">clear</button>
