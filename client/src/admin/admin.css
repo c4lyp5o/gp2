@@ -1,0 +1,11 @@
+:root {
+  --color-1: #8c0d3c;
+  --color-2: #c44058;
+  --color-3: #e79595;
+  --color-4: #ffefd6;
+  --color-5: #0f0f0f;
+}
+
+.admin-header-container {
+  background-color: var(--color-1);
+}
