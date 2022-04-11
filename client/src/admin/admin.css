@@ -36,11 +36,33 @@ body {
   width: 100%;
 }
 
+.admin-header-container button{
+    position: relative;
+    left: 340px;
+    top: -77px;
+}
+
+.admin-header-gambar img {
+  position: relative;
+  bottom: -2rem;
+  left: 7rem;
+  border-radius: 3rem;
+}
+
+.admin-header-info {
+    color: white;
+    position: relative;
+    bottom: 3rem;
+    left: 15rem;
+}
+
 .jata-container {
-  justify-content: center;
-  text-align: center;
-  margin-right: 5rem;
-  padding: 1rem;
+    justify-content: center;
+    text-align: center;
+    margin-right: 5rem;
+    padding: 1rem;
+    position: relative;
+    right: -3rem;
 }
 
 .jata-container p {
