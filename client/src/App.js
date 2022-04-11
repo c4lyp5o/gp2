@@ -1,17 +1,17 @@
 // import './App.css';
 import './admin/admin.css';
-import AdminFooter from './admin/components/AdminFooter';
-import AdminHeader from './admin/components/AdminHeader';
+import AdminHeader from './admin/adminComponents/AdminHeader';
+import AdminNavbar from './admin/adminComponents/AdminNavbar';
 import AdminLoginForm from './admin/components/AdminLoginForm';
+import AdminFooter from './admin/components/AdminFooter';
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <AdminHeader />
-        <AdminLoginForm />
-        <AdminFooter />
-      </header>
+    <div className='canvas'>
+      <AdminHeader />
+      <AdminNavbar />
+      <AdminLoginForm />
+      <AdminFooter />
     </div>
   );
 }
