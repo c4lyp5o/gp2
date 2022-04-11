@@ -4,7 +4,13 @@
   "description": "An attempt at a mountain.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "install-server": "npm install",
+    "install-client": "cd client && npm install",
+    "server": "nodemon server",
+    "client": "cd client && npm start",
+    "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
+    "build-client": "cd client && npm run build",
+    "deploy": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -34,6 +40,7 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
+    "concurrently": "^7.1.0",
     "nodemon": "^2.0.15"
   }
 }
