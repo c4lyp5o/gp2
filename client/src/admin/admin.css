@@ -95,3 +95,94 @@ body {
   width: 100%;
   overflow: hidden;
 }
+
+.admin-form-container {
+  background-color: var(--color-4);
+  /* padding: 230px; */
+  width: auto;
+  height: 500px;
+  align-items: center;
+  /* align-content: center; */
+    justify-content: center;
+    display: flex;
+}
+
+.admin-footer-container {
+    background-color: var(--color-3);
+    width: auto;
+    height: 50px;
+}
+
+.rightText {
+    color: white;
+    font-size: 16px;
+    float: right;
+    padding-top: 16px;
+    padding-right: 80px;
+}
+
+.leftText {
+    color: white;
+    font-size: 16px;
+    float:left;
+    padding-top: 16px;
+    padding-left: 50px;
+}
+
+.admin-form-box {
+    background-color: white;
+    width: 500px;
+    height: 180px;
+    padding: 20px;
+    /* right: 80px; */
+}
+
+.admin-form-box-header {
+    /* background-color: var(--color-2); */
+    width: auto;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+    /* right: 80px; */
+}
+
+.admin-form-box-body-input-container {
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    /* text-align: center; */
+}
+
+.admin-form-box-body-input {
+    width: 250px;
+    height: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    /* margin-top: 10px; */
+    display: block;
+    margin : 0 auto;
+}
+
+.admin-form-box-body-button-container {
+    align-items: center;
+    align-content: center;
+    align-self: center;
+}
+
+.admin-form-box-body-button {
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+    margin : 0 auto;
+}
+
+.linkLupa {
+   font-size: small;
+   position: relative;
+   left: 120px;
+}
