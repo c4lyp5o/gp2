@@ -9,7 +9,6 @@ function App() {
   return (
     <div className='canvas'>
       <AdminHeader />
-      {/* <AdminHeaderLoggedIn /> */}
       <AdminNavbar />
       <AdminLoginForm />
       <AdminFooter />
