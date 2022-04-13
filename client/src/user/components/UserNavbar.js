@@ -32,28 +32,16 @@ function AdminNavbar() {
             <a href='#dashboard'>dashboard</a>
           </li>
           <li>
-            <a href='#klinik-pergigian'>klinik pergigian</a>
-          </li>
-          <li>
-            <a href='#pegawai-pergigian'>pegawai pergigian</a>
-          </li>
-          <li>
-            <a href='#juruterapi-pergigian'>juruterapi pergigian</a>
-          </li>
-          <li>
             <a href='#taska'>taska</a>
           </li>
           <li>
-            <a href='#tadika'>tadika</a>
-          </li>
-          <li>
-            <a href='#sekolah-rendah'>sekolah rendah</a>
-          </li>
-          <li>
-            <a href='#sekolah-menengah'>sekolah menengah</a>
+            <a href='#sekolah'>sekolah</a>
           </li>
           <li>
             <a href='#institusi'>institusi</a>
+          </li>
+          <li>
+            <a href='#generate-reten'>generate reten</a>
           </li>
         </ul>
       </div>

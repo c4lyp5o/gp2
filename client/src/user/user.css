@@ -1,0 +1,251 @@
+:root {
+  --color-1: #58408f;
+  --color-2: #1f315f;
+  --color-3: #9ebcdf;
+  --color-4: #e1e9ef;
+  --color-5: #d9693f;
+  --color-6: #f32f2f;
+  --color-7: white;
+  --transition: all 0.3s linear;
+  --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --radius: 0.25rem
+  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans',
+    'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px;
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  text-transform: capitalize;
+}
+
+.user-canvas {
+  position: relative;
+}
+
+
+/* user header */
+.user-header-container {
+  position: absolute;
+  z-index: 0;
+  background-color: var(--color-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.jata-container {
+    justify-content: center;
+    text-align: center;
+    margin-right: 5rem;
+    padding: 1rem;
+    position: relative;
+    right: -3rem;
+}
+
+.jata-container p {
+  color: var(--color-4);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.text-container h1 {
+  color: var(--color-4);
+}
+
+/* user header logged in */
+.user-header-container button{
+    position: relative;
+    left: 340px;
+    top: -77px;
+}
+
+.user-header-gambar img {
+  position: relative;
+  bottom: -2rem;
+  left: 7rem;
+  border-radius: 3rem;
+}
+
+.user-header-info {
+    color: var(--color-7);
+    position: relative;
+    bottom: 3rem;
+    left: 15rem;
+}
+
+/* admin navbar */
+.nav-container {
+  position: absolute;
+  z-index: 1;
+}
+
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.nav-toggle {
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
+  color: var(--color-2);
+  border-color: transparent;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.links {
+  list-style-type: none;
+}
+
+.links a {
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+}
+
+.links-container {
+  background-color: var(--color-2);
+  height: 0;
+  overflow: hidden;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.links li {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 0.5rem;
+  text-align: center;
+  background-color: var(--color-3);
+  border-style: solid;
+  border-color: var(--color-3);
+  box-shadow: var(--shadow) ;
+  /* further research for var border-radius why not working?? */
+  border-radius: 0.25rem; 
+}
+
+.links li:hover {
+  background-color: var(--color-1);
+  border-color: var(--color-1);
+  transition: var(--transition);
+}
+
+/* user login form */
+.user-form-container {
+  background-color: var(--color-4);
+  width: auto;
+  height: 750px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.user-form-box {
+  background-color: var(--color-7);
+  width: 500px;
+  height: 180px;
+  padding: 20px;
+}
+
+.user-form-box-header {
+  width: auto;
+  height: auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.user-form-box-header-text {
+  text-transform: uppercase;
+}
+
+.user-form-box-container {
+  align-items: center;
+  align-content: center;
+  align-self: center;
+}
+
+.user-form-box-input {
+  width: 250px;
+  height: 15px;
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding: 5px;
+  display: block;
+  margin: 0 auto;
+}
+
+.link-lupa {
+  font-size: small;
+  position: relative;
+  left: 120px;
+}
+
+.user-form-box-submit {
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding: 5px;
+  margin-top: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* user footer */
+.user-footer-container {
+  background-color: var(--color-3);
+  width: auto;
+  height: 50px;
+}
+
+.user-footer-container span {
+  text-transform: uppercase;
+}
+
+.right-text {
+  color: var(--color-7);
+  font-size: 16px;
+  float: right;
+  padding-top: 16px;
+  padding-right: 80px;
+}
+
+.left-text {
+  color: var(--color-7);
+  font-size: 16px;
+  float: left;
+  padding-top: 16px;
+  padding-left: 50px;
+}
+
+/* user pilih nama */
+
+.user-pilih-nama-container {
+  background-color: var(--color-4);
+  width: auto;
+  height: 750px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.user-pilih-nama-box {
+  background-color: var(--color-7);
+}
