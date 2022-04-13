@@ -321,5 +321,81 @@ body {
 .admin-pegawai-handler-container {
   border: #0f0f0f solid 2px;
   width: 30rem;
-  height: 60rem;
+  height: 30rem;
+}
+.admin-pegawai-handler-top-text {
+  background-color: var(--color-3);
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  color: rgb(255, 255, 255);
+  text-align: left;
+  padding: 1rem;
+}
+
+.admin-pegawai-handler-input {
+  /* width: 100%; */
+  /* height: 15px; */
+  border-radius: 5px;
+  /* border: 2px solid rgb(5, 5, 5); */
+  /* padding: 5px; */
+  /* display: block; */
+  margin: 0 auto;
+  top: 2rem;
+  position: relative;
+  /* align-content: ; */
+  /* justify-items: left; */
+}
+
+.admin-pegawai-handler-input input {
+  width: 20rem;
+  height: 1.5rem;
+}
+
+.admin-pegawai-handler-input p {
+  position: relative;
+  left: 4.7rem;
+  text-align: left;
+}
+
+.admin-pegawai-handler-input select {
+  position: relative;
+  right: 7.4rem;
+  /* align-self: center; */
+}
+
+.admin-pegawai-handler-legend table {
+  /* top: 1.5rem; */
+  bottom: 5.5rem;
+  /* width: 90%; */
+  /* border-radius: 1rem; */
+  position: relative;
+  border: #0f0f0f solid 1px;
+  left: 22rem;
+}
+
+.admin-pegawai-handler-legend td, th {
+  text-align: left;
+  padding: 8px;
+}
+
+.admin-pegawai-handler-container th {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  background-color: var(--color-3);
+  color: rgb(77, 77, 77);
+}
+
+.admin-pegawai-handler-button button{
+  background-color: var(--color-3);
+  color: white;
+  /* left: 27rem; */
+  top: 7.8rem;
+  /* padding: 5px; */
+  margin: 5px;
+  border: none;
+  /* border-radius: 5px; */
+  cursor: pointer;
+  width: 100px;
+  height: 35px;
+  position: relative;
 }
