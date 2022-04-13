@@ -256,8 +256,8 @@ a {
   align-items: center;
 }
 
-.admin-selamat-datang-container {
-  background-color: var(--color-6);
+.user-selamat-datang-container {
+  background-color: var(--color-7);
   width: 65rem;
   height: 30rem;
   top: 5rem;
@@ -267,25 +267,37 @@ a {
   border: #0f0f0f solid 1px;
 }
 
-.admin-selamat-datang-container-text {
-  color: black;
-  font-size: 1rem;
-  text-transform: uppercase;
-  top: 10rem;
-  position: relative;
-}
-
 /* user pilih nama */
-
-.user-pilih-nama-container {
-  background-color: var(--color-4);
-  width: auto;
-  height: 750px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
+.user-pilih-nama-header {
+  margin: 5rem;
 }
 
-.user-pilih-nama-box {
-  background-color: var(--color-7);
+.user-form-pilih-nama-pengguna-container {
+  margin: 3rem;
+}
+
+.user-pilih-nama-pengguna-option {
+  margin: 3rem;
+}
+
+.user-pilih-nama-pengguna-btn {
+  margin: 3rem;
+}
+
+/* user pilih fasiliti */
+
+.user-pilih-fasiliti-header {
+  margin: 5rem;
+}
+
+.user-form-pilih-fasiliti-container {
+  margin: 3rem;
+}
+
+.user-pilih-fasiliti-option {
+  margin: 3rem;
+}
+
+.user-pilih-fasiliti-btn {
+  margin: 3rem;
 }
