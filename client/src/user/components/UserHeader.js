@@ -1,6 +1,6 @@
 import UserHeaderLoggedIn from './UserHeaderLoggedIn';
 
-function AdminHeader() {
+function UserHeader() {
   return (
     <div className='user-header-container'>
       <div className='jata-container'>
@@ -23,4 +23,4 @@ function AdminHeader() {
   );
 }
 
-export default AdminHeader;
+export default UserHeader;
