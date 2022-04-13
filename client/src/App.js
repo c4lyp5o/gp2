@@ -17,15 +17,15 @@ function App() {
     // <div className='canvas'>
     //   <AdminHeader />
     //   <AdminNavbar />
-    //   <AdminLoginForm />
-    //   {/* <AdminSelamatDatang /> */}
+    //   {/* <AdminLoginForm /> */}
+    //   <AdminSelamatDatang />
     //   <AdminFooter />
     // </div>
     <div className='user-canvas'>
       <UserHeader />
       <UserNavbar />
-      <UserLoginForm />
-      {/* <UserSelamatDatang /> */}
+      {/* <UserLoginForm /> */}
+      <UserSelamatDatang />
       <UserFooter />
     </div>
   );
