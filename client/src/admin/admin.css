@@ -25,7 +25,7 @@ body {
   text-transform: capitalize;
 }
 
-.canvas {
+.admin-canvas {
   position: relative;
 }
 
@@ -39,6 +39,25 @@ body {
   align-items: center;
   height: 9rem;
   width: 100%;
+}
+
+.jata-container {
+    justify-content: center;
+    text-align: center;
+    margin-right: 5rem;
+    padding: 1rem;
+    position: relative;
+    right: -3rem;
+}
+
+.jata-container p {
+  color: var(--color-4);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.text-container h1 {
+  color: var(--color-4);
 }
 
 .admin-header-container button{
@@ -59,26 +78,6 @@ body {
     position: relative;
     bottom: 3rem;
     left: 15rem;
-}
-
-.jata-container {
-    justify-content: center;
-    text-align: center;
-    margin-right: 5rem;
-    padding: 1rem;
-    position: relative;
-    right: -3rem;
-    top: -0.7rem;
-}
-
-.jata-container p {
-  color: var(--color-4);
-  text-transform: uppercase;
-  font-size: 0.7rem;
-}
-
-.text-container h1 {
-  color: var(--color-4);
 }
 
 /* admin navbar */
@@ -111,7 +110,6 @@ body {
 
 .links a {
   text-decoration: none;
-  color: var(--clr-grey-3);
   display: block;
   padding: 0.5rem 1rem;
   transition: var(--transition);
@@ -119,9 +117,10 @@ body {
 
 .links-container {
   background-color: var(--color-1);
-  height: auto;
-  width: 100%;
+  height: 0;
   overflow: hidden;
+  transition: var(--transition);
+  width: 100%;
 }
 
 .links li {

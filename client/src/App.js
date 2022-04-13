@@ -1,21 +1,32 @@
-// import './App.css';
 import './admin/admin.css';
 import AdminHeader from './admin/components/AdminHeader';
-// import AdminHeaderLoggedIn from './admin/components/AdminHeaderLoggedIn';
 import AdminNavbar from './admin/components/AdminNavbar';
 import AdminLoginForm from './admin/components/AdminLoginForm';
 import AdminSelamatDatang from './admin/components/AdminSelamatDatang';
 import AdminFooter from './admin/components/AdminFooter';
 
+import './user/user.css';
+import UserHeader from './user/components/UserHeader';
+import UserNavbar from './user/components/UserNavbar';
+import UserLoginForm from './user/components/UserLoginForm';
+import UserPilihNama from './user/components/UserPilihNama';
+import UserFooter from './user/components/UserFooter';
+
 function App() {
   return (
     <div className='canvas'>
       <AdminHeader />
-      {/* <AdminHeaderLoggedIn /> */}
       <AdminNavbar />
       {/* <AdminLoginForm /> */}
       <AdminSelamatDatang />
       <AdminFooter />
+    </div>
+    <div className='user-canvas'>
+      <UserHeader />
+      <UserNavbar />
+      {/* <UserLoginForm /> */}
+      <UserPilihNama />
+      <UserFooter />
     </div>
   );
 }
