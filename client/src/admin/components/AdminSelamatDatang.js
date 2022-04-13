@@ -1,14 +1,23 @@
-import AdminSelamatDatangWelcomeText from './AdminSelamatDatangWelcomeText';
-import AdminTable from './AdminTable';
-import AdminPegawaiHandler from './AdminPegawaiHandler';
+import AdminTable from "./AdminTable";
+import AdminAdder from "./AdminAdder";
 
 function AdminSelamatDatang() {
+  function WelcomeText() {
+    return (
+      <div className="admin-selamat-datang-container-text">
+        <h1>Selamat Datang Admin!</h1>
+        <br />
+        <p>Sila pilih fungsi di sidebar</p>
+      </div>
+    );
+  }
+
   return (
-    <div className='admin-selamat-datang'>
-      <div className='admin-selamat-datang-container'>
-        {/* <AdminSelamatDatangWelcomeText /> */}
+    <div className="admin-selamat-datang">
+      <div className="admin-selamat-datang-container">
+        {/* <WelcomeText /> */}
         {/* <AdminTable /> */}
-        <AdminPegawaiHandler />
+        <AdminAdder />
       </div>
     </div>
   );

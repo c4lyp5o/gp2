@@ -74,21 +74,23 @@ a {
 .admin-header-logout-button {
     position: relative;
     left: 340px;
-    top: -77px;
+    top: -85px;
 }
 
 .admin-header-gambar img {
   position: relative;
-  bottom: -2rem;
+  bottom: -2.5rem;
   left: 7rem;
   border-radius: 3rem;
 }
 
 .admin-header-info {
     color: var(--color-6);
+    width: 5rem;
     position: relative;
-    bottom: 3rem;
-    left: 15rem;
+    bottom: 2.5rem;
+    left: 14rem;
+    font-size: small;
 }
 
 /* admin navbar */
@@ -369,7 +371,9 @@ a {
 
 .admin-pegawai-handler-input select {
   position: relative;
-  right: 7.4rem;
+  /* right: 7.4rem; */
+  height: 1.5rem;
+  width: 20rem;
   /* align-self: center; */
 }
 
