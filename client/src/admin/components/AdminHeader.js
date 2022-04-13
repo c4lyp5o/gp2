@@ -1,3 +1,5 @@
+import AdminHeaderLoggedIn from "./AdminHeaderLoggedIn";
+
 function AdminHeader() {
   return (
     <div className='admin-header-container'>
@@ -5,7 +7,7 @@ function AdminHeader() {
         <img
           width={100}
           height={100}
-          src='https://www.clipartmax.com/png/middle/453-4539929_jata-negara-malaysia-png-coat-of-arms-of-malaysia.png'
+          src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
           alt='missing jata negara'
         />
         <p>kementerian kesihatan malaysia</p>
@@ -13,6 +15,9 @@ function AdminHeader() {
       </div>
       <div className='text-container'>
         <h1>admin sistem gi-Ret PSY 2.0</h1>
+      </div>
+      <div className='admin-header-logged-in-container'>
+        <AdminHeaderLoggedIn />
       </div>
     </div>
   );
