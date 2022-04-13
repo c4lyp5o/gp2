@@ -1,4 +1,4 @@
-function AdminLoginForm() {
+function UserLoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // some code here..
@@ -38,4 +38,4 @@ function AdminLoginForm() {
   );
 }
 
-export default AdminLoginForm;
+export default UserLoginForm;

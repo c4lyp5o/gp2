@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 
-function AdminNavbar() {
+function UserNavbar() {
   const [showLinks, setShowLinks] = useState(false);
   const linksContainerRef = useRef(null);
   const linksRef = useRef(null);
@@ -49,4 +49,4 @@ function AdminNavbar() {
   );
 }
 
-export default AdminNavbar;
+export default UserNavbar;

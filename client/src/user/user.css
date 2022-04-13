@@ -14,6 +14,7 @@
   font-size: 16px;
 }
 
+/* global */
 *,
 ::after,
 ::before {
@@ -30,6 +31,14 @@ body {
   position: relative;
 }
 
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: var(--color-7);
+  text-decoration: none;
+}
 
 /* user header */
 .user-header-container {
@@ -39,6 +48,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 9rem;
   width: 100%;
 }
 
@@ -62,7 +72,7 @@ body {
 }
 
 /* user header logged in */
-.user-header-container button{
+.user-header-logout-button {
     position: relative;
     left: 340px;
     top: -77px;
@@ -82,7 +92,7 @@ body {
     left: 15rem;
 }
 
-/* admin navbar */
+/* user navbar */
 .nav-container {
   position: absolute;
   z-index: 1;
@@ -92,7 +102,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.3rem;
 }
 
 .nav-toggle {
@@ -111,9 +121,8 @@ body {
 }
 
 .links a {
-  text-decoration: none;
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   transition: var(--transition);
 }
 
@@ -148,7 +157,7 @@ body {
 .user-form-container {
   background-color: var(--color-4);
   width: auto;
-  height: 750px;
+  height: 43rem;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -189,9 +198,11 @@ body {
 }
 
 .link-lupa {
+  color: var(--color-6);
   font-size: small;
   position: relative;
-  left: 120px;
+  left: 6.8rem;
+  bottom: 1.2rem;
 }
 
 .user-form-box-submit {
@@ -233,6 +244,35 @@ body {
   float: left;
   padding-top: 16px;
   padding-left: 50px;
+}
+
+/* user body */
+.user-selamat-datang {
+  background-color: var(--color-4);
+  width: auto;
+  height: 43rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-selamat-datang-container {
+  background-color: var(--color-6);
+  width: 65rem;
+  height: 30rem;
+  top: 5rem;
+  text-align: center;
+  position: relative;
+  border-radius: 2rem;
+  border: #0f0f0f solid 1px;
+}
+
+.admin-selamat-datang-container-text {
+  color: black;
+  font-size: 1rem;
+  text-transform: uppercase;
+  top: 10rem;
+  position: relative;
 }
 
 /* user pilih nama */

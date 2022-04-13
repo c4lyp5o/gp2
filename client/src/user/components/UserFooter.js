@@ -1,4 +1,4 @@
-function AdminFooter() {
+function UserFooter() {
   return (
     <div className='user-footer-container'>
       <span class='left-text'>hak cipta kkm</span>
@@ -9,4 +9,4 @@ function AdminFooter() {
   );
 }
 
-export default AdminFooter;
+export default UserFooter;

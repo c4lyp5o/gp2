@@ -13,6 +13,7 @@
   font-size: 16px;
 }
 
+/* global */
 *,
 ::after,
 ::before {
@@ -27,6 +28,15 @@ body {
 
 .admin-canvas {
   position: relative;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: var(--color-6);
+  text-decoration: none;
 }
 
 /* admin header */
@@ -60,7 +70,8 @@ body {
   color: var(--color-4);
 }
 
-.admin-header-container button{
+/* admin header logged in */
+.admin-header-logout-button {
     position: relative;
     left: 340px;
     top: -77px;
@@ -90,7 +101,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.3rem;
 }
 
 .nav-toggle {
@@ -109,9 +120,8 @@ body {
 }
 
 .links a {
-  text-decoration: none;
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   transition: var(--transition);
 }
 
@@ -142,18 +152,18 @@ body {
   transition: var(--transition);
 }
 
-/* admin form */
+/* admin login form */
 .admin-form-container {
   background-color: var(--color-4);
   width: auto;
-  height: 685px;
+  height: 43rem;
   align-items: center;
   justify-content: center;
   display: flex;
 }
 
 .admin-form-box {
-  background-color: white;
+  background-color: var(--color-6);
   width: 500px;
   height: 180px;
   padding: 20px;
@@ -180,13 +190,14 @@ body {
   width: 250px;
   height: 15px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid grey;
   padding: 5px;
   display: block;
   margin: 0 auto;
 }
 
 .link-lupa {
+  color: var(--color-2);
   font-size: small;
   position: relative;
   left: 6.8rem;
@@ -200,7 +211,7 @@ body {
   width: 100px;
   height: 30px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid grey;
   padding: 5px;
   margin-top: 10px;
   display: block;
@@ -219,7 +230,7 @@ body {
 }
 
 .right-text {
-  color: white;
+  color: var(--color-6);
   font-size: 16px;
   float: right;
   padding-top: 16px;
@@ -227,7 +238,7 @@ body {
 }
 
 .left-text {
-  color: white;
+  color: var(--color-6);
   font-size: 16px;
   float: left;
   padding-top: 16px;
