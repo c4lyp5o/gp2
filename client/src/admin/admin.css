@@ -4,6 +4,9 @@
   --color-3: #e79595;
   --color-4: #ffefd6;
   --color-5: #0f0f0f;
+  --transition: all 0.3s linear;
+  --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --radius: 0.25rem
   font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans',
     'Helvetica Neue', 'Arial', sans-serif;
   font-size: 16px;
@@ -69,7 +72,7 @@ body {
 .nav-toggle {
   margin: auto;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-size: 2rem;
   color: var(--color-1);
   border-color: transparent;
@@ -90,99 +93,118 @@ body {
 }
 
 .links-container {
-  background-color: red;
+  background-color: var(--color-1);
   height: auto;
   width: 100%;
   overflow: hidden;
 }
 
+.links li {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 0.5rem;
+  text-align: center;
+  background-color: var(--color-1);
+  border-style: solid;
+  border-color: var(--color-1);
+  box-shadow: var(--shadow) ;
+  /* further research for var border-radius why not working?? */
+  border-radius: 0.25rem; 
+}
+
+.links li:hover {
+  background-color: var(--color-2);
+  border-color: var(--color-2);
+  transition: var(--transition);
+}
+
+/* admin form */
 .admin-form-container {
   background-color: var(--color-4);
-  /* padding: 230px; */
   width: auto;
-  height: 500px;
+  height: 750px;
   align-items: center;
-  /* align-content: center; */
-    justify-content: center;
-    display: flex;
-}
-
-.admin-footer-container {
-    background-color: var(--color-3);
-    width: auto;
-    height: 50px;
-}
-
-.rightText {
-    color: white;
-    font-size: 16px;
-    float: right;
-    padding-top: 16px;
-    padding-right: 80px;
-}
-
-.leftText {
-    color: white;
-    font-size: 16px;
-    float:left;
-    padding-top: 16px;
-    padding-left: 50px;
+  justify-content: center;
+  display: flex;
 }
 
 .admin-form-box {
-    background-color: white;
-    width: 500px;
-    height: 180px;
-    padding: 20px;
-    /* right: 80px; */
+  background-color: white;
+  width: 500px;
+  height: 180px;
+  padding: 20px;
 }
 
 .admin-form-box-header {
-    /* background-color: var(--color-2); */
-    width: auto;
-    height: auto;
-    padding: 10px;
-    text-align: center;
-    /* right: 80px; */
+  width: auto;
+  height: auto;
+  padding: 10px;
+  text-align: center;
 }
 
-.admin-form-box-body-input-container {
-    align-items: center;
-    align-content: center;
-    align-self: center;
-    /* text-align: center; */
+.admin-form-box-header-text {
+  text-transform: uppercase;
 }
 
-.admin-form-box-body-input {
-    width: 250px;
-    height: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    /* margin-top: 10px; */
-    display: block;
-    margin : 0 auto;
+.admin-form-box-container {
+  align-items: center;
+  align-content: center;
+  align-self: center;
 }
 
-.admin-form-box-body-button-container {
-    align-items: center;
-    align-content: center;
-    align-self: center;
+.admin-form-box-input {
+  width: 250px;
+  height: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  display: block;
+  margin: 0 auto;
 }
 
-.admin-form-box-body-button {
-    width: 100px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin-top: 10px;
-    display: block;
-    margin : 0 auto;
+.link-lupa {
+  font-size: small;
+  position: relative;
+  left: 120px;
 }
 
-.linkLupa {
-   font-size: small;
-   position: relative;
-   left: 120px;
+.admin-form-box-submit {
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-top: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* admin footer */
+.admin-footer-container {
+  background-color: var(--color-3);
+  width: auto;
+  height: 50px;
+}
+
+.admin-footer-container span {
+  text-transform: uppercase;
+}
+
+.right-text {
+  color: white;
+  font-size: 16px;
+  float: right;
+  padding-top: 16px;
+  padding-right: 80px;
+}
+
+.left-text {
+  color: white;
+  font-size: 16px;
+  float: left;
+  padding-top: 16px;
+  padding-left: 50px;
 }

@@ -1,14 +1,12 @@
-import '../admin.css';
-
 function AdminFooter() {
-    return (
-        <>
-        <div className="admin-footer-container">
-            <span class="rightText">HELPDESK: EMEL / PHONE / LINK KE BORANG PERTANYAAN</span>
-            <span class="leftText">HAK CIPTA KKM</span>
-        </div>
-        </>        
-    );
+  return (
+    <div className='admin-footer-container'>
+      <span class='left-text'>hak cipta kkm</span>
+      <span class='right-text'>
+        helpdesk: emel / phone / link ke borang pertanyaan
+      </span>
+    </div>
+  );
 }
 
 export default AdminFooter;
