@@ -24,8 +24,8 @@ function App() {
     <div className='user-canvas'>
       <UserHeader />
       <UserNavbar />
-      <UserLoginForm />
-      {/* <UserSelamatDatang /> */}
+      {/* <UserLoginForm /> */}
+      <UserSelamatDatang />
       <UserFooter />
     </div>
   );

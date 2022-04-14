@@ -301,3 +301,9 @@ a {
 .user-pilih-fasiliti-btn {
   margin: 3rem;
 }
+
+/* user dashboard */
+.jumlah-data-entri-container {
+  display: grid;
+  grid-template-columns: auto auto auto ;
+}
