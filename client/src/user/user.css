@@ -307,3 +307,9 @@ a {
   display: grid;
   grid-template-columns: auto auto auto ;
 }
+
+.jumlah-kedatangan-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: red;
+}
