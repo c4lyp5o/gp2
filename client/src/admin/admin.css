@@ -7,10 +7,7 @@
   --color-6: white;
   --transition: all 0.3s linear;
   --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  --radius: 0.25rem
-  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans',
-    'Helvetica Neue', 'Arial', sans-serif;
-  font-size: 16px;
+  --radius: 0.25rem;
 }
 
 /* global */
@@ -52,12 +49,12 @@ a {
 }
 
 .jata-container {
-    justify-content: center;
-    text-align: center;
-    margin-right: 5rem;
-    padding: 1rem;
-    position: relative;
-    right: -3rem;
+  justify-content: center;
+  text-align: center;
+  margin-right: 5rem;
+  padding: 1rem;
+  position: relative;
+  right: -3rem;
 }
 
 .jata-container p {
@@ -72,9 +69,9 @@ a {
 
 /* admin header logged in */
 .admin-header-logout-button {
-    position: relative;
-    left: 340px;
-    top: -85px;
+  position: relative;
+  left: 340px;
+  top: -85px;
 }
 
 .admin-header-gambar img {
@@ -85,12 +82,12 @@ a {
 }
 
 .admin-header-info {
-    color: var(--color-6);
-    width: 5rem;
-    position: relative;
-    bottom: 2.5rem;
-    left: 14rem;
-    font-size: small;
+  color: var(--color-6);
+  width: 5rem;
+  position: relative;
+  bottom: 2.5rem;
+  left: 14rem;
+  font-size: small;
 }
 
 /* admin navbar */
@@ -143,9 +140,9 @@ a {
   background-color: var(--color-1);
   border-style: solid;
   border-color: var(--color-1);
-  box-shadow: var(--shadow) ;
+  box-shadow: var(--shadow);
   /* further research for var border-radius why not working?? */
-  border-radius: 0.25rem; 
+  border-radius: 0.25rem;
 }
 
 .links li:hover {
@@ -301,7 +298,8 @@ a {
   position: relative;
 }
 
-.admin-table-header-container td, th {
+.admin-table-header-container td,
+th {
   text-align: left;
   padding: 8px;
 }
@@ -387,7 +385,8 @@ a {
   left: 22rem;
 }
 
-.admin-pegawai-handler-legend td, th {
+.admin-pegawai-handler-legend td,
+th {
   text-align: left;
   padding: 8px;
 }
@@ -399,7 +398,7 @@ a {
   color: rgb(77, 77, 77);
 }
 
-.admin-pegawai-handler-button button{
+.admin-pegawai-handler-button button {
   background-color: var(--color-3);
   color: white;
   /* left: 27rem; */

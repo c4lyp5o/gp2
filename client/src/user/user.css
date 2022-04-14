@@ -8,10 +8,7 @@
   --color-7: white;
   --transition: all 0.3s linear;
   --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  --radius: 0.25rem
-  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans',
-    'Helvetica Neue', 'Arial', sans-serif;
-  font-size: 16px;
+  --radius: 0.25rem;
 }
 
 /* global */
@@ -53,12 +50,12 @@ a {
 }
 
 .jata-container {
-    justify-content: center;
-    text-align: center;
-    margin-right: 5rem;
-    padding: 1rem;
-    position: relative;
-    right: -3rem;
+  justify-content: center;
+  text-align: center;
+  margin-right: 5rem;
+  padding: 1rem;
+  position: relative;
+  right: -3rem;
 }
 
 .jata-container p {
@@ -73,9 +70,9 @@ a {
 
 /* user header logged in */
 .user-header-logout-button {
-    position: relative;
-    left: 340px;
-    top: -77px;
+  position: relative;
+  left: 340px;
+  top: -77px;
 }
 
 .user-header-gambar img {
@@ -86,10 +83,10 @@ a {
 }
 
 .user-header-info {
-    color: var(--color-7);
-    position: relative;
-    bottom: 3rem;
-    left: 15rem;
+  color: var(--color-7);
+  position: relative;
+  bottom: 3rem;
+  left: 15rem;
 }
 
 /* user navbar */
@@ -142,9 +139,9 @@ a {
   background-color: var(--color-3);
   border-style: solid;
   border-color: var(--color-3);
-  box-shadow: var(--shadow) ;
+  box-shadow: var(--shadow);
   /* further research for var border-radius why not working?? */
-  border-radius: 0.25rem; 
+  border-radius: var(--radius);
 }
 
 .links li:hover {
@@ -190,7 +187,7 @@ a {
 .user-form-box-input {
   width: 250px;
   height: 15px;
-  border-radius: 5px;
+  border-radius: var(--radius);
   border: 1px solid grey;
   padding: 5px;
   display: block;
@@ -211,7 +208,7 @@ a {
   align-self: center;
   width: 100px;
   height: 30px;
-  border-radius: 5px;
+  border-radius: var(--radius);
   border: 1px solid grey;
   padding: 5px;
   margin-top: 10px;
@@ -263,7 +260,7 @@ a {
   top: 5rem;
   text-align: center;
   position: relative;
-  border-radius: 2rem;
+  border-radius: var(--radius);
   border: #0f0f0f solid 1px;
 }
 
@@ -305,11 +302,104 @@ a {
 /* user dashboard */
 .jumlah-data-entri-container {
   display: grid;
-  grid-template-columns: auto auto auto ;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
 }
 
 .jumlah-kedatangan-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
   display: grid;
   grid-template-columns: auto auto;
-  background-color: red;
+}
+
+.taska-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.taska-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.pra-sekolah-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.pra-sekolah-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.sekolah-menengah-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.sekolah-menengah-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.klinik-pergigian-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.tadika-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.tadika-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.sekolah-rendah-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.sekolah-rendah-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.institusi-container {
+  border: solid 0.1rem black;
+  margin: 0.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.institusi-container h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.status-kesihatan-pergigian-pelajar-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+}
+
+.status-kesihatan-pergigian-pelajar-container select {
+  margin-left: 1rem;
+  margin-right: 50rem;
+  grid-column-start: 1;
+  grid-column-end: 6;
 }
