@@ -1,8 +1,8 @@
 function UserFooter() {
   return (
     <div className='user-footer-container'>
-      <span class='left-text'>hak cipta kkm</span>
-      <span class='right-text'>
+      <span className='right-text'>hak cipta kkm</span>
+      <span className='left-text'>
         helpdesk: emel / phone / link ke borang pertanyaan
       </span>
     </div>
