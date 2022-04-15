@@ -78,20 +78,24 @@ function UserDashboard() {
           <h4 className='bk'>BK</h4>
           <div className='jumlah-bk'>---</div>
         </article>
-        <article className='bk-container'>
-          <h4 className='bk'>BK</h4>
-          <div className='jumlah-bk'>---</div>
+        <article className='mbg-container'>
+          <h4 className='mbg'>MBG</h4>
+          <div className='jumlah-mbg'>---</div>
         </article>
-        <article className='bk-container'>
-          <h4 className='bk'>BK</h4>
-          <div className='jumlah-bk'>---</div>
+        <article className='tpr-container'>
+          <h4 className='tpr'>TPR</h4>
+          <div className='jumlah-tpr'>76%</div>
         </article>
-        <article className='bk-container'>
-          <h4 className='bk'>BK</h4>
-          <div className='jumlah-bk'>---</div>
+        <article className='dfx=0-container'>
+          <h4 className='dfx=0'>dfx=0</h4>
+          <div className='jumlah-dfx=0'>76%</div>
         </article>
       </section>
-      <button>ranking pencapaian kesihantan pergigian sekolah</button>
+      <button>ranking pencapaian kesihatan pergigian sekolah</button>
+      <section className='ranking-pencapaian-kesihatan-pergigian-sekolah-container'>
+				<input type='checkbox' value='sekolah rendah' id='sekolah-rendah' />
+				<label htmlFor='sekolah-rendah'>sekolah rendah</label>
+      </section>
     </>
   );
 }
