@@ -95,6 +95,43 @@ function UserDashboard() {
       <section className='ranking-pencapaian-kesihatan-pergigian-sekolah-container'>
 				<input type='checkbox' value='sekolah rendah' id='sekolah-rendah' />
 				<label htmlFor='sekolah-rendah'>sekolah rendah</label>
+				<input type='checkbox' value='sekolah menengah' id='sekolah-menengah' />
+				<label htmlFor='sekolah-menengah'>sekolah menengah</label>
+				<table className='table-ranking-pencapaian-kesihatan-pergigian-sekolah'>
+					<tr>
+						<th>BIL</th>
+						<th>NEGERI</th>
+						<th>DAERAH</th>
+						<th>SEKOLAH</th>
+						<th>% MURID DILIPUTI</th>
+						<th>% MBK</th>
+						<th>% BK</th>
+						<th>% MBG</th>
+						<th>% TPR</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>selangor</td>
+						<td>petaling</td>
+						<td>SK seksyen 19</td>
+						<td>98.0</td>
+						<td>70</td>
+						<td>75</td>
+						<td>75</td>
+						<td>75</td>
+					</tr>
+					<tr>
+             <td>2</td>
+             <td>WPKL & P</td>
+             <td>Cheras</td>
+             <td>SK bintang utara</td>
+             <td>90.2</td>
+             <td>69</td>
+             <td>71</td>
+             <td>71</td>
+             <td>71</td>
+           </tr>
+				</table>
       </section>
     </>
   );

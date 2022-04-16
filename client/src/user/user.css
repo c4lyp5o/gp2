@@ -407,3 +407,12 @@ a {
 .ranking-pencapaian-kesihatan-pergigian-sekolah-container {
 	background-color: red;
 }
+
+.table-ranking-pencapaian-kesihatan-pergigian-sekolah {
+	width: 100%;
+	border: 0.1rem solid black;
+}
+
+.table-ranking-pencapaian-kesihatan-pergigian-sekolah th, td {
+border: 0.1rem solid black
+}
