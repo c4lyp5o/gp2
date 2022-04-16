@@ -5,7 +5,7 @@
 // import AdminSelamatDatang from './admin/components/AdminSelamatDatang';
 // import AdminFooter from './admin/components/AdminFooter';
 
-import './user/user.css';
+// import './user/user.css';
 import UserHeader from './user/components/UserHeader';
 import UserNavbar from './user/components/UserNavbar';
 import UserLoginForm from './user/components/UserLoginForm';
@@ -14,20 +14,20 @@ import UserFooter from './user/components/UserFooter';
 
 function App() {
   return (
-    // <div className="canvas">
-    //   <AdminHeader />
-    //   <AdminNavbar />
-    //   {/* <AdminLoginForm /> */}
-    //   <AdminSelamatDatang />
-    //   <AdminFooter />
-    // </div>
-    <div className='user-canvas'>
+    <>
+      {/* <div className='canvas'>
+        <AdminHeader />
+        <AdminNavbar />
+        <AdminLoginForm />
+        <AdminSelamatDatang />
+        <AdminFooter />
+      </div> */}
       <UserHeader />
-      <UserNavbar />
+      {/* <UserNavbar /> */}
       {/* <UserLoginForm /> */}
-      <UserSelamatDatang />
-      <UserFooter />
-    </div>
+      {/* <UserSelamatDatang /> */}
+      {/* <UserFooter /> */}
+    </>
   );
 }
 
