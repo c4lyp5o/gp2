@@ -54,7 +54,7 @@ a {
 .jata-container {
     justify-content: center;
     text-align: center;
-    margin-right: 5rem;
+    margin-right: 29rem;
     padding: 1rem;
     position: relative;
     right: -3rem;
@@ -68,19 +68,21 @@ a {
 
 .text-container h1 {
   color: var(--color-4);
+  position: relative;
+  right: 18.7rem;
 }
 
 /* admin header logged in */
 .admin-header-logout-button {
     position: relative;
-    left: 340px;
+    left: 10rem;
     top: -85px;
 }
 
 .admin-header-gambar img {
   position: relative;
-  bottom: -2.5rem;
-  left: 7rem;
+  bottom: -2.7rem;
+  right: 5rem;
   border-radius: 3rem;
 }
 
@@ -89,7 +91,7 @@ a {
     width: 5rem;
     position: relative;
     bottom: 2.5rem;
-    left: 14rem;
+    left: 2.8rem;
     font-size: small;
 }
 
@@ -296,9 +298,9 @@ a {
   /* border-collapse: collapse; */
   /* border-spacing: 0; */
   top: 1.5rem;
-  width: 90%;
-  border-radius: 1rem;
-  position: relative;
+  width: 100%;
+  /* border-radius: 1rem; */
+  /* position: relative; */
 }
 
 .admin-table-header-container td, th {
@@ -313,12 +315,12 @@ a {
   color: rgb(77, 77, 77);
 }
 
-.admin-table button {
+.admin-table-header-container button {
   z-index: 1;
   background-color: var(--color-3);
   color: white;
   left: 27rem;
-  bottom: 11.5rem;
+  bottom: 13rem;
   padding: 5px;
   margin: 5px;
   border: none;
@@ -327,6 +329,11 @@ a {
   width: 100px;
   height: 100px;
   position: relative;
+}
+
+.admin-table-header-container select {
+  position: relative;
+  right: 22.5rem;
 }
 
 /* admin add pegawai modal */
@@ -371,9 +378,9 @@ a {
 
 .admin-pegawai-handler-input select {
   position: relative;
-  /* right: 7.4rem; */
+  right: 7.5rem;
   height: 1.5rem;
-  width: 20rem;
+  width: 5rem;
   /* align-self: center; */
 }
 
@@ -403,13 +410,15 @@ a {
   background-color: var(--color-3);
   color: white;
   /* left: 27rem; */
-  top: 7.8rem;
+  top: 7rem;
+  left: 0rem;
   /* padding: 5px; */
   margin: 5px;
   border: none;
   /* border-radius: 5px; */
   cursor: pointer;
-  width: 100px;
+  width: 60px;
   height: 35px;
   position: relative;
+  font: 0.7em sans-serif;
 }

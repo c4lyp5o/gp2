@@ -6,7 +6,7 @@ function AdminHeader() {
           <img
             width={100}
             height={100}
-            src="https://www.rubiks.com/media/catalog/product/cache/9c57e2fe71f8a58f6afba681a0a15dd4/r/u/rubik-4x4-solved_4.jpg"
+            src="https://1.bp.blogspot.com/-Nx8gwxIE8lY/WQ3oDqCov-I/AAAAAAAABOo/qPrUlx8Qjs4sezUqF4qTdOLA5Dk67cEdwCLcB/s640/rubick%2B%2528Dota%2B2%2529.jpg"
             alt="logo"
           />
         </div>
@@ -17,6 +17,29 @@ function AdminHeader() {
         </div>
         <div className="admin-header-logout">
           <button className="admin-header-logout-button">LOGOUT</button>
+        </div>
+      </>
+    );
+  }
+
+  function NotLoggedIn() {
+    return (
+      <>
+        <div className="admin-header-gambar">
+          {/* <img
+            width={100}
+            height={100}
+            src="https://1.bp.blogspot.com/-Nx8gwxIE8lY/WQ3oDqCov-I/AAAAAAAABOo/qPrUlx8Qjs4sezUqF4qTdOLA5Dk67cEdwCLcB/s640/rubick%2B%2528Dota%2B2%2529.jpg"
+            alt="logo"
+          /> */}
+        </div>
+        <div className="admin-header-info">
+          {/* <p>User: c4lyp5o</p> */}
+          <br />
+          {/* <p>KP: KP Datuk Kumbar</p> */}
+        </div>
+        <div className="admin-header-logout">
+          {/* <button className="admin-header-logout-button">LOGOUT</button> */}
         </div>
       </>
     );
@@ -38,6 +61,7 @@ function AdminHeader() {
         <h1>admin sistem gi-Ret PSY 2.0</h1>
       </div>
       <div className="admin-header-logged-in-container">
+        {/* <NotLoggedIn /> */}
         <LoggedIn />
       </div>
     </div>

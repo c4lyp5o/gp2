@@ -20,7 +20,7 @@ function AdminAddStuff() {
           <br />
           <select name="" id="">
             Sila pilih
-            <option value="">HeheBoi</option>
+            <option value="">Role</option>
             <option value="">HeheBoi2</option>
             <option value="">HeheBoi2</option>
           </select>
@@ -71,7 +71,7 @@ function AdminAddStuff() {
           <br />
           <select name="" id="">
             Sila pilih
-            <option value="">HeheBoi</option>
+            <option value="">Role</option>
             <option value="">HeheBoi2</option>
             <option value="">HeheBoi2</option>
           </select>
@@ -115,7 +115,7 @@ function AdminAddStuff() {
           <p>Nama Klinik Pergigian</p>
           <select name="" id="">
             Sila pilih
-            <option value="">HeheBoi</option>
+            <option value="">Role</option>
             <option value="">HeheBoi2</option>
             <option value="">HeheBoi2</option>
           </select>
@@ -143,7 +143,7 @@ function AdminAddStuff() {
           <p>Nama Klinik Pergigian</p>
           <select name="" id="">
             Sila pilih
-            <option value="">HeheBoi</option>
+            <option value="">Role</option>
             <option value="">HeheBoi2</option>
             <option value="">HeheBoi2</option>
           </select>
@@ -161,8 +161,8 @@ function AdminAddStuff() {
     <>
       {/* <TambahPegawai /> */}
       {/* <ManagePegawai /> */}
-      <TambahFacility />
-      {/* <ManageFacility /> */}
+      {/* <TambahFacility /> */}
+      <ManageFacility />
     </>
   );
 }
