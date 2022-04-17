@@ -6,9 +6,9 @@ function UserPilihNama() {
 
   return (
     <>
-      <div className='user-pilih-nama-header'>
-        <h3>selamat datang klinik pergigian alor janggus</h3>
-      </div>
+      <h3 className='text-xl font-medium mt-10'>
+        selamat datang klinik pergigian alor janggus
+      </h3>
       <form
         className='user-form-pilih-nama-pengguna-container'
         onSubmit={handleSubmit}

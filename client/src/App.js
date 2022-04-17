@@ -7,7 +7,7 @@
 
 // import './user/user.css';
 import UserHeader from './user/components/UserHeader';
-import UserLoginForm from './user/components/UserLoginForm';
+import UserLogin from './user/components/UserLogin';
 import UserSelamatDatang from './user/components/UserSelamatDatang';
 import UserFooter from './user/components/UserFooter';
 
@@ -22,7 +22,7 @@ function App() {
         <AdminFooter />
       </div> */}
       <UserHeader />
-      <UserLoginForm />
+      <UserLogin />
       {/* <UserSelamatDatang /> */}
       {/* <UserFooter /> */}
     </>
