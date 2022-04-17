@@ -12,12 +12,14 @@ function UserLoginForm() {
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
           type='text'
           placeholder='ID Pengguna'
+          required
         />
         <br />
         <input
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
           type='password'
           placeholder='Kata Laluan'
+          required
         />
         <br />
         <div className='mt-5 text-xs text-user6 underline'>

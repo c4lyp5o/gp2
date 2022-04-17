@@ -1,6 +1,6 @@
 function UserHeaderLoggedIn() {
   return (
-    <div className='absolute flex w-auto h-16 top-10 right-7 capitalize text-xs'>
+    <div className='absolute flex w-auto h-16 top-10 right-7 capitalize text-userWhite text-xs'>
       <img
         className='w-full h-full aspect-square rounded-full shadow-xl outline outline-1 outline-user4'
         src='https://miro.medium.com/max/1400/1*X7n_UtdTaFoY4wZ4VIS7Dw.jpeg'

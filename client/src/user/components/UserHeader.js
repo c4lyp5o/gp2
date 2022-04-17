@@ -1,10 +1,6 @@
-import UserNavbar from './UserNavbar';
-import UserHeaderLoggedIn from './UserHeaderLoggedIn';
-
 function UserHeader() {
   return (
     <div className='flex items-center justify-center h-40 bg-user2 text-userWhite font-sans capitalize'>
-      <UserNavbar />
       <div className='grid grid-rows-[70px_15px_15px] text-center p-10'>
         <img
           className='w-full h-full'
@@ -17,7 +13,6 @@ function UserHeader() {
       <div className='text-4xl font-bold'>
         <h1>sistem gi-Ret PSY 2.0</h1>
       </div>
-      <UserHeaderLoggedIn />
     </div>
   );
 }

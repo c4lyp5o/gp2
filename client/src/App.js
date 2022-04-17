@@ -7,6 +7,8 @@
 
 // import './user/user.css';
 import UserHeader from './user/components/UserHeader';
+import UserNavbar from './user/components/UserNavbar';
+import UserHeaderLoggedIn from './user/components/UserHeaderLoggedIn';
 import UserLogin from './user/components/UserLogin';
 import UserSelamatDatang from './user/components/UserSelamatDatang';
 import UserFooter from './user/components/UserFooter';
@@ -22,6 +24,8 @@ function App() {
         <AdminFooter />
       </div> */}
       <UserHeader />
+      <UserNavbar />
+      <UserHeaderLoggedIn />
       <UserLogin />
       {/* <UserSelamatDatang /> */}
       {/* <UserFooter /> */}

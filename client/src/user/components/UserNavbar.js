@@ -11,7 +11,7 @@ function UserNavbar() {
   return (
     <>
       <nav
-        className={`absolute w-60 h-screen bg-user2 text-center top-0 left-0 transition-all ${
+        className={`absolute w-60 h-screen bg-user2 text-userWhite text-center top-0 left-0 transition-all ${
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
       >
