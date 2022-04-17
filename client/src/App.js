@@ -10,7 +10,7 @@ import UserHeader from './user/components/UserHeader';
 import UserNavbar from './user/components/UserNavbar';
 import UserHeaderLoggedIn from './user/components/UserHeaderLoggedIn';
 import UserLogin from './user/components/UserLogin';
-import UserSelamatDatang from './user/components/UserSelamatDatang';
+import UserAfterLogin from './user/components/UserAfterLogin';
 import UserFooter from './user/components/UserFooter';
 
 function App() {
@@ -26,8 +26,8 @@ function App() {
       <UserHeader />
       <UserNavbar />
       <UserHeaderLoggedIn />
-      <UserLogin />
-      {/* <UserSelamatDatang /> */}
+      {/* <UserLogin /> */}
+      <UserAfterLogin />
       <UserFooter />
     </>
   );
