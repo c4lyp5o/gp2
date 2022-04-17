@@ -12,7 +12,7 @@ function AdminHeaderLoggedIn() {
       </div>
       <button
         type='button'
-        className='mt-5 mb-5 p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4'
+        className='mt-5 mb-5 p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
       >
         LOGOUT
       </button>

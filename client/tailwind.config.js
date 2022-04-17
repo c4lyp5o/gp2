@@ -9,6 +9,7 @@ module.exports = {
       user5: '#d9693f',
       user6: '#f32f2f',
       userWhite: 'white',
+      userBlack: 'black',
     },
     extend: {},
   },

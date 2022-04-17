@@ -1,8 +1,10 @@
+import UserNavbar from './UserNavbar';
 import UserHeaderLoggedIn from './UserHeaderLoggedIn';
 
 function UserHeader() {
   return (
     <div className='flex items-center justify-center h-40 bg-user2 text-userWhite font-sans capitalize'>
+      <UserNavbar />
       <div className='grid grid-rows-[70px_15px_15px] text-center p-10'>
         <img
           className='w-full h-full'

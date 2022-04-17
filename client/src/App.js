@@ -7,7 +7,6 @@
 
 // import './user/user.css';
 import UserHeader from './user/components/UserHeader';
-import UserNavbar from './user/components/UserNavbar';
 import UserLoginForm from './user/components/UserLoginForm';
 import UserSelamatDatang from './user/components/UserSelamatDatang';
 import UserFooter from './user/components/UserFooter';
@@ -23,7 +22,6 @@ function App() {
         <AdminFooter />
       </div> */}
       <UserHeader />
-      {/* <UserNavbar /> */}
       {/* <UserLoginForm /> */}
       {/* <UserSelamatDatang /> */}
       {/* <UserFooter /> */}
