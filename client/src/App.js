@@ -28,7 +28,7 @@ function App() {
       <UserHeaderLoggedIn />
       <UserLogin />
       {/* <UserSelamatDatang /> */}
-      {/* <UserFooter /> */}
+      <UserFooter />
     </>
   );
 }
