@@ -1,14 +1,18 @@
 function UserHeaderLoggedIn() {
   return (
-    <div className='absolute top-10 right-7 flex w-auto h-16 capitalize text-userWhite text-xs'>
+    <div className='absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
       <img
         className='w-full h-full aspect-square rounded-full shadow-xl outline outline-1 outline-user4'
         src='https://miro.medium.com/max/1400/1*X7n_UtdTaFoY4wZ4VIS7Dw.jpeg'
         alt='logo'
       />
-      <div className='m-5'>
-        <p className='w-max'>user: dr muhammad izyan</p>
-        <p className='w-max'>KP : KP alor janggus</p>
+      <div className='m-3 space-y-1'>
+        <p className='w-32'>
+          <b>user : </b>dr muhammad izyan bin mohammad yazed
+        </p>
+        <p className='w-32'>
+          <b>klinik pergigian : </b>klinik pergigian alor janggus
+        </p>
       </div>
       <button
         type='button'
