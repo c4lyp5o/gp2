@@ -1,4 +1,4 @@
-function AdminHeaderLoggedIn() {
+function UserHeaderLoggedIn() {
   return (
     <div className='absolute flex w-auto h-16 top-10 right-7 capitalize text-xs'>
       <img
@@ -20,4 +20,4 @@ function AdminHeaderLoggedIn() {
   );
 }
 
-export default AdminHeaderLoggedIn;
+export default UserHeaderLoggedIn;
