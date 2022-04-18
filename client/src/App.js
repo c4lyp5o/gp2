@@ -1,9 +1,10 @@
-import "./admin/admin.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminHeader from "./admin/components/AdminHeader";
 import AdminNavbar from "./admin/components/AdminNavbar";
-import AdminLoginForm from "./admin/components/AdminLoginForm";
-import AdminSelamatDatang from "./admin/components/AdminSelamatDatang";
+import AdminCenterStage from "./admin/components/AdminCenterStage";
 import AdminFooter from "./admin/components/AdminFooter";
+import Layout from "./testrun/Layout";
+import Fourohfour from "./testrun/Fourohfour";
 
 // import './user/user.css';
 // import UserHeader from './user/components/UserHeader';
@@ -12,23 +13,36 @@ import AdminFooter from "./admin/components/AdminFooter";
 // import UserSelamatDatang from './user/components/UserSelamatDatang';
 // import UserFooter from './user/components/UserFooter';
 
-function App() {
+const App = () => {
+  function AdminPage() {
+    return (
+      <>
+        <AdminHeader />
+        <AdminNavbar />
+        <AdminCenterStage />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  // <div className='user-canvas'>
+  //   <UserHeader />
+  //   <UserNavbar />
+  //   <UserLoginForm />
+  //   {/* <UserSelamatDatang /> */}
+  //   <UserFooter />
+  // </div>
+
   return (
-    <div className="canvas">
-      <AdminHeader />
-      <AdminNavbar />
-      {/* <AdminLoginForm /> */}
-      <AdminSelamatDatang />
-      <AdminFooter />
-    </div>
-    // <div className='user-canvas'>
-    //   <UserHeader />
-    //   <UserNavbar />
-    //   <UserLoginForm />
-    //   {/* <UserSelamatDatang /> */}
-    //   <UserFooter />
-    // </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<AdminPage />} />
+          <Route path="*" element={<Fourohfour />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

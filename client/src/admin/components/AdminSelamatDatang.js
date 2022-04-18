@@ -4,22 +4,19 @@ import AdminAdder from "./AdminAdder";
 function AdminSelamatDatang() {
   function WelcomeText() {
     return (
-      <div className="admin-selamat-datang-container-text">
-        <h1>Selamat Datang Admin!</h1>
-        <br />
-        <p>Sila pilih fungsi di sidebar</p>
+      <div className="justify-center items-center text-xl font-semibold mt-10 space-y-5">
+        <h1>selamat datang admin!</h1>
+        <p>sila pilih fungsi di sidebar</p>
       </div>
     );
   }
 
   return (
-    <div className="admin-selamat-datang">
-      <div className="admin-selamat-datang-container">
-        {/* <WelcomeText /> */}
-        {/* <AdminTable /> */}
-        <AdminAdder />
-      </div>
-    </div>
+    <>
+      <WelcomeText />
+      {/* <AdminTable /> */}
+      {/* <AdminAdder /> */}
+    </>
   );
 }
 

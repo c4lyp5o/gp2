@@ -1,63 +1,87 @@
-import { useState, useRef, useEffect } from 'react';
-import { FaBars } from 'react-icons/fa';
+import { useState } from "react";
+import { FaBars } from "react-icons/fa";
 
 function AdminNavbar() {
   const [showLinks, setShowLinks] = useState(false);
-  const linksContainerRef = useRef(null);
-  const linksRef = useRef(null);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
   };
 
-  useEffect(() => {
-    const linksHeight = linksRef.current.getBoundingClientRect().height;
-    if (showLinks) {
-      linksContainerRef.current.style.height = `${linksHeight + 20}px`;
-    } else {
-      linksContainerRef.current.style.height = '0px';
-    }
-  }, [showLinks]);
-
   return (
-    <nav className='nav-container'>
-      <div className='nav-header'>
-        <button className='nav-toggle' onClick={toggleLinks}>
+    <>
+      <nav
+        className={`absolute w-60 h-screen bg-admin2 text-adminWhite text-center top-0 left-0 transition-all ${
+          showLinks ? "translate-x-0" : "-translate-x-60"
+        }`}
+      >
+        <div className="h-40"></div>
+        <div className="grid">
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#dashboard"
+          >
+            DASHBOARD
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#klinik pergigian"
+          >
+            KLINIK PERGIGIAN
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#pegawai pergigian"
+          >
+            PEGAWAI PERGIGIAN
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#juruterapi pergigian"
+          >
+            JURUTERAPI PERGIGIAN
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#taska"
+          >
+            TASKA
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#tadika"
+          >
+            TADIKA
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#sekolah rendah"
+          >
+            SEKOLAH RENDAH
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#sekolah menengah"
+          >
+            SEKOLAH MENENGAH
+          </a>
+          <a
+            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
+            href="#institusi"
+          >
+            INSTITUSI
+          </a>
+        </div>
+      </nav>
+      <div className="absolute w-60 top-0 left-0 flex text-center justify-center h-40">
+        <button
+          className="text-2xl bg-adminWhite text-adminBlack mt-14 mb-14 px-3 rounded-md shadow-xl hover:rotate-90 transition-all"
+          onClick={toggleLinks}
+        >
           <FaBars />
         </button>
       </div>
-      <div className='links-container' ref={linksContainerRef}>
-        <ul className='links' ref={linksRef}>
-          <li>
-            <a href='#dashboard'>dashboard</a>
-          </li>
-          <li>
-            <a href='#klinik-pergigian'>klinik pergigian</a>
-          </li>
-          <li>
-            <a href='#pegawai-pergigian'>pegawai pergigian</a>
-          </li>
-          <li>
-            <a href='#juruterapi-pergigian'>juruterapi pergigian</a>
-          </li>
-          <li>
-            <a href='#taska'>taska</a>
-          </li>
-          <li>
-            <a href='#tadika'>tadika</a>
-          </li>
-          <li>
-            <a href='#sekolah-rendah'>sekolah rendah</a>
-          </li>
-          <li>
-            <a href='#sekolah-menengah'>sekolah menengah</a>
-          </li>
-          <li>
-            <a href='#institusi'>institusi</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    </>
   );
 }
 
