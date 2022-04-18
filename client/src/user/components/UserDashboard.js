@@ -1,138 +1,208 @@
+import { useState } from 'react';
+
 function UserDashboard() {
+  const [showJumlahDataEntri, setShowJumlahDataEntri] = useState(false);
+
   return (
     <>
-      <button>jumlah data entri</button>
-      <section className='jumlah-data-entri-container'>
-        <article className='jumlah-kedatangan-container'>
-          <h4 className='jumlah-kedatangan'>jumlah kedatangan</h4>
-          <div className='jumlah-baru-ulangan'>6734</div>
-          <div className='baru'>baru</div>
-          <div className='jumlah-baru'>5389</div>
-          <div className='ulangan'>ulangan</div>
-          <div className='jumlah-ulangan'>1345</div>
-        </article>
-        <article className='taska-container'>
-          <h4 className='taska'>taska</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>8/11</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>234</div>
-        </article>
-        <article className='pra-sekolah-container'>
-          <h4 className='pra-sekolah'>pra sekolah</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>8/12</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>150</div>
-        </article>
-        <article className='sekolah-menengah-container'>
-          <h4 className='sekolah-menengah'>sekolah menengah</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>8/9</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>4234</div>
-        </article>
-        <article className='klinik-pergigian-container'>
-          <h4 className='klinik-pergigian'>klinik pergigian</h4>
-          <div className='jumlah-klinik-pergigian'>1/1</div>
-        </article>
-        <article className='tadika-container'>
-          <h4 className='tadika'>tadika</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>14/20</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>876</div>
-        </article>
-        <article className='sekolah-rendah-container'>
-          <h4 className='sekola-rendah'>sekolah rendah</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>13/16</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>877</div>
-        </article>
-        <article className='institusi-container'>
-          <h4 className='institusi'>institusi</h4>
-          <div className='bilangan-dilawati'>bilangan dilawati</div>
-          <div className='jumlah-bilangan-dilawati'>1/2</div>
-          <div className='bilangan-diperiksa'>bilangan diperiksa</div>
-          <div className='jumlah-bilangan-diperiksa'>363</div>
-        </article>
-      </section>
-      <button>status kesihatan pergigian pelajar</button>
-      <section className='status-kesihatan-pergigian-pelajar-container'>
-        <select name='jenis-institusi' id='jenis-institusi'>
+      <div className='grid grid-cols-2 mb-3'>
+        <h3 className='text-xl font-semibold text-left px-3'>
+          INFOGRAFIK STATUS KESIHATAN PERGIGIAN PELAJAR
+        </h3>
+        <select
+          name='tahun-dashboard'
+          id='tahun-dashboard'
+          className=' mr-0 ml-auto w-60 px-2 py-1'
+        >
           <option selected disabled>
-            institusi
+            TAHUN
           </option>
-          <option value='taska'>taska</option>
-          <option value='tadika'>tadika</option>
-          <option value='pra sekolah'>pra sekolah</option>
-          <option value='sekolah rendah'>sekolah rendah</option>
-          <option value='sekolah menengah'>sekolah menengah</option>
+          <option value='2022'>2022</option>
+          <option value='2021'>2021</option>
+          <option value='2020'>2020</option>
         </select>
-        <article className='mbk-container'>
-          <h4 className='mbk'>MBK</h4>
-          <div className='jumlah-mbk'>78%</div>
+      </div>
+      <button
+        className='flex bg-user3 p-2 w-full capitalize'
+        onClick={() => setShowJumlahDataEntri(!showJumlahDataEntri)}
+      >
+        + jumlah data entri
+      </button>
+      <section
+        className={`grid grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
+          showJumlahDataEntri ? 'max-h-96' : 'max-h-0 overflow-hidden'
+        }`}
+      >
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='font-bold pt-2'>jumlah kedatangan</h4>
+          <div className='text-4xl'>6734</div>
+          <div className=''>baru</div>
+          <div className='text-2xl'>5389</div>
+          <div className=''>ulangan</div>
+          <div className='text-2xl'>1345</div>
         </article>
-        <article className='bk-container'>
-          <h4 className='bk'>BK</h4>
-          <div className='jumlah-bk'>---</div>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>taska</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>8/11</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>234</div>
         </article>
-        <article className='mbg-container'>
-          <h4 className='mbg'>MBG</h4>
-          <div className='jumlah-mbg'>---</div>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>pra sekolah</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>8/12</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>150</div>
         </article>
-        <article className='tpr-container'>
-          <h4 className='tpr'>TPR</h4>
-          <div className='jumlah-tpr'>76%</div>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>sekolah menengah</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>8/9</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>4234</div>
         </article>
-        <article className='dfx=0-container'>
-          <h4 className='dfx=0'>dfx=0</h4>
-          <div className='jumlah-dfx=0'>76%</div>
+        <article className='grid grid-rows-2 h-full border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='font-bold pt-2'>klinik pergigian</h4>
+          <div className='text-4xl'>1/1</div>
+        </article>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>tadika</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>14/20</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>876</div>
+        </article>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>sekolah rendah</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>13/16</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>877</div>
+        </article>
+        <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
+          <h4 className='col-start-1 col-end-3 font-bold'>institusi</h4>
+          <div className=''>bilangan dilawati</div>
+          <div className='text-2xl'>1/2</div>
+          <div className=''>bilangan diperiksa</div>
+          <div className='text-2xl'>363</div>
         </article>
       </section>
-      <button>ranking pencapaian kesihatan pergigian sekolah</button>
-      <section className='ranking-pencapaian-kesihatan-pergigian-sekolah-container'>
-				<input type='checkbox' value='sekolah rendah' id='sekolah-rendah' />
-				<label htmlFor='sekolah-rendah'>sekolah rendah</label>
-				<input type='checkbox' value='sekolah menengah' id='sekolah-menengah' />
-				<label htmlFor='sekolah-menengah'>sekolah menengah</label>
-				<table className='table-ranking-pencapaian-kesihatan-pergigian-sekolah'>
-					<tr>
-						<th>BIL</th>
-						<th>NEGERI</th>
-						<th>DAERAH</th>
-						<th>SEKOLAH</th>
-						<th>% MURID DILIPUTI</th>
-						<th>% MBK</th>
-						<th>% BK</th>
-						<th>% MBG</th>
-						<th>% TPR</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>selangor</td>
-						<td>petaling</td>
-						<td>SK seksyen 19</td>
-						<td>98.0</td>
-						<td>70</td>
-						<td>75</td>
-						<td>75</td>
-						<td>75</td>
-					</tr>
-					<tr>
-             <td>2</td>
-             <td>WPKL & P</td>
-             <td>Cheras</td>
-             <td>SK bintang utara</td>
-             <td>90.2</td>
-             <td>69</td>
-             <td>71</td>
-             <td>71</td>
-             <td>71</td>
-           </tr>
-				</table>
+      <button className='flex bg-user3 p-2 w-full capitalize'>
+        + status kesihatan pergigian pelajar
+      </button>
+      <section className='grid grid-cols-5 gap-1 mt-3 mb-3'>
+        <select
+          name='jenis-institusi'
+          id='jenis-institusi'
+          className='col-start-1 col-end-6 w-60 px-2 py-1'
+        >
+          <option selected disabled>
+            INSTITUSI
+          </option>
+          <option value='taska'>TASKA</option>
+          <option value='tadika'>TADIKA</option>
+          <option value='pra sekolah'>PRA SEKOLAH</option>
+          <option value='sekolah rendah'>SEKOLAH RENDAH</option>
+          <option value='sekolah menengah'>SEKOLAH MENENGAH</option>
+        </select>
+        <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <h4 className='text-2xl pt-3'>MBK</h4>
+          <div className='text-4xl'>78%</div>
+        </article>
+        <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <h4 className='text-2xl pt-3'>BK</h4>
+          <div className='text-4xl'>---</div>
+        </article>
+        <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <h4 className='text-2xl pt-3'>MBG</h4>
+          <div className='text-4xl'>---</div>
+        </article>
+        <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <h4 className='text-2xl pt-3'>TPR</h4>
+          <div className='text-4xl'>76%</div>
+        </article>
+        <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <h4 className='text-2xl pt-3 lowercase'>dfx=0</h4>
+          <div className='text-4xl'>76%</div>
+        </article>
       </section>
+      <button className='flex bg-user3 p-2 w-full capitalize'>
+        + ranking pencapaian kesihatan pergigian sekolah
+      </button>
+      <section>
+        <div className='flex text-left space-x-10'>
+          <div>
+            <input
+              type='checkbox'
+              value='sekolah rendah'
+              id='sekolah-rendah'
+              className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer m-3'
+            />
+            <label htmlFor='sekolah-rendah' className='hover:cursor-pointer'>
+              sekolah rendah
+            </label>
+          </div>
+          <div>
+            <input
+              type='checkbox'
+              value='sekolah menengah'
+              id='sekolah-menengah'
+              className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer m-3'
+            />
+            <label htmlFor='sekolah-menengah' className='hover:cursor-pointer'>
+              sekolah menengah
+            </label>
+          </div>
+        </div>
+        <table className='m-auto w-11/12 outline outline-1 outline-userBlack'>
+          <tr className='bg-user3'>
+            <th className='outline outline-1 outline-userBlack'>BIL</th>
+            <th className='outline outline-1 outline-userBlack'>NEGERI</th>
+            <th className='outline outline-1 outline-userBlack'>DAERAH</th>
+            <th className='outline outline-1 outline-userBlack'>SEKOLAH</th>
+            <th className='outline outline-1 outline-userBlack'>
+              % MURID DILIPUTI
+            </th>
+            <th className='outline outline-1 outline-userBlack'>% MBK</th>
+            <th className='outline outline-1 outline-userBlack'>% BK</th>
+            <th className='outline outline-1 outline-userBlack'>% MBG</th>
+            <th className='outline outline-1 outline-userBlack'>% TPR</th>
+          </tr>
+          <tr>
+            <td className='outline outline-1 outline-userBlack'>1</td>
+            <td className='outline outline-1 outline-userBlack'>selangor</td>
+            <td className='outline outline-1 outline-userBlack'>petaling</td>
+            <td className='outline outline-1 outline-userBlack'>
+              SK seksyen 19
+            </td>
+            <td className='outline outline-1 outline-userBlack'>98.0</td>
+            <td className='outline outline-1 outline-userBlack'>70</td>
+            <td className='outline outline-1 outline-userBlack'>75</td>
+            <td className='outline outline-1 outline-userBlack'>75</td>
+            <td className='outline outline-1 outline-userBlack'>75</td>
+          </tr>
+          <tr>
+            <td className='outline outline-1 outline-userBlack'>2</td>
+            <td className='outline outline-1 outline-userBlack'>WPKL & P</td>
+            <td className='outline outline-1 outline-userBlack'>Cheras</td>
+            <td className='outline outline-1 outline-userBlack'>
+              SK bintang utara
+            </td>
+            <td className='outline outline-1 outline-userBlack'>90.2</td>
+            <td className='outline outline-1 outline-userBlack'>69</td>
+            <td className='outline outline-1 outline-userBlack'>71</td>
+            <td className='outline outline-1 outline-userBlack'>71</td>
+            <td className='outline outline-1 outline-userBlack'>71</td>
+          </tr>
+        </table>
+      </section>
+      <p className='text-user6 text-xs text-left pt-3'>
+        <span className='uppercase'>* NOTA PENTING</span>: maklumat{' '}
+        <span className='lowercase'>
+          ini hanya untuk analisa pencapaian semasa sahaja
+        </span>
+      </p>
     </>
   );
 }

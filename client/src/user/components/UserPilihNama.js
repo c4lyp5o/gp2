@@ -11,7 +11,7 @@ function UserPilihNama() {
       </h3>
       <form onSubmit={handleSubmit}>
         <select
-          className='capitalize mt-12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
+          className='mt-12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
           name='user-pilih-nama-pengguna'
           id='user-pilih-nama-pengguna'
           required
