@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function UserDashboard() {
-  const [showJumlahDataEntri, setShowJumlahDataEntri] = useState(false);
+  const [showAccordian1, setShowAccordian1] = useState(false);
+  const [showAccordian2, setShowAccordian2] = useState(false);
+  const [showAccordian3, setShowAccordian3] = useState(false);
 
   return (
     <>
@@ -24,13 +27,16 @@ function UserDashboard() {
       </div>
       <button
         className='flex bg-user3 p-2 w-full capitalize'
-        onClick={() => setShowJumlahDataEntri(!showJumlahDataEntri)}
+        onClick={() => setShowAccordian1(!showAccordian1)}
       >
-        + jumlah data entri
+        {showAccordian1 ? <FaMinus /> : <FaPlus />}
+        <p className='ml-3'>jumlah data entri</p>
       </button>
       <section
         className={`grid grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
-          showJumlahDataEntri ? 'max-h-96' : 'max-h-0 overflow-hidden'
+          showAccordian1
+            ? 'max-h-60 overflow-y-auto'
+            : 'max-h-0 overflow-hidden'
         }`}
       >
         <article className='grid grid-cols-2 border border-userBlack pl-3 px-1 rounded-md'>
@@ -88,10 +94,20 @@ function UserDashboard() {
           <div className='text-2xl'>363</div>
         </article>
       </section>
-      <button className='flex bg-user3 p-2 w-full capitalize'>
-        + status kesihatan pergigian pelajar
+      <button
+        className='flex bg-user3 p-2 w-full capitalize'
+        onClick={() => setShowAccordian2(!showAccordian2)}
+      >
+        {showAccordian2 ? <FaMinus /> : <FaPlus />}
+        <p className='ml-3'>status kesihatan pergigian pelajar</p>
       </button>
-      <section className='grid grid-cols-5 gap-1 mt-3 mb-3'>
+      <section
+        className={`grid grid-cols-5 gap-1 mt-3 mb-3 transition-all ${
+          showAccordian2
+            ? 'max-h-60 overflow-y-auto'
+            : 'max-h-0 overflow-hidden'
+        }`}
+      >
         <select
           name='jenis-institusi'
           id='jenis-institusi'
@@ -127,10 +143,20 @@ function UserDashboard() {
           <div className='text-4xl'>76%</div>
         </article>
       </section>
-      <button className='flex bg-user3 p-2 w-full capitalize'>
-        + ranking pencapaian kesihatan pergigian sekolah
+      <button
+        className='flex bg-user3 p-2 w-full capitalize'
+        onClick={() => setShowAccordian3(!showAccordian3)}
+      >
+        {showAccordian3 ? <FaMinus /> : <FaPlus />}
+        <p className='ml-3'>ranking pencapaian kesihatan pergigian sekolah</p>
       </button>
-      <section>
+      <section
+        className={`mt-3 mb-3 transition-all ${
+          showAccordian3
+            ? 'max-h-60 overflow-y-auto'
+            : 'max-h-0 overflow-hidden'
+        }`}
+      >
         <div className='flex text-left space-x-10'>
           <div>
             <input
@@ -155,7 +181,7 @@ function UserDashboard() {
             </label>
           </div>
         </div>
-        <table className='m-auto w-11/12 outline outline-1 outline-userBlack'>
+        <table className='m-auto mb-5 w-11/12 outline outline-1 outline-userBlack'>
           <tr className='bg-user3'>
             <th className='outline outline-1 outline-userBlack'>BIL</th>
             <th className='outline outline-1 outline-userBlack'>NEGERI</th>
