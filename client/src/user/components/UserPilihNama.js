@@ -16,9 +16,7 @@ function UserPilihNama() {
           id='user-pilih-nama-pengguna'
           required
         >
-          <option selected disabled>
-            SILA PILIH NAMA PENGGUNA
-          </option>
+          <option disabled>SILA PILIH NAMA PENGGUNA</option>
           <option value='dr muhammad izyan'>DR MUHAMMAD IZYAN</option>
           <option value='dr aimaan'>DR AIMAAN</option>
           <option value='dr hensem kacak bergaya'>

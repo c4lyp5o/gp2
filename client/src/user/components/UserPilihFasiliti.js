@@ -16,7 +16,7 @@ function UserPilihFasiliti() {
           id='user-pilih-fasiliti'
           required
         >
-          <option selected disabled>
+          <option defaultValue='default' disabled>
             SILA PILIH NAMA FASILITI RELIEF
           </option>
           <option value='kp jalan putra'>KP JALAN PUTRA</option>

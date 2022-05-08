@@ -17,9 +17,7 @@ function UserDashboard() {
           id='tahun-dashboard'
           className=' mr-0 ml-auto w-60 px-2 py-1'
         >
-          <option selected disabled>
-            TAHUN
-          </option>
+          <option disabled>TAHUN</option>
           <option value='2022'>2022</option>
           <option value='2021'>2021</option>
           <option value='2020'>2020</option>
@@ -29,7 +27,11 @@ function UserDashboard() {
         className='flex bg-user3 p-2 w-full capitalize'
         onClick={() => setShowAccordian1(!showAccordian1)}
       >
-        {showAccordian1 ? <FaMinus /> : <FaPlus />}
+        {showAccordian1 ? (
+          <FaMinus className='pt-1' />
+        ) : (
+          <FaPlus className='pt-1' />
+        )}
         <p className='ml-3'>jumlah data entri</p>
       </button>
       <section
@@ -98,7 +100,11 @@ function UserDashboard() {
         className='flex bg-user3 p-2 w-full capitalize'
         onClick={() => setShowAccordian2(!showAccordian2)}
       >
-        {showAccordian2 ? <FaMinus /> : <FaPlus />}
+        {showAccordian2 ? (
+          <FaMinus className='pt-1' />
+        ) : (
+          <FaPlus className='pt-1' />
+        )}
         <p className='ml-3'>status kesihatan pergigian pelajar</p>
       </button>
       <section
@@ -113,9 +119,7 @@ function UserDashboard() {
           id='jenis-institusi'
           className='col-start-1 col-end-6 w-60 px-2 py-1'
         >
-          <option selected disabled>
-            INSTITUSI
-          </option>
+          <option disabled>INSTITUSI</option>
           <option value='taska'>TASKA</option>
           <option value='tadika'>TADIKA</option>
           <option value='pra sekolah'>PRA SEKOLAH</option>
@@ -147,7 +151,11 @@ function UserDashboard() {
         className='flex bg-user3 p-2 w-full capitalize'
         onClick={() => setShowAccordian3(!showAccordian3)}
       >
-        {showAccordian3 ? <FaMinus /> : <FaPlus />}
+        {showAccordian3 ? (
+          <FaMinus className='pt-1' />
+        ) : (
+          <FaPlus className='pt-1' />
+        )}
         <p className='ml-3'>ranking pencapaian kesihatan pergigian sekolah</p>
       </button>
       <section
