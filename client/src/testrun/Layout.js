@@ -8,21 +8,21 @@ const Layout = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          <li>
+            <Link to="/loggedin">LoggedIn</Link>
+          </li>
           {/* <li>
-              <Link to="/quran">Quran</Link>
-            </li>
-            <li>
-              <Link to="/hadith">Hadith</Link>
-            </li>
-            <li>
-              <Link to="/chat">Chat</Link>
-            </li>
-            <li>
-              <Link to="/radio">Radio</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li> */}
+            <Link to="/hadith">Hadith</Link>
+          </li>
+          <li>
+            <Link to="/chat">Chat</Link>
+          </li>
+          <li>
+            <Link to="/radio">Radio</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li> */}
         </ul>
       </nav>
       <Outlet />

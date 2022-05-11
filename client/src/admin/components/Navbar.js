@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
+import { changeValueTableKlinik } from "../../testrun/global.js";
 
 function AdminNavbar() {
   const [showLinks, setShowLinks] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
+  };
+
+  const handleClick = () => {
+    changeValueTableKlinik();
   };
 
   return (
@@ -19,55 +24,50 @@ function AdminNavbar() {
         <div className="grid">
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#dashboard"
-          >
-            DASHBOARD
-          </a>
-          <a
-            className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#klinik pergigian"
+            // onClick={handleClick()}
+            href="kp"
           >
             KLINIK PERGIGIAN
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#pegawai pergigian"
+            href="pp"
           >
             PEGAWAI PERGIGIAN
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#juruterapi pergigian"
+            href="jp"
           >
             JURUTERAPI PERGIGIAN
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#taska"
+            href="taska"
           >
             TASKA
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#tadika"
+            href="tadika"
           >
             TADIKA
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#sekolah rendah"
+            href="sr"
           >
             SEKOLAH RENDAH
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#sekolah menengah"
+            href="sm"
           >
             SEKOLAH MENENGAH
           </a>
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="#institusi"
+            href="ins"
           >
             INSTITUSI
           </a>

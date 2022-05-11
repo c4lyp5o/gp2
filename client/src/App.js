@@ -1,8 +1,42 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AdminHeader from "./admin/components/AdminHeader";
-import AdminNavbar from "./admin/components/AdminNavbar";
-import AdminCenterStage from "./admin/components/AdminCenterStage";
-import AdminFooter from "./admin/components/AdminFooter";
+
+// defaults
+import AdminNavbar from "./admin/components/Navbar";
+import AdminFooter from "./admin/components/Footer";
+
+// login page
+import PublicHeader from "./admin/components/public/Header";
+import PublicCenterStage from "./admin/components/public/Center";
+
+// logged in
+import AdminCenterStageLoggedIn from "./admin/components/logged/AdminCenterStageLoggedIn";
+import AdminHeaderLoggedIn from "./admin/components/logged/AdminHeaderLoggedIn";
+
+// klinik
+import KlinikCenter from "./admin/components/klinik/Center";
+
+// pegawai
+import PegawaiCenter from "./admin/components/pegawai/Center";
+
+// jp
+import JPCenter from "./admin/components/jp/Center";
+
+// taska
+import TaskaCenter from "./admin/components/taska/Center";
+
+// tadika
+import TadikaCenter from "./admin/components/tadika/Center";
+
+// sr
+import SRCenter from "./admin/components/sr/Center";
+
+// sm
+import SMCenter from "./admin/components/sm/Center";
+
+// institusi
+import InstitusiCenter from "./admin/components/inst/Center";
+
+// misc
 import Layout from "./testrun/Layout";
 import Fourohfour from "./testrun/Fourohfour";
 
@@ -17,9 +51,107 @@ const App = () => {
   function AdminPage() {
     return (
       <>
-        <AdminHeader />
+        <PublicHeader />
+        <PublicCenterStage />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function LoggedIn() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <AdminCenterStage />
+        <AdminCenterStageLoggedIn />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function Klinik() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <KlinikCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function PP() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <PegawaiCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function JP() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <JPCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function Taska() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <TaskaCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function Tadika() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <TadikaCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function SR() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <SRCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function SM() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <SMCenter />
+        <AdminFooter />
+      </>
+    );
+  }
+
+  function Institusi() {
+    return (
+      <>
+        <AdminHeaderLoggedIn />
+        <AdminNavbar />
+        <InstitusiCenter />
         <AdminFooter />
       </>
     );
@@ -38,6 +170,15 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<AdminPage />} />
+          <Route path="loggedin" element={<LoggedIn />} />
+          <Route path="kp" element={<Klinik />} />
+          <Route path="pp" element={<PP />} />
+          <Route path="jp" element={<JP />} />
+          <Route path="taska" element={<Taska />} />
+          <Route path="tadika" element={<Tadika />} />
+          <Route path="sr" element={<SR />} />
+          <Route path="sm" element={<SM />} />
+          <Route path="ins" element={<Institusi />} />
           <Route path="*" element={<Fourohfour />} />
         </Route>
       </Routes>

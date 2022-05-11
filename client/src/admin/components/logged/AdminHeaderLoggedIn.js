@@ -1,5 +1,4 @@
-import { globeVar } from "../../testrun/global.js";
-function AdminHeader() {
+function AdminHeaderLoggedIn() {
   function LoggedIn() {
     return (
       <div className="absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs z">
@@ -10,8 +9,7 @@ function AdminHeader() {
         />
         <div className="m-3 space-y-1">
           <p className="w-32">
-            <b>User: </b>
-            {globeVar}
+            <b>User: </b>Calypso
           </p>
           <p className="w-32">
             <b>KP: </b>KP Datuk Kumbar
@@ -24,29 +22,6 @@ function AdminHeader() {
           LOGOUT
         </button>
       </div>
-    );
-  }
-
-  function NotLoggedIn() {
-    return (
-      <>
-        <div className="admin-header-gambar">
-          {/* <img
-            width={100}
-            height={100}
-            src="https://1.bp.blogspot.com/-Nx8gwxIE8lY/WQ3oDqCov-I/AAAAAAAABOo/qPrUlx8Qjs4sezUqF4qTdOLA5Dk67cEdwCLcB/s640/rubick%2B%2528Dota%2B2%2529.jpg"
-            alt="logo"
-          /> */}
-        </div>
-        <div className="admin-header-info">
-          {/* <p>User: c4lyp5o</p> */}
-          <br />
-          {/* <p>KP: KP Datuk Kumbar</p> */}
-        </div>
-        <div className="admin-header-logout">
-          {/* <button className="admin-header-logout-button">LOGOUT</button> */}
-        </div>
-      </>
     );
   }
 
@@ -65,11 +40,10 @@ function AdminHeader() {
         <h1>admin sistem gi-Ret PSY 2.0</h1>
       </div>
       <div className="admin-header-logged-in-container">
-        <NotLoggedIn />
         <LoggedIn />
       </div>
     </div>
   );
 }
 
-export default AdminHeader;
+export default AdminHeaderLoggedIn;
