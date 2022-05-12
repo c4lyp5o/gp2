@@ -63,7 +63,6 @@ function AdminHeader() {
         <h1>admin sistem gi-Ret PSY 2.0</h1>
       </div>
       <div className="admin-header-logged-in-container">
-        {/* {globeVar === true ? <LoggedIn /> : <NotLoggedIn />} */}
         <NotLoggedIn />
       </div>
     </div>

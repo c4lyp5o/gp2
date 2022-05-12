@@ -18,6 +18,10 @@ function AdminHeaderLoggedIn() {
         <button
           type="button"
           className="mt-5 mb-5 p-1 text-admin2 bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all"
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.href = "/";
+          }}
         >
           LOGOUT
         </button>

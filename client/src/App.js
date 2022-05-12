@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 // defaults
 import AdminNavbar from "./admin/components/Navbar";
@@ -46,8 +47,11 @@ import Fourohfour from "./testrun/Fourohfour";
 // import UserLoginForm from './user/components/UserLoginForm';
 // import UserSelamatDatang from './user/components/UserSelamatDatang';
 // import UserFooter from './user/components/UserFooter';
+import AdminLoginForm from "./admin/components/public/LoginForm";
+import { useToken } from "./useToken";
 
 const App = () => {
+  const { token, setToken } = useToken();
   function AdminPage() {
     return (
       <>
@@ -157,6 +161,10 @@ const App = () => {
     );
   }
 
+  if (!token) {
+    return <AdminLoginForm setToken={setToken} />;
+  }
+
   // <div className='user-canvas'>
   //   <UserHeader />
   //   <UserNavbar />
@@ -169,8 +177,9 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<AdminPage />} />
-          <Route path="loggedin" element={<LoggedIn />} />
+          {/* <Route index element={<AdminPage />} /> */}
+          {/* <Route path="loggedin" element={<LoggedIn />} /> */}
+          <Route index element={<LoggedIn />} />
           <Route path="kp" element={<Klinik />} />
           <Route path="pp" element={<PP />} />
           <Route path="jp" element={<JP />} />

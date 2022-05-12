@@ -1,16 +1,11 @@
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
-import { changeValueTableKlinik } from "../../testrun/global.js";
 
 function AdminNavbar() {
   const [showLinks, setShowLinks] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
-  };
-
-  const handleClick = () => {
-    changeValueTableKlinik();
   };
 
   return (
@@ -24,7 +19,6 @@ function AdminNavbar() {
         <div className="grid">
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            // onClick={handleClick()}
             href="kp"
           >
             KLINIK PERGIGIAN
