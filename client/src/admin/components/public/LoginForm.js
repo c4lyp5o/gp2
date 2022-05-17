@@ -4,16 +4,25 @@ import PublicHeader from "../public/Header";
 import axios from "axios";
 
 async function loginUser(credentials) {
-  const tokenized = await axios.post(
-    "http://localhost:5000/api/v1/superadmin/login",
-    credentials
-  );
-  return tokenized.data;
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/superadmin/login",
+      credentials
+    );
+    return response.data;
+  } catch (error) {
+    const theError = {
+      status: error.response.status,
+      message: error.response.data.message,
+    };
+    return theError;
+  }
 }
 
 export default function AdminLoginForm({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [ErrMsg, setErrMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,8 +30,11 @@ export default function AdminLoginForm({ setToken }) {
       username,
       password,
     });
-    setToken(token);
-    console.log(token);
+    if (token.status === 401) {
+      setErrMsg(token.message);
+    } else {
+      setToken(token);
+    }
   };
 
   return (
@@ -50,6 +62,8 @@ export default function AdminLoginForm({ setToken }) {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <br />
+              <p className="mt-5 text-xs text-admin1">{ErrMsg}</p>
               <br />
               <div className="mt-5 text-xs text-admin6 underline">
                 <a href="#lupa-kata-laluan">lupa kata laluan</a>

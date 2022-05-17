@@ -1,13 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
 
 // defaults
 import AdminNavbar from "./admin/components/Navbar";
 import AdminFooter from "./admin/components/Footer";
-
-// login page
-import PublicHeader from "./admin/components/public/Header";
-import PublicCenterStage from "./admin/components/public/Center";
 
 // logged in
 import AdminCenterStageLoggedIn from "./admin/components/logged/AdminCenterStageLoggedIn";
@@ -47,20 +42,12 @@ import Fourohfour from "./testrun/Fourohfour";
 // import UserLoginForm from './user/components/UserLoginForm';
 // import UserSelamatDatang from './user/components/UserSelamatDatang';
 // import UserFooter from './user/components/UserFooter';
+
 import AdminLoginForm from "./admin/components/public/LoginForm";
 import { useToken } from "./useToken";
 
 const App = () => {
   const { token, setToken } = useToken();
-  function AdminPage() {
-    return (
-      <>
-        <PublicHeader />
-        <PublicCenterStage />
-        <AdminFooter />
-      </>
-    );
-  }
 
   function LoggedIn() {
     return (

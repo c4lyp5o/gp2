@@ -3,7 +3,6 @@ const Superadmin = require("../models/Superadmin");
 const Fasiliti = require("../models/Fasiliti");
 const Operator = require("../models/Operator");
 const async = require("async");
-const { token } = require("morgan");
 
 exports.helloUser = (req, res) => {
   return res.status(200).json({
@@ -48,13 +47,25 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+exports.getCurrentUser = async (req, res) => {
+  const data = {
+    userId: jwt.verify(req.body.token, process.env.JWT_SECRET).userId,
+    username: jwt.verify(req.body.token, process.env.JWT_SECRET).username,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+  };
+  // console.log(data);
+  res.status(200).json({
+    status: "success",
+    message: "Data user berjaya diambil",
+    data: data,
+  });
+};
+
 exports.listKp = (req, res) => {
   Fasiliti.find(
     {
       jenisFasiliti: "Klinik",
-      //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-      //   daerah: "Kuala Selangor",
     },
     (err, data) => {
       if (err) {
@@ -73,7 +84,7 @@ exports.listKp = (req, res) => {
 exports.listPg = (req, res) => {
   Operator.find(
     // { daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah },
-    { daerah: "Kuala Selangor" },
+    { daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah },
     (err, data) => {
       if (err) {
         console.log(err);
@@ -89,13 +100,11 @@ exports.listPg = (req, res) => {
 };
 
 exports.listTaska = (req, res) => {
-  // const payloadUserType = jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah;
-  // const daerah = jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah;
   Fasiliti.find(
     {
       jenisFasiliti: "Taska",
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-      daerah: "Kuala Selangor",
+      daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
@@ -112,15 +121,11 @@ exports.listTaska = (req, res) => {
 };
 
 exports.listTadika = (req, res) => {
-  //   const theTok = req.body.token;
-  //   const daerah = jwt.verify(theTok, process.env.JWT_SECRET).daerah;
   Fasiliti.find(
     {
       jenisFasiliti: "Tadika",
-      //   daerah: jwt.verify(localStorage.getItem("token"), process.env.JWT_SECRET)
-      //     .daerah,
+      //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-      //   daerah: daerah,
     },
     (err, data) => {
       if (err) {
@@ -141,7 +146,7 @@ exports.listSr = (req, res) => {
     {
       jenisFasiliti: "Sekolah Rendah",
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-      daerah: "Kuala Selangor",
+      daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
@@ -162,7 +167,7 @@ exports.listSm = (req, res) => {
     {
       jenisFasiliti: "Sekolah Menengah",
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-      daerah: "Kuala Selangor",
+      daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
@@ -176,4 +181,88 @@ exports.listSm = (req, res) => {
       }
     }
   );
+};
+
+exports.listInstitusi = (req, res) => {
+  Fasiliti.find(
+    {
+      jenisFasiliti: "XXX",
+      //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
+      daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: data,
+          message: "Retrieved all Institusis",
+        });
+      }
+    }
+  );
+};
+
+exports.listFacilityType = (req, res) => {
+  try {
+    Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }),
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).json({
+            status: "success",
+            data: data,
+            message: "Retrieved all Facility Types",
+          });
+        }
+      };
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.addKp = (req, res) => {
+  const kp = new Fasiliti({
+    nama: req.body.klinik,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: "",
+    jenisFasiliti: "Klinik",
+  });
+  kp.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Klinik berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.addPg = (req, res) => {
+  const pg = new Operator({
+    nama: req.body.pegawai,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    kpSkrg: pilihan,
+  });
+  pg.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "pegawai berjaya ditambah",
+      });
+    }
+  });
 };

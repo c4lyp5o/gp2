@@ -1,33 +1,16 @@
+import { getCurrentUser } from "../../controllers/helper";
+import { useState, useEffect } from "react";
+
 function AdminHeaderLoggedIn() {
-  function LoggedIn() {
-    return (
-      <div className="absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs z">
-        <img
-          className="w-full h-full aspect-square rounded-full shadow-xl outline outline-1 outline-admin4"
-          src="https://1.bp.blogspot.com/-Nx8gwxIE8lY/WQ3oDqCov-I/AAAAAAAABOo/qPrUlx8Qjs4sezUqF4qTdOLA5Dk67cEdwCLcB/s640/rubick%2B%2528Dota%2B2%2529.jpg"
-          alt="logo"
-        />
-        <div className="m-3 space-y-1">
-          <p className="w-32">
-            <b>User: </b>Calypso
-          </p>
-          <p className="w-32">
-            <b>KP: </b>KP Datuk Kumbar
-          </p>
-        </div>
-        <button
-          type="button"
-          className="mt-5 mb-5 p-1 text-admin2 bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all"
-          onClick={() => {
-            localStorage.removeItem("token");
-            window.location.href = "/";
-          }}
-        >
-          LOGOUT
-        </button>
-      </div>
-    );
-  }
+  const [user, setUser] = useState("");
+  const [daerah, setDaerah] = useState("");
+
+  useEffect(() => {
+    getCurrentUser().then((res) => {
+      setUser(res.data.data.username);
+      setDaerah(res.data.data.daerah);
+    });
+  }, []);
 
   return (
     <div className="absolute top-0 left-0 right-0 flex items-center justify-center h-40 bg-admin2 text-adminWhite font-sans capitalize">
@@ -44,7 +27,33 @@ function AdminHeaderLoggedIn() {
         <h1>admin sistem gi-Ret PSY 2.0</h1>
       </div>
       <div className="admin-header-logged-in-container">
-        <LoggedIn />
+        <div className="absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs z">
+          <img
+            className="w-full h-full aspect-square rounded-full shadow-xl outline outline-1 outline-admin4"
+            src="https://1.bp.blogspot.com/-Nx8gwxIE8lY/WQ3oDqCov-I/AAAAAAAABOo/qPrUlx8Qjs4sezUqF4qTdOLA5Dk67cEdwCLcB/s640/rubick%2B%2528Dota%2B2%2529.jpg"
+            alt="logo"
+          />
+          <div className="m-3 space-y-1">
+            <p className="w-32">
+              <b>User: </b>
+              {user}
+            </p>
+            <p className="w-32">
+              <b>Daerah: </b>
+              {daerah}
+            </p>
+          </div>
+          <button
+            type="button"
+            className="mt-5 mb-5 p-1 text-admin2 bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all"
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/";
+            }}
+          >
+            LOGOUT
+          </button>
+        </div>
       </div>
     </div>
   );

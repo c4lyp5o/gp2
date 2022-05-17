@@ -1,10 +1,16 @@
 import { FaPlus } from "react-icons/fa";
 import { getKP } from "../../controllers/helper.js";
 import { useEffect, useState } from "react";
+import DeleteModal from "../DeleteModal";
+import EditModal from "../EditModal";
+import AddModal from "../AddModal";
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);
   const [daerah, setDaerah] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   useEffect(() => {
     getKP().then((res) => {
@@ -20,76 +26,60 @@ function KlinikTable() {
       <table className="table-auto border-collapse border border-slate-500">
         <thead>
           <tr>
-            <th class="border border-slate-600 ...">Bil.</th>
-            <th class="border border-slate-600 ...">Nama KP</th>
-            <th class="border border-slate-600 ...">Daerah</th>
-            <th class="border border-slate-600 ...">
-              KP yang bertanggungjawab
-            </th>
-            <th class="border border-slate-600 ...">Manage</th>
+            <th className="border border-slate-600">Bil.</th>
+            <th className="border border-slate-600">Nama KP</th>
+            <th className="border border-slate-600">Daerah</th>
+            <th className="border border-slate-600">Manage</th>
           </tr>
         </thead>
         <tbody>
           {KP.map((kp, index) => (
             <tr>
-              <td class="border border-slate-600 ...">{index + 1}</td>
-              <td class="border border-slate-600 ...">{kp.nama}</td>
-              <td class="border border-slate-600 ...">{kp.daerah}</td>
-              <td class="border border-slate-600 ...">{kp.handler}</td>
-              <td class="border border-slate-600 ...">
-                <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  Edit
-                </button>
-                <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                  Delete
-                </button>
+              <td className="border border-slate-700">{index + 1}</td>
+              <td className="border border-slate-700">{kp.nama}</td>
+              <td className="border border-slate-700">{kp.daerah}</td>
+              <td className="border border-slate-700">
+                <div>
+                  <button
+                    className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0"
+                    onClick={() => {
+                      setEditOpen(true);
+                      setIsOpen(false);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  {editOpen && <EditModal setEditOpen={setEditOpen} />}
+                  <button
+                    className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0"
+                    onClick={() => {
+                      setIsOpen(true);
+                      setEditOpen(false);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
-        {/* <tbody>
-          <tr>
-            <td class="border border-slate-700 ...">1</td>
-            <td class="border border-slate-700 ...">KP Gulau</td>
-            <td class="border border-slate-700 ...">kpgulau</td>
-            <td class="border border-slate-700 ...">rahasia</td>
-            <td class="border border-slate-700 ...">
-              <div className="admin-table-header-container-text-manage">
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                  Edit
-                </button>
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="border border-slate-700 ...">2</td>
-            <td class="border border-slate-700 ...">KP Naka</td>
-            <td class="border border-slate-700 ...">kpnaka</td>
-            <td class="border border-slate-700 ...">rahasia</td>
-            <td class="border border-slate-700 ...">
-              <div className="admin-table-header-container-text-manage">
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                  Edit
-                </button>
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody> */}
       </table>
       <button
-        className="bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl"
+        className="bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl z-0"
         id="addFac"
+        onClick={() => {
+          setAddOpen(true);
+          setEditOpen(false);
+          setIsOpen(false);
+        }}
       >
         <div className="text-adminWhite text-7xl">
           <FaPlus />
         </div>
       </button>
+      {addOpen && <AddModal setAddOpen={setAddOpen} />}
     </div>
   );
 }

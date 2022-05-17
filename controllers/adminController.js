@@ -4,7 +4,6 @@ const Superadmin = require("../models/Superadmin");
 const Fasiliti = require("../models/Fasiliti");
 const Operator = require("../models/Operator");
 const async = require("async");
-const { set } = require("mongoose");
 
 exports.loginPage = (req, res) => {
   res.render("admin/loginadmin");
@@ -91,8 +90,6 @@ exports.updateData = (req, res) => {
 };
 
 exports.listTaska = (req, res) => {
-  // const payloadUserType = jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah;
-  // const daerah = jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah;
   Fasiliti.find(
     {
       jenisFasiliti: "Taska",
@@ -216,7 +213,6 @@ exports.commitData = async (req, res) => {
 };
 
 exports.listTadika = (req, res) => {
-  const daerah = "Kuala Selangor";
   Fasiliti.find(
     {
       jenisFasiliti: "Tadika",

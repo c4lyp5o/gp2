@@ -1,10 +1,23 @@
 import { FaPlus } from "react-icons/fa";
+import { getCurrentUser, getPG } from "../../controllers/helper";
+import { useEffect, useState } from "react";
 
 function PegawaiTable() {
+  const [pg, setPG] = useState([]);
+  const [daerah, setDaerah] = useState("");
+
+  useEffect(() => {
+    getPG().then((res) => {
+      setPG(res.data);
+    });
+    getCurrentUser().then((res) => {
+      setDaerah(res.data.data.daerah);
+    });
+  }, []);
   function Pegawai() {
     return (
       <h1 className="text-3xl font-bold">
-        Senarai Pegawai Pergigian Daerah Kota Setar / Pendang
+        Senarai Pegawai Pergigian Daerah {daerah}
       </h1>
     );
   }
@@ -24,15 +37,35 @@ function PegawaiTable() {
           <thead>
             <tr>
               <th className="border border-slate-600 ...">Bil.</th>
-              <th class="border border-slate-600 ...">Nama</th>
-              <th class="border border-slate-600 ...">Gred</th>
-              {/* <th>KP</th> */}
-              <th class="border border-slate-600 ...">Nama Klinik Pergigian</th>
-              <th class="border border-slate-600 ...">Role</th>
-              <th class="border border-slate-600 ...">Manage</th>
+              <th className="border border-slate-600 ...">Nama</th>
+              <th className="border border-slate-600 ...">Gred</th>
+              <th className="border border-slate-600 ...">
+                Nama Klinik Pergigian
+              </th>
+              <th className="border border-slate-600 ...">Role</th>
+              <th className="border border-slate-600 ...">Manage</th>
             </tr>
           </thead>
           <tbody>
+            {pg.map((p, index) => (
+              <tr id={index}>
+                <td className="border border-slate-700">{index + 1}</td>
+                <td className="border border-slate-700">{p.nama}</td>
+                <td className="border border-slate-700">{p.handler}</td>
+                <td className="border border-slate-700">{p.kpSkrg}</td>
+                <td className="border border-slate-700">{p.role}</td>
+                <td className="border border-slate-700">
+                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+                    Edit
+                  </button>
+                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          {/* <tbody>
             <tr>
               <td class="border border-slate-700 ...">1</td>
               <td class="border border-slate-700 ...">Calypso</td>
@@ -40,7 +73,6 @@ function PegawaiTable() {
               <td class="border border-slate-700 ...">
                 Klinik Pergigian Datuk Kumbar
               </td>
-              {/* <td>KP Datuk Kumbar</td> */}
               <td class="border border-slate-700 ...">Driller</td>
               <td class="border border-slate-700 ...">
                 <div className="admin-table-header-container-text-manage">
@@ -60,7 +92,6 @@ function PegawaiTable() {
               <td class="border border-slate-700 ...">
                 Klinik Pergigian Alor Janggus
               </td>
-              {/* <td>KP Alor Janggus</td> */}
               <td class="border border-slate-700 ...">Driller</td>
               <td class="border border-slate-700 ...">
                 <div className="admin-table-header-container-text-manage">
@@ -73,7 +104,7 @@ function PegawaiTable() {
                 </div>
               </td>
             </tr>
-          </tbody>
+          </tbody> */}
         </table>
       </div>
       <button
