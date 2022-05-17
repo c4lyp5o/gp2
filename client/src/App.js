@@ -17,17 +17,19 @@ import UserFooter from './user/components/UserFooter';
 
 function App() {
   return (
+    // <>
+    //   <UserHeader />
+    //   <UserLogin />
+    //   <UserAfterLogin />
+    //   <UserFooter />
+    // </>
     <>
-      <UserHeader />
-      <UserLogin />
-      {/* <UserAfterLogin /> */}
-      <UserFooter />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<UserLoginPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path='/login' element={<UserLoginPage />} />
-    //   </Routes>
-    // </BrowserRouter>
   );
 }
 
