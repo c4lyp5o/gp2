@@ -1,6 +1,6 @@
-import UserLoginForm from './UserLoginForm';
-import UserPilihNama from './UserPilihNama';
-import UserPilihFasiliti from './UserPilihFasiliti';
+import UserLoginForm from '../components/UserLoginForm';
+import UserPilihNama from '../components/UserPilihNama';
+import UserPilihFasiliti from '../components/UserPilihFasiliti';
 
 function UserLogin() {
   return (

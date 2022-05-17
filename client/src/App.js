@@ -4,10 +4,8 @@ import UserSharedHomeLayout from './user/pages/UserSharedHomeLayout';
 
 // import './user/user.css';
 import UserHeader from './user/components/UserHeader';
-import UserNavbar from './user/components/UserNavbar';
-import UserHeaderLoggedIn from './user/components/UserHeaderLoggedIn';
-import UserLogin from './user/components/UserLogin';
-import UserAfterLogin from './user/components/UserAfterLogin';
+import UserLogin from './user/pages/UserLogin';
+import UserAfterLogin from './user/pages/UserAfterLogin';
 import UserFooter from './user/components/UserFooter';
 
 // import "./admin/admin.css";
@@ -19,11 +17,17 @@ import UserFooter from './user/components/UserFooter';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<UserLoginPage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <UserHeader />
+      <UserLogin />
+      {/* <UserAfterLogin /> */}
+      <UserFooter />
+    </>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path='/login' element={<UserLoginPage />} />
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 
