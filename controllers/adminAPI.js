@@ -47,6 +47,26 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+exports.addAdmin = async (req, res) => {
+  const Admin = new Superadmin({
+    user_name: req.body.user_name,
+    password: req.body.password,
+    daerah: req.body.daerah,
+    negeri: req.body.negeri,
+  });
+  Admin.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Admin berjaya ditambah",
+      });
+    }
+  });
+};
+
 exports.getCurrentUser = async (req, res) => {
   const data = {
     userId: jwt.verify(req.body.token, process.env.JWT_SECRET).userId,
@@ -262,6 +282,90 @@ exports.addPg = (req, res) => {
         status: "success",
         data: data,
         message: "pegawai berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.addTaska = (req, res) => {
+  const taska = new Fasiliti({
+    nama: req.body.taska,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: "Taska",
+  });
+  taska.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Taska berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.addSR = (req, res) => {
+  const sr = new Fasiliti({
+    nama: req.body.sr,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: "Sekolah Rendah",
+  });
+  sr.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Sekolah Rendah berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.addSM = (req, res) => {
+  const sm = new Fasiliti({
+    nama: req.body.sm,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: "Sekolah Menengah",
+  });
+  sm.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Sekolah Menengah berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.addInstitusi = (req, res) => {
+  const institusi = new Fasiliti({
+    nama: req.body.institusi,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: "Institusi",
+  });
+  institusi.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Institusi berjaya ditambah",
       });
     }
   });

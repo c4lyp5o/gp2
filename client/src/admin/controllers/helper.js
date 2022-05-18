@@ -111,3 +111,75 @@ export async function addKp(data) {
   // console.log(response);
   return response;
 }
+
+export async function addPp(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/pp/add`,
+    {
+      token: getTokenized(),
+      pp: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function addTaska(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/taska/add`,
+    {
+      token: getTokenized(),
+      taska: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function addTadika(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/tadika/add`,
+    {
+      token: getTokenized(),
+      tadika: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function addSR(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/sr/add`,
+    {
+      token: getTokenized(),
+      sr: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function addSM(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/sm/add`,
+    {
+      token: getTokenized(),
+      sm: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function addInstitusi(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/ins/add`,
+    {
+      token: getTokenized(),
+      institusi: data,
+    }
+  );
+  // console.log(response);
+  return response;
+}

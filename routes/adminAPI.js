@@ -16,6 +16,8 @@ router.get("/details/:id", admincon.showEntrails);
 router.get("/update/:id", admincon.updateFac);
 router.post("/update/:id", admincon.updateNow);
 // router.get('/delete/:id', admincon.deleteData);
+router.get("/adduser", adminAPI.helloUser);
+router.post("/adduser", adminAPI.addAdmin);
 router.post("/getuser", adminAPI.getCurrentUser);
 
 router.get("/test", admincon.test);

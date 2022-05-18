@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import { getKP } from "../../controllers/helper.js";
+import { getCurrentUser, getKP } from "../../controllers/helper.js";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModal";
@@ -15,7 +15,9 @@ function KlinikTable() {
   useEffect(() => {
     getKP().then((res) => {
       setKP(res.data);
-      setDaerah(res.data[0].daerah);
+    });
+    getCurrentUser().then((res) => {
+      setDaerah(res.data.data.daerah);
     });
   }, []);
   return (

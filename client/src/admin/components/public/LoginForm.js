@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import PublicHeader from "../public/Header";
+import Footer from "../Footer";
 import axios from "axios";
 
 async function loginUser(credentials) {
@@ -79,6 +80,7 @@ export default function AdminLoginForm({ setToken }) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
@@ -86,4 +88,3 @@ export default function AdminLoginForm({ setToken }) {
 AdminLoginForm.propTypes = {
   setToken: PropTypes.func.isRequired,
 };
-// export default AdminLoginForm;

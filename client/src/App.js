@@ -6,7 +6,7 @@ import AdminFooter from "./admin/components/Footer";
 
 // logged in
 import AdminCenterStageLoggedIn from "./admin/components/logged/AdminCenterStageLoggedIn";
-import AdminHeaderLoggedIn from "./admin/components/logged/AdminHeaderLoggedIn";
+import AdminHeaderLoggedIn from "./admin/components/HeaderLoggedIn";
 
 // klinik
 import KlinikCenter from "./admin/components/klinik/Center";

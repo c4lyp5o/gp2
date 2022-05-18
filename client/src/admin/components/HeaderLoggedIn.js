@@ -1,4 +1,4 @@
-import { getCurrentUser } from "../../controllers/helper";
+import { getCurrentUser } from "../controllers/helper";
 import { useState, useEffect } from "react";
 
 function AdminHeaderLoggedIn() {

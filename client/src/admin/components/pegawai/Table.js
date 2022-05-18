@@ -1,10 +1,16 @@
 import { FaPlus } from "react-icons/fa";
 import { getCurrentUser, getPG } from "../../controllers/helper";
 import { useEffect, useState } from "react";
+import DeleteModal from "../DeleteModal";
+import EditModal from "../EditModal";
+import AddModal from "./Modal";
 
 function PegawaiTable() {
   const [pg, setPG] = useState([]);
   const [daerah, setDaerah] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   useEffect(() => {
     getPG().then((res) => {
@@ -14,6 +20,7 @@ function PegawaiTable() {
       setDaerah(res.data.data.daerah);
     });
   }, []);
+
   function Pegawai() {
     return (
       <h1 className="text-3xl font-bold">
@@ -36,14 +43,12 @@ function PegawaiTable() {
         <table className="table-auto border-collapse border border-slate-500">
           <thead>
             <tr>
-              <th className="border border-slate-600 ...">Bil.</th>
-              <th className="border border-slate-600 ...">Nama</th>
-              <th className="border border-slate-600 ...">Gred</th>
-              <th className="border border-slate-600 ...">
-                Nama Klinik Pergigian
-              </th>
-              <th className="border border-slate-600 ...">Role</th>
-              <th className="border border-slate-600 ...">Manage</th>
+              <th className="border border-slate-600">Bil.</th>
+              <th className="border border-slate-600">Nama</th>
+              <th className="border border-slate-600">Gred</th>
+              <th className="border border-slate-600">Nama Klinik Pergigian</th>
+              <th className="border border-slate-600">Role</th>
+              <th className="border border-slate-600">Manage</th>
             </tr>
           </thead>
           <tbody>
@@ -58,63 +63,31 @@ function PegawaiTable() {
                   <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
                     Edit
                   </button>
+                  {editOpen && <EditModal setEditOpen={setEditOpen} />}
                   <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
                     Delete
                   </button>
+                  {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
                 </td>
               </tr>
             ))}
           </tbody>
-          {/* <tbody>
-            <tr>
-              <td class="border border-slate-700 ...">1</td>
-              <td class="border border-slate-700 ...">Calypso</td>
-              <td class="border border-slate-700 ...">666</td>
-              <td class="border border-slate-700 ...">
-                Klinik Pergigian Datuk Kumbar
-              </td>
-              <td class="border border-slate-700 ...">Driller</td>
-              <td class="border border-slate-700 ...">
-                <div className="admin-table-header-container-text-manage">
-                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                    Edit
-                  </button>
-                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="border border-slate-700 ...">2</td>
-              <td class="border border-slate-700 ...">Mariya</td>
-              <td class="border border-slate-700 ...">999</td>
-              <td class="border border-slate-700 ...">
-                Klinik Pergigian Alor Janggus
-              </td>
-              <td class="border border-slate-700 ...">Driller</td>
-              <td class="border border-slate-700 ...">
-                <div className="admin-table-header-container-text-manage">
-                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                    Edit
-                  </button>
-                  <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody> */}
         </table>
       </div>
       <button
         className="bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl"
         id="addFac"
+        onClick={() => {
+          setAddOpen(true);
+          setEditOpen(false);
+          setIsOpen(false);
+        }}
       >
         <div className="text-adminWhite text-7xl">
           <FaPlus />
         </div>
       </button>
+      {addOpen && <AddModal setAddOpen={setAddOpen} />}
     </div>
   );
 }

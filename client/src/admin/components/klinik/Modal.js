@@ -1,26 +1,19 @@
 import React from "react";
-import styles from "../../Modal.module.css";
+import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { useState, useEffect } from "react";
-import { getKP, addPp } from "../../controllers/helper";
+import { useState } from "react";
+import { addKp } from "../controllers/helper";
 
 const Modal = ({ setAddOpen }) => {
-  const [newPp, setnewPp] = useState("");
-  const [KP, setKP] = useState([]);
+  const [newKp, setnewKp] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(newPp);
-    await addPp(newPp);
+    console.log(newKp);
+    await addKp(newKp);
     setAddOpen(false);
     window.location.reload();
   };
-
-  useEffect(() => {
-    getKP().then((res) => {
-      setKP(res.data);
-    });
-  }, []);
 
   return (
     <>
@@ -29,7 +22,7 @@ const Modal = ({ setAddOpen }) => {
         <div className={styles.centered}>
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>TAMBAH PEGAWAI</h5>
+              <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
             </div>
             <button
               className={styles.closeBtn}
@@ -40,36 +33,14 @@ const Modal = ({ setAddOpen }) => {
             <div className={styles.modalContent}>
               <div className="admin-pegawai-handler-container">
                 <div className="admin-pegawai-handler-input">
-                  <p>Nama Pegawai</p>
+                  <p>Nama Klinik Pergigian</p>
                   <input
                     className="border-2"
                     type="text"
                     name="Nama"
                     id="nama"
-                    onChange={(e) => setnewPp(e.target.value)}
+                    onChange={(e) => setnewKp(e.target.value)}
                   />
-                  <br />
-                  <p>Gred</p>
-                  <input
-                    className="border-2"
-                    type="text"
-                    name="Nama"
-                    id="nama"
-                    onChange={(e) => setnewPp(e.target.value)}
-                  />
-                  <br />
-                  <p>Klinik Bertugas</p>
-                  <select className="border-2">
-                    {KP.map((k, index) => (
-                      <option>{k.nama}</option>
-                    ))}
-                  </select>
-                  <br />
-                  <p>Role</p>
-                  <select className="border-2">
-                    <option>Admin</option>
-                    <option>Marhaen</option>
-                  </select>
                 </div>
               </div>
             </div>
