@@ -46,10 +46,11 @@ const Modal = ({ setAddOpen }) => {
               </div>
             </div>
             <div className={styles.modalContent}>
-              <input type="checkbox" name="checkbox" value="KEPP" />
-              KEPP
-              <br />
-              <br />
+              <div className="admin-pegawai-handler-container-kepp">
+                <input type="checkbox" name="checkbox" value="KEPP" />
+               KEPP
+              </div>
+              <br/>
               <input
                 type="checkbox"
                 name="checkbox"
