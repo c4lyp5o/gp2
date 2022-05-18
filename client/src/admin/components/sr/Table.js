@@ -1,11 +1,17 @@
 import { FaPlus } from "react-icons/fa";
 import { getKP, getSR } from "../../controllers/helper";
 import { useEffect, useState } from "react";
+import DeleteModal from "../DeleteModal";
+import EditModal from "../EditModal";
+import AddModal from "./Modal";
 
 function SRTable() {
   const [kp, setKP] = useState([]);
   const [SR, setSR] = useState([]);
   const [daerah, setDaerah] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   useEffect(() => {
     getSR().then((res) => {
@@ -45,9 +51,11 @@ function SRTable() {
                 <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
                   Edit
                 </button>
+                {editOpen && <EditModal setEditOpen={setEditOpen} />}
                 <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
                   Delete
                 </button>
+                {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
               </td>
             </tr>
           ))}
@@ -56,11 +64,17 @@ function SRTable() {
       <button
         className="bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl"
         id="addFac"
+        onClick={() => {
+          setAddOpen(true);
+          setEditOpen(false);
+          setIsOpen(false);
+        }}
       >
         <div className="text-adminWhite text-7xl">
           <FaPlus />
         </div>
       </button>
+      {addOpen && <AddModal setAddOpen={setAddOpen} />}
     </div>
   );
 }

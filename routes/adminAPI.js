@@ -26,29 +26,34 @@ router.post("/kp", adminAPI.listKp);
 router.post("/kp/add", adminAPI.addKp);
 
 router.post("/pg", adminAPI.listPg);
-router.post("/pg/add");
+router.post("/pg/add", adminAPI.addPg);
 // router.post("/pg", admincon.addPg);
 // router.post('/pg/add', admincon.commitPg);
 
 router.post("/taska", adminAPI.listTaska);
+router.post("/taska/add", adminAPI.addTaska);
 // router.post("/taska", admincon.addTaska);
 // router.post("/taska", admincon.addTaska);
 // router.post('/taska/add', admincon.commitData);
 
 router.post("/tadika", adminAPI.listTadika);
+router.post("/tadika/add", adminAPI.addTadika);
 // router.post("/tadika", admincon.addTadika);
 // router.post("/tadika", adminAPI.listTadika);
 // router.post('/tadika/add', admincon.commitData);
 
 router.post("/sr", adminAPI.listSr);
+router.post("/sr/add", adminAPI.addSR);
 // router.post("/sr", admincon.addSr);
 // router.post('/sr/add', admincon.commitData);
 
 router.post("/sm", adminAPI.listSm);
+router.post("/sm/add", adminAPI.addSM);
 // router.post("/sm", admincon.addSm);
 // router.post('/sm/add', admincon.commitData);
 
 router.post("/ins", adminAPI.listInstitusi);
+router.post("/ins/add", adminAPI.addInstitusi);
 // router.post("/ins", admincon.addSm);
 
 router.post("/facilitytype", adminAPI.listFacilityType);

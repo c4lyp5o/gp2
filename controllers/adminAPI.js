@@ -206,7 +206,7 @@ exports.listSm = (req, res) => {
 exports.listInstitusi = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "XXX",
+      jenisFasiliti: "Institusi",
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -270,9 +270,11 @@ exports.addKp = (req, res) => {
 
 exports.addPg = (req, res) => {
   const pg = new Operator({
-    nama: req.body.pegawai,
+    nama: req.body.nama,
+    gred: req.body.gred,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-    kpSkrg: pilihan,
+    kpSkrg: req.body.kp,
+    role: req.body.role,
   });
   pg.save((err, data) => {
     if (err) {
@@ -288,8 +290,9 @@ exports.addPg = (req, res) => {
 };
 
 exports.addTaska = (req, res) => {
+  console.log(req.body);
   const taska = new Fasiliti({
-    nama: req.body.taska,
+    nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
@@ -308,9 +311,30 @@ exports.addTaska = (req, res) => {
   });
 };
 
+exports.addTadika = (req, res) => {
+  const tadika = new Fasiliti({
+    nama: req.body.nama,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: "Tadika",
+  });
+  tadika.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Tadika berjaya ditambah",
+      });
+    }
+  });
+};
+
 exports.addSR = (req, res) => {
   const sr = new Fasiliti({
-    nama: req.body.sr,
+    nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
@@ -331,7 +355,7 @@ exports.addSR = (req, res) => {
 
 exports.addSM = (req, res) => {
   const sm = new Fasiliti({
-    nama: req.body.sm,
+    nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
@@ -352,7 +376,7 @@ exports.addSM = (req, res) => {
 
 exports.addInstitusi = (req, res) => {
   const institusi = new Fasiliti({
-    nama: req.body.institusi,
+    nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,

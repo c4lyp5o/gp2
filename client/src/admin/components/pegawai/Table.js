@@ -56,7 +56,7 @@ function PegawaiTable() {
               <tr id={index}>
                 <td className="border border-slate-700">{index + 1}</td>
                 <td className="border border-slate-700">{p.nama}</td>
-                <td className="border border-slate-700">{p.handler}</td>
+                <td className="border border-slate-700">{p.gred}</td>
                 <td className="border border-slate-700">{p.kpSkrg}</td>
                 <td className="border border-slate-700">{p.role}</td>
                 <td className="border border-slate-700">
