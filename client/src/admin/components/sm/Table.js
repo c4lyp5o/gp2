@@ -37,14 +37,14 @@ function SMTable() {
       <table className="table-auto border-collapse border border-slate-500">
         <thead>
           <tr>
-            <th className="border border-slate-600 ...">Bil.</th>
-            <th className="border border-slate-600 ...">Nama Sekolah</th>
-            <th className="border border-slate-600 ...">Nama Klinik</th>
-            <th className="border border-slate-600 ...">Manage</th>
+            <th className="border border-slate-600 px-3">Bil.</th>
+            <th className="border border-slate-600 px-20">Nama Sekolah</th>
+            <th className="border border-slate-600 px-10">Nama Klinik</th>
+            <th className="border border-slate-600 px-3">Manage</th>
           </tr>
         </thead>
-        <select className="border-2 absolute top-40 right-5">
-          {kp.map((k) => (
+        <select className="border-2 absolute top-40 right-5  w-24">
+          {kp.map((k, index) => (
             <option>{k.nama}</option>
           ))}
         </select>

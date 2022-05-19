@@ -81,9 +81,9 @@ function KlinikTable() {
       <table className="table-auto border-collapse border border-slate-500">
         <thead>
           <tr>
-            <th className="border border-slate-600">Bil.</th>
-            <th className="border border-slate-600">Nama KP</th>
-            <th className="border border-slate-600">Daerah</th>
+            <th className="border border-slate-600 px-3">Bil.</th>
+            <th className="border border-slate-600 place-content-evenly px-20">Nama KP</th>
+            <th className="border border-slate-600 px-5">Daerah</th>
             <th className="border border-slate-600">Manage</th>
           </tr>
         </thead>
@@ -91,7 +91,7 @@ function KlinikTable() {
           {KP.map((kp, index) => (
             <tr>
               <td className="border border-slate-700">{index + 1}</td>
-              <td className="border border-slate-700">{kp.nama}</td>
+              <td className="border border-slate-700 px-5">{kp.nama}</td>
               <td className="border border-slate-700">{kp.daerah}</td>
               <td className="border border-slate-700">
                 <div>

@@ -34,14 +34,20 @@ function InstitusiTable() {
       <h1 className="text-3xl font-bold">Senarai Institusi Daerah {daerah}</h1>
       <div className="admin-table-container">
         <div className="admin-table-header-container">
+          <select className="border-2 absolute top-40 right-5  w-24">
+            <option>Klinik Pergigian Alor Janggus</option>
+            <option>Klinik Pergigian Datuk Kumbar</option>
+          </select>
           <div className="admin-table-header-container-text">
             <table className="table-auto border-collapse border border-slate-500">
               <thead>
                 <tr>
-                  <th class="border border-slate-600 ...">Bil.</th>
-                  <th class="border border-slate-600 ...">Nama</th>
-                  <th class="border border-slate-600 ...">Nama Klinik</th>
-                  <th class="border border-slate-600 ...">Manage</th>
+                  <th class="border border-slate-600 px-3">Bil.</th>
+                  <th class="border border-slate-600 px-20">Nama</th>
+                  <th class="border border-slate-600 px-10">
+                    Nama Klinik Pergigian
+                  </th>
+                  <th class="border border-slate-600 px-3">Manage</th>
                 </tr>
               </thead>
               <select className="border-2 absolute top-40 right-5">

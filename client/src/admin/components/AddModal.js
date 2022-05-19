@@ -46,14 +46,38 @@ const Modal = ({ setAddOpen }) => {
               </div>
             </div>
             <div className={styles.modalContent}>
-              <input type="checkbox" name="checkbox" value="KEPP" />
-              KEPP
-              <br />
-              <input type="checkbox" name="checkbox" value="KEPP" />
-              UTC
-              <br />
-              <input type="checkbox" name="checkbox" value="KEPP" />
-              Visiting
+              <label className="block bg-admin3 mx-24">
+                <input type="checkbox" name="checkbox" value="KEPP" className="w-3.5 h-3.5 m-2 "/>
+                <span style={{color:"white"}}>KEPP</span>
+              </label>
+              <br/>
+              <label className="block bg-admin3 mx-24 text-white">
+              <input
+                type="checkbox"
+                name="checkbox"
+                value="RTC"
+                className="w-3.5 h-3.5 m-2"
+                onChange={(e) => {
+                  if (utcrtc === "") {
+                    setutcrtc("hidden");
+                  }
+                  if (utcrtc === "hidden") {
+                    setutcrtc("");
+                  }
+                }}
+              />
+              <span style={{color:"white"}}>RTC / UTC</span>
+              </label>
+              <div className={utcrtc}>
+              <label className="block bg-admin3 mx-24 ">
+                <input type="radio" name="type" className="m-2"/>
+                <span style={{color:"white"}}>UTC</span>
+              </label>
+              <label className="block bg-admin3 mx-24">
+                <input type="radio" name="type"  className="m-2"/>
+                <span style={{color:"white"}}>RTC</span>
+              </label>
+              </div>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
