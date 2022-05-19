@@ -144,3 +144,7 @@
   transform: none;
   background: whitesmoke;
 }
+
+label {
+  color: #ffffff;
+}

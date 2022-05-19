@@ -46,15 +46,16 @@ const Modal = ({ setAddOpen }) => {
               </div>
             </div>
             <div className={styles.modalContent}>
-              <div className="admin-pegawai-handler-container-kepp">
-                <input type="checkbox" name="checkbox" value="KEPP" />
-               KEPP
-              </div>
+              <label className="block bg-admin3 mx-24 text-white">
+                <input type="checkbox" name="checkbox" value="KEPP" className="w-3.5 h-3.5 m-2 "/>KEPP
+              </label>
               <br/>
+              <label className="block bg-admin3 mx-24 text-white">
               <input
                 type="checkbox"
                 name="checkbox"
                 value="RTC"
+                className="w-3.5 h-3.5 m-2"
                 onChange={(e) => {
                   if (utcrtc === "") {
                     setutcrtc("hidden");
@@ -64,14 +65,14 @@ const Modal = ({ setAddOpen }) => {
                   }
                 }}
               />
-              RTC / UTC
-              <br />
+              RTC / UTC</label>
               <div className={utcrtc}>
-                <input type="radio" name="type" />
-                UTC
-                <br />
-                <input type="radio" name="type" />
-                RTC
+              <label className="block bg-admin3 mx-24 ">
+                <input type="radio" name="type" className="m-2"/>
+                UTC</label>
+                <label className="block bg-admin3 mx-24">
+                <input type="radio" name="type"  className="m-2"/>
+                RTC</label>
               </div>
             </div>
             <div className={styles.modalActions}>
