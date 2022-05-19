@@ -46,8 +46,9 @@ const Modal = ({ setAddOpen }) => {
               </div>
             </div>
             <div className={styles.modalContent}>
-              <label className="block bg-admin3 mx-24 text-white">
-                <input type="checkbox" name="checkbox" value="KEPP" className="w-3.5 h-3.5 m-2 "/>KEPP
+              <label className="block bg-admin3 mx-24">
+                <input type="checkbox" name="checkbox" value="KEPP" className="w-3.5 h-3.5 m-2 "/>
+                <span style={{color:"white"}}>KEPP</span>
               </label>
               <br/>
               <label className="block bg-admin3 mx-24 text-white">
@@ -65,14 +66,17 @@ const Modal = ({ setAddOpen }) => {
                   }
                 }}
               />
-              RTC / UTC</label>
+              <span style={{color:"white"}}>RTC / UTC</span>
+              </label>
               <div className={utcrtc}>
               <label className="block bg-admin3 mx-24 ">
                 <input type="radio" name="type" className="m-2"/>
-                UTC</label>
-                <label className="block bg-admin3 mx-24">
+                <span style={{color:"white"}}>UTC</span>
+              </label>
+              <label className="block bg-admin3 mx-24">
                 <input type="radio" name="type"  className="m-2"/>
-                RTC</label>
+                <span style={{color:"white"}}>RTC</span>
+              </label>
               </div>
             </div>
             <div className={styles.modalActions}>

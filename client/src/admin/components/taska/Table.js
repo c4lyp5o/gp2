@@ -28,7 +28,7 @@ function TaskaTable() {
             <th className="border border-slate-600 px-3">Manage</th>
           </tr>
         </thead>
-        <select className="border-2 absolute top-40 right-5">
+        <select className="border-2 absolute top-40 right-5 w-24">
           {kp.map((k, index) => (
             <option>{k.nama}</option>
           ))}
