@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 
@@ -17,36 +18,36 @@ function UserNavbar() {
       >
         <div className='h-40'></div>
         <div className='grid'>
-          <a
+          <NavLink
+            to='/'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-            href='#dashboard'
           >
             DASHBOARD
-          </a>
-          <a
+          </NavLink>
+          <NavLink
+            to='taska'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-            href='#taska'
           >
             TASKA
-          </a>
-          <a
+          </NavLink>
+          <NavLink
+            to='sekolah'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-            href='#sekolah'
           >
             SEKOLAH
-          </a>
-          <a
+          </NavLink>
+          <NavLink
+            to='institusi'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-            href='#institusi'
           >
             INSTITUSI
-          </a>
-          <a
+          </NavLink>
+          <NavLink
+            to='generate'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-            href='#generate'
           >
             GENERATE RETEN
-          </a>
+          </NavLink>
         </div>
       </nav>
       <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-40'>

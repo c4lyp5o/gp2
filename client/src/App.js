@@ -1,12 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import UserLoginPage from './user/pages/UserLoginPage';
-import UserSharedHomeLayout from './user/pages/UserSharedHomeLayout';
+import UserSharedLayout from './user/pages/UserSharedLayout';
 
 // import './user/user.css';
-import UserHeader from './user/components/UserHeader';
 import UserLogin from './user/pages/UserLogin';
 import UserAfterLogin from './user/pages/UserAfterLogin';
-import UserFooter from './user/components/UserFooter';
+import UserNotFound from './user/pages/UserNotFound';
 
 // import "./admin/admin.css";
 // import AdminHeader from './admin/components/AdminHeader';
@@ -23,14 +21,25 @@ function App() {
     //   <UserAfterLogin />
     //   <UserFooter />
     // </>
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<UserLoginPage />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+
+    <BrowserRouter>
+      <Routes>
+        <Route element={<UserSharedLayout />}>
+          <Route path='/*' element={<UserAfterLogin />} />
+
+          <Route path='login' element={<UserLogin />} />
+
+          <Route path='*' element={<UserNotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+// path available are:
+// '/'
+// '/dashboard'
+// '/generate'
+// '/*' for error
 
 export default App;
