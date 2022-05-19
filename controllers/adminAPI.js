@@ -72,7 +72,6 @@ exports.getCurrentUser = async (req, res) => {
     username: jwt.verify(req.body.token, process.env.JWT_SECRET).username,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
   };
-  // console.log(data);
   res.status(200).json({
     status: "success",
     message: "Data user berjaya diambil",
@@ -289,7 +288,6 @@ exports.addPg = (req, res) => {
 };
 
 exports.addTaska = (req, res) => {
-  console.log(req.body);
   const taska = new Fasiliti({
     nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
@@ -394,16 +392,88 @@ exports.addInstitusi = (req, res) => {
   });
 };
 
-exports.deleteFacility = (req, res) => {
+exports.deleteData = (req, res) => {
   Fasiliti.findByIdAndDelete(req.body.id, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      Operator.findByIdAndDelete(req.body.id, (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).json({
+            status: "success",
+            data: data,
+            message: "Fasiliti berjaya dihapus",
+          });
+        }
+      });
+    }
+  });
+};
+
+exports.findPegawai = (req, res) => {
+  Operator.findById(req.body.id, (err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
         status: "success",
         data: data,
-        message: "Fasiliti berjaya dihapus",
+        message: "Pegawai berjaya dicari",
       });
     }
   });
+};
+
+exports.findFacility = (req, res) => {
+  Fasiliti.findById(req.body.id, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Fasiliti berjaya dicari",
+      });
+    }
+  });
+};
+
+exports.editPegawai = (req, res) => {
+  Operator.findByIdAndUpdate(
+    req.body.id,
+    { gred: req.body.gred, kpSkrg: req.body.kp, role: req.body.role },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: data,
+          message: "Pegawai berjaya dikemaskini",
+        });
+      }
+    }
+  );
+};
+
+exports.editFacility = async (req, res) => {
+  Fasiliti.findByIdAndUpdate(
+    req.body.id,
+    {
+      handler: req.body.handler,
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: data,
+          message: "Fasiliti berjaya dikemaskini",
+        });
+      }
+    }
+  );
 };

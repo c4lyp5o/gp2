@@ -1,8 +1,8 @@
 import { FaPlus } from "react-icons/fa";
-import { getKP, getSR } from "../../controllers/helper";
+import { getKP, getSR, getCurrentUser } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
-import EditModal from "../EditModal";
+import EditModal from "../EditModalFacility";
 import AddModal from "./Modal";
 
 function SRTable() {
@@ -12,6 +12,7 @@ function SRTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [Id, setId] = useState("");
 
   useEffect(() => {
     getSR().then((res) => {
@@ -21,7 +22,14 @@ function SRTable() {
     getKP().then((res) => {
       setKP(res.data);
     });
+    getCurrentUser().then((res) => {
+      setDaerah(res.data.data.daerah);
+    });
   }, []);
+  function handleClick(e) {
+    setId(e.target.id);
+    console.log(e.target.id);
+  }
   return (
     <div className="flex flex-col items-center gap-5">
       <h1 className="text-3xl font-bold">
@@ -30,10 +38,10 @@ function SRTable() {
       <table className="table-auto border-collapse border border-slate-500">
         <thead>
           <tr>
-            <th className="border border-slate-600 ...">Bil.</th>
-            <th className="border border-slate-600 ...">Nama Sekolah</th>
-            <th className="border border-slate-600 ...">Nama Klinik</th>
-            <th className="border border-slate-600 ...">Manage</th>
+            <th className="border border-slate-600">Bil.</th>
+            <th className="border border-slate-600">Nama Sekolah</th>
+            <th className="border border-slate-600">Nama Klinik</th>
+            <th className="border border-slate-600">Manage</th>
           </tr>
         </thead>
         <select className="border-2 absolute top-40 right-5">
@@ -45,17 +53,32 @@ function SRTable() {
           {SR.map((s, index) => (
             <tr>
               <td className="border border-slate-700">{index + 1}</td>
-              <td className="border border-slate-700 ...">{s.nama}</td>
-              <td className="border border-slate-700 ...">{s.handler}</td>
-              <td className="border border-slate-700 ...">
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+              <td className="border border-slate-700">{s.nama}</td>
+              <td className="border border-slate-700">{s.handler}</td>
+              <td className="border border-slate-700">
+                <button
+                  className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                  id={s._id}
+                  onClick={() => {
+                    setEditOpen(true);
+                    setId(s._id);
+                  }}
+                >
                   Edit
                 </button>
-                {editOpen && <EditModal setEditOpen={setEditOpen} />}
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+                {editOpen && <EditModal setEditOpen={setEditOpen} Id={Id} />}
+                <button
+                  className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                  id={s._id}
+                  onClick={(e) => {
+                    setIsOpen(true);
+                    // setEditOpen(false);
+                    handleClick(e);
+                  }}
+                >
                   Delete
                 </button>
-                {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
+                {isOpen && <DeleteModal setIsOpen={setIsOpen} Id={Id} />}
               </td>
             </tr>
           ))}

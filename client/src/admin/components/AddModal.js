@@ -49,29 +49,11 @@ const Modal = ({ setAddOpen }) => {
               <input type="checkbox" name="checkbox" value="KEPP" />
               KEPP
               <br />
+              <input type="checkbox" name="checkbox" value="KEPP" />
+              UTC
               <br />
-              <input
-                type="checkbox"
-                name="checkbox"
-                value="RTC"
-                onChange={(e) => {
-                  if (utcrtc === "") {
-                    setutcrtc("hidden");
-                  }
-                  if (utcrtc === "hidden") {
-                    setutcrtc("");
-                  }
-                }}
-              />
-              RTC / UTC
-              <br />
-              <div className={utcrtc}>
-                <input type="radio" name="type" />
-                UTC
-                <br />
-                <input type="radio" name="type" />
-                RTC
-              </div>
+              <input type="checkbox" name="checkbox" value="KEPP" />
+              Visiting
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>

@@ -1,21 +1,14 @@
 import { FaPlus } from "react-icons/fa";
-import {
-  getCurrentUser,
-  getKP,
-  deleteFacility,
-} from "../../controllers/helper.js";
+import { getCurrentUser, getKP, deleteData } from "../../controllers/helper.js";
 import { useEffect, useState } from "react";
 import styles from "../../../admin/Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-// import DeleteModal from "../DeleteModal";
-// import EditModal from "../EditModal";
 import AddModal from "../AddModal";
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);
   const [daerah, setDaerah] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  // const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [Id, setId] = useState("");
 
@@ -60,7 +53,7 @@ function KlinikTable() {
                   className={styles.deleteBtn}
                   onClick={async () => {
                     setIsOpen(false);
-                    await deleteFacility(Id);
+                    await deleteData(Id);
                     window.location.reload();
                   }}
                 >

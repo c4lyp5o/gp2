@@ -34,6 +34,73 @@ export async function getPG() {
   return response.data;
 }
 
+export async function searchPg(search) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/pg/find`,
+    {
+      token: getTokenized(),
+      id: search,
+    }
+  );
+  // console.log(response);
+  return response.data;
+}
+
+export async function searchFacility(search) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/find`,
+    {
+      token: getTokenized(),
+      id: search,
+    }
+  );
+  console.log(response);
+  return response.data;
+}
+
+export async function addPp(data) {
+  console.log(data);
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/pg/add`,
+    {
+      token: getTokenized(),
+      nama: data.nama,
+      gred: data.gred,
+      kp: data.kp,
+      role: data.role,
+    }
+  );
+  // console.log(response);
+  return response;
+}
+
+export async function deletePegawai(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/pg/delete`,
+    {
+      token: getTokenized(),
+      id: data,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
+export async function editPegawai(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/pg/edit`,
+    {
+      token: getTokenized(),
+      id: data.id,
+      gred: data.gred,
+      kp: data.kp,
+      role: data.role,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
 export async function getTaska() {
   let response = await axios.post(
     `http://localhost:5000/api/v1/superadmin/taska`,
@@ -43,6 +110,18 @@ export async function getTaska() {
   );
   // console.log(response);
   return response.data;
+}
+
+export async function deleteTaska(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/delete`,
+    {
+      token: getTokenized(),
+      id: data,
+    }
+  );
+  console.log(response);
+  return response;
 }
 
 export async function getTadika() {
@@ -106,22 +185,6 @@ export async function addKp(data) {
     {
       token: getTokenized(),
       klinik: data,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
-export async function addPp(data) {
-  console.log(data);
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/pg/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      gred: data.gred,
-      kp: data.kp,
-      role: data.role,
     }
   );
   // console.log(response);
@@ -199,6 +262,31 @@ export async function deleteFacility(data) {
     {
       token: getTokenized(),
       id: data,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
+export async function deleteData(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/delete`,
+    {
+      token: getTokenized(),
+      id: data,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
+export async function editFacility(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/edit`,
+    {
+      token: getTokenized(),
+      id: data.id,
+      handler: data.kp,
     }
   );
   console.log(response);

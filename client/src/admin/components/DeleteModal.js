@@ -1,12 +1,9 @@
 import React from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { useState } from "react";
-import { deleteFacility } from "../controllers/helper";
+import { deleteData } from "../controllers/helper";
 
-const Modal = ({ setIsOpen, setId }) => {
-  // const [id, setId] = useState("");
-
+const Modal = ({ setIsOpen, Id }) => {
   return (
     <>
       <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
@@ -25,7 +22,11 @@ const Modal = ({ setIsOpen, setId }) => {
             <div className={styles.actionsContainer}>
               <button
                 className={styles.deleteBtn}
-                onClick={() => setIsOpen(false)}
+                onClick={async () => {
+                  setIsOpen(false);
+                  await deleteData(Id);
+                  window.location.reload();
+                }}
               >
                 YA
               </button>

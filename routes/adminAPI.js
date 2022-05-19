@@ -8,7 +8,6 @@ const adminAPI = require("../controllers/adminAPI");
 
 // Routes
 router.get("/", adminAPI.helloUser);
-router.get("/adduser", adminAPI.helloUser);
 router.post("/adduser", adminAPI.addAdmin);
 router.post("/getuser", adminAPI.getCurrentUser);
 
@@ -17,6 +16,9 @@ router.post("/kp/add", adminAPI.addKp);
 
 router.post("/pg", adminAPI.listPg);
 router.post("/pg/add", adminAPI.addPg);
+router.post("/pg/find", adminAPI.findPegawai);
+// router.post("/pg/delete", adminAPI.deleteFacility);
+router.post("/pg/edit", adminAPI.editPegawai);
 
 router.post("/taska", adminAPI.listTaska);
 router.post("/taska/add", adminAPI.addTaska);
@@ -34,7 +36,10 @@ router.post("/ins", adminAPI.listInstitusi);
 router.post("/ins/add", adminAPI.addInstitusi);
 
 router.get("/facilitytype", adminAPI.listFacilityType);
-router.post("/facility/delete", adminAPI.deleteFacility);
+// router.post("/facility/delete", adminAPI.deleteFacility);
+router.post("/facility/find", adminAPI.findFacility);
+router.post("/facility/edit", adminAPI.editFacility);
+router.post("/delete", adminAPI.deleteData);
 
 router.post("/search", admincon.searchAll);
 router.post("/searchpg", admincon.searchPg);

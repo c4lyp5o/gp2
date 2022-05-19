@@ -1,8 +1,8 @@
 import { FaPlus } from "react-icons/fa";
-import { getKP, getSM } from "../../controllers/helper";
+import { getKP, getSM, getCurrentUser } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
-import EditModal from "../EditModal";
+import EditModal from "../EditModalFacility";
 import AddModal from "./Modal";
 
 function SMTable() {
@@ -12,16 +12,23 @@ function SMTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [Id, setId] = useState("");
 
   useEffect(() => {
     getSM().then((res) => {
       setSM(res.data);
-      setDaerah(res.data[0].daerah);
     });
     getKP().then((res) => {
       setKP(res.data);
     });
+    getCurrentUser().then((res) => {
+      setDaerah(res.data.data.daerah);
+    });
   }, []);
+  function handleClick(e) {
+    setId(e.target.id);
+    console.log(e.target.id);
+  }
   return (
     <div className="flex flex-col items-center gap-5">
       <h1 className="text-3xl font-bold">
@@ -48,14 +55,29 @@ function SMTable() {
               <td className="border border-slate-700 ...">{s.nama}</td>
               <td className="border border-slate-700 ...">{s.handler}</td>
               <td className="border border-slate-700 ...">
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+                <button
+                  className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                  id={s._id}
+                  onClick={() => {
+                    setEditOpen(true);
+                    setId(s._id);
+                  }}
+                >
                   Edit
                 </button>
-                {editOpen && <EditModal setEditOpen={setEditOpen} />}
-                <button className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2">
+                {editOpen && <EditModal setEditOpen={setEditOpen} Id={Id} />}
+                <button
+                  className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                  id={s._id}
+                  onClick={(e) => {
+                    setIsOpen(true);
+                    // setEditOpen(false);
+                    handleClick(e);
+                  }}
+                >
                   Delete
                 </button>
-                {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
+                {isOpen && <DeleteModal setIsOpen={setIsOpen} Id={Id} />}
               </td>
             </tr>
           ))}
