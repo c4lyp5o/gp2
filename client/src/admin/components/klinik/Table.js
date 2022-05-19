@@ -1,16 +1,16 @@
 import { FaPlus } from "react-icons/fa";
-import { getCurrentUser, getKP } from "../../controllers/helper.js";
+import { getCurrentUser, getKP, deleteData } from "../../controllers/helper.js";
 import { useEffect, useState } from "react";
-import DeleteModal from "../DeleteModal";
-import EditModal from "../EditModal";
+import styles from "../../../admin/Modal.module.css";
+import { RiCloseLine } from "react-icons/ri";
 import AddModal from "../AddModal";
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);
   const [daerah, setDaerah] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [Id, setId] = useState("");
 
   useEffect(() => {
     getKP().then((res) => {
@@ -20,6 +20,59 @@ function KlinikTable() {
       setDaerah(res.data.data.daerah);
     });
   }, []);
+
+  function handleClick(e) {
+    setId(e.target.id);
+  }
+
+  function AlternativeDelete() {
+    useEffect(() => {
+      console.log(Id);
+    }, []);
+
+    return (
+      <>
+        <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
+        <div className={styles.centered}>
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>AWAS!</h5>
+            </div>
+            <button
+              className={styles.closeBtn}
+              onClick={() => setIsOpen(false)}
+            >
+              <RiCloseLine style={{ marginBottom: "-3px" }} />
+            </button>
+            <div className={styles.modalContent}>
+              Anda YAKIN untuk menghapus data ini?
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={async () => {
+                    setIsOpen(false);
+                    await deleteData(Id);
+                    window.location.reload();
+                  }}
+                >
+                  YA
+                </button>
+                <button
+                  className={styles.cancelBtn}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Tidak
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center gap-5">
       <h1 className="text-3xl font-bold">
@@ -44,24 +97,17 @@ function KlinikTable() {
                 <div>
                   <button
                     className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0"
-                    onClick={() => {
-                      setEditOpen(true);
-                      setIsOpen(false);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  {editOpen && <EditModal setEditOpen={setEditOpen} />}
-                  <button
-                    className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0"
-                    onClick={() => {
+                    id={kp._id}
+                    onClick={(e) => {
                       setIsOpen(true);
-                      setEditOpen(false);
+                      // setEditOpen(false);
+                      handleClick(e);
                     }}
                   >
                     Delete
                   </button>
-                  {isOpen && <DeleteModal setIsOpen={setIsOpen} />}
+                  {/* {isOpen && <DeleteModal setIsOpen={setIsOpen} setId={Id} />} */}
+                  {isOpen && <AlternativeDelete />}
                 </div>
               </td>
             </tr>
@@ -73,7 +119,7 @@ function KlinikTable() {
         id="addFac"
         onClick={() => {
           setAddOpen(true);
-          setEditOpen(false);
+          // setEditOpen(false);
           setIsOpen(false);
         }}
       >

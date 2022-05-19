@@ -2,33 +2,25 @@ import React from "react";
 import styles from "../../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import { getKP, addPp } from "../../controllers/helper";
+import { addTadika, getKP, getCurrentUser } from "../../controllers/helper";
 
 const Modal = ({ setAddOpen }) => {
-  const [newPp, setnewPp] = useState("");
-  const [gred, setGred] = useState("");
-  const [currKp, setCurrKp] = useState("");
-  const [role, setRole] = useState("");
+  const [tadika, setTadika] = useState("");
   const [KP, setKP] = useState([]);
+  const [daerah, setDaerah] = useState("");
+  const [currKp, setCurrKp] = useState("");
 
   const selectChangeKp = (event) => {
     const value = event.target.value;
     setCurrKp(value);
   };
 
-  const selectChangeRole = (event) => {
-    const value = event.target.value;
-    setRole(value);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await addPp(
+    const response = await addTadika(
       {
-        nama: newPp,
-        gred: gred,
+        nama: tadika,
         kp: currKp,
-        role: role,
       },
       setAddOpen
     );
@@ -40,6 +32,9 @@ const Modal = ({ setAddOpen }) => {
     getKP().then((res) => {
       setKP(res.data);
     });
+    // getCurrentUser().then((res) => {
+    //   setDaerah(res.data.data.daerah);
+    // });
   }, []);
 
   return (
@@ -49,7 +44,7 @@ const Modal = ({ setAddOpen }) => {
         <div className={styles.centered}>
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>TAMBAH PEGAWAI</h5>
+              <h5 className={styles.heading}>TAMBAH TADIKA</h5>
             </div>
             <button
               className={styles.closeBtn}
@@ -60,45 +55,24 @@ const Modal = ({ setAddOpen }) => {
             <div className={styles.modalContent}>
               <div className="admin-pegawai-handler-container">
                 <div className="admin-pegawai-handler-input">
-                  <p>Nama Pegawai</p>
+                  <p>Nama Tadika</p>
                   <input
                     className="border-2"
                     type="text"
                     name="Nama"
                     id="nama"
-                    onChange={(e) => setnewPp(e.target.value)}
+                    onChange={(e) => setTadika(e.target.value)}
                   />
-                  <br />
-                  <p>Gred</p>
-                  <input
-                    className="border-2"
-                    type="text"
-                    name="Gred"
-                    id="gred"
-                    onChange={(e) => setGred(e.target.value)}
-                  />
-                  <br />
-                  <p>Klinik Bertugas</p>
-                  <select className="border-2" onChange={selectChangeKp}>
-                    <option selected disabled>
-                      Pilih Klinik
-                    </option>
-                    {KP.map((k, index) => (
-                      <option value={k.nama}>{k.nama}</option>
-                    ))}
-                  </select>
-                  {/* {currKp && <h2 className="hidden">{currKp}</h2>} */}
-                  <br />
-                  <p>Role</p>
-                  <select className="border-2" onChange={selectChangeRole}>
-                    <option selected disabled>
-                      Pilih Role
-                    </option>
-                    <option>Admin</option>
-                    <option>Marhaen</option>
-                  </select>
-                  {/* {role && <h2 className="hidden">{role}</h2>} */}
                 </div>
+                <p>Klinik Bertugas</p>
+                <select className="border-2" onChange={selectChangeKp}>
+                  <option selected disabled>
+                    Pilih Klinik
+                  </option>
+                  {KP.map((k, index) => (
+                    <option value={k.nama}>{k.nama}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className={styles.modalActions}>

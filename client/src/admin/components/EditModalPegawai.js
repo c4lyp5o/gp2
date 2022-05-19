@@ -1,15 +1,14 @@
-import React from "react";
-import styles from "../../Modal.module.css";
+import React, { useEffect, useState } from "react";
+import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { useState, useEffect } from "react";
-import { getKP, addPp } from "../../controllers/helper";
+import { searchPg, getKP, editPegawai } from "../controllers/helper";
 
-const Modal = ({ setAddOpen }) => {
-  const [newPp, setnewPp] = useState("");
+const Modal = ({ setEditOpen, Id }) => {
+  const [Pegawai, setPegawai] = useState([]);
+  const [KP, setKP] = useState([]);
   const [gred, setGred] = useState("");
   const [currKp, setCurrKp] = useState("");
   const [role, setRole] = useState("");
-  const [KP, setKP] = useState([]);
 
   const selectChangeKp = (event) => {
     const value = event.target.value;
@@ -23,51 +22,43 @@ const Modal = ({ setAddOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await addPp(
-      {
-        nama: newPp,
-        gred: gred,
-        kp: currKp,
-        role: role,
-      },
-      setAddOpen
-    );
-    console.log(response);
+    const payload = {
+      id: Id,
+      gred: gred,
+      kp: currKp,
+      role: role,
+    };
+    await editPegawai(payload, setEditOpen);
     window.location.reload();
   };
 
   useEffect(() => {
+    searchPg(Id).then((res) => {
+      setPegawai(res.data);
+    });
     getKP().then((res) => {
       setKP(res.data);
     });
-  }, []);
-
+  }, [Id]);
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className={styles.darkBG} onClick={() => setAddOpen(false)} />
+        <div className={styles.darkBG} onClick={() => setEditOpen(false)} />
         <div className={styles.centered}>
-          <div className={styles.modalAdd}>
+          <div className={styles.modalEdit}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>TAMBAH PEGAWAI</h5>
+              <h5 className={styles.heading}>MANAGE PEGAWAI</h5>
             </div>
             <button
               className={styles.closeBtn}
-              onClick={() => setAddOpen(false)}
+              onClick={() => setEditOpen(false)}
             >
               <RiCloseLine style={{ marginBottom: "-3px" }} />
             </button>
             <div className={styles.modalContent}>
               <div className="admin-pegawai-handler-container">
                 <div className="admin-pegawai-handler-input">
-                  <p>Nama Pegawai</p>
-                  <input
-                    className="border-2"
-                    type="text"
-                    name="Nama"
-                    id="nama"
-                    onChange={(e) => setnewPp(e.target.value)}
-                  />
+                  <p>Nama Pegawai: {Pegawai.nama}</p>
                   <br />
                   <p>Gred</p>
                   <input
@@ -75,6 +66,7 @@ const Modal = ({ setAddOpen }) => {
                     type="text"
                     name="Gred"
                     id="gred"
+                    placeholder={Pegawai.gred}
                     onChange={(e) => setGred(e.target.value)}
                   />
                   <br />
@@ -97,18 +89,17 @@ const Modal = ({ setAddOpen }) => {
                     <option>Admin</option>
                     <option>Marhaen</option>
                   </select>
-                  {/* {role && <h2 className="hidden">{role}</h2>} */}
                 </div>
               </div>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
                 <button className={styles.deleteBtn} type="submit">
-                  TAMBAH
+                  UBAH
                 </button>
                 <button
                   className={styles.cancelBtn}
-                  onClick={() => setAddOpen(false)}
+                  onClick={() => setEditOpen(false)}
                 >
                   Cancel
                 </button>
