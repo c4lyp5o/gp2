@@ -192,3 +192,15 @@ export async function addInstitusi(data) {
   // console.log(response);
   return response;
 }
+
+export async function deleteFacility(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/delete`,
+    {
+      token: getTokenized(),
+      id: data,
+    }
+  );
+  console.log(response);
+  return response;
+}

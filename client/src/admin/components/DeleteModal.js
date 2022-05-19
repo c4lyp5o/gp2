@@ -1,8 +1,12 @@
 import React from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
+import { useState } from "react";
+import { deleteFacility } from "../controllers/helper";
 
-const Modal = ({ setIsOpen }) => {
+const Modal = ({ setIsOpen, setId }) => {
+  // const [id, setId] = useState("");
+
   return (
     <>
       <div className={styles.darkBG} onClick={() => setIsOpen(false)} />

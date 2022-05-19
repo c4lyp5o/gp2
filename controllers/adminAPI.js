@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const Superadmin = require("../models/Superadmin");
 const Fasiliti = require("../models/Fasiliti");
 const Operator = require("../models/Operator");
-const async = require("async");
 
 exports.helloUser = (req, res) => {
   return res.status(200).json({
@@ -390,6 +389,20 @@ exports.addInstitusi = (req, res) => {
         status: "success",
         data: data,
         message: "Institusi berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.deleteFacility = (req, res) => {
+  Fasiliti.findByIdAndDelete(req.body.id, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Fasiliti berjaya dihapus",
       });
     }
   });
