@@ -17,7 +17,6 @@ router.post("/kp/add", adminAPI.addKp);
 router.post("/pg", adminAPI.listPg);
 router.post("/pg/add", adminAPI.addPg);
 router.post("/pg/find", adminAPI.findPegawai);
-// router.post("/pg/delete", adminAPI.deleteFacility);
 router.post("/pg/edit", adminAPI.editPegawai);
 
 router.post("/taska", adminAPI.listTaska);

@@ -3,7 +3,7 @@ import { getCurrentUser, getKP, getTadika } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModalFacility";
-import AddModal from "./Modal";
+import AddModal from "../AddModalFacility";
 
 function TadikaTable() {
   const [kp, setKP] = useState([]);
@@ -94,7 +94,7 @@ function TadikaTable() {
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} />}
+      {addOpen && <AddModal setAddOpen={setAddOpen} jenisFacility="tadika" />}
     </div>
   );
 }

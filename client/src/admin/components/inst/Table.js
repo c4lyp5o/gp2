@@ -3,7 +3,7 @@ import { getCurrentUser, getKP, getInstitusi } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModalFacility";
-import AddModal from "./Modal";
+import AddModal from "../AddModalFacility";
 
 function InstitusiTable() {
   const [kp, setKP] = useState([]);
@@ -106,7 +106,7 @@ function InstitusiTable() {
               <FaPlus />
             </div>
           </button>
-          {addOpen && <AddModal setAddOpen={setAddOpen} />}
+          {addOpen && <AddModal setAddOpen={setAddOpen} jenisFacility="ins" />}
         </div>
       </div>
     </div>

@@ -51,7 +51,9 @@ function PegawaiTable() {
               <th className="border border-slate-600 px-3">Bil.</th>
               <th className="border border-slate-600 px-20">Nama</th>
               <th className="border border-slate-600 px-4">Gred</th>
-              <th className="border border-slate-600 px-5">Nama Klinik Pergigian</th>
+              <th className="border border-slate-600 px-5">
+                Nama Klinik Pergigian
+              </th>
               <th className="border border-slate-600 px-4">Role</th>
               <th className="border border-slate-600 px-4">Manage</th>
             </tr>
@@ -61,7 +63,7 @@ function PegawaiTable() {
               <tr id={index}>
                 <td className="border border-slate-700">{index + 1}</td>
                 <td className="border border-slate-700 px-3">{p.nama}</td>
-                <td className="border border-slate-700">{p.handler}</td>
+                <td className="border border-slate-700">{p.gred}</td>
                 <td className="border border-slate-700 px-3">{p.kpSkrg}</td>
                 <td className="border border-slate-700">{p.role}</td>
                 <td className="border border-slate-700">

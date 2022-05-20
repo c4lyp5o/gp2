@@ -3,7 +3,7 @@ import { getKP, getSR, getCurrentUser } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModalFacility";
-import AddModal from "./Modal";
+import AddModal from "../AddModalFacility";
 
 function SRTable() {
   const [kp, setKP] = useState([]);
@@ -97,7 +97,7 @@ function SRTable() {
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} />}
+      {addOpen && <AddModal setAddOpen={setAddOpen} jenisFacility="sr" />}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { getKP, getSM, getCurrentUser } from "../../controllers/helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModalFacility";
-import AddModal from "./Modal";
+import AddModal from "../AddModalFacility";
 
 function SMTable() {
   const [kp, setKP] = useState([]);
@@ -96,7 +96,7 @@ function SMTable() {
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} />}
+      {addOpen && <AddModal setAddOpen={setAddOpen} jenisFacility="sm" />}
     </div>
   );
 }

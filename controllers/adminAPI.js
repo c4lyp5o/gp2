@@ -4,9 +4,11 @@ const Fasiliti = require("../models/Fasiliti");
 const Operator = require("../models/Operator");
 const Dictionary = {
   klinik: "Klinik",
-  Taska: "Taska",
-  Tadika: "Tadika",
-  SR: "Sekolah Rendah",
+  taska: "Taska",
+  tadika: "Tadika",
+  sr: "Sekolah Rendah",
+  sm: "Sekolah Menengah",
+  ins: "Institusi",
 };
 
 exports.helloUser = (req, res) => {
