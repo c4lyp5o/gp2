@@ -23,12 +23,12 @@ function JPTable() {
         <table className="table-auto border-collapse border border-slate-500">
           <thead>
             <tr>
-              <th className="border border-slate-600 ...">Bil.</th>
-              <th class="border border-slate-600 ...">Nama</th>
-              <th class="border border-slate-600 ...">Gred</th>
+              <th className="border border-slate-600 px-3">Bil.</th>
+              <th class="border border-slate-600 px-20">Nama</th>
+              <th class="border border-slate-600 px-4">Gred</th>
               {/* <th>KP</th> */}
-              <th class="border border-slate-600 ...">Nama Klinik Pergigian</th>
-              <th class="border border-slate-600 ...">Role</th>
+              <th class="border border-slate-600 px-10">Nama Klinik Pergigian</th>
+              <th class="border border-slate-600 px-5">Role</th>
               <th class="border border-slate-600 ...">Manage</th>
             </tr>
           </thead>
