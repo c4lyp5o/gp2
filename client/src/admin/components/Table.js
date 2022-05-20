@@ -1,13 +1,13 @@
 import { FaPlus } from "react-icons/fa";
-import { getKP, getTaska, getCurrentUser } from "../../controllers/helper";
+import { getKP, getFacility, getCurrentUser } from "../controllers/helper";
 import { useEffect, useState } from "react";
-import DeleteModal from "../DeleteModal";
-import EditModal from "../EditModalFacility";
-import AddModal from "../AddModalFacility";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModalFacility";
+import AddModal from "./AddModalFacility";
 
-function TaskaTable() {
+function Table({ jenisFacility }) {
   const [kp, setKP] = useState([]);
-  const [taska, setTaska] = useState([]);
+  const [facility, setFacility] = useState([]);
   const [daerah, setDaerah] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -15,8 +15,9 @@ function TaskaTable() {
   const [Id, setId] = useState("");
 
   useEffect(() => {
-    getTaska().then((res) => {
-      setTaska(res.data);
+    console.log(jenisFacility);
+    getFacility(jenisFacility).then((res) => {
+      setFacility(res.data);
     });
     getKP().then((res) => {
       setKP(res.data);
@@ -27,11 +28,13 @@ function TaskaTable() {
   }, []);
   function handleClick(e) {
     setId(e.target.id);
-    console.log(e.target.id);
+    // console.log(e.target.id);
   }
   return (
     <div className="flex flex-col items-center gap-5">
-      <h1 className="text-3xl font-bold">Senarai Taska Daerah {daerah}</h1>
+      <h1 className="text-3xl font-bold">
+        Senarai {jenisFacility} Daerah {daerah}
+      </h1>
       <table className="table-auto border-collapse border border-slate-500">
         <thead>
           <tr>
@@ -47,7 +50,7 @@ function TaskaTable() {
           ))}
         </select>
         <tbody>
-          {taska.map((t, index) => (
+          {facility.map((t, index) => (
             <tr>
               <td className="border border-slate-700">{index + 1}</td>
               <td className="border border-slate-700">{t.nama}</td>
@@ -94,9 +97,11 @@ function TaskaTable() {
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} jenisFacility="taska" />}
+      {addOpen && (
+        <AddModal setAddOpen={setAddOpen} jenisFacility={jenisFacility} />
+      )}
     </div>
   );
 }
 
-export default TaskaTable;
+export default Table;

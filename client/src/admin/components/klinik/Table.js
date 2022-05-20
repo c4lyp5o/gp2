@@ -3,7 +3,7 @@ import { getCurrentUser, getKP, deleteData } from "../../controllers/helper.js";
 import { useEffect, useState } from "react";
 import styles from "../../../admin/Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import AddModal from "../AddModal";
+import AddModal from "../AddModalKlinik";
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);
@@ -83,7 +83,6 @@ function KlinikTable() {
           <tr>
             <th className="border border-slate-600">Bil.</th>
             <th className="border border-slate-600">Nama KP</th>
-            <th className="border border-slate-600">Daerah</th>
             <th className="border border-slate-600">Manage</th>
           </tr>
         </thead>
@@ -92,7 +91,6 @@ function KlinikTable() {
             <tr>
               <td className="border border-slate-700">{index + 1}</td>
               <td className="border border-slate-700">{kp.nama}</td>
-              <td className="border border-slate-700">{kp.daerah}</td>
               <td className="border border-slate-700">
                 <div>
                   <button

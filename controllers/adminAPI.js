@@ -2,6 +2,12 @@ const jwt = require("jsonwebtoken");
 const Superadmin = require("../models/Superadmin");
 const Fasiliti = require("../models/Fasiliti");
 const Operator = require("../models/Operator");
+const Dictionary = {
+  klinik: "Klinik",
+  Taska: "Taska",
+  Tadika: "Tadika",
+  SR: "Sekolah Rendah",
+};
 
 exports.helloUser = (req, res) => {
   return res.status(200).json({
@@ -472,6 +478,52 @@ exports.editFacility = async (req, res) => {
           status: "success",
           data: data,
           message: "Fasiliti berjaya dikemaskini",
+        });
+      }
+    }
+  );
+};
+
+exports.addFacility = async (req, res) => {
+  console.log(req.params.id);
+  const jenisFasiliti = Dictionary[req.params.id];
+  console.log(jenisFasiliti);
+  const facility = new Fasiliti({
+    nama: req.body.nama,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    handler: req.body.handler,
+    jenisFasiliti: jenisFasiliti,
+  });
+  facility.save((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Fasiliti berjaya ditambah",
+      });
+    }
+  });
+};
+
+exports.listFacility = (req, res) => {
+  const jenisFasiliti = Dictionary[req.params.id];
+  Fasiliti.find(
+    {
+      jenisFasiliti: jenisFasiliti,
+      //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
+      daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: data,
+          message: "Retrieved all Fasiliti",
         });
       }
     }

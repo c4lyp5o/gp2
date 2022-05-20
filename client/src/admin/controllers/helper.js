@@ -256,18 +256,6 @@ export async function addInstitusi(data) {
   return response;
 }
 
-export async function deleteFacility(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/facility/delete`,
-    {
-      token: getTokenized(),
-      id: data,
-    }
-  );
-  console.log(response);
-  return response;
-}
-
 export async function deleteData(data) {
   let response = await axios.post(
     `http://localhost:5000/api/v1/superadmin/delete`,
@@ -280,6 +268,33 @@ export async function deleteData(data) {
   return response;
 }
 
+export async function addFacility(data) {
+  // console.log(data);
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/add/${data.jenisFacility}`,
+    {
+      token: getTokenized(),
+      nama: data.nama,
+      type: data.type,
+      handler: data.kp,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
+export async function getFacility(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/find`,
+    {
+      token: getTokenized(),
+      jenisFacility: data,
+    }
+  );
+  console.log(response);
+  return response.data;
+}
+
 export async function editFacility(data) {
   let response = await axios.post(
     `http://localhost:5000/api/v1/superadmin/facility/edit`,
@@ -287,6 +302,18 @@ export async function editFacility(data) {
       token: getTokenized(),
       id: data.id,
       handler: data.kp,
+    }
+  );
+  console.log(response);
+  return response;
+}
+
+export async function deleteFacility(data) {
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/delete`,
+    {
+      token: getTokenized(),
+      id: data,
     }
   );
   console.log(response);
