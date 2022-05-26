@@ -38,10 +38,12 @@ function UserLoginForm() {
           required
         />
         <br />
-        <div className='mt-5 text-xs text-user6 underline hover:cursor-pointer'>
-          <p onClick={() => setIsForgotPassword(true)}>lupa kata laluan</p>
-        </div>
-        <br />
+        <p
+          className='max-w-max mx-auto mt-10 mb-3 text-xs text-user6 underline hover:cursor-pointer'
+          onClick={() => setIsForgotPassword(true)}
+        >
+          lupa kata laluan
+        </p>
         <button
           type='submit'
           className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
