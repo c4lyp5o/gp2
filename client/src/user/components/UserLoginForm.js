@@ -1,13 +1,20 @@
 import { useState } from 'react';
 
+import UserForgotPassword from './UserForgotPassword';
+
 function UserLoginForm() {
   const [idPengguna, setIdPengguna] = useState('');
   const [kataLaluan, setKataLaluan] = useState('');
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // some code here..
   };
+
+  if (isForgotPassword === true) {
+    return <UserForgotPassword setIsForgotPassword={setIsForgotPassword} />;
+  }
 
   return (
     <>
@@ -31,8 +38,8 @@ function UserLoginForm() {
           required
         />
         <br />
-        <div className='mt-5 text-xs text-user6 underline'>
-          <a href='#lupa-kata-laluan'>lupa kata laluan</a>
+        <div className='mt-5 text-xs text-user6 underline hover:cursor-pointer'>
+          <p onClick={() => setIsForgotPassword(true)}>lupa kata laluan</p>
         </div>
         <br />
         <button
