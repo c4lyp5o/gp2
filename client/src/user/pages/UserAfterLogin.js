@@ -17,9 +17,9 @@ function UserSelamatDatang() {
       <UserHeaderLoggedIn />
       <div className='absolute inset-10 top-44 -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <Routes>
-          <Route path='/' element={<UserDashboard />} />
-          <Route path='/taska' element={<UserTaska />} />
-          <Route path='/sekolah' element={<UserSekolah />} />
+          <Route index element={<UserDashboard />} />
+          <Route path='taska' element={<UserTaska />} />
+          <Route path='sekolah' element={<UserSekolah />} />
           {/* <Route path='/institusi' element={<UserInstitusi />} /> */}
 
           <Route path='*' element={<UserLoggedInNotFound />} />

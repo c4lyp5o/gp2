@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import UserForgotPassword from './UserForgotPassword';
 
@@ -7,9 +10,13 @@ function UserLoginForm() {
   const [kataLaluan, setKataLaluan] = useState('');
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
+  const { setUserName } = useGlobalUserAppContext();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // some code here..
+    setUserName(idPengguna);
+    navigate('/user');
   };
 
   if (isForgotPassword === true) {

@@ -19,7 +19,7 @@ function UserNavbar() {
         <div className='h-40'></div>
         <div className='grid'>
           <NavLink
-            to='/'
+            to='/user'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             DASHBOARD
@@ -37,13 +37,13 @@ function UserNavbar() {
             SEKOLAH
           </NavLink>
           <NavLink
-            to='institusi'
+            to='/user/institusi'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             INSTITUSI
           </NavLink>
           <NavLink
-            to='generate'
+            to='/user/generate'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             GENERATE RETEN
