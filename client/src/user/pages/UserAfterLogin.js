@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
+import UserHeader from '../components/UserHeader';
+
 import UserNavbar from '../components/UserNavbar';
 import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 
@@ -9,9 +11,12 @@ import UserSekolah from '../components/UserSekolah';
 
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
-function UserSelamatDatang() {
+import UserFooter from '../components/UserFooter';
+
+function UserAfterLogin() {
   return (
     <>
+      <UserHeader />
       <div className='absolute inset-0 -z-10 bg-user4'></div>
       <UserNavbar />
       <UserHeaderLoggedIn />
@@ -25,8 +30,9 @@ function UserSelamatDatang() {
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>
       </div>
+      <UserFooter />
     </>
   );
 }
 
-export default UserSelamatDatang;
+export default UserAfterLogin;

@@ -1,17 +1,13 @@
 function AdminFooter() {
   return (
     <>
-      <div className="background">
-      </div>
-      <div className='admin-footer-container'>
-        <span class='left-text'>hak cipta kkm</span>
-        <span class='right-text'>
+      <div className='absolute bottom-0 left-0 right-0 grid grid-cols-2 bg-user5 uppercase'>
+        <span className='text-left ml-5 my-1'>hak cipta kkm</span>
+        <span className='text-right mr-5 my-1'>
           helpdesk: emel / phone / link ke borang pertanyaan
         </span>
       </div>
     </>
-    
-    
   );
 }
 

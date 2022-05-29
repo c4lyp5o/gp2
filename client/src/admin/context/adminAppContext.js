@@ -3,8 +3,10 @@ import React, { useState, useEffect, useContext } from 'react';
 const AdminAppContext = React.createContext();
 
 function AdminAppProvider({ children }) {
+  const [user, setUserName] = useState('');
+
   return (
-    <AdminAppContext.Provider value={{ admin: 'admin' }}>
+    <AdminAppContext.Provider value={{ user, setUserName }}>
       {children}
     </AdminAppContext.Provider>
   );

@@ -4,7 +4,7 @@ function UserLoggedInNotFound() {
   return (
     <>
       <div>Page not found</div>
-      <Link to='/'>Back to home</Link>
+      <Link to='/user'>Back to home</Link>
     </>
   );
 }
