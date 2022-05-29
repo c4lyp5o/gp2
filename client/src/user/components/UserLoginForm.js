@@ -1,40 +1,64 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
+import UserForgotPassword from './UserForgotPassword';
+
 function UserLoginForm() {
+  const [idPengguna, setIdPengguna] = useState('');
+  const [kataLaluan, setKataLaluan] = useState('');
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+  const { setUserName } = useGlobalUserAppContext();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // some code here..
+    setUserName(idPengguna);
+    navigate('/user');
   };
 
+  if (isForgotPassword === true) {
+    return <UserForgotPassword setIsForgotPassword={setIsForgotPassword} />;
+  }
+
   return (
-    <div className='user-form-container'>
-      <div className='user-form-box'>
-        <div className='user-form-box-header'>
-          <span className='user-form-box-header-text'>
-            sila masukkan kata laluan
-          </span>
-        </div>
-        <form className='user-form-box-container' onSubmit={handleSubmit}>
-          <input
-            className='user-form-box-input'
-            type='text'
-            placeholder='ID Pengguna'
-          />
-          <br />
-          <input
-            className='user-form-box-input'
-            type='text'
-            placeholder='Kata Laluan'
-          />
-          <br />
-          <a className='link-lupa' href='#lupa-kata-laluan'>
-            lupa kata laluan
-          </a>
-          <br />
-          <button type='submit' className='user-form-box-submit'>
-            log masuk
-          </button>
-        </form>
-      </div>
-    </div>
+    <>
+      <h3 className='text-xl font-semibold mt-10'>sila masukkan kata laluan</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
+          type='text'
+          placeholder='ID Pengguna'
+          value={idPengguna}
+          onChange={(e) => setIdPengguna(e.target.value)}
+          required
+        />
+        <br />
+        <input
+          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
+          type='password'
+          placeholder='Kata Laluan'
+          value={kataLaluan}
+          onChange={(e) => setKataLaluan(e.target.value)}
+          required
+        />
+        <br />
+        <p
+          className='max-w-max mx-auto mt-10 mb-3 text-xs text-user6 underline hover:cursor-pointer'
+          onClick={() => setIsForgotPassword(true)}
+        >
+          lupa kata laluan
+        </p>
+        <button
+          type='submit'
+          className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+        >
+          log masuk
+        </button>
+      </form>
+    </>
   );
 }
 

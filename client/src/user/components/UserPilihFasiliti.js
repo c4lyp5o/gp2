@@ -6,26 +6,31 @@ function UserPilihFasiliti() {
 
   return (
     <>
-      <div className='user-pilih-fasiliti-header'>
+      <h3 className='text-xl font-semibold mt-10'>
         <h3>pilih fasiliti relief anda</h3>
-      </div>
-      <form
-        className='user-form-pilih-fasiliti-container'
-        onSubmit={handleSubmit}
-      >
+      </h3>
+      <form onSubmit={handleSubmit}>
         <select
-          className='user-pilih-fasiliti-option'
-          name='user-pilih-fasiliti-option'
-          id='user-pilih-fasiliti-option'
+          className='mt-12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
+          name='user-pilih-fasiliti'
+          id='user-pilih-fasiliti'
+          required
         >
-          <option selected disabled>
-            sila pilih nama fasiliti relief
+          <option defaultValue='default' disabled>
+            SILA PILIH NAMA FASILITI RELIEF
           </option>
-          <option value='fasiliti 1'>fasiliti 1</option>
-          <option value='fasiliti 2'>fasiliti 2</option>
-          <option value='fasiliti 3'>fasiliti 3</option>
+          <option value='kp jalan putra'>KP JALAN PUTRA</option>
+          <option value='kp datuk kumbar'>KP DATUK KUMBAR</option>
+          <option value='kp terbaik dan tercantik'>
+            KP TERBAIK DAN TERCANTIK
+          </option>
         </select>
-        <button type='submit' className='user-pilih-fasiliti-btn'>
+        <br />
+        <br />
+        <button
+          type='submit'
+          className='capitalize ml-5 bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
+        >
           pilih
         </button>
       </form>

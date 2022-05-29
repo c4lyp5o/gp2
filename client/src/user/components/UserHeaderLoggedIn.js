@@ -1,23 +1,32 @@
-function AdminHeaderLoggedIn() {
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
+function UserHeaderLoggedIn() {
+  const { user } = useGlobalUserAppContext();
+
   return (
-    <>
-      <div className='user-header-gambar'>
-        <img
-          width={100}
-          height={100}
-          src='https://www.rubiks.com/media/catalog/product/cache/9c57e2fe71f8a58f6afba681a0a15dd4/r/u/rubik-4x4-solved_4.jpg'
-          alt='logo'
-        />
+    <div className='absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
+      <img
+        className='w-full h-full aspect-square rounded-full shadow-xl outline outline-1 outline-user4'
+        src='https://miro.medium.com/max/1400/1*X7n_UtdTaFoY4wZ4VIS7Dw.jpeg'
+        alt='logo'
+      />
+      <div className='m-3 space-y-1'>
+        <p className='w-32'>
+          <b>user : </b>
+          {user}
+        </p>
+        <p className='w-32'>
+          <b>klinik pergigian : </b>klinik pergigian alor janggus
+        </p>
       </div>
-      <div className='user-header-info'>
-        <p>hehe boi</p>
-        <p>hehe boi</p>
-      </div>
-      <div className='user-header-logout'>
-        <button className='user-header-logout-button'>LOGOUT</button>
-      </div>
-    </>
+      <button
+        type='button'
+        className='mt-5 mb-5 p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
+      >
+        LOGOUT
+      </button>
+    </div>
   );
 }
 
-export default AdminHeaderLoggedIn;
+export default UserHeaderLoggedIn;

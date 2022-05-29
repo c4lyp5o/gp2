@@ -28,12 +28,24 @@ import Layout from "./admin/controllers/Layout";
 import Fourohfour from "./admin/controllers/Fourohfour";
 import { useToken } from "./useToken";
 
-// import './user/user.css';
-// import UserHeader from './user/components/UserHeader';
-// import UserNavbar from './user/components/UserNavbar';
-// import UserLoginForm from './user/components/UserLoginForm';
-// import UserSelamatDatang from './user/components/UserSelamatDatang';
-// import UserFooter from './user/components/UserFooter';
+// user
+
+import { UserAppProvider } from './user/context/userAppContext';
+
+import UserLogin from './user/pages/UserLogin';
+
+import UserProtectedRoute from './user/pages/UserProtectedRoute';
+import UserAfterLogin from './user/pages/UserAfterLogin';
+
+import UserNotFound from './user/pages/UserNotFound';
+
+// admin import ------------------------------------------
+
+import { AdminAppProvider } from './admin/context/adminAppContext';
+
+import AdminLogin from './admin/pages/AdminLogin';
+
+import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
 const App = () => {
   const { token, setToken } = useToken();
@@ -150,24 +162,49 @@ const App = () => {
   // </div>
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          {/* <Route index element={<AdminPage />} /> */}
-          {/* <Route path="loggedin" element={<LoggedIn />} /> */}
-          <Route index element={<LoggedIn />} />
-          <Route path="kp" element={<Klinik />} />
-          <Route path="pp" element={<PP />} />
-          <Route path="jp" element={<JP />} />
-          <Route path="taska" element={<Taska />} />
-          <Route path="tadika" element={<Tadika />} />
-          <Route path="sr" element={<SR />} />
-          <Route path="sm" element={<SM />} />
-          <Route path="ins" element={<Institusi />} />
-          <Route path="*" element={<Fourohfour />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<Layout />}>
+    //       {/* <Route index element={<AdminPage />} /> */}
+    //       {/* <Route path="loggedin" element={<LoggedIn />} /> */}
+    //       <Route index element={<LoggedIn />} />
+    //       <Route path="kp" element={<Klinik />} />
+    //       <Route path="pp" element={<PP />} />
+    //       <Route path="jp" element={<JP />} />
+    //       <Route path="taska" element={<Taska />} />
+    //       <Route path="tadika" element={<Tadika />} />
+    //       <Route path="sr" element={<SR />} />
+    //       <Route path="sm" element={<SM />} />
+    //       <Route path="ins" element={<Institusi />} />
+    //       <Route path="*" element={<Fourohfour />} />
+    //     </Route>
+    //   </Routes>
+    // </BrowserRouter>
+
+    <>
+      <BrowserRouter>
+        <UserAppProvider>
+          <Routes>
+            <Route path='/' element={<UserLogin />} />
+            <Route
+              path='/user/*'
+              element={
+                <UserProtectedRoute>
+                  <UserAfterLogin />
+                </UserProtectedRoute>
+              }
+            />
+            <Route path='*' element={<UserNotFound />} />
+          </Routes>
+        </UserAppProvider>
+        <AdminAppProvider>
+          <Routes>
+            <Route path='/admin' element={<AdminLogin />} />
+            <Route path='/admin/landing/*' element={<AdminAfterLogin />} />
+          </Routes>
+        </AdminAppProvider>
+      </BrowserRouter>
+    </>
   );
 };
 
