@@ -434,20 +434,6 @@ exports.findPegawai = (req, res) => {
   });
 };
 
-exports.findFacility = (req, res) => {
-  Fasiliti.findById(req.body.id, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200).json({
-        status: "success",
-        data: data,
-        message: "Fasiliti berjaya dicari",
-      });
-    }
-  });
-};
-
 exports.editPegawai = (req, res) => {
   Operator.findByIdAndUpdate(
     req.body.id,
@@ -511,7 +497,7 @@ exports.addFacility = async (req, res) => {
 };
 
 exports.listFacility = (req, res) => {
-  const jenisFasiliti = Dictionary[req.params.id];
+  const jenisFasiliti = Dictionary[req.body.jenisFacility];
   Fasiliti.find(
     {
       jenisFasiliti: jenisFasiliti,
@@ -524,10 +510,26 @@ exports.listFacility = (req, res) => {
       } else {
         res.status(200).json({
           status: "success",
+          jenisFasiliti: jenisFasiliti,
           data: data,
           message: "Retrieved all Fasiliti",
         });
       }
     }
   );
+};
+
+exports.findFacility = (req, res) => {
+  console.log(req.body.id);
+  Fasiliti.findById(req.body.id, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "success",
+        data: data,
+        message: "Fasiliti berjaya dicari",
+      });
+    }
+  });
 };

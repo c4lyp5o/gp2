@@ -1,6 +1,15 @@
 import { getTokenized } from "../../useToken";
 import axios from "axios";
 
+export const Dictionary = {
+  klinik: "Klinik",
+  taska: "Taska",
+  tadika: "Tadika",
+  sr: "Sekolah Rendah",
+  sm: "Sekolah Menengah",
+  ins: "Institusi",
+};
+
 export async function getCurrentUser() {
   let response = await axios.post(
     `http://localhost:5000/api/v1/superadmin/getuser`,
@@ -43,18 +52,6 @@ export async function searchPg(search) {
     }
   );
   // console.log(response);
-  return response.data;
-}
-
-export async function searchFacility(search) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/facility/find`,
-    {
-      token: getTokenized(),
-      id: search,
-    }
-  );
-  console.log(response);
   return response.data;
 }
 
@@ -284,8 +281,9 @@ export async function addFacility(data) {
 }
 
 export async function getFacility(data) {
+  console.log(data);
   let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/facility/find`,
+    `http://localhost:5000/api/v1/superadmin/facility/list`,
     {
       token: getTokenized(),
       jenisFacility: data,
@@ -318,4 +316,17 @@ export async function deleteFacility(data) {
   );
   console.log(response);
   return response;
+}
+
+export async function searchFacility(search) {
+  console.log(search);
+  let response = await axios.post(
+    `http://localhost:5000/api/v1/superadmin/facility/find`,
+    {
+      token: getTokenized(),
+      id: search,
+    }
+  );
+  console.log(response);
+  return response.data;
 }

@@ -35,8 +35,10 @@ router.post("/ins", adminAPI.listInstitusi);
 router.post("/ins/add", adminAPI.addInstitusi);
 
 router.post("/facility/add/:id", adminAPI.addFacility);
-router.post("/facility/find", adminAPI.listFacility);
+router.post("/facility/find", adminAPI.findFacility);
 router.post("/facility/edit", adminAPI.editFacility);
+router.post("/facility/list", adminAPI.listFacility);
+
 router.post("/delete", adminAPI.deleteData);
 
 router.post("/search", admincon.searchAll);

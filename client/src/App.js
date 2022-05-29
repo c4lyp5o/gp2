@@ -36,6 +36,9 @@ import InstitusiCenter from "./admin/components/inst/Center";
 import Layout from "./testrun/Layout";
 import Fourohfour from "./testrun/Fourohfour";
 
+// tests
+import FacilityCenter from "./admin/components/Data";
+
 // import './user/user.css';
 // import UserHeader from './user/components/UserHeader';
 // import UserNavbar from './user/components/UserNavbar';
@@ -98,7 +101,8 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <TaskaCenter />
+        {/* <TaskaCenter /> */}
+        <FacilityCenter FType="taska" />
         <AdminFooter />
       </>
     );
