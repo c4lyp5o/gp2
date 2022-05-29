@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { getKP, searchFacility, editFacility } from "../controllers/helper";
+import { getKP, searchFacility, editFacility } from "../controllers/Helper";
 
 const Modal = ({ setEditOpen, Id }) => {
   const [facility, setFacility] = useState([]);

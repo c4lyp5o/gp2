@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import { getCurrentUser, getPG } from "../../controllers/helper";
+import { getCurrentUser, getPG } from "../../controllers/Helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal";
 import EditModal from "../EditModalPegawai";

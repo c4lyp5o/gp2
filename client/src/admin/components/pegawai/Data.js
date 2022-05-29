@@ -1,5 +1,4 @@
 import PegawaiTable from "./Table";
-import AdminAdder from "./AdminAdderLoggedIn";
 
 function PegawaiData() {
   return (

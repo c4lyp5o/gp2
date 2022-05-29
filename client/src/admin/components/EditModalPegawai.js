@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { searchPg, getKP, editPegawai } from "../controllers/helper";
+import { searchPg, getKP, editPegawai } from "../controllers/Helper";
 
 const Modal = ({ setEditOpen, Id }) => {
   const [Pegawai, setPegawai] = useState([]);

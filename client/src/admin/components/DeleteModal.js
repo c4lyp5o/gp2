@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
-import { deleteData } from "../controllers/helper";
+import { deleteData } from "../controllers/Helper";
 
 const Modal = ({ setIsOpen, Id }) => {
   return (

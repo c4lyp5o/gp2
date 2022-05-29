@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import { getKP, addFacility } from "../controllers/helper";
+import { getKP, addFacility } from "../controllers/Helper";
 
 const Modal = ({ setAddOpen, jenisFacility }) => {
   const [facility, setFacility] = useState("");
@@ -41,7 +41,7 @@ const Modal = ({ setAddOpen, jenisFacility }) => {
         <div className={styles.centered}>
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>TAMBAH {jenisFacility}</h5>
+              <h5 className={styles.heading}>Tambah {jenisFacility}</h5>
             </div>
             <button
               className={styles.closeBtn}

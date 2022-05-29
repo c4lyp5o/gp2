@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import { getKP, getFacility, getCurrentUser } from "../controllers/helper";
+import { getKP, getFacility, getCurrentUser } from "../controllers/Helper";
 import { useEffect, useState } from "react";
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModalFacility";
@@ -107,7 +107,7 @@ function FacilityCenter({ FType }) {
               </div>
             </button>
             {addOpen && (
-              <AddModal setAddOpen={setAddOpen} jenisFacility="taska" />
+              <AddModal setAddOpen={setAddOpen} jenisFacility={jenisFacility} />
             )}
           </div>
         </div>

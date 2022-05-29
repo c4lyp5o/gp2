@@ -473,15 +473,15 @@ exports.editFacility = async (req, res) => {
 };
 
 exports.addFacility = async (req, res) => {
-  console.log(req.params.id);
-  const jenisFasiliti = Dictionary[req.params.id];
-  console.log(jenisFasiliti);
+  // console.log(req.params.id);
+  // const jenisFasiliti = Dictionary[req.params.id];
+  // console.log(jenisFasiliti);
   const facility = new Fasiliti({
     nama: req.body.nama,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: jenisFasiliti,
+    jenisFasiliti: req.params.id,
   });
   facility.save((err, data) => {
     if (err) {

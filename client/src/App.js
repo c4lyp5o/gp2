@@ -4,8 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminNavbar from "./admin/components/Navbar";
 import AdminFooter from "./admin/components/Footer";
 
+// login form
+import AdminLoginForm from "./admin/components/public/LoginForm";
+
 // logged in
-import AdminCenterStageLoggedIn from "./admin/components/logged/AdminCenterStageLoggedIn";
+import AdminCenterStageLoggedIn from "./admin/components/Centerstage";
 import AdminHeaderLoggedIn from "./admin/components/HeaderLoggedIn";
 
 // klinik
@@ -17,27 +20,13 @@ import PegawaiCenter from "./admin/components/pegawai/Center";
 // jp
 import JPCenter from "./admin/components/jp/Center";
 
-// taska
-import TaskaCenter from "./admin/components/taska/Center";
-
-// tadika
-import TadikaCenter from "./admin/components/tadika/Center";
-
-// sr
-import SRCenter from "./admin/components/sr/Center";
-
-// sm
-import SMCenter from "./admin/components/sm/Center";
-
-// institusi
-import InstitusiCenter from "./admin/components/inst/Center";
+// data for facility
+import FacilityCenter from "./admin/components/Data";
 
 // misc
-import Layout from "./testrun/Layout";
-import Fourohfour from "./testrun/Fourohfour";
-
-// tests
-import FacilityCenter from "./admin/components/Data";
+import Layout from "./admin/controllers/Layout";
+import Fourohfour from "./admin/controllers/Fourohfour";
+import { useToken } from "./useToken";
 
 // import './user/user.css';
 // import UserHeader from './user/components/UserHeader';
@@ -45,9 +34,6 @@ import FacilityCenter from "./admin/components/Data";
 // import UserLoginForm from './user/components/UserLoginForm';
 // import UserSelamatDatang from './user/components/UserSelamatDatang';
 // import UserFooter from './user/components/UserFooter';
-
-import AdminLoginForm from "./admin/components/public/LoginForm";
-import { useToken } from "./useToken";
 
 const App = () => {
   const { token, setToken } = useToken();
@@ -101,7 +87,6 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        {/* <TaskaCenter /> */}
         <FacilityCenter FType="taska" />
         <AdminFooter />
       </>
@@ -113,7 +98,7 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <TadikaCenter />
+        <FacilityCenter FType="tadika" />
         <AdminFooter />
       </>
     );
@@ -124,7 +109,7 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <SRCenter />
+        <FacilityCenter FType="sr" />
         <AdminFooter />
       </>
     );
@@ -135,7 +120,7 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <SMCenter />
+        <FacilityCenter FType="sm" />
         <AdminFooter />
       </>
     );
@@ -146,7 +131,7 @@ const App = () => {
       <>
         <AdminHeaderLoggedIn />
         <AdminNavbar />
-        <InstitusiCenter />
+        <FacilityCenter FType="ins" />
         <AdminFooter />
       </>
     );

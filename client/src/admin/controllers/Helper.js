@@ -188,71 +188,6 @@ export async function addKp(data) {
   return response;
 }
 
-export async function addTaska(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/taska/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      handler: data.kp,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
-export async function addTadika(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/tadika/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      handler: data.kp,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
-export async function addSR(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/sr/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      handler: data.kp,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
-export async function addSM(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/sm/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      handler: data.kp,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
-export async function addInstitusi(data) {
-  let response = await axios.post(
-    `http://localhost:5000/api/v1/superadmin/ins/add`,
-    {
-      token: getTokenized(),
-      nama: data.nama,
-      handler: data.kp,
-    }
-  );
-  // console.log(response);
-  return response;
-}
-
 export async function deleteData(data) {
   let response = await axios.post(
     `http://localhost:5000/api/v1/superadmin/delete`,
@@ -261,7 +196,7 @@ export async function deleteData(data) {
       id: data,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response;
 }
 
@@ -276,7 +211,7 @@ export async function addFacility(data) {
       handler: data.kp,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response;
 }
 
@@ -289,7 +224,7 @@ export async function getFacility(data) {
       jenisFacility: data,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response.data;
 }
 
@@ -302,7 +237,7 @@ export async function editFacility(data) {
       handler: data.kp,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response;
 }
 
@@ -314,7 +249,7 @@ export async function deleteFacility(data) {
       id: data,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response;
 }
 
@@ -327,6 +262,6 @@ export async function searchFacility(search) {
       id: search,
     }
   );
-  console.log(response);
+  // console.log(response);
   return response.data;
 }

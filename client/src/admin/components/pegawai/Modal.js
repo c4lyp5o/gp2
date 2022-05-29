@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import { getKP, addPp } from "../../controllers/helper";
+import { getKP, addPp } from "../../controllers/Helper";
 
 const Modal = ({ setAddOpen }) => {
   const [newPp, setnewPp] = useState("");

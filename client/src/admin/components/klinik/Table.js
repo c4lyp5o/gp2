@@ -1,5 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import { getCurrentUser, getKP, deleteData } from "../../controllers/helper.js";
+import { getCurrentUser, getKP, deleteData } from "../../controllers/Helper.js";
 import { useEffect, useState } from "react";
 import styles from "../../../admin/Modal.module.css";
 import { RiCloseLine } from "react-icons/ri";

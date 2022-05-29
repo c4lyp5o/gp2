@@ -1,5 +1,4 @@
 import JPTable from "./Table";
-import AdminAdder from "./AdminAdderLoggedIn";
 
 function JPData() {
   return (
