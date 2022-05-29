@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 
 const AdminAppContext = React.createContext();
 
 function AdminAppProvider({ children }) {
-  const [user, setUserName] = useState('');
+  const [admin, setAdmin] = useState("");
 
   return (
-    <AdminAppContext.Provider value={{ user, setUserName }}>
+    <AdminAppContext.Provider value={{ admin, setAdmin }}>
       {children}
     </AdminAppContext.Provider>
   );

@@ -19,7 +19,7 @@ function AdminNavbar() {
         <div className="grid">
           <a
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="kp"
+            href="landing/kp"
           >
             KLINIK PERGIGIAN
           </a>

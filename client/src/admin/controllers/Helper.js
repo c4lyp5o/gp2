@@ -1,4 +1,4 @@
-import { getTokenized } from "../../useToken";
+import { getTokenized } from "./Tokenizer";
 import axios from "axios";
 
 export const Dictionary = {

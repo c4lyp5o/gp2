@@ -3,6 +3,7 @@ import { useState } from "react";
 import PublicHeader from "../public/Header";
 import Footer from "../Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 async function loginUser(credentials) {
   try {
@@ -25,6 +26,8 @@ export default function AdminLoginForm({ setToken }) {
   const [password, setPassword] = useState();
   const [ErrMsg, setErrMsg] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await loginUser({
@@ -35,6 +38,7 @@ export default function AdminLoginForm({ setToken }) {
       setErrMsg(token.message);
     } else {
       setToken(token);
+      navigate("landing");
     }
   };
 

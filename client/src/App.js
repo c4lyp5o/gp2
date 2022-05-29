@@ -1,166 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// defaults
-import AdminNavbar from "./admin/components/Navbar";
-import AdminFooter from "./admin/components/Footer";
+// admin import
 
-// login form
+import { AdminAppProvider } from "./admin/context/adminAppContext";
 import AdminLoginForm from "./admin/components/public/LoginForm";
-
-// logged in
-import AdminCenterStageLoggedIn from "./admin/components/Centerstage";
-import AdminHeaderLoggedIn from "./admin/components/HeaderLoggedIn";
-
-// klinik
-import KlinikCenter from "./admin/components/klinik/Center";
-
-// pegawai
-import PegawaiCenter from "./admin/components/pegawai/Center";
-
-// jp
-import JPCenter from "./admin/components/jp/Center";
-
-// data for facility
-import FacilityCenter from "./admin/components/Data";
-
-// misc
-import Layout from "./admin/controllers/Layout";
-import Fourohfour from "./admin/controllers/Fourohfour";
-import { useToken } from "./useToken";
+import AdminProtectedRoute from "./admin/pages/AdminProtectedRoute";
+import AdminAfterLogin from "./admin/pages/AdminAfterLogin";
+import { useToken } from "./admin/controllers/Tokenizer";
 
 // user
 
-import { UserAppProvider } from './user/context/userAppContext';
+import { UserAppProvider } from "./user/context/userAppContext";
+import UserLogin from "./user/pages/UserLogin";
+import UserProtectedRoute from "./user/pages/UserProtectedRoute";
+import UserAfterLogin from "./user/pages/UserAfterLogin";
 
-import UserLogin from './user/pages/UserLogin';
-
-import UserProtectedRoute from './user/pages/UserProtectedRoute';
-import UserAfterLogin from './user/pages/UserAfterLogin';
-
-import UserNotFound from './user/pages/UserNotFound';
-
-// admin import ------------------------------------------
-
-import { AdminAppProvider } from './admin/context/adminAppContext';
-
-import AdminLogin from './admin/pages/AdminLogin';
-
-import AdminAfterLogin from './admin/pages/AdminAfterLogin';
+import UserNotFound from "./user/pages/UserNotFound";
 
 const App = () => {
   const { token, setToken } = useToken();
-
-  function LoggedIn() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <AdminCenterStageLoggedIn />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Klinik() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <KlinikCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function PP() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <PegawaiCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function JP() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <JPCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Taska() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="taska" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Tadika() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="tadika" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function SR() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sr" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function SM() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sm" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Institusi() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="ins" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  if (!token) {
-    return <AdminLoginForm setToken={setToken} />;
-  }
-
-  // <div className='user-canvas'>
-  //   <UserHeader />
-  //   <UserNavbar />
-  //   <UserLoginForm />
-  //   {/* <UserSelamatDatang /> */}
-  //   <UserFooter />
-  // </div>
-
   return (
     // <BrowserRouter>
     //   <Routes>
@@ -185,22 +43,32 @@ const App = () => {
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
-            <Route path='/' element={<UserLogin />} />
+            <Route path="/" element={<UserLogin />} />
             <Route
-              path='/user/*'
+              path="/user/*"
               element={
                 <UserProtectedRoute>
                   <UserAfterLogin />
                 </UserProtectedRoute>
               }
             />
-            <Route path='*' element={<UserNotFound />} />
+            <Route path="*" element={<UserNotFound />} />
           </Routes>
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
-            <Route path='/admin' element={<AdminLogin />} />
-            <Route path='/admin/landing/*' element={<AdminAfterLogin />} />
+            <Route
+              path="/admin"
+              element={<AdminLoginForm setToken={setToken} />}
+            />
+            <Route
+              path="/admin/landing/*"
+              element={
+                <AdminProtectedRoute>
+                  <AdminAfterLogin />
+                </AdminProtectedRoute>
+              }
+            />
           </Routes>
         </AdminAppProvider>
       </BrowserRouter>
