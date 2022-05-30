@@ -38,7 +38,6 @@ const App = () => {
     //     </Route>
     //   </Routes>
     // </BrowserRouter>
-
     <>
       <BrowserRouter>
         <UserAppProvider>
@@ -64,7 +63,7 @@ const App = () => {
             <Route
               path="/admin/landing/*"
               element={
-                <AdminProtectedRoute>
+                <AdminProtectedRoute token={token}>
                   <AdminAfterLogin />
                 </AdminProtectedRoute>
               }

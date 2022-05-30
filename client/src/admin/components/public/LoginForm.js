@@ -38,7 +38,7 @@ export default function AdminLoginForm({ setToken }) {
       setErrMsg(token.message);
     } else {
       setToken(token);
-      navigate("landing");
+      navigate("/admin/landing");
     }
   };
 

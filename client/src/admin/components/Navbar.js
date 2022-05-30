@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 
@@ -17,54 +18,54 @@ function AdminNavbar() {
       >
         <div className="h-40"></div>
         <div className="grid">
-          <a
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="landing/kp"
+            to="/admin/landing/kp"
           >
             KLINIK PERGIGIAN
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="pp"
+            to="/admin/landing/pp"
           >
             PEGAWAI PERGIGIAN
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="jp"
+            to="/admin/landing/jp"
           >
             JURUTERAPI PERGIGIAN
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="taska"
+            to="/admin/landing/taska"
           >
             TASKA
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="tadika"
+            to="/admin/landing/tadika"
           >
             TADIKA
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="sr"
+            to="/admin/landing/sr"
           >
             SEKOLAH RENDAH
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="sm"
+            to="/admin/landing/sm"
           >
             SEKOLAH MENENGAH
-          </a>
-          <a
+          </NavLink>
+          <NavLink
             className="bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin1 transition-all"
-            href="ins"
+            to="/admin/landing/ins"
           >
             INSTITUSI
-          </a>
+          </NavLink>
         </div>
       </nav>
       <div className="absolute w-60 top-0 left-0 flex text-center justify-center h-40">
