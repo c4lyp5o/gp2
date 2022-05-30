@@ -30,7 +30,6 @@ function FacilityCenter({ FType }) {
 
   function handleClick(e) {
     setId(e.target.id);
-    console.log(e.target.id);
   }
 
   return (

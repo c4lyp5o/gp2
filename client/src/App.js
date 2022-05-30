@@ -6,7 +6,7 @@ import { AdminAppProvider } from "./admin/context/adminAppContext";
 import AdminLoginForm from "./admin/components/public/LoginForm";
 import AdminProtectedRoute from "./admin/pages/AdminProtectedRoute";
 import AdminAfterLogin from "./admin/pages/AdminAfterLogin";
-import { useToken } from "./admin/controllers/Tokenizer";
+// import { useToken } from "./admin/controllers/Tokenizer";
 
 // user
 
@@ -18,7 +18,6 @@ import UserAfterLogin from "./user/pages/UserAfterLogin";
 import UserNotFound from "./user/pages/UserNotFound";
 
 const App = () => {
-  const { token, setToken } = useToken();
   return (
     // <BrowserRouter>
     //   <Routes>
@@ -56,14 +55,11 @@ const App = () => {
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
-            <Route
-              path="/admin"
-              element={<AdminLoginForm setToken={setToken} />}
-            />
+            <Route path="/admin" element={<AdminLoginForm />} />
             <Route
               path="/admin/landing/*"
               element={
-                <AdminProtectedRoute token={token}>
+                <AdminProtectedRoute>
                   <AdminAfterLogin />
                 </AdminProtectedRoute>
               }

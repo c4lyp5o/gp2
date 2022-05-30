@@ -4,6 +4,7 @@ import PublicHeader from "../public/Header";
 import Footer from "../Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useGlobalAdminAppContext } from "../../context/adminAppContext";
 
 async function loginUser(credentials) {
   try {
@@ -21,7 +22,8 @@ async function loginUser(credentials) {
   }
 }
 
-export default function AdminLoginForm({ setToken }) {
+export default function AdminLoginForm() {
+  const { setToken } = useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [ErrMsg, setErrMsg] = useState("");
@@ -89,6 +91,6 @@ export default function AdminLoginForm({ setToken }) {
   );
 }
 
-AdminLoginForm.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
+// AdminLoginForm.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };

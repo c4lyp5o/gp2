@@ -1,12 +1,14 @@
-import { getCurrentUser } from "../controllers/Helper";
+import { useGlobalAdminAppContext } from "../context/adminAppContext";
 import { useState, useEffect } from "react";
 
 function AdminHeaderLoggedIn() {
   const [user, setUser] = useState("");
   const [daerah, setDaerah] = useState("");
+  const { getCurrentUser } = useGlobalAdminAppContext();
 
   useEffect(() => {
     getCurrentUser().then((res) => {
+      console.log(res);
       setUser(res.data.data.username);
       setDaerah(res.data.data.daerah);
     });

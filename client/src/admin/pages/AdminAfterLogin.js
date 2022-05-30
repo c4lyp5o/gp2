@@ -23,11 +23,10 @@ import JPCenter from "../components/jp/Center";
 // data for facility
 import FacilityCenter from "../components/Data";
 
-// misc
-import { useToken } from "../controllers/Tokenizer";
+import { useGlobalAdminAppContext } from "../context/adminAppContext";
 
 function AdminAfterLogin() {
-  const { token, setToken } = useToken();
+  const { token, setToken } = useGlobalAdminAppContext();
 
   function LoggedIn() {
     return (
@@ -129,7 +128,7 @@ function AdminAfterLogin() {
   }
 
   if (!token) {
-    return <AdminLoginForm setToken={setToken} />;
+    return <AdminLoginForm />;
   }
 
   return (
