@@ -1,5 +1,5 @@
-import UserModel from '../models/User.js';
-import jwt from 'jsonwebtoken';
+const UserModel = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const authLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -31,9 +31,9 @@ const authLogin = async (req, res) => {
   //   // here have a cookie
   //   res.cookie('genToken', genToken, { maxAge: 600000 });
 
-  const token = user.createJWT();
+  const userToken = user.createJWT();
 
-  const payloadUserType = jwt.verify(token, process.env.JWT_SECRET);
+  const payloadUserType = jwt.verify(userToken, process.env.JWT_SECRET);
   if (payloadUserType.accountType === 'negaraUser') {
     return res.status(401).json({ msg: 'This is admin credentials' });
   }
@@ -44,7 +44,7 @@ const authLogin = async (req, res) => {
     return res.status(401).json({ msg: 'This is admin credentials' });
   }
 
-  res.status(200).json({ token });
+  res.status(200).json({ userToken });
 };
 
-export default authLogin;
+module.exports = authLogin;

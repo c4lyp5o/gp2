@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
-import bcryptjs from 'bcryptjs';
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcryptjs = require('bcryptjs');
 
 const UserSchema = mongoose.Schema({
   username: {
@@ -61,4 +61,4 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
   return isMatch;
 };
 
-export default mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

@@ -1,18 +1,14 @@
 // CORE ----------------------------------------------------
-import express from 'express';
+require('dotenv').config();
+require('express-async-errors');
+const express = require('express');
 const app = express();
-import dotenv from 'dotenv';
-dotenv.config();
-import 'express-async-errors';
+const path = require('path');
 // const cookieParser = require('cookie-parser');
-
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import path from 'path';
 
 // IMPORT ROUTER -------------------------------------------
 // user import
-import authLogin from './routes/authLogin.js';
+const authLogin = require('./routes/authLogin');
 // const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 // const dashboard = require('./routes/dashboard');
 // const tadika = require('./routes/tadika');
@@ -27,17 +23,16 @@ import authLogin from './routes/authLogin.js';
 
 // IMPORT MIDDLEWARES --------------------------------------
 // const authCheck = require('./middlewares/authCheck');
-import errorHandler from './middlewares/errorHandler.js';
-import notFound from './middlewares/notFound.js';
+const errorHandler = require('./middlewares/errorHandler');
+const notFound = require('./middlewares/notFound');
 // const genAuth = require('./middlewares/genAuth').verifyToken;
 
 // DATABASE ------------------------------------------------
-import connectDB from './database/connect.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const connectDB = require('./database/connect');
 
 // MIDDLEWARES ---------------------------------------------
-app.use(express.static(path.resolve(__dirname, './client/build')));
+const root = path.join(__dirname, 'client', 'build');
+app.use(express.static(root));
 // app.use(express.static('./public/exports'));
 app.use(express.json());
 // app.use(cookieParser());
@@ -58,7 +53,7 @@ app.use('/api/v1/auth', authLogin);
 // app.use('/admin', adminRouter);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 // error handler & not found

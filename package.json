@@ -3,7 +3,6 @@
   "version": "1.5.0",
   "description": "An attempt at a mountain.",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
