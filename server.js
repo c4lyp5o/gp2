@@ -12,7 +12,7 @@ import path from 'path';
 
 // IMPORT ROUTER -------------------------------------------
 // user import
-// const authLogin = require('./routes/authLogin');
+import authLogin from './routes/authLogin.js';
 // const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 // const dashboard = require('./routes/dashboard');
 // const tadika = require('./routes/tadika');
@@ -44,7 +44,7 @@ app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 
 // user route
-// app.use('/api/v1/auth', authLogin);
+app.use('/api/v1/auth', authLogin);
 // app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 // app.use('/api/v1/dashboard', authCheck, dashboard);
 // app.use('/api/v1/tadika', authCheck, tadika);
