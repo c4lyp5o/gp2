@@ -2,9 +2,9 @@ import { Navigate } from 'react-router-dom';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserProtectedRoute({ children }) {
-  const { user } = useGlobalUserAppContext();
+  const { userToken } = useGlobalUserAppContext();
 
-  if (!user) {
+  if (!userToken) {
     return <Navigate to='/' />;
   }
   return children;

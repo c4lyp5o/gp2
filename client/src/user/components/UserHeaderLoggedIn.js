@@ -1,8 +1,6 @@
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserHeaderLoggedIn() {
-  const { user } = useGlobalUserAppContext();
-
   return (
     <div className='absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
       <img
@@ -13,7 +11,6 @@ function UserHeaderLoggedIn() {
       <div className='m-3 space-y-1'>
         <p className='w-32'>
           <b>user : </b>
-          {user}
         </p>
         <p className='w-32'>
           <b>klinik pergigian : </b>klinik pergigian alor janggus

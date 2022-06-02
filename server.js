@@ -52,6 +52,7 @@ app.use('/api/v1/auth', authLogin);
 // app.use('/api/v1/generate', genRouter);
 // app.use('/admin', adminRouter);
 
+// for use in deployment
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
