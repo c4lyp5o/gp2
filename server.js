@@ -10,7 +10,7 @@ const path = require('path');
 // user import
 const authLogin = require('./routes/authLogin');
 // const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
-// const dashboard = require('./routes/dashboard');
+const identity = require('./routes/identity');
 // const tadika = require('./routes/tadika');
 // const sekolah = require('./routes/sekolah');
 // const allQueryRoute = require('./routes/allQueryRoute');
@@ -22,7 +22,7 @@ const authLogin = require('./routes/authLogin');
 // const adminRouter = require('./routes/adminRouter');
 
 // IMPORT MIDDLEWARES --------------------------------------
-// const authCheck = require('./middlewares/authCheck');
+const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 // const genAuth = require('./middlewares/genAuth').verifyToken;
@@ -41,7 +41,7 @@ app.use(express.json());
 // user route
 app.use('/api/v1/auth', authLogin);
 // app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
-// app.use('/api/v1/dashboard', authCheck, dashboard);
+app.use('/api/v1/identity', authCheck, identity);
 // app.use('/api/v1/tadika', authCheck, tadika);
 // app.use('/api/v1/sekolah', authCheck, sekolah);
 // app.use('/api/v1/query', authCheck, allQueryRoute);

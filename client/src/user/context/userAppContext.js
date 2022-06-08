@@ -1,13 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const localUserToken = localStorage.getItem('userToken');
+const storageUserToken = localStorage.getItem('userToken');
+const storageUsername = localStorage.getItem('username');
 
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
-  const [userToken, setUserToken] = useState(localUserToken);
+  const [userToken, setUserToken] = useState(storageUserToken);
+  const [username, setUsername] = useState(storageUsername);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
@@ -22,6 +24,8 @@ function UserAppProvider({ children }) {
       });
       localStorage.setItem('userToken', data.userToken);
       setUserToken(data.userToken);
+      localStorage.setItem('username', data.user.kp);
+      setUsername(data.user.kp);
       navigate('/user');
     } catch (error) {
       localStorage.removeItem('userToken');
@@ -36,7 +40,14 @@ function UserAppProvider({ children }) {
 
   return (
     <UserAppContext.Provider
-      value={{ userToken, loginErrorMessage, isLoginError, loginUser }}
+      value={{
+        userToken,
+        username,
+        loginErrorMessage,
+        isLoginError,
+        loginUser,
+        navigate,
+      }}
     >
       {children}
     </UserAppContext.Provider>
