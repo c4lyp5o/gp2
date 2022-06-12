@@ -4,7 +4,6 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const path = require('path');
-// const cookieParser = require('cookie-parser');
 
 // IMPORT ROUTER -------------------------------------------
 // user import
@@ -14,18 +13,18 @@ const identity = require('./routes/identity');
 // const tadika = require('./routes/tadika');
 // const sekolah = require('./routes/sekolah');
 // const allQueryRoute = require('./routes/allQueryRoute');
+
 // admin import
-// const adminAuthLogin = require('./routes/adminAuthLogin');
-// const adminTadika = require('./routes/adminTadika');
+const adminAPI = require('./routes/adminAPI');
+
 // generate import
-// const genRouter = require('./routes/generateRouter');
-// const adminRouter = require('./routes/adminRouter');
+const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES --------------------------------------
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
-// const genAuth = require('./middlewares/genAuth').verifyToken;
+const genAuth = require('./middlewares/genAuth').verifyToken;
 
 // DATABASE ------------------------------------------------
 const connectDB = require('./database/connect');
@@ -45,12 +44,11 @@ app.use('/api/v1/identity', authCheck, identity);
 // app.use('/api/v1/tadika', authCheck, tadika);
 // app.use('/api/v1/sekolah', authCheck, sekolah);
 // app.use('/api/v1/query', authCheck, allQueryRoute);
+
 // admin route
-// app.use('/api/v1/admin/auth', adminAuthLogin);
-// app.use('/api/v1/admin/tadika', authCheck, adminTadika);
+app.use('/api/v1/superadmin', adminAPI);
 // generate route
-// app.use('/api/v1/generate', genRouter);
-// app.use('/admin', adminRouter);
+app.use('/api/v1/generate', genRouter);
 
 // for use in deployment
 app.get('*', (req, res) => {
@@ -60,9 +58,6 @@ app.get('*', (req, res) => {
 // error handler & not found
 app.use(errorHandler);
 app.use(notFound);
-// use pug
-// app.set('views', './views');
-// app.set('view engine', 'pug');
 
 // SERVER --------------------------------------------------
 const port = process.env.PORT || 5000;
