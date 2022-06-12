@@ -32,10 +32,7 @@ const connectDB = require('./database/connect');
 // MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
-// app.use(express.static('./public/exports'));
 app.use(express.json());
-// app.use(cookieParser());
-// app.use(express.urlencoded({ extended: false }));
 
 // user route
 app.use('/api/v1/auth', authLogin);

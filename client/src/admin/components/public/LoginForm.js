@@ -8,10 +8,7 @@ import { useGlobalAdminAppContext } from "../../context/adminAppContext";
 
 async function loginUser(credentials) {
   try {
-    const response = await axios.post(
-      "http://localhost:5000/api/v1/superadmin/login",
-      credentials
-    );
+    const response = await axios.post("/api/v1/superadmin/login", credentials);
     return response.data;
   } catch (error) {
     const theError = {

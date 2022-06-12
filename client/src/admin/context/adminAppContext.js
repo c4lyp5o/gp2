@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useToken, getTokenized } from "../controllers/Tokenizer";
-import axios from "axios";
+import React, { useContext } from 'react';
+import { useToken, getTokenized } from '../controllers/Tokenizer';
+import axios from 'axios';
 
 const AdminAppContext = React.createContext();
 
@@ -8,12 +8,9 @@ function AdminAppProvider({ children }) {
   const { token, setToken } = useToken();
 
   async function getCurrentUser() {
-    let response = await axios.post(
-      `http://localhost:5000/api/v1/superadmin/getuser`,
-      {
-        token: getTokenized(),
-      }
-    );
+    let response = await axios.post(`/api/v1/superadmin/getuser`, {
+      token: getTokenized(),
+    });
     return response;
   }
 
