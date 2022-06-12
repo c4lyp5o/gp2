@@ -1,9 +1,9 @@
-// const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
-const Superadmin = require("../models/Superadmin");
-const Fasiliti = require("../models/Fasiliti");
-const Operator = require("../models/Operator");
-const async = require("async");
+const jwt = require('jsonwebtoken');
+const Superadmin = require('../models/Superadmin');
+const Fasiliti = require('../models/Fasiliti');
+const Operator = require('../models/Operator');
+const async = require('async');
+const CountHelper = require('./countHelper');
 
 exports.loginPage = (req, res) => {
   res.render("admin/loginadmin");
