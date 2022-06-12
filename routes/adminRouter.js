@@ -4,6 +4,8 @@ const router = express.Router();
 
 // Controller
 const admincon = require('../controllers/adminController');
+const genretcon = require('../controllers/generateRetenController');
+const countcon = require('../controllers/countHelper');
 
 // Routes
 router.get('/', admincon.loginPage);
@@ -48,5 +50,9 @@ router.get('/update/:id', admincon.updateFac);
 router.post('/update/:id', admincon.updateNow);
 
 router.post('/logout', admincon.logOut);
+
+router.get('/buatreten', countcon.createTOD);
+
+router.get('/ujikaji', countcon.filterbyUmur);
 
 module.exports = router;
