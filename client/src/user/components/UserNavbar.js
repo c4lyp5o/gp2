@@ -43,13 +43,13 @@ function UserNavbar() {
             >
               <NavLink
                 to='/user/taska'
-                className='bg-user5 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user6 transition-all'
+                className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
               >
                 UMUM
               </NavLink>
               <NavLink
                 to='/user/sekolah'
-                className='bg-user5 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user6 transition-all'
+                className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
               >
                 SEKOLAH
               </NavLink>

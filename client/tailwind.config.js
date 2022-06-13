@@ -8,6 +8,7 @@ module.exports = {
       user4: '#e1e9ef',
       user5: '#d9693f',
       user6: '#f32f2f',
+      user7: '#415164',
       userWhite: 'white',
       userBlack: 'black',
       admin1: '#8c0d3c',
