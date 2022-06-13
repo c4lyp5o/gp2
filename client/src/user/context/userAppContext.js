@@ -4,15 +4,21 @@ import { useNavigate } from 'react-router-dom';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
+const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
+  const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
+
+  const [displayLoginForm, setDisplayLoginForm] = useState(true);
+  const [displayPilihNama, setDisplayPilihNama] = useState(false);
+  const [displayPilihFasiliti, setDisplayPilihFasiliti] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,9 +30,8 @@ function UserAppProvider({ children }) {
       });
       localStorage.setItem('userToken', data.userToken);
       setUserToken(data.userToken);
-      localStorage.setItem('username', data.user.kp);
-      setUsername(data.user.kp);
-      navigate('/user');
+      setDisplayLoginForm(false);
+      setDisplayPilihNama(true);
     } catch (error) {
       localStorage.removeItem('userToken');
       setLoginErrorMessage(error.response.data.msg);
@@ -43,10 +48,19 @@ function UserAppProvider({ children }) {
       value={{
         userToken,
         username,
+        setUsername,
+        fasilitiRelief,
+        setFasilitiRelief,
         loginErrorMessage,
         isLoginError,
-        loginUser,
+        displayLoginForm,
+        setDisplayLoginForm,
+        displayPilihNama,
+        setDisplayPilihNama,
+        displayPilihFasiliti,
+        setDisplayPilihFasiliti,
         navigate,
+        loginUser,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserProtectedRoute({ children }) {
-  const { userToken } = useGlobalUserAppContext();
+  const { userToken, username } = useGlobalUserAppContext();
 
   const [isTokenCorrect, setIsTokenCorrect] = useState(null);
 
@@ -24,10 +24,10 @@ function UserProtectedRoute({ children }) {
     fetchIdentity();
   }, [userToken]);
 
-  if (isTokenCorrect === false) {
+  if (isTokenCorrect === false || !username) {
     return <Navigate to='/' />;
   }
-  if (isTokenCorrect === true) {
+  if (isTokenCorrect === true && username) {
     return children;
   }
 }
