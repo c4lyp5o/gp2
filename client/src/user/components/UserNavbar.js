@@ -29,29 +29,30 @@ function UserNavbar() {
           >
             DASHBOARD
           </NavLink>
-          <div >
-            <div className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+          <div>
+            <div
+              className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all hover:cursor-pointer'
               onClick={toggleSubMenu}
             >
-              <span>
-                RETEN KLINIK PERGIGIAN
-              </span>
+              <span>RETEN</span>
             </div>
-            <div className={`transition-all ${showSubMenu ? 'block' : 'hidden'}`}>
-              <div className='bg-user5 rounded-md shadow-xl p-3 m-1 hover:bg-user6 transition-all'>
-                <NavLink
-                to='taska'
-                >
-                  KLINIK PERGIGIAN
-                </NavLink>
-              </div>
-              <div className='bg-user5 rounded-md shadow-xl p-3 m-1 hover:bg-user6 transition-all'>
-                <NavLink
-                to='sekolah'
-                >
-                  SEKOLAH
-                </NavLink>
-              </div>
+            <div
+              className={`grid transition-all ${
+                showSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <NavLink
+                to='/user/taska'
+                className='bg-user5 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user6 transition-all'
+              >
+                UMUM
+              </NavLink>
+              <NavLink
+                to='/user/sekolah'
+                className='bg-user5 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user6 transition-all'
+              >
+                SEKOLAH
+              </NavLink>
             </div>
           </div>
           <NavLink
