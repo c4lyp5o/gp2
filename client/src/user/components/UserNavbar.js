@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 function UserNavbar() {
   const [showLinks, setShowLinks] = useState(false);
@@ -31,10 +31,15 @@ function UserNavbar() {
           </NavLink>
           <div>
             <div
-              className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all hover:cursor-pointer'
+              className='flex items-center justify-center bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all hover:cursor-pointer'
               onClick={toggleSubMenu}
             >
               <span>RETEN</span>
+              <span className='ml-10'>
+                <FaArrowAltCircleUp
+                  className={`transition-all ${showSubMenu && 'rotate-180'}`}
+                />
+              </span>
             </div>
             <div
               className={`grid transition-all ${
@@ -42,13 +47,13 @@ function UserNavbar() {
               }`}
             >
               <NavLink
-                to='/user/taska'
+                to='umum'
                 className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
               >
                 UMUM
               </NavLink>
               <NavLink
-                to='/user/sekolah'
+                to='sekolah'
                 className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
               >
                 SEKOLAH
@@ -56,19 +61,19 @@ function UserNavbar() {
             </div>
           </div>
           <NavLink
-            to='taska'
+            to='status-harian'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             STATUS HARIAN
           </NavLink>
           <NavLink
-            to='/user/institusi'
+            to='generate-reten'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             GENERATE RETEN
           </NavLink>
           <NavLink
-            to='/user/generate'
+            to='carian'
             className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
           >
             CARIAN
