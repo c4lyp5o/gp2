@@ -33,7 +33,7 @@ function UserAppProvider({ children }) {
       setDisplayLoginForm(false);
       setDisplayPilihNama(true);
     } catch (error) {
-      localStorage.removeItem('userToken');
+      catchAxiosErrorAndLogout();
       setLoginErrorMessage(error.response.data.msg);
       setIsLoginError(true);
       setTimeout(() => {
@@ -41,6 +41,15 @@ function UserAppProvider({ children }) {
       }, 3000);
       navigate('/');
     }
+  };
+
+  const catchAxiosErrorAndLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('fasilitiRelief');
+    setUserToken(null);
+    setUsername(null);
+    setFasilitiRelief(null);
   };
 
   return (
@@ -61,6 +70,7 @@ function UserAppProvider({ children }) {
         setDisplayPilihFasiliti,
         navigate,
         loginUser,
+        catchAxiosErrorAndLogout,
       }}
     >
       {children}

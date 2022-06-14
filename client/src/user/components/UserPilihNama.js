@@ -11,6 +11,7 @@ function UserPilihNama() {
     setDisplayPilihNama,
     setDisplayPilihFasiliti,
     navigate,
+    catchAxiosErrorAndLogout,
   } = useGlobalUserAppContext();
 
   const [namaFasilitiToken, setNamaFasilitiToken] = useState('');
@@ -26,8 +27,7 @@ function UserPilihNama() {
         });
         setNamaFasilitiToken(data.kp);
       } catch (error) {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('username');
+        catchAxiosErrorAndLogout();
         navigate('/');
       }
     };
@@ -39,8 +39,7 @@ function UserPilihNama() {
         });
         setListPilihNama(data.operators);
       } catch (error) {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('username');
+        catchAxiosErrorAndLogout();
         navigate('/');
       }
     };

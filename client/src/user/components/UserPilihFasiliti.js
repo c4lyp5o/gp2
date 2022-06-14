@@ -8,9 +8,9 @@ function UserPilihFasiliti() {
     userToken,
     setFasilitiRelief,
     setDisplayLoginForm,
-    setDisplayPilihNama,
     setDisplayPilihFasiliti,
     navigate,
+    catchAxiosErrorAndLogout,
   } = useGlobalUserAppContext();
 
   const [listPilihFasiliti, setListPilihFasiliti] = useState([]);
@@ -24,8 +24,7 @@ function UserPilihFasiliti() {
         });
         setListPilihFasiliti(data.fasilitis);
       } catch (error) {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('username');
+        catchAxiosErrorAndLogout();
         navigate('/');
       }
     };
@@ -34,7 +33,11 @@ function UserPilihFasiliti() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(pilihanFasiliti.current.value);
+    localStorage.setItem('fasilitiRelief', pilihanFasiliti.current.value);
+    setFasilitiRelief(pilihanFasiliti.current.value);
+    setDisplayLoginForm(true);
+    setDisplayPilihFasiliti(false);
+    navigate('/user');
   };
 
   return (
