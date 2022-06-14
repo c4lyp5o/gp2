@@ -1,11 +1,36 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserHeaderLoggedIn() {
-  const { username, navigate } = useGlobalUserAppContext();
+  const {
+    userToken,
+    username,
+    fasilitiRelief,
+    navigate,
+    catchAxiosErrorAndLogout,
+  } = useGlobalUserAppContext();
+
+  const [namaKlinik, setNamaKlinik] = useState('');
+
+  useEffect(() => {
+    const fetchIdentity = async () => {
+      try {
+        const { data } = await axios.get('/api/v1/identity', {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+        setNamaKlinik(data.kp);
+      } catch (error) {
+        catchAxiosErrorAndLogout();
+        navigate('/');
+      }
+    };
+    fetchIdentity();
+  }, []);
 
   const logout = () => {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('username');
+    catchAxiosErrorAndLogout();
     navigate('/');
   };
 
@@ -22,8 +47,15 @@ function UserHeaderLoggedIn() {
           {username}
         </p>
         <p className='w-32'>
-          <b>klinik pergigian : </b>klinik pergigian alor janggus
+          <b>klinik pergigian : </b>
+          {namaKlinik}
         </p>
+        {fasilitiRelief && (
+          <p className='w-32'>
+            <b>anda relief : </b>
+            {fasilitiRelief}
+          </p>
+        )}
       </div>
       <button
         type='button'

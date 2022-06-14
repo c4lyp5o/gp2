@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserProtectedRoute({ children }) {
-  const { userToken } = useGlobalUserAppContext();
+  const { userToken, username, catchAxiosErrorAndLogout } =
+    useGlobalUserAppContext();
 
   const [isTokenCorrect, setIsTokenCorrect] = useState(null);
 
@@ -16,18 +18,17 @@ function UserProtectedRoute({ children }) {
         });
         setIsTokenCorrect(true);
       } catch (error) {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('username');
+        catchAxiosErrorAndLogout();
         setIsTokenCorrect(false);
       }
     };
     fetchIdentity();
   }, [userToken]);
 
-  if (isTokenCorrect === false) {
+  if (isTokenCorrect === false || !username) {
     return <Navigate to='/' />;
   }
-  if (isTokenCorrect === true) {
+  if (isTokenCorrect === true && username) {
     return children;
   }
 }
