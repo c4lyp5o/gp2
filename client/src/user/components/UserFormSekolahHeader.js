@@ -11,7 +11,7 @@ function UserFormSekolah() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(masterForm.kpBergerak.current.checked);
-    console.log(masterForm.pasukanPergigianBergerak.current.value);
+    console.log(masterForm.pasukanPergigianBergerak.current.checked);
   };
 
   const handleNext = () => {

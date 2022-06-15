@@ -30,7 +30,7 @@ function UserAfterLogin() {
           {/* <Route path='form-umum' element={<UserFormUmum />} /> */}
 
           <Route path='sekolah' element={<UserSekolah />} />
-          <Route path='form-sekolah' element={<UserFormSekolah />} />
+          <Route path='form-sekolah' element={<UserFormSekolahHeader />} />
 
           {/* <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-reten' element={<UserGenerateReten />} />
