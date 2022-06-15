@@ -1,12 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 function UserNavbar() {
   const [showLinks, setShowLinks] = useState(false);
+  const [showSubMenu, setshowSubMenu] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
+  };
+
+  const toggleSubMenu = () => {
+    setshowSubMenu(!showSubMenu);
   };
 
   return (
@@ -20,33 +25,80 @@ function UserNavbar() {
         <div className='grid'>
           <NavLink
             to='/user'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
           >
             DASHBOARD
           </NavLink>
+          <div>
+            <div
+              className={`${
+                showSubMenu ? 'bg-user3' : 'bg-user4'
+              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+              onClick={toggleSubMenu}
+            >
+              <span>RETEN</span>
+              <span className='ml-10'>
+                <FaArrowAltCircleUp
+                  className={`transition-all ${showSubMenu && 'rotate-180'}`}
+                />
+              </span>
+            </div>
+            <div
+              className={`grid transition-all ${
+                showSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <NavLink
+                to='umum'
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                }
+              >
+                UMUM
+              </NavLink>
+              <NavLink
+                to='sekolah'
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                }
+              >
+                SEKOLAH
+              </NavLink>
+            </div>
+          </div>
           <NavLink
-            to='taska'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            to='status-harian'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
           >
-            TASKA
+            STATUS HARIAN
           </NavLink>
           <NavLink
-            to='sekolah'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-          >
-            SEKOLAH
-          </NavLink>
-          <NavLink
-            to='/user/institusi'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
-          >
-            INSTITUSI
-          </NavLink>
-          <NavLink
-            to='/user/generate'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            to='generate-reten'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
           >
             GENERATE RETEN
+          </NavLink>
+          <NavLink
+            to='carian'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
+          >
+            CARIAN
           </NavLink>
         </div>
       </nav>

@@ -1,13 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
 
 import UserHeader from '../components/UserHeader';
-
 import UserNavbar from '../components/UserNavbar';
 import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 
 import UserDashboard from '../components/UserDashboard';
-import UserTaska from '../components/UserTaska';
+
+import UserUmum from '../components/UserUmum';
+
 import UserSekolah from '../components/UserSekolah';
+import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
 
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
@@ -17,15 +19,22 @@ function UserAfterLogin() {
   return (
     <>
       <UserHeader />
-      <div className='absolute inset-0 -z-10 bg-user4'></div>
+      <div className='absolute inset-0 -z-10 bg-user5'></div>
       <UserNavbar />
       <UserHeaderLoggedIn />
       <div className='absolute inset-10 top-44 -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route index element={<UserDashboard />} />
-          <Route path='taska' element={<UserTaska />} />
+
+          <Route path='umum' element={<UserUmum />} />
+          {/* <Route path='form-umum' element={<UserFormUmum />} /> */}
+
           <Route path='sekolah' element={<UserSekolah />} />
-          {/* <Route path='/institusi' element={<UserInstitusi />} /> */}
+          <Route path='form-sekolah' element={<UserFormSekolahHeader />} />
+
+          {/* <Route path='status-harian' element={<UserStatusHarian />} />
+          <Route path='generate-reten' element={<UserGenerateReten />} />
+          <Route path='carian' element={<UserCarian />} /> */}
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>
