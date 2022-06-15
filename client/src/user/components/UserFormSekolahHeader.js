@@ -7,11 +7,29 @@ function UserFormSekolah() {
   const masterForm = {};
   masterForm.kpBergerak = useRef(null);
   masterForm.pasukanPergigianBergerak = useRef(null);
+  masterForm.plateNo = useRef(null);
+  masterForm.baruKedatanganPendaftaran = useRef(null);
+  masterForm.ulanganKedatanganPendaftaran = useRef(null);
+  masterForm.engganKedatanganPendaftaran = useRef(null);
+  masterForm.tidakHadirKedatanganPendaftaran = useRef(null);
+  masterForm.adaPemeriksaanPendaftaran = useRef(null);
+  masterForm.tiadaPemeriksaanPendaftaran = useRef(null);
+  masterForm.tinggiRisikoSekolahPendaftaran = useRef(null);
+  masterForm.rendahRisikoSekolahPendaftaran = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(masterForm.kpBergerak.current.checked);
     console.log(masterForm.pasukanPergigianBergerak.current.checked);
+    console.log(masterForm.plateNo.current.value);
+    console.log(masterForm.baruKedatanganPendaftaran.current.value);
+    console.log(masterForm.ulanganKedatanganPendaftaran.current.value);
+    console.log(masterForm.engganKedatanganPendaftaran.current.checked);
+    console.log(masterForm.tidakHadirKedatanganPendaftaran.current.checked);
+    console.log(masterForm.adaPemeriksaanPendaftaran.current.value);
+    console.log(masterForm.tiadaPemeriksaanPendaftaran.current.value);
+    console.log(masterForm.tinggiRisikoSekolahPendaftaran.current.value);
+    console.log(masterForm.rendahRisikoSekolahPendaftaran.current.value);
   };
 
   const handleNext = () => {
@@ -64,9 +82,9 @@ function UserFormSekolah() {
         </div>
         <form onSubmit={handleSubmit}>
           <Pendaftaran {...masterForm} />
-          {/* <PemeriksaanAwal /> */}
+          <PemeriksaanAwal />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-            <div className='grid grid-cols-2 gap-3 lg:col-start-2'>
+            <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
                 clear
               </button>
