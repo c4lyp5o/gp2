@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import Pendaftaran from './form-sekolah/Pendaftaran';
+import Kotak from './form-sekolah/Kotak';
+import Penyata2 from './form-sekolah/Penyata2';
 
 function UserFormSekolah() {
   return (
@@ -53,7 +55,9 @@ function UserFormSekolah() {
           </form>
         </div>
         <div></div>
-        <Pendaftaran />
+        {/* <Pendaftaran /> */}
+        <Kotak />
+        {/* <Penyata2 /> */}
       </div>
     </>
   );
