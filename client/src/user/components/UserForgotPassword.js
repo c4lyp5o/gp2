@@ -11,7 +11,7 @@ function UserForgotPassword({ setIsForgotPassword }) {
   };
 
   return (
-    <div className='mt-20 ml-10 mr-10 p-3 outline outline-1 outline-user5 rounded-md shadow-xl'>
+    <div className='mt-20 ml-10 mr-10 p-3 outline outline-1 outline-userBlack rounded-md shadow-xl'>
       <div className='py-1 bg-user3 font-bold'>LUPA KATA LALUAN</div>
       {isForgotSent ? (
         <div>
