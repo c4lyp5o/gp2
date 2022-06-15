@@ -9,7 +9,7 @@ import UserDashboard from '../components/UserDashboard';
 import UserUmum from '../components/UserUmum';
 
 import UserSekolah from '../components/UserSekolah';
-import UserFormSekolah from '../components/UserFormSekolah';
+import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
 
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
@@ -30,7 +30,7 @@ function UserAfterLogin() {
           {/* <Route path='form-umum' element={<UserFormUmum />} /> */}
 
           <Route path='sekolah' element={<UserSekolah />} />
-          <Route path='form-sekolah' element={<UserFormSekolah />} />
+          <Route path='form-sekolah' element={<UserFormSekolahHeader />} />
 
           {/* <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-reten' element={<UserGenerateReten />} />
