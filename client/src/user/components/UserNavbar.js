@@ -25,13 +25,15 @@ function UserNavbar() {
         <div className='grid'>
           <NavLink
             to='/user'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
           >
             DASHBOARD
           </NavLink>
           <div>
             <div
-              className='flex items-center justify-center bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all hover:cursor-pointer'
+              className={`${
+                showSubMenu ? 'bg-user3' : 'bg-user4'
+              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
               onClick={toggleSubMenu}
             >
               <span>RETEN</span>
@@ -48,13 +50,21 @@ function UserNavbar() {
             >
               <NavLink
                 to='umum'
-                className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                }
               >
                 UMUM
               </NavLink>
               <NavLink
                 to='sekolah'
-                className='bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user7 transition-all'
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                }
               >
                 SEKOLAH
               </NavLink>
@@ -62,19 +72,31 @@ function UserNavbar() {
           </div>
           <NavLink
             to='status-harian'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
           >
             STATUS HARIAN
           </NavLink>
           <NavLink
             to='generate-reten'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
           >
             GENERATE RETEN
           </NavLink>
           <NavLink
             to='carian'
-            className='bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user1 transition-all'
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
           >
             CARIAN
           </NavLink>
