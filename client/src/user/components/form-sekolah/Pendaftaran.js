@@ -23,7 +23,7 @@ export default function Pendaftaran(props) {
                   KP Bergerak
                 </label>
               </div>
-              <div className='flex flex-row items-center pl-5 col-span-1 md:col-span-2'>
+              <div className='flex flex-row items-center pl-5 col-span-2'>
                 <input
                   ref={props.pasukanPergigianBergerak}
                   type='checkbox'
@@ -33,13 +33,14 @@ export default function Pendaftaran(props) {
                 />
                 <label
                   htmlFor='pasukan-pergigian-bergerak'
-                  class='ml-2 text-sm font-m'
+                  class='ml-2 text-sm font-m '
                 >
                   Pasukan Pergigian Bergerak
                 </label>
               </div>
               <div className='flex flex-row items-center pl-5'>
                 <select
+                  ref={props.plateNo}
                   name='plate-no'
                   id='plate-no'
                   className='outline outline-1 outline-userBlack w-auto text-sm font-m'
@@ -49,13 +50,14 @@ export default function Pendaftaran(props) {
                 </select>
               </div>
             </article>
-            <article className='grid grid-cols-2 lg:grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
-              <h4 className='flex flex-row items-center pl-5 font-bold col-span-2 lg:col-span-3'>
+            <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                 Kedatangan
               </h4>
-              <div className='grid grid-rows-2'>
-                <div className='flex items-center flex-row pl-5'>
+              <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
+                <div className='flex items-center flex-row pl-5 '>
                   <input
+                    ref={props.baruKedatanganPendaftaran}
                     type='radio'
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
@@ -70,6 +72,7 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                    ref={props.ulanganKedatanganPendaftaran}
                     type='radio'
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
@@ -86,20 +89,19 @@ export default function Pendaftaran(props) {
               <div className='grid grid-rows-2'>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                    ref={props.engganKedatanganPendaftaran}
                     type='checkbox'
                     name='enggan-kedatangan'
                     id='enggan-kedatangan'
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
-                  <label
-                    htmlFor='enggan-kedatangan'
-                    class='ml-2 text-sm font-m'
-                  >
+                  <label htmlFor='enggan-kedatangan' class='m-2 text-sm font-m'>
                     Enggan
                   </label>
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                    ref={props.tidakHadirKedatanganPendaftaran}
                     type='checkbox'
                     name='tidak-hadir-kedatangan'
                     id='tidak-hadir-kedatangan'
@@ -107,18 +109,19 @@ export default function Pendaftaran(props) {
                   />
                   <label
                     htmlFor='tidak-hadir-kedatangan'
-                    class='ml-2 text-sm font-m'
+                    class='m-2 text-sm font-m'
                   >
                     Tidak Hadir
                   </label>
                 </div>
               </div>
-              <div className='outline outline-1 outline-userBlack grid grid-rows-3 col-start-2 lg:col-start-3'>
+              <div className='outline outline-1 outline-userBlack grid grid-rows-3 col-start-2'>
                 <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
                   Pemeriksaan
                 </h4>
                 <div className='flex items-center flex-row px-2'>
                   <input
+                    ref={props.adaPemeriksaanPendaftaran}
                     type='radio'
                     name='pemeriksaan'
                     id='ada-pemeriksaan'
@@ -133,6 +136,7 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row px-2'>
                   <input
+                    ref={props.tiadaPemeriksaanPendaftaran}
                     type='radio'
                     name='pemeriksaan'
                     id='tiada-pemeriksaan'
@@ -153,6 +157,7 @@ export default function Pendaftaran(props) {
               </h4>
               <div className='flex items-center flex-row pl-5'>
                 <input
+                  ref={props.tinggiRisikoSekolahPendaftaran}
                   type='radio'
                   name='risiko-sekolah'
                   id='tinggi-risiko-sekolah'
@@ -167,6 +172,7 @@ export default function Pendaftaran(props) {
               </div>
               <div className='flex items-center flex-row pl-5'>
                 <input
+                  ref={props.rendahRisikoSekolahPendaftaran}
                   type='radio'
                   name='risiko-sekolah'
                   id='rendah-risiko-sekolah'
@@ -181,7 +187,6 @@ export default function Pendaftaran(props) {
               </div>
             </article>
           </section>
-          <div></div>
         </div>
       </div>
     </>
