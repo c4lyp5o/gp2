@@ -3,7 +3,7 @@ const Sekolah = require('../models/Sekolah');
 const getAllPersonSekolahs = async (req, res) => {
   const allPersonSekolahs = await Sekolah.find({
     createdByKp: req.user.kp,
-  }).sort('kelasPendaftaranSekolah');
+  });
   res.status(200).json({ allPersonSekolahs });
 };
 

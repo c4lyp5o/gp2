@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const SekolahSchema = mongoose.Schema({
-  // negeri, daerah, kp is associated with each person
+const SekolahSchema = new mongoose.Schema({
+  // negeri, daerah, kp, operator are associated with each person
   createdByNegeri: {
     type: String,
     required: true,
@@ -14,20 +14,40 @@ const SekolahSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  createdByUsername: {
+    type: String,
+    required: true,
+  },
   // --------------------------------------------------
-  namaPendaftaranSekolah: {
+  nama: {
     type: String,
     required: [true, 'Please provide nama'],
     trim: true,
   },
-  umurPendaftaranSekolah: {
+  jantina: {
     type: String,
+    required: [true, 'Please provide jantina'],
+  },
+  umur: {
+    type: Number,
     required: [true, 'Please provide umur'],
   },
-  kelasPendaftaranSekolah: {
+  ic: {
     type: String,
-    required: [true, 'Please provide kelas'],
-    trim: true,
+    required: [true, 'Please provide IC'],
+  },
+  namaSekolah: {
+    type: String,
+    required: [true, 'Please provide nama sekolah'],
+  },
+  darjah: {
+    type: Number,
+  },
+  tingkatan: {
+    type: Number,
+  },
+  kelas: {
+    type: String,
   },
   //   ennrolmen: {
   //     type: String,
