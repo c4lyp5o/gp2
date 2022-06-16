@@ -20,7 +20,10 @@ export default function PemeriksaanAwal(props) {
                     id='ada-cleft-lip'
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
-                  <label htmlFor='ada-cleft-lip' class='mx-2 text-sm font-m'>
+                  <label
+                    htmlFor='ada-cleft-lip'
+                    className='mx-2 text-sm font-m'
+                  >
                     Ada
                   </label>
                 </div>
@@ -34,7 +37,7 @@ export default function PemeriksaanAwal(props) {
                   />
                   <label
                     htmlFor='rujuk-cleft-lip-palate'
-                    class='mx-2 text-sm font-m'
+                    className='mx-2 text-sm font-m'
                   >
                     Rujuk
                   </label>
@@ -51,7 +54,7 @@ export default function PemeriksaanAwal(props) {
                         type='radio'
                         name='sedia-ada-status-denture'
                         id='ada-sedia-ada-status-denture'
-                        class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
                         htmlFor='ada-sedia-ada-status-denture'
@@ -64,7 +67,7 @@ export default function PemeriksaanAwal(props) {
                         type='radio'
                         name='sedia-ada-status-denture'
                         id='tidak-sedia-ada-status-denture'
-                        class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
                         htmlFor='tidak-sedia-ada-status-denture'
@@ -95,7 +98,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-atas-sedia-ada-denture'
                           id='separa-atas-sedia-ada-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='separa-atas-sedia-ada-denture'
@@ -110,7 +113,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-atas-sedia-ada-denture'
                           id='penuh-atas-sedia-ada-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='penuh-atas-sedia-ada-denture'
@@ -142,7 +145,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-bawah-sedia-ada-denture'
                           id='separa-bawah-sedia-ada-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='separa-bawah-sedia-ada-denture'
@@ -157,7 +160,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-bawah-sedia-ada-denture'
                           id='penuh-bawah-sedia-ada-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='penuh-bawah-sedia-ada-denture'
@@ -176,7 +179,7 @@ export default function PemeriksaanAwal(props) {
                         type='radio'
                         name='perlu-status-denture'
                         id='ada-perlu-status-denture'
-                        class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
                         htmlFor='ada-perlu-status-denture'
@@ -189,7 +192,7 @@ export default function PemeriksaanAwal(props) {
                         type='radio'
                         name='perlu-status-denture'
                         id='tidak-perlu-status-denture'
-                        class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
                         htmlFor='tidak-perlu-status-denture'
@@ -220,7 +223,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-atas-perlu-denture'
                           id='separa-atas-perlu-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='separa-atas-perlu-denture'
@@ -235,7 +238,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-atas-perlu-denture'
                           id='penuh-atas-perlu-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='penuh-atas-perlu-denture'
@@ -267,7 +270,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-bawah-perlu-denture'
                           id='separa-bawah-perlu-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='separa-bawah-perlu-denture'
@@ -282,7 +285,7 @@ export default function PemeriksaanAwal(props) {
                           type='radio'
                           name='separa-penuh-bawah-perlu-denture'
                           id='penuh-bawah-perlu-denture'
-                          class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
                           htmlFor='penuh-bawah-perlu-denture'

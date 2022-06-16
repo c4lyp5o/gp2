@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import axios from 'axios';
 import Pendaftaran from './form-sekolah/Pendaftaran';
 import PemeriksaanAwal from './form-sekolah/PemeriksaanAwal';
+import PerluDibuat from './form-sekolah/PerluDibuat';
 
 function UserFormSekolah() {
   const masterForm = {};
@@ -188,7 +189,8 @@ function UserFormSekolah() {
         </div>
         <form onSubmit={handleSubmit}>
           {/* <Pendaftaran {...masterForm} /> */}
-          <PemeriksaanAwal {...masterForm} />
+          {/* <PemeriksaanAwal {...masterForm} /> */}
+          <PerluDibuat />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
