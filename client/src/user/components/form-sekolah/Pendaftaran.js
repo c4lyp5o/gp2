@@ -19,7 +19,7 @@ export default function Pendaftaran(props) {
                   id='kp-bergerak'
                   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                 />
-                <label htmlFor='kp-bergerak' class='ml-2 text-sm font-m'>
+                <label htmlFor='kp-bergerak' className='ml-2 text-sm font-m'>
                   KP Bergerak
                 </label>
               </div>
@@ -33,7 +33,7 @@ export default function Pendaftaran(props) {
                 />
                 <label
                   htmlFor='pasukan-pergigian-bergerak'
-                  class='ml-2 text-sm font-m '
+                  className='ml-2 text-sm font-m '
                 >
                   Pasukan Pergigian Bergerak
                 </label>
@@ -61,7 +61,7 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
-                    class='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='baru-kedatangan-pendaftaran'
@@ -76,7 +76,7 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='ulangan-kedatangan-pendaftaran'
@@ -95,7 +95,10 @@ export default function Pendaftaran(props) {
                     id='enggan-kedatangan'
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
-                  <label htmlFor='enggan-kedatangan' class='m-2 text-sm font-m'>
+                  <label
+                    htmlFor='enggan-kedatangan'
+                    className='m-2 text-sm font-m'
+                  >
                     Enggan
                   </label>
                 </div>
@@ -109,7 +112,7 @@ export default function Pendaftaran(props) {
                   />
                   <label
                     htmlFor='tidak-hadir-kedatangan'
-                    class='m-2 text-sm font-m'
+                    className='m-2 text-sm font-m'
                   >
                     Tidak Hadir
                   </label>
@@ -125,7 +128,7 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='pemeriksaan'
                     id='ada-pemeriksaan'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='ada-pemeriksaan'
@@ -140,7 +143,7 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='pemeriksaan'
                     id='tiada-pemeriksaan'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='tiada-pemeriksaan'
@@ -161,7 +164,7 @@ export default function Pendaftaran(props) {
                   type='radio'
                   name='risiko-sekolah'
                   id='tinggi-risiko-sekolah'
-                  class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                 />
                 <label
                   htmlFor='tinggi-risiko-sekolah'
@@ -176,7 +179,7 @@ export default function Pendaftaran(props) {
                   type='radio'
                   name='risiko-sekolah'
                   id='rendah-risiko-sekolah'
-                  class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                 />
                 <label
                   htmlFor='rendah-risiko-sekolah'
