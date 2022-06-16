@@ -23,6 +23,7 @@ export default function PerluDibuat(props) {
                     Baru
                   </label>
                   <input
+                    ref={props.baruJumlahGigiKekalPerluFs}
                     type='text'
                     name='baru-jumlah-gigi-kekal-perlu-fs'
                     id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -37,6 +38,7 @@ export default function PerluDibuat(props) {
                     Semula
                   </label>
                   <input
+                    ref={props.semulaJumlahGigiKekalPerluFs}
                     type='text'
                     name='semula-jumlah-gigi-kekal-perlu-fs'
                     id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -45,15 +47,16 @@ export default function PerluDibuat(props) {
                 </div>
                 <div className='flex flex-row items-center pl-5 col-span-2'>
                   <label
-                    htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
+                    htmlFor='jumlah-gigi-kekal-gagal-fs'
                     className='text-sm font-m'
                   >
                     Jumlah gigi FS gagal
                   </label>
                   <input
+                    ref={props.jumlahGigiFsGagal}
                     type='text'
-                    name='baru-jumlah-gigi-kekal-perlu-fs'
-                    id='baru-jumlah-gigi-kekal-perlu-fs'
+                    name='jumlah-gigi-kekal-gagal-fs'
+                    id='jumlah-gigi-kekal-gagal-fs'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -73,6 +76,7 @@ export default function PerluDibuat(props) {
                     Baru
                   </label>
                   <input
+                    ref={props.baruJumlahGigiKekalPerluFv}
                     type='text'
                     name='baru-jumlah-gigi-kekal-perlu-fv'
                     id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -87,6 +91,7 @@ export default function PerluDibuat(props) {
                     Semula
                   </label>
                   <input
+                    ref={props.semulaJumlahGigiKekalPerluFv}
                     type='text'
                     name='semula-jumlah-gigi-kekal-perlu-fv'
                     id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -109,6 +114,7 @@ export default function PerluDibuat(props) {
                     Baru
                   </label>
                   <input
+                    ref={props.baruJumlahGigiKekalPerluPrrJenis1}
                     type='text'
                     name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -123,6 +129,7 @@ export default function PerluDibuat(props) {
                     Semula
                   </label>
                   <input
+                    ref={props.semulaJumlahGigiKekalPerluPrrJenis1}
                     type='text'
                     name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -141,6 +148,7 @@ export default function PerluDibuat(props) {
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
+                    ref={props.yaSilverDiamineFluoridePerluSapuan}
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -153,6 +161,7 @@ export default function PerluDibuat(props) {
                     Ya
                   </label>
                   <input
+                    ref={props.tidakSilverDiamineFluoridePerluSapuan}
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='tidak-silver-diamine-fluoride-perlu-sapuan'
@@ -179,6 +188,7 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGDAnteriorSewarna}
                         type='text'
                         name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -193,6 +203,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGDAnteriorSewarna}
                         type='text'
                         name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -207,6 +218,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGKAnteriorSewarna}
                         type='text'
                         name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -221,6 +233,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGKAnteriorSewarna}
                         type='text'
                         name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -240,6 +253,7 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGDPosteriorSewarna}
                         type='text'
                         name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -254,6 +268,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGDPosteriorSewarna}
                         type='text'
                         name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -268,6 +283,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGKPosteriorSewarna}
                         type='text'
                         name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -282,6 +298,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGKPosteriorSewarna}
                         type='text'
                         name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                         id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -301,6 +318,7 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGDPosteriorAmalgam}
                         type='text'
                         name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                         id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -315,6 +333,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGDPosteriorAmalgam}
                         type='text'
                         name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                         id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -329,6 +348,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.baruGKPosteriorAmalgam}
                         type='text'
                         name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                         id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -343,6 +363,7 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        ref={props.semulaGKPosteriorAmalgam}
                         type='text'
                         name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                         id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'

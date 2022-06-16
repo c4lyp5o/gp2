@@ -70,6 +70,28 @@ function UserFormSekolah() {
   masterForm.classIID = useRef(null);
   masterForm.classIF = useRef(null);
   masterForm.classIIF = useRef(null);
+  //perlu dibuat
+  masterForm.baruJumlahGigiKekalPerluFs = useRef(null);
+  masterForm.semulaJumlahGigiKekalPerluFs = useRef(null);
+  masterForm.jumlahGigiFsGagal = useRef(null);
+  masterForm.baruJumlahGigiKekalPerluFv = useRef(null);
+  masterForm.semulaJumlahGigiKekalPerluFv = useRef(null);
+  masterForm.baruJumlahGigiKekalPerluPrrJenis1 = useRef(null);
+  masterForm.semulaJumlahGigiKekalPerluPrrJenis1 = useRef(null);
+  masterForm.yaSilverDiamineFluoridePerluSapuan = useRef(null);
+  masterForm.tidakSilverDiamineFluoridePerluSapuan = useRef(null);
+  masterForm.baruGDAnteriorSewarna = useRef(null);
+  masterForm.semulaGDAnteriorSewarna = useRef(null);
+  masterForm.baruGKAnteriorSewarna = useRef(null);
+  masterForm.semulaGKAnteriorSewarna = useRef(null);
+  masterForm.baruGDPosteriorSewarna = useRef(null);
+  masterForm.semulaGDPosteriorSewarna = useRef(null);
+  masterForm.baruGKPosteriorSewarna = useRef(null);
+  masterForm.semulaGKPosteriorSewarna = useRef(null);
+  masterForm.baruGDPosteriorAmalgam = useRef(null);
+  masterForm.semulaGDPosteriorAmalgam = useRef(null);
+  masterForm.baruGKPosteriorAmalgam = useRef(null);
+  masterForm.semulaGKPosteriorAmalgam = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -137,6 +159,28 @@ function UserFormSekolah() {
     console.log(masterForm.classIID.current.value);
     console.log(masterForm.classIF.current.value);
     console.log(masterForm.classIIF.current.value);
+    //perlu dibuat
+    console.log(masterForm.baruJumlahGigiKekalPerluFs.current.value);
+    console.log(masterForm.semulaJumlahGigiKekalPerluFs.current.value);
+    console.log(masterForm.jumlahGigiFsGagal.current.value);
+    console.log(masterForm.baruJumlahGigiKekalPerluFv.current.value);
+    console.log(masterForm.semulaJumlahGigiKekalPerluFv.current.value);
+    console.log(masterForm.baruJumlahGigiKekalPerluPrrJenis1.current.value);
+    console.log(masterForm.semulaJumlahGigiKekalPerluPrrJenis1.current.value);
+    console.log(masterForm.yaSilverDiamineFluoridePerluSapuan.current.value);
+    console.log(masterForm.tidakSilverDiamineFluoridePerluSapuan.current.value);
+    console.log(masterForm.baruGDAnteriorSewarna.current.value);
+    console.log(masterForm.semulaGDAnteriorSewarna.current.value);
+    console.log(masterForm.baruGKAnteriorSewarna.current.value);
+    console.log(masterForm.semulaGKAnteriorSewarna.current.value);
+    console.log(masterForm.baruGDPosteriorSewarna.current.value);
+    console.log(masterForm.semulaGDPosteriorSewarna.current.value);
+    console.log(masterForm.baruGKPosteriorSewarna.current.value);
+    console.log(masterForm.semulaGKPosteriorSewarna.current.value);
+    console.log(masterForm.baruGDPosteriorAmalgam.current.value);
+    console.log(masterForm.semulaGDPosteriorAmalgam.current.value);
+    console.log(masterForm.baruGKPosteriorAmalgam.current.value);
+    console.log(masterForm.semulaGKPosteriorAmalgam.current.value);
   };
 
   const handleNext = () => {
@@ -190,7 +234,7 @@ function UserFormSekolah() {
         <form onSubmit={handleSubmit}>
           {/* <Pendaftaran {...masterForm} /> */}
           {/* <PemeriksaanAwal {...masterForm} /> */}
-          <PerluDibuat />
+          <PerluDibuat {...masterForm} />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
