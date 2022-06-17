@@ -180,7 +180,6 @@ function UserFormSekolah() {
     console.log(masterForm.baruGDPosteriorAmalgam.current.value);
     console.log(masterForm.semulaGDPosteriorAmalgam.current.value);
     console.log(masterForm.baruGKPosteriorAmalgam.current.value);
-    console.log(masterForm.semulaGKPosteriorAmalgam.current.value);
   };
 
   const handleNext = () => {

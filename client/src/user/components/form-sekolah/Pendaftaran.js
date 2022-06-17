@@ -57,11 +57,14 @@ export default function Pendaftaran(props) {
               <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
                 <div className='flex items-center flex-row pl-5 '>
                   <input
-                    ref={props.baruKedatanganPendaftaran}
                     type='radio'
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
+                    value='baru-kedatangan-pendaftaran'
                     className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    onChange={(e) => {
+                      props.setBaruUlanganKedatanganPendaftaran(e.target.value);
+                    }}
                   />
                   <label
                     htmlFor='baru-kedatangan-pendaftaran'
@@ -72,11 +75,14 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    ref={props.ulanganKedatanganPendaftaran}
                     type='radio'
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
+                    value='ulangan-kedatangan-pendaftaran'
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    onChange={(e) => {
+                      props.setBaruUlanganKedatanganPendaftaran(e.target.value);
+                    }}
                   />
                   <label
                     htmlFor='ulangan-kedatangan-pendaftaran'
@@ -124,11 +130,14 @@ export default function Pendaftaran(props) {
                 </h4>
                 <div className='flex items-center flex-row px-2'>
                   <input
-                    ref={props.adaPemeriksaanPendaftaran}
                     type='radio'
                     name='pemeriksaan'
                     id='ada-pemeriksaan'
+                    value='ada-pemeriksaan'
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    onChange={(e) => {
+                      props.setAdaTiadaPemeriksaanPendaftaran(e.target.value);
+                    }}
                   />
                   <label
                     htmlFor='ada-pemeriksaan'
@@ -139,11 +148,14 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row px-2'>
                   <input
-                    ref={props.tiadaPemeriksaanPendaftaran}
                     type='radio'
                     name='pemeriksaan'
                     id='tiada-pemeriksaan'
+                    value='tiada-pemeriksaan'
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    onChange={(e) => {
+                      props.setAdaTiadaPemeriksaanPendaftaran(e.target.value);
+                    }}
                   />
                   <label
                     htmlFor='tiada-pemeriksaan'
@@ -160,11 +172,16 @@ export default function Pendaftaran(props) {
               </h4>
               <div className='flex items-center flex-row pl-5'>
                 <input
-                  ref={props.tinggiRisikoSekolahPendaftaran}
                   type='radio'
                   name='risiko-sekolah'
                   id='tinggi-risiko-sekolah'
+                  value='tinggi-risiko-sekolah'
                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  onChange={(e) => {
+                    props.setTinggiRendahRisikoSekolahPendaftaran(
+                      e.target.value
+                    );
+                  }}
                 />
                 <label
                   htmlFor='tinggi-risiko-sekolah'
@@ -175,11 +192,16 @@ export default function Pendaftaran(props) {
               </div>
               <div className='flex items-center flex-row pl-5'>
                 <input
-                  ref={props.rendahRisikoSekolahPendaftaran}
                   type='radio'
                   name='risiko-sekolah'
                   id='rendah-risiko-sekolah'
+                  value='rendah-risiko-sekolah'
                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  onChange={(e) => {
+                    props.setTinggiRendahRisikoSekolahPendaftaran(
+                      e.target.value
+                    );
+                  }}
                 />
                 <label
                   htmlFor='rendah-risiko-sekolah'

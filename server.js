@@ -10,8 +10,8 @@ const path = require('path');
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
+const sekolah = require('./routes/sekolah');
 // const tadika = require('./routes/tadika');
-// const sekolah = require('./routes/sekolah');
 // const allQueryRoute = require('./routes/allQueryRoute');
 
 // admin import
@@ -38,8 +38,8 @@ app.use(express.json());
 app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
+app.use('/api/v1/sekolah', authCheck, sekolah);
 // app.use('/api/v1/tadika', authCheck, tadika);
-// app.use('/api/v1/sekolah', authCheck, sekolah);
 // app.use('/api/v1/query', authCheck, allQueryRoute);
 
 // admin route
