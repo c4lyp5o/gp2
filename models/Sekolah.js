@@ -18,7 +18,7 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // --------------------------------------------------
+  // supplied by ERKM --------------------------------------------------
   nama: {
     type: String,
     required: [true, 'Please provide nama'],
@@ -48,7 +48,38 @@ const SekolahSchema = new mongoose.Schema({
   },
   kelas: {
     type: String,
+    required: [true, 'Please provide kelas'],
   },
+  // pendaftaran -------------------------------------------------------
+  kpBergerak: {
+    type: Boolean,
+    default: false,
+  },
+  pasukanPergigianBergerak: {
+    type: Boolean,
+    default: false,
+  },
+  plateNo: {
+    type: String,
+  },
+  baruUlanganKedatanganPendaftaran: {
+    type: String,
+  },
+  engganKedatanganPendaftaran: {
+    type: Boolean,
+    default: false,
+  },
+  tidakHadirKedatanganPendaftaran: {
+    type: Boolean,
+    default: false,
+  },
+  adaTiadaPemeriksaanPendaftaran: {
+    type: String,
+  },
+  tinggiRendahRisikoSekolahPendaftaran: {
+    type: String,
+  },
+  // pemeriksaan awal --------------------------------------------------
   //   ennrolmen: {
   //     type: String,
   //     required: true,

@@ -8,7 +8,7 @@ import PemeriksaanAwal from './form-sekolah/PemeriksaanAwal';
 import PerluDibuat from './form-sekolah/PerluDibuat';
 
 function UserFormSekolah() {
-  const { userToken, useParams } = useGlobalUserAppContext();
+  const { userToken, username, useParams } = useGlobalUserAppContext();
 
   const { personSekolahId } = useParams();
 
@@ -16,6 +16,7 @@ function UserFormSekolah() {
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
   const masterForm = {};
+  masterForm.createdByUsername = username;
   //pendaftaran
   masterForm.kpBergerak = useRef(null);
   masterForm.pasukanPergigianBergerak = useRef(null);
@@ -92,7 +93,7 @@ function UserFormSekolah() {
   // masterForm.classIIF = useRef(null);
 
   useEffect(() => {
-    const fetchSekolahHeader = async () => {
+    const fetchSinglePersonSekolah = async () => {
       try {
         const { data } = await axios.get(`/api/v1/sekolah/${personSekolahId}`, {
           headers: { Authorization: `Bearer ${userToken}` },
@@ -102,20 +103,35 @@ function UserFormSekolah() {
         console.log(error.response.data.msg);
       }
     };
-    fetchSekolahHeader();
+    fetchSinglePersonSekolah();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //pendaftaran
-    console.log(masterForm.kpBergerak.current.checked);
-    console.log(masterForm.pasukanPergigianBergerak.current.checked);
-    console.log(masterForm.plateNo.current.value);
-    console.log(baruUlanganKedatanganPendaftaran);
-    console.log(masterForm.engganKedatanganPendaftaran.current.checked);
-    console.log(masterForm.tidakHadirKedatanganPendaftaran.current.checked);
-    console.log(adaTiadaPemeriksaanPendaftaran);
-    console.log(tinggiRendahRisikoSekolahPendaftaran);
+    try {
+      await axios.patch(
+        `/api/v1/sekolah/${personSekolahId}`,
+        {
+          createdByUsername: masterForm.createdByUsername,
+          // pendaftaran
+          kpBergerak: masterForm.kpBergerak.current.checked,
+          pasukanPergigianBergerak:
+            masterForm.pasukanPergigianBergerak.current.checked,
+          plateNo: masterForm.plateNo.current.value,
+          baruUlanganKedatanganPendaftaran,
+          engganKedatanganPendaftaran:
+            masterForm.engganKedatanganPendaftaran.current.checked,
+          tidakHadirKedatanganPendaftaran:
+            masterForm.tidakHadirKedatanganPendaftaran.current.checked,
+          adaTiadaPemeriksaanPendaftaran,
+          tinggiRendahRisikoSekolahPendaftaran,
+        },
+        { headers: { Authorization: `Bearer ${userToken}` } }
+      );
+      console.log('Update success');
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
     // //pemeriksaan awal div 1
     // console.log(masterForm.adaCleftLip.current.checked);
     // console.log(masterForm.rujukCleftLip.current.checked);
@@ -193,7 +209,7 @@ function UserFormSekolah() {
               </div>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>UMUR :</h2>
-                <p className='ml-1'>{singlePersonSekolah.umur}</p>
+                <p className='ml-1'>{singlePersonSekolah.umur} tahun</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>NO IC :</h2>
@@ -206,7 +222,11 @@ function UserFormSekolah() {
                 <p className='ml-1'>{singlePersonSekolah.namaSekolah}</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>DARJAH/TINGKATAN :</h2>
+                <h2 className='font-semibold'>
+                  {(singlePersonSekolah.darjah && 'DARJAH') ||
+                    (singlePersonSekolah.tingkatan && 'TINGKATAN')}{' '}
+                  :
+                </h2>
                 <p className='ml-1'>
                   {singlePersonSekolah.darjah || singlePersonSekolah.tingkatan}
                 </p>
