@@ -15,6 +15,7 @@ function UserFormSekolah() {
   const [isLoading, setIsLoading] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
+  // creating masterForm object to reference input for the form
   const masterForm = {};
   masterForm.createdByUsername = username;
   //pendaftaran
@@ -25,6 +26,8 @@ function UserFormSekolah() {
     baruUlanganKedatanganPendaftaran,
     setBaruUlanganKedatanganPendaftaran,
   ] = useState('');
+  masterForm.baruUlanganKedatanganPendaftaran =
+    baruUlanganKedatanganPendaftaran;
   masterForm.setBaruUlanganKedatanganPendaftaran =
     setBaruUlanganKedatanganPendaftaran;
   masterForm.engganKedatanganPendaftaran = useRef(null);
@@ -92,6 +95,22 @@ function UserFormSekolah() {
   // masterForm.classIF = useRef(null);
   // masterForm.classIIF = useRef(null);
 
+  // creating toMap object to map fetched data to the form
+  const toMap = {};
+  const [isKpBergerakChecked, setIsKpBergerakChecked] = useState(false);
+  toMap.isKpBergerakChecked = isKpBergerakChecked;
+  toMap.setIsKpBergerakChecked = setIsKpBergerakChecked;
+  const [
+    isPasukanPergigianBergerakChecked,
+    setIsPasukanPergigianBergerakChecked,
+  ] = useState(false);
+  toMap.isPasukanPergigianBergerakChecked = isPasukanPergigianBergerakChecked;
+  toMap.setIsPasukanPergigianBergerakChecked =
+    setIsPasukanPergigianBergerakChecked;
+  const [plateNo, setPlateNo] = useState('');
+  toMap.plateNo = plateNo;
+  toMap.setPlateNo = setPlateNo;
+
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
       try {
@@ -99,6 +118,15 @@ function UserFormSekolah() {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setSinglePersonSekolah(data.singlePersonSekolah);
+        // map pendaftaran
+        setIsKpBergerakChecked(data.singlePersonSekolah.kpBergerak);
+        setIsPasukanPergigianBergerakChecked(
+          data.singlePersonSekolah.pasukanPergigianBergerak
+        );
+        setPlateNo(data.singlePersonSekolah.plateNo);
+        setBaruUlanganKedatanganPendaftaran(
+          data.singlePersonSekolah.baruUlanganKedatanganPendaftaran
+        );
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -239,7 +267,7 @@ function UserFormSekolah() {
           </article>
         </div>
         <form onSubmit={handleSubmit}>
-          <Pendaftaran {...masterForm} />
+          <Pendaftaran {...masterForm} toMap={toMap} />
           {/* <PemeriksaanAwal {...masterForm} /> */}
           {/* <PerluDibuat /> */}
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>

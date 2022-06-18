@@ -14,6 +14,12 @@ export default function Pendaftaran(props) {
               <div className='flex flex-row items-center pl-5'>
                 <input
                   ref={props.kpBergerak}
+                  checked={props.toMap.isKpBergerakChecked}
+                  onChange={() => {
+                    props.toMap.setIsKpBergerakChecked(
+                      !props.toMap.isKpBergerakChecked
+                    );
+                  }}
                   type='checkbox'
                   name='kp-bergerak'
                   id='kp-bergerak'
@@ -26,6 +32,12 @@ export default function Pendaftaran(props) {
               <div className='flex flex-row items-center pl-5 col-span-2'>
                 <input
                   ref={props.pasukanPergigianBergerak}
+                  checked={props.toMap.isPasukanPergigianBergerakChecked}
+                  onChange={() => {
+                    props.toMap.setIsPasukanPergigianBergerakChecked(
+                      !props.toMap.isPasukanPergigianBergerakChecked
+                    );
+                  }}
                   type='checkbox'
                   name='pasukan-pergigian-bergerak'
                   id='pasukan-pergigian-bergerak'
@@ -41,6 +53,10 @@ export default function Pendaftaran(props) {
               <div className='flex flex-row items-center pl-5'>
                 <select
                   ref={props.plateNo}
+                  value={props.toMap.plateNo}
+                  onChange={(e) => {
+                    props.toMap.setPlateNo(e.target.value);
+                  }}
                   name='plate-no'
                   id='plate-no'
                   className='outline outline-1 outline-userBlack w-auto text-sm font-m'
@@ -61,6 +77,12 @@ export default function Pendaftaran(props) {
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
                     value='baru-kedatangan-pendaftaran'
+                    checked={
+                      props.baruUlanganKedatanganPendaftaran ===
+                      'baru-kedatangan-pendaftaran'
+                        ? true
+                        : false
+                    }
                     className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     onChange={(e) => {
                       props.setBaruUlanganKedatanganPendaftaran(e.target.value);
@@ -79,6 +101,12 @@ export default function Pendaftaran(props) {
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
                     value='ulangan-kedatangan-pendaftaran'
+                    checked={
+                      props.baruUlanganKedatanganPendaftaran ===
+                      'ulangan-kedatangan-pendaftaran'
+                        ? true
+                        : false
+                    }
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     onChange={(e) => {
                       props.setBaruUlanganKedatanganPendaftaran(e.target.value);
