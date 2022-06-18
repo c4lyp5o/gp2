@@ -15,13 +15,20 @@ function UserFormSekolah() {
   const [isLoading, setIsLoading] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
-  // creating masterForm object to reference input for the form
+  // creating masterForm object to be used by the form
   const masterForm = {};
   masterForm.createdByUsername = username;
-  //pendaftaran
-  masterForm.kpBergerak = useRef(null);
-  masterForm.pasukanPergigianBergerak = useRef(null);
-  masterForm.plateNo = useRef(null);
+  // pendaftaran
+  const [kpBergerak, setKpBergerak] = useState(false);
+  masterForm.kpBergerak = kpBergerak;
+  masterForm.setKpBergerak = setKpBergerak;
+  const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
+    useState(false);
+  masterForm.pasukanPergigianBergerak = pasukanPergigianBergerak;
+  masterForm.setPasukanPergigianBergerak = setPasukanPergigianBergerak;
+  const [plateNo, setPlateNo] = useState('');
+  masterForm.plateNo = plateNo;
+  masterForm.setPlateNo = setPlateNo;
   const [
     baruUlanganKedatanganPendaftaran,
     setBaruUlanganKedatanganPendaftaran,
@@ -30,16 +37,26 @@ function UserFormSekolah() {
     baruUlanganKedatanganPendaftaran;
   masterForm.setBaruUlanganKedatanganPendaftaran =
     setBaruUlanganKedatanganPendaftaran;
-  masterForm.engganKedatanganPendaftaran = useRef(null);
-  masterForm.tidakHadirKedatanganPendaftaran = useRef(null);
+  const [engganKedatanganPendaftaran, setEngganKedatanganPendaftaran] =
+    useState(false);
+  masterForm.engganKedatanganPendaftaran = engganKedatanganPendaftaran;
+  masterForm.setEngganKedatanganPendaftaran = setEngganKedatanganPendaftaran;
+  const [tidakHadirKedatanganPendaftaran, setTidakHadirKedatanganPendaftaran] =
+    useState(false);
+  masterForm.tidakHadirKedatanganPendaftaran = tidakHadirKedatanganPendaftaran;
+  masterForm.setTidakHadirKedatanganPendaftaran =
+    setTidakHadirKedatanganPendaftaran;
   const [adaTiadaPemeriksaanPendaftaran, setAdaTiadaPemeriksaanPendaftaran] =
     useState('');
+  masterForm.adaTiadaPemeriksaanPendaftaran = adaTiadaPemeriksaanPendaftaran;
   masterForm.setAdaTiadaPemeriksaanPendaftaran =
     setAdaTiadaPemeriksaanPendaftaran;
   const [
     tinggiRendahRisikoSekolahPendaftaran,
     setTinggiRendahRisikoSekolahPendaftaran,
   ] = useState('');
+  masterForm.tinggiRendahRisikoSekolahPendaftaran =
+    tinggiRendahRisikoSekolahPendaftaran;
   masterForm.setTinggiRendahRisikoSekolahPendaftaran =
     setTinggiRendahRisikoSekolahPendaftaran;
   // //pemeriksaan awal div 1
@@ -95,22 +112,6 @@ function UserFormSekolah() {
   // masterForm.classIF = useRef(null);
   // masterForm.classIIF = useRef(null);
 
-  // creating toMap object to map fetched data to the form
-  const toMap = {};
-  const [isKpBergerakChecked, setIsKpBergerakChecked] = useState(false);
-  toMap.isKpBergerakChecked = isKpBergerakChecked;
-  toMap.setIsKpBergerakChecked = setIsKpBergerakChecked;
-  const [
-    isPasukanPergigianBergerakChecked,
-    setIsPasukanPergigianBergerakChecked,
-  ] = useState(false);
-  toMap.isPasukanPergigianBergerakChecked = isPasukanPergigianBergerakChecked;
-  toMap.setIsPasukanPergigianBergerakChecked =
-    setIsPasukanPergigianBergerakChecked;
-  const [plateNo, setPlateNo] = useState('');
-  toMap.plateNo = plateNo;
-  toMap.setPlateNo = setPlateNo;
-
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
       try {
@@ -119,14 +120,27 @@ function UserFormSekolah() {
         });
         setSinglePersonSekolah(data.singlePersonSekolah);
         // map pendaftaran
-        setIsKpBergerakChecked(data.singlePersonSekolah.kpBergerak);
-        setIsPasukanPergigianBergerakChecked(
+        setKpBergerak(data.singlePersonSekolah.kpBergerak);
+        setPasukanPergigianBergerak(
           data.singlePersonSekolah.pasukanPergigianBergerak
         );
         setPlateNo(data.singlePersonSekolah.plateNo);
         setBaruUlanganKedatanganPendaftaran(
           data.singlePersonSekolah.baruUlanganKedatanganPendaftaran
         );
+        setEngganKedatanganPendaftaran(
+          data.singlePersonSekolah.engganKedatanganPendaftaran
+        );
+        setTidakHadirKedatanganPendaftaran(
+          data.singlePersonSekolah.tidakHadirKedatanganPendaftaran
+        );
+        setAdaTiadaPemeriksaanPendaftaran(
+          data.singlePersonSekolah.adaTiadaPemeriksaanPendaftaran
+        );
+        setTinggiRendahRisikoSekolahPendaftaran(
+          data.singlePersonSekolah.tinggiRendahRisikoSekolahPendaftaran
+        );
+        // map pemeriksaan awal
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -142,17 +156,15 @@ function UserFormSekolah() {
         {
           createdByUsername: masterForm.createdByUsername,
           // pendaftaran
-          kpBergerak: masterForm.kpBergerak.current.checked,
-          pasukanPergigianBergerak:
-            masterForm.pasukanPergigianBergerak.current.checked,
-          plateNo: masterForm.plateNo.current.value,
+          kpBergerak,
+          pasukanPergigianBergerak,
+          plateNo,
           baruUlanganKedatanganPendaftaran,
-          engganKedatanganPendaftaran:
-            masterForm.engganKedatanganPendaftaran.current.checked,
-          tidakHadirKedatanganPendaftaran:
-            masterForm.tidakHadirKedatanganPendaftaran.current.checked,
+          engganKedatanganPendaftaran,
+          tidakHadirKedatanganPendaftaran,
           adaTiadaPemeriksaanPendaftaran,
           tinggiRendahRisikoSekolahPendaftaran,
+          // pemeriksaan awal
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
@@ -267,7 +279,7 @@ function UserFormSekolah() {
           </article>
         </div>
         <form onSubmit={handleSubmit}>
-          <Pendaftaran {...masterForm} toMap={toMap} />
+          <Pendaftaran {...masterForm} />
           {/* <PemeriksaanAwal {...masterForm} /> */}
           {/* <PerluDibuat /> */}
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
