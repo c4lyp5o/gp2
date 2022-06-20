@@ -358,7 +358,7 @@ export default function PemeriksaanAwal(props) {
                 </div>
               </article>
             </div>
-            <div className='grid grid-rows-4 gap-2'>
+            <div className='grid gap-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Oral Hygiene

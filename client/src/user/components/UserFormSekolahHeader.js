@@ -7,6 +7,7 @@ import Pendaftaran from './form-sekolah/Pendaftaran';
 import PemeriksaanAwal from './form-sekolah/PemeriksaanAwal';
 import PerluDibuat from './form-sekolah/PerluDibuat';
 import PenyataAkhir1 from './form-sekolah/PenyataAkhir1';
+import Kotak from './form-sekolah/Kotak';
 
 function UserFormSekolah() {
   const { userToken, username, useParams } = useGlobalUserAppContext();
@@ -243,7 +244,8 @@ function UserFormSekolah() {
           {/* <Pendaftaran {...masterForm} /> */}
           {/* <PemeriksaanAwal {...masterForm} /> */}
           {/* <PerluDibuat /> */}
-          <PenyataAkhir1 />
+          {/* <PenyataAkhir1 /> */}
+          <Kotak />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
