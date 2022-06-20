@@ -12,9 +12,11 @@ import UserNotFound from './user/pages/UserNotFound';
 // admin import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
 
-import AdminLoginForm from "./admin/components/public/LoginForm";
-import AdminProtectedRoute from "./admin/pages/AdminProtectedRoute";
-import AdminAfterLogin from "./admin/pages/AdminAfterLogin";
+import AdminLoginForm from './admin/components/public/LoginForm';
+import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
+import AdminAfterLogin from './admin/pages/AdminAfterLogin';
+
+// require('dotenv').config();
 
 function App() {
   return (
@@ -22,16 +24,16 @@ function App() {
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
-            <Route path='/' element={<UserLogin />} />
+            <Route path="/" element={<UserLogin />} />
             <Route
-              path='/user/*'
+              path="/user/*"
               element={
                 <UserProtectedRoute>
                   <UserAfterLogin />
                 </UserProtectedRoute>
               }
             />
-            <Route path='*' element={<UserNotFound />} />
+            <Route path="*" element={<UserNotFound />} />
           </Routes>
         </UserAppProvider>
         <AdminAppProvider>

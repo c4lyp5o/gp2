@@ -1,14 +1,13 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import PublicHeader from "../public/Header";
-import Footer from "../Footer";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useGlobalAdminAppContext } from "../../context/adminAppContext";
+import { useState } from 'react';
+import PublicHeader from '../public/Header';
+import Footer from '../Footer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 async function loginUser(credentials) {
   try {
-    const response = await axios.post("/api/v1/superadmin/login", credentials);
+    const response = await axios.post('/api/v1/superadmin/login', credentials);
     return response.data;
   } catch (error) {
     const theError = {
@@ -23,21 +22,23 @@ export default function AdminLoginForm() {
   const { setToken } = useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-  const [ErrMsg, setErrMsg] = useState("");
+  const [ErrMsg, setErrMsg] = useState('');
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const key = process.env.REACT_APP_API_KEY;
     const token = await loginUser({
       username,
       password,
+      key,
     });
     if (token.status === 401) {
       setErrMsg(token.message);
     } else {
       setToken(token);
-      navigate("/admin/landing");
+      navigate('/admin/landing');
     }
   };
 

@@ -1,31 +1,37 @@
-const jwt = require("jsonwebtoken");
-const Superadmin = require("../models/Superadmin");
-const Fasiliti = require("../models/Fasiliti");
-const Operator = require("../models/Operator");
+const jwt = require('jsonwebtoken');
+const simpleCrypto = require('simple-crypto-js').default;
+const Superadmin = require('../models/Superadmin');
+const Fasiliti = require('../models/Fasiliti');
+const Operator = require('../models/Operator');
 const Dictionary = {
-  klinik: "Klinik",
-  taska: "Taska",
-  tadika: "Tadika",
-  sr: "Sekolah Rendah",
-  sm: "Sekolah Menengah",
-  ins: "Institusi",
+  klinik: 'Klinik',
+  taska: 'Taska',
+  tadika: 'Tadika',
+  sr: 'Sekolah Rendah',
+  sm: 'Sekolah Menengah',
+  ins: 'Institusi',
 };
 
 exports.helloUser = (req, res) => {
   return res.status(200).json({
-    status: "success",
-    message: "Hello User",
+    status: 'success',
+    message: 'Hello User',
   });
 };
 
 exports.loginUser = async (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const { username, password, key } = req.body;
+  if (key != process.env.API_KEY) {
+    return res.status(401).json({
+      status: 'error',
+      message: 'Invalid API key',
+    });
+  }
   const User = await Superadmin.findOne({ user_name: username });
   if (!User) {
-    const msg = "Tiada user ini dalam sistem";
+    const msg = 'Tiada user ini dalam sistem';
     return res.status(401).json({
-      status: "error",
+      status: 'error',
       message: msg,
     });
   }
@@ -38,17 +44,17 @@ exports.loginUser = async (req, res) => {
         negeri: User.negeri,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: '24h' }
     );
     return res.status(200).json({
-      status: "success",
-      message: "Login berjaya",
+      status: 'success',
+      message: 'Login berjaya',
       token: genToken,
     });
   } else {
-    const msg = "Password salah";
+    const msg = 'Password salah';
     return res.status(401).json({
-      status: "error",
+      status: 'error',
       message: msg,
     });
   }
@@ -66,9 +72,9 @@ exports.addAdmin = async (req, res) => {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Admin berjaya ditambah",
+        message: 'Admin berjaya ditambah',
       });
     }
   });
@@ -81,8 +87,8 @@ exports.getCurrentUser = async (req, res) => {
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
   };
   res.status(200).json({
-    status: "success",
-    message: "Data user berjaya diambil",
+    status: 'success',
+    message: 'Data user berjaya diambil',
     data: data,
   });
 };
@@ -90,7 +96,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.listKp = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Klinik",
+      jenisFasiliti: 'Klinik',
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
@@ -98,9 +104,9 @@ exports.listKp = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all KPs",
+          message: 'Retrieved all KPs',
         });
       }
     }
@@ -116,9 +122,9 @@ exports.listPg = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all PGs",
+          message: 'Retrieved all PGs',
         });
       }
     }
@@ -128,7 +134,7 @@ exports.listPg = (req, res) => {
 exports.listTaska = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Taska",
+      jenisFasiliti: 'Taska',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -137,9 +143,9 @@ exports.listTaska = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all Taskas",
+          message: 'Retrieved all Taskas',
         });
       }
     }
@@ -149,7 +155,7 @@ exports.listTaska = (req, res) => {
 exports.listTadika = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Tadika",
+      jenisFasiliti: 'Tadika',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -158,9 +164,9 @@ exports.listTadika = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all Tadikas",
+          message: 'Retrieved all Tadikas',
         });
       }
     }
@@ -170,7 +176,7 @@ exports.listTadika = (req, res) => {
 exports.listSr = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Sekolah Rendah",
+      jenisFasiliti: 'Sekolah Rendah',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -179,9 +185,9 @@ exports.listSr = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all SRs",
+          message: 'Retrieved all SRs',
         });
       }
     }
@@ -191,7 +197,7 @@ exports.listSr = (req, res) => {
 exports.listSm = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Sekolah Menengah",
+      jenisFasiliti: 'Sekolah Menengah',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -200,9 +206,9 @@ exports.listSm = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all SMs",
+          message: 'Retrieved all SMs',
         });
       }
     }
@@ -212,7 +218,7 @@ exports.listSm = (req, res) => {
 exports.listInstitusi = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Institusi",
+      jenisFasiliti: 'Institusi',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -221,9 +227,9 @@ exports.listInstitusi = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Retrieved all Institusis",
+          message: 'Retrieved all Institusis',
         });
       }
     }
@@ -232,23 +238,23 @@ exports.listInstitusi = (req, res) => {
 
 exports.listFacilityType = (req, res) => {
   try {
-    Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }),
+    Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }),
       (err, data) => {
         if (err) {
           console.log(err);
         } else {
           res.status(200).json({
-            status: "success",
+            status: 'success',
             data: data,
-            message: "Retrieved all Facility Types",
+            message: 'Retrieved all Facility Types',
           });
         }
       };
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
+      status: 'error',
+      message: 'Internal Server Error',
     });
   }
 };
@@ -258,17 +264,17 @@ exports.addKp = (req, res) => {
     nama: req.body.klinik,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-    handler: "",
-    jenisFasiliti: "Klinik",
+    handler: '',
+    jenisFasiliti: 'Klinik',
   });
   kp.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Klinik berjaya ditambah",
+        message: 'Klinik berjaya ditambah',
       });
     }
   });
@@ -287,9 +293,9 @@ exports.addPg = (req, res) => {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "pegawai berjaya ditambah",
+        message: 'pegawai berjaya ditambah',
       });
     }
   });
@@ -301,16 +307,16 @@ exports.addTaska = (req, res) => {
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: "Taska",
+    jenisFasiliti: 'Taska',
   });
   taska.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Taska berjaya ditambah",
+        message: 'Taska berjaya ditambah',
       });
     }
   });
@@ -322,16 +328,16 @@ exports.addTadika = (req, res) => {
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: "Tadika",
+    jenisFasiliti: 'Tadika',
   });
   tadika.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Tadika berjaya ditambah",
+        message: 'Tadika berjaya ditambah',
       });
     }
   });
@@ -343,16 +349,16 @@ exports.addSR = (req, res) => {
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: "Sekolah Rendah",
+    jenisFasiliti: 'Sekolah Rendah',
   });
   sr.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Sekolah Rendah berjaya ditambah",
+        message: 'Sekolah Rendah berjaya ditambah',
       });
     }
   });
@@ -364,16 +370,16 @@ exports.addSM = (req, res) => {
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: "Sekolah Menengah",
+    jenisFasiliti: 'Sekolah Menengah',
   });
   sm.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Sekolah Menengah berjaya ditambah",
+        message: 'Sekolah Menengah berjaya ditambah',
       });
     }
   });
@@ -385,16 +391,16 @@ exports.addInstitusi = (req, res) => {
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: req.body.handler,
-    jenisFasiliti: "Institusi",
+    jenisFasiliti: 'Institusi',
   });
   institusi.save((err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Institusi berjaya ditambah",
+        message: 'Institusi berjaya ditambah',
       });
     }
   });
@@ -410,9 +416,9 @@ exports.deleteData = (req, res) => {
           console.log(err);
         } else {
           res.status(200).json({
-            status: "success",
+            status: 'success',
             data: data,
-            message: "Fasiliti berjaya dihapus",
+            message: 'Fasiliti berjaya dihapus',
           });
         }
       });
@@ -426,9 +432,9 @@ exports.findPegawai = (req, res) => {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Pegawai berjaya dicari",
+        message: 'Pegawai berjaya dicari',
       });
     }
   });
@@ -443,9 +449,9 @@ exports.editPegawai = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Pegawai berjaya dikemaskini",
+          message: 'Pegawai berjaya dikemaskini',
         });
       }
     }
@@ -463,9 +469,9 @@ exports.editFacility = async (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           data: data,
-          message: "Fasiliti berjaya dikemaskini",
+          message: 'Fasiliti berjaya dikemaskini',
         });
       }
     }
@@ -488,9 +494,9 @@ exports.addFacility = async (req, res) => {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Fasiliti berjaya ditambah",
+        message: 'Fasiliti berjaya ditambah',
       });
     }
   });
@@ -509,10 +515,10 @@ exports.listFacility = (req, res) => {
         console.log(err);
       } else {
         res.status(200).json({
-          status: "success",
+          status: 'success',
           jenisFasiliti: jenisFasiliti,
           data: data,
-          message: "Retrieved all Fasiliti",
+          message: 'Retrieved all Fasiliti',
         });
       }
     }
@@ -526,9 +532,9 @@ exports.findFacility = (req, res) => {
       console.log(err);
     } else {
       res.status(200).json({
-        status: "success",
+        status: 'success',
         data: data,
-        message: "Fasiliti berjaya dicari",
+        message: 'Fasiliti berjaya dicari',
       });
     }
   });
