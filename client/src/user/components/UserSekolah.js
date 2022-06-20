@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ function UserSekolah() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
+  const [namaSekolahs, setNamaSekolahs] = useState([]);
 
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
@@ -16,7 +17,18 @@ function UserSekolah() {
         const { data } = await axios.get('/api/v1/sekolah', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
-        setAllPersonSekolahs(data.allPersonSekolahs);
+        const allPersonSekolahs = data.allPersonSekolahs;
+        const namaSekolahs = allPersonSekolahs.reduce(
+          (arrNamaSekolahs, singlePersonSekolah) => {
+            if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+              arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+            }
+            return arrNamaSekolahs;
+          },
+          ['']
+        );
+        setAllPersonSekolahs(allPersonSekolahs);
+        setNamaSekolahs(namaSekolahs);
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -33,8 +45,13 @@ function UserSekolah() {
           </h2>
           <p className='flex flex-row pl-12 p-2'>Nama Sekolah</p>
           <select className='m-auto mb-1 w-11/12 outline outline-1 outline-userBlack'>
-            <option value=''></option>
-            <option value=''>Sekolah</option>
+            {namaSekolahs.map((singleNamaSekolah, index) => {
+              return (
+                <option value={singleNamaSekolah} key={index}>
+                  {singleNamaSekolah}
+                </option>
+              );
+            })}
           </select>
           <p className='flex flex-row pl-12 p-2'>
             Darjah / Tingkatan / Pra Sekolah (KIV) /KKI(KIV)
