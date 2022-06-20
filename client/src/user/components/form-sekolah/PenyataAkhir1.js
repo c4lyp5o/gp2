@@ -1,10 +1,10 @@
-export default function PerluDibuat(props) {
+export default function PenyataAkhir1(props) {
   return (
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2'>
           <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
-            <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
+            <p className='ml-3 text-xl font-semibold'>Penyata Akhir 1</p>
           </button>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2'>
@@ -13,50 +13,33 @@ export default function PerluDibuat(props) {
                   Fisur Sealan
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  jumlah gigi kekal perlu FS
+                  jumlah gigi kekal dibuat FS
                 </p>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
+                    htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                     className='text-sm font-m'
                   >
                     Baru
                   </label>
                   <input
-                    ref={props.baruJumlahGigiKekalPerluFs}
                     type='text'
-                    name='baru-jumlah-gigi-kekal-perlu-fs'
-                    id='baru-jumlah-gigi-kekal-perlu-fs'
+                    name='baru-jumlah-gigi-kekal-dibuat-fs'
+                    id='baru-jumlah-gigi-kekal-dibuat-fs'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='semula-jumlah-gigi-kekal-perlu-fs'
+                    htmlFor='semula-jumlah-gigi-kekal-dibuat-fs'
                     className='text-sm font-m'
                   >
                     Semula
                   </label>
                   <input
-                    ref={props.semulaJumlahGigiKekalPerluFs}
                     type='text'
-                    name='semula-jumlah-gigi-kekal-perlu-fs'
-                    id='semula-jumlah-gigi-kekal-perlu-fs'
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5 col-span-2'>
-                  <label
-                    htmlFor='jumlah-gigi-kekal-gagal-fs'
-                    className='text-sm font-m'
-                  >
-                    Jumlah gigi FS gagal
-                  </label>
-                  <input
-                    ref={props.jumlahGigiFsGagal}
-                    type='text'
-                    name='jumlah-gigi-kekal-gagal-fs'
-                    id='jumlah-gigi-kekal-gagal-fs'
+                    name='semula-jumlah-gigi-kekal-dibuat-fs'
+                    id='semula-jumlah-gigi-kekal-dibuat-fs'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -66,35 +49,33 @@ export default function PerluDibuat(props) {
                   Fluoride Varnish
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  jumlah gigi kekal perlu FV
+                  jumlah gigi kekal diberi FV
                 </p>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='baru-jumlah-gigi-kekal-perlu-fv'
+                    htmlFor='baru-jumlah-gigi-kekal-diberi-fv'
                     className='text-sm font-m'
                   >
                     Baru
                   </label>
                   <input
-                    ref={props.baruJumlahGigiKekalPerluFv}
                     type='text'
-                    name='baru-jumlah-gigi-kekal-perlu-fv'
-                    id='baru-jumlah-gigi-kekal-perlu-fv'
+                    name='baru-jumlah-gigi-kekal-diberi-fv'
+                    id='baru-jumlah-gigi-kekal-diberi-fv'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='semula-jumlah-gigi-kekal-perlu-fv'
+                    htmlFor='semula-jumlah-gigi-kekal-diberi-fv'
                     className='text-sm font-m'
                   >
                     Semula
                   </label>
                   <input
-                    ref={props.semulaJumlahGigiKekalPerluFv}
                     type='text'
-                    name='semula-jumlah-gigi-kekal-perlu-fv'
-                    id='semula-jumlah-gigi-kekal-perlu-fv'
+                    name='semula-jumlah-gigi-kekal-diberi-fv'
+                    id='semula-jumlah-gigi-kekal-diberi-fv'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -104,35 +85,33 @@ export default function PerluDibuat(props) {
                   PRR Jenis 1
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  jumlah gigi kekal perlu PRR Jenis 1
+                  jumlah gigi kekal diberi PRR Jenis 1
                 </p>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                    htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     className='text-sm font-m'
                   >
                     Baru
                   </label>
                   <input
-                    ref={props.baruJumlahGigiKekalPerluPrrJenis1}
                     type='text'
-                    name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                    id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                    name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                    id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                    htmlFor='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     className='text-sm font-m'
                   >
                     Semula
                   </label>
                   <input
-                    ref={props.semulaJumlahGigiKekalPerluPrrJenis1}
                     type='text'
-                    name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                    id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                    name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                    id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -144,42 +123,42 @@ export default function PerluDibuat(props) {
                   Silver Diamine Fluoride
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan
+                  Jumlah gigi yang diberi SDF:
                 </p>
-                <div className='flex items-center justify-center'>
-                  <input
-                    ref={props.yaSilverDiamineFluoridePerluSapuan}
-                    type='radio'
-                    name='silver-diamine-fluoride-perlu-sapuan'
-                    id='ya-silver-diamine-fluoride-perlu-sapuan'
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
+                <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='ya-silver-diamine-fluoride-perlu-sapuan'
-                    className='m-2 text-sm font-m'
+                    htmlFor='baru-jumlah-gigi-yang-diberi-sdf'
+                    className='text-sm font-m'
                   >
-                    Ya
+                    Baru
                   </label>
                   <input
-                    ref={props.tidakSilverDiamineFluoridePerluSapuan}
-                    type='radio'
-                    name='silver-diamine-fluoride-perlu-sapuan'
-                    id='tidak-silver-diamine-fluoride-perlu-sapuan'
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    type='text'
+                    name='baru-jumlah-gigi-yang-diberi-sdf'
+                    id='baru-jumlah-gigi-yang-diberi-sdf'
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
+                </div>
+                <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='tidak-silver-diamine-fluoride-perlu-sapuan'
-                    className='m-2 text-sm font-m'
+                    htmlFor='semula-jumlah-gigi-yang-diberi-sdf'
+                    className='text-sm font-m'
                   >
-                    Tidak
+                    Semula
                   </label>
+                  <input
+                    type='text'
+                    name='semula-jumlah-gigi-yang-diberi-sdf'
+                    id='semula-jumlah-gigi-yang-diberi-sdf'
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                  />
                 </div>
               </article>
             </div>
             <div className='grid'>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  Jumlah Tampalan Diperlukan
+                  Jumlah Tampalan Dibuat
                 </h4>
                 <div className='grid grid-rows-2 gap-2'>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -188,14 +167,13 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGDAnteriorSewarna}
                         type='text'
-                        name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
@@ -203,14 +181,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGDAnteriorSewarna}
                         type='text'
-                        name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
@@ -218,14 +195,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGKAnteriorSewarna}
                         type='text'
-                        name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
@@ -233,14 +209,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGKAnteriorSewarna}
                         type='text'
-                        name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
@@ -253,14 +228,13 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGDPosteriorSewarna}
                         type='text'
-                        name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
@@ -268,14 +242,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGDPosteriorSewarna}
                         type='text'
-                        name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
@@ -283,14 +256,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGKPosteriorSewarna}
                         type='text'
-                        name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
@@ -298,14 +270,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGKPosteriorSewarna}
                         type='text'
-                        name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                        id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        name='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
+                        id='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
@@ -318,14 +289,13 @@ export default function PerluDibuat(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGDPosteriorAmalgam}
                         type='text'
-                        name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                        id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        name='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
+                        id='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
@@ -333,14 +303,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGDPosteriorAmalgam}
                         type='text'
-                        name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                        id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        name='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
+                        id='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
@@ -348,14 +317,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.baruGKPosteriorAmalgam}
                         type='text'
-                        name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                        id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        name='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
+                        id='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
@@ -363,14 +331,13 @@ export default function PerluDibuat(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        ref={props.semulaGKPosteriorAmalgam}
                         type='text'
-                        name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                        id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        name='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
+                        id='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
-                        htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                        htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
