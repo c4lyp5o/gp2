@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,6 +9,10 @@ function UserSekolah() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
+  const [namaSekolahs, setNamaSekolahs] = useState([]);
+  const [darjah, setDarjah] = useState([]);
+  const [tingkatan, setTingkatan] = useState([]);
+  const [namaKelas, setNamaKelas] = useState([]);
 
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
@@ -16,7 +20,50 @@ function UserSekolah() {
         const { data } = await axios.get('/api/v1/sekolah', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
-        setAllPersonSekolahs(data.allPersonSekolahs);
+        const allPersonSekolahs = data.allPersonSekolahs;
+        const namaSekolahs = allPersonSekolahs.reduce(
+          (arrNamaSekolahs, singlePersonSekolah) => {
+            if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+              arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+            }
+            return arrNamaSekolahs;
+          },
+          ['']
+        );
+        // need to check null
+        const darjah = allPersonSekolahs.reduce(
+          (arrDarjah, singlePersonSekolah) => {
+            if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
+              arrDarjah.push(singlePersonSekolah.darjah);
+            }
+            return arrDarjah;
+          },
+          ['']
+        );
+        // need to check null
+        const tingkatan = allPersonSekolahs.reduce(
+          (arrTingkatan, singlePersonSekolah) => {
+            if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
+              arrTingkatan.push(singlePersonSekolah.tingkatan);
+            }
+            return arrTingkatan;
+          },
+          ['']
+        );
+        const namaKelas = allPersonSekolahs.reduce(
+          (arrNamaKelas, singlePersonSekolah) => {
+            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+              arrNamaKelas.push(singlePersonSekolah.kelas);
+            }
+            return arrNamaKelas;
+          },
+          ['']
+        );
+        setAllPersonSekolahs(allPersonSekolahs);
+        setNamaSekolahs(namaSekolahs);
+        setDarjah(darjah);
+        setTingkatan(tingkatan);
+        setNamaKelas(namaKelas);
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -33,20 +80,42 @@ function UserSekolah() {
           </h2>
           <p className='flex flex-row pl-12 p-2'>Nama Sekolah</p>
           <select className='m-auto mb-1 w-11/12 outline outline-1 outline-userBlack'>
-            <option value=''></option>
-            <option value=''>Sekolah</option>
+            {namaSekolahs.map((singleNamaSekolah, index) => {
+              return (
+                <option value={singleNamaSekolah} key={index}>
+                  {singleNamaSekolah}
+                </option>
+              );
+            })}
           </select>
           <p className='flex flex-row pl-12 p-2'>
             Darjah / Tingkatan / Pra Sekolah (KIV) /KKI(KIV)
           </p>
           <select className='m-auto mb-1 w-11/12 outline outline-1 outline-userBlack'>
-            <option value=''></option>
-            <option value=''>Sekolah</option>
+            {darjah.map((singleDarjah, index) => {
+              return (
+                <option value={singleDarjah} key={index}>
+                  {singleDarjah}
+                </option>
+              );
+            })}
+            {tingkatan.map((singleTingkatan, index) => {
+              return (
+                <option value={singleTingkatan} key={index}>
+                  {singleTingkatan}
+                </option>
+              );
+            })}
           </select>
           <p className='flex flex-row pl-12 p-2'>Kelas</p>
           <select className='m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'>
-            <option value=''></option>
-            <option value=''>Sekolah</option>
+            {namaKelas.map((singleNamaKelas, index) => {
+              return (
+                <option value={singleNamaKelas} key={index}>
+                  {singleNamaKelas}
+                </option>
+              );
+            })}
           </select>
         </div>
         <div>
