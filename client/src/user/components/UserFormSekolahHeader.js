@@ -7,7 +7,7 @@ import Pendaftaran from './form-sekolah/Pendaftaran';
 import PemeriksaanAwal from './form-sekolah/PemeriksaanAwal';
 import PerluDibuat from './form-sekolah/PerluDibuat';
 import PenyataAkhir1 from './form-sekolah/PenyataAkhir1';
-import Penyata2 from './form-sekolah/Penyata2';
+import PenyataAkhir2 from './form-sekolah/PenyataAkhir2';
 import Kotak from './form-sekolah/Kotak';
 
 function UserFormSekolah() {
@@ -491,7 +491,7 @@ function UserFormSekolah() {
           <PemeriksaanAwal {...masterForm} />
           <PerluDibuat {...masterForm} />
           <PenyataAkhir1 {...masterForm} />
-          <Penyata2 />
+          <PenyataAkhir2 />
           <Kotak {...masterForm} />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
