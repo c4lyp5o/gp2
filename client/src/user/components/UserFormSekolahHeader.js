@@ -97,7 +97,7 @@ function UserFormSekolah() {
   masterForm.atasPerluDenture = atasPerluDenture;
   masterForm.setAtasPerluDenture = setAtasPerluDenture;
   const [separaPenuhAtasPerluDenture, setSeparaPenuhAtasPerluDenture] =
-    useState(false);
+    useState('');
   masterForm.separaPenuhAtasPerluDenture = separaPenuhAtasPerluDenture;
   masterForm.setSeparaPenuhAtasPerluDenture = setSeparaPenuhAtasPerluDenture;
   const [bawahPerluDenture, setBawahPerluDenture] = useState(false);
