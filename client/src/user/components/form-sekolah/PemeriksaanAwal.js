@@ -14,10 +14,13 @@ export default function PemeriksaanAwal(props) {
                 </h4>
                 <div className='flex flex-row items-center pl-5 pt-1'>
                   <input
-                    ref={props.adaCleftLip}
                     type='checkbox'
                     name='ada-cleft-lip'
                     id='ada-cleft-lip'
+                    checked={props.adaCleftLip}
+                    onChange={() => {
+                      props.setAdaCleftLip(!props.adaCleftLip);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -29,10 +32,13 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex flex-row items-center pl-5 pt-1'>
                   <input
-                    ref={props.rujukCleftLip}
                     type='checkbox'
                     name='rujuk-cleft-lip-palate'
                     id='rujuk-cleft-lip-palate'
+                    checked={props.rujukCleftLip}
+                    onChange={() => {
+                      props.setRujukCleftLip(!props.rujukCleftLip);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -50,23 +56,41 @@ export default function PemeriksaanAwal(props) {
                     <h4 className='font-semibold'>Sedia Ada?</h4>
                     <div className='flex items-center justify-center'>
                       <input
-                        ref={props.adaDenture}
                         type='radio'
                         name='sedia-ada-status-denture'
-                        id='ada-sedia-ada-status-denture'
+                        id='ya-sedia-ada-status-denture'
+                        value='ya-sedia-ada-status-denture'
+                        checked={
+                          props.yaTidakSediaAdaStatusDenture ===
+                          'ya-sedia-ada-status-denture'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakSediaAdaStatusDenture(e.target.value);
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
-                        htmlFor='ada-sedia-ada-status-denture'
+                        htmlFor='ya-sedia-ada-status-denture'
                         className='m-2 text-sm font-m'
                       >
-                        Ada
+                        Ya
                       </label>
                       <input
-                        ref={props.tidakAdaDenture}
                         type='radio'
                         name='sedia-ada-status-denture'
                         id='tidak-sedia-ada-status-denture'
+                        value='tidak-sedia-ada-status-denture'
+                        checked={
+                          props.yaTidakSediaAdaStatusDenture ===
+                          'tidak-sedia-ada-status-denture'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakSediaAdaStatusDenture(e.target.value);
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -84,20 +108,36 @@ export default function PemeriksaanAwal(props) {
                         Atas
                       </label>
                       <input
-                        ref={props.atasSediaAdaDenture}
                         type='checkbox'
                         name='atas-sedia-ada-denture'
                         id='atas-sedia-ada-denture'
+                        checked={props.atasSediaAdaDenture}
+                        onChange={() => {
+                          props.setAtasSediaAdaDenture(
+                            !props.atasSediaAdaDenture
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
                     <div className='grid grid-cols-2'>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.separaAtasSediaAdaDenture}
                           type='radio'
                           name='separa-penuh-atas-sedia-ada-denture'
                           id='separa-atas-sedia-ada-denture'
+                          value='separa-atas-sedia-ada-denture'
+                          checked={
+                            props.separaPenuhAtasSediaAdaDenture ===
+                            'separa-atas-sedia-ada-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhAtasSediaAdaDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -109,10 +149,21 @@ export default function PemeriksaanAwal(props) {
                       </div>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.penuhAtasSediaAdaDenture}
                           type='radio'
                           name='separa-penuh-atas-sedia-ada-denture'
                           id='penuh-atas-sedia-ada-denture'
+                          value='penuh-atas-sedia-ada-denture'
+                          checked={
+                            props.separaPenuhAtasSediaAdaDenture ===
+                            'penuh-atas-sedia-ada-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhAtasSediaAdaDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -131,20 +182,36 @@ export default function PemeriksaanAwal(props) {
                         Bawah
                       </label>
                       <input
-                        ref={props.bawahSediaAdaDenture}
                         type='checkbox'
                         name='bawah-sedia-ada-denture'
                         id='bawah-sedia-ada-denture'
+                        checked={props.bawahSediaAdaDenture}
+                        onChange={() => {
+                          props.setBawahSediaAdaDenture(
+                            !props.bawahSediaAdaDenture
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
                     <div className='grid grid-cols-2'>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.separaBawahSediaAdaDenture}
                           type='radio'
                           name='separa-penuh-bawah-sedia-ada-denture'
                           id='separa-bawah-sedia-ada-denture'
+                          value='separa-bawah-sedia-ada-denture'
+                          checked={
+                            props.separaPenuhBawahSediaAdaDenture ===
+                            'separa-bawah-sedia-ada-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhBawahSediaAdaDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -156,10 +223,21 @@ export default function PemeriksaanAwal(props) {
                       </div>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.penuhBawahSediaAdaDenture}
                           type='radio'
                           name='separa-penuh-bawah-sedia-ada-denture'
                           id='penuh-bawah-sedia-ada-denture'
+                          value='penuh-bawah-sedia-ada-denture'
+                          checked={
+                            props.separaPenuhBawahSediaAdaDenture ===
+                            'penuh-bawah-sedia-ada-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhBawahSediaAdaDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -175,23 +253,41 @@ export default function PemeriksaanAwal(props) {
                     <h4 className='font-semibold'>Perlu</h4>
                     <div className='flex items-center justify-center'>
                       <input
-                        ref={props.perluDenture}
                         type='radio'
                         name='perlu-status-denture'
-                        id='ada-perlu-status-denture'
+                        id='ya-perlu-status-denture'
+                        value='ya-perlu-status-denture'
+                        checked={
+                          props.yaTidakPerluStatusDenture ===
+                          'ya-perlu-status-denture'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPerluStatusDenture(e.target.value);
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
-                        htmlFor='ada-perlu-status-denture'
+                        htmlFor='ya-perlu-status-denture'
                         className='m-2 text-sm font-m'
                       >
-                        Ada
+                        Ya
                       </label>
                       <input
-                        ref={props.tidakPerluDenture}
                         type='radio'
                         name='perlu-status-denture'
                         id='tidak-perlu-status-denture'
+                        value='tidak-perlu-status-denture'
+                        checked={
+                          props.yaTidakPerluStatusDenture ===
+                          'tidak-perlu-status-denture'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPerluStatusDenture(e.target.value);
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -209,20 +305,34 @@ export default function PemeriksaanAwal(props) {
                         Atas
                       </label>
                       <input
-                        ref={props.atasPerluDenture}
                         type='checkbox'
                         name='atas-perlu-denture'
                         id='atas-perlu-denture'
+                        checked={props.atasPerluDenture}
+                        onChange={() => {
+                          props.setAtasPerluDenture(!props.atasPerluDenture);
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
                     <div className='grid grid-cols-2'>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.separaAtasPerluDenture}
                           type='radio'
                           name='separa-penuh-atas-perlu-denture'
                           id='separa-atas-perlu-denture'
+                          value='separa-atas-perlu-denture'
+                          checked={
+                            props.separaPenuhAtasPerluDenture ===
+                            'separa-atas-perlu-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhAtasPerluDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -234,10 +344,21 @@ export default function PemeriksaanAwal(props) {
                       </div>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.penuhAtasPerluDenture}
                           type='radio'
                           name='separa-penuh-atas-perlu-denture'
                           id='penuh-atas-perlu-denture'
+                          value='penuh-atas-perlu-denture'
+                          checked={
+                            props.separaPenuhAtasPerluDenture ===
+                            'penuh-atas-perlu-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhAtasPerluDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -256,20 +377,34 @@ export default function PemeriksaanAwal(props) {
                         Bawah
                       </label>
                       <input
-                        ref={props.bawahPerluDenture}
                         type='checkbox'
                         name='bawah-perlu-denture'
                         id='bawah-perlu-denture'
+                        checked={props.bawahPerluDenture}
+                        onChange={() => {
+                          props.setBawahPerluDenture(!props.bawahPerluDenture);
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
                     <div className='grid grid-cols-2'>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.separaBawahPerluDenture}
                           type='radio'
                           name='separa-penuh-bawah-perlu-denture'
                           id='separa-bawah-perlu-denture'
+                          value='separa-bawah-perlu-denture'
+                          checked={
+                            props.separaPenuhBawahPerluDenture ===
+                            'separa-bawah-perlu-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhBawahPerluDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -281,10 +416,21 @@ export default function PemeriksaanAwal(props) {
                       </div>
                       <div className='flex items-center justify-center'>
                         <input
-                          ref={props.penuhBawahPerluDenture}
                           type='radio'
                           name='separa-penuh-bawah-perlu-denture'
                           id='penuh-bawah-perlu-denture'
+                          value='penuh-bawah-perlu-denture'
+                          checked={
+                            props.separaPenuhBawahPerluDenture ===
+                            'penuh-bawah-perlu-denture'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setSeparaPenuhBawahPerluDenture(
+                              e.target.value
+                            );
+                          }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
@@ -304,10 +450,15 @@ export default function PemeriksaanAwal(props) {
                 </h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    ref={props.toothSurfaceLossTrauma}
                     type='checkbox'
                     name='tooth-surface-loss'
                     id='tooth-surface-loss'
+                    checked={props.toothSurfaceLossTrauma}
+                    onChange={() => {
+                      props.setToothSurfaceLossTrauma(
+                        !props.toothSurfaceLossTrauma
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -319,10 +470,15 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    ref={props.kecederaanGigiAnteriorTrauma}
                     type='checkbox'
                     name='kecederaan-gigi-anterior'
                     id='kecederaan-gigi-anterior'
+                    checked={props.kecederaanGigiAnteriorTrauma}
+                    onChange={() => {
+                      props.setKecederaanGigiAnteriorTrauma(
+                        !props.kecederaanGigiAnteriorTrauma
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -334,10 +490,13 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    ref={props.tisuLembutTrauma}
                     type='checkbox'
                     name='tisu-lembut'
                     id='tisu-lembut'
+                    checked={props.tisuLembutTrauma}
+                    onChange={() => {
+                      props.setTisuLembutTrauma(!props.tisuLembutTrauma);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label htmlFor='tisu-lembut' className='m-2 text-sm font-m'>
@@ -346,10 +505,13 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    ref={props.tisuKerasTrauma}
                     type='checkbox'
                     name='tisu-keras'
                     id='tisu-keras'
+                    checked={props.tisuKerasTrauma}
+                    onChange={() => {
+                      props.setTisuKerasTrauma(!props.tisuKerasTrauma);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label htmlFor='tisu-keras' className='m-2 text-sm font-m'>
@@ -368,9 +530,12 @@ export default function PemeriksaanAwal(props) {
                     Kebersihan Mulut
                   </p>
                   <select
-                    ref={props.kebersihanMulutOralHygiene}
                     name='kebersihan-mulut'
                     id='kebersihan-mulut'
+                    value={props.kebersihanMulutOralHygiene}
+                    onChange={(e) => {
+                      props.setKebersihanMulutOralHygiene(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   >
                     <option value=''></option>
@@ -381,9 +546,12 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <select
-                    ref={props.skorBpeOralHygiene}
                     name='skor-bpe'
                     id='skor-bpe'
+                    value={props.skorBpeOralHygiene}
+                    onChange={(e) => {
+                      props.setSkorBpeOralHygiene(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''>Skor BPE</option>
@@ -402,18 +570,26 @@ export default function PemeriksaanAwal(props) {
                     Saringan Kanser Mulut
                   </label>
                   <input
-                    ref={props.saringanKanserMulutOralHygiene}
                     type='checkbox'
                     name='saringan-kanser-mulut'
                     id='saringan-kanser-mulut'
+                    checked={props.saringanKanserMulutOralHygiene}
+                    onChange={() => {
+                      props.setSaringanKanserMulutOralHygiene(
+                        !props.saringanKanserMulutOralHygiene
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
                   />
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <select
-                    ref={props.skorGisMulutOralHygiene}
                     name='skor-gis'
                     id='skor-gis'
+                    value={props.skorGisMulutOralHygiene}
+                    onChange={(e) => {
+                      props.setSkorGisMulutOralHygiene(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''>Skor GIS</option>
@@ -441,50 +617,65 @@ export default function PemeriksaanAwal(props) {
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m lowercase'>d: </p>
                       <input
-                        ref={props.dAdaGigiDesidus}
-                        type='text'
+                        type='number'
                         name='d-ada-status-gigi-desidus'
                         id='d-ada-status-gigi-desidus'
+                        value={props.dAdaGigiDesidus}
+                        onChange={(e) => {
+                          props.setDAdaGigiDesidus(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m lowercase'>m: </p>
                       <input
-                        ref={props.mAdaGigiDesidus}
-                        type='text'
+                        type='number'
                         name='m-ada-status-gigi-desidus'
                         id='m-ada-status-gigi-desidus'
+                        value={props.mAdaGigiDesidus}
+                        onChange={(e) => {
+                          props.setMAdaGigiDesidus(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m lowercase'>f: </p>
                       <input
-                        ref={props.fAdaGigiDesidus}
-                        type='text'
+                        type='number'
                         name='f-ada-status-gigi-desidus'
                         id='f-ada-status-gigi-desidus'
+                        value={props.fAdaGigiDesidus}
+                        onChange={(e) => {
+                          props.setFAdaGigiDesidus(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m lowercase'>e: </p>
                       <input
-                        ref={props.eAdaGigiDesidus}
-                        type='text'
+                        type='number'
                         name='e-ada-status-gigi-desidus'
                         id='e-ada-status-gigi-desidus'
+                        value={props.eAdaGigiDesidus}
+                        onChange={(e) => {
+                          props.setEAdaGigiDesidus(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m lowercase'>x: </p>
                       <input
-                        ref={props.xAdaGigiDesidus}
-                        type='text'
+                        type='number'
                         name='x-ada-status-gigi-desidus'
                         id='x-ada-status-gigi-desidus'
+                        value={props.xAdaGigiDesidus}
+                        onChange={(e) => {
+                          props.setXAdaGigiDesidus(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -506,50 +697,65 @@ export default function PemeriksaanAwal(props) {
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m '>D: </p>
                       <input
-                        ref={props.dAdaGigiKekal}
-                        type='text'
+                        type='number'
                         name='d-ada-status-gigi-kekal'
                         id='d-ada-status-gigi-kekal'
+                        value={props.dAdaGigiKekal}
+                        onChange={(e) => {
+                          props.setDAdaGigiKekal(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m '>M: </p>
                       <input
-                        ref={props.mAdaGigiKekal}
-                        type='text'
+                        type='number'
                         name='m-ada-status-gigi-kekal'
                         id='m-ada-status-gigi-kekal'
+                        value={props.mAdaGigiKekal}
+                        onChange={(e) => {
+                          props.setMAdaGigiKekal(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m '>F: </p>
                       <input
-                        ref={props.fAdaGigiKekal}
-                        type='text'
+                        type='number'
                         name='f-ada-status-gigi-kekal'
                         id='f-ada-status-gigi-kekal'
+                        value={props.fAdaGigiKekal}
+                        onChange={(e) => {
+                          props.setFAdaGigiKekal(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m '>E: </p>
                       <input
-                        ref={props.eAdaGigiKekal}
-                        type='text'
+                        type='number'
                         name='e-ada-status-gigi-kekal'
                         id='e-ada-status-gigi-kekal'
+                        value={props.eAdaGigiKekal}
+                        onChange={(e) => {
+                          props.setEAdaGigiKekal(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
                     <div className='flex flex-row items-center'>
                       <p className='text-sm font-m '>X: </p>
                       <input
-                        ref={props.xAdaGigiKekal}
-                        type='text'
+                        type='number'
                         name='x-ada-status-gigi-kekal'
                         id='x-ada-status-gigi-kekal'
+                        value={props.xAdaGigiKekal}
+                        onChange={(e) => {
+                          props.setXAdaGigiKekal(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -566,10 +772,13 @@ export default function PemeriksaanAwal(props) {
                       Jumlah Faktor Risiko:
                     </p>
                     <input
-                      ref={props.jumlahFaktorRisiko}
-                      type='text'
+                      type='number'
                       name='jumlah-faktor-risiko'
                       id='jumlah-faktor-risiko'
+                      value={props.jumlahFaktorRisiko}
+                      onChange={(e) => {
+                        props.setJumlahFaktorRisiko(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -596,30 +805,41 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>GIC: </p>
                   <input
-                    ref={props.gicBilanganFsDibuat3TahunLepas}
-                    type='text'
+                    type='number'
                     name='gic-bilangan-fs-dibuat-3-tahun-lepas'
                     id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                    value={props.gicBilanganFsDibuat3TahunLepas}
+                    onChange={(e) => {
+                      props.setGicBilanganFsDibuat3TahunLepas(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Resin: </p>
                   <input
-                    ref={props.resinBilanganFsDibuat3TahunLepas}
-                    type='text'
+                    type='number'
                     name='resin-bilangan-fs-dibuat-3-tahun-lepas'
                     id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                    value={props.resinBilanganFsDibuat3TahunLepas}
+                    onChange={(e) => {
+                      props.setResinBilanganFsDibuat3TahunLepas(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
                   <p className='text-sm font-m '>Lain-lain: </p>
                   <input
-                    ref={props.lainLainBilanganFsDibuat3TahunLepas}
-                    type='text'
+                    type='number'
                     name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
                     id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                    value={props.lainLainBilanganFsDibuat3TahunLepas}
+                    onChange={(e) => {
+                      props.setLainLainBilanganFsDibuat3TahunLepas(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -631,50 +851,75 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>D: </p>
                   <input
-                    ref={props.dBilanganFsDibuat3TahunLepasTerjadi}
-                    type='text'
+                    type='number'
                     name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                    value={props.dBilanganFsDibuat3TahunLepasTerjadi}
+                    onChange={(e) => {
+                      props.setdBilanganFsDibuat3TahunLepasTerjadi(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>M: </p>
                   <input
-                    ref={props.mBilanganFsDibuat3TahunLepasTerjadi}
-                    type='text'
+                    type='number'
                     name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                    value={props.mBilanganFsDibuat3TahunLepasTerjadi}
+                    onChange={(e) => {
+                      props.setmBilanganFsDibuat3TahunLepasTerjadi(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>F: </p>
                   <input
-                    ref={props.fBilanganFsDibuat3TahunLepasTerjadi}
-                    type='text'
+                    type='number'
                     name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                    value={props.fBilanganFsDibuat3TahunLepasTerjadi}
+                    onChange={(e) => {
+                      props.setfBilanganFsDibuat3TahunLepasTerjadi(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>E: </p>
                   <input
-                    ref={props.eBilanganFsDibuat3TahunLepasTerjadi}
-                    type='text'
+                    type='number'
                     name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                    value={props.eBilanganFsDibuat3TahunLepasTerjadi}
+                    onChange={(e) => {
+                      props.seteBilanganFsDibuat3TahunLepasTerjadi(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>X: </p>
                   <input
-                    ref={props.xBilanganFsDibuat3TahunLepasTerjadi}
-                    type='text'
+                    type='number'
                     name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                    value={props.xBilanganFsDibuat3TahunLepasTerjadi}
+                    onChange={(e) => {
+                      props.setxBilanganFsDibuat3TahunLepasTerjadi(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -684,20 +929,26 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class I: </p>
                   <input
-                    ref={props.classID}
-                    type='text'
+                    type='number'
                     name='class-1-d'
                     id='class-1-d'
+                    value={props.classID}
+                    onChange={(e) => {
+                      props.setClassID(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class II: </p>
                   <input
-                    ref={props.classIID}
-                    type='text'
+                    type='number'
                     name='class-2-d'
                     id='class-2-d'
+                    value={props.classII}
+                    onChange={(e) => {
+                      props.setClassII(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -707,20 +958,26 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class I: </p>
                   <input
-                    ref={props.classIF}
-                    type='text'
+                    type='number'
                     name='class-1-f'
                     id='class-1-f'
+                    value={props.classIF}
+                    onChange={(e) => {
+                      props.setClassIF(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class II: </p>
                   <input
-                    ref={props.classIIF}
-                    type='text'
+                    type='number'
                     name='class-2-f'
                     id='class-2-f'
+                    value={props.classIIF}
+                    onChange={(e) => {
+                      props.setClassIIF(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
