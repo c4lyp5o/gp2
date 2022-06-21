@@ -120,7 +120,7 @@ function UserFormSekolah() {
   const [tisuKerasTrauma, setTisuKerasTrauma] = useState(false);
   masterForm.tisuKerasTrauma = tisuKerasTrauma;
   masterForm.setTisuKerasTrauma = setTisuKerasTrauma;
-  //pemeriksaan awal div 2
+  // pemeriksaan awal div 2
   const [kebersihanMulutOralHygiene, setKebersihanMulutOralHygiene] =
     useState('');
   masterForm.kebersihanMulutOralHygiene = kebersihanMulutOralHygiene;
@@ -169,7 +169,7 @@ function UserFormSekolah() {
   const [jumlahFaktorRisiko, setJumlahFaktorRisiko] = useState('');
   masterForm.jumlahFaktorRisiko = jumlahFaktorRisiko;
   masterForm.setJumlahFaktorRisiko = setJumlahFaktorRisiko;
-  //pemeriksaan awal div 3
+  // pemeriksaan awal div 3
   const [gicBilanganFsDibuat3TahunLepas, setGicBilanganFsDibuat3TahunLepas] =
     useState('');
   masterForm.gicBilanganFsDibuat3TahunLepas = gicBilanganFsDibuat3TahunLepas;
@@ -379,7 +379,7 @@ function UserFormSekolah() {
           tidakHadirKedatanganPendaftaran,
           adaTiadaPemeriksaanPendaftaran,
           tinggiRendahRisikoSekolahPendaftaran,
-          // pemeriksaan awal
+          // pemeriksaan awal div 1
           adaCleftLip,
           rujukCleftLip,
           yaTidakSediaAdaStatusDenture,
@@ -396,7 +396,7 @@ function UserFormSekolah() {
           kecederaanGigiAnteriorTrauma,
           tisuLembutTrauma,
           tisuKerasTrauma,
-          // map pemeriksaan awal div 2
+          // pemeriksaan awal div 2
           kebersihanMulutOralHygiene,
           skorBpeOralHygiene,
           saringanKanserMulutOralHygiene,
@@ -412,7 +412,7 @@ function UserFormSekolah() {
           eAdaGigiKekal,
           xAdaGigiKekal,
           jumlahFaktorRisiko,
-          // map pemeriksaan awal div 3
+          // pemeriksaan awal div 3
           gicBilanganFsDibuat3TahunLepas,
           resinBilanganFsDibuat3TahunLepas,
           lainLainBilanganFsDibuat3TahunLepas,

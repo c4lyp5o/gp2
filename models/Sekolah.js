@@ -79,7 +79,196 @@ const SekolahSchema = new mongoose.Schema({
   tinggiRendahRisikoSekolahPendaftaran: {
     type: String,
   },
-  // pemeriksaan awal --------------------------------------------------
+  // pemeriksaan awal div 1 --------------------------------------------------
+  adaCleftLip: {
+    type: Boolean,
+    default: false,
+  },
+  rujukCleftLip: {
+    type: Boolean,
+    default: false,
+  },
+  yaTidakSediaAdaStatusDenture: {
+    type: String,
+  },
+  atasSediaAdaDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhAtasSediaAdaDenture: {
+    type: String,
+  },
+  bawahSediaAdaDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhBawahSediaAdaDenture: {
+    type: String,
+  },
+  yaTidakPerluStatusDenture: {
+    type: String,
+  },
+  atasPerluDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhAtasPerluDenture: {
+    type: String,
+  },
+  bawahPerluDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhBawahPerluDenture: {
+    type: String,
+  },
+  toothSurfaceLossTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  kecederaanGigiAnteriorTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  tisuLembutTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  tisuKerasTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  // pemeriksaan awal div 2
+  kebersihanMulutOralHygiene: {
+    type: String,
+  },
+  skorBpeOralHygiene: {
+    type: String,
+  },
+  saringanKanserMulutOralHygiene: {
+    type: Boolean,
+    default: false,
+  },
+  skorGisMulutOralHygiene: {
+    type: String,
+  },
+  dAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  dAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  jumlahFaktorRisiko: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // pemeriksaan awal div 3
+  gicBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  resinBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  lainLainBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  dBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classID: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIID: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIF: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIIF: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // perlu dibuat --------------------------------------------------
   //   ennrolmen: {
   //     type: String,
   //     required: true,

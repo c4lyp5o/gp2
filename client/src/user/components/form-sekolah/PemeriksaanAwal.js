@@ -856,7 +856,7 @@ export default function PemeriksaanAwal(props) {
                     id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     value={props.dBilanganFsDibuat3TahunLepasTerjadi}
                     onChange={(e) => {
-                      props.setdBilanganFsDibuat3TahunLepasTerjadi(
+                      props.setDBilanganFsDibuat3TahunLepasTerjadi(
                         e.target.value
                       );
                     }}
@@ -871,7 +871,7 @@ export default function PemeriksaanAwal(props) {
                     id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     value={props.mBilanganFsDibuat3TahunLepasTerjadi}
                     onChange={(e) => {
-                      props.setmBilanganFsDibuat3TahunLepasTerjadi(
+                      props.setMBilanganFsDibuat3TahunLepasTerjadi(
                         e.target.value
                       );
                     }}
@@ -886,7 +886,7 @@ export default function PemeriksaanAwal(props) {
                     id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     value={props.fBilanganFsDibuat3TahunLepasTerjadi}
                     onChange={(e) => {
-                      props.setfBilanganFsDibuat3TahunLepasTerjadi(
+                      props.setFBilanganFsDibuat3TahunLepasTerjadi(
                         e.target.value
                       );
                     }}
@@ -901,7 +901,7 @@ export default function PemeriksaanAwal(props) {
                     id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     value={props.eBilanganFsDibuat3TahunLepasTerjadi}
                     onChange={(e) => {
-                      props.seteBilanganFsDibuat3TahunLepasTerjadi(
+                      props.setEBilanganFsDibuat3TahunLepasTerjadi(
                         e.target.value
                       );
                     }}
@@ -916,7 +916,7 @@ export default function PemeriksaanAwal(props) {
                     id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     value={props.xBilanganFsDibuat3TahunLepasTerjadi}
                     onChange={(e) => {
-                      props.setxBilanganFsDibuat3TahunLepasTerjadi(
+                      props.setXBilanganFsDibuat3TahunLepasTerjadi(
                         e.target.value
                       );
                     }}
@@ -945,9 +945,9 @@ export default function PemeriksaanAwal(props) {
                     type='number'
                     name='class-2-d'
                     id='class-2-d'
-                    value={props.classII}
+                    value={props.classIID}
                     onChange={(e) => {
-                      props.setClassII(e.target.value);
+                      props.setClassIID(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
