@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const simpleCrypto = require('simple-crypto-js').default;
+const mailer = require('nodemailer');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -12,16 +13,72 @@ const Dictionary = {
   ins: 'Institusi',
 };
 
-exports.helloUser = (req, res) => {
-  return res.status(200).json({
+var verificationKey = '';
+
+async function sendVerificationEmail(email) {
+  verificationKey = simpleCrypto.generateRandomString(20);
+  const transporter = mailer.createTransport({
+    host: process.env.EMAILER_HOST,
+    port: process.env.EMAILER_PORT,
+    secure: true,
+    auth: {
+      user: process.env.EMAILER_ACCT,
+      pass: process.env.EMAILER_PASS,
+    },
+  });
+  const verification = await transporter.sendMail({
+    from: `"Admin" <${process.env.EMAILER_ACCT}>`,
+    to: email,
+    subject: 'Verifikasi Akaun',
+    text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
+    html:
+      '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
+  });
+  return verification;
+}
+
+exports.helloUser = async (req, res) => {
+  const { username } = req.body;
+  const User = await Superadmin.findOne({ user_name: username });
+  if (req.method === 'POST') {
+    if (!User) {
+      res.status(401).json({
+        status: 'error',
+        message: 'User not found',
+      });
+      return;
+    }
+    await sendVerificationEmail(process.env.SEND_TO).catch((err) => {
+      console.log(err);
+    });
+    return res.status(200).json({
+      status: 'success',
+      message: 'Email sent to ' + process.env.SEND_TO,
+    });
+  }
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      Status: 'Success',
+      Message: 'This is the modified server response',
+    });
+  }
+};
+
+exports.getCipher = async (req, res) => {
+  const crypt = new simpleCrypto(process.env.API_SALT);
+  const cipherText = crypt.encrypt(process.env.API_KEY);
+  res.status(200).json({
     status: 'success',
-    message: 'Hello User',
+    message: 'Verification route',
+    key: cipherText,
   });
 };
 
 exports.loginUser = async (req, res) => {
   const { username, password, key } = req.body;
-  if (key != process.env.API_KEY) {
+  const crypt = new simpleCrypto(process.env.API_SALT);
+  const decipheredText = crypt.decrypt(key);
+  if (decipheredText != process.env.API_KEY) {
     return res.status(401).json({
       status: 'error',
       message: 'Invalid API key',
@@ -35,29 +92,29 @@ exports.loginUser = async (req, res) => {
       message: msg,
     });
   }
-  if (User.password === password) {
-    const genToken = jwt.sign(
-      {
-        userId: User._id,
-        username: User.user_name,
-        daerah: User.daerah,
-        negeri: User.negeri,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-    return res.status(200).json({
-      status: 'success',
-      message: 'Login berjaya',
-      token: genToken,
-    });
-  } else {
-    const msg = 'Password salah';
+  if (password != verificationKey) {
+    const msg = 'Key salah';
     return res.status(401).json({
       status: 'error',
       message: msg,
     });
   }
+  const genToken = jwt.sign(
+    {
+      userId: User._id,
+      username: User.user_name,
+      daerah: User.daerah,
+      negeri: User.negeri,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+  verificationKey = '';
+  return res.status(200).json({
+    status: 'success',
+    message: 'Login berjaya',
+    token: genToken,
+  });
 };
 
 exports.addAdmin = async (req, res) => {
