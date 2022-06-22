@@ -23,9 +23,13 @@ export default function PenyataAkhir1(props) {
                     Baru
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='baru-jumlah-gigi-kekal-dibuat-fs'
                     id='baru-jumlah-gigi-kekal-dibuat-fs'
+                    value={props.baruJumlahGigiKekalDibuatFs}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDibuatFs(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -37,9 +41,13 @@ export default function PenyataAkhir1(props) {
                     Semula
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='semula-jumlah-gigi-kekal-dibuat-fs'
                     id='semula-jumlah-gigi-kekal-dibuat-fs'
+                    value={props.semulaJumlahGigiKekalDibuatFs}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDibuatFs(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -59,9 +67,13 @@ export default function PenyataAkhir1(props) {
                     Baru
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='baru-jumlah-gigi-kekal-diberi-fv'
                     id='baru-jumlah-gigi-kekal-diberi-fv'
+                    value={props.baruJumlahGigiKekalDiberiFv}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDiberiFv(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -73,9 +85,13 @@ export default function PenyataAkhir1(props) {
                     Semula
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='semula-jumlah-gigi-kekal-diberi-fv'
                     id='semula-jumlah-gigi-kekal-diberi-fv'
+                    value={props.semulaJumlahGigiKekalDiberiFv}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDiberiFv(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -95,9 +111,15 @@ export default function PenyataAkhir1(props) {
                     Baru
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                    value={props.baruJumlahGigiKekalDiberiPrrJenis1}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDiberiPrrJenis1(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -109,9 +131,15 @@ export default function PenyataAkhir1(props) {
                     Semula
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
                     id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                    value={props.semulaJumlahGigiKekalDiberiPrrJenis1}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDiberiPrrJenis1(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -133,9 +161,13 @@ export default function PenyataAkhir1(props) {
                     Baru
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='baru-jumlah-gigi-yang-diberi-sdf'
                     id='baru-jumlah-gigi-yang-diberi-sdf'
+                    value={props.baruJumlahGigiYangDiberiSdf}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiYangDiberiSdf(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -147,9 +179,13 @@ export default function PenyataAkhir1(props) {
                     Semula
                   </label>
                   <input
-                    type='text'
+                    type='number'
                     name='semula-jumlah-gigi-yang-diberi-sdf'
                     id='semula-jumlah-gigi-yang-diberi-sdf'
+                    value={props.semulaJumlahGigiYangDiberiSdf}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiYangDiberiSdf(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -167,9 +203,15 @@ export default function PenyataAkhir1(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         id='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
+                        value={props.gdBaruAnteriorSewarnaJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGdBaruAnteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -181,9 +223,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         id='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
+                        value={
+                          props.gdSemulaAnteriorSewarnaJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaAnteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -195,9 +245,15 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
                         id='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
+                        value={props.gkBaruAnteriorSewarnaJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGkBaruAnteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -209,9 +265,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
                         id='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
+                        value={
+                          props.gkSemulaAnteriorSewarnaJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaAnteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -228,9 +292,15 @@ export default function PenyataAkhir1(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         id='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
+                        value={props.gdBaruPosteriorSewarnaJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGdBaruPosteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -242,9 +312,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         id='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
+                        value={
+                          props.gdSemulaPosteriorSewarnaJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaPosteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -256,9 +334,15 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
                         id='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
+                        value={props.gkBaruPosteriorSewarnaJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGkBaruPosteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -270,9 +354,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
                         id='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
+                        value={
+                          props.gkSemulaPosteriorSewarnaJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaPosteriorSewarnaJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -289,9 +381,15 @@ export default function PenyataAkhir1(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         id='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
+                        value={props.gdBaruPosteriorAmalgamJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGdBaruPosteriorAmalgamJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -303,9 +401,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         id='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
+                        value={
+                          props.gdSemulaPosteriorAmalgamJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaPosteriorAmalgamJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -317,9 +423,15 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
                         id='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
+                        value={props.gkBaruPosteriorAmalgamJumlahTampalanDibuat}
+                        onChange={(e) => {
+                          props.setGkBaruPosteriorAmalgamJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -331,9 +443,17 @@ export default function PenyataAkhir1(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
-                        type='text'
+                        type='number'
                         name='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
                         id='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
+                        value={
+                          props.gkSemulaPosteriorAmalgamJumlahTampalanDibuat
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaPosteriorAmalgamJumlahTampalanDibuat(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label

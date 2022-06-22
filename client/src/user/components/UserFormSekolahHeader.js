@@ -383,6 +383,146 @@ function UserFormSekolah() {
     semulaGKPosteriorAmalgamJumlahTampalanDiperlukan;
   masterForm.setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan =
     setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan;
+  // penyata akhir 1
+  const [baruJumlahGigiKekalDibuatFs, setBaruJumlahGigiKekalDibuatFs] =
+    useState('');
+  masterForm.baruJumlahGigiKekalDibuatFs = baruJumlahGigiKekalDibuatFs;
+  masterForm.setBaruJumlahGigiKekalDibuatFs = setBaruJumlahGigiKekalDibuatFs;
+  const [semulaJumlahGigiKekalDibuatFs, setSemulaJumlahGigiKekalDibuatFs] =
+    useState('');
+  masterForm.semulaJumlahGigiKekalDibuatFs = semulaJumlahGigiKekalDibuatFs;
+  masterForm.setSemulaJumlahGigiKekalDibuatFs =
+    setSemulaJumlahGigiKekalDibuatFs;
+  const [baruJumlahGigiKekalDiberiFv, setBaruJumlahGigiKekalDiberiFv] =
+    useState('');
+  masterForm.baruJumlahGigiKekalDiberiFv = baruJumlahGigiKekalDiberiFv;
+  masterForm.setBaruJumlahGigiKekalDiberiFv = setBaruJumlahGigiKekalDiberiFv;
+  const [semulaJumlahGigiKekalDiberiFv, setSemulaJumlahGigiKekalDiberiFv] =
+    useState('');
+  masterForm.semulaJumlahGigiKekalDiberiFv = semulaJumlahGigiKekalDiberiFv;
+  masterForm.setSemulaJumlahGigiKekalDiberiFv =
+    setSemulaJumlahGigiKekalDiberiFv;
+  const [
+    baruJumlahGigiKekalDiberiPrrJenis1,
+    setBaruJumlahGigiKekalDiberiPrrJenis1,
+  ] = useState('');
+  masterForm.baruJumlahGigiKekalDiberiPrrJenis1 =
+    baruJumlahGigiKekalDiberiPrrJenis1;
+  masterForm.setBaruJumlahGigiKekalDiberiPrrJenis1 =
+    setBaruJumlahGigiKekalDiberiPrrJenis1;
+  const [
+    semulaJumlahGigiKekalDiberiPrrJenis1,
+    setSemulaJumlahGigiKekalDiberiPrrJenis1,
+  ] = useState('');
+  masterForm.semulaJumlahGigiKekalDiberiPrrJenis1 =
+    semulaJumlahGigiKekalDiberiPrrJenis1;
+  masterForm.setSemulaJumlahGigiKekalDiberiPrrJenis1 =
+    setSemulaJumlahGigiKekalDiberiPrrJenis1;
+  const [baruJumlahGigiYangDiberiSdf, setBaruJumlahGigiYangDiberiSdf] =
+    useState('');
+  masterForm.baruJumlahGigiYangDiberiSdf = baruJumlahGigiYangDiberiSdf;
+  masterForm.setBaruJumlahGigiYangDiberiSdf = setBaruJumlahGigiYangDiberiSdf;
+  const [semulaJumlahGigiYangDiberiSdf, setSemulaJumlahGigiYangDiberiSdf] =
+    useState('');
+  masterForm.semulaJumlahGigiYangDiberiSdf = semulaJumlahGigiYangDiberiSdf;
+  masterForm.setSemulaJumlahGigiYangDiberiSdf =
+    setSemulaJumlahGigiYangDiberiSdf;
+  const [
+    gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+    setGdBaruAnteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdBaruAnteriorSewarnaJumlahTampalanDibuat =
+    gdBaruAnteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGdBaruAnteriorSewarnaJumlahTampalanDibuat =
+    setGdBaruAnteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+    setGdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdSemulaAnteriorSewarnaJumlahTampalanDibuat =
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGdSemulaAnteriorSewarnaJumlahTampalanDibuat =
+    setGdSemulaAnteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+    setGkBaruAnteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkBaruAnteriorSewarnaJumlahTampalanDibuat =
+    gkBaruAnteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGkBaruAnteriorSewarnaJumlahTampalanDibuat =
+    setGkBaruAnteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+    setGkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkSemulaAnteriorSewarnaJumlahTampalanDibuat =
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGkSemulaAnteriorSewarnaJumlahTampalanDibuat =
+    setGkSemulaAnteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+    setGdBaruPosteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdBaruPosteriorSewarnaJumlahTampalanDibuat =
+    gdBaruPosteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGdBaruPosteriorSewarnaJumlahTampalanDibuat =
+    setGdBaruPosteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+    setGdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdSemulaPosteriorSewarnaJumlahTampalanDibuat =
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGdSemulaPosteriorSewarnaJumlahTampalanDibuat =
+    setGdSemulaPosteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+    setGkBaruPosteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkBaruPosteriorSewarnaJumlahTampalanDibuat =
+    gkBaruPosteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGkBaruPosteriorSewarnaJumlahTampalanDibuat =
+    setGkBaruPosteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+    setGkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkSemulaPosteriorSewarnaJumlahTampalanDibuat =
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuat;
+  masterForm.setGkSemulaPosteriorSewarnaJumlahTampalanDibuat =
+    setGkSemulaPosteriorSewarnaJumlahTampalanDibuat;
+  const [
+    gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+    setGdBaruPosteriorAmalgamJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdBaruPosteriorAmalgamJumlahTampalanDibuat =
+    gdBaruPosteriorAmalgamJumlahTampalanDibuat;
+  masterForm.setGdBaruPosteriorAmalgamJumlahTampalanDibuat =
+    setGdBaruPosteriorAmalgamJumlahTampalanDibuat;
+  const [
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+    setGdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gdSemulaPosteriorAmalgamJumlahTampalanDibuat =
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuat;
+  masterForm.setGdSemulaPosteriorAmalgamJumlahTampalanDibuat =
+    setGdSemulaPosteriorAmalgamJumlahTampalanDibuat;
+  const [
+    gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+    setGkBaruPosteriorAmalgamJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkBaruPosteriorAmalgamJumlahTampalanDibuat =
+    gkBaruPosteriorAmalgamJumlahTampalanDibuat;
+  masterForm.setGkBaruPosteriorAmalgamJumlahTampalanDibuat =
+    setGkBaruPosteriorAmalgamJumlahTampalanDibuat;
+  const [
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+    setGkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+  ] = useState('');
+  masterForm.gkSemulaPosteriorAmalgamJumlahTampalanDibuat =
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuat;
+  masterForm.setGkSemulaPosteriorAmalgamJumlahTampalanDibuat =
+    setGkSemulaPosteriorAmalgamJumlahTampalanDibuat;
 
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -565,6 +705,67 @@ function UserFormSekolah() {
           data.singlePersonSekolah
             .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
         );
+        // map penyata akhir 1
+        setBaruJumlahGigiKekalDibuatFs(
+          data.singlePersonSekolah.baruJumlahGigiKekalDibuatFs
+        );
+        setSemulaJumlahGigiKekalDibuatFs(
+          data.singlePersonSekolah.semulaJumlahGigiKekalDibuatFs
+        );
+        setBaruJumlahGigiKekalDiberiFv(
+          data.singlePersonSekolah.baruJumlahGigiKekalDiberiFv
+        );
+        setSemulaJumlahGigiKekalDiberiFv(
+          data.singlePersonSekolah.semulaJumlahGigiKekalDiberiFv
+        );
+        setBaruJumlahGigiKekalDiberiPrrJenis1(
+          data.singlePersonSekolah.baruJumlahGigiKekalDiberiPrrJenis1
+        );
+        setSemulaJumlahGigiKekalDiberiPrrJenis1(
+          data.singlePersonSekolah.semulaJumlahGigiKekalDiberiPrrJenis1
+        );
+        setBaruJumlahGigiYangDiberiSdf(
+          data.singlePersonSekolah.baruJumlahGigiYangDiberiSdf
+        );
+        setSemulaJumlahGigiYangDiberiSdf(
+          data.singlePersonSekolah.semulaJumlahGigiYangDiberiSdf
+        );
+        setGdBaruAnteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdBaruAnteriorSewarnaJumlahTampalanDibuat
+        );
+        setGdSemulaAnteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdSemulaAnteriorSewarnaJumlahTampalanDibuat
+        );
+        setGkBaruAnteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkBaruAnteriorSewarnaJumlahTampalanDibuat
+        );
+        setGkSemulaAnteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkSemulaAnteriorSewarnaJumlahTampalanDibuat
+        );
+        setGdBaruPosteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdBaruPosteriorSewarnaJumlahTampalanDibuat
+        );
+        setGdSemulaPosteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdSemulaPosteriorSewarnaJumlahTampalanDibuat
+        );
+        setGkBaruPosteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkBaruPosteriorSewarnaJumlahTampalanDibuat
+        );
+        setGkSemulaPosteriorSewarnaJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkSemulaPosteriorSewarnaJumlahTampalanDibuat
+        );
+        setGdBaruPosteriorAmalgamJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdBaruPosteriorAmalgamJumlahTampalanDibuat
+        );
+        setGdSemulaPosteriorAmalgamJumlahTampalanDibuat(
+          data.singlePersonSekolah.gdSemulaPosteriorAmalgamJumlahTampalanDibuat
+        );
+        setGkBaruPosteriorAmalgamJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkBaruPosteriorAmalgamJumlahTampalanDibuat
+        );
+        setGkSemulaPosteriorAmalgamJumlahTampalanDibuat(
+          data.singlePersonSekolah.gkSemulaPosteriorAmalgamJumlahTampalanDibuat
+        );
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -655,6 +856,27 @@ function UserFormSekolah() {
           semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
           baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
           semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          // map penyata akhir 1
+          baruJumlahGigiKekalDibuatFs,
+          semulaJumlahGigiKekalDibuatFs,
+          baruJumlahGigiKekalDiberiFv,
+          semulaJumlahGigiKekalDiberiFv,
+          baruJumlahGigiKekalDiberiPrrJenis1,
+          semulaJumlahGigiKekalDiberiPrrJenis1,
+          baruJumlahGigiYangDiberiSdf,
+          semulaJumlahGigiYangDiberiSdf,
+          gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
