@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
+const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
+  const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
+
+  const [displayLoginForm, setDisplayLoginForm] = useState(true);
+  const [displayPilihNama, setDisplayPilihNama] = useState(false);
+  const [displayPilihFasiliti, setDisplayPilihFasiliti] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,11 +30,10 @@ function UserAppProvider({ children }) {
       });
       localStorage.setItem('userToken', data.userToken);
       setUserToken(data.userToken);
-      localStorage.setItem('username', data.user.kp);
-      setUsername(data.user.kp);
-      navigate('/user');
+      setDisplayLoginForm(false);
+      setDisplayPilihNama(true);
     } catch (error) {
-      localStorage.removeItem('userToken');
+      catchAxiosErrorAndLogout();
       setLoginErrorMessage(error.response.data.msg);
       setIsLoginError(true);
       setTimeout(() => {
@@ -38,15 +43,35 @@ function UserAppProvider({ children }) {
     }
   };
 
+  const catchAxiosErrorAndLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('fasilitiRelief');
+    setUserToken(null);
+    setUsername(null);
+    setFasilitiRelief(null);
+  };
+
   return (
     <UserAppContext.Provider
       value={{
         userToken,
         username,
+        setUsername,
+        fasilitiRelief,
+        setFasilitiRelief,
         loginErrorMessage,
         isLoginError,
-        loginUser,
+        displayLoginForm,
+        setDisplayLoginForm,
+        displayPilihNama,
+        setDisplayPilihNama,
+        displayPilihFasiliti,
+        setDisplayPilihFasiliti,
         navigate,
+        useParams,
+        loginUser,
+        catchAxiosErrorAndLogout,
       }}
     >
       {children}

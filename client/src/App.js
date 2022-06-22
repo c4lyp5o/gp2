@@ -16,31 +16,29 @@ import AdminLoginForm from './admin/components/public/LoginForm';
 import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
 import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
-// require('dotenv').config();
-
 function App() {
   return (
     <>
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
-            <Route path="/" element={<UserLogin />} />
+            <Route path='/' element={<UserLogin />} />
             <Route
-              path="/user/*"
+              path='/user/*'
               element={
                 <UserProtectedRoute>
                   <UserAfterLogin />
                 </UserProtectedRoute>
               }
             />
-            <Route path="*" element={<UserNotFound />} />
+            <Route path='*' element={<UserNotFound />} />
           </Routes>
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
-            <Route path="/admin" element={<AdminLoginForm />} />
+            <Route path='/admin' element={<AdminLoginForm />} />
             <Route
-              path="/admin/landing/*"
+              path='/admin/landing/*'
               element={
                 <AdminProtectedRoute>
                   <AdminAfterLogin />

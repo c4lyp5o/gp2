@@ -33,8 +33,6 @@ const authLogin = async (req, res) => {
 
   const userToken = user.createJWT();
 
-  user.password = undefined;
-
   const payloadUserType = jwt.verify(userToken, process.env.JWT_SECRET);
   if (payloadUserType.accountType === 'negaraUser') {
     return res.status(401).json({ msg: 'This is admin credentials' });
@@ -46,7 +44,7 @@ const authLogin = async (req, res) => {
     return res.status(401).json({ msg: 'This is admin credentials' });
   }
 
-  res.status(200).json({ user, userToken });
+  res.status(200).json({ userToken });
 };
 
 module.exports = authLogin;
