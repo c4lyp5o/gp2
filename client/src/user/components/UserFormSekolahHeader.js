@@ -243,6 +243,146 @@ function UserFormSekolah() {
   const [classIIF, setClassIIF] = useState('');
   masterForm.classIIF = classIIF;
   masterForm.setClassIIF = setClassIIF;
+  //perlu dibuat
+  const [baruJumlahGigiKekalPerluFs, setBaruJumlahGigiKekalPerluFs] =
+    useState('');
+  masterForm.baruJumlahGigiKekalPerluFs = baruJumlahGigiKekalPerluFs;
+  masterForm.setBaruJumlahGigiKekalPerluFs = setBaruJumlahGigiKekalPerluFs;
+  const [semulaJumlahGigiKekalPerluFs, setSemulaJumlahGigiKekalPerluFs] =
+    useState('');
+  masterForm.semulaJumlahGigiKekalPerluFs = semulaJumlahGigiKekalPerluFs;
+  masterForm.setSemulaJumlahGigiKekalPerluFs = setSemulaJumlahGigiKekalPerluFs;
+  const [jumlahGigiFsGagal, setJumlahGigiFsGagal] = useState('');
+  masterForm.jumlahGigiFsGagal = jumlahGigiFsGagal;
+  masterForm.setJumlahGigiFsGagal = setJumlahGigiFsGagal;
+  const [baruJumlahGigiKekalPerluFv, setBaruJumlahGigiKekalPerluFv] =
+    useState('');
+  masterForm.baruJumlahGigiKekalPerluFv = baruJumlahGigiKekalPerluFv;
+  masterForm.setBaruJumlahGigiKekalPerluFv = setBaruJumlahGigiKekalPerluFv;
+  const [semulaJumlahGigiKekalPerluFv, setSemulaJumlahGigiKekalPerluFv] =
+    useState('');
+  masterForm.semulaJumlahGigiKekalPerluFv = semulaJumlahGigiKekalPerluFv;
+  masterForm.setSemulaJumlahGigiKekalPerluFv = setSemulaJumlahGigiKekalPerluFv;
+  const [
+    baruJumlahGigiKekalPerluPrrJenis1,
+    setBaruJumlahGigiKekalPerluPrrJenis1,
+  ] = useState('');
+  masterForm.baruJumlahGigiKekalPerluPrrJenis1 =
+    baruJumlahGigiKekalPerluPrrJenis1;
+  masterForm.setBaruJumlahGigiKekalPerluPrrJenis1 =
+    setBaruJumlahGigiKekalPerluPrrJenis1;
+  const [
+    semulaJumlahGigiKekalPerluPrrJenis1,
+    setSemulaJumlahGigiKekalPerluPrrJenis1,
+  ] = useState('');
+  masterForm.semulaJumlahGigiKekalPerluPrrJenis1 =
+    semulaJumlahGigiKekalPerluPrrJenis1;
+  masterForm.setSemulaJumlahGigiKekalPerluPrrJenis1 =
+    setSemulaJumlahGigiKekalPerluPrrJenis1;
+  const [
+    yaTidakSilverDiamineFluoridePerluSapuan,
+    setYaTidakSilverDiamineFluoridePerluSapuan,
+  ] = useState('');
+  masterForm.yaTidakSilverDiamineFluoridePerluSapuan =
+    yaTidakSilverDiamineFluoridePerluSapuan;
+  masterForm.setYaTidakSilverDiamineFluoridePerluSapuan =
+    setYaTidakSilverDiamineFluoridePerluSapuan;
+  const [
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGDAnteriorSewarnaJumlahTampalanDiperlukan =
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan =
+    setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGDAnteriorSewarnaJumlahTampalanDiperlukan =
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan =
+    setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGKAnteriorSewarnaJumlahTampalanDiperlukan =
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan =
+    setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGKAnteriorSewarnaJumlahTampalanDiperlukan =
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan =
+    setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGDPosteriorSewarnaJumlahTampalanDiperlukan =
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan =
+    setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGDPosteriorSewarnaJumlahTampalanDiperlukan =
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan =
+    setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGKPosteriorSewarnaJumlahTampalanDiperlukan =
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan =
+    setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGKPosteriorSewarnaJumlahTampalanDiperlukan =
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan;
+  masterForm.setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan =
+    setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan;
+  const [
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+    setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGDPosteriorAmalgamJumlahTampalanDiperlukan =
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan;
+  masterForm.setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan =
+    setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan;
+  const [
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+    setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGDPosteriorAmalgamJumlahTampalanDiperlukan =
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan;
+  masterForm.setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan =
+    setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan;
+  const [
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+    setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.baruGKPosteriorAmalgamJumlahTampalanDiperlukan =
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan;
+  masterForm.setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan =
+    setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan;
+  const [
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+    setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+  ] = useState('');
+  masterForm.semulaGKPosteriorAmalgamJumlahTampalanDiperlukan =
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan;
+  masterForm.setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan =
+    setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan;
 
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -356,6 +496,75 @@ function UserFormSekolah() {
         setClassIID(data.singlePersonSekolah.classIID);
         setClassIF(data.singlePersonSekolah.classIF);
         setClassIIF(data.singlePersonSekolah.classIIF);
+        // map perlu dibuat
+        setBaruJumlahGigiKekalPerluFs(
+          data.singlePersonSekolah.baruJumlahGigiKekalPerluFs
+        );
+        setSemulaJumlahGigiKekalPerluFs(
+          data.singlePersonSekolah.semulaJumlahGigiKekalPerluFs
+        );
+        setJumlahGigiFsGagal(data.singlePersonSekolah.jumlahGigiFsGagal);
+        setBaruJumlahGigiKekalPerluFv(
+          data.singlePersonSekolah.baruJumlahGigiKekalPerluFv
+        );
+        setSemulaJumlahGigiKekalPerluFv(
+          data.singlePersonSekolah.semulaJumlahGigiKekalPerluFv
+        );
+        setBaruJumlahGigiKekalPerluPrrJenis1(
+          data.singlePersonSekolah.baruJumlahGigiKekalPerluPrrJenis1
+        );
+        setSemulaJumlahGigiKekalPerluPrrJenis1(
+          data.singlePersonSekolah.semulaJumlahGigiKekalPerluPrrJenis1
+        );
+        setYaTidakSilverDiamineFluoridePerluSapuan(
+          data.singlePersonSekolah.yaTidakSilverDiamineFluoridePerluSapuan
+        );
+        setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah.baruGDAnteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGDAnteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah.baruGKAnteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGKAnteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .baruGDPosteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGDPosteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .baruGKPosteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGKPosteriorSewarnaJumlahTampalanDiperlukan
+        );
+        setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .baruGDPosteriorAmalgamJumlahTampalanDiperlukan
+        );
+        setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGDPosteriorAmalgamJumlahTampalanDiperlukan
+        );
+        setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .baruGKPosteriorAmalgamJumlahTampalanDiperlukan
+        );
+        setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan(
+          data.singlePersonSekolah
+            .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
+        );
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -425,6 +634,27 @@ function UserFormSekolah() {
           classIID,
           classIF,
           classIIF,
+          // map perlu dibuat
+          baruJumlahGigiKekalPerluFs,
+          semulaJumlahGigiKekalPerluFs,
+          jumlahGigiFsGagal,
+          baruJumlahGigiKekalPerluFv,
+          semulaJumlahGigiKekalPerluFv,
+          baruJumlahGigiKekalPerluPrrJenis1,
+          semulaJumlahGigiKekalPerluPrrJenis1,
+          yaTidakSilverDiamineFluoridePerluSapuan,
+          baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+          baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+          baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+          baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+          baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+          semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+          baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
