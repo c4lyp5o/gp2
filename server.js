@@ -33,7 +33,6 @@ const connectDB = require('./database/connect');
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 
 // user route
 app.use('/api/v1/auth', authLogin);
