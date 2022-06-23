@@ -269,6 +269,206 @@ const SekolahSchema = new mongoose.Schema({
     default: 0,
   },
   // perlu dibuat --------------------------------------------------
+  baruJumlahGigiKekalPerluFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  jumlahGigiFsGagal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalPerluFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalPerluPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  yaTidakSilverDiamineFluoridePerluSapuan: {
+    type: String,
+  },
+  baruGDAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGDPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGDPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // penyata akhir 1 --------------------------------------------------
+  baruJumlahGigiKekalDibuatFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDibuatFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalDiberiFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDiberiFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalDiberiPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDiberiPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiYangDiberiSdf: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiYangDiberiSdf: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // penyata akhir 2 --------------------------------------------------
   //   ennrolmen: {
   //     type: String,
   //     required: true,

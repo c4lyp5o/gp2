@@ -835,7 +835,7 @@ function UserFormSekolah() {
           classIID,
           classIF,
           classIIF,
-          // map perlu dibuat
+          // perlu dibuat
           baruJumlahGigiKekalPerluFs,
           semulaJumlahGigiKekalPerluFs,
           jumlahGigiFsGagal,
@@ -856,7 +856,7 @@ function UserFormSekolah() {
           semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
           baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
           semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
-          // map penyata akhir 1
+          // penyata akhir 1
           baruJumlahGigiKekalDibuatFs,
           semulaJumlahGigiKekalDibuatFs,
           baruJumlahGigiKekalDiberiFv,
