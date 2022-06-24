@@ -523,6 +523,93 @@ function UserFormSekolah() {
     gkSemulaPosteriorAmalgamJumlahTampalanDibuat;
   masterForm.setGkSemulaPosteriorAmalgamJumlahTampalanDibuat =
     setGkSemulaPosteriorAmalgamJumlahTampalanDibuat;
+  // penyata akhir 2
+  const [cabutDesidusPenyataAkhir2, setCabutDesidusPenyataAkhir2] =
+    useState('');
+  masterForm.cabutDesidusPenyataAkhir2 = cabutDesidusPenyataAkhir2;
+  masterForm.setCabutDesidusPenyataAkhir2 = setCabutDesidusPenyataAkhir2;
+  const [cabutKekalPenyataAkhir2, setCabutKekalPenyataAkhir2] = useState('');
+  masterForm.cabutKekalPenyataAkhir2 = cabutKekalPenyataAkhir2;
+  masterForm.setCabutKekalPenyataAkhir2 = setCabutKekalPenyataAkhir2;
+  const [
+    jumlahTampalanSementaraPenyataAkhir2,
+    setJumlahTampalanSementaraPenyataAkhir2,
+  ] = useState('');
+  masterForm.jumlahTampalanSementaraPenyataAkhir2 =
+    jumlahTampalanSementaraPenyataAkhir2;
+  masterForm.setJumlahTampalanSementaraPenyataAkhir2 =
+    setJumlahTampalanSementaraPenyataAkhir2;
+  const [pulpotomiPenyataAkhir2, setPulpotomiPenyataAkhir2] = useState('');
+  masterForm.pulpotomiPenyataAkhir2 = pulpotomiPenyataAkhir2;
+  masterForm.setPulpotomiPenyataAkhir2 = setPulpotomiPenyataAkhir2;
+  const [endodontikPenyataAkhir2, setEndodontikPenyataAkhir2] = useState('');
+  masterForm.endodontikPenyataAkhir2 = endodontikPenyataAkhir2;
+  masterForm.setEndodontikPenyataAkhir2 = setEndodontikPenyataAkhir2;
+  const [absesPenyataAkhir2, setAbsesPenyataAkhir2] = useState('');
+  masterForm.absesPenyataAkhir2 = absesPenyataAkhir2;
+  masterForm.setAbsesPenyataAkhir2 = setAbsesPenyataAkhir2;
+  const [penskaleranPenyataAkhir2, setPenskaleranPenyataAkhir2] =
+    useState('false');
+  masterForm.penskaleranPenyataAkhir2 = penskaleranPenyataAkhir2;
+  masterForm.setPenskaleranPenyataAkhir2 = setPenskaleranPenyataAkhir2;
+  const [kesSelesaiPenyataAkhir2, setKesSelesaiPenyataAkhir2] =
+    useState('false');
+  masterForm.kesSelesaiPenyataAkhir2 = kesSelesaiPenyataAkhir2;
+  masterForm.setKesSelesaiPenyataAkhir2 = setKesSelesaiPenyataAkhir2;
+  const [kesSelesaiIcdasPenyataAkhir2, setKesSelesaiIcdasPenyataAkhir2] =
+    useState('false');
+  masterForm.kesSelesaiIcdasPenyataAkhir2 = kesSelesaiIcdasPenyataAkhir2;
+  masterForm.setKesSelesaiIcdasPenyataAkhir2 = setKesSelesaiIcdasPenyataAkhir2;
+  const [rujukPenyataAkhir2, setRujukPenyataAkhir2] = useState('false');
+  masterForm.rujukPenyataAkhir2 = rujukPenyataAkhir2;
+  masterForm.setRujukPenyataAkhir2 = setRujukPenyataAkhir2;
+  const [ceramahPromosiPenyataAkhir2, setCeramahPromosiPenyataAkhir2] =
+    useState('');
+  masterForm.ceramahPromosiPenyataAkhir2 = ceramahPromosiPenyataAkhir2;
+  masterForm.setCeramahPromosiPenyataAkhir2 = setCeramahPromosiPenyataAkhir2;
+  const [lmgPromosiPenyataAkhir2, setLmgPromosiPenyataAkhir2] = useState('');
+  masterForm.lmgPromosiPenyataAkhir2 = lmgPromosiPenyataAkhir2;
+  masterForm.setLmgPromosiPenyataAkhir2 = setLmgPromosiPenyataAkhir2;
+  const [
+    yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+    setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+  ] = useState('');
+  masterForm.yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2 =
+    yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2;
+  masterForm.setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2 =
+    setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2;
+  const [
+    plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+    setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+  ] = useState('false');
+  masterForm.plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2;
+  masterForm.setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2;
+  const [
+    dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+    setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+  ] = useState('false');
+  masterForm.dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2;
+  masterForm.setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2;
+  const [
+    penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+    setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+  ] = useState('false');
+  masterForm.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
+  masterForm.setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
+  const [
+    kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+    setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+  ] = useState('false');
+  masterForm.kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
+  masterForm.setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
+    setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
 
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -766,6 +853,59 @@ function UserFormSekolah() {
         setGkSemulaPosteriorAmalgamJumlahTampalanDibuat(
           data.singlePersonSekolah.gkSemulaPosteriorAmalgamJumlahTampalanDibuat
         );
+        // map penyata akhir 2
+        setCabutDesidusPenyataAkhir2(
+          data.singlePersonSekolah.cabutDesidusPenyataAkhir2
+        );
+        setCabutKekalPenyataAkhir2(
+          data.singlePersonSekolah.cabutKekalPenyataAkhir2
+        );
+        setJumlahTampalanSementaraPenyataAkhir2(
+          data.singlePersonSekolah.jumlahTampalanSementaraPenyataAkhir2
+        );
+        setPulpotomiPenyataAkhir2(
+          data.singlePersonSekolah.pulpotomiPenyataAkhir2
+        );
+        setEndodontikPenyataAkhir2(
+          data.singlePersonSekolah.endodontikPenyataAkhir2
+        );
+        setAbsesPenyataAkhir2(data.singlePersonSekolah.absesPenyataAkhir2);
+        setPenskaleranPenyataAkhir2(
+          data.singlePersonSekolah.penskaleranPenyataAkhir2
+        );
+        setKesSelesaiPenyataAkhir2(
+          data.singlePersonSekolah.kesSelesaiPenyataAkhir2
+        );
+        setKesSelesaiIcdasPenyataAkhir2(
+          data.singlePersonSekolah.kesSelesaiIcdasPenyataAkhir2
+        );
+        setRujukPenyataAkhir2(data.singlePersonSekolah.rujukPenyataAkhir2);
+        setCeramahPromosiPenyataAkhir2(
+          data.singlePersonSekolah.ceramahPromosiPenyataAkhir2
+        );
+        setLmgPromosiPenyataAkhir2(
+          data.singlePersonSekolah.lmgPromosiPenyataAkhir2
+        );
+        setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2(
+          data.singlePersonSekolah
+            .yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2
+        );
+        setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2(
+          data.singlePersonSekolah
+            .plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2
+        );
+        setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2(
+          data.singlePersonSekolah
+            .dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2
+        );
+        setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2(
+          data.singlePersonSekolah
+            .penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+        );
+        setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2(
+          data.singlePersonSekolah
+            .kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+        );
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -877,6 +1017,24 @@ function UserFormSekolah() {
           gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
           gkBaruPosteriorAmalgamJumlahTampalanDibuat,
           gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          // map penyata akhir 2
+          cabutDesidusPenyataAkhir2,
+          cabutKekalPenyataAkhir2,
+          jumlahTampalanSementaraPenyataAkhir2,
+          pulpotomiPenyataAkhir2,
+          endodontikPenyataAkhir2,
+          absesPenyataAkhir2,
+          penskaleranPenyataAkhir2,
+          kesSelesaiPenyataAkhir2,
+          kesSelesaiIcdasPenyataAkhir2,
+          rujukPenyataAkhir2,
+          ceramahPromosiPenyataAkhir2,
+          lmgPromosiPenyataAkhir2,
+          yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+          plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+          dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+          penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+          kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
