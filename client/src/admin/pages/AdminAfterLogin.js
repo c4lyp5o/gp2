@@ -1,29 +1,29 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 
-import AdminLoginForm from "../components/public/LoginForm";
-import AdminLoggedInNotFound from "./AdminLoggedInNotFound";
+import AdminLoginForm from '../components/public/LoginForm';
+import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
 // defaults
-import AdminNavbar from "../components/Navbar";
-import AdminFooter from "../components/Footer";
+import AdminNavbar from '../components/Navbar';
+import AdminFooter from '../components/Footer';
 
 // logged in
-import AdminCenterStageLoggedIn from "../components/Centerstage";
-import AdminHeaderLoggedIn from "../components/HeaderLoggedIn";
+import AdminCenterStageLoggedIn from '../components/Centerstage';
+import AdminHeaderLoggedIn from '../components/HeaderLoggedIn';
 
 // klinik
-import KlinikCenter from "../components/klinik/Center";
+import KlinikCenter from '../components/klinik/Center';
 
 // pegawai
-import PegawaiCenter from "../components/pegawai/Center";
+import PegawaiCenter from '../components/pegawai/Center';
 
 // jp
-import JPCenter from "../components/jp/Center";
+import JPCenter from '../components/jp/Center';
 
 // data for facility
-import FacilityCenter from "../components/Data";
+import FacilityCenter from '../components/Data';
 
-import { useGlobalAdminAppContext } from "../context/adminAppContext";
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 function AdminAfterLogin() {
   const { token, setToken } = useGlobalAdminAppContext();
@@ -31,10 +31,7 @@ function AdminAfterLogin() {
   function LoggedIn() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
         <AdminCenterStageLoggedIn />
-        <AdminFooter />
       </>
     );
   }
@@ -42,10 +39,7 @@ function AdminAfterLogin() {
   function Klinik() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
         <KlinikCenter />
-        <AdminFooter />
       </>
     );
   }
@@ -53,10 +47,7 @@ function AdminAfterLogin() {
   function PP() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
         <PegawaiCenter />
-        <AdminFooter />
       </>
     );
   }
@@ -64,10 +55,7 @@ function AdminAfterLogin() {
   function JP() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
         <JPCenter />
-        <AdminFooter />
       </>
     );
   }
@@ -75,10 +63,7 @@ function AdminAfterLogin() {
   function Taska() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="taska" />
-        <AdminFooter />
+        <FacilityCenter FType='taska' />
       </>
     );
   }
@@ -86,10 +71,7 @@ function AdminAfterLogin() {
   function Tadika() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="tadika" />
-        <AdminFooter />
+        <FacilityCenter FType='tadika' />
       </>
     );
   }
@@ -97,10 +79,7 @@ function AdminAfterLogin() {
   function SR() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sr" />
-        <AdminFooter />
+        <FacilityCenter FType='sr' />
       </>
     );
   }
@@ -108,10 +87,7 @@ function AdminAfterLogin() {
   function SM() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sm" />
-        <AdminFooter />
+        <FacilityCenter FType='sm' />
       </>
     );
   }
@@ -119,10 +95,7 @@ function AdminAfterLogin() {
   function Institusi() {
     return (
       <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="ins" />
-        <AdminFooter />
+        <FacilityCenter FType='ins' />
       </>
     );
   }
@@ -133,18 +106,24 @@ function AdminAfterLogin() {
 
   return (
     <>
-      <Routes>
-        <Route index element={<LoggedIn />} />
-        <Route path="kp" element={<Klinik />} />
-        <Route path="pp" element={<PP />} />
-        <Route path="jp" element={<JP />} />
-        <Route path="taska" element={<Taska />} />
-        <Route path="tadika" element={<Tadika />} />
-        <Route path="sr" element={<SR />} />
-        <Route path="sm" element={<SM />} />
-        <Route path="ins" element={<Institusi />} />
-        <Route path="*" element={<AdminLoggedInNotFound />} />
-      </Routes>
+      <AdminHeaderLoggedIn />
+      <div className='absolute inset-0 -z-10 bg-admin5'></div>
+      <AdminNavbar />
+      <div className='absolute inset-10 top-44 -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize'>
+        <Routes>
+          <Route index element={<LoggedIn />} />
+          <Route path='kp' element={<Klinik />} />
+          <Route path='pp' element={<PP />} />
+          <Route path='jp' element={<JP />} />
+          <Route path='taska' element={<Taska />} />
+          <Route path='tadika' element={<Tadika />} />
+          <Route path='sr' element={<SR />} />
+          <Route path='sm' element={<SM />} />
+          <Route path='ins' element={<Institusi />} />
+          <Route path='*' element={<AdminLoggedInNotFound />} />
+        </Routes>
+      </div>
+      <AdminFooter />
     </>
   );
 }

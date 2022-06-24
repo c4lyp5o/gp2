@@ -108,7 +108,7 @@ export default function AdminLoginForm() {
   return (
     <>
       <PublicHeader />
-      <div className='absolute inset-0 -z-10 flex bg-admin4 text-center justify-center items-center capitalize'>
+      <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
             <h3 className='text-xl font-semibold mt-10'>
