@@ -1101,7 +1101,7 @@ function UserFormSekolah() {
           <PemeriksaanAwal {...masterForm} />
           <PerluDibuat {...masterForm} />
           <PenyataAkhir1 {...masterForm} />
-          <PenyataAkhir2 />
+          <PenyataAkhir2 {...masterForm} />
           <Kotak {...masterForm} />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>

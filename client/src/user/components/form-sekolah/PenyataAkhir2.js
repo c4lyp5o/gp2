@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function PenyataAkhir2() {
+export default function PenyataAkhir2(props) {
   return (
     <>
       <div className='p-2'>
