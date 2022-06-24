@@ -610,6 +610,40 @@ function UserFormSekolah() {
     kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
     setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
+  //kotak
+  const [statusM, setStatusM] = useState('');
+  masterForm.statusM = statusM;
+  masterForm.setStatusM = setStatusM;
+  const [jenisR, setJenisR] = useState('');
+  masterForm.jenisR = jenisR;
+  masterForm.setJenisR = setJenisR;
+  const [tarikh1, setTarikh1] = useState('');
+  masterForm.tarikh1 = tarikh1;
+  masterForm.setTarikh1 = setTarikh1;
+  const [tarikh2, setTarikh2] = useState('');
+  masterForm.tarikh2 = tarikh2;
+  masterForm.setTarikh2 = setTarikh2;
+  const [tarikh3, setTarikh3] = useState('');
+  masterForm.tarikh3 = tarikh3;
+  masterForm.setTarikh3 = setTarikh3;
+  const [tarikh4, setTarikh4] = useState('');
+  masterForm.tarikh4 = tarikh4;
+  masterForm.setTarikh4 = setTarikh4;
+  const [adaQ, setAdaQ] = useState('false');
+  masterForm.adaQ = adaQ;
+  masterForm.setAdaQ = setAdaQ;
+  const [tiadaQ, setTiadaQ] = useState('false');
+  masterForm.tiadaQ = tiadaQ;
+  masterForm.setTiadaQ = setTiadaQ;
+  const [rujukG, setRujukG] = useState('false');
+  masterForm.rujukG = rujukG;
+  masterForm.setRujukG = setRujukG;
+  const [tarikhQ, setTarikhQ] = useState('');
+  masterForm.tarikhQ = tarikhQ;
+  masterForm.setTarikhQ = setTarikhQ;
+  cons[(statusUKotak, setStatusUKotak)] = useState('');
+  masterForm.statusUKotak = statusUKotak;
+  masterForm.setStatusUKotak = setStatusUKotak;
 
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -906,6 +940,18 @@ function UserFormSekolah() {
           data.singlePersonSekolah
             .kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2
         );
+        //map kotak
+        setStatusM(data.singlePersonSekolah.statusM);
+        setJenisR(data.singlePersonSekolah.jenisR);
+        setTarikh1(data.singlePersonSekolah.tarikh1);
+        setTarikh2(data.singlePersonSekolah.tarikh2);
+        setTarikh3(data.singlePersonSekolah.tarikh3);
+        setTarikh4(data.singlePersonSekolah.tarikh4);
+        setAdaQ(data.singlePersonSekolah.adaQ);
+        setTiadaQ(data.singlePersonSekolah.tiadaQ);
+        setRujukG(data.singlePersonSekolah.rujukG);
+        setTarikhQ(data.singlePersonSekolah.tarikhQ);
+        setStatusUKotak(data.singlePersonSekolah.statusUKotak);
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -1035,6 +1081,18 @@ function UserFormSekolah() {
           dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
           penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
           kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+          //map kotak
+          statusM,
+          jenisR,
+          tarikh1,
+          tarikh2,
+          tarikh3,
+          tarikh4,
+          adaQ,
+          tiadaQ,
+          rujukG,
+          tarikhQ,
+          statusUKotak,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
