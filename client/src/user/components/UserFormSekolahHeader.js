@@ -641,9 +641,9 @@ function UserFormSekolah() {
   const [tarikhQ, setTarikhQ] = useState('');
   masterForm.tarikhQ = tarikhQ;
   masterForm.setTarikhQ = setTarikhQ;
-  cons[(statusUKotak, setStatusUKotak)] = useState('');
-  masterForm.statusUKotak = statusUKotak;
-  masterForm.setStatusUKotak = setStatusUKotak;
+  const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
+  masterForm.statusSelepas6Bulan = statusSelepas6Bulan;
+  masterForm.setStatusSelepas6Bulan = setStatusSelepas6Bulan;
 
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -951,7 +951,7 @@ function UserFormSekolah() {
         setTiadaQ(data.singlePersonSekolah.tiadaQ);
         setRujukG(data.singlePersonSekolah.rujukG);
         setTarikhQ(data.singlePersonSekolah.tarikhQ);
-        setStatusUKotak(data.singlePersonSekolah.statusUKotak);
+        setStatusSelepas6Bulan(data.singlePersonSekolah.statusSelepas6Bulan);
       } catch (error) {
         console.log(error.response.data.msg);
       }
@@ -1092,7 +1092,7 @@ function UserFormSekolah() {
           tiadaQ,
           rujukG,
           tarikhQ,
-          statusUKotak,
+          statusSelepas6Bulan,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );

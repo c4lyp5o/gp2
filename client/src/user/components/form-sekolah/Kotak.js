@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 export default function Kotak(props) {
   return (
     <>
@@ -181,11 +179,11 @@ export default function Kotak(props) {
                   status selepas 6 bulan
                 </h4>
                 <select
-                  name='statusUKotak'
-                  id='statusUKotak'
-                  value={props.statusUKotak}
+                  name='status-selepas-6-bulan-kotak'
+                  id='status-selepas-6-bulan-kotak'
+                  value={props.statusSelepas6Bulan}
                   onChange={(e) => {
-                    props.setStatusUKotak(e.target.value);
+                    props.setStatusSelepas6Bulan(e.target.value);
                   }}
                   className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                 >
