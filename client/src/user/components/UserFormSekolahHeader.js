@@ -549,18 +549,17 @@ function UserFormSekolah() {
   masterForm.absesPenyataAkhir2 = absesPenyataAkhir2;
   masterForm.setAbsesPenyataAkhir2 = setAbsesPenyataAkhir2;
   const [penskaleranPenyataAkhir2, setPenskaleranPenyataAkhir2] =
-    useState('false');
+    useState(false);
   masterForm.penskaleranPenyataAkhir2 = penskaleranPenyataAkhir2;
   masterForm.setPenskaleranPenyataAkhir2 = setPenskaleranPenyataAkhir2;
-  const [kesSelesaiPenyataAkhir2, setKesSelesaiPenyataAkhir2] =
-    useState('false');
+  const [kesSelesaiPenyataAkhir2, setKesSelesaiPenyataAkhir2] = useState(false);
   masterForm.kesSelesaiPenyataAkhir2 = kesSelesaiPenyataAkhir2;
   masterForm.setKesSelesaiPenyataAkhir2 = setKesSelesaiPenyataAkhir2;
   const [kesSelesaiIcdasPenyataAkhir2, setKesSelesaiIcdasPenyataAkhir2] =
-    useState('false');
+    useState(false);
   masterForm.kesSelesaiIcdasPenyataAkhir2 = kesSelesaiIcdasPenyataAkhir2;
   masterForm.setKesSelesaiIcdasPenyataAkhir2 = setKesSelesaiIcdasPenyataAkhir2;
-  const [rujukPenyataAkhir2, setRujukPenyataAkhir2] = useState('false');
+  const [rujukPenyataAkhir2, setRujukPenyataAkhir2] = useState(false);
   masterForm.rujukPenyataAkhir2 = rujukPenyataAkhir2;
   masterForm.setRujukPenyataAkhir2 = setRujukPenyataAkhir2;
   const [ceramahPromosiPenyataAkhir2, setCeramahPromosiPenyataAkhir2] =
@@ -581,7 +580,7 @@ function UserFormSekolah() {
   const [
     plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
     setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
-  ] = useState('false');
+  ] = useState(false);
   masterForm.plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2 =
     plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2 =
@@ -589,7 +588,7 @@ function UserFormSekolah() {
   const [
     dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
     setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
-  ] = useState('false');
+  ] = useState(false);
   masterForm.dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2 =
     dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2 =
@@ -597,7 +596,7 @@ function UserFormSekolah() {
   const [
     penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
     setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
-  ] = useState('false');
+  ] = useState(false);
   masterForm.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
     penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
@@ -605,7 +604,7 @@ function UserFormSekolah() {
   const [
     kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
     setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
-  ] = useState('false');
+  ] = useState(false);
   masterForm.kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
     kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
@@ -629,13 +628,13 @@ function UserFormSekolah() {
   const [tarikh4, setTarikh4] = useState('');
   masterForm.tarikh4 = tarikh4;
   masterForm.setTarikh4 = setTarikh4;
-  const [adaQ, setAdaQ] = useState('false');
+  const [adaQ, setAdaQ] = useState(false);
   masterForm.adaQ = adaQ;
   masterForm.setAdaQ = setAdaQ;
-  const [tiadaQ, setTiadaQ] = useState('false');
+  const [tiadaQ, setTiadaQ] = useState(false);
   masterForm.tiadaQ = tiadaQ;
   masterForm.setTiadaQ = setTiadaQ;
-  const [rujukG, setRujukG] = useState('false');
+  const [rujukG, setRujukG] = useState(false);
   masterForm.rujukG = rujukG;
   masterForm.setRujukG = setRujukG;
   const [tarikhQ, setTarikhQ] = useState('');
@@ -1164,16 +1163,16 @@ function UserFormSekolah() {
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
-                clear
+                kosongkan
               </button>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
-                next
+                teruskan
               </button>
               <button
                 type='submit'
                 className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'
               >
-                submit
+                hantar
               </button>
             </div>
           </div>
