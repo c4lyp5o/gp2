@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-export default function PenyataAkhir2() {
+export default function PenyataAkhir2(props) {
   return (
     <>
       <div className='p-2'>
@@ -23,6 +21,10 @@ export default function PenyataAkhir2() {
                     type='number'
                     name='cabut-desidus-penyata-akhir-2'
                     id='cabut-desidus-penyata-akhir-2'
+                    value={props.cabutDesidusPenyataAkhir2}
+                    onChange={(e) => {
+                      props.setCabutDesidusPenyataAkhir2(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                   />
                 </div>
@@ -32,6 +34,10 @@ export default function PenyataAkhir2() {
                     type='number'
                     name='cabut-kekal-penyata-akhir-2'
                     id='cabut-kekal-penyata-akhir-2'
+                    value={props.cabutKekalPenyataAkhir2}
+                    onChange={(e) => {
+                      props.setCabutKekalPenyataAkhir2(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                   />
                 </div>
@@ -46,6 +52,12 @@ export default function PenyataAkhir2() {
                     type='number'
                     name='jumlah-tampalan-sementara-penyata-akhir-2'
                     id='jumlah-tampalan-sementara-penyata-akhir-2'
+                    value={props.jumlahTampalanSementaraPenyataAkhir2}
+                    onChange={(e) => {
+                      props.setJumlahTampalanSementaraPenyataAkhir2(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -61,6 +73,10 @@ export default function PenyataAkhir2() {
                       type='number'
                       name='pulpotomi-penyata-akhir-2'
                       id='pulpotomi-penyata-akhir-2'
+                      value={props.pulpotomiPenyataAkhir2}
+                      onChange={(e) => {
+                        props.setPulpotomiPenyataAkhir2(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -70,6 +86,10 @@ export default function PenyataAkhir2() {
                       type='number'
                       name='endodontik-penyata-akhir-2'
                       id='endodontik-penyata-akhir-2'
+                      value={props.endodontikPenyataAkhir2}
+                      onChange={(e) => {
+                        props.setEndodontikPenyataAkhir2(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -79,6 +99,10 @@ export default function PenyataAkhir2() {
                       type='number'
                       name='abses-penyata-akhir-2'
                       id='abses-penyata-akhir-2'
+                      value={props.absesPenyataAkhir2}
+                      onChange={(e) => {
+                        props.setAbsesPenyataAkhir2(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -88,6 +112,12 @@ export default function PenyataAkhir2() {
                     type='checkbox'
                     name='penskaleran-penyata-akhir-2'
                     id='penskaleran-penyata-akhir-2'
+                    checked={props.penskaleranPenyataAkhir2}
+                    onChange={() => {
+                      props.setPenskaleranPenyataAkhir2(
+                        !props.penskaleranPenyataAkhir2
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -105,6 +135,12 @@ export default function PenyataAkhir2() {
                     type='checkbox'
                     name='kes-selesai-penyata-akhir-2'
                     id='kes-selesai-penyata-akhir-2'
+                    checked={props.kesSelesaiPenyataAkhir2}
+                    onChange={() => {
+                      props.setKesSelesaiPenyataAkhir2(
+                        !props.kesSelesaiPenyataAkhir2
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -119,6 +155,12 @@ export default function PenyataAkhir2() {
                     type='checkbox'
                     name='kes-selesai-icdas-penyata-akhir-2'
                     id='kes-selesai-icdas-penyata-akhir-2'
+                    checked={props.kesSelesaiIcdasPenyataAkhir2}
+                    onChange={() => {
+                      props.setKesSelesaiIcdasPenyataAkhir2(
+                        !props.kesSelesaiIcdasPenyataAkhir2
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -133,6 +175,10 @@ export default function PenyataAkhir2() {
                     type='checkbox'
                     name='rujuk-penyata-akhir-2'
                     id='rujuk-penyata-akhir-2'
+                    checked={props.rujukPenyataAkhir2}
+                    onChange={() => {
+                      props.setRujukPenyataAkhir2(!props.rujukPenyataAkhir2);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -157,6 +203,10 @@ export default function PenyataAkhir2() {
                       <select
                         name='ceramah-promosi-penyata-akhir-2'
                         id='ceramah-promosi-penyata-akhir-2'
+                        value={props.ceramahPromosiPenyataAkhir2}
+                        onChange={(e) => {
+                          props.setCeramahPromosiPenyataAkhir2(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                       >
                         <option value=''></option>
@@ -170,6 +220,10 @@ export default function PenyataAkhir2() {
                       <select
                         name='lmg-promosi-penyata-akhir-2'
                         id='lmg-promosi-penyata-akhir-2'
+                        value={props.lmgPromosiPenyataAkhir2}
+                        onChange={(e) => {
+                          props.setLmgPromosiPenyataAkhir2(e.target.value);
+                        }}
                         className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                       >
                         <option value=''></option>
@@ -190,6 +244,18 @@ export default function PenyataAkhir2() {
                         type='radio'
                         name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
                         id='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                        value='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                        checked={
+                          props.yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2 ===
+                          'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -204,6 +270,18 @@ export default function PenyataAkhir2() {
                         type='radio'
                         name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
                         id='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                        value='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                        checked={
+                          props.yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2 ===
+                          'tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -231,6 +309,14 @@ export default function PenyataAkhir2() {
                         type='checkbox'
                         name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                         id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                        checked={
+                          props.plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2
+                        }
+                        onChange={() => {
+                          props.setPlakGigiNasihatPergigianIndividuPromosiPenyataAkhir2(
+                            !props.plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
@@ -245,6 +331,14 @@ export default function PenyataAkhir2() {
                         type='checkbox'
                         name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                         id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                        checked={
+                          props.dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2
+                        }
+                        onChange={() => {
+                          props.setDietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2(
+                            !props.dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
@@ -259,6 +353,14 @@ export default function PenyataAkhir2() {
                         type='checkbox'
                         name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                         id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                        checked={
+                          props.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+                        }
+                        onChange={() => {
+                          props.setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2(
+                            !props.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>
@@ -273,6 +375,14 @@ export default function PenyataAkhir2() {
                         type='checkbox'
                         name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                         id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                        checked={
+                          props.kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+                        }
+                        onChange={() => {
+                          props.setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2(
+                            !props.kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2
+                          );
+                        }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                     </div>

@@ -1,6 +1,4 @@
-import { useState } from 'react';
-
-export default function Kotak() {
+export default function Kotak(props) {
   return (
     <>
       <div className='p-2'>
@@ -17,6 +15,10 @@ export default function Kotak() {
                 <select
                   name='statusM'
                   id='statusM'
+                  value={props.statusM}
+                  onChange={(e) => {
+                    props.setStatusM(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                 >
                   <option value=''></option>
@@ -33,6 +35,10 @@ export default function Kotak() {
                 <select
                   name='jenisR'
                   id='jenisR'
+                  value={props.jenisR}
+                  onChange={(e) => {
+                    props.setJenisR(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                 >
                   <option value=''></option>
@@ -55,6 +61,10 @@ export default function Kotak() {
                   type='date'
                   name='tarikh1'
                   id='tarikh1'
+                  value={props.tarikh1}
+                  onChange={(e) => {
+                    props.setTarikh1(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                 />
                 <p className='flex items-center justify-center text-m font-m'>
@@ -64,6 +74,10 @@ export default function Kotak() {
                   type='date'
                   name='tarikh2'
                   id='tarikh2'
+                  value={props.tarikh2}
+                  onChange={(e) => {
+                    props.setTarikh2(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                 />
                 <p className='flex items-center justify-center text-m font-m'>
@@ -73,6 +87,10 @@ export default function Kotak() {
                   type='date'
                   name='tarikh3'
                   id='tarikh3'
+                  value={props.tarikh3}
+                  onChange={(e) => {
+                    props.setTarikh3(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                 />
                 <p className='flex items-center justify-center text-m font-m'>
@@ -82,6 +100,10 @@ export default function Kotak() {
                   type='date'
                   name='tarikh4'
                   id='tarikh4'
+                  value={props.tarikh4}
+                  onChange={(e) => {
+                    props.setTarikh4(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                 />
               </article>
@@ -96,6 +118,10 @@ export default function Kotak() {
                     type='checkbox'
                     name='adaQ'
                     id='adaQ'
+                    checked={props.adaQ}
+                    onChange={(e) => {
+                      props.setAdaQ(!props.adaQ);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label htmlFor='adaQ' className='m-2 text-sm font-m'>
@@ -107,6 +133,10 @@ export default function Kotak() {
                     type='checkbox'
                     name='tiadaQ'
                     id='tiadaQ'
+                    checked={props.tiadaQ}
+                    onChange={(e) => {
+                      props.setTiadaQ(!props.tiadaQ);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label htmlFor='tiadaQ' className='m-2 text-sm font-m'>
@@ -118,6 +148,10 @@ export default function Kotak() {
                     type='checkbox'
                     name='rujukG'
                     id='rujukG'
+                    checked={props.rujukG}
+                    onChange={(e) => {
+                      props.setRujukG(!props.rujukG);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label htmlFor='rujukG' className='m-2 text-sm font-m'>
@@ -133,6 +167,10 @@ export default function Kotak() {
                   type='date'
                   name='tarikhQ'
                   id='tarikhQ'
+                  value={props.tarikhQ}
+                  onChange={(e) => {
+                    props.setTarikhQ(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m ml-3'
                 />
               </article>
@@ -141,12 +179,16 @@ export default function Kotak() {
                   status selepas 6 bulan
                 </h4>
                 <select
-                  name='statusU'
-                  id='statusU'
+                  name='status-selepas-6-bulan-kotak'
+                  id='status-selepas-6-bulan-kotak'
+                  value={props.statusSelepas6Bulan}
+                  onChange={(e) => {
+                    props.setStatusSelepas6Bulan(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                 >
                   <option value='berhenti'>berhenti merokok</option>
-                  <option value='tidakberhenti'>keep on smokin' bro</option>
+                  <option value='tidakberhenti'>tidak berhenti merokok</option>
                 </select>
               </article>
             </div>
