@@ -187,6 +187,7 @@ export default function Kotak(props) {
                   }}
                   className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                 >
+                  <option value=''></option>
                   <option value='berhenti'>berhenti merokok</option>
                   <option value='tidakberhenti'>tidak berhenti merokok</option>
                 </select>

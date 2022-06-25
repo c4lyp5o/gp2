@@ -609,7 +609,7 @@ function UserFormSekolah() {
     kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2 =
     setKanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2;
-  //kotak
+  // kotak
   const [statusM, setStatusM] = useState('');
   masterForm.statusM = statusM;
   masterForm.setStatusM = setStatusM;
@@ -939,7 +939,7 @@ function UserFormSekolah() {
           data.singlePersonSekolah
             .kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2
         );
-        //map kotak
+        // map kotak
         setStatusM(data.singlePersonSekolah.statusM);
         setJenisR(data.singlePersonSekolah.jenisR);
         setTarikh1(data.singlePersonSekolah.tarikh1);
@@ -1062,7 +1062,7 @@ function UserFormSekolah() {
           gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
           gkBaruPosteriorAmalgamJumlahTampalanDibuat,
           gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-          // map penyata akhir 2
+          // penyata akhir 2
           cabutDesidusPenyataAkhir2,
           cabutKekalPenyataAkhir2,
           jumlahTampalanSementaraPenyataAkhir2,
@@ -1080,7 +1080,7 @@ function UserFormSekolah() {
           dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
           penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
           kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
-          //map kotak
+          // kotak
           statusM,
           jenisR,
           tarikh1,
