@@ -1,8 +1,9 @@
-import { FaPlus } from 'react-icons/fa';
-import { getKP, getFacility, getCurrentUser } from '../controllers/Helper';
 import { useEffect, useState } from 'react';
-import AddModal from './AddModalFacility';
-import EditModal from './EditModalFacility';
+import { FaPlus } from 'react-icons/fa';
+
+import { getKP, getFacility, getCurrentUser } from '../context/Helper';
+import AddModalFacility from './AddModalFacility';
+import EditModalFacility from './EditModalFacility';
 import DeleteModal from './DeleteModal';
 
 function FacilityCenter({ FType }) {
@@ -71,7 +72,7 @@ function FacilityCenter({ FType }) {
                       Edit
                     </button>
                     {editOpen && (
-                      <EditModal setEditOpen={setEditOpen} Id={Id} />
+                      <EditModalFacility setEditOpen={setEditOpen} Id={Id} />
                     )}
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -104,7 +105,10 @@ function FacilityCenter({ FType }) {
             </div>
           </button>
           {addOpen && (
-            <AddModal setAddOpen={setAddOpen} jenisFacility={jenisFacility} />
+            <AddModalFacility
+              setAddOpen={setAddOpen}
+              jenisFacility={jenisFacility}
+            />
           )}
         </div>
       </div>

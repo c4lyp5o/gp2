@@ -1,5 +1,6 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
+
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 function AdminHeaderLoggedIn() {
   const [user, setUser] = useState('');

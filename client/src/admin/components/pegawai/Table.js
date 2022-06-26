@@ -1,8 +1,9 @@
-import { FaPlus } from 'react-icons/fa';
-import { getCurrentUser, getPG } from '../../controllers/Helper';
 import { useEffect, useState } from 'react';
-import AddModal from './Modal';
-import EditModal from '../EditModalPegawai';
+import { FaPlus } from 'react-icons/fa';
+
+import { getCurrentUser, getPG } from '../../context/Helper';
+import AddModalPegawai from './AddModalPegawai';
+import EditModalPegawai from './EditModalPegawai';
 import DeleteModal from '../DeleteModal';
 
 function PegawaiTable() {
@@ -77,7 +78,7 @@ function PegawaiTable() {
                     Edit
                   </button>
                   {editOpen && (
-                    <EditModal
+                    <EditModalPegawai
                       daerah={daerah}
                       setEditOpen={setEditOpen}
                       Id={Id}
@@ -115,7 +116,7 @@ function PegawaiTable() {
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} />}
+      {addOpen && <AddModalPegawai setAddOpen={setAddOpen} />}
     </div>
   );
 }

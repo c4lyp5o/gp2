@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useToken, getTokenized } from '../controllers/Tokenizer';
+import { useToken, getTokenized } from './Tokenizer';
 import axios from 'axios';
 
 const AdminAppContext = React.createContext();

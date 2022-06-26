@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import PublicHeader from '../public/Header';
-import Footer from '../Footer';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import axios from 'axios';
+
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
+
+import AdminHeader from '../components/AdminHeader';
+import AdminFooter from '../components/AdminFooter';
 
 async function loginUser(credentials) {
   try {
@@ -107,7 +109,7 @@ export default function AdminLoginForm() {
 
   return (
     <>
-      <PublicHeader />
+      <AdminHeader />
       <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
@@ -148,7 +150,7 @@ export default function AdminLoginForm() {
           </div>
         </div>
       </div>
-      <Footer />
+      <AdminFooter />
     </>
   );
 }
