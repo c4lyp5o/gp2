@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styles from "../Modal.module.css";
-import { RiCloseLine } from "react-icons/ri";
-import { searchPg, getKP, editPegawai } from "../controllers/Helper";
+import React, { useEffect, useState } from 'react';
+import { RiCloseLine } from 'react-icons/ri';
+import styles from '../../Modal.module.css';
+
+import { searchPg, getKP, editPegawai } from '../../context/Helper';
 
 const Modal = ({ setEditOpen, Id }) => {
   const [Pegawai, setPegawai] = useState([]);
   const [KP, setKP] = useState([]);
-  const [gred, setGred] = useState("");
-  const [currKp, setCurrKp] = useState("");
-  const [role, setRole] = useState("");
+  const [gred, setGred] = useState('');
+  const [currKp, setCurrKp] = useState('');
+  const [role, setRole] = useState('');
 
   const selectChangeKp = (event) => {
     const value = event.target.value;
@@ -53,25 +54,25 @@ const Modal = ({ setEditOpen, Id }) => {
               className={styles.closeBtn}
               onClick={() => setEditOpen(false)}
             >
-              <RiCloseLine style={{ marginBottom: "-3px" }} />
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              <div className="admin-pegawai-handler-container">
-                <div className="admin-pegawai-handler-input">
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
                   <p>Nama Pegawai: {Pegawai.nama}</p>
                   <br />
                   <p>Gred</p>
                   <input
-                    className="border-2"
-                    type="text"
-                    name="Gred"
-                    id="gred"
+                    className='border-2'
+                    type='text'
+                    name='Gred'
+                    id='gred'
                     placeholder={Pegawai.gred}
                     onChange={(e) => setGred(e.target.value)}
                   />
                   <br />
                   <p>Klinik Bertugas</p>
-                  <select className="border-2" onChange={selectChangeKp}>
+                  <select className='border-2' onChange={selectChangeKp}>
                     <option selected disabled>
                       Pilih Klinik
                     </option>
@@ -82,7 +83,7 @@ const Modal = ({ setEditOpen, Id }) => {
                   {/* {currKp && <h2 className="hidden">{currKp}</h2>} */}
                   <br />
                   <p>Role</p>
-                  <select className="border-2" onChange={selectChangeRole}>
+                  <select className='border-2' onChange={selectChangeRole}>
                     <option selected disabled>
                       Pilih Role
                     </option>
@@ -94,7 +95,7 @@ const Modal = ({ setEditOpen, Id }) => {
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} type="submit">
+                <button className={styles.deleteBtn} type='submit'>
                   UBAH
                 </button>
                 <button

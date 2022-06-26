@@ -1,17 +1,18 @@
-import { FaPlus } from "react-icons/fa";
-import { getCurrentUser, getPG } from "../../controllers/Helper";
-import { useEffect, useState } from "react";
-import DeleteModal from "../DeleteModal";
-import EditModal from "../EditModalPegawai";
-import AddModal from "./Modal";
+import { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
+
+import { getCurrentUser, getPG } from '../../context/Helper';
+import AddModalPegawai from './AddModalPegawai';
+import EditModalPegawai from './EditModalPegawai';
+import DeleteModal from '../DeleteModal';
 
 function PegawaiTable() {
   const [pg, setPG] = useState([]);
-  const [daerah, setDaerah] = useState("");
+  const [daerah, setDaerah] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
-  const [Id, setId] = useState("");
+  const [Id, setId] = useState('');
 
   useEffect(() => {
     getPG().then((res) => {
@@ -24,7 +25,7 @@ function PegawaiTable() {
 
   function Pegawai() {
     return (
-      <h1 className="text-3xl font-bold">
+      <h1 className='text-3xl font-bold'>
         Senarai Pegawai Pergigian Daerah {daerah}
       </h1>
     );
@@ -41,34 +42,34 @@ function PegawaiTable() {
     setId(e.target.id);
   }
   return (
-    <div className="flex flex-col items-center gap-5">
+    <div className='flex flex-col items-center gap-5'>
       <Pegawai />
       {/* <Juruterapi /> */}
       <div>
-        <table className="table-auto border-collapse border border-slate-500">
+        <table className='table-auto border-collapse border border-slate-500'>
           <thead>
             <tr>
-              <th className="border border-slate-600 px-3">Bil.</th>
-              <th className="border border-slate-600 px-20">Nama</th>
-              <th className="border border-slate-600 px-4">Gred</th>
-              <th className="border border-slate-600 px-5">
+              <th className='border border-slate-600 px-3'>Bil.</th>
+              <th className='border border-slate-600 px-20'>Nama</th>
+              <th className='border border-slate-600 px-4'>Gred</th>
+              <th className='border border-slate-600 px-5'>
                 Nama Klinik Pergigian
               </th>
-              <th className="border border-slate-600 px-4">Role</th>
-              <th className="border border-slate-600 px-4">Manage</th>
+              <th className='border border-slate-600 px-4'>Role</th>
+              <th className='border border-slate-600 px-4'>Manage</th>
             </tr>
           </thead>
           <tbody>
             {pg.map((p, index) => (
               <tr id={index}>
-                <td className="border border-slate-700">{index + 1}</td>
-                <td className="border border-slate-700 px-3">{p.nama}</td>
-                <td className="border border-slate-700">{p.gred}</td>
-                <td className="border border-slate-700 px-3">{p.kpSkrg}</td>
-                <td className="border border-slate-700">{p.role}</td>
-                <td className="border border-slate-700">
+                <td className='border border-slate-700'>{index + 1}</td>
+                <td className='border border-slate-700 px-3'>{p.nama}</td>
+                <td className='border border-slate-700'>{p.gred}</td>
+                <td className='border border-slate-700 px-3'>{p.kpSkrg}</td>
+                <td className='border border-slate-700'>{p.role}</td>
+                <td className='border border-slate-700'>
                   <button
-                    className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                     onClick={() => {
                       setEditOpen(true);
                       setId(p._id);
@@ -77,7 +78,7 @@ function PegawaiTable() {
                     Edit
                   </button>
                   {editOpen && (
-                    <EditModal
+                    <EditModalPegawai
                       daerah={daerah}
                       setEditOpen={setEditOpen}
                       Id={Id}
@@ -85,7 +86,7 @@ function PegawaiTable() {
                     />
                   )}
                   <button
-                    className="bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2"
+                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                     id={p._id}
                     onClick={(e) => {
                       setIsOpen(true);
@@ -103,19 +104,19 @@ function PegawaiTable() {
         </table>
       </div>
       <button
-        className="bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl"
-        id="addFac"
+        className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
+        id='addFac'
         onClick={() => {
           setAddOpen(true);
           setEditOpen(false);
           setIsOpen(false);
         }}
       >
-        <div className="text-adminWhite text-7xl">
+        <div className='text-adminWhite text-7xl'>
           <FaPlus />
         </div>
       </button>
-      {addOpen && <AddModal setAddOpen={setAddOpen} />}
+      {addOpen && <AddModalPegawai setAddOpen={setAddOpen} />}
     </div>
   );
 }

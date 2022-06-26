@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "../Modal.module.css";
-import { RiCloseLine } from "react-icons/ri";
-import { useState } from "react";
-import { addKp } from "../controllers/Helper";
+import { useState } from 'react';
+import { RiCloseLine } from 'react-icons/ri';
+import styles from '../../Modal.module.css';
+
+import { addKp } from '../../context/Helper';
 
 const Modal = ({ setAddOpen }) => {
-  const [newKp, setnewKp] = useState("");
+  const [newKp, setnewKp] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,35 +28,35 @@ const Modal = ({ setAddOpen }) => {
               className={styles.closeBtn}
               onClick={() => setAddOpen(false)}
             >
-              <RiCloseLine style={{ marginBottom: "-3px" }} />
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              <div className="admin-pegawai-handler-container">
-                <div className="admin-pegawai-handler-input">
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
                   <p>Nama Klinik Pergigian</p>
                   <input
-                    className="border-2"
-                    type="text"
-                    name="Nama"
-                    id="nama"
+                    className='border-2'
+                    type='text'
+                    name='Nama'
+                    id='nama'
                     onChange={(e) => setnewKp(e.target.value)}
                   />
                 </div>
               </div>
             </div>
             <div className={styles.modalContent}>
-              <input type="checkbox" name="checkbox" value="KEPP" />
+              <input type='checkbox' name='checkbox' value='KEPP' />
               KEPP
               <br />
-              <input type="checkbox" name="checkbox" value="UTC" />
+              <input type='checkbox' name='checkbox' value='UTC' />
               UTC
               <br />
-              <input type="checkbox" name="checkbox" value="Visiting" />
+              <input type='checkbox' name='checkbox' value='Visiting' />
               Visiting
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} type="submit">
+                <button className={styles.deleteBtn} type='submit'>
                   TAMBAH
                 </button>
                 <button

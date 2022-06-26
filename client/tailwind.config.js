@@ -13,11 +13,12 @@ module.exports = {
       user9: '#ff6363', // merah
       userWhite: 'white',
       userBlack: 'black',
-      admin1: '#8c0d3c',
-      admin2: '#c44058',
-      admin3: '#e79595',
-      admin4: '#ffefd6',
-      admin5: '#0f0f0f',
+      admin1: '#c76565', // pink pucat
+      admin2: '#8c0d3c', // pink pekat
+      admin3: '#c44058', // pink biasa
+      admin4: '#e79595', // pink cair
+      admin5: '#ffefd6', // kuning cair
+      admin6: '#0f0f0f', // hitam custom
       adminWhite: 'white',
       adminBlack: 'black',
     },
