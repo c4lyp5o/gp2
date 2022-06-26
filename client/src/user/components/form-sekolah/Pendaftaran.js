@@ -13,27 +13,35 @@ export default function Pendaftaran(props) {
               </h4>
               <div className='flex flex-row items-center pl-5'>
                 <input
-                  ref={props.kpBergerak}
                   type='checkbox'
                   name='kp-bergerak'
                   id='kp-bergerak'
+                  checked={props.kpBergerak}
+                  onChange={() => {
+                    props.setKpBergerak(!props.kpBergerak);
+                  }}
                   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                 />
-                <label htmlFor='kp-bergerak' class='ml-2 text-sm font-m'>
+                <label htmlFor='kp-bergerak' className='ml-2 text-sm font-m'>
                   KP Bergerak
                 </label>
               </div>
-              <div className='flex flex-row items-center pl-5 col-span-1 md:col-span-2'>
+              <div className='flex flex-row items-center pl-5 col-span-2'>
                 <input
-                  ref={props.pasukanPergigianBergerak}
                   type='checkbox'
                   name='pasukan-pergigian-bergerak'
                   id='pasukan-pergigian-bergerak'
+                  checked={props.pasukanPergigianBergerak}
+                  onChange={() => {
+                    props.setPasukanPergigianBergerak(
+                      !props.pasukanPergigianBergerak
+                    );
+                  }}
                   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                 />
                 <label
                   htmlFor='pasukan-pergigian-bergerak'
-                  class='ml-2 text-sm font-m'
+                  className='ml-2 text-sm font-m '
                 >
                   Pasukan Pergigian Bergerak
                 </label>
@@ -42,6 +50,10 @@ export default function Pendaftaran(props) {
                 <select
                   name='plate-no'
                   id='plate-no'
+                  value={props.plateNo}
+                  onChange={(e) => {
+                    props.setPlateNo(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack w-auto text-sm font-m'
                 >
                   <option value=''>Plate No</option>
@@ -49,17 +61,27 @@ export default function Pendaftaran(props) {
                 </select>
               </div>
             </article>
-            <article className='grid grid-cols-2 lg:grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
-              <h4 className='flex flex-row items-center pl-5 font-bold col-span-2 lg:col-span-3'>
+            <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                 Kedatangan
               </h4>
-              <div className='grid grid-rows-2'>
-                <div className='flex items-center flex-row pl-5'>
+              <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
+                <div className='flex items-center flex-row pl-5 '>
                   <input
                     type='radio'
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
-                    class='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    value='baru-kedatangan-pendaftaran'
+                    checked={
+                      props.baruUlanganKedatanganPendaftaran ===
+                      'baru-kedatangan-pendaftaran'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setBaruUlanganKedatanganPendaftaran(e.target.value);
+                    }}
+                    className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='baru-kedatangan-pendaftaran'
@@ -73,7 +95,17 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    value='ulangan-kedatangan-pendaftaran'
+                    checked={
+                      props.baruUlanganKedatanganPendaftaran ===
+                      'ulangan-kedatangan-pendaftaran'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setBaruUlanganKedatanganPendaftaran(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='ulangan-kedatangan-pendaftaran'
@@ -89,11 +121,17 @@ export default function Pendaftaran(props) {
                     type='checkbox'
                     name='enggan-kedatangan'
                     id='enggan-kedatangan'
+                    checked={props.engganKedatanganPendaftaran}
+                    onChange={() => {
+                      props.setEngganKedatanganPendaftaran(
+                        !props.engganKedatanganPendaftaran
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
                     htmlFor='enggan-kedatangan'
-                    class='ml-2 text-sm font-m'
+                    className='m-2 text-sm font-m'
                   >
                     Enggan
                   </label>
@@ -103,17 +141,23 @@ export default function Pendaftaran(props) {
                     type='checkbox'
                     name='tidak-hadir-kedatangan'
                     id='tidak-hadir-kedatangan'
+                    checked={props.tidakHadirKedatanganPendaftaran}
+                    onChange={() => {
+                      props.setTidakHadirKedatanganPendaftaran(
+                        !props.tidakHadirKedatanganPendaftaran
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
                     htmlFor='tidak-hadir-kedatangan'
-                    class='ml-2 text-sm font-m'
+                    className='m-2 text-sm font-m'
                   >
                     Tidak Hadir
                   </label>
                 </div>
               </div>
-              <div className='outline outline-1 outline-userBlack grid grid-rows-3 col-start-2 lg:col-start-3'>
+              <div className='outline outline-1 outline-userBlack grid grid-rows-3 col-start-2'>
                 <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
                   Pemeriksaan
                 </h4>
@@ -122,7 +166,16 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='pemeriksaan'
                     id='ada-pemeriksaan'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    value='ada-pemeriksaan'
+                    checked={
+                      props.adaTiadaPemeriksaanPendaftaran === 'ada-pemeriksaan'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setAdaTiadaPemeriksaanPendaftaran(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='ada-pemeriksaan'
@@ -136,7 +189,17 @@ export default function Pendaftaran(props) {
                     type='radio'
                     name='pemeriksaan'
                     id='tiada-pemeriksaan'
-                    class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    value='tiada-pemeriksaan'
+                    checked={
+                      props.adaTiadaPemeriksaanPendaftaran ===
+                      'tiada-pemeriksaan'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setAdaTiadaPemeriksaanPendaftaran(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
                     htmlFor='tiada-pemeriksaan'
@@ -156,7 +219,19 @@ export default function Pendaftaran(props) {
                   type='radio'
                   name='risiko-sekolah'
                   id='tinggi-risiko-sekolah'
-                  class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  value='tinggi-risiko-sekolah'
+                  checked={
+                    props.tinggiRendahRisikoSekolahPendaftaran ===
+                    'tinggi-risiko-sekolah'
+                      ? true
+                      : false
+                  }
+                  onChange={(e) => {
+                    props.setTinggiRendahRisikoSekolahPendaftaran(
+                      e.target.value
+                    );
+                  }}
+                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                 />
                 <label
                   htmlFor='tinggi-risiko-sekolah'
@@ -170,7 +245,19 @@ export default function Pendaftaran(props) {
                   type='radio'
                   name='risiko-sekolah'
                   id='rendah-risiko-sekolah'
-                  class='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  value='rendah-risiko-sekolah'
+                  checked={
+                    props.tinggiRendahRisikoSekolahPendaftaran ===
+                    'rendah-risiko-sekolah'
+                      ? true
+                      : false
+                  }
+                  onChange={(e) => {
+                    props.setTinggiRendahRisikoSekolahPendaftaran(
+                      e.target.value
+                    );
+                  }}
+                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                 />
                 <label
                   htmlFor='rendah-risiko-sekolah'
@@ -181,7 +268,6 @@ export default function Pendaftaran(props) {
               </div>
             </article>
           </section>
-          <div></div>
         </div>
       </div>
     </>

@@ -1,14 +1,13 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import PublicHeader from "../public/Header";
-import Footer from "../Footer";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useGlobalAdminAppContext } from "../../context/adminAppContext";
+import { useState } from 'react';
+import PublicHeader from '../public/Header';
+import Footer from '../Footer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 async function loginUser(credentials) {
   try {
-    const response = await axios.post("/api/v1/superadmin/login", credentials);
+    const response = await axios.post('/api/v1/superadmin/login', credentials);
     return response.data;
   } catch (error) {
     const theError = {
@@ -19,25 +18,92 @@ async function loginUser(credentials) {
   }
 }
 
+function userIDBox({ setUserName, showUserIDBox }) {
+  if (showUserIDBox === true) {
+    return (
+      <div>
+        <input
+          className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
+          type="text"
+          placeholder="ID Pengguna"
+          onChange={(e) => setUserName(e.target.value)}
+          required
+        />
+      </div>
+    );
+  }
+}
+
+function passwordBox({ setPassword, showPasswordBox }) {
+  if (showPasswordBox === true) {
+    return (
+      <div>
+        <h3 className="text-xl font-semibold mt-10">
+          sila masukkan Key verifikasi
+        </h3>
+        <input
+          className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
+          type="password"
+          placeholder="Kata Laluan"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+    );
+  }
+}
+
 export default function AdminLoginForm() {
   const { setToken } = useGlobalAdminAppContext();
   const [username, setUserName] = useState();
+  const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
-  const [ErrMsg, setErrMsg] = useState("");
+  const [showPasswordBox, setShowPasswordBox] = useState(false);
+  const [ErrMsg, setErrMsg] = useState('');
+  // const [submitButton, setSubmitButton] = useState(0);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = await loginUser({
-      username,
-      password,
-    });
-    if (token.status === 401) {
-      setErrMsg(token.message);
-    } else {
-      setToken(token);
-      navigate("/admin/landing");
+
+    if (showPasswordBox === false) {
+      if (!username) {
+        setErrMsg('Sila masukkan ID Pengguna');
+        return;
+      }
+      setErrMsg('');
+      try {
+        const response = await axios.post('/api/v1/superadmin/', {
+          username,
+        });
+        console.log(response.data);
+      } catch (error) {
+        setErrMsg(error.response.data.message);
+        return;
+      }
+      setShowPasswordBox(true);
+    }
+
+    if (showPasswordBox === true) {
+      if (!password) {
+        setErrMsg('Sila masukkan Kata Laluan');
+        return;
+      }
+      setErrMsg('');
+      const key = process.env.REACT_APP_API_KEY;
+      console.log(key);
+      const token = await loginUser({
+        username,
+        password,
+        key,
+      });
+      if (token.status === 401) {
+        setErrMsg(token.message);
+      } else {
+        setToken(token);
+        navigate('/admin/landing');
+      }
     }
   };
 
@@ -48,27 +114,27 @@ export default function AdminLoginForm() {
         <div className="w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl">
           <div className="login-wrapper">
             <h3 className="text-xl font-semibold mt-10">
-              sila masukkan kata laluan
+              sila masukkan ID pengguna
             </h3>
             <form onSubmit={handleSubmit}>
-              <input
+              {/* <input
                 className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
                 type="text"
                 placeholder="ID Pengguna"
                 onChange={(e) => setUserName(e.target.value)}
                 required
-              />
-              <br />
+              /> */}
+              {/* <br />
               <input
                 className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
                 type="password"
                 placeholder="Kata Laluan"
                 onChange={(e) => setPassword(e.target.value)}
                 required
-              />
-              <br />
+              /> */}
+              {userIDBox({ setUserName, showUserIDBox })}
+              {passwordBox({ setPassword, showPasswordBox })}
               <p className="mt-5 text-xs text-admin1">{ErrMsg}</p>
-              <br />
               <div className="mt-5 text-xs text-admin6 underline">
                 <a href="#lupa-kata-laluan">lupa kata laluan</a>
               </div>
@@ -76,6 +142,7 @@ export default function AdminLoginForm() {
               <button
                 type="submit"
                 className="capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all"
+                // onClick={handleSubmit}
               >
                 log masuk
               </button>

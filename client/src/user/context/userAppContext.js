@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
@@ -69,6 +69,7 @@ function UserAppProvider({ children }) {
         displayPilihFasiliti,
         setDisplayPilihFasiliti,
         navigate,
+        useParams,
         loginUser,
         catchAxiosErrorAndLogout,
       }}

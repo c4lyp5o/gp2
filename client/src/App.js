@@ -12,9 +12,9 @@ import UserNotFound from './user/pages/UserNotFound';
 // admin import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
 
-import AdminLoginForm from "./admin/components/public/LoginForm";
-import AdminProtectedRoute from "./admin/pages/AdminProtectedRoute";
-import AdminAfterLogin from "./admin/pages/AdminAfterLogin";
+import AdminLoginForm from './admin/components/public/LoginForm';
+import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
+import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
 function App() {
   return (
@@ -36,9 +36,9 @@ function App() {
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
-            <Route path="/admin" element={<AdminLoginForm />} />
+            <Route path='/admin' element={<AdminLoginForm />} />
             <Route
-              path="/admin/landing/*"
+              path='/admin/landing/*'
               element={
                 <AdminProtectedRoute>
                   <AdminAfterLogin />
