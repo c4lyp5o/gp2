@@ -3,8 +3,8 @@
 let rowNew1 = worksheet.getRow(16);
 
 rowNew1.getCell(3).value = results.kedatanganBaru; //C16      Bawah 1 tahun baru
-rowNew1.getCell(4).value = results.sapuanFluoridaBaru; //D16      Bawah 1 tahun baru
-rowNew1.getCell(5).value = results.prrJenis1Baru; //E16      Bawah 1 tahun baru
+rowNew1.getCell(4).value = results.sapuanFluorida; //D16      Bawah 1 tahun baru
+rowNew1.getCell(5).value = results.prrJenis1; //E16      Bawah 1 tahun baru
 rowNew1.getCell(6).value = results.muridBaruFS; //F16      Bawah 1 tahun baru
 rowNew1.getCell(7).value = results.muridUlanganFS; //G16      Bawah 1 tahun baru
 rowNew1.getCell(8).value = results.gigiBaruFS; //H16      Bawah 1 tahun baru
@@ -37,8 +37,8 @@ rowNew1.commit();
 let rowNew2 = worksheet.getRow(17);
 
 rowNew2.getCell(3).value = results.kedatanganBaru; //C17      Bawah 1 tahun ulangan
-rowNew2.getCell(4).value = results.sapuanFluoridaBaru; //D17      Bawah 1 tahun ulangan
-rowNew2.getCell(5).value = results.prrJenis1Baru; //E17      Bawah 1 tahun ulangan
+rowNew2.getCell(4).value = results.sapuanFluorida; //D17      Bawah 1 tahun ulangan
+rowNew2.getCell(5).value = results.prrJenis1; //E17      Bawah 1 tahun ulangan
 rowNew2.getCell(6).value = results.muridBaruFS; //F17      Bawah 1 tahun ulangan
 rowNew2.getCell(7).value = results.muridUlanganFS; //G17      Bawah 1 tahun ulangan
 rowNew2.getCell(8).value = results.gigiBaruFS; //H17      Bawah 1 tahun ulangan
@@ -71,8 +71,8 @@ rowNew2.commit();
 let rowNew3 = worksheet.getRow(18);
 
 rowNew3.getCell(3).value = results.kedatanganBaru; //C18      1 hingga 4 tahun baru
-rowNew3.getCell(4).value = results.sapuanFluoridaBaru; //D18      1 hingga 4 tahun baru
-rowNew3.getCell(5).value = results.prrJenis1Baru; //E18      1 hingga 4 tahun baru
+rowNew3.getCell(4).value = results.sapuanFluorida; //D18      1 hingga 4 tahun baru
+rowNew3.getCell(5).value = results.prrJenis1; //E18      1 hingga 4 tahun baru
 rowNew3.getCell(6).value = results.muridBaruFS; //F18      1 hingga 4 tahun baru
 rowNew3.getCell(7).value = results.muridUlanganFS; //G18      1 hingga 4 tahun baru
 rowNew3.getCell(8).value = results.gigiBaruFS; //H18      1 hingga 4 tahun baru
@@ -105,8 +105,8 @@ rowNew3.commit();
 let rowNew4 = worksheet.getRow(19);
 
 rowNew4.getCell(3).value = results.kedatanganBaru; //C19      Bawah 1 tahun
-rowNew4.getCell(4).value = results.sapuanFluoridaBaru; //D19      Bawah 1 tahun
-rowNew4.getCell(5).value = results.prrJenis1Baru; //E19      Bawah 1 tahun
+rowNew4.getCell(4).value = results.sapuanFluorida; //D19      Bawah 1 tahun
+rowNew4.getCell(5).value = results.prrJenis1; //E19      Bawah 1 tahun
 rowNew4.getCell(6).value = results.muridBaruFS; //F19      Bawah 1 tahun
 rowNew4.getCell(7).value = results.muridUlanganFS; //G19      Bawah 1 tahun
 rowNew4.getCell(8).value = results.gigiBaruFS; //H19      Bawah 1 tahun
@@ -139,8 +139,8 @@ rowNew4.commit();
 let rowNew5 = worksheet.getRow(20);
 
 rowNew.getCell(3).value = results.kedatanganBaru; //C20      5 hingga 6 tahun
-rowNew.getCell(4).value = results.sapuanFluoridaBaru; //D20      5 hingga 6 tahun
-rowNew.getCell(5).value = results.prrJenis1Baru; //E20      5 hingga 6 tahun
+rowNew.getCell(4).value = results.sapuanFluorida; //D20      5 hingga 6 tahun
+rowNew.getCell(5).value = results.prrJenis1; //E20      5 hingga 6 tahun
 rowNew.getCell(6).value = results.muridBaruFS; //F20      5 hingga 6 tahun
 rowNew.getCell(7).value = results.muridUlanganFS; //G20      5 hingga 6 tahun
 rowNew.getCell(8).value = results.gigiBaruFS; //H20      5 hingga 6 tahun
@@ -173,8 +173,8 @@ rowNew.commit();
 let rowNew6 = worksheet.getRow(21);
 
 rowNew6.getCell(3).value = results.kedatanganBaru; //C21      5 hingga 6 tahun ulangan
-rowNew6.getCell(4).value = results.sapuanFluoridaBaru; //D21      5 hingga 6 tahun ulangan
-rowNew6.getCell(5).value = results.prrJenis1Baru; //E21      5 hingga 6 tahun ulangan
+rowNew6.getCell(4).value = results.sapuanFluorida; //D21      5 hingga 6 tahun ulangan
+rowNew6.getCell(5).value = results.prrJenis1; //E21      5 hingga 6 tahun ulangan
 rowNew6.getCell(6).value = results.muridBaruFS; //F21      5 hingga 6 tahun ulangan
 rowNew6.getCell(7).value = results.muridUlanganFS; //G21      5 hingga 6 tahun ulangan
 rowNew6.getCell(8).value = results.gigiBaruFS; //H21      5 hingga 6 tahun ulangan
@@ -207,8 +207,8 @@ rowNew6.commit();
 let rowNew7 = worksheet.getRow(22);
 
 rowNew7.getCell(3).value = results.kedatanganBaru; //C22      7 hingga 9 tahun baru
-rowNew7.getCell(4).value = results.sapuanFluoridaBaru; //D22      7 hingga 9 tahun baru
-rowNew7.getCell(5).value = results.prrJenis1Baru; //E22      7 hingga 9 tahun baru
+rowNew7.getCell(4).value = results.sapuanFluorida; //D22      7 hingga 9 tahun baru
+rowNew7.getCell(5).value = results.prrJenis1; //E22      7 hingga 9 tahun baru
 rowNew7.getCell(6).value = results.muridBaruFS; //F22      7 hingga 9 tahun baru
 rowNew7.getCell(7).value = results.muridUlanganFS; //G22      7 hingga 9 tahun baru
 rowNew7.getCell(8).value = results.gigiBaruFS; //H22      7 hingga 9 tahun baru
@@ -240,8 +240,8 @@ rowNew7.commit();
 let rowNew8 = worksheet.getRow(23);
 
 rowNew8.getCell(3).value = results.kedatanganBaru; //C23      7 hingga 9 tahun ulangan
-rowNew8.getCell(4).value = results.sapuanFluoridaBaru; //D23      7 hingga 9 tahun ulangan
-rowNew8.getCell(5).value = results.prrJenis1Baru; //E23      7 hingga 9 tahun ulangan
+rowNew8.getCell(4).value = results.sapuanFluorida; //D23      7 hingga 9 tahun ulangan
+rowNew8.getCell(5).value = results.prrJenis1; //E23      7 hingga 9 tahun ulangan
 rowNew8.getCell(6).value = results.muridBaruFS; //F23      7 hingga 9 tahun ulangan
 rowNew8.getCell(7).value = results.muridUlanganFS; //G23      7 hingga 9 tahun ulangan
 rowNew8.getCell(8).value = results.gigiBaruFS; //H23      7 hingga 9 tahun ulangan
@@ -274,8 +274,8 @@ rowNew8.commit();
 let rowNew9 = worksheet.getRow(24);
 
 rowNew9.getCell(3).value = results.kedatanganBaru; //C24      10 hingga 12 tahun baru
-rowNew9.getCell(4).value = results.sapuanFluoridaBaru; //D24      10 hingga 12 tahun baru
-rowNew9.getCell(5).value = results.prrJenis1Baru; //E24      10 hingga 12 tahun baru
+rowNew9.getCell(4).value = results.sapuanFluorida; //D24      10 hingga 12 tahun baru
+rowNew9.getCell(5).value = results.prrJenis1; //E24      10 hingga 12 tahun baru
 rowNew9.getCell(6).value = results.muridBaruFS; //F24      10 hingga 12 tahun baru
 rowNew9.getCell(7).value = results.muridUlanganFS; //G24      10 hingga 12 tahun baru
 rowNew9.getCell(8).value = results.gigiBaruFS; //H24      10 hingga 12 tahun baru
@@ -308,8 +308,8 @@ rowNew9.commit();
 let rowNew10 = worksheet.getRow(25);
 
 rowNew10.getCell(3).value = results.kedatanganBaru; //C25      10 hingga 12 tahun ulangan
-rowNew10.getCell(4).value = results.sapuanFluoridaBaru; //D25      10 hingga 12 tahun ulangan
-rowNew10.getCell(5).value = results.prrJenis1Baru; //E25      10 hingga 12 tahun ulangan
+rowNew10.getCell(4).value = results.sapuanFluorida; //D25      10 hingga 12 tahun ulangan
+rowNew10.getCell(5).value = results.prrJenis1; //E25      10 hingga 12 tahun ulangan
 rowNew10.getCell(6).value = results.muridBaruFS; //F25      10 hingga 12 tahun ulangan
 rowNew10.getCell(7).value = results.muridUlanganFS; //G25      10 hingga 12 tahun ulangan
 rowNew10.getCell(8).value = results.gigiBaruFS; //H25      10 hingga 12 tahun ulangan
@@ -342,8 +342,8 @@ rowNew10.commit();
 let rowNew11 = worksheet.getRow(26);
 
 rowNew11.getCell(3).value = results.kedatanganBaru; //C26      13 hingga 14 tahun baru
-rowNew11.getCell(4).value = results.sapuanFluoridaBaru; //D26      13 hingga 14 tahun baru
-rowNew11.getCell(5).value = results.prrJenis1Baru; //E26      13 hingga 14 tahun baru
+rowNew11.getCell(4).value = results.sapuanFluorida; //D26      13 hingga 14 tahun baru
+rowNew11.getCell(5).value = results.prrJenis1; //E26      13 hingga 14 tahun baru
 rowNew11.getCell(6).value = results.muridBaruFS; //F26      13 hingga 14 tahun baru
 rowNew11.getCell(7).value = results.muridUlanganFS; //G26      13 hingga 14 tahun baru
 rowNew11.getCell(8).value = results.gigiBaruFS; //H26      13 hingga 14 tahun baru
@@ -376,8 +376,8 @@ rowNew11.commit();
 let rowNew12 = worksheet.getRow(27);
 
 rowNew12.getCell(3).value = results.kedatanganBaru; //C27      13 hingga 14 tahun ulangan
-rowNew12.getCell(4).value = results.sapuanFluoridaBaru; //D27      13 hingga 14 tahun ulangan
-rowNew12.getCell(5).value = results.prrJenis1Baru; //E27      13 hingga 14 tahun ulangan
+rowNew12.getCell(4).value = results.sapuanFluorida; //D27      13 hingga 14 tahun ulangan
+rowNew12.getCell(5).value = results.prrJenis1; //E27      13 hingga 14 tahun ulangan
 rowNew12.getCell(6).value = results.muridBaruFS; //F27      13 hingga 14 tahun ulangan
 rowNew12.getCell(7).value = results.muridUlanganFS; //G27      13 hingga 14 tahun ulangan
 rowNew12.getCell(8).value = results.gigiBaruFS; //H27      13 hingga 14 tahun ulangan
@@ -410,8 +410,8 @@ rowNew12.commit();
 let rowNew13 = worksheet.getRow(28);
 
 rowNew13.getCell(3).value = results.kedatanganBaru; //C28      15 hingga 17 tahun baru
-rowNew13.getCell(4).value = results.sapuanFluoridaBaru; //D28      15 hingga 17 tahun baru
-rowNew13.getCell(5).value = results.prrJenis1Baru; //E28      15 hingga 17 tahun baru
+rowNew13.getCell(4).value = results.sapuanFluorida; //D28      15 hingga 17 tahun baru
+rowNew13.getCell(5).value = results.prrJenis1; //E28      15 hingga 17 tahun baru
 rowNew13.getCell(6).value = results.muridBaruFS; //F28      15 hingga 17 tahun baru
 rowNew13.getCell(7).value = results.muridUlanganFS; //G28      15 hingga 17 tahun baru
 rowNew13.getCell(8).value = results.gigiBaruFS; //H28      15 hingga 17 tahun baru
@@ -444,8 +444,8 @@ rowNew13.commit();
 let rowNew14 = worksheet.getRow(29);
 
 rowNew14.getCell(3).value = results.kedatanganBaru; //C29      15 hingga 17 tahun ulangan
-rowNew14.getCell(4).value = results.sapuanFluoridaBaru; //D29      15 hingga 17 tahun ulangan
-rowNew14.getCell(5).value = results.prrJenis1Baru; //E29      15 hingga 17 tahun ulangan
+rowNew14.getCell(4).value = results.sapuanFluorida; //D29      15 hingga 17 tahun ulangan
+rowNew14.getCell(5).value = results.prrJenis1; //E29      15 hingga 17 tahun ulangan
 rowNew14.getCell(6).value = results.muridBaruFS; //F29      15 hingga 17 tahun ulangan
 rowNew14.getCell(7).value = results.muridUlanganFS; //G29      15 hingga 17 tahun ulangan
 rowNew14.getCell(8).value = results.gigiBaruFS; //H29      15 hingga 17 tahun ulangan
@@ -478,8 +478,8 @@ rowNew14.commit();
 let rowNew15 = worksheet.getRow(32);
 
 rowNew15.getCell(3).value = results.kedatanganBaru; //C28      Orang kurang upaya baru
-rowNew15.getCell(4).value = results.sapuanFluoridaBaru; //D28      Orang kurang upaya baru
-rowNew15.getCell(5).value = results.prrJenis1Baru; //E28      Orang kurang upaya baru
+rowNew15.getCell(4).value = results.sapuanFluorida; //D28      Orang kurang upaya baru
+rowNew15.getCell(5).value = results.prrJenis1; //E28      Orang kurang upaya baru
 rowNew15.getCell(6).value = results.muridBaruFS; //F28      Orang kurang upaya baru
 rowNew15.getCell(7).value = results.muridUlanganFS; //G28      Orang kurang upaya baru
 rowNew15.getCell(8).value = results.gigiBaruFS; //H28      Orang kurang upaya baru
@@ -512,8 +512,8 @@ rowNew15.commit();
 let rowNew16 = worksheet.getRow(33);
 
 rowNew16.getCell(3).value = results.kedatanganBaru; //C33      Orang kurang upaya ulangan
-rowNew16.getCell(4).value = results.sapuanFluoridaBaru; //D33      Orang kurang upaya ulangan
-rowNew16.getCell(5).value = results.prrJenis1Baru; //E33      Orang kurang upaya ulangan
+rowNew16.getCell(4).value = results.sapuanFluorida; //D33      Orang kurang upaya ulangan
+rowNew16.getCell(5).value = results.prrJenis1; //E33      Orang kurang upaya ulangan
 rowNew16.getCell(6).value = results.muridBaruFS; //F33      Orang kurang upaya ulangan
 rowNew16.getCell(7).value = results.muridUlanganFS; //G33      Orang kurang upaya ulangan
 rowNew16.getCell(8).value = results.gigiBaruFS; //H33      Orang kurang upaya ulangan
@@ -546,8 +546,8 @@ rowNew16.commit();
 let rowNew17 = worksheet.getRow(34);
 
 rowNew17.getCell(3).value = results.kedatanganBaru; //C34      Bukan warganegara Baru
-rowNew17.getCell(4).value = results.sapuanFluoridaBaru; //D34      Bukan warganegara Baru
-rowNew17.getCell(5).value = results.prrJenis1Baru; //E34      Bukan warganegara Baru
+rowNew17.getCell(4).value = results.sapuanFluorida; //D34      Bukan warganegara Baru
+rowNew17.getCell(5).value = results.prrJenis1; //E34      Bukan warganegara Baru
 rowNew17.getCell(6).value = results.muridBaruFS; //F34      Bukan warganegara Baru
 rowNew17.getCell(7).value = results.muridUlanganFS; //G34      Bukan warganegara Baru
 rowNew17.getCell(8).value = results.gigiBaruFS; //H34      Bukan warganegara Baru
@@ -580,8 +580,8 @@ rowNew17.commit();
 let rowNew18 = worksheet.getRow(35);
 
 rowNew18.getCell(3).value = results.kedatanganBaru; //C34      Bukan warganegara Ulangan
-rowNew18.getCell(4).value = results.sapuanFluoridaBaru; //D34      Bukan warganegara Ulangan
-rowNew18.getCell(5).value = results.prrJenis1Baru; //E34      Bukan warganegara Ulangan
+rowNew18.getCell(4).value = results.sapuanFluorida; //D34      Bukan warganegara Ulangan
+rowNew18.getCell(5).value = results.prrJenis1; //E34      Bukan warganegara Ulangan
 rowNew18.getCell(6).value = results.muridBaruFS; //F34      Bukan warganegara Ulangan
 rowNew18.getCell(7).value = results.muridUlanganFS; //G34      Bukan warganegara Ulangan
 rowNew18.getCell(8).value = results.gigiBaruFS; //H34      Bukan warganegara Ulangan
