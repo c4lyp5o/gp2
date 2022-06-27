@@ -20,6 +20,14 @@ export default function UserGenerateKlinik() {
             <option value=''>Holy Grail</option>
           </select>
         </div>
+        <div>
+          <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
+            cetak
+          </button>
+          <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 ml-2 hover:bg-user1 transition-all'>
+            jana
+          </button>
+        </div>
         <div className='p-2 items-center mt-2'>
           <iframe
             className='w-full'
