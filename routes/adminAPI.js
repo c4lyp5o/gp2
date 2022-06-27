@@ -8,8 +8,10 @@ const adminAPI = require('../controllers/adminAPI');
 
 // Routes
 router.get('/getcipher', adminAPI.getCipher);
+
 router.get('/', adminAPI.helloUser);
 router.post('/', adminAPI.helloUser);
+
 router.post('/adduser', adminAPI.addAdmin);
 router.post('/getuser', adminAPI.getCurrentUser);
 
@@ -21,20 +23,20 @@ router.post('/pg/add', adminAPI.addPg);
 router.post('/pg/find', adminAPI.findPegawai);
 router.post('/pg/edit', adminAPI.editPegawai);
 
-router.post('/taska', adminAPI.listTaska);
-router.post('/taska/add', adminAPI.addTaska);
+// router.post('/taska', adminAPI.listTaska);
+// router.post('/taska/add', adminAPI.addTaska);
 
-router.post('/tadika', adminAPI.listTadika);
-router.post('/tadika/add', adminAPI.addTadika);
+// router.post('/tadika', adminAPI.listTadika);
+// router.post('/tadika/add', adminAPI.addTadika);
 
-router.post('/sr', adminAPI.listSr);
-router.post('/sr/add', adminAPI.addSR);
+// router.post('/sr', adminAPI.listSr);
+// router.post('/sr/add', adminAPI.addSR);
 
-router.post('/sm', adminAPI.listSm);
-router.post('/sm/add', adminAPI.addSM);
+// router.post('/sm', adminAPI.listSm);
+// router.post('/sm/add', adminAPI.addSM);
 
-router.post('/ins', adminAPI.listInstitusi);
-router.post('/ins/add', adminAPI.addInstitusi);
+// router.post('/ins', adminAPI.listInstitusi);
+// router.post('/ins/add', adminAPI.addInstitusi);
 
 router.post('/facility/add/:id', adminAPI.addFacility);
 router.post('/facility/find', adminAPI.findFacility);
