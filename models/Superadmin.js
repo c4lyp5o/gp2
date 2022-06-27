@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const adminSchema = new Schema({
@@ -6,7 +6,8 @@ const adminSchema = new Schema({
   password: { type: String, required: true },
   daerah: { type: String, required: true },
   negeri: { type: String, required: true },
-  token: { type: String }
+  token: { type: String },
+  tempKey: { type: String },
 });
 
 const Superadmin = mongoose.model('Superadmin', adminSchema);
