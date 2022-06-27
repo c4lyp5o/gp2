@@ -13,28 +13,36 @@ const Dictionary = {
   ins: 'Institusi',
 };
 
-var verificationKey = '';
-
-async function sendVerificationEmail(email) {
-  verificationKey = simpleCrypto.generateRandomString(20);
-  const transporter = mailer.createTransport({
-    host: process.env.EMAILER_HOST,
-    port: process.env.EMAILER_PORT,
-    secure: true,
-    auth: {
-      user: process.env.EMAILER_ACCT,
-      pass: process.env.EMAILER_PASS,
+async function sendVerificationEmail(email, userId) {
+  console.log(userId);
+  let theKey = simpleCrypto.generateRandomString(20);
+  const update = await Superadmin.findByIdAndUpdate(
+    userId,
+    {
+      tempKey: theKey,
     },
-  });
-  const verification = await transporter.sendMail({
-    from: `"Admin" <${process.env.EMAILER_ACCT}>`,
-    to: email,
-    subject: 'Verifikasi Akaun',
-    text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
-    html:
-      '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
-  });
-  return verification;
+    { new: true }
+  );
+  console.log(update);
+  // const transporter = mailer.createTransport({
+  //   host: process.env.EMAILER_HOST,
+  //   port: process.env.EMAILER_PORT,
+  //   secure: true,
+  //   auth: {
+  //     user: process.env.EMAILER_ACCT,
+  //     pass: process.env.EMAILER_PASS,
+  //   },
+  // });
+  // const verification = await transporter.sendMail({
+  //   from: `"Admin" <${process.env.EMAILER_ACCT}>`,
+  //   to: email,
+  //   subject: 'Verifikasi Akaun',
+  //   text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
+  //   html:
+  //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
+  // });
+  console.log(theKey);
+  return theKey;
 }
 
 exports.helloUser = async (req, res) => {
@@ -48,7 +56,7 @@ exports.helloUser = async (req, res) => {
       });
       return;
     }
-    await sendVerificationEmail(process.env.SEND_TO).catch((err) => {
+    await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
       console.log(err);
     });
     return res.status(200).json({
@@ -92,7 +100,7 @@ exports.loginUser = async (req, res) => {
       message: msg,
     });
   }
-  if (password != verificationKey) {
+  if (password != User.tempKey) {
     const msg = 'Key salah';
     return res.status(401).json({
       status: 'error',
