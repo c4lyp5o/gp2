@@ -94,10 +94,9 @@ const Modal = ({ setAddOpen }) => {
                     <option selected disabled>
                       Pilih Role
                     </option>
-                    <option>Admin</option>
-                    <option>Marhaen</option>
+                    <option value='admin'>Admin</option>
+                    <option value='marhean'>Marhaen</option>
                   </select>
-                  {/* {role && <h2 className="hidden">{role}</h2>} */}
                 </div>
               </div>
             </div>

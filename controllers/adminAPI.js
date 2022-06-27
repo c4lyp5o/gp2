@@ -161,7 +161,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.listKp = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Klinik',
+      jenisFasiliti: 'klinik',
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
@@ -326,11 +326,11 @@ exports.listFacilityType = (req, res) => {
 
 exports.addKp = (req, res) => {
   const kp = new Fasiliti({
-    nama: req.body.klinik,
+    nama: req.body.klinik.toLowerCase(),
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: '',
-    jenisFasiliti: 'Klinik',
+    jenisFasiliti: 'klinik',
   });
   kp.save((err, data) => {
     if (err) {
@@ -347,8 +347,8 @@ exports.addKp = (req, res) => {
 
 exports.addPg = (req, res) => {
   const pg = new Operator({
-    nama: req.body.nama,
-    gred: req.body.gred,
+    nama: req.body.nama.toLowerCase(),
+    gred: req.body.gred.toLowerCase(),
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     kpSkrg: req.body.kp,
     role: req.body.role,
@@ -366,6 +366,7 @@ exports.addPg = (req, res) => {
   });
 };
 
+// tak pakai -----
 exports.addTaska = (req, res) => {
   const taska = new Fasiliti({
     nama: req.body.nama,
@@ -470,6 +471,7 @@ exports.addInstitusi = (req, res) => {
     }
   });
 };
+// tak pakai -----
 
 exports.deleteData = (req, res) => {
   Fasiliti.findByIdAndDelete(req.body.id, (err, data) => {
