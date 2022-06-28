@@ -1138,10 +1138,12 @@ function UserFormSekolah() {
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                    <p className='ml-1'>{singlePersonSekolah.tarikhlahir}</p>
+                    <p className='ml-1'>{singlePersonSekolah.tarikhLahir}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>WARGANEGARA</h2>
+                    <h2 className='font-semibold'>
+                      {singlePersonSekolah.warganegara}
+                    </h2>
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>BANGSA :</h2>
@@ -1168,6 +1170,10 @@ function UserFormSekolah() {
                 <p className='ml-1'>{singlePersonSekolah.namaSekolah}</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
+                <h2 className='font-semibold'>KELAS :</h2>
+                <p className='ml-1'>{singlePersonSekolah.kelas}</p>
+              </div>
+              <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>
                   {(singlePersonSekolah.darjah && 'DARJAH') ||
                     (singlePersonSekolah.tingkatan && 'TINGKATAN')}{' '}
@@ -1176,10 +1182,6 @@ function UserFormSekolah() {
                 <p className='ml-1'>
                   {singlePersonSekolah.darjah || singlePersonSekolah.tingkatan}
                 </p>
-              </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>KELAS :</h2>
-                <p className='ml-1'>{singlePersonSekolah.kelas}</p>
               </div>
             </div>
           </article>

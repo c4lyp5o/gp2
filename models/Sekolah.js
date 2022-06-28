@@ -32,23 +32,35 @@ const SekolahSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please provide umur'],
   },
+  namaSekolah: {
+    type: String,
+    required: [true, 'Please provide nama sekolah'],
+  },
+  kelas: {
+    type: String,
+    required: [true, 'Please provide kelas'],
+  },
   ic: {
     type: String,
     required: [true, 'Please provide IC'],
   },
-  namaSekolah: {
+  tarikhLahir: {
     type: String,
-    required: [true, 'Please provide nama sekolah'],
+    required: [true, 'Please provide tarikh lahir'],
+  },
+  warganegara: {
+    type: String,
+    required: [true, 'Please provide warganegara'],
+  },
+  bangsa: {
+    type: String,
+    required: [true, 'Please provide bangsa'],
   },
   darjah: {
     type: Number,
   },
   tingkatan: {
     type: Number,
-  },
-  kelas: {
-    type: String,
-    required: [true, 'Please provide kelas'],
   },
   // pendaftaran -------------------------------------------------------
   kpBergerak: {
@@ -66,6 +78,7 @@ const SekolahSchema = new mongoose.Schema({
   baruUlanganKedatanganPendaftaran: {
     type: String,
     default: '',
+    required: [true, 'Please provide baruUlanganKedatanganPendaftaran'],
   },
   engganKedatanganPendaftaran: {
     type: Boolean,
@@ -82,6 +95,7 @@ const SekolahSchema = new mongoose.Schema({
   tinggiRendahRisikoSekolahPendaftaran: {
     type: String,
     default: '',
+    required: [true, 'Please provide tinggiRendahRisikoSekolahPendaftaran'],
   },
   // pemeriksaan awal div 1 --------------------------------------------------
   adaCleftLip: {
