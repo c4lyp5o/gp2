@@ -13,6 +13,8 @@ export default function Pendaftaran(props) {
               </h4>
               <div className='flex flex-row items-center pl-5'>
                 <input
+                  disabled={props.pasukanPergigianBergerak ? true : false}
+                  required={!props.pasukanPergigianBergerak ? true : false}
                   type='checkbox'
                   name='kp-bergerak'
                   id='kp-bergerak'
@@ -24,10 +26,15 @@ export default function Pendaftaran(props) {
                 />
                 <label htmlFor='kp-bergerak' className='ml-2 text-sm font-m'>
                   KP Bergerak
+                  <span className='text-user6'>
+                    {!props.pasukanPergigianBergerak && '*'}
+                  </span>
                 </label>
               </div>
               <div className='flex flex-row items-center pl-5 col-span-2'>
                 <input
+                  disabled={props.kpBergerak ? true : false}
+                  required={!props.kpBergerak ? true : false}
                   type='checkbox'
                   name='pasukan-pergigian-bergerak'
                   id='pasukan-pergigian-bergerak'
@@ -44,6 +51,7 @@ export default function Pendaftaran(props) {
                   className='ml-2 text-sm font-m '
                 >
                   Pasukan Pergigian Bergerak
+                  <span className='text-user6'>{!props.kpBergerak && '*'}</span>
                 </label>
               </div>
               <div
@@ -52,6 +60,7 @@ export default function Pendaftaran(props) {
                 } flex flex-row items-center pl-5`}
               >
                 <select
+                  required={props.kpBergerak ? true : false}
                   name='plate-no'
                   id='plate-no'
                   value={props.plateNo}
@@ -63,15 +72,17 @@ export default function Pendaftaran(props) {
                   <option value=''>Plate No</option>
                   <option value='1'>1</option>
                 </select>
+                <span className='text-user6'>*</span>
               </div>
             </article>
             <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
               <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
-                Kedatangan
+                Kedatangan<span className='text-user6'>*</span>
               </h4>
               <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
                 <div className='flex items-center flex-row pl-5 '>
                   <input
+                    required
                     type='radio'
                     name='kedatangan'
                     id='baru-kedatangan-pendaftaran'
@@ -96,6 +107,7 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                    required
                     type='radio'
                     name='kedatangan'
                     id='ulangan-kedatangan-pendaftaran'
@@ -169,10 +181,16 @@ export default function Pendaftaran(props) {
                 } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
               >
                 <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
-                  Pemeriksaan
+                  Pemeriksaan<span className='text-user6'>*</span>
                 </h4>
                 <div className='flex items-center flex-row px-2'>
                   <input
+                    required={
+                      props.engganKedatanganPendaftaran ||
+                      props.tidakHadirKedatanganPendaftaran
+                        ? true
+                        : false
+                    }
                     type='radio'
                     name='pemeriksaan'
                     id='ada-pemeriksaan'
@@ -196,6 +214,12 @@ export default function Pendaftaran(props) {
                 </div>
                 <div className='flex items-center flex-row px-2'>
                   <input
+                    required={
+                      props.engganKedatanganPendaftaran ||
+                      props.tidakHadirKedatanganPendaftaran
+                        ? true
+                        : false
+                    }
                     type='radio'
                     name='pemeriksaan'
                     id='tiada-pemeriksaan'
@@ -222,10 +246,11 @@ export default function Pendaftaran(props) {
             </article>
             <article className='grid grid-cols-2 border border-userBlack pl-5 rounded-md'>
               <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                Risiko Sekolah (PERSiS)
+                Risiko Sekolah (PERSiS)<span className='text-user6'>*</span>
               </h4>
               <div className='flex items-center flex-row pl-5'>
                 <input
+                  required
                   type='radio'
                   name='risiko-sekolah'
                   id='tinggi-risiko-sekolah'
@@ -252,6 +277,7 @@ export default function Pendaftaran(props) {
               </div>
               <div className='flex items-center flex-row pl-5'>
                 <input
+                  required
                   type='radio'
                   name='risiko-sekolah'
                   id='rendah-risiko-sekolah'

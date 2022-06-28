@@ -84,7 +84,6 @@ const SekolahSchema = new mongoose.Schema({
   baruUlanganKedatanganPendaftaran: {
     type: String,
     default: '',
-    required: [true, 'Please provide baruUlanganKedatanganPendaftaran'],
   },
   engganKedatanganPendaftaran: {
     type: Boolean,
@@ -101,7 +100,6 @@ const SekolahSchema = new mongoose.Schema({
   tinggiRendahRisikoSekolahPendaftaran: {
     type: String,
     default: '',
-    required: [true, 'Please provide tinggiRendahRisikoSekolahPendaftaran'],
   },
   // pemeriksaan awal div 1 --------------------------------------------------
   adaCleftLip: {
