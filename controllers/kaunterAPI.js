@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Umum = require('../models/Umum');
 const Kaunter = require('../models/Kaunter');
+const formidable = require('formidable');
 
 async function helloThere(req, res) {
   res.status(200).json({
@@ -64,9 +65,21 @@ async function getData(req, res) {
 }
 
 async function saveUmumData(req, res) {
-  const Umumdata = await Umum.create(req.body);
-  console.log(Umumdata);
-  res.status(201).json({ Umumdata });
+  // const Umumdata = await Umum.create(req.body);
+  // console.log(Umumdata);
+  // res.status(201).json({ Umumdata });
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        message: 'Error when saving data',
+      });
+    }
+    const umum = await Umum.create(fields);
+    console.log(fields);
+    res.status(200).json({ fields });
+  });
 }
 
 module.exports = { helloThere, registerPT, loginPT, getData, saveUmumData };
