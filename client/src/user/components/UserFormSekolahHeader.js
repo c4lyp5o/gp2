@@ -18,9 +18,12 @@ function UserFormSekolah() {
   const [isLoading, setIsLoading] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
+  const [saveDraftState, setSaveDraftState] = useState(true);
+
   // creating masterForm object to be used by the form
   const masterForm = {};
   masterForm.createdByUsername = username;
+  let statusRawatan = '';
   // pendaftaran
   const [kpBergerak, setKpBergerak] = useState(false);
   masterForm.kpBergerak = kpBergerak;
@@ -958,13 +961,164 @@ function UserFormSekolah() {
     fetchSinglePersonSekolah();
   }, []);
 
+  // idea dapat masa angkat takbir subhanAllah..
+  useEffect(() => {
+    setTimeout(async () => {
+      statusRawatan = 'belum selesai';
+      console.log('save draft called');
+      try {
+        await axios.patch(
+          `/api/v1/sekolah/${personSekolahId}`,
+          {
+            createdByUsername: masterForm.createdByUsername,
+            statusRawatan,
+            // pendaftaran
+            kpBergerak,
+            pasukanPergigianBergerak,
+            plateNo,
+            baruUlanganKedatanganPendaftaran,
+            engganKedatanganPendaftaran,
+            tidakHadirKedatanganPendaftaran,
+            adaTiadaPemeriksaanPendaftaran,
+            tinggiRendahRisikoSekolahPendaftaran,
+            // pemeriksaan awal div 1
+            adaCleftLip,
+            rujukCleftLip,
+            yaTidakSediaAdaStatusDenture,
+            atasSediaAdaDenture,
+            separaPenuhAtasSediaAdaDenture,
+            bawahSediaAdaDenture,
+            separaPenuhBawahSediaAdaDenture,
+            yaTidakPerluStatusDenture,
+            atasPerluDenture,
+            separaPenuhAtasPerluDenture,
+            bawahPerluDenture,
+            separaPenuhBawahPerluDenture,
+            toothSurfaceLossTrauma,
+            kecederaanGigiAnteriorTrauma,
+            tisuLembutTrauma,
+            tisuKerasTrauma,
+            // pemeriksaan awal div 2
+            kebersihanMulutOralHygiene,
+            skorBpeOralHygiene,
+            saringanKanserMulutOralHygiene,
+            skorGisMulutOralHygiene,
+            dAdaGigiDesidus,
+            mAdaGigiDesidus,
+            fAdaGigiDesidus,
+            eAdaGigiDesidus,
+            xAdaGigiDesidus,
+            dAdaGigiKekal,
+            mAdaGigiKekal,
+            fAdaGigiKekal,
+            eAdaGigiKekal,
+            xAdaGigiKekal,
+            jumlahFaktorRisiko,
+            // pemeriksaan awal div 3
+            gicBilanganFsDibuat3TahunLepas,
+            resinBilanganFsDibuat3TahunLepas,
+            lainLainBilanganFsDibuat3TahunLepas,
+            dBilanganFsDibuat3TahunLepasTerjadi,
+            mBilanganFsDibuat3TahunLepasTerjadi,
+            fBilanganFsDibuat3TahunLepasTerjadi,
+            eBilanganFsDibuat3TahunLepasTerjadi,
+            xBilanganFsDibuat3TahunLepasTerjadi,
+            classID,
+            classIID,
+            classIF,
+            classIIF,
+            // perlu dibuat
+            baruJumlahGigiKekalPerluFs,
+            semulaJumlahGigiKekalPerluFs,
+            jumlahGigiFsGagal,
+            baruJumlahGigiKekalPerluFv,
+            semulaJumlahGigiKekalPerluFv,
+            baruJumlahGigiKekalPerluPrrJenis1,
+            semulaJumlahGigiKekalPerluPrrJenis1,
+            yaTidakSilverDiamineFluoridePerluSapuan,
+            baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            // penyata akhir 1
+            baruJumlahGigiKekalDibuatFs,
+            semulaJumlahGigiKekalDibuatFs,
+            baruJumlahGigiKekalDiberiFv,
+            semulaJumlahGigiKekalDiberiFv,
+            baruJumlahGigiKekalDiberiPrrJenis1,
+            semulaJumlahGigiKekalDiberiPrrJenis1,
+            baruJumlahGigiYangDiberiSdf,
+            semulaJumlahGigiYangDiberiSdf,
+            gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            // penyata akhir 2
+            cabutDesidusPenyataAkhir2,
+            cabutKekalPenyataAkhir2,
+            jumlahTampalanSementaraPenyataAkhir2,
+            pulpotomiPenyataAkhir2,
+            endodontikPenyataAkhir2,
+            absesPenyataAkhir2,
+            penskaleranPenyataAkhir2,
+            kesSelesaiPenyataAkhir2,
+            kesSelesaiIcdasPenyataAkhir2,
+            rujukPenyataAkhir2,
+            ceramahPromosiPenyataAkhir2,
+            lmgPromosiPenyataAkhir2,
+            yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+            plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+            dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+            kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+            // kotak
+            statusM,
+            jenisR,
+            tarikh1,
+            tarikh2,
+            tarikh3,
+            tarikh4,
+            adaQ,
+            tiadaQ,
+            rujukG,
+            tarikhQ,
+            statusSelepas6Bulan,
+          },
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        );
+        console.log('Saved draft');
+      } catch (error) {
+        console.log(error.response.data.msg);
+      }
+      setSaveDraftState(!saveDraftState);
+    }, 900000);
+  }, [saveDraftState]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    statusRawatan = 'selesai';
     try {
       await axios.patch(
         `/api/v1/sekolah/${personSekolahId}`,
         {
           createdByUsername: masterForm.createdByUsername,
+          statusRawatan,
           // pendaftaran
           kpBergerak,
           pasukanPergigianBergerak,
