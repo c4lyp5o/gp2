@@ -25,10 +25,17 @@ export default function Kotak(props) {
                   <option value='perokokSemasa'>Perokok Semasa</option>
                   <option value='bekasPerokok'>Bekas Perokok</option>
                   <option value='perokokPasif'>Perokok Pasif</option>
-                  <option value='bukanPerokok'>Bukan Perokok</option>
+                  <option selected value='bukanPerokok'>
+                    Bukan Perokok
+                  </option>
                 </select>
               </article>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+
+              <article
+                className={`${
+                  props.statusM == 'bukanPerokok' && 'hidden'
+                } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   jenis rokok
                 </h4>
@@ -50,7 +57,11 @@ export default function Kotak(props) {
               </article>
             </div>
             <div>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <article
+                className={`${
+                  props.statusM == 'bukanPerokok' && 'hidden'
+                } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   tarikh intervensi merokok
                 </h4>
@@ -109,7 +120,11 @@ export default function Kotak(props) {
               </article>
             </div>
             <div className='grid gap-2'>
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <article
+                className={`${
+                  props.statusM == 'bukanPerokok' && 'hidden'
+                } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
                 <h4 className='font-bold flex flex-row pl-5 '>
                   status selepas intervensi
                 </h4>
@@ -159,7 +174,11 @@ export default function Kotak(props) {
                   </label>
                 </div>
               </article>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <article
+                className={`${
+                  props.statusM == 'bukanPerokok' && 'hidden'
+                } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   tarikh quit date
                 </h4>
@@ -174,7 +193,11 @@ export default function Kotak(props) {
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m ml-3'
                 />
               </article>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <article
+                className={`${
+                  props.statusM == 'bukanPerokok' && 'hidden'
+                } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   status selepas 6 bulan
                 </h4>
