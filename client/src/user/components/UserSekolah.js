@@ -154,7 +154,7 @@ function UserSekolah() {
                       {singlePersonSekolah.createdByUsername}
                     </td>
                     <td className='outline outline-1 outline-userBlack'>
-                      BELUM MULA
+                      {singlePersonSekolah.statusRawatan}
                     </td>
                     <td className='outline outline-1 outline-userBlack'>
                       BELUM MULA

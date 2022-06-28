@@ -18,6 +18,12 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // save status -------------------------------------------------------
+  statusRawatan: {
+    type: String,
+    required: true,
+    default: 'belum mula',
+  },
   // supplied by ERKM --------------------------------------------------
   nama: {
     type: String,
