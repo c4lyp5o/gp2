@@ -1,4 +1,7 @@
+import { useState } from 'react';
 export default function PemeriksaanAwal(props) {
+  const [statusGigiDecidus, setStatusGigiDecidus] = useState(false);
+  const [statusGigiKekal, setStatusGigiKekal] = useState(false);
   return (
     <>
       <div className='p-2'>
@@ -544,7 +547,11 @@ export default function PemeriksaanAwal(props) {
                     <option value='E'>E</option>
                   </select>
                 </div>
-                <div className='flex items-center flex-row pl-5'>
+                <div
+                  className={`${
+                    props.umur < 15 && 'hidden'
+                  } flex items-center flex-row pl-5`}
+                >
                   <select
                     name='skor-bpe'
                     id='skor-bpe'
@@ -562,7 +569,11 @@ export default function PemeriksaanAwal(props) {
                     <option value='4'>4</option>
                   </select>
                 </div>
-                <div className='flex items-center flex-row pl-5'>
+                <div
+                  className={`${
+                    props.umur < 15 && 'hidden'
+                  } flex items-center flex-row pl-5`}
+                >
                   <label
                     htmlFor='saringan-kanser-mulut'
                     className='text-sm font-m'
@@ -606,78 +617,87 @@ export default function PemeriksaanAwal(props) {
                 </h4>
                 <div className='flex flex-row pl-5 '>
                   <div className='grid grid-cols-2'>
-                    <button className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'>
-                      Tiada
+                    <button
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'
+                      onClick={(e) =>
+                        !statusGigiDecidus
+                          ? setStatusGigiDecidus(true)
+                          : setStatusGigiDecidus(false)
+                      }
+                    >
+                      {statusGigiDecidus ? 'Ada' : 'Tiada'}
                     </button>
                     {/* tukar ada jika tekan button hilang <p> sekali*/}
                     <p className='text-sm font-m'>
                       Klik butang di atas jika ada gigi desidus
                     </p>
                     {/* display jika ada gigi desidus */}
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m lowercase'>d: </p>
-                      <input
-                        type='number'
-                        name='d-ada-status-gigi-desidus'
-                        id='d-ada-status-gigi-desidus'
-                        value={props.dAdaGigiDesidus}
-                        onChange={(e) => {
-                          props.setDAdaGigiDesidus(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m lowercase'>m: </p>
-                      <input
-                        type='number'
-                        name='m-ada-status-gigi-desidus'
-                        id='m-ada-status-gigi-desidus'
-                        value={props.mAdaGigiDesidus}
-                        onChange={(e) => {
-                          props.setMAdaGigiDesidus(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m lowercase'>f: </p>
-                      <input
-                        type='number'
-                        name='f-ada-status-gigi-desidus'
-                        id='f-ada-status-gigi-desidus'
-                        value={props.fAdaGigiDesidus}
-                        onChange={(e) => {
-                          props.setFAdaGigiDesidus(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m lowercase'>e: </p>
-                      <input
-                        type='number'
-                        name='e-ada-status-gigi-desidus'
-                        id='e-ada-status-gigi-desidus'
-                        value={props.eAdaGigiDesidus}
-                        onChange={(e) => {
-                          props.setEAdaGigiDesidus(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m lowercase'>x: </p>
-                      <input
-                        type='number'
-                        name='x-ada-status-gigi-desidus'
-                        id='x-ada-status-gigi-desidus'
-                        value={props.xAdaGigiDesidus}
-                        onChange={(e) => {
-                          props.setXAdaGigiDesidus(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
+                    <div className={`${!statusGigiDecidus && 'hidden'}`}>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m lowercase'>d: </p>
+                        <input
+                          type='number'
+                          name='d-ada-status-gigi-desidus'
+                          id='d-ada-status-gigi-desidus'
+                          value={props.dAdaGigiDesidus}
+                          onChange={(e) => {
+                            props.setDAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m lowercase'>m: </p>
+                        <input
+                          type='number'
+                          name='m-ada-status-gigi-desidus'
+                          id='m-ada-status-gigi-desidus'
+                          value={props.mAdaGigiDesidus}
+                          onChange={(e) => {
+                            props.setMAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m lowercase'>f: </p>
+                        <input
+                          type='number'
+                          name='f-ada-status-gigi-desidus'
+                          id='f-ada-status-gigi-desidus'
+                          value={props.fAdaGigiDesidus}
+                          onChange={(e) => {
+                            props.setFAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m lowercase'>e: </p>
+                        <input
+                          type='number'
+                          name='e-ada-status-gigi-desidus'
+                          id='e-ada-status-gigi-desidus'
+                          value={props.eAdaGigiDesidus}
+                          onChange={(e) => {
+                            props.setEAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m lowercase'>x: </p>
+                        <input
+                          type='number'
+                          name='x-ada-status-gigi-desidus'
+                          id='x-ada-status-gigi-desidus'
+                          value={props.xAdaGigiDesidus}
+                          onChange={(e) => {
+                            props.setXAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -688,76 +708,85 @@ export default function PemeriksaanAwal(props) {
                 </h4>
                 <div className='flex flex-row pl-5 '>
                   <div className='grid grid-cols-2'>
-                    <button className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'>
-                      Tiada
+                    <button
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'
+                      onClick={(e) =>
+                        !statusGigiKekal
+                          ? setStatusGigiKekal(true)
+                          : setStatusGigiKekal(false)
+                      }
+                    >
+                      {statusGigiKekal ? 'Ada' : 'Tiada'}
                     </button>
                     {/* tukar ada jika tekan button hilang <p> sekali*/}
                     <p>Klik butang di atas jika ada gigi kekal</p>
                     {/* display jika ada gigi desidus */}
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m '>D: </p>
-                      <input
-                        type='number'
-                        name='d-ada-status-gigi-kekal'
-                        id='d-ada-status-gigi-kekal'
-                        value={props.dAdaGigiKekal}
-                        onChange={(e) => {
-                          props.setDAdaGigiKekal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m '>M: </p>
-                      <input
-                        type='number'
-                        name='m-ada-status-gigi-kekal'
-                        id='m-ada-status-gigi-kekal'
-                        value={props.mAdaGigiKekal}
-                        onChange={(e) => {
-                          props.setMAdaGigiKekal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m '>F: </p>
-                      <input
-                        type='number'
-                        name='f-ada-status-gigi-kekal'
-                        id='f-ada-status-gigi-kekal'
-                        value={props.fAdaGigiKekal}
-                        onChange={(e) => {
-                          props.setFAdaGigiKekal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m '>E: </p>
-                      <input
-                        type='number'
-                        name='e-ada-status-gigi-kekal'
-                        id='e-ada-status-gigi-kekal'
-                        value={props.eAdaGigiKekal}
-                        onChange={(e) => {
-                          props.setEAdaGigiKekal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <p className='text-sm font-m '>X: </p>
-                      <input
-                        type='number'
-                        name='x-ada-status-gigi-kekal'
-                        id='x-ada-status-gigi-kekal'
-                        value={props.xAdaGigiKekal}
-                        onChange={(e) => {
-                          props.setXAdaGigiKekal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
+                    <div className={`${!statusGigiKekal && 'hidden'}`}>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m '>D: </p>
+                        <input
+                          type='number'
+                          name='d-ada-status-gigi-kekal'
+                          id='d-ada-status-gigi-kekal'
+                          value={props.dAdaGigiKekal}
+                          onChange={(e) => {
+                            props.setDAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m '>M: </p>
+                        <input
+                          type='number'
+                          name='m-ada-status-gigi-kekal'
+                          id='m-ada-status-gigi-kekal'
+                          value={props.mAdaGigiKekal}
+                          onChange={(e) => {
+                            props.setMAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m '>F: </p>
+                        <input
+                          type='number'
+                          name='f-ada-status-gigi-kekal'
+                          id='f-ada-status-gigi-kekal'
+                          value={props.fAdaGigiKekal}
+                          onChange={(e) => {
+                            props.setFAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m '>E: </p>
+                        <input
+                          type='number'
+                          name='e-ada-status-gigi-kekal'
+                          id='e-ada-status-gigi-kekal'
+                          value={props.eAdaGigiKekal}
+                          onChange={(e) => {
+                            props.setEAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center'>
+                        <p className='text-sm font-m '>X: </p>
+                        <input
+                          type='number'
+                          name='x-ada-status-gigi-kekal'
+                          id='x-ada-status-gigi-kekal'
+                          value={props.xAdaGigiKekal}
+                          onChange={(e) => {
+                            props.setXAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -771,7 +800,7 @@ export default function PemeriksaanAwal(props) {
                     <p className='flex items-center flex-row pl-5'>
                       Jumlah Faktor Risiko:
                     </p>
-                    <input
+                    {/* <input
                       type='number'
                       name='jumlah-faktor-risiko'
                       id='jumlah-faktor-risiko'
@@ -780,17 +809,56 @@ export default function PemeriksaanAwal(props) {
                         props.setJumlahFaktorRisiko(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
+                    /> */}
+                    <select
+                      name='jumlah-faktor-risiko'
+                      id='jumlah-faktor-risiko'
+                      value={props.jumlahFaktorRisiko}
+                      onChange={(e) => {
+                        props.setJumlahFaktorRisiko(e.target.value);
+                      }}
+                    >
+                      <option disabled>Sila pilih</option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                      <option value='7'>7</option>
+                      <option value='8'>8</option>
+                    </select>
                   </div>
                   <div className='grid grid-cols-3 gap-1'>
                     {/* depend on faktor risiko tukar warna */}
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m '>
+                    <p
+                      className={`${
+                        props.jumlahFaktorRisiko < 3 &&
+                        props.dAdaGigiKekal === 0 &&
+                        props.dAdaGigiDesidus === 0 &&
+                        'bg-user7'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Rendah
                     </p>
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m'>
+                    <button
+                      className={`${
+                        props.jumlahFaktorRisiko < 3 &&
+                        props.eAdaGigiKekal + props.eAdaGigiDesidus > 0 &&
+                        'bg-user8'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Sederhana
-                    </p>
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m'>
+                    </button>
+                    <p
+                      className={`${
+                        props.jumlahFaktorRisiko > 6 && 'bg-user9'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Tinggi
                     </p>
                   </div>

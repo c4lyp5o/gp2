@@ -1155,7 +1155,7 @@ function UserFormSekolah() {
         </div>
         <form onSubmit={handleSubmit}>
           <Pendaftaran {...masterForm} />
-          <PemeriksaanAwal {...masterForm} />
+          <PemeriksaanAwal {...masterForm} umur={singlePersonSekolah.umur} />
           <PerluDibuat {...masterForm} />
           <PenyataAkhir1 {...masterForm} />
           <PenyataAkhir2 {...masterForm} />

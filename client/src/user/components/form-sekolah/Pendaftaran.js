@@ -46,7 +46,11 @@ export default function Pendaftaran(props) {
                   Pasukan Pergigian Bergerak
                 </label>
               </div>
-              <div className='flex flex-row items-center pl-5'>
+              <div
+                className={`${
+                  !props.kpBergerak && 'hidden'
+                } flex flex-row items-center pl-5`}
+              >
                 <select
                   name='plate-no'
                   id='plate-no'
@@ -157,7 +161,13 @@ export default function Pendaftaran(props) {
                   </label>
                 </div>
               </div>
-              <div className='outline outline-1 outline-userBlack grid grid-rows-3 col-start-2'>
+              <div
+                className={`${
+                  props.engganKedatanganPendaftaran ||
+                  props.tidakHadirKedatanganPendaftaran ||
+                  'hidden'
+                } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
+              >
                 <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
                   Pemeriksaan
                 </h4>
