@@ -1,26 +1,6 @@
 const mongoose = require('mongoose');
 
 const ffarSchema = new mongoose.Schema({
-edentulous: {
-    type: Number,
-    min: 0,
-    default: 0,
-},
-gigiSamaAtauLebihDari20Batang: {
-    type: Number,
-    min: 0,
-    default: 0,
-},
-gigiKurangDari20Batang: {
-    type: Number,
-    min: 0,
-    default: 0,
-},
-bilGigi: {
-    type: Number,
-    min: 0,
-    defaultValue: 0,
-},
 kedatanganTahunSemasa: {
     type: Number,
     min: 0,
