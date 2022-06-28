@@ -7,6 +7,7 @@ import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 import UserDashboard from '../components/UserDashboard';
 
 import UserUmum from '../components/UserUmum';
+import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
 import UserSekolah from '../components/UserSekolah';
 import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
@@ -32,7 +33,7 @@ function UserAfterLogin() {
           <Route index element={<UserDashboard />} />
 
           <Route path='umum' element={<UserUmum />} />
-          {/* <Route path='form-umum' element={<UserFormUmum />} /> */}
+          <Route path='form-umum' element={<UserFormUmumHeader />} />
 
           <Route path='sekolah' element={<UserSekolah />} />
           <Route

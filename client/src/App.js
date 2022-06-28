@@ -9,6 +9,9 @@ import UserAfterLogin from './user/pages/UserAfterLogin';
 
 import UserNotFound from './user/pages/UserNotFound';
 
+// kaunter import ----------------------------------------
+import KaunterLogin from './user/pages/Kaunter';
+
 // admin import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
 
@@ -23,6 +26,7 @@ function App() {
         <UserAppProvider>
           <Routes>
             <Route path='/' element={<UserLogin />} />
+            <Route path='/kaunter/*' element={<KaunterLogin />} />
             <Route
               path='/user/*'
               element={

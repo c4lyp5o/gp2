@@ -1,0 +1,14 @@
+// Base
+const express = require('express');
+const router = express.Router();
+
+// Controller
+const kaunterCon = require('../controllers/kaunterAPI');
+
+// routes
+router.get('/', kaunterCon.helloThere);
+
+router.post('/register', kaunterCon.registerPT);
+router.post('/login', kaunterCon.loginPT);
+
+module.exports = router;
