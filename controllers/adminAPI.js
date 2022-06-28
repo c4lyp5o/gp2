@@ -13,28 +13,36 @@ const Dictionary = {
   ins: 'Institusi',
 };
 
-var verificationKey = '';
-
-async function sendVerificationEmail(email) {
-  verificationKey = simpleCrypto.generateRandomString(20);
-  const transporter = mailer.createTransport({
-    host: process.env.EMAILER_HOST,
-    port: process.env.EMAILER_PORT,
-    secure: true,
-    auth: {
-      user: process.env.EMAILER_ACCT,
-      pass: process.env.EMAILER_PASS,
+async function sendVerificationEmail(email, userId) {
+  console.log(userId);
+  let theKey = simpleCrypto.generateRandomString(20);
+  const update = await Superadmin.findByIdAndUpdate(
+    userId,
+    {
+      tempKey: theKey,
     },
-  });
-  const verification = await transporter.sendMail({
-    from: `"Admin" <${process.env.EMAILER_ACCT}>`,
-    to: email,
-    subject: 'Verifikasi Akaun',
-    text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
-    html:
-      '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
-  });
-  return verification;
+    { new: true }
+  );
+  console.log(update);
+  // const transporter = mailer.createTransport({
+  //   host: process.env.EMAILER_HOST,
+  //   port: process.env.EMAILER_PORT,
+  //   secure: true,
+  //   auth: {
+  //     user: process.env.EMAILER_ACCT,
+  //     pass: process.env.EMAILER_PASS,
+  //   },
+  // });
+  // const verification = await transporter.sendMail({
+  //   from: `"Admin" <${process.env.EMAILER_ACCT}>`,
+  //   to: email,
+  //   subject: 'Verifikasi Akaun',
+  //   text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
+  //   html:
+  //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
+  // });
+  console.log(theKey);
+  return theKey;
 }
 
 exports.helloUser = async (req, res) => {
@@ -48,7 +56,7 @@ exports.helloUser = async (req, res) => {
       });
       return;
     }
-    await sendVerificationEmail(process.env.SEND_TO).catch((err) => {
+    await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
       console.log(err);
     });
     return res.status(200).json({
@@ -92,7 +100,7 @@ exports.loginUser = async (req, res) => {
       message: msg,
     });
   }
-  if (password != verificationKey) {
+  if (password != User.tempKey) {
     const msg = 'Key salah';
     return res.status(401).json({
       status: 'error',
@@ -153,7 +161,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.listKp = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Klinik',
+      jenisFasiliti: 'klinik',
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
@@ -318,11 +326,11 @@ exports.listFacilityType = (req, res) => {
 
 exports.addKp = (req, res) => {
   const kp = new Fasiliti({
-    nama: req.body.klinik,
+    nama: req.body.klinik.toLowerCase(),
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     handler: '',
-    jenisFasiliti: 'Klinik',
+    jenisFasiliti: 'klinik',
   });
   kp.save((err, data) => {
     if (err) {
@@ -339,8 +347,8 @@ exports.addKp = (req, res) => {
 
 exports.addPg = (req, res) => {
   const pg = new Operator({
-    nama: req.body.nama,
-    gred: req.body.gred,
+    nama: req.body.nama.toLowerCase(),
+    gred: req.body.gred.toLowerCase(),
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     kpSkrg: req.body.kp,
     role: req.body.role,
@@ -358,6 +366,7 @@ exports.addPg = (req, res) => {
   });
 };
 
+// tak pakai -----
 exports.addTaska = (req, res) => {
   const taska = new Fasiliti({
     nama: req.body.nama,
@@ -462,6 +471,7 @@ exports.addInstitusi = (req, res) => {
     }
   });
 };
+// tak pakai -----
 
 exports.deleteData = (req, res) => {
   Fasiliti.findByIdAndDelete(req.body.id, (err, data) => {
