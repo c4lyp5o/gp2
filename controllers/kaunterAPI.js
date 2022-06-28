@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Superadmin = require('../models/Superadmin');
+const Umum = require('../models/Umum');
 const Kaunter = require('../models/Kaunter');
 
 async function helloThere(req, res) {
@@ -56,4 +56,17 @@ async function loginPT(req, res) {
   }
 }
 
-module.exports = { helloThere, registerPT, loginPT };
+async function getData(req, res) {
+  console.log(req.body);
+  res.status(200).json({
+    message: 'File Uploaded',
+  });
+}
+
+async function saveUmumData(req, res) {
+  const Umumdata = await Umum.create(req.body);
+  console.log(Umumdata);
+  res.status(201).json({ Umumdata });
+}
+
+module.exports = { helloThere, registerPT, loginPT, getData, saveUmumData };

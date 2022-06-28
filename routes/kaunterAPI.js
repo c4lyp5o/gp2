@@ -11,4 +11,6 @@ router.get('/', kaunterCon.helloThere);
 router.post('/register', kaunterCon.registerPT);
 router.post('/login', kaunterCon.loginPT);
 
+router.post('/postdata', kaunterCon.saveUmumData);
+
 module.exports = router;
