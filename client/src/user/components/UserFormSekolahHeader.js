@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -1105,15 +1106,49 @@ function UserFormSekolah() {
     // do something..
   };
 
+  const [isShown, setIsShown] = useState(false);
+
   return (
     <>
-      <div className='container px-10 h-full p-3 overflow-y-auto'>
+      <div className='h-full p-3 px-10 overflow-y-auto'>
         <div className='p-2'>
           <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
             <div>
-              <h1 className='text-l font-bold flex flex-row pl-5 pt-5'>
-                BASIC DEMOGRAFIK
-              </h1>
+              <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                <h1>MAKLUMAT AM PESAKIT</h1>
+                <FaInfoCircle
+                  className='m-1 text-lg'
+                  onMouseEnter={() => setIsShown(true)}
+                  onMouseLeave={() => setIsShown(false)}
+                />
+              </div>
+              {isShown && (
+                <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
+                  <div className='flex flex-row text-sm'>
+                    <h2 className='font-semibold'>NAMA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.nama}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>NO IC :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>JANTINA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.jantina}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.tarikhlahir}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>WARGANEGARA</h2>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>BANGSA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.bangsa}</p>
+                  </div>
+                </div>
+              )}
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>NAMA :</h2>
                 <p className='ml-1'>{singlePersonSekolah.nama}</p>
@@ -1125,10 +1160,6 @@ function UserFormSekolah() {
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>UMUR :</h2>
                 <p className='ml-1'>{singlePersonSekolah.umur} tahun</p>
-              </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>NO IC :</h2>
-                <p className='ml-1'>{singlePersonSekolah.ic}</p>
               </div>
             </div>
             <div className='md:pt-10'>
