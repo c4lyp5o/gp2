@@ -574,7 +574,7 @@ exports.testFunction = function (req, res) {
         );
       },
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      resultPGS201A: function (callback) {
+      resultPG201A: function (callback) {
         Sekolah.aggregate(
           [
             { $match: {} },
@@ -1127,6 +1127,179 @@ exports.testFunction = function (req, res) {
           callback
         );
       },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultTOD: function (callback) {
+        Sekolah.aggregate(
+          [
+            { $match: {} },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahd: {
+                  $sum: { $dAdaGigiDesidus: 1 },
+                },
+                jumlahm: {
+                  $sum: { $mAdaGigiDesidus: 1 },
+                },
+                jumlahf: {
+                  $sum: { $fAdaGigiDesidus: 1 },
+                },
+                jumlahx: {
+                  $sum: { $xAdaGigiDesidus: 1 },
+                },
+                jumlahSpA: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$kebersihanMulutOralHygiene', 'A'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahSpC: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$kebersihanMulutOralHygiene', 'C'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahSpE: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$kebersihanMulutOralHygiene', 'E'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTisuKeras: {
+                  $sum: { $tisuKerasTrauma: 1 },
+                },
+                jumlahTisuLembut: {
+                  $sum: { $tisuLembutTrauma: 1 },
+                },
+                jumlahPerluFV: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluFv', '0'] },
+                          { $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTelahFVB: {
+                  $sum: {
+                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
+                  },
+                },
+                jumlahTelahFVS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTelahTampalAntB: {
+                  $sum: {
+                    $gt: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat', '0'],
+                  },
+                },
+                jumlahTelahTampalAntS: {
+                  $sum: {
+                    $gt: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat', '0'],
+                  },
+                },
+                jumlahTelahTampalPosB: {
+                  $sum: {
+                    $gt: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat', '0'],
+                  },
+                },
+                jumlahTelahTampalPosS: {
+                  $sum: {
+                    $gt: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat', '0'],
+                  },
+                },
+                cabutanGd: {
+                  $sum: { $cabutDesidusPenyataAkhir2: 1 },
+                },
+                jumlahAbses: {
+                  $sum: { $absesPenyataAkhir2: 1 },
+                },
+                jumlahPulpotomi: {
+                  $sum: { $pulpotomiPenyataAkhir2: 1 },
+                },
+                jumlahCTod: {
+                  $sum: { $ceramahPromosiPenyataAkhir2: 1 },
+                },
+                jumlahCPar: {
+                  $sum: { $ceramahPromosiPenyataAkhir2: 1 },
+                },
+                jumlahLMG: {
+                  $sum: { $lmgPromosiPenyataAkhir2: 1 },
+                },
+                // kena kira
+                jumlahCRAlow: {
+                  $sum: { $lmgPromosiPenyataAkhir2: 1 },
+                },
+                jumlahCRAmid: {
+                  $sum: { $lmgPromosiPenyataAkhir2: 1 },
+                },
+                jumlahCRAhi: {
+                  $sum: { $lmgPromosiPenyataAkhir2: 1 },
+                },
+                // end kita
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     function (err, results) {
       if (err) {
