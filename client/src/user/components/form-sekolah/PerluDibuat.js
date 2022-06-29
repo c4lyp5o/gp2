@@ -21,8 +21,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fs'
                     id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -31,9 +37,6 @@ export default function PerluDibuat(props) {
                       props.setBaruJumlahGigiKekalPerluFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='16'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -42,8 +45,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fs'
                     id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -52,9 +61,6 @@ export default function PerluDibuat(props) {
                       props.setSemulaJumlahGigiKekalPerluFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='16'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5 col-span-2'>
@@ -65,6 +71,8 @@ export default function PerluDibuat(props) {
                     Jumlah gigi FS gagal
                   </label>
                   <input
+                    min='0'
+                    max='16'
                     type='number'
                     name='jumlah-gigi-kekal-gagal-fs'
                     id='jumlah-gigi-kekal-gagal-fs'
@@ -73,8 +81,6 @@ export default function PerluDibuat(props) {
                       props.setJumlahGigiFsGagal(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='16'
                   />
                 </div>
               </article>
@@ -91,8 +97,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='32'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fv'
                     id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -101,9 +113,6 @@ export default function PerluDibuat(props) {
                       props.setBaruJumlahGigiKekalPerluFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='32'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -112,8 +121,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='32'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fv'
                     id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -122,9 +137,6 @@ export default function PerluDibuat(props) {
                       props.setSemulaJumlahGigiKekalPerluFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='32'
-                    required
                   />
                 </div>
               </article>
@@ -141,8 +153,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -153,9 +171,6 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='16'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -164,8 +179,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -176,9 +197,6 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    min='0'
-                    max='16'
-                    required
                   />
                 </div>
               </article>
@@ -189,10 +207,11 @@ export default function PerluDibuat(props) {
                   Silver Diamine Fluoride
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan
+                  Perlu Sapuan<span className='text-user6'>*</span>
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
+                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -209,7 +228,6 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    required
                   />
                   <label
                     htmlFor='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -218,6 +236,7 @@ export default function PerluDibuat(props) {
                     Ya
                   </label>
                   <input
+                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='tidak-silver-diamine-fluoride-perlu-sapuan'
@@ -277,6 +296,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -302,6 +322,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -327,6 +348,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -352,6 +374,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>
@@ -382,6 +405,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -407,6 +431,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -432,6 +457,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -457,6 +483,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>
@@ -487,6 +514,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -512,6 +540,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -537,6 +566,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -562,6 +592,7 @@ export default function PerluDibuat(props) {
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>

@@ -58,9 +58,12 @@ export default function PemeriksaanAwal(props) {
                 <h4 className='font-bold flex flex-row pl-5'>Status denture</h4>
                 <div className='grid grid-rows-2 gap-2 auto-rows-min'>
                   <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-semibold'>Sedia Ada?</h4>
+                    <h4 className='font-semibold'>
+                      Sedia Ada?<span className='text-user6'>*</span>
+                    </h4>
                     <div className='flex items-center justify-center'>
                       <input
+                        required
                         type='radio'
                         name='sedia-ada-status-denture'
                         id='ya-sedia-ada-status-denture'
@@ -83,6 +86,7 @@ export default function PemeriksaanAwal(props) {
                         Ya
                       </label>
                       <input
+                        required
                         type='radio'
                         name='sedia-ada-status-denture'
                         id='tidak-sedia-ada-status-denture'
@@ -106,7 +110,7 @@ export default function PemeriksaanAwal(props) {
                       </label>
                     </div>
                     {props.yaTidakSediaAdaStatusDenture ===
-                    'ya-sedia-ada-status-denture' ? (
+                      'ya-sedia-ada-status-denture' && (
                       <div className='flex items-center flex-row pl-5'>
                         <label
                           htmlFor='atas-sedia-ada-denture'
@@ -127,9 +131,9 @@ export default function PemeriksaanAwal(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakSediaAdaStatusDenture ===
-                    'ya-sedia-ada-status-denture' ? (
+                      'ya-sedia-ada-status-denture' && (
                       <div className='grid grid-cols-2'>
                         <div className='flex items-center justify-center'>
                           <input
@@ -184,9 +188,9 @@ export default function PemeriksaanAwal(props) {
                           </label>
                         </div>
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakSediaAdaStatusDenture ===
-                    'ya-sedia-ada-status-denture' ? (
+                      'ya-sedia-ada-status-denture' && (
                       <div className='flex items-center flex-row pl-5'>
                         <label
                           htmlFor='bawah-sedia-ada-denture'
@@ -207,9 +211,9 @@ export default function PemeriksaanAwal(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakSediaAdaStatusDenture ===
-                    'ya-sedia-ada-status-denture' ? (
+                      'ya-sedia-ada-status-denture' && (
                       <div className='grid grid-cols-2'>
                         <div className='flex items-center justify-center'>
                           <input
@@ -264,12 +268,15 @@ export default function PemeriksaanAwal(props) {
                           </label>
                         </div>
                       </div>
-                    ) : null}
+                    )}
                   </article>
                   <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-semibold'>Perlu</h4>
+                    <h4 className='font-semibold'>
+                      Perlu<span className='text-user6'>*</span>
+                    </h4>
                     <div className='flex items-center justify-center'>
                       <input
+                        required
                         type='radio'
                         name='perlu-status-denture'
                         id='ya-perlu-status-denture'
@@ -292,6 +299,7 @@ export default function PemeriksaanAwal(props) {
                         Ya
                       </label>
                       <input
+                        required
                         type='radio'
                         name='perlu-status-denture'
                         id='tidak-perlu-status-denture'
@@ -315,7 +323,7 @@ export default function PemeriksaanAwal(props) {
                       </label>
                     </div>
                     {props.yaTidakPerluStatusDenture ===
-                    'ya-perlu-status-denture' ? (
+                      'ya-perlu-status-denture' && (
                       <div className='flex items-center flex-row pl-5'>
                         <label
                           htmlFor='atas-perlu-denture'
@@ -334,9 +342,9 @@ export default function PemeriksaanAwal(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakPerluStatusDenture ===
-                    'ya-perlu-status-denture' ? (
+                      'ya-perlu-status-denture' && (
                       <div className='grid grid-cols-2'>
                         <div className='flex items-center justify-center'>
                           <input
@@ -391,9 +399,9 @@ export default function PemeriksaanAwal(props) {
                           </label>
                         </div>
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakPerluStatusDenture ===
-                    'ya-perlu-status-denture' ? (
+                      'ya-perlu-status-denture' && (
                       <div className='flex items-center flex-row pl-5'>
                         <label
                           htmlFor='bawah-perlu-denture'
@@ -414,9 +422,9 @@ export default function PemeriksaanAwal(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                       </div>
-                    ) : null}
+                    )}
                     {props.yaTidakPerluStatusDenture ===
-                    'ya-perlu-status-denture' ? (
+                      'ya-perlu-status-denture' && (
                       <div className='grid grid-cols-2'>
                         <div className='flex items-center justify-center'>
                           <input
@@ -471,7 +479,7 @@ export default function PemeriksaanAwal(props) {
                           </label>
                         </div>
                       </div>
-                    ) : null}
+                    )}
                   </article>
                 </div>
               </article>
@@ -902,8 +910,9 @@ export default function PemeriksaanAwal(props) {
                       className={`${
                         props.jumlahFaktorRisiko < 3 &&
                         props.dAdaGigiKekal === 0 &&
-                        props.dAdaGigiDesidus === 0 &&
-                        'bg-user7'
+                        props.dAdaGigiDesidus === 0
+                          ? 'bg-user7'
+                          : null
                       } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
                     >
                       {/* pls change props.umur to jumlah resiko karies */}
@@ -911,9 +920,16 @@ export default function PemeriksaanAwal(props) {
                     </p>
                     <p
                       className={`${
-                        props.jumlahFaktorRisiko < 3 &&
-                        props.eAdaGigiKekal + props.eAdaGigiDesidus > 0 &&
-                        'bg-user8'
+                        (props.jumlahFaktorRisiko >= 3 &&
+                          props.dAdaGigiKekal === 0 &&
+                          props.dAdaGigiDesidus === 0) ||
+                        (props.jumlahFaktorRisiko <= 2 &&
+                          props.eAdaGigiKekal >= 1) ||
+                        (props.jumlahFaktorRisiko === 0 &&
+                          props.dAdaGigiKekal >= 1 &&
+                          props.dAdaGigiDesidus >= 1)
+                          ? 'bg-user8'
+                          : null
                       } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
                     >
                       {/* pls change props.umur to jumlah resiko karies */}
@@ -921,7 +937,10 @@ export default function PemeriksaanAwal(props) {
                     </p>
                     <p
                       className={`${
-                        props.jumlahFaktorRisiko > 6 && 'bg-user9'
+                        props.jumlahFaktorRisiko >= 3 &&
+                        props.eAdaGigiKekal >= 1
+                          ? 'bg-user9'
+                          : null
                       } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
                     >
                       {/* pls change props.umur to jumlah resiko karies */}
