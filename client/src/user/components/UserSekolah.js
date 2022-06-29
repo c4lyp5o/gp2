@@ -165,12 +165,18 @@ function UserSekolah() {
                         className={`${
                           singlePersonSekolah.statusRawatan === 'selesai'
                             ? 'bg-user7 hover:bg-user8'
-                            : 'bg-user3 hover:bg-user2'
+                            : singlePersonSekolah.statusRawatan ===
+                              'belum selesai'
+                            ? 'bg-user3 hover:bg-user2'
+                            : 'bg-user6 hover:bg-user9'
                         } text-userWhite rounded-md shadow-xl p-1 m-1 transition-all`}
                       >
                         {singlePersonSekolah.statusRawatan === 'selesai'
                           ? 'Selesai'
-                          : 'Kemaskini'}
+                          : singlePersonSekolah.statusRawatan ===
+                            'belum selesai'
+                          ? 'kemaskini'
+                          : 'tambah'}
                       </Link>
                     </td>
                   </tr>
