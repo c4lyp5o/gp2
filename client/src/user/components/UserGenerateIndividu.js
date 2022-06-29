@@ -116,7 +116,7 @@ export default function UserGenerateIndividu() {
               className='w-full'
               height='400'
               title='iframe'
-              src='https://www.youtube.com/embed/dQw4w9WgXcQ'
+              src=''
               frameBorder='0'
             ></iframe>
           </div>

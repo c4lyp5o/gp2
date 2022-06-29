@@ -106,7 +106,7 @@ export default function UserGenerateKlinik() {
               className='w-full'
               height='400'
               title='iframe'
-              src='https://www.youtube.com/embed/dQw4w9WgXcQ'
+              src=''
               frameborder='0'
             ></iframe>
           </div>
