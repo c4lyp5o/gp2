@@ -1,14 +1,17 @@
+import { useState } from 'react';
 export default function PemeriksaanAwal(props) {
+  const [statusGigiDecidus, setStatusGigiDecidus] = useState(false);
+  const [statusGigiKekal, setStatusGigiKekal] = useState(false);
   return (
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2 '>
-          <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+          <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Pemeriksaan Awal</p>
-          </button>
+          </span>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2 '>
             <div className='grid gap-2'>
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md '>
+              <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Cleft Lip/Palate
                 </h4>
@@ -51,8 +54,8 @@ export default function PemeriksaanAwal(props) {
               </article>
               <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>Status denture</h4>
-                <div className='grid grid-rows-2 gap-2'>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <div className='grid grid-rows-2 gap-2 auto-rows-min'>
+                  <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-semibold'>Sedia Ada?</h4>
                     <div className='flex items-center justify-center'>
                       <input
@@ -100,156 +103,168 @@ export default function PemeriksaanAwal(props) {
                         Tidak
                       </label>
                     </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <label
-                        htmlFor='atas-sedia-ada-denture'
-                        className='m-2 text-sm font-m'
-                      >
-                        Atas
-                      </label>
-                      <input
-                        type='checkbox'
-                        name='atas-sedia-ada-denture'
-                        id='atas-sedia-ada-denture'
-                        checked={props.atasSediaAdaDenture}
-                        onChange={() => {
-                          props.setAtasSediaAdaDenture(
-                            !props.atasSediaAdaDenture
-                          );
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                    </div>
-                    <div className='grid grid-cols-2'>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='radio'
-                          name='separa-penuh-atas-sedia-ada-denture'
-                          id='separa-atas-sedia-ada-denture'
-                          value='separa-atas-sedia-ada-denture'
-                          checked={
-                            props.separaPenuhAtasSediaAdaDenture ===
-                            'separa-atas-sedia-ada-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhAtasSediaAdaDenture(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
+                    {props.yaTidakSediaAdaStatusDenture ===
+                    'ya-sedia-ada-status-denture' ? (
+                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='separa-atas-sedia-ada-denture'
+                          htmlFor='atas-sedia-ada-denture'
                           className='m-2 text-sm font-m'
                         >
-                          Separa
+                          Atas
                         </label>
-                      </div>
-                      <div className='flex items-center justify-center'>
                         <input
-                          type='radio'
-                          name='separa-penuh-atas-sedia-ada-denture'
-                          id='penuh-atas-sedia-ada-denture'
-                          value='penuh-atas-sedia-ada-denture'
-                          checked={
-                            props.separaPenuhAtasSediaAdaDenture ===
-                            'penuh-atas-sedia-ada-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhAtasSediaAdaDenture(
-                              e.target.value
+                          type='checkbox'
+                          name='atas-sedia-ada-denture'
+                          id='atas-sedia-ada-denture'
+                          checked={props.atasSediaAdaDenture}
+                          onChange={() => {
+                            props.setAtasSediaAdaDenture(
+                              !props.atasSediaAdaDenture
                             );
                           }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
+                      </div>
+                    ) : null}
+                    {props.yaTidakSediaAdaStatusDenture ===
+                    'ya-sedia-ada-status-denture' ? (
+                      <div className='grid grid-cols-2'>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-atas-sedia-ada-denture'
+                            id='separa-atas-sedia-ada-denture'
+                            value='separa-atas-sedia-ada-denture'
+                            checked={
+                              props.separaPenuhAtasSediaAdaDenture ===
+                              'separa-atas-sedia-ada-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasSediaAdaDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='separa-atas-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Separa
+                          </label>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-atas-sedia-ada-denture'
+                            id='penuh-atas-sedia-ada-denture'
+                            value='penuh-atas-sedia-ada-denture'
+                            checked={
+                              props.separaPenuhAtasSediaAdaDenture ===
+                              'penuh-atas-sedia-ada-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasSediaAdaDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='penuh-atas-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Penuh
+                          </label>
+                        </div>
+                      </div>
+                    ) : null}
+                    {props.yaTidakSediaAdaStatusDenture ===
+                    'ya-sedia-ada-status-denture' ? (
+                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='penuh-atas-sedia-ada-denture'
+                          htmlFor='bawah-sedia-ada-denture'
                           className='m-2 text-sm font-m'
                         >
-                          Penuh
+                          Bawah
                         </label>
-                      </div>
-                    </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <label
-                        htmlFor='bawah-sedia-ada-denture'
-                        className='m-2 text-sm font-m'
-                      >
-                        Bawah
-                      </label>
-                      <input
-                        type='checkbox'
-                        name='bawah-sedia-ada-denture'
-                        id='bawah-sedia-ada-denture'
-                        checked={props.bawahSediaAdaDenture}
-                        onChange={() => {
-                          props.setBawahSediaAdaDenture(
-                            !props.bawahSediaAdaDenture
-                          );
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                    </div>
-                    <div className='grid grid-cols-2'>
-                      <div className='flex items-center justify-center'>
                         <input
-                          type='radio'
-                          name='separa-penuh-bawah-sedia-ada-denture'
-                          id='separa-bawah-sedia-ada-denture'
-                          value='separa-bawah-sedia-ada-denture'
-                          checked={
-                            props.separaPenuhBawahSediaAdaDenture ===
-                            'separa-bawah-sedia-ada-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhBawahSediaAdaDenture(
-                              e.target.value
+                          type='checkbox'
+                          name='bawah-sedia-ada-denture'
+                          id='bawah-sedia-ada-denture'
+                          checked={props.bawahSediaAdaDenture}
+                          onChange={() => {
+                            props.setBawahSediaAdaDenture(
+                              !props.bawahSediaAdaDenture
                             );
                           }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                        <label
-                          htmlFor='separa-bawah-sedia-ada-denture'
-                          className='m-2 text-sm font-m'
-                        >
-                          Separa
-                        </label>
                       </div>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='radio'
-                          name='separa-penuh-bawah-sedia-ada-denture'
-                          id='penuh-bawah-sedia-ada-denture'
-                          value='penuh-bawah-sedia-ada-denture'
-                          checked={
-                            props.separaPenuhBawahSediaAdaDenture ===
-                            'penuh-bawah-sedia-ada-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhBawahSediaAdaDenture(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='penuh-bawah-sedia-ada-denture'
-                          className='m-2 text-sm font-m'
-                        >
-                          Penuh
-                        </label>
+                    ) : null}
+                    {props.yaTidakSediaAdaStatusDenture ===
+                    'ya-sedia-ada-status-denture' ? (
+                      <div className='grid grid-cols-2'>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-bawah-sedia-ada-denture'
+                            id='separa-bawah-sedia-ada-denture'
+                            value='separa-bawah-sedia-ada-denture'
+                            checked={
+                              props.separaPenuhBawahSediaAdaDenture ===
+                              'separa-bawah-sedia-ada-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahSediaAdaDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='separa-bawah-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Separa
+                          </label>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-bawah-sedia-ada-denture'
+                            id='penuh-bawah-sedia-ada-denture'
+                            value='penuh-bawah-sedia-ada-denture'
+                            checked={
+                              props.separaPenuhBawahSediaAdaDenture ===
+                              'penuh-bawah-sedia-ada-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahSediaAdaDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='penuh-bawah-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Penuh
+                          </label>
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </article>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-semibold'>Perlu</h4>
                     <div className='flex items-center justify-center'>
                       <input
@@ -297,150 +312,164 @@ export default function PemeriksaanAwal(props) {
                         Tidak
                       </label>
                     </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <label
-                        htmlFor='atas-perlu-denture'
-                        className='m-2 text-sm font-m'
-                      >
-                        Atas
-                      </label>
-                      <input
-                        type='checkbox'
-                        name='atas-perlu-denture'
-                        id='atas-perlu-denture'
-                        checked={props.atasPerluDenture}
-                        onChange={() => {
-                          props.setAtasPerluDenture(!props.atasPerluDenture);
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                    </div>
-                    <div className='grid grid-cols-2'>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='radio'
-                          name='separa-penuh-atas-perlu-denture'
-                          id='separa-atas-perlu-denture'
-                          value='separa-atas-perlu-denture'
-                          checked={
-                            props.separaPenuhAtasPerluDenture ===
-                            'separa-atas-perlu-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhAtasPerluDenture(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
+                    {props.yaTidakPerluStatusDenture ===
+                    'ya-perlu-status-denture' ? (
+                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='separa-atas-perlu-denture'
+                          htmlFor='atas-perlu-denture'
                           className='m-2 text-sm font-m'
                         >
-                          Separa
+                          Atas
                         </label>
-                      </div>
-                      <div className='flex items-center justify-center'>
                         <input
-                          type='radio'
-                          name='separa-penuh-atas-perlu-denture'
-                          id='penuh-atas-perlu-denture'
-                          value='penuh-atas-perlu-denture'
-                          checked={
-                            props.separaPenuhAtasPerluDenture ===
-                            'penuh-atas-perlu-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhAtasPerluDenture(
-                              e.target.value
-                            );
+                          type='checkbox'
+                          name='atas-perlu-denture'
+                          id='atas-perlu-denture'
+                          checked={props.atasPerluDenture}
+                          onChange={() => {
+                            props.setAtasPerluDenture(!props.atasPerluDenture);
                           }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
+                      </div>
+                    ) : null}
+                    {props.yaTidakPerluStatusDenture ===
+                    'ya-perlu-status-denture' ? (
+                      <div className='grid grid-cols-2'>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-atas-perlu-denture'
+                            id='separa-atas-perlu-denture'
+                            value='separa-atas-perlu-denture'
+                            checked={
+                              props.separaPenuhAtasPerluDenture ===
+                              'separa-atas-perlu-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasPerluDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='separa-atas-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Separa
+                          </label>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-atas-perlu-denture'
+                            id='penuh-atas-perlu-denture'
+                            value='penuh-atas-perlu-denture'
+                            checked={
+                              props.separaPenuhAtasPerluDenture ===
+                              'penuh-atas-perlu-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasPerluDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='penuh-atas-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Penuh
+                          </label>
+                        </div>
+                      </div>
+                    ) : null}
+                    {props.yaTidakPerluStatusDenture ===
+                    'ya-perlu-status-denture' ? (
+                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='penuh-atas-perlu-denture'
+                          htmlFor='bawah-perlu-denture'
                           className='m-2 text-sm font-m'
                         >
-                          Penuh
+                          Bawah
                         </label>
-                      </div>
-                    </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <label
-                        htmlFor='bawah-perlu-denture'
-                        className='m-2 text-sm font-m'
-                      >
-                        Bawah
-                      </label>
-                      <input
-                        type='checkbox'
-                        name='bawah-perlu-denture'
-                        id='bawah-perlu-denture'
-                        checked={props.bawahPerluDenture}
-                        onChange={() => {
-                          props.setBawahPerluDenture(!props.bawahPerluDenture);
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                    </div>
-                    <div className='grid grid-cols-2'>
-                      <div className='flex items-center justify-center'>
                         <input
-                          type='radio'
-                          name='separa-penuh-bawah-perlu-denture'
-                          id='separa-bawah-perlu-denture'
-                          value='separa-bawah-perlu-denture'
-                          checked={
-                            props.separaPenuhBawahPerluDenture ===
-                            'separa-bawah-perlu-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhBawahPerluDenture(
-                              e.target.value
+                          type='checkbox'
+                          name='bawah-perlu-denture'
+                          id='bawah-perlu-denture'
+                          checked={props.bawahPerluDenture}
+                          onChange={() => {
+                            props.setBawahPerluDenture(
+                              !props.bawahPerluDenture
                             );
                           }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                        <label
-                          htmlFor='separa-bawah-perlu-denture'
-                          className='m-2 text-sm font-m'
-                        >
-                          Separa
-                        </label>
                       </div>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='radio'
-                          name='separa-penuh-bawah-perlu-denture'
-                          id='penuh-bawah-perlu-denture'
-                          value='penuh-bawah-perlu-denture'
-                          checked={
-                            props.separaPenuhBawahPerluDenture ===
-                            'penuh-bawah-perlu-denture'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setSeparaPenuhBawahPerluDenture(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='penuh-bawah-perlu-denture'
-                          className='m-2 text-sm font-m'
-                        >
-                          Penuh
-                        </label>
+                    ) : null}
+                    {props.yaTidakPerluStatusDenture ===
+                    'ya-perlu-status-denture' ? (
+                      <div className='grid grid-cols-2'>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-bawah-perlu-denture'
+                            id='separa-bawah-perlu-denture'
+                            value='separa-bawah-perlu-denture'
+                            checked={
+                              props.separaPenuhBawahPerluDenture ===
+                              'separa-bawah-perlu-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahPerluDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='separa-bawah-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Separa
+                          </label>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='separa-penuh-bawah-perlu-denture'
+                            id='penuh-bawah-perlu-denture'
+                            value='penuh-bawah-perlu-denture'
+                            checked={
+                              props.separaPenuhBawahPerluDenture ===
+                              'penuh-bawah-perlu-denture'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahPerluDenture(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='penuh-bawah-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Penuh
+                          </label>
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </article>
                 </div>
               </article>
@@ -483,7 +512,7 @@ export default function PemeriksaanAwal(props) {
                   />
                   <label
                     htmlFor='kecederaan-gigi-anterior'
-                    className='m-1 text-sm font-m'
+                    className='m-2 text-sm font-m'
                   >
                     Kecederaan Gigi Anterior
                   </label>
@@ -544,7 +573,11 @@ export default function PemeriksaanAwal(props) {
                     <option value='E'>E</option>
                   </select>
                 </div>
-                <div className='flex items-center flex-row pl-5'>
+                <div
+                  className={`${
+                    props.umur < 15 && 'hidden'
+                  } flex items-center flex-row pl-5`}
+                >
                   <select
                     name='skor-bpe'
                     id='skor-bpe'
@@ -562,7 +595,11 @@ export default function PemeriksaanAwal(props) {
                     <option value='4'>4</option>
                   </select>
                 </div>
-                <div className='flex items-center flex-row pl-5'>
+                <div
+                  className={`${
+                    props.umur < 15 && 'hidden'
+                  } flex items-center flex-row pl-5`}
+                >
                   <label
                     htmlFor='saringan-kanser-mulut'
                     className='text-sm font-m'
@@ -604,17 +641,32 @@ export default function PemeriksaanAwal(props) {
                 <h4 className='font-bold flex flex-row pl-5'>
                   Status Gigi Desidus
                 </h4>
-                <div className='flex flex-row pl-5 '>
-                  <div className='grid grid-cols-2'>
-                    <button className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'>
-                      Tiada
-                    </button>
+                <div className='grid grid-cols-2'>
+                  <div className='flex items-center flex-row pl-5 col-span-2'>
+                    <span
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
+                      onClick={(e) =>
+                        !statusGigiDecidus
+                          ? setStatusGigiDecidus(true)
+                          : setStatusGigiDecidus(false)
+                      }
+                    >
+                      {statusGigiDecidus ? 'Ada' : 'Tiada'}
+                    </span>
                     {/* tukar ada jika tekan button hilang <p> sekali*/}
-                    <p className='text-sm font-m'>
-                      Klik butang di atas jika ada gigi desidus
+                    <p className='text-xs font-m whitespace-normal'>
+                      {statusGigiDecidus
+                        ? 'Klik sekali lagi jika tiada data'
+                        : 'Klik butang jika ada gigi desidus'}
                     </p>
-                    {/* display jika ada gigi desidus */}
-                    <div className='flex flex-row items-center'>
+                  </div>
+                  {/* display jika ada gigi desidus */}
+                  <div
+                    className={`${
+                      !statusGigiDecidus && 'hidden'
+                    } grid grid-cols-2 gap-2`}
+                  >
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>d: </p>
                       <input
                         type='number'
@@ -627,7 +679,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>m: </p>
                       <input
                         type='number'
@@ -640,7 +692,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>f: </p>
                       <input
                         type='number'
@@ -653,7 +705,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>e: </p>
                       <input
                         type='number'
@@ -666,7 +718,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>x: </p>
                       <input
                         type='number'
@@ -686,15 +738,32 @@ export default function PemeriksaanAwal(props) {
                 <h4 className='font-bold flex flex-row pl-5'>
                   Status Gigi Kekal
                 </h4>
-                <div className='flex flex-row pl-5 '>
-                  <div className='grid grid-cols-2'>
-                    <button className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m col-span-2'>
-                      Tiada
-                    </button>
+                <div className='grid grid-cols-2'>
+                  <div className='flex items-center flex-row pl-5 col-span-2'>
+                    <span
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
+                      onClick={(e) =>
+                        !statusGigiKekal
+                          ? setStatusGigiKekal(true)
+                          : setStatusGigiKekal(false)
+                      }
+                    >
+                      {statusGigiKekal ? 'Ada' : 'Tiada'}
+                    </span>
                     {/* tukar ada jika tekan button hilang <p> sekali*/}
-                    <p>Klik butang di atas jika ada gigi kekal</p>
-                    {/* display jika ada gigi desidus */}
-                    <div className='flex flex-row items-center'>
+                    <p className='text-xs font-m whitespace-normal'>
+                      {statusGigiKekal
+                        ? 'Klik sekali lagi jika tiada data'
+                        : 'Klik butang jika ada gigi kekal'}
+                    </p>
+                  </div>
+                  {/* display jika ada gigi desidus */}
+                  <div
+                    className={`${
+                      !statusGigiKekal && 'hidden'
+                    } grid grid-cols-2 gap-2`}
+                  >
+                    <div className='flex flex-row items-center  pl-5'>
                       <p className='text-sm font-m '>D: </p>
                       <input
                         type='number'
@@ -707,7 +776,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>M: </p>
                       <input
                         type='number'
@@ -720,7 +789,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>F: </p>
                       <input
                         type='number'
@@ -733,7 +802,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>E: </p>
                       <input
                         type='number'
@@ -746,7 +815,7 @@ export default function PemeriksaanAwal(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>X: </p>
                       <input
                         type='number'
@@ -771,7 +840,7 @@ export default function PemeriksaanAwal(props) {
                     <p className='flex items-center flex-row pl-5'>
                       Jumlah Faktor Risiko:
                     </p>
-                    <input
+                    {/* <input
                       type='number'
                       name='jumlah-faktor-risiko'
                       id='jumlah-faktor-risiko'
@@ -780,17 +849,57 @@ export default function PemeriksaanAwal(props) {
                         props.setJumlahFaktorRisiko(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
+                    /> */}
+                    <select
+                      name='jumlah-faktor-risiko'
+                      id='jumlah-faktor-risiko'
+                      value={props.jumlahFaktorRisiko}
+                      onChange={(e) => {
+                        props.setJumlahFaktorRisiko(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    >
+                      <option disabled>Sila pilih</option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                      <option value='7'>7</option>
+                      <option value='8'>8</option>
+                    </select>
                   </div>
                   <div className='grid grid-cols-3 gap-1'>
                     {/* depend on faktor risiko tukar warna */}
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m '>
+                    <p
+                      className={`${
+                        props.jumlahFaktorRisiko < 3 &&
+                        props.dAdaGigiKekal === 0 &&
+                        props.dAdaGigiDesidus === 0 &&
+                        'bg-user7'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Rendah
                     </p>
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m'>
+                    <p
+                      className={`${
+                        props.jumlahFaktorRisiko < 3 &&
+                        props.eAdaGigiKekal + props.eAdaGigiDesidus > 0 &&
+                        'bg-user8'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Sederhana
                     </p>
-                    <p className='outline outline-1 outline-userBlack w-30 m-1 text-sm font-m'>
+                    <p
+                      className={`${
+                        props.jumlahFaktorRisiko > 6 && 'bg-user9'
+                      } outline outline-1 outline-userBlack w-30 m-1 text-sm font-m`}
+                    >
+                      {/* pls change props.umur to jumlah resiko karies */}
                       Tinggi
                     </p>
                   </div>

@@ -73,7 +73,7 @@ function UserSekolah() {
 
   return (
     <>
-      <div className='container px-10 h-full p-3 overflow-y-auto'>
+      <div className='px-10 h-full p-3 overflow-y-auto'>
         <div>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
             PILIH
@@ -154,7 +154,7 @@ function UserSekolah() {
                       {singlePersonSekolah.createdByUsername}
                     </td>
                     <td className='outline outline-1 outline-userBlack'>
-                      BELUM MULA
+                      {singlePersonSekolah.statusRawatan}
                     </td>
                     <td className='outline outline-1 outline-userBlack'>
                       BELUM MULA

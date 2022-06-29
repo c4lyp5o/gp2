@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -18,9 +19,12 @@ function UserFormSekolah() {
   const [isLoading, setIsLoading] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
+  const [saveDraftState, setSaveDraftState] = useState(true);
+
   // creating masterForm object to be used by the form
   const masterForm = {};
   masterForm.createdByUsername = username;
+  let statusRawatan = '';
   // pendaftaran
   const [kpBergerak, setKpBergerak] = useState(false);
   masterForm.kpBergerak = kpBergerak;
@@ -958,13 +962,164 @@ function UserFormSekolah() {
     fetchSinglePersonSekolah();
   }, []);
 
+  // idea dapat masa angkat takbir subhanAllah..
+  useEffect(() => {
+    setTimeout(async () => {
+      statusRawatan = 'belum selesai';
+      console.log('save draft called');
+      try {
+        await axios.patch(
+          `/api/v1/sekolah/${personSekolahId}`,
+          {
+            createdByUsername: masterForm.createdByUsername,
+            statusRawatan,
+            // pendaftaran
+            kpBergerak,
+            pasukanPergigianBergerak,
+            plateNo,
+            baruUlanganKedatanganPendaftaran,
+            engganKedatanganPendaftaran,
+            tidakHadirKedatanganPendaftaran,
+            adaTiadaPemeriksaanPendaftaran,
+            tinggiRendahRisikoSekolahPendaftaran,
+            // pemeriksaan awal div 1
+            adaCleftLip,
+            rujukCleftLip,
+            yaTidakSediaAdaStatusDenture,
+            atasSediaAdaDenture,
+            separaPenuhAtasSediaAdaDenture,
+            bawahSediaAdaDenture,
+            separaPenuhBawahSediaAdaDenture,
+            yaTidakPerluStatusDenture,
+            atasPerluDenture,
+            separaPenuhAtasPerluDenture,
+            bawahPerluDenture,
+            separaPenuhBawahPerluDenture,
+            toothSurfaceLossTrauma,
+            kecederaanGigiAnteriorTrauma,
+            tisuLembutTrauma,
+            tisuKerasTrauma,
+            // pemeriksaan awal div 2
+            kebersihanMulutOralHygiene,
+            skorBpeOralHygiene,
+            saringanKanserMulutOralHygiene,
+            skorGisMulutOralHygiene,
+            dAdaGigiDesidus,
+            mAdaGigiDesidus,
+            fAdaGigiDesidus,
+            eAdaGigiDesidus,
+            xAdaGigiDesidus,
+            dAdaGigiKekal,
+            mAdaGigiKekal,
+            fAdaGigiKekal,
+            eAdaGigiKekal,
+            xAdaGigiKekal,
+            jumlahFaktorRisiko,
+            // pemeriksaan awal div 3
+            gicBilanganFsDibuat3TahunLepas,
+            resinBilanganFsDibuat3TahunLepas,
+            lainLainBilanganFsDibuat3TahunLepas,
+            dBilanganFsDibuat3TahunLepasTerjadi,
+            mBilanganFsDibuat3TahunLepasTerjadi,
+            fBilanganFsDibuat3TahunLepasTerjadi,
+            eBilanganFsDibuat3TahunLepasTerjadi,
+            xBilanganFsDibuat3TahunLepasTerjadi,
+            classID,
+            classIID,
+            classIF,
+            classIIF,
+            // perlu dibuat
+            baruJumlahGigiKekalPerluFs,
+            semulaJumlahGigiKekalPerluFs,
+            jumlahGigiFsGagal,
+            baruJumlahGigiKekalPerluFv,
+            semulaJumlahGigiKekalPerluFv,
+            baruJumlahGigiKekalPerluPrrJenis1,
+            semulaJumlahGigiKekalPerluPrrJenis1,
+            yaTidakSilverDiamineFluoridePerluSapuan,
+            baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            // penyata akhir 1
+            baruJumlahGigiKekalDibuatFs,
+            semulaJumlahGigiKekalDibuatFs,
+            baruJumlahGigiKekalDiberiFv,
+            semulaJumlahGigiKekalDiberiFv,
+            baruJumlahGigiKekalDiberiPrrJenis1,
+            semulaJumlahGigiKekalDiberiPrrJenis1,
+            baruJumlahGigiYangDiberiSdf,
+            semulaJumlahGigiYangDiberiSdf,
+            gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            // penyata akhir 2
+            cabutDesidusPenyataAkhir2,
+            cabutKekalPenyataAkhir2,
+            jumlahTampalanSementaraPenyataAkhir2,
+            pulpotomiPenyataAkhir2,
+            endodontikPenyataAkhir2,
+            absesPenyataAkhir2,
+            penskaleranPenyataAkhir2,
+            kesSelesaiPenyataAkhir2,
+            kesSelesaiIcdasPenyataAkhir2,
+            rujukPenyataAkhir2,
+            ceramahPromosiPenyataAkhir2,
+            lmgPromosiPenyataAkhir2,
+            yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+            plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+            dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+            kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+            // kotak
+            statusM,
+            jenisR,
+            tarikh1,
+            tarikh2,
+            tarikh3,
+            tarikh4,
+            adaQ,
+            tiadaQ,
+            rujukG,
+            tarikhQ,
+            statusSelepas6Bulan,
+          },
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        );
+        console.log('Saved draft');
+      } catch (error) {
+        console.log(error.response.data.msg);
+      }
+      setSaveDraftState(!saveDraftState);
+    }, 900000);
+  }, [saveDraftState]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    statusRawatan = 'selesai';
     try {
       await axios.patch(
         `/api/v1/sekolah/${personSekolahId}`,
         {
           createdByUsername: masterForm.createdByUsername,
+          statusRawatan,
           // pendaftaran
           kpBergerak,
           pasukanPergigianBergerak,
@@ -1105,15 +1260,51 @@ function UserFormSekolah() {
     // do something..
   };
 
+  const [isShown, setIsShown] = useState(false);
+
   return (
     <>
-      <div className='container px-10 h-full p-3 overflow-y-auto'>
+      <div className='h-full p-3 px-10 overflow-y-auto'>
         <div className='p-2'>
           <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
             <div>
-              <h1 className='text-l font-bold flex flex-row pl-5 pt-5'>
-                BASIC DEMOGRAFIK
-              </h1>
+              <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                <h1>MAKLUMAT AM PESAKIT</h1>
+                <FaInfoCircle
+                  className='m-1 text-lg'
+                  onMouseEnter={() => setIsShown(true)}
+                  onMouseLeave={() => setIsShown(false)}
+                />
+              </div>
+              {isShown && (
+                <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
+                  <div className='flex flex-row text-sm'>
+                    <h2 className='font-semibold'>NAMA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.nama}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>NO IC :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>JANTINA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.jantina}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.tarikhLahir}</p>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>
+                      {singlePersonSekolah.warganegara}
+                    </h2>
+                  </div>
+                  <div className='text-sm flex flex-row '>
+                    <h2 className='font-semibold'>BANGSA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.bangsa}</p>
+                  </div>
+                </div>
+              )}
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>NAMA :</h2>
                 <p className='ml-1'>{singlePersonSekolah.nama}</p>
@@ -1126,15 +1317,15 @@ function UserFormSekolah() {
                 <h2 className='font-semibold'>UMUR :</h2>
                 <p className='ml-1'>{singlePersonSekolah.umur} tahun</p>
               </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>NO IC :</h2>
-                <p className='ml-1'>{singlePersonSekolah.ic}</p>
-              </div>
             </div>
             <div className='md:pt-10'>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>NAMA SEKOLAH :</h2>
                 <p className='ml-1'>{singlePersonSekolah.namaSekolah}</p>
+              </div>
+              <div className='text-s flex flex-row pl-5'>
+                <h2 className='font-semibold'>KELAS :</h2>
+                <p className='ml-1'>{singlePersonSekolah.kelas}</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>
@@ -1146,16 +1337,12 @@ function UserFormSekolah() {
                   {singlePersonSekolah.darjah || singlePersonSekolah.tingkatan}
                 </p>
               </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>KELAS :</h2>
-                <p className='ml-1'>{singlePersonSekolah.kelas}</p>
-              </div>
             </div>
           </article>
         </div>
         <form onSubmit={handleSubmit}>
           <Pendaftaran {...masterForm} />
-          <PemeriksaanAwal {...masterForm} />
+          <PemeriksaanAwal {...masterForm} umur={singlePersonSekolah.umur} />
           <PerluDibuat {...masterForm} />
           <PenyataAkhir1 {...masterForm} />
           <PenyataAkhir2 {...masterForm} />

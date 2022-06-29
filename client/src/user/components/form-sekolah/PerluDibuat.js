@@ -3,9 +3,9 @@ export default function PerluDibuat(props) {
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2'>
-          <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+          <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
-          </button>
+          </span>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>

@@ -5,6 +5,7 @@ const router = express.Router();
 // Controller
 const admincon = require('../controllers/adminController');
 const adminAPI = require('../controllers/adminAPI');
+const testcount = require('../controllers/testCount');
 
 // Routes
 router.get('/getcipher', adminAPI.getCipher);
@@ -50,5 +51,7 @@ router.post('/searchpg', admincon.searchPg);
 
 router.post('/login', adminAPI.loginUser);
 router.post('/logout', admincon.logOut);
+
+router.get('/testcount', testcount.testFunction);
 
 module.exports = router;
