@@ -162,9 +162,15 @@ function UserSekolah() {
                     <td className='outline outline-1 outline-userBlack p-2'>
                       <Link
                         to={`/user/form-sekolah/${singlePersonSekolah._id}`}
-                        className='bg-user3 userWhite rounded-md shadow-xl p-1 m-1 hover:bg-user1 transition-all'
+                        className={`${
+                          singlePersonSekolah.statusRawatan === 'selesai'
+                            ? 'bg-user7 hover:bg-user8'
+                            : 'bg-user3 hover:bg-user2'
+                        } text-userWhite rounded-md shadow-xl p-1 m-1 transition-all`}
                       >
-                        Action
+                        {singlePersonSekolah.statusRawatan === 'selesai'
+                          ? 'Selesai'
+                          : 'Kemaskini'}
                       </Link>
                     </td>
                   </tr>
