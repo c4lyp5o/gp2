@@ -5,19 +5,19 @@ const UmumSchema = new mongoose.Schema(
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: {
       type: String,
-      required: true,
+      // required: true,
     },
     createdByDaerah: {
       type: String,
-      required: true,
+      // required: true,
     },
     createdByKp: {
       type: String,
-      required: true,
+      // required: true,
     },
     createdByUsername: {
       type: String,
-      required: true,
+      // required: true,
     },
     // pendaftaran --------------------------------
     nama: {
@@ -28,10 +28,20 @@ const UmumSchema = new mongoose.Schema(
     ic: {
       type: String,
       required: [true, 'Please provide IC'],
+      // required: [true, 'Please provide nama'],
+      trim: true,
+    },
+    tarikhKedatangan: {
+      type: String,
+      // required: [true, 'Please provide tarikh kedatangan'],
+    },
+    tarikhLahir: {
+      type: String,
+      // required: [true, 'Please provide tarikh lahir'],
     },
     jantina: {
       type: String,
-      required: [true, 'Please provide jantina'],
+      // required: [true, 'Please provide jantina'],
     },
     umur: {
       type: Number,
@@ -76,6 +86,11 @@ const UmumSchema = new mongoose.Schema(
       //baru atau ulangan
     },
     tarikhRujukanKEPP:{ //Leong added this
+      // required: [true, 'Please provide umur'],
+    },
+    ic: {
+      type: String,
+      // required: [true, 'Please provide IC'],
     },
     tarikhMulaRawatanKEPP:{ //Leong added this 
     },
