@@ -12,7 +12,8 @@ import PenyataAkhir2 from './form-sekolah/PenyataAkhir2';
 import Kotak from './form-sekolah/Kotak';
 
 function UserFormSekolah() {
-  const { userToken, username, useParams } = useGlobalUserAppContext();
+  const { userToken, username, navigate, catchAxiosErrorAndLogout, useParams } =
+    useGlobalUserAppContext();
 
   const { personSekolahId } = useParams();
 
@@ -956,7 +957,8 @@ function UserFormSekolah() {
         setTarikhQ(data.singlePersonSekolah.tarikhQ);
         setStatusSelepas6Bulan(data.singlePersonSekolah.statusSelepas6Bulan);
       } catch (error) {
-        console.log(error.response.data.msg);
+        catchAxiosErrorAndLogout();
+        navigate('/');
       }
     };
     fetchSinglePersonSekolah();
@@ -1397,7 +1399,9 @@ function UserFormSekolah() {
       );
       alert('Update success !');
     } catch (error) {
-      console.log(error.response.data.msg);
+      alert('Login expired, please login again');
+      catchAxiosErrorAndLogout();
+      navigate('/');
     }
   };
 
