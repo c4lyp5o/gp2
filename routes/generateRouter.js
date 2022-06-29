@@ -3,8 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 // Controller
-const generatecon = require ('../controllers/generateRetenController');
-const countcon = require ('../controllers/countHelper');
+const generatecon = require('../controllers/generateRetenController');
+const countcon = require('../controllers/countHelper');
+const generateTest = require('../controllers/testCount');
 
 // // Routes
 // // main menu
@@ -37,5 +38,8 @@ router.post('/sekolah/reten', generatecon.borangPilihRetenSekolah_post);
 router.post('/youngadult', generatecon.borangPilihRetenYA);
 router.post('/youngadult/reten', generatecon.borangPilihRetenYA_post);
 router.post('/buatreten', generatecon.borangPilihRetenTadika_post);
+
+// router.post('/testroute', generateTest.getDetails);
+router.get('/testdownload', generateTest.getDetails);
 
 module.exports = router;

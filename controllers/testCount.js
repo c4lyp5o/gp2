@@ -1314,3 +1314,21 @@ exports.testFunction = function (req, res) {
     }
   );
 };
+
+exports.getDetails = async function (req, res) {
+  console.log(req.query);
+  let newfile = path.join(
+    __dirname,
+    '..',
+    'public',
+    'exports',
+    req.query.jenisReten + '.xlsx'
+  );
+  const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+  res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  res.setHeader(
+    'Content-Disposition',
+    `attachment; filename="${req.query.jenisReten}.xlsx"`
+  );
+  res.send(file);
+};
