@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 export default function PemeriksaanAwal(props) {
   const [statusGigiDecidus, setStatusGigiDecidus] = useState(false);
   const [statusGigiKekal, setStatusGigiKekal] = useState(false);
+
   return (
     <>
       <div className='p-2'>
@@ -556,9 +558,10 @@ export default function PemeriksaanAwal(props) {
                 </h4>
                 <div className='flex items-center '>
                   <p className='flex flex-row pl-5 text-sm font-m col-span-2 md:col'>
-                    Kebersihan Mulut
+                    Kebersihan Mulut<span className='text-user6'>*</span>
                   </p>
                   <select
+                    required
                     name='kebersihan-mulut'
                     id='kebersihan-mulut'
                     value={props.kebersihanMulutOralHygiene}
@@ -579,6 +582,7 @@ export default function PemeriksaanAwal(props) {
                   } flex items-center flex-row pl-5`}
                 >
                   <select
+                    required={props.umur < 15 ? false : true}
                     name='skor-bpe'
                     id='skor-bpe'
                     value={props.skorBpeOralHygiene}
@@ -594,6 +598,7 @@ export default function PemeriksaanAwal(props) {
                     <option value='3'>3</option>
                     <option value='4'>4</option>
                   </select>
+                  <span className='text-user6'>*</span>
                 </div>
                 <div
                   className={`${
@@ -621,6 +626,7 @@ export default function PemeriksaanAwal(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <select
+                    required
                     name='skor-gis'
                     id='skor-gis'
                     value={props.skorGisMulutOralHygiene}
@@ -635,14 +641,15 @@ export default function PemeriksaanAwal(props) {
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                   </select>
+                  <span className='text-user6'>*</span>
                 </div>
               </article>
               <article className=' border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
-                  Status Gigi Desidus
+                  Status Gigi Desidus<span className='text-user6'>*</span>
                 </h4>
                 <div className='grid grid-cols-2'>
-                  <div className='flex items-center flex-row pl-5 col-span-2'>
+                  {/* <div className='flex items-center flex-row pl-5 col-span-2'>
                     <span
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
                       onClick={(e) =>
@@ -653,22 +660,20 @@ export default function PemeriksaanAwal(props) {
                     >
                       {statusGigiDecidus ? 'Ada' : 'Tiada'}
                     </span>
-                    {/* tukar ada jika tekan button hilang <p> sekali*/}
                     <p className='text-xs font-m whitespace-normal'>
                       {statusGigiDecidus
                         ? 'Klik sekali lagi jika tiada data'
                         : 'Klik butang jika ada gigi desidus'}
                     </p>
-                  </div>
-                  {/* display jika ada gigi desidus */}
-                  <div
-                    className={`${
-                      !statusGigiDecidus && 'hidden'
-                    } grid grid-cols-2 gap-2`}
-                  >
+                  </div> */}
+                  <div className='grid grid-cols-2 gap-2'>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>d: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='d-ada-status-gigi-desidus'
                         id='d-ada-status-gigi-desidus'
@@ -681,7 +686,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>m: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='m-ada-status-gigi-desidus'
                         id='m-ada-status-gigi-desidus'
@@ -694,7 +703,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>f: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='f-ada-status-gigi-desidus'
                         id='f-ada-status-gigi-desidus'
@@ -707,7 +720,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>e: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='e-ada-status-gigi-desidus'
                         id='e-ada-status-gigi-desidus'
@@ -720,7 +737,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>x: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='x-ada-status-gigi-desidus'
                         id='x-ada-status-gigi-desidus'
@@ -736,10 +757,10 @@ export default function PemeriksaanAwal(props) {
               </article>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
-                  Status Gigi Kekal
+                  Status Gigi Kekal<span className='text-user6'>*</span>
                 </h4>
                 <div className='grid grid-cols-2'>
-                  <div className='flex items-center flex-row pl-5 col-span-2'>
+                  {/* <div className='flex items-center flex-row pl-5 col-span-2'>
                     <span
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
                       onClick={(e) =>
@@ -750,22 +771,20 @@ export default function PemeriksaanAwal(props) {
                     >
                       {statusGigiKekal ? 'Ada' : 'Tiada'}
                     </span>
-                    {/* tukar ada jika tekan button hilang <p> sekali*/}
                     <p className='text-xs font-m whitespace-normal'>
                       {statusGigiKekal
                         ? 'Klik sekali lagi jika tiada data'
                         : 'Klik butang jika ada gigi kekal'}
                     </p>
-                  </div>
-                  {/* display jika ada gigi desidus */}
-                  <div
-                    className={`${
-                      !statusGigiKekal && 'hidden'
-                    } grid grid-cols-2 gap-2`}
-                  >
+                  </div> */}
+                  <div className='grid grid-cols-2 gap-2'>
                     <div className='flex flex-row items-center  pl-5'>
                       <p className='text-sm font-m '>D: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='d-ada-status-gigi-kekal'
                         id='d-ada-status-gigi-kekal'
@@ -778,7 +797,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>M: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='m-ada-status-gigi-kekal'
                         id='m-ada-status-gigi-kekal'
@@ -791,7 +814,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>F: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='f-ada-status-gigi-kekal'
                         id='f-ada-status-gigi-kekal'
@@ -804,7 +831,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>E: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='e-ada-status-gigi-kekal'
                         id='e-ada-status-gigi-kekal'
@@ -817,7 +848,11 @@ export default function PemeriksaanAwal(props) {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m '>X: </p>
+                      <span className='text-user6'>*</span>
                       <input
+                        required
+                        min='0'
+                        max='32'
                         type='number'
                         name='x-ada-status-gigi-kekal'
                         id='x-ada-status-gigi-kekal'
@@ -840,16 +875,6 @@ export default function PemeriksaanAwal(props) {
                     <p className='flex items-center flex-row pl-5'>
                       Jumlah Faktor Risiko:
                     </p>
-                    {/* <input
-                      type='number'
-                      name='jumlah-faktor-risiko'
-                      id='jumlah-faktor-risiko'
-                      value={props.jumlahFaktorRisiko}
-                      onChange={(e) => {
-                        props.setJumlahFaktorRisiko(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    /> */}
                     <select
                       name='jumlah-faktor-risiko'
                       id='jumlah-faktor-risiko'
@@ -859,7 +884,7 @@ export default function PemeriksaanAwal(props) {
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     >
-                      <option disabled>Sila pilih</option>
+                      <option value=''></option>
                       <option value='0'>0</option>
                       <option value='1'>1</option>
                       <option value='2'>2</option>
@@ -914,6 +939,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>GIC: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='gic-bilangan-fs-dibuat-3-tahun-lepas'
                     id='gic-bilangan-fs-dibuat-3-tahun-lepas'
@@ -927,6 +954,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Resin: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='resin-bilangan-fs-dibuat-3-tahun-lepas'
                     id='resin-bilangan-fs-dibuat-3-tahun-lepas'
@@ -940,6 +969,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
                   <p className='text-sm font-m '>Lain-lain: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
                     id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
@@ -960,6 +991,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>D: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
@@ -975,6 +1008,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>M: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
@@ -990,6 +1025,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>F: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
@@ -1005,6 +1042,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>E: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
@@ -1020,6 +1059,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>X: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
                     id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
@@ -1038,6 +1079,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class I: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='class-1-d'
                     id='class-1-d'
@@ -1051,6 +1094,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class II: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='class-2-d'
                     id='class-2-d'
@@ -1067,6 +1112,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class I: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='class-1-f'
                     id='class-1-f'
@@ -1080,6 +1127,8 @@ export default function PemeriksaanAwal(props) {
                 <div className='flex flex-row pl-5 items-center'>
                   <p className='text-sm font-m '>Class II: </p>
                   <input
+                    min='0'
+                    max='32'
                     type='number'
                     name='class-2-f'
                     id='class-2-f'

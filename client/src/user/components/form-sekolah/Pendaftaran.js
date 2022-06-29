@@ -6,6 +6,7 @@ export default function Pendaftaran(props) {
           <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Pendaftaran</p>
           </span>
+          <p className='text-user6 text-left'>* required</p>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
             <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
               <h4 className='font-bold flex flex-row pl-5 col-span-2'>

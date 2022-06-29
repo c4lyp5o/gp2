@@ -963,153 +963,298 @@ function UserFormSekolah() {
   }, []);
 
   // idea dapat masa angkat takbir subhanAllah..
-  useEffect(() => {
-    setTimeout(async () => {
-      statusRawatan = 'belum selesai';
-      console.log('save draft called');
-      try {
-        await axios.patch(
-          `/api/v1/sekolah/${personSekolahId}`,
-          {
-            createdByUsername: masterForm.createdByUsername,
-            statusRawatan,
-            // pendaftaran
-            kpBergerak,
-            pasukanPergigianBergerak,
-            plateNo,
-            baruUlanganKedatanganPendaftaran,
-            engganKedatanganPendaftaran,
-            tidakHadirKedatanganPendaftaran,
-            adaTiadaPemeriksaanPendaftaran,
-            tinggiRendahRisikoSekolahPendaftaran,
-            // pemeriksaan awal div 1
-            adaCleftLip,
-            rujukCleftLip,
-            yaTidakSediaAdaStatusDenture,
-            atasSediaAdaDenture,
-            separaPenuhAtasSediaAdaDenture,
-            bawahSediaAdaDenture,
-            separaPenuhBawahSediaAdaDenture,
-            yaTidakPerluStatusDenture,
-            atasPerluDenture,
-            separaPenuhAtasPerluDenture,
-            bawahPerluDenture,
-            separaPenuhBawahPerluDenture,
-            toothSurfaceLossTrauma,
-            kecederaanGigiAnteriorTrauma,
-            tisuLembutTrauma,
-            tisuKerasTrauma,
-            // pemeriksaan awal div 2
-            kebersihanMulutOralHygiene,
-            skorBpeOralHygiene,
-            saringanKanserMulutOralHygiene,
-            skorGisMulutOralHygiene,
-            dAdaGigiDesidus,
-            mAdaGigiDesidus,
-            fAdaGigiDesidus,
-            eAdaGigiDesidus,
-            xAdaGigiDesidus,
-            dAdaGigiKekal,
-            mAdaGigiKekal,
-            fAdaGigiKekal,
-            eAdaGigiKekal,
-            xAdaGigiKekal,
-            jumlahFaktorRisiko,
-            // pemeriksaan awal div 3
-            gicBilanganFsDibuat3TahunLepas,
-            resinBilanganFsDibuat3TahunLepas,
-            lainLainBilanganFsDibuat3TahunLepas,
-            dBilanganFsDibuat3TahunLepasTerjadi,
-            mBilanganFsDibuat3TahunLepasTerjadi,
-            fBilanganFsDibuat3TahunLepasTerjadi,
-            eBilanganFsDibuat3TahunLepasTerjadi,
-            xBilanganFsDibuat3TahunLepasTerjadi,
-            classID,
-            classIID,
-            classIF,
-            classIIF,
-            // perlu dibuat
-            baruJumlahGigiKekalPerluFs,
-            semulaJumlahGigiKekalPerluFs,
-            jumlahGigiFsGagal,
-            baruJumlahGigiKekalPerluFv,
-            semulaJumlahGigiKekalPerluFv,
-            baruJumlahGigiKekalPerluPrrJenis1,
-            semulaJumlahGigiKekalPerluPrrJenis1,
-            yaTidakSilverDiamineFluoridePerluSapuan,
-            baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
-            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
-            baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
-            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
-            baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
-            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
-            baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
-            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
-            baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
-            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
-            baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
-            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
-            // penyata akhir 1
-            baruJumlahGigiKekalDibuatFs,
-            semulaJumlahGigiKekalDibuatFs,
-            baruJumlahGigiKekalDiberiFv,
-            semulaJumlahGigiKekalDiberiFv,
-            baruJumlahGigiKekalDiberiPrrJenis1,
-            semulaJumlahGigiKekalDiberiPrrJenis1,
-            baruJumlahGigiYangDiberiSdf,
-            semulaJumlahGigiYangDiberiSdf,
-            gdBaruAnteriorSewarnaJumlahTampalanDibuat,
-            gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
-            gkBaruAnteriorSewarnaJumlahTampalanDibuat,
-            gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
-            gdBaruPosteriorSewarnaJumlahTampalanDibuat,
-            gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
-            gkBaruPosteriorSewarnaJumlahTampalanDibuat,
-            gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
-            gdBaruPosteriorAmalgamJumlahTampalanDibuat,
-            gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
-            gkBaruPosteriorAmalgamJumlahTampalanDibuat,
-            gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-            // penyata akhir 2
-            cabutDesidusPenyataAkhir2,
-            cabutKekalPenyataAkhir2,
-            jumlahTampalanSementaraPenyataAkhir2,
-            pulpotomiPenyataAkhir2,
-            endodontikPenyataAkhir2,
-            absesPenyataAkhir2,
-            penskaleranPenyataAkhir2,
-            kesSelesaiPenyataAkhir2,
-            kesSelesaiIcdasPenyataAkhir2,
-            rujukPenyataAkhir2,
-            ceramahPromosiPenyataAkhir2,
-            lmgPromosiPenyataAkhir2,
-            yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
-            plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
-            dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
-            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
-            kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
-            // kotak
-            statusM,
-            jenisR,
-            tarikh1,
-            tarikh2,
-            tarikh3,
-            tarikh4,
-            adaQ,
-            tiadaQ,
-            rujukG,
-            tarikhQ,
-            statusSelepas6Bulan,
-          },
-          { headers: { Authorization: `Bearer ${userToken}` } }
-        );
-        console.log('Saved draft');
-      } catch (error) {
-        console.log(error.response.data.msg);
-      }
-      setSaveDraftState(!saveDraftState);
-    }, 900000);
-  }, [saveDraftState]);
+  // useEffect(() => {
+  //   setTimeout(async () => {
+  //     statusRawatan = 'belum selesai';
+  //     console.log('save draft called');
+  //     try {
+  //       await axios.patch(
+  //         `/api/v1/sekolah/${personSekolahId}`,
+  //         {
+  //           createdByUsername: masterForm.createdByUsername,
+  //           statusRawatan,
+  //           // pendaftaran
+  //           kpBergerak,
+  //           pasukanPergigianBergerak,
+  //           plateNo,
+  //           baruUlanganKedatanganPendaftaran,
+  //           engganKedatanganPendaftaran,
+  //           tidakHadirKedatanganPendaftaran,
+  //           adaTiadaPemeriksaanPendaftaran,
+  //           tinggiRendahRisikoSekolahPendaftaran,
+  //           // pemeriksaan awal div 1
+  //           adaCleftLip,
+  //           rujukCleftLip,
+  //           yaTidakSediaAdaStatusDenture,
+  //           atasSediaAdaDenture,
+  //           separaPenuhAtasSediaAdaDenture,
+  //           bawahSediaAdaDenture,
+  //           separaPenuhBawahSediaAdaDenture,
+  //           yaTidakPerluStatusDenture,
+  //           atasPerluDenture,
+  //           separaPenuhAtasPerluDenture,
+  //           bawahPerluDenture,
+  //           separaPenuhBawahPerluDenture,
+  //           toothSurfaceLossTrauma,
+  //           kecederaanGigiAnteriorTrauma,
+  //           tisuLembutTrauma,
+  //           tisuKerasTrauma,
+  //           // pemeriksaan awal div 2
+  //           kebersihanMulutOralHygiene,
+  //           skorBpeOralHygiene,
+  //           saringanKanserMulutOralHygiene,
+  //           skorGisMulutOralHygiene,
+  //           dAdaGigiDesidus,
+  //           mAdaGigiDesidus,
+  //           fAdaGigiDesidus,
+  //           eAdaGigiDesidus,
+  //           xAdaGigiDesidus,
+  //           dAdaGigiKekal,
+  //           mAdaGigiKekal,
+  //           fAdaGigiKekal,
+  //           eAdaGigiKekal,
+  //           xAdaGigiKekal,
+  //           jumlahFaktorRisiko,
+  //           // pemeriksaan awal div 3
+  //           gicBilanganFsDibuat3TahunLepas,
+  //           resinBilanganFsDibuat3TahunLepas,
+  //           lainLainBilanganFsDibuat3TahunLepas,
+  //           dBilanganFsDibuat3TahunLepasTerjadi,
+  //           mBilanganFsDibuat3TahunLepasTerjadi,
+  //           fBilanganFsDibuat3TahunLepasTerjadi,
+  //           eBilanganFsDibuat3TahunLepasTerjadi,
+  //           xBilanganFsDibuat3TahunLepasTerjadi,
+  //           classID,
+  //           classIID,
+  //           classIF,
+  //           classIIF,
+  //           // perlu dibuat
+  //           baruJumlahGigiKekalPerluFs,
+  //           semulaJumlahGigiKekalPerluFs,
+  //           jumlahGigiFsGagal,
+  //           baruJumlahGigiKekalPerluFv,
+  //           semulaJumlahGigiKekalPerluFv,
+  //           baruJumlahGigiKekalPerluPrrJenis1,
+  //           semulaJumlahGigiKekalPerluPrrJenis1,
+  //           yaTidakSilverDiamineFluoridePerluSapuan,
+  //           baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+  //           semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+  //           baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+  //           semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+  //           baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+  //           semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+  //           baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+  //           semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+  //           baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+  //           semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+  //           baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+  //           semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+  //           // penyata akhir 1
+  //           baruJumlahGigiKekalDibuatFs,
+  //           semulaJumlahGigiKekalDibuatFs,
+  //           baruJumlahGigiKekalDiberiFv,
+  //           semulaJumlahGigiKekalDiberiFv,
+  //           baruJumlahGigiKekalDiberiPrrJenis1,
+  //           semulaJumlahGigiKekalDiberiPrrJenis1,
+  //           baruJumlahGigiYangDiberiSdf,
+  //           semulaJumlahGigiYangDiberiSdf,
+  //           gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+  //           gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+  //           gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+  //           gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+  //           gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+  //           gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+  //           gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+  //           gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+  //           gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+  //           gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+  //           gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+  //           gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+  //           // penyata akhir 2
+  //           cabutDesidusPenyataAkhir2,
+  //           cabutKekalPenyataAkhir2,
+  //           jumlahTampalanSementaraPenyataAkhir2,
+  //           pulpotomiPenyataAkhir2,
+  //           endodontikPenyataAkhir2,
+  //           absesPenyataAkhir2,
+  //           penskaleranPenyataAkhir2,
+  //           kesSelesaiPenyataAkhir2,
+  //           kesSelesaiIcdasPenyataAkhir2,
+  //           rujukPenyataAkhir2,
+  //           ceramahPromosiPenyataAkhir2,
+  //           lmgPromosiPenyataAkhir2,
+  //           yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+  //           plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+  //           dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+  //           penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+  //           kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+  //           // kotak
+  //           statusM,
+  //           jenisR,
+  //           tarikh1,
+  //           tarikh2,
+  //           tarikh3,
+  //           tarikh4,
+  //           adaQ,
+  //           tiadaQ,
+  //           rujukG,
+  //           tarikhQ,
+  //           statusSelepas6Bulan,
+  //         },
+  //         { headers: { Authorization: `Bearer ${userToken}` } }
+  //       );
+  //       console.log('Draft saved');
+  //     } catch (error) {
+  //       console.log(error.response.data.msg);
+  //     }
+  //     setSaveDraftState(!saveDraftState);
+  //   }, 900000);
+  // }, [saveDraftState]);
+
+  const saveDraft = async (e) => {
+    e.preventDefault();
+    statusRawatan = 'belum selesai';
+    try {
+      await axios.patch(
+        `/api/v1/sekolah/${personSekolahId}`,
+        {
+          createdByUsername: masterForm.createdByUsername,
+          statusRawatan,
+          // pendaftaran
+          kpBergerak,
+          pasukanPergigianBergerak,
+          plateNo,
+          baruUlanganKedatanganPendaftaran,
+          engganKedatanganPendaftaran,
+          tidakHadirKedatanganPendaftaran,
+          adaTiadaPemeriksaanPendaftaran,
+          tinggiRendahRisikoSekolahPendaftaran,
+          // pemeriksaan awal div 1
+          adaCleftLip,
+          rujukCleftLip,
+          yaTidakSediaAdaStatusDenture,
+          atasSediaAdaDenture,
+          separaPenuhAtasSediaAdaDenture,
+          bawahSediaAdaDenture,
+          separaPenuhBawahSediaAdaDenture,
+          yaTidakPerluStatusDenture,
+          atasPerluDenture,
+          separaPenuhAtasPerluDenture,
+          bawahPerluDenture,
+          separaPenuhBawahPerluDenture,
+          toothSurfaceLossTrauma,
+          kecederaanGigiAnteriorTrauma,
+          tisuLembutTrauma,
+          tisuKerasTrauma,
+          // pemeriksaan awal div 2
+          kebersihanMulutOralHygiene,
+          skorBpeOralHygiene,
+          saringanKanserMulutOralHygiene,
+          skorGisMulutOralHygiene,
+          dAdaGigiDesidus,
+          mAdaGigiDesidus,
+          fAdaGigiDesidus,
+          eAdaGigiDesidus,
+          xAdaGigiDesidus,
+          dAdaGigiKekal,
+          mAdaGigiKekal,
+          fAdaGigiKekal,
+          eAdaGigiKekal,
+          xAdaGigiKekal,
+          jumlahFaktorRisiko,
+          // pemeriksaan awal div 3
+          gicBilanganFsDibuat3TahunLepas,
+          resinBilanganFsDibuat3TahunLepas,
+          lainLainBilanganFsDibuat3TahunLepas,
+          dBilanganFsDibuat3TahunLepasTerjadi,
+          mBilanganFsDibuat3TahunLepasTerjadi,
+          fBilanganFsDibuat3TahunLepasTerjadi,
+          eBilanganFsDibuat3TahunLepasTerjadi,
+          xBilanganFsDibuat3TahunLepasTerjadi,
+          classID,
+          classIID,
+          classIF,
+          classIIF,
+          // perlu dibuat
+          baruJumlahGigiKekalPerluFs,
+          semulaJumlahGigiKekalPerluFs,
+          jumlahGigiFsGagal,
+          baruJumlahGigiKekalPerluFv,
+          semulaJumlahGigiKekalPerluFv,
+          baruJumlahGigiKekalPerluPrrJenis1,
+          semulaJumlahGigiKekalPerluPrrJenis1,
+          yaTidakSilverDiamineFluoridePerluSapuan,
+          baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+          baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+          baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+          baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+          semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+          baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+          semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+          baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          // penyata akhir 1
+          baruJumlahGigiKekalDibuatFs,
+          semulaJumlahGigiKekalDibuatFs,
+          baruJumlahGigiKekalDiberiFv,
+          semulaJumlahGigiKekalDiberiFv,
+          baruJumlahGigiKekalDiberiPrrJenis1,
+          semulaJumlahGigiKekalDiberiPrrJenis1,
+          baruJumlahGigiYangDiberiSdf,
+          semulaJumlahGigiYangDiberiSdf,
+          gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          // penyata akhir 2
+          cabutDesidusPenyataAkhir2,
+          cabutKekalPenyataAkhir2,
+          jumlahTampalanSementaraPenyataAkhir2,
+          pulpotomiPenyataAkhir2,
+          endodontikPenyataAkhir2,
+          absesPenyataAkhir2,
+          penskaleranPenyataAkhir2,
+          kesSelesaiPenyataAkhir2,
+          kesSelesaiIcdasPenyataAkhir2,
+          rujukPenyataAkhir2,
+          ceramahPromosiPenyataAkhir2,
+          lmgPromosiPenyataAkhir2,
+          yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+          plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2,
+          dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2,
+          penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+          kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2,
+          // kotak
+          statusM,
+          jenisR,
+          tarikh1,
+          tarikh2,
+          tarikh3,
+          tarikh4,
+          adaQ,
+          tiadaQ,
+          rujukG,
+          tarikhQ,
+          statusSelepas6Bulan,
+        },
+        { headers: { Authorization: `Bearer ${userToken}` } }
+      );
+      alert('Draft saved !');
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1250,7 +1395,7 @@ function UserFormSekolah() {
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
-      console.log('Update success');
+      alert('Update success !');
     } catch (error) {
       console.log(error.response.data.msg);
     }
@@ -1295,9 +1440,8 @@ function UserFormSekolah() {
                     <p className='ml-1'>{singlePersonSekolah.tarikhLahir}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>
-                      {singlePersonSekolah.warganegara}
-                    </h2>
+                    <h2 className='font-semibold'>WARGANEGARA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.warganegara}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>BANGSA :</h2>
@@ -1339,6 +1483,12 @@ function UserFormSekolah() {
               </div>
             </div>
           </article>
+          <button
+            onClick={saveDraft}
+            className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+          >
+            simpan deraf
+          </button>
         </div>
         <form onSubmit={handleSubmit}>
           <Pendaftaran {...masterForm} />
@@ -1349,15 +1499,15 @@ function UserFormSekolah() {
           <Kotak {...masterForm} />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
-              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
+              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
                 kosongkan
               </button>
-              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'>
+              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
                 teruskan
               </button>
               <button
                 type='submit'
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite'
+                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
               >
                 hantar
               </button>
