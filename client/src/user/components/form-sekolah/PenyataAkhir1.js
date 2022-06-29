@@ -31,6 +31,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiKekalDibuatFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -49,6 +52,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiKekalDibuatFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
@@ -75,6 +81,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiKekalDiberiFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -93,6 +102,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiKekalDiberiFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
               </article>
@@ -121,6 +133,9 @@ export default function PenyataAkhir1(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -141,6 +156,9 @@ export default function PenyataAkhir1(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
@@ -169,6 +187,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiYangDiberiSdf(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -187,6 +208,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiYangDiberiSdf(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>

@@ -26,6 +26,8 @@ export default function PenyataAkhir2(props) {
                       props.setCabutDesidusPenyataAkhir2(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
+                    min='0'
+                    max='20'
                   />
                 </div>
                 <div className='flex items-center justify-center'>
@@ -39,6 +41,8 @@ export default function PenyataAkhir2(props) {
                       props.setCabutKekalPenyataAkhir2(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
+                    min='0'
+                    max='32'
                   />
                 </div>
               </article>
@@ -78,6 +82,8 @@ export default function PenyataAkhir2(props) {
                         props.setPulpotomiPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='20'
                     />
                   </div>
                   <div className='flex items-center flex-row pl-5'>
@@ -91,6 +97,8 @@ export default function PenyataAkhir2(props) {
                         props.setEndodontikPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='32'
                     />
                   </div>
                   <div className='flex items-center flex-row pl-5'>
@@ -104,6 +112,8 @@ export default function PenyataAkhir2(props) {
                         props.setAbsesPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='1'
                     />
                   </div>
                 </div>
@@ -257,6 +267,7 @@ export default function PenyataAkhir2(props) {
                           );
                         }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        required
                       />
                       <label
                         htmlFor='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'

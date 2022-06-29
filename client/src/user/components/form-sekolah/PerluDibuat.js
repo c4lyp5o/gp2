@@ -31,6 +31,9 @@ export default function PerluDibuat(props) {
                       props.setBaruJumlahGigiKekalPerluFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -49,6 +52,9 @@ export default function PerluDibuat(props) {
                       props.setSemulaJumlahGigiKekalPerluFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5 col-span-2'>
@@ -67,6 +73,8 @@ export default function PerluDibuat(props) {
                       props.setJumlahGigiFsGagal(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
                   />
                 </div>
               </article>
@@ -93,6 +101,9 @@ export default function PerluDibuat(props) {
                       props.setBaruJumlahGigiKekalPerluFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -111,6 +122,9 @@ export default function PerluDibuat(props) {
                       props.setSemulaJumlahGigiKekalPerluFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
               </article>
@@ -139,6 +153,9 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -159,6 +176,9 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
@@ -189,6 +209,7 @@ export default function PerluDibuat(props) {
                       );
                     }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    required
                   />
                   <label
                     htmlFor='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -247,6 +268,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -269,6 +293,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -291,6 +318,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -313,6 +343,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -340,6 +373,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -362,6 +398,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -384,6 +423,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -406,6 +448,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -433,6 +478,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -455,6 +503,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -477,6 +528,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -499,6 +553,9 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
