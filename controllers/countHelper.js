@@ -3922,10 +3922,10 @@ exports.createPG201A = function (req, res) {
         rowNew.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 1)
         rowNew.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
         rowNew.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
-        rowNew.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 1)
-        rowNew.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 1)
-        rowNew.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 1)
-        rowNew.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 1)
+        rowNew.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
+        rowNew.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
+        rowNew.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
+        rowNew.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
         rowNew.commit();
 
         let rowNew2 = worksheet.getRow(18);
@@ -3957,10 +3957,10 @@ exports.createPG201A = function (req, res) {
         rowNew3.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
         rowNew3.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
         rowNew3.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 1)
-        rowNew3.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 1)
-        rowNew3.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 1)
-        rowNew3.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 1)
+        rowNew3.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
+        rowNew3.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
+        rowNew3.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
         rowNew3.commit();
 
         // Reten Sekolah (Darjah 2)
@@ -4027,10 +4027,10 @@ exports.createPG201A = function (req, res) {
         rowNew4.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 2)
         rowNew4.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 2)
         rowNew4.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 2)
-        rowNew4.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 2)
-        rowNew4.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 2)
-        rowNew4.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 2)
-        rowNew4.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 2)
+        rowNew4.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit baru Ada Full Denture Atas(Darjah 2)
+        rowNew4.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit baru Ada Partial Denture Atas(Darjah 2)
+        rowNew4.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit baru Perlu Full Denture Atas (Darjah 2)
+        rowNew4.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit baru Perlu Partial Denture Atas (Darjah 2)
         rowNew4.commit();
 
         let rowNew5 = worksheet.getRow(18);
@@ -4062,10 +4062,10 @@ exports.createPG201A = function (req, res) {
         rowNew6.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 2)
         rowNew6.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 2)
         rowNew6.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 2)
-        rowNew6.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 2)
-        rowNew6.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 2)
-        rowNew6.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 2)
-        rowNew6.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 2)
+        rowNew6.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 2)
+        rowNew6.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 2)
+        rowNew6.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 2)
+        rowNew6.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 2)
         rowNew6.commit();
 
         // Reten Sekolah (Darjah 3)
@@ -4132,10 +4132,10 @@ exports.createPG201A = function (req, res) {
         rowNew7.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 3)
         rowNew7.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 3)
         rowNew7.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 3)
-        rowNew7.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 3)
-        rowNew7.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 3)
-        rowNew7.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 3)
-        rowNew7.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 3)
+        rowNew7.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 3)
+        rowNew7.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 3)
+        rowNew7.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 3)
+        rowNew7.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 3)
         rowNew7.commit();
 
         let rowNew8 = worksheet.getRow(18);
@@ -4167,10 +4167,10 @@ exports.createPG201A = function (req, res) {
         rowNew9.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 3)
         rowNew9.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 3)
         rowNew9.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 3)
-        rowNew9.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 3)
-        rowNew9.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 3)
-        rowNew9.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 3)
-        rowNew9.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 3)
+        rowNew9.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit  Ada Full Denture Bawah (Darjah 3)
+        rowNew9.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 3)
+        rowNew9.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 3)
+        rowNew9.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 3)
         rowNew9.commit();
 
         // Reten Sekolah (Darjah 4)
@@ -4238,10 +4238,10 @@ exports.createPG201A = function (req, res) {
         rowNew10.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 4)
         rowNew10.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 4)
         rowNew10.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 4)
-        rowNew10.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 4)
-        rowNew10.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 4)
-        rowNew10.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 4)
-        rowNew10.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 4)
+        rowNew10.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 4)
+        rowNew10.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 4)
+        rowNew10.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 4)
+        rowNew10.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 4)
         rowNew10.commit();
 
         let rowNew11 = worksheet.getRow(18);
@@ -4273,10 +4273,10 @@ exports.createPG201A = function (req, res) {
         rowNew12.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 4)
         rowNew12.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 4)
         rowNew12.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 4)
-        rowNew12.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 4)
-        rowNew12.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 4)
-        rowNew12.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 4)
-        rowNew12.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 4)
+        rowNew12.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 4)
+        rowNew12.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 4)
+        rowNew12.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 4)
+        rowNew12.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 4)
         rowNew12.commit();
 
         // Reten Sekolah (Darjah 5)
@@ -4344,10 +4344,10 @@ exports.createPG201A = function (req, res) {
         rowNew13.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 5)
         rowNew13.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 5)
         rowNew13.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 5)
-        rowNew13.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 5)
-        rowNew13.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 5)
-        rowNew13.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 5)
-        rowNew13.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 5)
+        rowNew13.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 5)
+        rowNew13.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 5)
+        rowNew13.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 5)
+        rowNew13.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 5)
         rowNew13.commit();
 
         let rowNew14 = worksheet.getRow(18);
@@ -4379,10 +4379,10 @@ exports.createPG201A = function (req, res) {
         rowNew15.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 5)
         rowNew15.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 5)
         rowNew15.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 5)
-        rowNew15.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 5)
-        rowNew15.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 5)
-        rowNew15.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 5)
-        rowNew15.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 5)
+        rowNew15.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah(Darjah 5)
+        rowNew15.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 5)
+        rowNew15.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah(Darjah 5)
+        rowNew15.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 5)
         rowNew15.commit();
 
         // Reten Sekolah (Darjah 6 OR Peralihan)
@@ -4450,10 +4450,10 @@ exports.createPG201A = function (req, res) {
         rowNew16.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 6 OR Peralihan)
         rowNew16.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 6 OR Peralihan)
         rowNew16.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 6 OR Peralihan)
-        rowNew16.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew16.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 6 OR Peralihan)
         rowNew16.commit();
 
         let rowNew17 = worksheet.getRow(18);
@@ -4485,10 +4485,10 @@ exports.createPG201A = function (req, res) {
         rowNew18.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 6 OR Peralihan)
         rowNew18.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 6 OR Peralihan)
         rowNew18.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 6 OR Peralihan)
-        rowNew18.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew18.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 6 OR Peralihan)
         rowNew18.commit();
 
         // Reten Sekolah (KKI)
@@ -4556,10 +4556,10 @@ exports.createPG201A = function (req, res) {
         rowNew19.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (KKI)
         rowNew19.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (KKI)
         rowNew19.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (KKI)
-        rowNew19.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (KKI)
-        rowNew19.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (KKI)
-        rowNew19.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (KKI)
-        rowNew19.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (KKI)
+        rowNew19.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (KKI)
+        rowNew19.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (KKI)
+        rowNew19.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (KKI)
+        rowNew19.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (KKI)
         rowNew19.commit();
 
         let rowNew20 = worksheet.getRow(18);
@@ -4591,10 +4591,10 @@ exports.createPG201A = function (req, res) {
         rowNew21.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (KKI)
         rowNew21.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (KKI)
         rowNew21.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (KKI)
-        rowNew21.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (KKI)
-        rowNew21.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (KKI)
-        rowNew21.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (KKI)
-        rowNew21.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (KKI)
+        rowNew21.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (KKI)
+        rowNew21.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (KKI)
+        rowNew21.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (KKI)
+        rowNew21.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (KKI)
         rowNew21.commit();
 
         let newfile = path.join(
