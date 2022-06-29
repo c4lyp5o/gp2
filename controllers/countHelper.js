@@ -3922,10 +3922,10 @@ exports.createPG201A = function (req, res) {
         rowNew.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 1)
         rowNew.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
         rowNew.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
-        rowNew.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 1)
-        rowNew.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 1)
-        rowNew.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 1)
-        rowNew.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 1)
+        rowNew.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
+        rowNew.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
+        rowNew.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
+        rowNew.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
         rowNew.commit();
 
         let rowNew2 = worksheet.getRow(18);
@@ -3957,10 +3957,10 @@ exports.createPG201A = function (req, res) {
         rowNew3.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
         rowNew3.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
         rowNew3.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 1)
-        rowNew3.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 1)
-        rowNew3.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 1)
-        rowNew3.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 1)
+        rowNew3.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
+        rowNew3.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
+        rowNew3.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
         rowNew3.commit();
 
         // Reten Sekolah (Darjah 2)
@@ -4027,10 +4027,10 @@ exports.createPG201A = function (req, res) {
         rowNew4.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 2)
         rowNew4.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 2)
         rowNew4.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 2)
-        rowNew4.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 2)
-        rowNew4.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 2)
-        rowNew4.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 2)
-        rowNew4.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 2)
+        rowNew4.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit baru Ada Full Denture Atas(Darjah 2)
+        rowNew4.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit baru Ada Partial Denture Atas(Darjah 2)
+        rowNew4.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit baru Perlu Full Denture Atas (Darjah 2)
+        rowNew4.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit baru Perlu Partial Denture Atas (Darjah 2)
         rowNew4.commit();
 
         let rowNew5 = worksheet.getRow(18);
@@ -4062,10 +4062,10 @@ exports.createPG201A = function (req, res) {
         rowNew6.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 2)
         rowNew6.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 2)
         rowNew6.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 2)
-        rowNew6.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 2)
-        rowNew6.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 2)
-        rowNew6.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 2)
-        rowNew6.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 2)
+        rowNew6.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 2)
+        rowNew6.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 2)
+        rowNew6.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 2)
+        rowNew6.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 2)
         rowNew6.commit();
 
         // Reten Sekolah (Darjah 3)
@@ -4132,10 +4132,10 @@ exports.createPG201A = function (req, res) {
         rowNew7.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 3)
         rowNew7.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 3)
         rowNew7.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 3)
-        rowNew7.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 3)
-        rowNew7.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 3)
-        rowNew7.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 3)
-        rowNew7.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 3)
+        rowNew7.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 3)
+        rowNew7.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 3)
+        rowNew7.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 3)
+        rowNew7.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 3)
         rowNew7.commit();
 
         let rowNew8 = worksheet.getRow(18);
@@ -4167,10 +4167,10 @@ exports.createPG201A = function (req, res) {
         rowNew9.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 3)
         rowNew9.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 3)
         rowNew9.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 3)
-        rowNew9.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 3)
-        rowNew9.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 3)
-        rowNew9.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 3)
-        rowNew9.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 3)
+        rowNew9.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit  Ada Full Denture Bawah (Darjah 3)
+        rowNew9.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 3)
+        rowNew9.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 3)
+        rowNew9.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 3)
         rowNew9.commit();
 
         // Reten Sekolah (Darjah 4)
@@ -4238,10 +4238,10 @@ exports.createPG201A = function (req, res) {
         rowNew10.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 4)
         rowNew10.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 4)
         rowNew10.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 4)
-        rowNew10.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 4)
-        rowNew10.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 4)
-        rowNew10.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 4)
-        rowNew10.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 4)
+        rowNew10.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 4)
+        rowNew10.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 4)
+        rowNew10.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 4)
+        rowNew10.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 4)
         rowNew10.commit();
 
         let rowNew11 = worksheet.getRow(18);
@@ -4273,10 +4273,10 @@ exports.createPG201A = function (req, res) {
         rowNew12.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 4)
         rowNew12.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 4)
         rowNew12.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 4)
-        rowNew12.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 4)
-        rowNew12.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 4)
-        rowNew12.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 4)
-        rowNew12.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 4)
+        rowNew12.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 4)
+        rowNew12.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 4)
+        rowNew12.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 4)
+        rowNew12.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 4)
         rowNew12.commit();
 
         // Reten Sekolah (Darjah 5)
@@ -4344,10 +4344,10 @@ exports.createPG201A = function (req, res) {
         rowNew13.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 5)
         rowNew13.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 5)
         rowNew13.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 5)
-        rowNew13.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 5)
-        rowNew13.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 5)
-        rowNew13.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 5)
-        rowNew13.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 5)
+        rowNew13.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 5)
+        rowNew13.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 5)
+        rowNew13.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 5)
+        rowNew13.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 5)
         rowNew13.commit();
 
         let rowNew14 = worksheet.getRow(18);
@@ -4379,10 +4379,10 @@ exports.createPG201A = function (req, res) {
         rowNew15.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 5)
         rowNew15.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 5)
         rowNew15.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 5)
-        rowNew15.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 5)
-        rowNew15.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 5)
-        rowNew15.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 5)
-        rowNew15.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 5)
+        rowNew15.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah(Darjah 5)
+        rowNew15.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 5)
+        rowNew15.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah(Darjah 5)
+        rowNew15.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 5)
         rowNew15.commit();
 
         // Reten Sekolah (Darjah 6 OR Peralihan)
@@ -4450,10 +4450,10 @@ exports.createPG201A = function (req, res) {
         rowNew16.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (Darjah 6 OR Peralihan)
         rowNew16.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (Darjah 6 OR Peralihan)
         rowNew16.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (Darjah 6 OR Peralihan)
-        rowNew16.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew16.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew16.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 6 OR Peralihan)
+        rowNew16.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 6 OR Peralihan)
         rowNew16.commit();
 
         let rowNew17 = worksheet.getRow(18);
@@ -4485,10 +4485,10 @@ exports.createPG201A = function (req, res) {
         rowNew18.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 6 OR Peralihan)
         rowNew18.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 6 OR Peralihan)
         rowNew18.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 6 OR Peralihan)
-        rowNew18.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (Darjah 6 OR Peralihan)
-        rowNew18.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (Darjah 6 OR Peralihan)
+        rowNew18.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 6 OR Peralihan)
+        rowNew18.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 6 OR Peralihan)
         rowNew18.commit();
 
         // Reten Sekolah (KKI)
@@ -4556,10 +4556,10 @@ exports.createPG201A = function (req, res) {
         rowNew19.getCell(68).value = results.traumaTSL; // Trauma Tooth Surface Loss (KKI)
         rowNew19.getCell(69).value = results.traumaTisuLembut; // Trauma Tisu Lembut (KKI)
         rowNew19.getCell(70).value = results.traumaTisuKeras; // Trauma Tisu Keras (KKI)
-        rowNew19.getCell(72).value = results.pesakitBaruAdaFullDenture; // Pesakit baru Ada Full Denture (KKI)
-        rowNew19.getCel(73).value = results.pesakitBaruAdaPartialDenture; // Pesakit baru Ada Partial Denture (KKI)
-        rowNew19.getCell(74).value = results.pesakitBaruPerluFullDenture; // Pesakit baru Perlu Full Denture (KKI)
-        rowNew19.getCell(75).value = results.pesakitBaruPerluPartialDenture; // Pesakit baru Perlu Partial Denture (KKI)
+        rowNew19.getCell(72).value = results.pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas (KKI)
+        rowNew19.getCel(73).value = results.pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (KKI)
+        rowNew19.getCell(74).value = results.pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (KKI)
+        rowNew19.getCell(75).value = results.pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (KKI)
         rowNew19.commit();
 
         let rowNew20 = worksheet.getRow(18);
@@ -4591,10 +4591,10 @@ exports.createPG201A = function (req, res) {
         rowNew21.getCell(55).value = results.telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (KKI)
         rowNew21.getCell(56).value = results.telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (KKI)
         rowNew21.getCell(57).value = results.telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (KKI)
-        rowNew21.getCell(72).value = results.pesakitUlanganAdaFullDenture; // Pesakit Ulangan Ada Full Denture (KKI)
-        rowNew21.getCel(73).value = results.pesakitUlanganAdaPartialDenture; // Pesakit Ulangan Ada Partial Denture (KKI)
-        rowNew21.getCell(74).value = results.pesakitUlanganPerluFullDenture; // Pesakit Ulangan Perlu Full Denture (KKI)
-        rowNew21.getCell(75).value = results.pesakitUlanganPerluPartialDenture; // Pesakit Ulangan Perlu Partial Denture (KKI)
+        rowNew21.getCell(72).value = results.pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (KKI)
+        rowNew21.getCel(73).value = results.pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (KKI)
+        rowNew21.getCell(74).value = results.pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (KKI)
+        rowNew21.getCell(75).value = results.pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (KKI)
         rowNew21.commit();
 
         let newfile = path.join(
@@ -4680,7 +4680,7 @@ exports.createPGS203 = function (req, res) {
         );
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PGS 203');
+        let worksheet = workbook.getWorksheet('PGS203');
 
         //Reten PGS 203
         //PraSekolah Tadika (Kerajaan)
@@ -6730,6 +6730,4145 @@ exports.createPPIM05 = function (req, res) {
           'public',
           'exports',
           'test-PPIM05.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG206 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS206.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG206');
+
+        //PG206
+        //Bawah 1 tahun baru
+        let rowNew1 = worksheet.getRow(16);
+
+        rowNew1.getCell(3).value = results.kedatanganTahunSemasa; //C16      Bawah 1 tahun baru
+        rowNew1.getCell(4).value = results.sapuanFluorida; //D16      Bawah 1 tahun baru
+        rowNew1.getCell(5).value = results.prrJenis1; //E16      Bawah 1 tahun baru
+        rowNew1.getCell(6).value = results.muridBaruFS; //F16      Bawah 1 tahun baru
+        rowNew1.getCell(7).value = results.muridUlanganFS; //G16      Bawah 1 tahun baru
+        rowNew1.getCell(8).value = results.gigiBaruFS; //H16      Bawah 1 tahun baru
+        rowNew1.getCell(9).value = results.gigiUlanganFS; //I16      Bawah 1 tahun baru
+        rowNew1.getCell(10).value = results.tampalanAntGdBaru; //J16      Bawah 1 tahun baru
+        rowNew1.getCell(11).value = results.tampalanAntGdUlangan; //K16      Bawah 1 tahun baru
+        rowNew1.getCell(12).value = results.tampalanAntGkBaru; //L16      Bawah 1 tahun baru
+        rowNew1.getCell(13).value = results.tampalanAntGkUlangan; //M16      Bawah 1 tahun baru
+        rowNew1.getCell(14).value = results.tampalanPostGdBaru; //N16      Bawah 1 tahun baru
+        rowNew1.getCell(15).value = results.tampalanPostGdUlangan; //O16      Bawah 1 tahun baru
+        rowNew1.getCell(16).value = results.tampalanPostGkBaru; //P16      Bawah 1 tahun baru
+        rowNew1.getCell(17).value = results.tampalanPostGkUlangan; //Q16      Bawah 1 tahun baru
+        rowNew1.getCell(18).value = results.tampalanPostAmgGdBaru; //R16      Bawah 1 tahun baru
+        rowNew1.getCell(19).value = results.tampalanPostAmgGdUlangan; //S16      Bawah 1 tahun baru
+        rowNew1.getCell(20).value = results.tampalanPostAmgGkBaru; //T16      Bawah 1 tahun baru
+        rowNew1.getCell(21).value = results.tampalanPostAmgGkUlangan; //U16      Bawah 1 tahun baru
+        rowNew1.getCell(22).value = results.jumlahTampalanBaru; //V16      Bawah 1 tahun baru
+        rowNew1.getCell(23).value = results.jumlahTampalanUlangan; //W16      Bawah 1 tahun baru
+        rowNew1.getCell(24).value = results.tampalanSementara; //X16      Bawah 1 tahun baru
+        rowNew1.getCell(25).value = results.cabutanGd; //Y16      Bawah 1 tahun baru
+        rowNew1.getCell(26).value = results.cabutanGk; //Z16      Bawah 1 tahun baru
+        rowNew1.getCell(27).value = results.penskaleran; //AA16      Bawah 1 tahun baru
+        rowNew1.getCell(28).value = results.kesSelesai; //AB16      Bawah 1 tahun baru
+        rowNew1.getCell(29).value = results.rokokSaringNasihat; //AC16      Bawah 1 tahun baru
+        rowNew1.getCell(30).value = results.rokokIntervensi; //AD16      Bawah 1 tahun baru
+        rowNew1.commit();
+
+        //PG206
+        //Bawah 1 tahun ulangan
+        let rowNew2 = worksheet.getRow(17);
+
+        rowNew2.getCell(3).value = results.kedatanganTahunSemasa; //C17      Bawah 1 tahun ulangan
+        rowNew2.getCell(4).value = results.sapuanFluorida; //D17      Bawah 1 tahun ulangan
+        rowNew2.getCell(5).value = results.prrJenis1; //E17      Bawah 1 tahun ulangan
+        rowNew2.getCell(6).value = results.muridBaruFS; //F17      Bawah 1 tahun ulangan
+        rowNew2.getCell(7).value = results.muridUlanganFS; //G17      Bawah 1 tahun ulangan
+        rowNew2.getCell(8).value = results.gigiBaruFS; //H17      Bawah 1 tahun ulangan
+        rowNew2.getCell(9).value = results.gigiUlanganFS; //I17      Bawah 1 tahun ulangan
+        rowNew2.getCell(10).value = results.tampalanAntGdBaru; //J17      Bawah 1 tahun ulangan
+        rowNew2.getCell(11).value = results.tampalanAntGdUlangan; //K17      Bawah 1 tahun ulangan
+        rowNew2.getCell(12).value = results.tampalanAntGkBaru; //L17      Bawah 1 tahun ulangan
+        rowNew2.getCell(13).value = results.tampalanAntGkUlangan; //M17      Bawah 1 tahun ulangan
+        rowNew2.getCell(14).value = results.tampalanPostGdBaru; //N17      Bawah 1 tahun ulangan
+        rowNew2.getCell(15).value = results.tampalanPostGdUlangan; //O17      Bawah 1 tahun ulangan
+        rowNew2.getCell(16).value = results.tampalanPostGkBaru; //P17      Bawah 1 tahun ulangan
+        rowNew2.getCell(17).value = results.tampalanPostGkUlangan; //Q17      Bawah 1 tahun ulangan
+        rowNew2.getCell(18).value = results.tampalanPostAmgGdBaru; //R17      Bawah 1 tahun ulangan
+        rowNew2.getCell(19).value = results.tampalanPostAmgGdUlangan; //S17      Bawah 1 tahun ulangan
+        rowNew2.getCell(20).value = results.tampalanPostAmgGkBaru; //T17      Bawah 1 tahun ulangan
+        rowNew2.getCell(21).value = results.tampalanPostAmgGkUlangan; //U17      Bawah 1 tahun ulangan
+        rowNew2.getCell(22).value = results.jumlahTampalanBaru; //V17      Bawah 1 tahun ulangan
+        rowNew2.getCell(23).value = results.jumlahTampalanUlangan; //W17      Bawah 1 tahun ulangan
+        rowNew2.getCell(24).value = results.tampalanSementara; //X17      Bawah 1 tahun ulangan
+        rowNew2.getCell(25).value = results.cabutanGd; //Y17      Bawah 1 tahun ulangan
+        rowNew2.getCell(26).value = results.cabutanGk; //Z17      Bawah 1 tahun ulangan
+        rowNew2.getCell(27).value = results.penskaleran; //AA17      Bawah 1 tahun ulangan
+        rowNew2.getCell(28).value = results.kesSelesai; //AB17      Bawah 1 tahun ulangan
+        rowNew2.getCell(29).value = results.rokokSaringNasihat; //AC17      Bawah 1 tahun ulangan
+        rowNew2.getCell(30).value = results.rokokIntervensi; //AD17      Bawah 1 tahun ulangan
+        rowNew2.commit();
+
+        //PG206
+        // 1 hingga 4 tahun baru
+        let rowNew3 = worksheet.getRow(18);
+
+        rowNew3.getCell(3).value = results.kedatanganTahunSemasa; //C18      1 hingga 4 tahun baru
+        rowNew3.getCell(4).value = results.sapuanFluorida; //D18      1 hingga 4 tahun baru
+        rowNew3.getCell(5).value = results.prrJenis1; //E18      1 hingga 4 tahun baru
+        rowNew3.getCell(6).value = results.muridBaruFS; //F18      1 hingga 4 tahun baru
+        rowNew3.getCell(7).value = results.muridUlanganFS; //G18      1 hingga 4 tahun baru
+        rowNew3.getCell(8).value = results.gigiBaruFS; //H18      1 hingga 4 tahun baru
+        rowNew3.getCell(9).value = results.gigiUlanganFS; //I18      1 hingga 4 tahun baru
+        rowNew3.getCell(10).value = results.tampalanAntGdBaru; //J18      1 hingga 4 tahun baru
+        rowNew3.getCell(11).value = results.tampalanAntGdUlangan; //K18      1 hingga 4 tahun baru
+        rowNew3.getCell(12).value = results.tampalanAntGkBaru; //L18      1 hingga 4 tahun baru
+        rowNew3.getCell(13).value = results.tampalanAntGkUlangan; //M18      1 hingga 4 tahun baru
+        rowNew3.getCell(14).value = results.tampalanPostGdBaru; //N18      1 hingga 4 tahun baru
+        rowNew3.getCell(15).value = results.tampalanPostGdUlangan; //O18      1 hingga 4 tahun baru
+        rowNew3.getCell(16).value = results.tampalanPostGkBaru; //P18      1 hingga 4 tahun baru
+        rowNew3.getCell(17).value = results.tampalanPostGkUlangan; //Q18      1 hingga 4 tahun baru
+        rowNew3.getCell(18).value = results.tampalanPostAmgGdBaru; //R18      1 hingga 4 tahun baru
+        rowNew3.getCell(19).value = results.tampalanPostAmgGdUlangan; //S18      1 hingga 4 tahun baru
+        rowNew3.getCell(20).value = results.tampalanPostAmgGkBaru; //T18      1 hingga 4 tahun baru
+        rowNew3.getCell(21).value = results.tampalanPostAmgGkUlangan; //U18      1 hingga 4 tahun baru
+        rowNew3.getCell(22).value = results.jumlahTampalanBaru; //V18      1 hingga 4 tahun baru
+        rowNew3.getCell(23).value = results.jumlahTampalanUlangan; //W18      1 hingga 4 tahun baru
+        rowNew3.getCell(24).value = results.tampalanSementara; //X18      1 hingga 4 tahun baru
+        rowNew3.getCell(25).value = results.cabutanGd; //Y18      1 hingga 4 tahun baru
+        rowNew3.getCell(26).value = results.cabutanGk; //Z18      1 hingga 4 tahun baru
+        rowNew3.getCell(27).value = results.penskaleran; //AA18      1 hingga 4 tahun baru
+        rowNew3.getCell(28).value = results.kesSelesai; //AB18      1 hingga 4 tahun baru
+        rowNew3.getCell(29).value = results.rokokSaringNasihat; //AC18      1 hingga 4 tahun baru
+        rowNew3.getCell(30).value = results.rokokIntervensi; //AD18      1 hingga 4 tahun baru
+        rowNew3.commit();
+
+        //PG206
+        // 1 hingga 4 tahun ulangan
+        let rowNew4 = worksheet.getRow(19);
+
+        rowNew4.getCell(3).value = results.kedatanganTahunSemasa; //C19      Bawah 1 tahun
+        rowNew4.getCell(4).value = results.sapuanFluorida; //D19      Bawah 1 tahun
+        rowNew4.getCell(5).value = results.prrJenis1; //E19      Bawah 1 tahun
+        rowNew4.getCell(6).value = results.muridBaruFS; //F19      Bawah 1 tahun
+        rowNew4.getCell(7).value = results.muridUlanganFS; //G19      Bawah 1 tahun
+        rowNew4.getCell(8).value = results.gigiBaruFS; //H19      Bawah 1 tahun
+        rowNew4.getCell(9).value = results.gigiUlanganFS; //I19      Bawah 1 tahun
+        rowNew4.getCell(10).value = results.tampalanAntGdBaru; //J19      Bawah 1 tahun
+        rowNew4.getCell(11).value = results.tampalanAntGdUlangan; //K19      Bawah 1 tahun
+        rowNew4.getCell(12).value = results.tampalanAntGkBaru; //L19      Bawah 1 tahun
+        rowNew4.getCell(13).value = results.tampalanAntGkUlangan; //M19      Bawah 1 tahun
+        rowNew4.getCell(14).value = results.tampalanPostGdBaru; //N19      Bawah 1 tahun
+        rowNew4.getCell(15).value = results.tampalanPostGdUlangan; //O19      Bawah 1 tahun
+        rowNew4.getCell(16).value = results.tampalanPostGkBaru; //P19      Bawah 1 tahun
+        rowNew4.getCell(17).value = results.tampalanPostGkUlangan; //Q19      Bawah 1 tahun
+        rowNew4.getCell(18).value = results.tampalanPostAmgGdBaru; //R19      Bawah 1 tahun
+        rowNew4.getCell(19).value = results.tampalanPostAmgGdUlangan; //S19      Bawah 1 tahun
+        rowNew4.getCell(20).value = results.tampalanPostAmgGkBaru; //T19      Bawah 1 tahun
+        rowNew4.getCell(21).value = results.tampalanPostAmgGkUlangan; //U19      Bawah 1 tahun
+        rowNew4.getCell(22).value = results.jumlahTampalanBaru; //V19      Bawah 1 tahun
+        rowNew4.getCell(23).value = results.jumlahTampalanUlangan; //W19      Bawah 1 tahun
+        rowNew4.getCell(24).value = results.tampalanSementara; //X19      Bawah 1 tahun
+        rowNew4.getCell(25).value = results.cabutanGd; //Y19      Bawah 1 tahun
+        rowNew4.getCell(26).value = results.cabutanGk; //Z19      Bawah 1 tahun
+        rowNew4.getCell(27).value = results.penskaleran; //AA19      Bawah 1 tahun
+        rowNew4.getCell(28).value = results.kesSelesai; //AB19      Bawah 1 tahun
+        rowNew4.getCell(29).value = results.rokokSaringNasihat; //AC19      Bawah 1 tahun
+        rowNew4.getCell(30).value = results.rokokIntervensi; //AD19      Bawah 1 tahun
+        rowNew4.commit();
+
+        //PG206
+        // 5 hingga 6 tahun baru
+        let rowNew5 = worksheet.getRow(20);
+
+        rowNew5.getCell(3).value = results.kedatanganTahunSemasa; //C20      5 hingga 6 tahun
+        rowNew5.getCell(4).value = results.sapuanFluorida; //D20      5 hingga 6 tahun
+        rowNew5.getCell(5).value = results.prrJenis1; //E20      5 hingga 6 tahun
+        rowNew5.getCell(6).value = results.muridBaruFS; //F20      5 hingga 6 tahun
+        rowNew5.getCell(7).value = results.muridUlanganFS; //G20      5 hingga 6 tahun
+        rowNew5.getCell(8).value = results.gigiBaruFS; //H20      5 hingga 6 tahun
+        rowNew5.getCell(9).value = results.gigiUlanganFS; //I20      5 hingga 6 tahun
+        rowNew5.getCell(10).value = results.tampalanAntGdBaru; //J20      5 hingga 6 tahun
+        rowNew5.getCell(11).value = results.tampalanAntGdUlangan; //K20      5 hingga 6 tahun
+        rowNew5.getCell(12).value = results.tampalanAntGkBaru; //L20      5 hingga 6 tahun
+        rowNew5.getCell(13).value = results.tampalanAntGkUlangan; //M20      5 hingga 6 tahun
+        rowNew5.getCell(14).value = results.tampalanPostGdBaru; //N20      5 hingga 6 tahun
+        rowNew5.getCell(15).value = results.tampalanPostGdUlangan; //O20      5 hingga 6 tahun
+        rowNew5.getCell(16).value = results.tampalanPostGkBaru; //P20      5 hingga 6 tahun
+        rowNew5.getCell(17).value = results.tampalanPostGkUlangan; //Q20      5 hingga 6 tahun
+        rowNew5.getCell(18).value = results.tampalanPostAmgGdBaru; //R20      5 hingga 6 tahun
+        rowNew5.getCell(19).value = results.tampalanPostAmgGdUlangan; //S20      5 hingga 6 tahun
+        rowNew5.getCell(20).value = results.tampalanPostAmgGkBaru; //T20      5 hingga 6 tahun
+        rowNew5.getCell(21).value = results.tampalanPostAmgGkUlangan; //U20      5 hingga 6 tahun
+        rowNew5.getCell(22).value = results.jumlahTampalanBaru; //V20      5 hingga 6 tahun
+        rowNew5.getCell(23).value = results.jumlahTampalanUlangan; //W20      5 hingga 6 tahun
+        rowNew5.getCell(24).value = results.tampalanSementara; //X20      5 hingga 6 tahun
+        rowNew5.getCell(25).value = results.cabutanGd; //Y20      5 hingga 6 tahun
+        rowNew5.getCell(26).value = results.cabutanGk; //Z20      5 hingga 6 tahun
+        rowNew5.getCell(27).value = results.penskaleran; //AA20      5 hingga 6 tahun
+        rowNew5.getCell(28).value = results.kesSelesai; //AB20      5 hingga 6 tahun
+        rowNew5.getCell(29).value = results.rokokSaringNasihat; //AC20      5 hingga 6 tahun
+        rowNew5.getCell(30).value = results.rokokIntervensi; //AD20      5 hingga 6 tahun
+        rowNew5.commit();
+
+        //PG206
+        //Bawah 5 hingga 6 tahun ulangan
+        let rowNew6 = worksheet.getRow(21);
+
+        rowNew6.getCell(3).value = results.kedatanganTahunSemasa; //C21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(4).value = results.sapuanFluorida; //D21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(5).value = results.prrJenis1; //E21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(6).value = results.muridBaruFS; //F21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(7).value = results.muridUlanganFS; //G21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(8).value = results.gigiBaruFS; //H21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(9).value = results.gigiUlanganFS; //I21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(10).value = results.tampalanAntGdBaru; //J21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(11).value = results.tampalanAntGdUlangan; //K21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(12).value = results.tampalanAntGkBaru; //L21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(13).value = results.tampalanAntGkUlangan; //M21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(14).value = results.tampalanPostGdBaru; //N21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(15).value = results.tampalanPostGdUlangan; //O21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(16).value = results.tampalanPostGkBaru; //P21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(17).value = results.tampalanPostGkUlangan; //Q21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(18).value = results.tampalanPostAmgGdBaru; //R21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(19).value = results.tampalanPostAmgGdUlangan; //S21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(20).value = results.tampalanPostAmgGkBaru; //T21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(21).value = results.tampalanPostAmgGkUlangan; //U21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(22).value = results.jumlahTampalanBaru; //V21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(23).value = results.jumlahTampalanUlangan; //W21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(24).value = results.tampalanSementara; //X21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(25).value = results.cabutanGd; //Y21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(26).value = results.cabutanGk; //Z21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(27).value = results.penskaleran; //AA21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(28).value = results.kesSelesai; //AB21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(29).value = results.rokokSaringNasihat; //AC21      5 hingga 6 tahun ulangan
+        rowNew6.getCell(30).value = results.rokokIntervensi; //AD21      5 hingga 6 tahun ulangan
+        rowNew6.commit();
+
+        //PG206
+        //  7 hingga 9 tahun baru
+        let rowNew7 = worksheet.getRow(22);
+
+        rowNew7.getCell(3).value = results.kedatanganTahunSemasa; //C22      7 hingga 9 tahun baru
+        rowNew7.getCell(4).value = results.sapuanFluorida; //D22      7 hingga 9 tahun baru
+        rowNew7.getCell(5).value = results.prrJenis1; //E22      7 hingga 9 tahun baru
+        rowNew7.getCell(6).value = results.muridBaruFS; //F22      7 hingga 9 tahun baru
+        rowNew7.getCell(7).value = results.muridUlanganFS; //G22      7 hingga 9 tahun baru
+        rowNew7.getCell(8).value = results.gigiBaruFS; //H22      7 hingga 9 tahun baru
+        rowNew7.getCell(9).value = results.gigiUlanganFS; //I22      7 hingga 9 tahun baru
+        rowNew7.getCell(10).value = results.tampalanAntGdBaru; //J22      7 hingga 9 tahun baru
+        rowNew7.getCell(11).value = results.tampalanAntGdUlangan; //K22      7 hingga 9 tahun baru
+        rowNew7.getCell(12).value = results.tampalanAntGkBaru; //L22      7 hingga 9 tahun baru
+        rowNew7.getCell(13).value = results.tampalanAntGkUlangan; //M22      7 hingga 9 tahun baru
+        rowNew7.getCell(14).value = results.tampalanPostGdBaru; //N22      7 hingga 9 tahun baru
+        rowNew7.getCell(15).value = results.tampalanPostGdUlangan; //O22      7 hingga 9 tahun baru
+        rowNew7.getCell(16).value = results.tampalanPostGkBaru; //P22      7 hingga 9 tahun baru
+        rowNew7.getCell(17).value = results.tampalanPostGkUlangan; //Q22      7 hingga 9 tahun baru
+        rowNew7.getCell(18).value = results.tampalanPostAmgGdBaru; //R22      7 hingga 9 tahun baru
+        rowNew7.getCell(19).value = results.tampalanPostAmgGdUlangan; //S22      7 hingga 9 tahun baru
+        rowNew7.getCell(20).value = results.tampalanPostAmgGkBaru; //T22      7 hingga 9 tahun baru
+        rowNew7.getCell(21).value = results.tampalanPostAmgGkUlangan; //U22      7 hingga 9 tahun baru
+        rowNew7.getCell(22).value = results.jumlahTampalanBaru; //V22      7 hingga 9 tahun baru
+        rowNew7.getCell(23).value = results.jumlahTampalanUlangan; //W22      7 hingga 9 tahun baru
+        rowNew7.getCell(24).value = results.tampalanSementara; //X22      7 hingga 9 tahun baru
+        rowNew7.getCell(25).value = results.cabutanGd; //Y22      7 hingga 9 tahun baru
+        rowNew7.getCell(26).value = results.cabutanGk; //Z22      7 hingga 9 tahun baru
+        rowNew7.getCell(27).value = results.penskaleran; //AA22      7 hingga 9 tahun baru
+        rowNew7.getCell(28).value = results.kesSelesai; //AB22      7 hingga 9 tahun baru
+        rowNew7.getCell(29).value = results.rokokSaringNasihat; //AC22      7 hingga 9 tahun baru
+        rowNew7.getCell(30).value = results.rokokIntervensi; //AD22      7 hingga 9 tahun baru
+        rowNew7.commit();
+
+        //PG206
+        //  7 hingga 9 tahun ulangan
+        let rowNew8 = worksheet.getRow(23);
+
+        rowNew8.getCell(3).value = results.kedatanganTahunSemasa; //C23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(4).value = results.sapuanFluorida; //D23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(5).value = results.prrJenis1; //E23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(6).value = results.muridBaruFS; //F23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(7).value = results.muridUlanganFS; //G23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(8).value = results.gigiBaruFS; //H23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(9).value = results.gigiUlanganFS; //I23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(10).value = results.tampalanAntGdBaru; //J23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(11).value = results.tampalanAntGdUlangan; //K23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(12).value = results.tampalanAntGkBaru; //L23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(13).value = results.tampalanAntGkUlangan; //M23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(14).value = results.tampalanPostGdBaru; //N23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(15).value = results.tampalanPostGdUlangan; //O23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(16).value = results.tampalanPostGkBaru; //P23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(17).value = results.tampalanPostGkUlangan; //Q23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(18).value = results.tampalanPostAmgGdBaru; //R23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(19).value = results.tampalanPostAmgGdUlangan; //S23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(20).value = results.tampalanPostAmgGkBaru; //T23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(21).value = results.tampalanPostAmgGkUlangan; //U23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(22).value = results.jumlahTampalanBaru; //V23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(23).value = results.jumlahTampalanUlangan; //W23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(24).value = results.tampalanSementara; //X23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(25).value = results.cabutanGd; //Y23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(26).value = results.cabutanGk; //Z23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(27).value = results.penskaleran; //AA23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(28).value = results.kesSelesai; //AB23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(29).value = results.rokokSaringNasihat; //AC23      7 hingga 9 tahun ulangan
+        rowNew8.getCell(30).value = results.rokokIntervensi; //AD23      7 hingga 9 tahun ulangan
+        rowNew8.commit();
+
+        //PG206
+        //  10 hingga 12 tahun baru
+        let rowNew9 = worksheet.getRow(24);
+
+        rowNew9.getCell(3).value = results.kedatanganTahunSemasa; //C24      10 hingga 12 tahun baru
+        rowNew9.getCell(4).value = results.sapuanFluorida; //D24      10 hingga 12 tahun baru
+        rowNew9.getCell(5).value = results.prrJenis1; //E24      10 hingga 12 tahun baru
+        rowNew9.getCell(6).value = results.muridBaruFS; //F24      10 hingga 12 tahun baru
+        rowNew9.getCell(7).value = results.muridUlanganFS; //G24      10 hingga 12 tahun baru
+        rowNew9.getCell(8).value = results.gigiBaruFS; //H24      10 hingga 12 tahun baru
+        rowNew9.getCell(9).value = results.gigiUlanganFS; //I24      10 hingga 12 tahun baru
+        rowNew9.getCell(10).value = results.tampalanAntGdBaru; //J24      10 hingga 12 tahun baru
+        rowNew9.getCell(11).value = results.tampalanAntGdUlangan; //K24      10 hingga 12 tahun baru
+        rowNew9.getCell(12).value = results.tampalanAntGkBaru; //L24      10 hingga 12 tahun baru
+        rowNew9.getCell(13).value = results.tampalanAntGkUlangan; //M24      10 hingga 12 tahun baru
+        rowNew9.getCell(14).value = results.tampalanPostGdBaru; //N24      10 hingga 12 tahun baru
+        rowNew9.getCell(15).value = results.tampalanPostGdUlangan; //O24      10 hingga 12 tahun baru
+        rowNew9.getCell(16).value = results.tampalanPostGkBaru; //P24      10 hingga 12 tahun baru
+        rowNew9.getCell(17).value = results.tampalanPostGkUlangan; //Q24      10 hingga 12 tahun baru
+        rowNew9.getCell(18).value = results.tampalanPostAmgGdBaru; //R24      10 hingga 12 tahun baru
+        rowNew9.getCell(19).value = results.tampalanPostAmgGdUlangan; //S24      10 hingga 12 tahun baru
+        rowNew9.getCell(20).value = results.tampalanPostAmgGkBaru; //T24      10 hingga 12 tahun baru
+        rowNew9.getCell(21).value = results.tampalanPostAmgGkUlangan; //U24      10 hingga 12 tahun baru
+        rowNew9.getCell(22).value = results.jumlahTampalanBaru; //V24      10 hingga 12 tahun baru
+        rowNew9.getCell(23).value = results.jumlahTampalanUlangan; //W24      10 hingga 12 tahun baru
+        rowNew9.getCell(24).value = results.tampalanSementara; //X24      10 hingga 12 tahun baru
+        rowNew9.getCell(25).value = results.cabutanGd; //Y24      10 hingga 12 tahun baru
+        rowNew9.getCell(26).value = results.cabutanGk; //Z24      10 hingga 12 tahun baru
+        rowNew9.getCell(27).value = results.penskaleran; //AA24      10 hingga 12 tahun baru
+        rowNew9.getCell(28).value = results.kesSelesai; //AB24      10 hingga 12 tahun baru
+        rowNew9.getCell(29).value = results.rokokSaringNasihat; //AC24      10 hingga 12 tahun baru
+        rowNew9.getCell(30).value = results.rokokIntervensi; //AD24      10 hingga 12 tahun baru
+        rowNew9.commit();
+
+        //PG206
+        //  10 hingga 12 tahun ulangan
+        let rowNew10 = worksheet.getRow(25);
+
+        rowNew10.getCell(3).value = results.kedatanganTahunSemasa; //C25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(4).value = results.sapuanFluorida; //D25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(5).value = results.prrJenis1; //E25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(6).value = results.muridBaruFS; //F25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(7).value = results.muridUlanganFS; //G25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(8).value = results.gigiBaruFS; //H25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(9).value = results.gigiUlanganFS; //I25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(10).value = results.tampalanAntGdBaru; //J25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(11).value = results.tampalanAntGdUlangan; //K25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(12).value = results.tampalanAntGkBaru; //L25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(13).value = results.tampalanAntGkUlangan; //M25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(14).value = results.tampalanPostGdBaru; //N25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(15).value = results.tampalanPostGdUlangan; //O25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(16).value = results.tampalanPostGkBaru; //P25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(17).value = results.tampalanPostGkUlangan; //Q25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(18).value = results.tampalanPostAmgGdBaru; //R25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(19).value = results.tampalanPostAmgGdUlangan; //S25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(20).value = results.tampalanPostAmgGkBaru; //T25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(21).value = results.tampalanPostAmgGkUlangan; //U25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(22).value = results.jumlahTampalanBaru; //V25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(23).value = results.jumlahTampalanUlangan; //W25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(24).value = results.tampalanSementara; //X25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(25).value = results.cabutanGd; //Y25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(26).value = results.cabutanGk; //Z25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(27).value = results.penskaleran; //AA25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(28).value = results.kesSelesai; //AB25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(29).value = results.rokokSaringNasihat; //AC25      10 hingga 12 tahun ulangan
+        rowNew10.getCell(30).value = results.rokokIntervensi; //AD25      10 hingga 12 tahun ulangan
+        rowNew10.commit();
+
+        //PG206
+        //  13 hingga 14 tahun baru
+        let rowNew11 = worksheet.getRow(26);
+
+        rowNew11.getCell(3).value = results.kedatanganTahunSemasa; //C26      13 hingga 14 tahun baru
+        rowNew11.getCell(4).value = results.sapuanFluorida; //D26      13 hingga 14 tahun baru
+        rowNew11.getCell(5).value = results.prrJenis1; //E26      13 hingga 14 tahun baru
+        rowNew11.getCell(6).value = results.muridBaruFS; //F26      13 hingga 14 tahun baru
+        rowNew11.getCell(7).value = results.muridUlanganFS; //G26      13 hingga 14 tahun baru
+        rowNew11.getCell(8).value = results.gigiBaruFS; //H26      13 hingga 14 tahun baru
+        rowNew11.getCell(9).value = results.gigiUlanganFS; //I26      13 hingga 14 tahun baru
+        rowNew11.getCell(10).value = results.tampalanAntGdBaru; //J26      13 hingga 14 tahun baru
+        rowNew11.getCell(11).value = results.tampalanAntGdUlangan; //K26      13 hingga 14 tahun baru
+        rowNew11.getCell(12).value = results.tampalanAntGkBaru; //L26      13 hingga 14 tahun baru
+        rowNew11.getCell(13).value = results.tampalanAntGkUlangan; //M26      13 hingga 14 tahun baru
+        rowNew11.getCell(14).value = results.tampalanPostGdBaru; //N26      13 hingga 14 tahun baru
+        rowNew11.getCell(15).value = results.tampalanPostGdUlangan; //O26      13 hingga 14 tahun baru
+        rowNew11.getCell(16).value = results.tampalanPostGkBaru; //P26      13 hingga 14 tahun baru
+        rowNew11.getCell(17).value = results.tampalanPostGkUlangan; //Q26      13 hingga 14 tahun baru
+        rowNew11.getCell(18).value = results.tampalanPostAmgGdBaru; //R26      13 hingga 14 tahun baru
+        rowNew11.getCell(19).value = results.tampalanPostAmgGdUlangan; //S26      13 hingga 14 tahun baru
+        rowNew11.getCell(20).value = results.tampalanPostAmgGkBaru; //T26      13 hingga 14 tahun baru
+        rowNew11.getCell(21).value = results.tampalanPostAmgGkUlangan; //U26      13 hingga 14 tahun baru
+        rowNew11.getCell(22).value = results.jumlahTampalanBaru; //V26      13 hingga 14 tahun baru
+        rowNew11.getCell(23).value = results.jumlahTampalanUlangan; //W26      13 hingga 14 tahun baru
+        rowNew11.getCell(24).value = results.tampalanSementara; //X26      13 hingga 14 tahun baru
+        rowNew11.getCell(25).value = results.cabutanGd; //Y26      13 hingga 14 tahun baru
+        rowNew11.getCell(26).value = results.cabutanGk; //Z26      13 hingga 14 tahun baru
+        rowNew11.getCell(27).value = results.penskaleran; //AA26      13 hingga 14 tahun baru
+        rowNew11.getCell(28).value = results.kesSelesai; //AB26      13 hingga 14 tahun baru
+        rowNew11.getCell(29).value = results.rokokSaringNasihat; //AC26      13 hingga 14 tahun baru
+        rowNew11.getCell(30).value = results.rokokIntervensi; //AD26      13 hingga 14 tahun baru
+        rowNew11.commit();
+
+        //PG206
+        //  13 hingga 14 tahun ulangan
+        let rowNew12 = worksheet.getRow(27);
+
+        rowNew12.getCell(3).value = results.kedatanganTahunSemasa; //C27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(4).value = results.sapuanFluorida; //D27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(5).value = results.prrJenis1; //E27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(6).value = results.muridBaruFS; //F27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(7).value = results.muridUlanganFS; //G27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(8).value = results.gigiBaruFS; //H27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(9).value = results.gigiUlanganFS; //I27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(10).value = results.tampalanAntGdBaru; //J27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(11).value = results.tampalanAntGdUlangan; //K27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(12).value = results.tampalanAntGkBaru; //L27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(13).value = results.tampalanAntGkUlangan; //M27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(14).value = results.tampalanPostGdBaru; //N27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(15).value = results.tampalanPostGdUlangan; //O27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(16).value = results.tampalanPostGkBaru; //P27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(17).value = results.tampalanPostGkUlangan; //Q27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(18).value = results.tampalanPostAmgGdBaru; //R27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(19).value = results.tampalanPostAmgGdUlangan; //S27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(20).value = results.tampalanPostAmgGkBaru; //T27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(21).value = results.tampalanPostAmgGkUlangan; //U27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(22).value = results.jumlahTampalanBaru; //V27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(23).value = results.jumlahTampalanUlangan; //W27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(24).value = results.tampalanSementara; //X27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(25).value = results.cabutanGd; //Y27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(26).value = results.cabutanGk; //Z27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(27).value = results.penskaleran; //AA27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(28).value = results.kesSelesai; //AB27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(29).value = results.rokokSaringNasihat; //AC27      13 hingga 14 tahun ulangan
+        rowNew12.getCell(30).value = results.rokokIntervensi; //AD27      13 hingga 14 tahun ulangan
+        rowNew12.commit();
+
+        //PG206
+        //  15 hingga 17 tahun baru
+        let rowNew13 = worksheet.getRow(28);
+
+        rowNew13.getCell(3).value = results.kedatanganTahunSemasa; //C28      15 hingga 17 tahun baru
+        rowNew13.getCell(4).value = results.sapuanFluorida; //D28      15 hingga 17 tahun baru
+        rowNew13.getCell(5).value = results.prrJenis1; //E28      15 hingga 17 tahun baru
+        rowNew13.getCell(6).value = results.muridBaruFS; //F28      15 hingga 17 tahun baru
+        rowNew13.getCell(7).value = results.muridUlanganFS; //G28      15 hingga 17 tahun baru
+        rowNew13.getCell(8).value = results.gigiBaruFS; //H28      15 hingga 17 tahun baru
+        rowNew13.getCell(9).value = results.gigiUlanganFS; //I28      15 hingga 17 tahun baru
+        rowNew13.getCell(10).value = results.tampalanAntGdBaru; //J28      15 hingga 17 tahun baru
+        rowNew13.getCell(11).value = results.tampalanAntGdUlangan; //K28      15 hingga 17 tahun baru
+        rowNew13.getCell(12).value = results.tampalanAntGkBaru; //L28      15 hingga 17 tahun baru
+        rowNew13.getCell(13).value = results.tampalanAntGkUlangan; //M28      15 hingga 17 tahun baru
+        rowNew13.getCell(14).value = results.tampalanPostGdBaru; //N28      15 hingga 17 tahun baru
+        rowNew13.getCell(15).value = results.tampalanPostGdUlangan; //O28      15 hingga 17 tahun baru
+        rowNew13.getCell(16).value = results.tampalanPostGkBaru; //P28      15 hingga 17 tahun baru
+        rowNew13.getCell(17).value = results.tampalanPostGkUlangan; //Q28      15 hingga 17 tahun baru
+        rowNew13.getCell(18).value = results.tampalanPostAmgGdBaru; //R28      15 hingga 17 tahun baru
+        rowNew13.getCell(19).value = results.tampalanPostAmgGdUlangan; //S28      15 hingga 17 tahun baru
+        rowNew13.getCell(20).value = results.tampalanPostAmgGkBaru; //T28      15 hingga 17 tahun baru
+        rowNew13.getCell(21).value = results.tampalanPostAmgGkUlangan; //U28      15 hingga 17 tahun baru
+        rowNew13.getCell(22).value = results.jumlahTampalanBaru; //V28      15 hingga 17 tahun baru
+        rowNew13.getCell(23).value = results.jumlahTampalanUlangan; //W28      15 hingga 17 tahun baru
+        rowNew13.getCell(24).value = results.tampalanSementara; //X28      15 hingga 17 tahun baru
+        rowNew13.getCell(25).value = results.cabutanGd; //Y28      15 hingga 17 tahun baru
+        rowNew13.getCell(26).value = results.cabutanGk; //Z28      15 hingga 17 tahun baru
+        rowNew13.getCell(27).value = results.penskaleran; //AA28      15 hingga 17 tahun baru
+        rowNew13.getCell(28).value = results.kesSelesai; //AB28      15 hingga 17 tahun baru
+        rowNew13.getCell(29).value = results.rokokSaringNasihat; //AC28      15 hingga 17 tahun baru
+        rowNew13.getCell(30).value = results.rokokIntervensi; //AD28      15 hingga 17 tahun baru
+        rowNew13.commit();
+
+        //PG206
+        //  15 hingga 17 tahun ulangan
+        let rowNew14 = worksheet.getRow(29);
+
+        rowNew14.getCell(3).value = results.kedatanganTahunSemasa; //C29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(4).value = results.sapuanFluorida; //D29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(5).value = results.prrJenis1; //E29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(6).value = results.muridBaruFS; //F29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(7).value = results.muridUlanganFS; //G29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(8).value = results.gigiBaruFS; //H29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(9).value = results.gigiUlanganFS; //I29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(10).value = results.tampalanAntGdBaru; //J29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(11).value = results.tampalanAntGdUlangan; //K29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(12).value = results.tampalanAntGkBaru; //L29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(13).value = results.tampalanAntGkUlangan; //M29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(14).value = results.tampalanPostGdBaru; //N29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(15).value = results.tampalanPostGdUlangan; //O29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(16).value = results.tampalanPostGkBaru; //P29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(17).value = results.tampalanPostGkUlangan; //Q29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(18).value = results.tampalanPostAmgGdBaru; //R29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(19).value = results.tampalanPostAmgGdUlangan; //S29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(20).value = results.tampalanPostAmgGkBaru; //T29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(21).value = results.tampalanPostAmgGkUlangan; //U29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(22).value = results.jumlahTampalanBaru; //V29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(23).value = results.jumlahTampalanUlangan; //W29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(24).value = results.tampalanSementara; //X29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(25).value = results.cabutanGd; //Y29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(26).value = results.cabutanGk; //Z29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(27).value = results.penskaleran; //AA29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(28).value = results.kesSelesai; //AB29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(29).value = results.rokokSaringNasihat; //AC29      15 hingga 17 tahun ulangan
+        rowNew14.getCell(30).value = results.rokokIntervensi; //AD29      15 hingga 17 tahun ulangan
+        rowNew14.commit();
+
+        //PG206
+        //  Orang Kurang Upaya Baru
+        let rowNew15 = worksheet.getRow(32);
+
+        rowNew15.getCell(3).value = results.kedatanganTahunSemasa; //C28      Orang kurang upaya baru
+        rowNew15.getCell(4).value = results.sapuanFluorida; //D28      Orang kurang upaya baru
+        rowNew15.getCell(5).value = results.prrJenis1; //E28      Orang kurang upaya baru
+        rowNew15.getCell(6).value = results.muridBaruFS; //F28      Orang kurang upaya baru
+        rowNew15.getCell(7).value = results.muridUlanganFS; //G28      Orang kurang upaya baru
+        rowNew15.getCell(8).value = results.gigiBaruFS; //H28      Orang kurang upaya baru
+        rowNew15.getCell(9).value = results.gigiUlanganFS; //I28      Orang kurang upaya baru
+        rowNew15.getCell(10).value = results.tampalanAntGdBaru; //J28      Orang kurang upaya baru
+        rowNew15.getCell(11).value = results.tampalanAntGdUlangan; //K28      Orang kurang upaya baru
+        rowNew15.getCell(12).value = results.tampalanAntGkBaru; //L28      Orang kurang upaya baru
+        rowNew15.getCell(13).value = results.tampalanAntGkUlangan; //M28      Orang kurang upaya baru
+        rowNew15.getCell(14).value = results.tampalanPostGdBaru; //N28      Orang kurang upaya baru
+        rowNew15.getCell(15).value = results.tampalanPostGdUlangan; //O28      Orang kurang upaya baru
+        rowNew15.getCell(16).value = results.tampalanPostGkBaru; //P28      Orang kurang upaya baru
+        rowNew15.getCell(17).value = results.tampalanPostGkUlangan; //Q28      Orang kurang upaya baru
+        rowNew15.getCell(18).value = results.tampalanPostAmgGdBaru; //R28      Orang kurang upaya baru
+        rowNew15.getCell(19).value = results.tampalanPostAmgGdUlangan; //S28      Orang kurang upaya baru
+        rowNew15.getCell(20).value = results.tampalanPostAmgGkBaru; //T28      Orang kurang upaya baru
+        rowNew15.getCell(21).value = results.tampalanPostAmgGkUlangan; //U28      Orang kurang upaya baru
+        rowNew15.getCell(22).value = results.jumlahTampalanBaru; //V28      Orang kurang upaya baru
+        rowNew15.getCell(23).value = results.jumlahTampalanUlangan; //W28      Orang kurang upaya baru
+        rowNew15.getCell(24).value = results.tampalanSementara; //X28      Orang kurang upaya baru
+        rowNew15.getCell(25).value = results.cabutanGd; //Y28      Orang kurang upaya baru
+        rowNew15.getCell(26).value = results.cabutanGk; //Z28      Orang kurang upaya baru
+        rowNew15.getCell(27).value = results.penskaleran; //AA28      Orang kurang upaya baru
+        rowNew15.getCell(28).value = results.kesSelesai; //AB28      Orang kurang upaya baru
+        rowNew15.getCell(29).value = results.rokokSaringNasihat; //AC28      Orang kurang upaya baru
+        rowNew15.getCell(30).value = results.rokokIntervensi; //AD28      Orang kurang upaya baru
+        rowNew15.commit();
+
+        //PG206
+        //  Orang Kurang Upaya Ulangan
+        let rowNew16 = worksheet.getRow(33);
+
+        rowNew16.getCell(3).value = results.kedatanganTahunSemasa; //C33      Orang kurang upaya ulangan
+        rowNew16.getCell(4).value = results.sapuanFluorida; //D33      Orang kurang upaya ulangan
+        rowNew16.getCell(5).value = results.prrJenis1; //E33      Orang kurang upaya ulangan
+        rowNew16.getCell(6).value = results.muridBaruFS; //F33      Orang kurang upaya ulangan
+        rowNew16.getCell(7).value = results.muridUlanganFS; //G33      Orang kurang upaya ulangan
+        rowNew16.getCell(8).value = results.gigiBaruFS; //H33      Orang kurang upaya ulangan
+        rowNew16.getCell(9).value = results.gigiUlanganFS; //I33      Orang kurang upaya ulangan
+        rowNew16.getCell(10).value = results.tampalanAntGdBaru; //J33      Orang kurang upaya ulangan
+        rowNew16.getCell(11).value = results.tampalanAntGdUlangan; //K33      Orang kurang upaya ulangan
+        rowNew16.getCell(12).value = results.tampalanAntGkBaru; //L33      Orang kurang upaya ulangan
+        rowNew16.getCell(13).value = results.tampalanAntGkUlangan; //M33      Orang kurang upaya ulangan
+        rowNew16.getCell(14).value = results.tampalanPostGdBaru; //N33      Orang kurang upaya ulangan
+        rowNew16.getCell(15).value = results.tampalanPostGdUlangan; //O33      Orang kurang upaya ulangan
+        rowNew16.getCell(16).value = results.tampalanPostGkBaru; //P33      Orang kurang upaya ulangan
+        rowNew16.getCell(17).value = results.tampalanPostGkUlangan; //Q33      Orang kurang upaya ulangan
+        rowNew16.getCell(18).value = results.tampalanPostAmgGdBaru; //R33      Orang kurang upaya ulangan
+        rowNew16.getCell(19).value = results.tampalanPostAmgGdUlangan; //S33      Orang kurang upaya ulangan
+        rowNew16.getCell(20).value = results.tampalanPostAmgGkBaru; //T33      Orang kurang upaya ulangan
+        rowNew16.getCell(21).value = results.tampalanPostAmgGkUlangan; //U33      Orang kurang upaya ulangan
+        rowNew16.getCell(22).value = results.jumlahTampalanBaru; //V33      Orang kurang upaya ulangan
+        rowNew16.getCell(23).value = results.jumlahTampalanUlangan; //W33      Orang kurang upaya ulangan
+        rowNew16.getCell(24).value = results.tampalanSementara; //X33      Orang kurang upaya ulangan
+        rowNew16.getCell(25).value = results.cabutanGd; //Y33      Orang kurang upaya ulangan
+        rowNew16.getCell(26).value = results.cabutanGk; //Z33      Orang kurang upaya ulangan
+        rowNew16.getCell(27).value = results.penskaleran; //AA33      Orang kurang upaya ulangan
+        rowNew16.getCell(33).value = results.kesSelesai; //AB33      Orang kurang upaya ulangan
+        rowNew16.getCell(29).value = results.rokokSaringNasihat; //AC33      Orang kurang upaya ulangan
+        rowNew16.getCell(30).value = results.rokokIntervensi; //AD33      Orang kurang upaya ulangan
+        rowNew16.commit();
+
+        //PG206
+        //  Bukan warganegara Baru
+        let rowNew17 = worksheet.getRow(34);
+
+        rowNew17.getCell(3).value = results.kedatanganTahunSemasa; //C34      Bukan warganegara Baru
+        rowNew17.getCell(4).value = results.sapuanFluorida; //D34      Bukan warganegara Baru
+        rowNew17.getCell(5).value = results.prrJenis1; //E34      Bukan warganegara Baru
+        rowNew17.getCell(6).value = results.muridBaruFS; //F34      Bukan warganegara Baru
+        rowNew17.getCell(7).value = results.muridUlanganFS; //G34      Bukan warganegara Baru
+        rowNew17.getCell(8).value = results.gigiBaruFS; //H34      Bukan warganegara Baru
+        rowNew17.getCell(9).value = results.gigiUlanganFS; //I34      Bukan warganegara Baru
+        rowNew17.getCell(10).value = results.tampalanAntGdBaru; //J34      Bukan warganegara Baru
+        rowNew17.getCell(11).value = results.tampalanAntGdUlangan; //K34      Bukan warganegara Baru
+        rowNew17.getCell(12).value = results.tampalanAntGkBaru; //L34      Bukan warganegara Baru
+        rowNew17.getCell(13).value = results.tampalanAntGkUlangan; //M34      Bukan warganegara Baru
+        rowNew17.getCell(14).value = results.tampalanPostGdBaru; //N34      Bukan warganegara Baru
+        rowNew17.getCell(15).value = results.tampalanPostGdUlangan; //O34      Bukan warganegara Baru
+        rowNew17.getCell(16).value = results.tampalanPostGkBaru; //P34      Bukan warganegara Baru
+        rowNew17.getCell(17).value = results.tampalanPostGkUlangan; //Q34      Bukan warganegara Baru
+        rowNew17.getCell(18).value = results.tampalanPostAmgGdBaru; //R34      Bukan warganegara Baru
+        rowNew17.getCell(19).value = results.tampalanPostAmgGdUlangan; //S34      Bukan warganegara Baru
+        rowNew17.getCell(20).value = results.tampalanPostAmgGkBaru; //T34      Bukan warganegara Baru
+        rowNew17.getCell(21).value = results.tampalanPostAmgGkUlangan; //U34      Bukan warganegara Baru
+        rowNew17.getCell(22).value = results.jumlahTampalanBaru; //V34      Bukan warganegara Baru
+        rowNew17.getCell(23).value = results.jumlahTampalanUlangan; //W34      Bukan warganegara Baru
+        rowNew17.getCell(24).value = results.tampalanSementara; //X34      Bukan warganegara Baru
+        rowNew17.getCell(25).value = results.cabutanGd; //Y34      Bukan warganegara Baru
+        rowNew17.getCell(26).value = results.cabutanGk; //Z34      Bukan warganegara Baru
+        rowNew17.getCell(27).value = results.penskaleran; //AA34      Bukan warganegara Baru
+        rowNew17.getCell(34).value = results.kesSelesai; //AB34      Bukan warganegara Baru
+        rowNew17.getCell(29).value = results.rokokSaringNasihat; //AC34      Bukan warganegara Baru
+        rowNew17.getCell(30).value = results.rokokIntervensi; //AD34      Bukan warganegara Baru
+        rowNew17.commit();
+
+        //PG206
+        //  Bukan warganegara Ulangan
+        let rowNew18 = worksheet.getRow(35);
+
+        rowNew18.getCell(3).value = results.kedatanganTahunSemasa; //C34      Bukan warganegara Ulangan
+        rowNew18.getCell(4).value = results.sapuanFluorida; //D34      Bukan warganegara Ulangan
+        rowNew18.getCell(5).value = results.prrJenis1; //E34      Bukan warganegara Ulangan
+        rowNew18.getCell(6).value = results.muridBaruFS; //F34      Bukan warganegara Ulangan
+        rowNew18.getCell(7).value = results.muridUlanganFS; //G34      Bukan warganegara Ulangan
+        rowNew18.getCell(8).value = results.gigiBaruFS; //H34      Bukan warganegara Ulangan
+        rowNew18.getCell(9).value = results.gigiUlanganFS; //I34      Bukan warganegara Ulangan
+        rowNew18.getCell(10).value = results.tampalanAntGdBaru; //J34      Bukan warganegara Ulangan
+        rowNew18.getCell(11).value = results.tampalanAntGdUlangan; //K34      Bukan warganegara Ulangan
+        rowNew18.getCell(12).value = results.tampalanAntGkBaru; //L34      Bukan warganegara Ulangan
+        rowNew18.getCell(13).value = results.tampalanAntGkUlangan; //M34      Bukan warganegara Ulangan
+        rowNew18.getCell(14).value = results.tampalanPostGdBaru; //N34      Bukan warganegara Ulangan
+        rowNew18.getCell(15).value = results.tampalanPostGdUlangan; //O34      Bukan warganegara Ulangan
+        rowNew18.getCell(16).value = results.tampalanPostGkBaru; //P34      Bukan warganegara Ulangan
+        rowNew18.getCell(17).value = results.tampalanPostGkUlangan; //Q34      Bukan warganegara Ulangan
+        rowNew18.getCell(18).value = results.tampalanPostAmgGdBaru; //R34      Bukan warganegara Ulangan
+        rowNew18.getCell(19).value = results.tampalanPostAmgGdUlangan; //S34      Bukan warganegara Ulangan
+        rowNew18.getCell(20).value = results.tampalanPostAmgGkBaru; //T34      Bukan warganegara Ulangan
+        rowNew18.getCell(21).value = results.tampalanPostAmgGkUlangan; //U34      Bukan warganegara Ulangan
+        rowNew18.getCell(22).value = results.jumlahTampalanBaru; //V34      Bukan warganegara Ulangan
+        rowNew18.getCell(23).value = results.jumlahTampalanUlangan; //W34      Bukan warganegara Ulangan
+        rowNew18.getCell(24).value = results.tampalanSementara; //X34      Bukan warganegara Ulangan
+        rowNew18.getCell(25).value = results.cabutanGd; //Y34      Bukan warganegara Ulangan
+        rowNew18.getCell(26).value = results.cabutanGk; //Z34      Bukan warganegara Ulangan
+        rowNew18.getCell(27).value = results.penskaleran; //AA34      Bukan warganegara Ulangan
+        rowNew18.getCell(34).value = results.kesSelesai; //AB34      Bukan warganegara Ulangan
+        rowNew18.getCell(29).value = results.rokokSaringNasihat; //AC34      Bukan warganegara Ulangan
+        rowNew18.getCell(30).value = results.rokokIntervensi; //AD34      Bukan warganegara Ulangan
+        rowNew18.commit();
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG206.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG207 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS207.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG207');
+
+        //PG207
+        //Bawah 1 tahun Baru
+        let rowNew1 = worksheet.getRow(17);
+        rowNew1.getCell(3).value = results.kedatanganTahunSemasa; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(4).value = results.sapuanFluorida; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(5).value = results.prrJenis1; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(6).value = results.muridBaruFS; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(7).value = results.muridSemulaFS; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(8).value = results.gigiBaruFS; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(9).value = results.gigiSemulaFS; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(10).value = results.tampalanAntGdBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(11).value = results.tampalanAntGdSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(12).value = results.tampalanAntGkBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(13).value = results.tampalanAntGkSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(14).value = results.tampalanPostGdBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(15).value = results.tampalanPostGdSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(16).value = results.tampalanPostGkBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(17).value = results.tampalanPostGkSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(18).value = results.tampalanPostAmgGdBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(19).value = results.tampalanPostAmgGdSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(20).value = results.tampalanPostAmgGkBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(21).value = results.tampalanPostAmgGkSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(22).value = results.inlayOnlayBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(23).value = results.inlayOnlaySemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(24).value = results.jumlahTampalanBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(25).value = results.jumlahTampalanSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(26).value = results.tampalanSementara; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(27).value = results.cabutanGd; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(28).value = results.cabutanGk; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(29).value = results.komplikasiSelepasCabutan; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(30).value = results.penskaleran; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(31).value = results.rawatanLain; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(32).value = results.rawatanEndo; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(33).value = results.rawatanOrtho; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(34).value = results.kesPerubatan; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(35).value = results.absesBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(36).value = results.AbsesSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(37).value = results.cabutanSurgical; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(38).value = results.fraktur; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(39).value = results.trauma; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(40).value = results.pembedahanKecilMulut; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(41).value = results.crownBridgeBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(42).value = results.crownBridgeSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(43).value = results.postCoreBaru; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(44).value = results.postCoreSemula; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(45).value = results.prosthodontikPenuhDentur; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(46).value = results.prosthodontikPenuhPesakit; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(47).value = results.prosthodontikSebahagianDentur; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(48).value = results.prosthodontikSebahagianPesakit; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(49).value = results.immediateDenture; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(50).value = results.pembaikanDenture; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(51).value = results.kesSelesai; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(52).value = results.xrayDiambil; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(53).value = results.pesakitDisaringOC; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(54).value = results.pesakitdirujukLesiMulut; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(55).value = results.pesakitDirujukTabiat; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(56).value = results.rokokSaringNasihat; //C17          Bawah 1 tahun Baru
+        rowNew1.getCell(57).value = results.rokokIntervensi; //C17          Bawah 1 tahun Baru
+        rowNew1.commit();
+
+        //PG207
+        //Bawah 1 tahun Semula
+        let rowNew2 = worksheet.getRow(18);
+        rowNew2.getCell(3).value = results.kedatanganTahunSemasa; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(4).value = results.sapuanFluorida; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(5).value = results.prrJenis1; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(6).value = results.muridBaruFS; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(7).value = results.muridSemulaFS; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(8).value = results.gigiBaruFS; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(9).value = results.gigiSemulaFS; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(10).value = results.tampalanAntGdBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(11).value = results.tampalanAntGdSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(12).value = results.tampalanAntGkBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(13).value = results.tampalanAntGkSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(14).value = results.tampalanPostGdBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(15).value = results.tampalanPostGdSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(16).value = results.tampalanPostGkBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(17).value = results.tampalanPostGkSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(18).value = results.tampalanPostAmgGdBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(19).value = results.tampalanPostAmgGdSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(20).value = results.tampalanPostAmgGkBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(21).value = results.tampalanPostAmgGkSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(22).value = results.inlayOnlayBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(23).value = results.inlayOnlaySemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(24).value = results.jumlahTampalanBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(25).value = results.jumlahTampalanSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(26).value = results.tampalanSementara; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(27).value = results.cabutanGd; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(28).value = results.cabutanGk; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(29).value = results.komplikasiSelepasCabutan; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(30).value = results.penskaleran; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(31).value = results.rawatanLain; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(32).value = results.rawatanEndo; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(33).value = results.rawatanOrtho; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(34).value = results.kesPerubatan; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(35).value = results.absesBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(36).value = results.AbsesSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(37).value = results.cabutanSurgical; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(38).value = results.fraktur; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(39).value = results.trauma; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(40).value = results.pembedahanKecilMulut; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(41).value = results.crownBridgeBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(42).value = results.crownBridgeSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(43).value = results.postCoreBaru; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(44).value = results.postCoreSemula; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(45).value = results.prosthodontikPenuhDentur; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(46).value = results.prosthodontikPenuhPesakit; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(47).value = results.prosthodontikSebahagianDentur; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(48).value = results.prosthodontikSebahagianPesakit; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(49).value = results.immediateDenture; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(50).value = results.pembaikanDenture; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(51).value = results.kesSelesai; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(52).value = results.xrayDiambil; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(53).value = results.pesakitDisaringOC; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(54).value = results.pesakitdirujukLesiMulut; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(55).value = results.pesakitDirujukTabiat; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(56).value = results.rokokSaringNasihat; //C18          Bawah 1 tahun Semula
+        rowNew2.getCell(57).value = results.rokokIntervensi; //C18          Bawah 1 tahun Semula
+        rowNew2.commit();
+
+        //PG207
+        //1 - 4 tahun baru
+        let rowNew3 = worksheet.getRow(19);
+        rowNew3.getCell(3).value = results.kedatanganTahunSemasa; //C19          1 - 4 tahun baru
+        rowNew3.getCell(4).value = results.sapuanFluorida; //C19          1 - 4 tahun baru
+        rowNew3.getCell(5).value = results.prrJenis1; //C19          1 - 4 tahun baru
+        rowNew3.getCell(6).value = results.muridBaruFS; //C19          1 - 4 tahun baru
+        rowNew3.getCell(7).value = results.muridSemulaFS; //C19          1 - 4 tahun baru
+        rowNew3.getCell(8).value = results.gigiBaruFS; //C19          1 - 4 tahun baru
+        rowNew3.getCell(9).value = results.gigiSemulaFS; //C19          1 - 4 tahun baru
+        rowNew3.getCell(10).value = results.tampalanAntGdBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(11).value = results.tampalanAntGdSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(12).value = results.tampalanAntGkBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(13).value = results.tampalanAntGkSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(14).value = results.tampalanPostGdBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(15).value = results.tampalanPostGdSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(16).value = results.tampalanPostGkBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(17).value = results.tampalanPostGkSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(18).value = results.tampalanPostAmgGdBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(19).value = results.tampalanPostAmgGdSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(20).value = results.tampalanPostAmgGkBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(21).value = results.tampalanPostAmgGkSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(22).value = results.inlayOnlayBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(23).value = results.inlayOnlaySemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(24).value = results.jumlahTampalanBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(25).value = results.jumlahTampalanSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(26).value = results.tampalanSementara; //C19          1 - 4 tahun baru
+        rowNew3.getCell(27).value = results.cabutanGd; //C19          1 - 4 tahun baru
+        rowNew3.getCell(28).value = results.cabutanGk; //C19          1 - 4 tahun baru
+        rowNew3.getCell(29).value = results.komplikasiSelepasCabutan; //C19          1 - 4 tahun baru
+        rowNew3.getCell(30).value = results.penskaleran; //C19          1 - 4 tahun baru
+        rowNew3.getCell(31).value = results.rawatanLain; //C19          1 - 4 tahun baru
+        rowNew3.getCell(32).value = results.rawatanEndo; //C19          1 - 4 tahun baru
+        rowNew3.getCell(33).value = results.rawatanOrtho; //C19          1 - 4 tahun baru
+        rowNew3.getCell(34).value = results.kesPerubatan; //C19          1 - 4 tahun baru
+        rowNew3.getCell(35).value = results.absesBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(36).value = results.AbsesSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(37).value = results.cabutanSurgical; //C19          1 - 4 tahun baru
+        rowNew3.getCell(38).value = results.fraktur; //C19          1 - 4 tahun baru
+        rowNew3.getCell(39).value = results.trauma; //C19          1 - 4 tahun baru
+        rowNew3.getCell(40).value = results.pembedahanKecilMulut; //C19          1 - 4 tahun baru
+        rowNew3.getCell(41).value = results.crownBridgeBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(42).value = results.crownBridgeSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(43).value = results.postCoreBaru; //C19          1 - 4 tahun baru
+        rowNew3.getCell(44).value = results.postCoreSemula; //C19          1 - 4 tahun baru
+        rowNew3.getCell(45).value = results.prosthodontikPenuhDentur; //C19          1 - 4 tahun baru
+        rowNew3.getCell(46).value = results.prosthodontikPenuhPesakit; //C19          1 - 4 tahun baru
+        rowNew3.getCell(47).value = results.prosthodontikSebahagianDentur; //C19          1 - 4 tahun baru
+        rowNew3.getCell(48).value = results.prosthodontikSebahagianPesakit; //C19          1 - 4 tahun baru
+        rowNew3.getCell(49).value = results.immediateDenture; //C19          1 - 4 tahun baru
+        rowNew3.getCell(50).value = results.pembaikanDenture; //C19          1 - 4 tahun baru
+        rowNew3.getCell(51).value = results.kesSelesai; //C19          1 - 4 tahun baru
+        rowNew3.getCell(52).value = results.xrayDiambil; //C19          1 - 4 tahun baru
+        rowNew3.getCell(53).value = results.pesakitDisaringOC; //C19          1 - 4 tahun baru
+        rowNew3.getCell(54).value = results.pesakitdirujukLesiMulut; //C19          1 - 4 tahun baru
+        rowNew3.getCell(55).value = results.pesakitDirujukTabiat; //C19          1 - 4 tahun baru
+        rowNew3.getCell(56).value = results.rokokSaringNasihat; //C19          1 - 4 tahun baru
+        rowNew3.getCell(57).value = results.rokokIntervensi; //C19          1 - 4 tahun baru
+        rowNew3.commit();
+
+        //PG207
+        //1 - 4 tahun semula
+        let rowNew4 = worksheet.getRow(20);
+        rowNew4.getCell(3).value = results.kedatanganTahunSemasa; //C20          1 - 4 tahun semula
+        rowNew4.getCell(4).value = results.sapuanFluorida; //C20          1 - 4 tahun semula
+        rowNew4.getCell(5).value = results.prrJenis1; //C20          1 - 4 tahun semula
+        rowNew4.getCell(6).value = results.muridBaruFS; //C20          1 - 4 tahun semula
+        rowNew4.getCell(7).value = results.muridSemulaFS; //C20          1 - 4 tahun semula
+        rowNew4.getCell(8).value = results.gigiBaruFS; //C20          1 - 4 tahun semula
+        rowNew4.getCell(9).value = results.gigiSemulaFS; //C20          1 - 4 tahun semula
+        rowNew4.getCell(10).value = results.tampalanAntGdBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(11).value = results.tampalanAntGdSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(12).value = results.tampalanAntGkBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(13).value = results.tampalanAntGkSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(14).value = results.tampalanPostGdBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(15).value = results.tampalanPostGdSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(16).value = results.tampalanPostGkBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(17).value = results.tampalanPostGkSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(18).value = results.tampalanPostAmgGdBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(19).value = results.tampalanPostAmgGdSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(20).value = results.tampalanPostAmgGkBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(21).value = results.tampalanPostAmgGkSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(22).value = results.inlayOnlayBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(23).value = results.inlayOnlaySemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(24).value = results.jumlahTampalanBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(25).value = results.jumlahTampalanSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(26).value = results.tampalanSementara; //C20          1 - 4 tahun semula
+        rowNew4.getCell(27).value = results.cabutanGd; //C20          1 - 4 tahun semula
+        rowNew4.getCell(28).value = results.cabutanGk; //C20          1 - 4 tahun semula
+        rowNew4.getCell(29).value = results.komplikasiSelepasCabutan; //C20          1 - 4 tahun semula
+        rowNew4.getCell(30).value = results.penskaleran; //C20          1 - 4 tahun semula
+        rowNew4.getCell(31).value = results.rawatanLain; //C20          1 - 4 tahun semula
+        rowNew4.getCell(32).value = results.rawatanEndo; //C20          1 - 4 tahun semula
+        rowNew4.getCell(33).value = results.rawatanOrtho; //C20          1 - 4 tahun semula
+        rowNew4.getCell(34).value = results.kesPerubatan; //C20          1 - 4 tahun semula
+        rowNew4.getCell(35).value = results.absesBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(36).value = results.AbsesSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(37).value = results.cabutanSurgical; //C20          1 - 4 tahun semula
+        rowNew4.getCell(38).value = results.fraktur; //C20          1 - 4 tahun semula
+        rowNew4.getCell(39).value = results.trauma; //C20          1 - 4 tahun semula
+        rowNew4.getCell(40).value = results.pembedahanKecilMulut; //C20          1 - 4 tahun semula
+        rowNew4.getCell(41).value = results.crownBridgeBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(42).value = results.crownBridgeSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(43).value = results.postCoreBaru; //C20          1 - 4 tahun semula
+        rowNew4.getCell(44).value = results.postCoreSemula; //C20          1 - 4 tahun semula
+        rowNew4.getCell(45).value = results.prosthodontikPenuhDentur; //C20          1 - 4 tahun semula
+        rowNew4.getCell(46).value = results.prosthodontikPenuhPesakit; //C20          1 - 4 tahun semula
+        rowNew4.getCell(47).value = results.prosthodontikSebahagianDentur; //C20          1 - 4 tahun semula
+        rowNew4.getCell(48).value = results.prosthodontikSebahagianPesakit; //C20          1 - 4 tahun semula
+        rowNew4.getCell(49).value = results.immediateDenture; //C20          1 - 4 tahun semula
+        rowNew4.getCell(50).value = results.pembaikanDenture; //C20          1 - 4 tahun semula
+        rowNew4.getCell(51).value = results.kesSelesai; //C20          1 - 4 tahun semula
+        rowNew4.getCell(52).value = results.xrayDiambil; //C20          1 - 4 tahun semula
+        rowNew4.getCell(53).value = results.pesakitDisaringOC; //C20          1 - 4 tahun semula
+        rowNew4.getCell(54).value = results.pesakitdirujukLesiMulut; //C20          1 - 4 tahun semula
+        rowNew4.getCell(55).value = results.pesakitDirujukTabiat; //C20          1 - 4 tahun semula
+        rowNew4.getCell(56).value = results.rokokSaringNasihat; //C20          1 - 4 tahun semula
+        rowNew4.getCell(57).value = results.rokokIntervensi; //C20          1 - 4 tahun semula
+        rowNew4.commit();
+
+        //PG207
+        //5 - 6 TAHUN baru
+        let rowNew5 = worksheet.getRow(21);
+        rowNew5.getCell(3).value = results.kedatanganTahunSemasa; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(4).value = results.sapuanFluorida; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(5).value = results.prrJenis1; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(6).value = results.muridBaruFS; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(7).value = results.muridSemulaFS; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(8).value = results.gigiBaruFS; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(9).value = results.gigiSemulaFS; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(10).value = results.tampalanAntGdBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(11).value = results.tampalanAntGdSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(12).value = results.tampalanAntGkBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(13).value = results.tampalanAntGkSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(14).value = results.tampalanPostGdBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(15).value = results.tampalanPostGdSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(16).value = results.tampalanPostGkBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(17).value = results.tampalanPostGkSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(18).value = results.tampalanPostAmgGdBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(19).value = results.tampalanPostAmgGdSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(20).value = results.tampalanPostAmgGkBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(21).value = results.tampalanPostAmgGkSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(22).value = results.inlayOnlayBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(23).value = results.inlayOnlaySemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(24).value = results.jumlahTampalanBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(25).value = results.jumlahTampalanSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(26).value = results.tampalanSementara; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(27).value = results.cabutanGd; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(28).value = results.cabutanGk; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(29).value = results.komplikasiSelepasCabutan; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(30).value = results.penskaleran; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(31).value = results.rawatanLain; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(32).value = results.rawatanEndo; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(33).value = results.rawatanOrtho; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(34).value = results.kesPerubatan; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(35).value = results.absesBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(36).value = results.AbsesSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(37).value = results.cabutanSurgical; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(38).value = results.fraktur; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(39).value = results.trauma; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(40).value = results.pembedahanKecilMulut; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(41).value = results.crownBridgeBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(42).value = results.crownBridgeSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(43).value = results.postCoreBaru; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(44).value = results.postCoreSemula; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(45).value = results.prosthodontikPenuhDentur; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(46).value = results.prosthodontikPenuhPesakit; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(47).value = results.prosthodontikSebahagianDentur; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(48).value = results.prosthodontikSebahagianPesakit; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(49).value = results.immediateDenture; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(50).value = results.pembaikanDenture; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(51).value = results.kesSelesai; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(52).value = results.xrayDiambil; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(53).value = results.pesakitDisaringOC; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(54).value = results.pesakitdirujukLesiMulut; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(55).value = results.pesakitDirujukTabiat; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(56).value = results.rokokSaringNasihat; //C21          5 - 6 TAHUN baru
+        rowNew5.getCell(57).value = results.rokokIntervensi; //C21          5 - 6 TAHUN baru
+        rowNew5.commit();
+
+        //PG207
+        //5 - 6 TAHUN semula
+        let rowNew6 = worksheet.getRow(22);
+        rowNew6.getCell(3).value = results.kedatanganTahunSemasa; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(4).value = results.sapuanFluorida; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(5).value = results.prrJenis1; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(6).value = results.muridBaruFS; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(7).value = results.muridSemulaFS; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(8).value = results.gigiBaruFS; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(9).value = results.gigiSemulaFS; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(10).value = results.tampalanAntGdBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(11).value = results.tampalanAntGdSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(12).value = results.tampalanAntGkBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(13).value = results.tampalanAntGkSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(14).value = results.tampalanPostGdBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(15).value = results.tampalanPostGdSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(16).value = results.tampalanPostGkBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(17).value = results.tampalanPostGkSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(18).value = results.tampalanPostAmgGdBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(19).value = results.tampalanPostAmgGdSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(20).value = results.tampalanPostAmgGkBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(21).value = results.tampalanPostAmgGkSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(22).value = results.inlayOnlayBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(23).value = results.inlayOnlaySemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(24).value = results.jumlahTampalanBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(25).value = results.jumlahTampalanSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(26).value = results.tampalanSementara; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(27).value = results.cabutanGd; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(28).value = results.cabutanGk; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(29).value = results.komplikasiSelepasCabutan; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(30).value = results.penskaleran; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(31).value = results.rawatanLain; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(32).value = results.rawatanEndo; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(33).value = results.rawatanOrtho; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(34).value = results.kesPerubatan; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(35).value = results.absesBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(36).value = results.AbsesSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(37).value = results.cabutanSurgical; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(38).value = results.fraktur; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(39).value = results.trauma; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(40).value = results.pembedahanKecilMulut; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(41).value = results.crownBridgeBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(42).value = results.crownBridgeSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(43).value = results.postCoreBaru; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(44).value = results.postCoreSemula; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(45).value = results.prosthodontikPenuhDentur; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(46).value = results.prosthodontikPenuhPesakit; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(47).value = results.prosthodontikSebahagianDentur; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(48).value = results.prosthodontikSebahagianPesakit; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(49).value = results.immediateDenture; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(50).value = results.pembaikanDenture; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(51).value = results.kesSelesai; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(52).value = results.xrayDiambil; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(53).value = results.pesakitDisaringOC; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(54).value = results.pesakitdirujukLesiMulut; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(55).value = results.pesakitDirujukTabiat; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(56).value = results.rokokSaringNasihat; //C22          5 - 6 TAHUN semula
+        rowNew6.getCell(57).value = results.rokokIntervensi; //C22          5 - 6 TAHUN semula
+        rowNew6.commit();
+
+        //PG207
+        //7 - 9 TAHUN baru
+        let rowNew7 = worksheet.getRow(23);
+        rowNew7.getCell(3).value = results.kedatanganTahunSemasa; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(4).value = results.sapuanFluorida; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(5).value = results.prrJenis1; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(6).value = results.muridBaruFS; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(7).value = results.muridSemulaFS; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(8).value = results.gigiBaruFS; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(9).value = results.gigiSemulaFS; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(10).value = results.tampalanAntGdBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(11).value = results.tampalanAntGdSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(12).value = results.tampalanAntGkBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(13).value = results.tampalanAntGkSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(14).value = results.tampalanPostGdBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(15).value = results.tampalanPostGdSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(16).value = results.tampalanPostGkBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(17).value = results.tampalanPostGkSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(18).value = results.tampalanPostAmgGdBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(19).value = results.tampalanPostAmgGdSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(20).value = results.tampalanPostAmgGkBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(21).value = results.tampalanPostAmgGkSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(22).value = results.inlayOnlayBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(23).value = results.inlayOnlaySemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(24).value = results.jumlahTampalanBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(25).value = results.jumlahTampalanSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(26).value = results.tampalanSementara; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(27).value = results.cabutanGd; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(28).value = results.cabutanGk; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(29).value = results.komplikasiSelepasCabutan; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(30).value = results.penskaleran; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(31).value = results.rawatanLain; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(32).value = results.rawatanEndo; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(33).value = results.rawatanOrtho; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(34).value = results.kesPerubatan; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(35).value = results.absesBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(36).value = results.AbsesSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(37).value = results.cabutanSurgical; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(38).value = results.fraktur; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(39).value = results.trauma; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(40).value = results.pembedahanKecilMulut; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(41).value = results.crownBridgeBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(42).value = results.crownBridgeSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(43).value = results.postCoreBaru; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(44).value = results.postCoreSemula; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(45).value = results.prosthodontikPenuhDentur; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(46).value = results.prosthodontikPenuhPesakit; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(47).value = results.prosthodontikSebahagianDentur; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(48).value = results.prosthodontikSebahagianPesakit; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(49).value = results.immediateDenture; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(50).value = results.pembaikanDenture; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(51).value = results.kesSelesai; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(52).value = results.xrayDiambil; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(53).value = results.pesakitDisaringOC; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(54).value = results.pesakitdirujukLesiMulut; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(55).value = results.pesakitDirujukTabiat; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(56).value = results.rokokSaringNasihat; //C23          7 - 9 TAHUN baru
+        rowNew7.getCell(57).value = results.rokokIntervensi; //C23          7 - 9 TAHUN baru
+        rowNew7.commit();
+
+        //PG207
+        //7 - 9 TAHUN semula
+        let rowNew8 = worksheet.getRow(24);
+        rowNew8.getCell(3).value = results.kedatanganTahunSemasa; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(4).value = results.sapuanFluorida; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(5).value = results.prrJenis1; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(6).value = results.muridBaruFS; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(7).value = results.muridSemulaFS; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(8).value = results.gigiBaruFS; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(9).value = results.gigiSemulaFS; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(10).value = results.tampalanAntGdBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(11).value = results.tampalanAntGdSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(12).value = results.tampalanAntGkBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(13).value = results.tampalanAntGkSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(14).value = results.tampalanPostGdBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(15).value = results.tampalanPostGdSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(16).value = results.tampalanPostGkBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(17).value = results.tampalanPostGkSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(18).value = results.tampalanPostAmgGdBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(19).value = results.tampalanPostAmgGdSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(20).value = results.tampalanPostAmgGkBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(21).value = results.tampalanPostAmgGkSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(22).value = results.inlayOnlayBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(23).value = results.inlayOnlaySemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(24).value = results.jumlahTampalanBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(25).value = results.jumlahTampalanSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(26).value = results.tampalanSementara; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(27).value = results.cabutanGd; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(28).value = results.cabutanGk; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(29).value = results.komplikasiSelepasCabutan; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(30).value = results.penskaleran; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(31).value = results.rawatanLain; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(32).value = results.rawatanEndo; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(33).value = results.rawatanOrtho; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(34).value = results.kesPerubatan; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(35).value = results.absesBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(36).value = results.AbsesSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(37).value = results.cabutanSurgical; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(38).value = results.fraktur; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(39).value = results.trauma; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(40).value = results.pembedahanKecilMulut; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(41).value = results.crownBridgeBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(42).value = results.crownBridgeSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(43).value = results.postCoreBaru; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(44).value = results.postCoreSemula; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(45).value = results.prosthodontikPenuhDentur; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(46).value = results.prosthodontikPenuhPesakit; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(47).value = results.prosthodontikSebahagianDentur; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(48).value = results.prosthodontikSebahagianPesakit; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(49).value = results.immediateDenture; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(50).value = results.pembaikanDenture; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(51).value = results.kesSelesai; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(52).value = results.xrayDiambil; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(53).value = results.pesakitDisaringOC; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(54).value = results.pesakitdirujukLesiMulut; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(55).value = results.pesakitDirujukTabiat; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(56).value = results.rokokSaringNasihat; //C24          7 - 9 TAHUN semula
+        rowNew8.getCell(57).value = results.rokokIntervensi; //C24          7 - 9 TAHUN semula
+        rowNew8.commit();
+
+        //PG207
+        //10- 12 TAHUN baru
+        let rowNew9 = worksheet.getRow(25);
+        rowNew9.getCell(3).value = results.kedatanganTahunSemasa; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(4).value = results.sapuanFluorida; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(5).value = results.prrJenis1; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(6).value = results.muridBaruFS; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(7).value = results.muridSemulaFS; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(8).value = results.gigiBaruFS; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(9).value = results.gigiSemulaFS; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(10).value = results.tampalanAntGdBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(11).value = results.tampalanAntGdSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(12).value = results.tampalanAntGkBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(13).value = results.tampalanAntGkSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(14).value = results.tampalanPostGdBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(15).value = results.tampalanPostGdSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(16).value = results.tampalanPostGkBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(17).value = results.tampalanPostGkSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(18).value = results.tampalanPostAmgGdBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(19).value = results.tampalanPostAmgGdSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(20).value = results.tampalanPostAmgGkBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(21).value = results.tampalanPostAmgGkSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(22).value = results.inlayOnlayBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(23).value = results.inlayOnlaySemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(24).value = results.jumlahTampalanBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(25).value = results.jumlahTampalanSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(26).value = results.tampalanSementara; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(27).value = results.cabutanGd; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(28).value = results.cabutanGk; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(29).value = results.komplikasiSelepasCabutan; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(30).value = results.penskaleran; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(31).value = results.rawatanLain; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(32).value = results.rawatanEndo; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(33).value = results.rawatanOrtho; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(34).value = results.kesPerubatan; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(35).value = results.absesBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(36).value = results.AbsesSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(37).value = results.cabutanSurgical; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(38).value = results.fraktur; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(39).value = results.trauma; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(40).value = results.pembedahanKecilMulut; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(41).value = results.crownBridgeBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(42).value = results.crownBridgeSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(43).value = results.postCoreBaru; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(44).value = results.postCoreSemula; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(45).value = results.prosthodontikPenuhDentur; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(46).value = results.prosthodontikPenuhPesakit; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(47).value = results.prosthodontikSebahagianDentur; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(48).value = results.prosthodontikSebahagianPesakit; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(49).value = results.immediateDenture; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(50).value = results.pembaikanDenture; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(51).value = results.kesSelesai; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(52).value = results.xrayDiambil; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(53).value = results.pesakitDisaringOC; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(54).value = results.pesakitdirujukLesiMulut; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(55).value = results.pesakitDirujukTabiat; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(56).value = results.rokokSaringNasihat; //C25          10- 12 TAHUN baru
+        rowNew9.getCell(57).value = results.rokokIntervensi; //C25          10- 12 TAHUN baru
+        rowNew9.commit();
+
+        //PG207
+        //10- 12 TAHUN semula
+        let rowNew10 = worksheet.getRow(26);
+        rowNew10.getCell(3).value = results.kedatanganTahunSemasa; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(4).value = results.sapuanFluorida; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(5).value = results.prrJenis1; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(6).value = results.muridBaruFS; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(7).value = results.muridSemulaFS; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(8).value = results.gigiBaruFS; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(9).value = results.gigiSemulaFS; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(10).value = results.tampalanAntGdBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(11).value = results.tampalanAntGdSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(12).value = results.tampalanAntGkBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(13).value = results.tampalanAntGkSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(14).value = results.tampalanPostGdBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(15).value = results.tampalanPostGdSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(16).value = results.tampalanPostGkBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(17).value = results.tampalanPostGkSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(18).value = results.tampalanPostAmgGdBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(19).value = results.tampalanPostAmgGdSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(20).value = results.tampalanPostAmgGkBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(21).value = results.tampalanPostAmgGkSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(22).value = results.inlayOnlayBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(23).value = results.inlayOnlaySemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(24).value = results.jumlahTampalanBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(25).value = results.jumlahTampalanSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(26).value = results.tampalanSementara; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(27).value = results.cabutanGd; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(28).value = results.cabutanGk; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(29).value = results.komplikasiSelepasCabutan; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(30).value = results.penskaleran; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(31).value = results.rawatanLain; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(32).value = results.rawatanEndo; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(33).value = results.rawatanOrtho; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(34).value = results.kesPerubatan; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(35).value = results.absesBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(36).value = results.AbsesSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(37).value = results.cabutanSurgical; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(38).value = results.fraktur; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(39).value = results.trauma; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(40).value = results.pembedahanKecilMulut; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(41).value = results.crownBridgeBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(42).value = results.crownBridgeSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(43).value = results.postCoreBaru; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(44).value = results.postCoreSemula; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(45).value = results.prosthodontikPenuhDentur; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(46).value = results.prosthodontikPenuhPesakit; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(47).value = results.prosthodontikSebahagianDentur; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(48).value = results.prosthodontikSebahagianPesakit; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(49).value = results.immediateDenture; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(50).value = results.pembaikanDenture; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(51).value = results.kesSelesai; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(52).value = results.xrayDiambil; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(53).value = results.pesakitDisaringOC; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(54).value = results.pesakitdirujukLesiMulut; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(55).value = results.pesakitDirujukTabiat; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(56).value = results.rokokSaringNasihat; //C26          10- 12 TAHUN semula
+        rowNew10.getCell(57).value = results.rokokIntervensi; //C26          10- 12 TAHUN semula
+        rowNew10.commit();
+
+        //PG207
+        //13- 14 TAHUN baru
+        let rowNew11 = worksheet.getRow(27);
+        rowNew11.getCell(3).value = results.kedatanganTahunSemasa; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(4).value = results.sapuanFluorida; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(5).value = results.prrJenis1; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(6).value = results.muridBaruFS; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(7).value = results.muridSemulaFS; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(8).value = results.gigiBaruFS; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(9).value = results.gigiSemulaFS; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(10).value = results.tampalanAntGdBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(11).value = results.tampalanAntGdSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(12).value = results.tampalanAntGkBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(13).value = results.tampalanAntGkSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(14).value = results.tampalanPostGdBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(15).value = results.tampalanPostGdSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(16).value = results.tampalanPostGkBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(17).value = results.tampalanPostGkSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(18).value = results.tampalanPostAmgGdBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(19).value = results.tampalanPostAmgGdSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(20).value = results.tampalanPostAmgGkBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(21).value = results.tampalanPostAmgGkSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(22).value = results.inlayOnlayBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(23).value = results.inlayOnlaySemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(24).value = results.jumlahTampalanBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(25).value = results.jumlahTampalanSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(26).value = results.tampalanSementara; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(27).value = results.cabutanGd; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(28).value = results.cabutanGk; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(29).value = results.komplikasiSelepasCabutan; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(30).value = results.penskaleran; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(31).value = results.rawatanLain; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(32).value = results.rawatanEndo; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(33).value = results.rawatanOrtho; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(34).value = results.kesPerubatan; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(35).value = results.absesBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(36).value = results.AbsesSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(37).value = results.cabutanSurgical; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(38).value = results.fraktur; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(39).value = results.trauma; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(40).value = results.pembedahanKecilMulut; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(41).value = results.crownBridgeBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(42).value = results.crownBridgeSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(43).value = results.postCoreBaru; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(44).value = results.postCoreSemula; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(45).value = results.prosthodontikPenuhDentur; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(46).value = results.prosthodontikPenuhPesakit; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(47).value = results.prosthodontikSebahagianDentur; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(48).value = results.prosthodontikSebahagianPesakit; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(49).value = results.immediateDenture; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(50).value = results.pembaikanDenture; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(51).value = results.kesSelesai; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(52).value = results.xrayDiambil; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(53).value = results.pesakitDisaringOC; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(54).value = results.pesakitdirujukLesiMulut; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(55).value = results.pesakitDirujukTabiat; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(56).value = results.rokokSaringNasihat; //C27          13- 14 TAHUN baru
+        rowNew11.getCell(57).value = results.rokokIntervensi; //C27          13- 14 TAHUN baru
+        rowNew11.commit();
+
+        //PG207
+        //13- 14 TAHUN semula
+        let rowNew12 = worksheet.getRow(28);
+        rowNew12.getCell(3).value = results.kedatanganTahunSemasa; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(4).value = results.sapuanFluorida; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(5).value = results.prrJenis1; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(6).value = results.muridBaruFS; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(7).value = results.muridSemulaFS; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(8).value = results.gigiBaruFS; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(9).value = results.gigiSemulaFS; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(10).value = results.tampalanAntGdBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(11).value = results.tampalanAntGdSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(12).value = results.tampalanAntGkBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(13).value = results.tampalanAntGkSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(14).value = results.tampalanPostGdBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(15).value = results.tampalanPostGdSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(16).value = results.tampalanPostGkBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(17).value = results.tampalanPostGkSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(18).value = results.tampalanPostAmgGdBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(19).value = results.tampalanPostAmgGdSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(20).value = results.tampalanPostAmgGkBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(21).value = results.tampalanPostAmgGkSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(22).value = results.inlayOnlayBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(23).value = results.inlayOnlaySemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(24).value = results.jumlahTampalanBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(25).value = results.jumlahTampalanSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(26).value = results.tampalanSementara; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(27).value = results.cabutanGd; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(28).value = results.cabutanGk; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(29).value = results.komplikasiSelepasCabutan; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(30).value = results.penskaleran; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(31).value = results.rawatanLain; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(32).value = results.rawatanEndo; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(33).value = results.rawatanOrtho; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(34).value = results.kesPerubatan; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(35).value = results.absesBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(36).value = results.AbsesSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(37).value = results.cabutanSurgical; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(38).value = results.fraktur; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(39).value = results.trauma; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(40).value = results.pembedahanKecilMulut; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(41).value = results.crownBridgeBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(42).value = results.crownBridgeSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(43).value = results.postCoreBaru; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(44).value = results.postCoreSemula; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(45).value = results.prosthodontikPenuhDentur; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(46).value = results.prosthodontikPenuhPesakit; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(47).value = results.prosthodontikSebahagianDentur; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(48).value = results.prosthodontikSebahagianPesakit; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(49).value = results.immediateDenture; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(50).value = results.pembaikanDenture; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(51).value = results.kesSelesai; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(52).value = results.xrayDiambil; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(53).value = results.pesakitDisaringOC; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(54).value = results.pesakitdirujukLesiMulut; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(55).value = results.pesakitDirujukTabiat; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(56).value = results.rokokSaringNasihat; //C28          13- 14 TAHUN semula
+        rowNew12.getCell(57).value = results.rokokIntervensi; //C28          13- 14 TAHUN semula
+        rowNew12.commit();
+
+        //PG207
+        //15- 17 TAHUN baru
+        let rowNew13 = worksheet.getRow(29);
+        rowNew13.getCell(3).value = results.kedatanganTahunSemasa; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(4).value = results.sapuanFluorida; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(5).value = results.prrJenis1; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(6).value = results.muridBaruFS; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(7).value = results.muridSemulaFS; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(8).value = results.gigiBaruFS; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(9).value = results.gigiSemulaFS; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(10).value = results.tampalanAntGdBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(11).value = results.tampalanAntGdSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(12).value = results.tampalanAntGkBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(13).value = results.tampalanAntGkSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(14).value = results.tampalanPostGdBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(15).value = results.tampalanPostGdSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(16).value = results.tampalanPostGkBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(17).value = results.tampalanPostGkSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(18).value = results.tampalanPostAmgGdBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(19).value = results.tampalanPostAmgGdSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(20).value = results.tampalanPostAmgGkBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(21).value = results.tampalanPostAmgGkSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(22).value = results.inlayOnlayBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(23).value = results.inlayOnlaySemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(24).value = results.jumlahTampalanBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(25).value = results.jumlahTampalanSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(26).value = results.tampalanSementara; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(27).value = results.cabutanGd; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(28).value = results.cabutanGk; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(29).value = results.komplikasiSelepasCabutan; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(30).value = results.penskaleran; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(31).value = results.rawatanLain; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(32).value = results.rawatanEndo; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(33).value = results.rawatanOrtho; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(34).value = results.kesPerubatan; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(35).value = results.absesBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(36).value = results.AbsesSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(37).value = results.cabutanSurgical; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(38).value = results.fraktur; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(39).value = results.trauma; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(40).value = results.pembedahanKecilMulut; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(41).value = results.crownBridgeBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(42).value = results.crownBridgeSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(43).value = results.postCoreBaru; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(44).value = results.postCoreSemula; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(45).value = results.prosthodontikPenuhDentur; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(46).value = results.prosthodontikPenuhPesakit; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(47).value = results.prosthodontikSebahagianDentur; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(48).value = results.prosthodontikSebahagianPesakit; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(49).value = results.immediateDenture; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(50).value = results.pembaikanDenture; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(51).value = results.kesSelesai; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(52).value = results.xrayDiambil; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(53).value = results.pesakitDisaringOC; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(54).value = results.pesakitdirujukLesiMulut; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(55).value = results.pesakitDirujukTabiat; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(56).value = results.rokokSaringNasihat; //C29          15- 17 TAHUN baru
+        rowNew13.getCell(57).value = results.rokokIntervensi; //C29          15- 17 TAHUN baru
+        rowNew13.commit();
+
+        //PG207
+        //15- 17 TAHUN ulangan
+        let rowNew14 = worksheet.getRow(30);
+        rowNew14.getCell(3).value = results.kedatanganTahunSemasa; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(4).value = results.sapuanFluorida; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(5).value = results.prrJenis1; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(6).value = results.muridBaruFS; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(7).value = results.muridSemulaFS; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(8).value = results.gigiBaruFS; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(9).value = results.gigiSemulaFS; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(10).value = results.tampalanAntGdBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(11).value = results.tampalanAntGdSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(12).value = results.tampalanAntGkBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(13).value = results.tampalanAntGkSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(14).value = results.tampalanPostGdBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(15).value = results.tampalanPostGdSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(16).value = results.tampalanPostGkBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(17).value = results.tampalanPostGkSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(18).value = results.tampalanPostAmgGdBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(19).value = results.tampalanPostAmgGdSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(20).value = results.tampalanPostAmgGkBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(21).value = results.tampalanPostAmgGkSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(22).value = results.inlayOnlayBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(23).value = results.inlayOnlaySemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(24).value = results.jumlahTampalanBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(25).value = results.jumlahTampalanSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(26).value = results.tampalanSementara; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(27).value = results.cabutanGd; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(28).value = results.cabutanGk; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(29).value = results.komplikasiSelepasCabutan; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(30).value = results.penskaleran; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(31).value = results.rawatanLain; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(32).value = results.rawatanEndo; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(33).value = results.rawatanOrtho; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(34).value = results.kesPerubatan; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(35).value = results.absesBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(36).value = results.AbsesSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(37).value = results.cabutanSurgical; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(38).value = results.fraktur; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(39).value = results.trauma; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(40).value = results.pembedahanKecilMulut; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(41).value = results.crownBridgeBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(42).value = results.crownBridgeSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(43).value = results.postCoreBaru; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(44).value = results.postCoreSemula; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(45).value = results.prosthodontikPenuhDentur; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(46).value = results.prosthodontikPenuhPesakit; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(47).value = results.prosthodontikSebahagianDentur; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(48).value = results.prosthodontikSebahagianPesakit; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(49).value = results.immediateDenture; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(50).value = results.pembaikanDenture; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(51).value = results.kesSelesai; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(52).value = results.xrayDiambil; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(53).value = results.pesakitDisaringOC; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(54).value = results.pesakitdirujukLesiMulut; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(55).value = results.pesakitDirujukTabiat; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(56).value = results.rokokSaringNasihat; //C30          15- 17 TAHUN ulangan
+        rowNew14.getCell(57).value = results.rokokIntervensi; //C30          15- 17 TAHUN ulangan
+        rowNew14.commit();
+
+        //PG207
+        //18- 19 TAHUN baru
+        let rowNew15 = worksheet.getRow(31);
+        rowNew15.getCell(3).value = results.kedatanganTahunSemasa; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(4).value = results.sapuanFluorida; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(5).value = results.prrJenis1; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(6).value = results.muridBaruFS; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(7).value = results.muridSemulaFS; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(8).value = results.gigiBaruFS; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(9).value = results.gigiSemulaFS; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(10).value = results.tampalanAntGdBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(11).value = results.tampalanAntGdSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(12).value = results.tampalanAntGkBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(13).value = results.tampalanAntGkSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(14).value = results.tampalanPostGdBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(15).value = results.tampalanPostGdSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(16).value = results.tampalanPostGkBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(17).value = results.tampalanPostGkSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(18).value = results.tampalanPostAmgGdBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(19).value = results.tampalanPostAmgGdSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(20).value = results.tampalanPostAmgGkBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(21).value = results.tampalanPostAmgGkSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(22).value = results.inlayOnlayBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(23).value = results.inlayOnlaySemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(24).value = results.jumlahTampalanBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(25).value = results.jumlahTampalanSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(26).value = results.tampalanSementara; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(27).value = results.cabutanGd; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(28).value = results.cabutanGk; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(29).value = results.komplikasiSelepasCabutan; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(30).value = results.penskaleran; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(31).value = results.rawatanLain; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(32).value = results.rawatanEndo; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(33).value = results.rawatanOrtho; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(34).value = results.kesPerubatan; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(35).value = results.absesBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(36).value = results.AbsesSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(37).value = results.cabutanSurgical; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(38).value = results.fraktur; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(39).value = results.trauma; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(40).value = results.pembedahanKecilMulut; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(41).value = results.crownBridgeBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(42).value = results.crownBridgeSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(43).value = results.postCoreBaru; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(44).value = results.postCoreSemula; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(45).value = results.prosthodontikPenuhDentur; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(46).value = results.prosthodontikPenuhPesakit; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(47).value = results.prosthodontikSebahagianDentur; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(48).value = results.prosthodontikSebahagianPesakit; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(49).value = results.immediateDenture; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(50).value = results.pembaikanDenture; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(51).value = results.kesSelesai; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(52).value = results.xrayDiambil; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(53).value = results.pesakitDisaringOC; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(54).value = results.pesakitdirujukLesiMulut; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(55).value = results.pesakitDirujukTabiat; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(56).value = results.rokokSaringNasihat; //C31          18- 19 TAHUN baru
+        rowNew15.getCell(57).value = results.rokokIntervensi; //C31          18- 19 TAHUN baru
+        rowNew15.commit();
+
+        //PG207
+        //18- 19 TAHUN ulangan
+        let rowNew16 = worksheet.getRow(32);
+        rowNew16.getCell(3).value = results.kedatanganTahunSemasa; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(4).value = results.sapuanFluorida; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(5).value = results.prrJenis1; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(6).value = results.muridBaruFS; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(7).value = results.muridSemulaFS; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(8).value = results.gigiBaruFS; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(9).value = results.gigiSemulaFS; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(10).value = results.tampalanAntGdBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(11).value = results.tampalanAntGdSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(12).value = results.tampalanAntGkBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(13).value = results.tampalanAntGkSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(14).value = results.tampalanPostGdBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(15).value = results.tampalanPostGdSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(16).value = results.tampalanPostGkBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(17).value = results.tampalanPostGkSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(18).value = results.tampalanPostAmgGdBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(19).value = results.tampalanPostAmgGdSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(20).value = results.tampalanPostAmgGkBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(21).value = results.tampalanPostAmgGkSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(22).value = results.inlayOnlayBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(23).value = results.inlayOnlaySemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(24).value = results.jumlahTampalanBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(25).value = results.jumlahTampalanSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(26).value = results.tampalanSementara; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(27).value = results.cabutanGd; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(28).value = results.cabutanGk; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(29).value = results.komplikasiSelepasCabutan; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(30).value = results.penskaleran; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(31).value = results.rawatanLain; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(32).value = results.rawatanEndo; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(33).value = results.rawatanOrtho; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(34).value = results.kesPerubatan; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(35).value = results.absesBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(36).value = results.AbsesSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(37).value = results.cabutanSurgical; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(38).value = results.fraktur; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(39).value = results.trauma; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(40).value = results.pembedahanKecilMulut; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(41).value = results.crownBridgeBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(42).value = results.crownBridgeSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(43).value = results.postCoreBaru; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(44).value = results.postCoreSemula; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(45).value = results.prosthodontikPenuhDentur; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(46).value = results.prosthodontikPenuhPesakit; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(47).value = results.prosthodontikSebahagianDentur; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(48).value = results.prosthodontikSebahagianPesakit; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(49).value = results.immediateDenture; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(50).value = results.pembaikanDenture; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(51).value = results.kesSelesai; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(52).value = results.xrayDiambil; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(53).value = results.pesakitDisaringOC; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(54).value = results.pesakitdirujukLesiMulut; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(55).value = results.pesakitDirujukTabiat; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(56).value = results.rokokSaringNasihat; //C32          18- 19 TAHUN ulangan
+        rowNew16.getCell(57).value = results.rokokIntervensi; //C32          18- 19 TAHUN ulangan
+        rowNew16.commit();
+
+        //PG207
+        //20- 29 TAHUN baru
+        let rowNew17 = worksheet.getRow(33);
+        rowNew17.getCell(3).value = results.kedatanganTahunSemasa; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(4).value = results.sapuanFluorida; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(5).value = results.prrJenis1; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(6).value = results.muridBaruFS; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(7).value = results.muridSemulaFS; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(8).value = results.gigiBaruFS; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(9).value = results.gigiSemulaFS; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(10).value = results.tampalanAntGdBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(11).value = results.tampalanAntGdSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(12).value = results.tampalanAntGkBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(13).value = results.tampalanAntGkSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(14).value = results.tampalanPostGdBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(15).value = results.tampalanPostGdSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(16).value = results.tampalanPostGkBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(17).value = results.tampalanPostGkSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(18).value = results.tampalanPostAmgGdBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(19).value = results.tampalanPostAmgGdSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(20).value = results.tampalanPostAmgGkBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(21).value = results.tampalanPostAmgGkSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(22).value = results.inlayOnlayBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(23).value = results.inlayOnlaySemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(24).value = results.jumlahTampalanBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(25).value = results.jumlahTampalanSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(26).value = results.tampalanSementara; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(27).value = results.cabutanGd; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(28).value = results.cabutanGk; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(29).value = results.komplikasiSelepasCabutan; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(30).value = results.penskaleran; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(31).value = results.rawatanLain; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(32).value = results.rawatanEndo; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(33).value = results.rawatanOrtho; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(34).value = results.kesPerubatan; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(35).value = results.absesBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(36).value = results.AbsesSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(37).value = results.cabutanSurgical; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(38).value = results.fraktur; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(39).value = results.trauma; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(40).value = results.pembedahanKecilMulut; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(41).value = results.crownBridgeBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(42).value = results.crownBridgeSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(43).value = results.postCoreBaru; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(44).value = results.postCoreSemula; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(45).value = results.prosthodontikPenuhDentur; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(46).value = results.prosthodontikPenuhPesakit; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(47).value = results.prosthodontikSebahagianDentur; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(48).value = results.prosthodontikSebahagianPesakit; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(49).value = results.immediateDenture; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(50).value = results.pembaikanDenture; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(51).value = results.kesSelesai; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(52).value = results.xrayDiambil; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(53).value = results.pesakitDisaringOC; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(54).value = results.pesakitdirujukLesiMulut; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(55).value = results.pesakitDirujukTabiat; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(56).value = results.rokokSaringNasihat; //C33          20- 29 TAHUN baru
+        rowNew17.getCell(57).value = results.rokokIntervensi; //C33          20- 29 TAHUN baru
+        rowNew17.commit();
+
+        //PG207
+        //20- 29 TAHUN ulangan
+        let rowNew18 = worksheet.getRow(34);
+        rowNew18.getCell(3).value = results.kedatanganTahunSemasa; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(4).value = results.sapuanFluorida; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(5).value = results.prrJenis1; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(6).value = results.muridBaruFS; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(7).value = results.muridSemulaFS; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(8).value = results.gigiBaruFS; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(9).value = results.gigiSemulaFS; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(10).value = results.tampalanAntGdBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(11).value = results.tampalanAntGdSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(12).value = results.tampalanAntGkBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(13).value = results.tampalanAntGkSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(14).value = results.tampalanPostGdBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(15).value = results.tampalanPostGdSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(16).value = results.tampalanPostGkBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(17).value = results.tampalanPostGkSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(18).value = results.tampalanPostAmgGdBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(19).value = results.tampalanPostAmgGdSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(20).value = results.tampalanPostAmgGkBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(21).value = results.tampalanPostAmgGkSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(22).value = results.inlayOnlayBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(23).value = results.inlayOnlaySemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(24).value = results.jumlahTampalanBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(25).value = results.jumlahTampalanSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(26).value = results.tampalanSementara; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(27).value = results.cabutanGd; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(28).value = results.cabutanGk; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(29).value = results.komplikasiSelepasCabutan; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(30).value = results.penskaleran; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(31).value = results.rawatanLain; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(32).value = results.rawatanEndo; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(33).value = results.rawatanOrtho; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(34).value = results.kesPerubatan; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(35).value = results.absesBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(36).value = results.AbsesSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(37).value = results.cabutanSurgical; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(38).value = results.fraktur; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(39).value = results.trauma; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(40).value = results.pembedahanKecilMulut; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(41).value = results.crownBridgeBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(42).value = results.crownBridgeSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(43).value = results.postCoreBaru; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(44).value = results.postCoreSemula; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(45).value = results.prosthodontikPenuhDentur; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(46).value = results.prosthodontikPenuhPesakit; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(47).value = results.prosthodontikSebahagianDentur; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(48).value = results.prosthodontikSebahagianPesakit; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(49).value = results.immediateDenture; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(50).value = results.pembaikanDenture; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(51).value = results.kesSelesai; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(52).value = results.xrayDiambil; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(53).value = results.pesakitDisaringOC; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(54).value = results.pesakitdirujukLesiMulut; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(55).value = results.pesakitDirujukTabiat; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(56).value = results.rokokSaringNasihat; //C34          20- 29 TAHUN ulangan
+        rowNew18.getCell(57).value = results.rokokIntervensi; //C34          20- 29 TAHUN ulangan
+        rowNew18.commit();
+
+        //PG207
+        //30- 49 TAHUN baru
+        let rowNew19 = worksheet.getRow(35);
+        rowNew19.getCell(3).value = results.kedatanganTahunSemasa; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(4).value = results.sapuanFluorida; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(5).value = results.prrJenis1; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(6).value = results.muridBaruFS; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(7).value = results.muridSemulaFS; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(8).value = results.gigiBaruFS; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(9).value = results.gigiSemulaFS; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(10).value = results.tampalanAntGdBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(11).value = results.tampalanAntGdSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(12).value = results.tampalanAntGkBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(13).value = results.tampalanAntGkSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(14).value = results.tampalanPostGdBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(15).value = results.tampalanPostGdSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(16).value = results.tampalanPostGkBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(17).value = results.tampalanPostGkSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(18).value = results.tampalanPostAmgGdBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(19).value = results.tampalanPostAmgGdSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(20).value = results.tampalanPostAmgGkBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(21).value = results.tampalanPostAmgGkSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(22).value = results.inlayOnlayBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(23).value = results.inlayOnlaySemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(24).value = results.jumlahTampalanBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(25).value = results.jumlahTampalanSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(26).value = results.tampalanSementara; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(27).value = results.cabutanGd; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(28).value = results.cabutanGk; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(29).value = results.komplikasiSelepasCabutan; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(30).value = results.penskaleran; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(31).value = results.rawatanLain; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(32).value = results.rawatanEndo; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(33).value = results.rawatanOrtho; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(34).value = results.kesPerubatan; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(35).value = results.absesBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(36).value = results.AbsesSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(37).value = results.cabutanSurgical; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(38).value = results.fraktur; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(39).value = results.trauma; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(40).value = results.pembedahanKecilMulut; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(41).value = results.crownBridgeBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(42).value = results.crownBridgeSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(43).value = results.postCoreBaru; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(44).value = results.postCoreSemula; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(45).value = results.prosthodontikPenuhDentur; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(46).value = results.prosthodontikPenuhPesakit; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(47).value = results.prosthodontikSebahagianDentur; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(48).value = results.prosthodontikSebahagianPesakit; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(49).value = results.immediateDenture; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(50).value = results.pembaikanDenture; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(51).value = results.kesSelesai; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(52).value = results.xrayDiambil; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(53).value = results.pesakitDisaringOC; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(54).value = results.pesakitdirujukLesiMulut; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(55).value = results.pesakitDirujukTabiat; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(56).value = results.rokokSaringNasihat; //C35          30- 49 TAHUN baru
+        rowNew19.getCell(57).value = results.rokokIntervensi; //C35          30- 49 TAHUN baru
+        rowNew19.commit();
+
+        //PG207
+        //30- 49 TAHUN ulangan
+        let rowNew20 = worksheet.getRow(36);
+        rowNew20.getCell(3).value = results.kedatanganTahunSemasa; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(4).value = results.sapuanFluorida; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(5).value = results.prrJenis1; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(6).value = results.muridBaruFS; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(7).value = results.muridSemulaFS; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(8).value = results.gigiBaruFS; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(9).value = results.gigiSemulaFS; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(10).value = results.tampalanAntGdBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(11).value = results.tampalanAntGdSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(12).value = results.tampalanAntGkBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(13).value = results.tampalanAntGkSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(14).value = results.tampalanPostGdBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(15).value = results.tampalanPostGdSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(16).value = results.tampalanPostGkBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(17).value = results.tampalanPostGkSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(18).value = results.tampalanPostAmgGdBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(19).value = results.tampalanPostAmgGdSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(20).value = results.tampalanPostAmgGkBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(21).value = results.tampalanPostAmgGkSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(22).value = results.inlayOnlayBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(23).value = results.inlayOnlaySemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(24).value = results.jumlahTampalanBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(25).value = results.jumlahTampalanSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(26).value = results.tampalanSementara; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(27).value = results.cabutanGd; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(28).value = results.cabutanGk; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(29).value = results.komplikasiSelepasCabutan; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(30).value = results.penskaleran; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(31).value = results.rawatanLain; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(32).value = results.rawatanEndo; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(33).value = results.rawatanOrtho; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(34).value = results.kesPerubatan; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(35).value = results.absesBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(36).value = results.AbsesSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(37).value = results.cabutanSurgical; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(38).value = results.fraktur; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(39).value = results.trauma; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(40).value = results.pembedahanKecilMulut; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(41).value = results.crownBridgeBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(42).value = results.crownBridgeSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(43).value = results.postCoreBaru; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(44).value = results.postCoreSemula; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(45).value = results.prosthodontikPenuhDentur; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(46).value = results.prosthodontikPenuhPesakit; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(47).value = results.prosthodontikSebahagianDentur; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(48).value = results.prosthodontikSebahagianPesakit; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(49).value = results.immediateDenture; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(50).value = results.pembaikanDenture; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(51).value = results.kesSelesai; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(52).value = results.xrayDiambil; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(53).value = results.pesakitDisaringOC; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(54).value = results.pesakitdirujukLesiMulut; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(55).value = results.pesakitDirujukTabiat; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(56).value = results.rokokSaringNasihat; //C36          30- 49 TAHUN ulangan
+        rowNew20.getCell(57).value = results.rokokIntervensi; //C36          30- 49 TAHUN ulangan
+        rowNew20.commit();
+
+        //PG207
+        //50- 59 TAHUN baru
+        let rowNew21 = worksheet.getRow(37);
+        rowNew21.getCell(3).value = results.kedatanganTahunSemasa; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(4).value = results.sapuanFluorida; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(5).value = results.prrJenis1; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(6).value = results.muridBaruFS; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(7).value = results.muridSemulaFS; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(8).value = results.gigiBaruFS; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(9).value = results.gigiSemulaFS; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(10).value = results.tampalanAntGdBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(11).value = results.tampalanAntGdSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(12).value = results.tampalanAntGkBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(13).value = results.tampalanAntGkSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(14).value = results.tampalanPostGdBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(15).value = results.tampalanPostGdSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(16).value = results.tampalanPostGkBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(17).value = results.tampalanPostGkSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(18).value = results.tampalanPostAmgGdBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(19).value = results.tampalanPostAmgGdSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(20).value = results.tampalanPostAmgGkBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(21).value = results.tampalanPostAmgGkSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(22).value = results.inlayOnlayBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(23).value = results.inlayOnlaySemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(24).value = results.jumlahTampalanBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(25).value = results.jumlahTampalanSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(26).value = results.tampalanSementara; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(27).value = results.cabutanGd; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(28).value = results.cabutanGk; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(29).value = results.komplikasiSelepasCabutan; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(30).value = results.penskaleran; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(31).value = results.rawatanLain; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(32).value = results.rawatanEndo; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(33).value = results.rawatanOrtho; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(34).value = results.kesPerubatan; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(35).value = results.absesBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(36).value = results.AbsesSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(37).value = results.cabutanSurgical; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(38).value = results.fraktur; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(39).value = results.trauma; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(40).value = results.pembedahanKecilMulut; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(41).value = results.crownBridgeBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(42).value = results.crownBridgeSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(43).value = results.postCoreBaru; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(44).value = results.postCoreSemula; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(45).value = results.prosthodontikPenuhDentur; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(46).value = results.prosthodontikPenuhPesakit; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(47).value = results.prosthodontikSebahagianDentur; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(48).value = results.prosthodontikSebahagianPesakit; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(49).value = results.immediateDenture; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(50).value = results.pembaikanDenture; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(51).value = results.kesSelesai; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(52).value = results.xrayDiambil; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(53).value = results.pesakitDisaringOC; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(54).value = results.pesakitdirujukLesiMulut; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(55).value = results.pesakitDirujukTabiat; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(56).value = results.rokokSaringNasihat; //C37          50- 59 TAHUN baru
+        rowNew21.getCell(57).value = results.rokokIntervensi; //C37          50- 59 TAHUN baru
+        rowNew21.commit();
+
+        //PG207
+        //50- 59 TAHUN ulangan
+        let rowNew22 = worksheet.getRow(38);
+        rowNew22.getCell(3).value = results.kedatanganTahunSemasa; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(4).value = results.sapuanFluorida; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(5).value = results.prrJenis1; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(6).value = results.muridBaruFS; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(7).value = results.muridSemulaFS; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(8).value = results.gigiBaruFS; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(9).value = results.gigiSemulaFS; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(10).value = results.tampalanAntGdBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(11).value = results.tampalanAntGdSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(12).value = results.tampalanAntGkBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(13).value = results.tampalanAntGkSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(14).value = results.tampalanPostGdBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(15).value = results.tampalanPostGdSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(16).value = results.tampalanPostGkBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(17).value = results.tampalanPostGkSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(18).value = results.tampalanPostAmgGdBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(19).value = results.tampalanPostAmgGdSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(20).value = results.tampalanPostAmgGkBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(21).value = results.tampalanPostAmgGkSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(22).value = results.inlayOnlayBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(23).value = results.inlayOnlaySemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(24).value = results.jumlahTampalanBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(25).value = results.jumlahTampalanSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(26).value = results.tampalanSementara; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(27).value = results.cabutanGd; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(28).value = results.cabutanGk; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(29).value = results.komplikasiSelepasCabutan; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(30).value = results.penskaleran; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(31).value = results.rawatanLain; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(32).value = results.rawatanEndo; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(33).value = results.rawatanOrtho; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(34).value = results.kesPerubatan; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(35).value = results.absesBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(36).value = results.AbsesSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(37).value = results.cabutanSurgical; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(38).value = results.fraktur; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(39).value = results.trauma; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(40).value = results.pembedahanKecilMulut; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(41).value = results.crownBridgeBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(42).value = results.crownBridgeSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(43).value = results.postCoreBaru; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(44).value = results.postCoreSemula; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(45).value = results.prosthodontikPenuhDentur; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(46).value = results.prosthodontikPenuhPesakit; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(47).value = results.prosthodontikSebahagianDentur; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(48).value = results.prosthodontikSebahagianPesakit; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(49).value = results.immediateDenture; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(50).value = results.pembaikanDenture; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(51).value = results.kesSelesai; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(52).value = results.xrayDiambil; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(53).value = results.pesakitDisaringOC; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(54).value = results.pesakitdirujukLesiMulut; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(55).value = results.pesakitDirujukTabiat; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(56).value = results.rokokSaringNasihat; //C38          50- 59 TAHUN ulangan
+        rowNew22.getCell(57).value = results.rokokIntervensi; //C38          50- 59 TAHUN ulangan
+        rowNew22.commit();
+
+        //PG207
+        //60 TAHUN DAN KE ATAS baru
+        let rowNew23 = worksheet.getRow(29);
+        rowNew23.getCell(3).value = results.kedatanganTahunSemasa; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(4).value = results.sapuanFluorida; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(5).value = results.prrJenis1; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(6).value = results.muridBaruFS; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(7).value = results.muridSemulaFS; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(8).value = results.gigiBaruFS; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(9).value = results.gigiSemulaFS; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(10).value = results.tampalanAntGdBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(11).value = results.tampalanAntGdSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(12).value = results.tampalanAntGkBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(13).value = results.tampalanAntGkSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(14).value = results.tampalanPostGdBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(15).value = results.tampalanPostGdSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(16).value = results.tampalanPostGkBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(17).value = results.tampalanPostGkSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(18).value = results.tampalanPostAmgGdBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(19).value = results.tampalanPostAmgGdSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(20).value = results.tampalanPostAmgGkBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(21).value = results.tampalanPostAmgGkSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(22).value = results.inlayOnlayBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(23).value = results.inlayOnlaySemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(24).value = results.jumlahTampalanBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(25).value = results.jumlahTampalanSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(26).value = results.tampalanSementara; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(27).value = results.cabutanGd; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(28).value = results.cabutanGk; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(29).value = results.komplikasiSelepasCabutan; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(30).value = results.penskaleran; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(31).value = results.rawatanLain; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(32).value = results.rawatanEndo; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(33).value = results.rawatanOrtho; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(34).value = results.kesPerubatan; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(35).value = results.absesBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(36).value = results.AbsesSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(37).value = results.cabutanSurgical; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(38).value = results.fraktur; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(39).value = results.trauma; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(40).value = results.pembedahanKecilMulut; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(41).value = results.crownBridgeBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(42).value = results.crownBridgeSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(43).value = results.postCoreBaru; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(44).value = results.postCoreSemula; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(45).value = results.prosthodontikPenuhDentur; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(46).value = results.prosthodontikPenuhPesakit; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(47).value = results.prosthodontikSebahagianDentur; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(48).value = results.prosthodontikSebahagianPesakit; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(49).value = results.immediateDenture; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(50).value = results.pembaikanDenture; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(51).value = results.kesSelesai; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(52).value = results.xrayDiambil; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(53).value = results.pesakitDisaringOC; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(54).value = results.pesakitdirujukLesiMulut; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(55).value = results.pesakitDirujukTabiat; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(56).value = results.rokokSaringNasihat; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.getCell(57).value = results.rokokIntervensi; //C29          60 TAHUN DAN KE ATAS baru
+        rowNew23.commit();
+
+        //PG207
+        //60 TAHUN DAN KE ATAS semula
+        let rowNew24 = worksheet.getRow(30);
+        rowNew24.getCell(3).value = results.kedatanganTahunSemasa; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(4).value = results.sapuanFluorida; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(5).value = results.prrJenis1; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(6).value = results.muridBaruFS; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(7).value = results.muridSemulaFS; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(8).value = results.gigiBaruFS; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(9).value = results.gigiSemulaFS; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(10).value = results.tampalanAntGdBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(11).value = results.tampalanAntGdSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(12).value = results.tampalanAntGkBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(13).value = results.tampalanAntGkSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(14).value = results.tampalanPostGdBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(15).value = results.tampalanPostGdSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(16).value = results.tampalanPostGkBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(17).value = results.tampalanPostGkSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(18).value = results.tampalanPostAmgGdBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(19).value = results.tampalanPostAmgGdSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(20).value = results.tampalanPostAmgGkBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(21).value = results.tampalanPostAmgGkSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(22).value = results.inlayOnlayBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(23).value = results.inlayOnlaySemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(24).value = results.jumlahTampalanBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(25).value = results.jumlahTampalanSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(26).value = results.tampalanSementara; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(27).value = results.cabutanGd; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(28).value = results.cabutanGk; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(29).value = results.komplikasiSelepasCabutan; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(30).value = results.penskaleran; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(31).value = results.rawatanLain; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(32).value = results.rawatanEndo; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(33).value = results.rawatanOrtho; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(34).value = results.kesPerubatan; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(35).value = results.absesBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(36).value = results.AbsesSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(37).value = results.cabutanSurgical; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(38).value = results.fraktur; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(39).value = results.trauma; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(40).value = results.pembedahanKecilMulut; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(41).value = results.crownBridgeBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(42).value = results.crownBridgeSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(43).value = results.postCoreBaru; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(44).value = results.postCoreSemula; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(45).value = results.prosthodontikPenuhDentur; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(46).value = results.prosthodontikPenuhPesakit; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(47).value = results.prosthodontikSebahagianDentur; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(48).value = results.prosthodontikSebahagianPesakit; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(49).value = results.immediateDenture; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(50).value = results.pembaikanDenture; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(51).value = results.kesSelesai; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(52).value = results.xrayDiambil; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(53).value = results.pesakitDisaringOC; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(54).value = results.pesakitdirujukLesiMulut; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(55).value = results.pesakitDirujukTabiat; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(56).value = results.rokokSaringNasihat; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.getCell(57).value = results.rokokIntervensi; //C30          60 TAHUN DAN KE ATAS semula
+        rowNew24.commit();
+
+        //PG207
+        //Ibu mengandung baru
+        let rowNew25 = worksheet.getRow(43);
+        rowNew25.getCell(3).value = results.kedatanganTahunSemasa; //C43          Ibu mengandung baru
+        rowNew25.getCell(4).value = results.sapuanFluorida; //C43          Ibu mengandung baru
+        rowNew25.getCell(5).value = results.prrJenis1; //C43          Ibu mengandung baru
+        rowNew25.getCell(6).value = results.muridBaruFS; //C43          Ibu mengandung baru
+        rowNew25.getCell(7).value = results.muridSemulaFS; //C43          Ibu mengandung baru
+        rowNew25.getCell(8).value = results.gigiBaruFS; //C43          Ibu mengandung baru
+        rowNew25.getCell(9).value = results.gigiSemulaFS; //C43          Ibu mengandung baru
+        rowNew25.getCell(10).value = results.tampalanAntGdBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(11).value = results.tampalanAntGdSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(12).value = results.tampalanAntGkBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(13).value = results.tampalanAntGkSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(14).value = results.tampalanPostGdBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(15).value = results.tampalanPostGdSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(16).value = results.tampalanPostGkBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(17).value = results.tampalanPostGkSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(18).value = results.tampalanPostAmgGdBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(19).value = results.tampalanPostAmgGdSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(20).value = results.tampalanPostAmgGkBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(21).value = results.tampalanPostAmgGkSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(22).value = results.inlayOnlayBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(23).value = results.inlayOnlaySemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(24).value = results.jumlahTampalanBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(25).value = results.jumlahTampalanSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(26).value = results.tampalanSementara; //C43          Ibu mengandung baru
+        rowNew25.getCell(27).value = results.cabutanGd; //C43          Ibu mengandung baru
+        rowNew25.getCell(28).value = results.cabutanGk; //C43          Ibu mengandung baru
+        rowNew25.getCell(29).value = results.komplikasiSelepasCabutan; //C43          Ibu mengandung baru
+        rowNew25.getCell(30).value = results.penskaleran; //C43          Ibu mengandung baru
+        rowNew25.getCell(31).value = results.rawatanLain; //C43          Ibu mengandung baru
+        rowNew25.getCell(32).value = results.rawatanEndo; //C43          Ibu mengandung baru
+        rowNew25.getCell(33).value = results.rawatanOrtho; //C43          Ibu mengandung baru
+        rowNew25.getCell(34).value = results.kesPerubatan; //C43          Ibu mengandung baru
+        rowNew25.getCell(35).value = results.absesBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(36).value = results.AbsesSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(37).value = results.cabutanSurgical; //C43          Ibu mengandung baru
+        rowNew25.getCell(38).value = results.fraktur; //C43          Ibu mengandung baru
+        rowNew25.getCell(39).value = results.trauma; //C43          Ibu mengandung baru
+        rowNew25.getCell(40).value = results.pembedahanKecilMulut; //C43          Ibu mengandung baru
+        rowNew25.getCell(41).value = results.crownBridgeBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(42).value = results.crownBridgeSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(43).value = results.postCoreBaru; //C43          Ibu mengandung baru
+        rowNew25.getCell(44).value = results.postCoreSemula; //C43          Ibu mengandung baru
+        rowNew25.getCell(45).value = results.prosthodontikPenuhDentur; //C43          Ibu mengandung baru
+        rowNew25.getCell(46).value = results.prosthodontikPenuhPesakit; //C43          Ibu mengandung baru
+        rowNew25.getCell(47).value = results.prosthodontikSebahagianDentur; //C43          Ibu mengandung baru
+        rowNew25.getCell(48).value = results.prosthodontikSebahagianPesakit; //C43          Ibu mengandung baru
+        rowNew25.getCell(49).value = results.immediateDenture; //C43          Ibu mengandung baru
+        rowNew25.getCell(50).value = results.pembaikanDenture; //C43          Ibu mengandung baru
+        rowNew25.getCell(51).value = results.kesSelesai; //C43          Ibu mengandung baru
+        rowNew25.getCell(52).value = results.xrayDiambil; //C43          Ibu mengandung baru
+        rowNew25.getCell(53).value = results.pesakitDisaringOC; //C43          Ibu mengandung baru
+        rowNew25.getCell(54).value = results.pesakitdirujukLesiMulut; //C43          Ibu mengandung baru
+        rowNew25.getCell(55).value = results.pesakitDirujukTabiat; //C43          Ibu mengandung baru
+        rowNew25.getCell(56).value = results.rokokSaringNasihat; //C43          Ibu mengandung baru
+        rowNew25.getCell(57).value = results.rokokIntervensi; //C43          Ibu mengandung baru
+        rowNew25.commit();
+
+        //PG207
+        //Ibu mengandung semula
+        let rowNew26 = worksheet.getRow(44);
+        rowNew26.getCell(3).value = results.kedatanganTahunSemasa; //C44          Ibu mengandung semula
+        rowNew26.getCell(4).value = results.sapuanFluorida; //C44          Ibu mengandung semula
+        rowNew26.getCell(5).value = results.prrJenis1; //C44          Ibu mengandung semula
+        rowNew26.getCell(6).value = results.muridBaruFS; //C44          Ibu mengandung semula
+        rowNew26.getCell(7).value = results.muridSemulaFS; //C44          Ibu mengandung semula
+        rowNew26.getCell(8).value = results.gigiBaruFS; //C44          Ibu mengandung semula
+        rowNew26.getCell(9).value = results.gigiSemulaFS; //C44          Ibu mengandung semula
+        rowNew26.getCell(10).value = results.tampalanAntGdBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(11).value = results.tampalanAntGdSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(12).value = results.tampalanAntGkBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(13).value = results.tampalanAntGkSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(14).value = results.tampalanPostGdBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(15).value = results.tampalanPostGdSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(16).value = results.tampalanPostGkBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(17).value = results.tampalanPostGkSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(18).value = results.tampalanPostAmgGdBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(19).value = results.tampalanPostAmgGdSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(20).value = results.tampalanPostAmgGkBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(21).value = results.tampalanPostAmgGkSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(22).value = results.inlayOnlayBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(23).value = results.inlayOnlaySemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(24).value = results.jumlahTampalanBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(25).value = results.jumlahTampalanSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(26).value = results.tampalanSementara; //C44          Ibu mengandung semula
+        rowNew26.getCell(27).value = results.cabutanGd; //C44          Ibu mengandung semula
+        rowNew26.getCell(28).value = results.cabutanGk; //C44          Ibu mengandung semula
+        rowNew26.getCell(29).value = results.komplikasiSelepasCabutan; //C44          Ibu mengandung semula
+        rowNew26.getCell(30).value = results.penskaleran; //C44          Ibu mengandung semula
+        rowNew26.getCell(31).value = results.rawatanLain; //C44          Ibu mengandung semula
+        rowNew26.getCell(32).value = results.rawatanEndo; //C44          Ibu mengandung semula
+        rowNew26.getCell(33).value = results.rawatanOrtho; //C44          Ibu mengandung semula
+        rowNew26.getCell(34).value = results.kesPerubatan; //C44          Ibu mengandung semula
+        rowNew26.getCell(35).value = results.absesBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(36).value = results.AbsesSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(37).value = results.cabutanSurgical; //C44          Ibu mengandung semula
+        rowNew26.getCell(38).value = results.fraktur; //C44          Ibu mengandung semula
+        rowNew26.getCell(39).value = results.trauma; //C44          Ibu mengandung semula
+        rowNew26.getCell(40).value = results.pembedahanKecilMulut; //C44          Ibu mengandung semula
+        rowNew26.getCell(41).value = results.crownBridgeBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(42).value = results.crownBridgeSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(43).value = results.postCoreBaru; //C44          Ibu mengandung semula
+        rowNew26.getCell(44).value = results.postCoreSemula; //C44          Ibu mengandung semula
+        rowNew26.getCell(45).value = results.prosthodontikPenuhDentur; //C44          Ibu mengandung semula
+        rowNew26.getCell(46).value = results.prosthodontikPenuhPesakit; //C44          Ibu mengandung semula
+        rowNew26.getCell(47).value = results.prosthodontikSebahagianDentur; //C44          Ibu mengandung semula
+        rowNew26.getCell(48).value = results.prosthodontikSebahagianPesakit; //C44          Ibu mengandung semula
+        rowNew26.getCell(49).value = results.immediateDenture; //C44          Ibu mengandung semula
+        rowNew26.getCell(50).value = results.pembaikanDenture; //C44          Ibu mengandung semula
+        rowNew26.getCell(51).value = results.kesSelesai; //C44          Ibu mengandung semula
+        rowNew26.getCell(52).value = results.xrayDiambil; //C44          Ibu mengandung semula
+        rowNew26.getCell(53).value = results.pesakitDisaringOC; //C44          Ibu mengandung semula
+        rowNew26.getCell(54).value = results.pesakitdirujukLesiMulut; //C44          Ibu mengandung semula
+        rowNew26.getCell(55).value = results.pesakitDirujukTabiat; //C44          Ibu mengandung semula
+        rowNew26.getCell(56).value = results.rokokSaringNasihat; //C44          Ibu mengandung semula
+        rowNew26.getCell(57).value = results.rokokIntervensi; //C44          Ibu mengandung semula
+        rowNew26.commit();
+
+        //PG207
+        //Orang Kurang Upaya Baru
+        let rowNew27 = worksheet.getRow(45);
+        rowNew27.getCell(3).value = results.kedatanganTahunSemasa; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(4).value = results.sapuanFluorida; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(5).value = results.prrJenis1; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(6).value = results.muridBaruFS; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(7).value = results.muridSemulaFS; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(8).value = results.gigiBaruFS; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(9).value = results.gigiSemulaFS; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(10).value = results.tampalanAntGdBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(11).value = results.tampalanAntGdSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(12).value = results.tampalanAntGkBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(13).value = results.tampalanAntGkSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(14).value = results.tampalanPostGdBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(15).value = results.tampalanPostGdSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(16).value = results.tampalanPostGkBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(17).value = results.tampalanPostGkSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(18).value = results.tampalanPostAmgGdBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(19).value = results.tampalanPostAmgGdSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(20).value = results.tampalanPostAmgGkBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(21).value = results.tampalanPostAmgGkSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(22).value = results.inlayOnlayBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(23).value = results.inlayOnlaySemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(24).value = results.jumlahTampalanBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(25).value = results.jumlahTampalanSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(26).value = results.tampalanSementara; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(27).value = results.cabutanGd; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(28).value = results.cabutanGk; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(29).value = results.komplikasiSelepasCabutan; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(30).value = results.penskaleran; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(31).value = results.rawatanLain; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(32).value = results.rawatanEndo; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(33).value = results.rawatanOrtho; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(34).value = results.kesPerubatan; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(35).value = results.absesBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(36).value = results.AbsesSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(37).value = results.cabutanSurgical; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(38).value = results.fraktur; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(39).value = results.trauma; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(40).value = results.pembedahanKecilMulut; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(41).value = results.crownBridgeBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(42).value = results.crownBridgeSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(43).value = results.postCoreBaru; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(44).value = results.postCoreSemula; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(45).value = results.prosthodontikPenuhDentur; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(46).value = results.prosthodontikPenuhPesakit; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(47).value = results.prosthodontikSebahagianDentur; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(48).value = results.prosthodontikSebahagianPesakit; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(49).value = results.immediateDenture; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(50).value = results.pembaikanDenture; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(51).value = results.kesSelesai; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(52).value = results.xrayDiambil; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(53).value = results.pesakitDisaringOC; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(54).value = results.pesakitdirujukLesiMulut; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(55).value = results.pesakitDirujukTabiat; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(56).value = results.rokokSaringNasihat; //C45          Orang Kurang Upaya Baru
+        rowNew27.getCell(57).value = results.rokokIntervensi; //C45          Orang Kurang Upaya Baru
+        rowNew27.commit();
+
+        //PG207
+        //Orang Kurang Upaya Ulangan
+        let rowNew28 = worksheet.getRow(46);
+        rowNew28.getCell(3).value = results.kedatanganTahunSemasa; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(4).value = results.sapuanFluorida; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(5).value = results.prrJenis1; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(6).value = results.muridBaruFS; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(7).value = results.muridSemulaFS; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(8).value = results.gigiBaruFS; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(9).value = results.gigiSemulaFS; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(10).value = results.tampalanAntGdBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(11).value = results.tampalanAntGdSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(12).value = results.tampalanAntGkBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(13).value = results.tampalanAntGkSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(14).value = results.tampalanPostGdBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(15).value = results.tampalanPostGdSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(16).value = results.tampalanPostGkBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(17).value = results.tampalanPostGkSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(18).value = results.tampalanPostAmgGdBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(19).value = results.tampalanPostAmgGdSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(20).value = results.tampalanPostAmgGkBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(21).value = results.tampalanPostAmgGkSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(22).value = results.inlayOnlayBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(23).value = results.inlayOnlaySemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(24).value = results.jumlahTampalanBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(25).value = results.jumlahTampalanSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(26).value = results.tampalanSementara; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(27).value = results.cabutanGd; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(28).value = results.cabutanGk; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(29).value = results.komplikasiSelepasCabutan; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(30).value = results.penskaleran; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(31).value = results.rawatanLain; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(32).value = results.rawatanEndo; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(33).value = results.rawatanOrtho; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(34).value = results.kesPerubatan; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(35).value = results.absesBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(36).value = results.AbsesSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(37).value = results.cabutanSurgical; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(38).value = results.fraktur; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(39).value = results.trauma; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(40).value = results.pembedahanKecilMulut; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(41).value = results.crownBridgeBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(42).value = results.crownBridgeSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(43).value = results.postCoreBaru; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(44).value = results.postCoreSemula; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(45).value = results.prosthodontikPenuhDentur; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(46).value = results.prosthodontikPenuhPesakit; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(47).value = results.prosthodontikSebahagianDentur; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(48).value = results.prosthodontikSebahagianPesakit; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(49).value = results.immediateDenture; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(50).value = results.pembaikanDenture; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(51).value = results.kesSelesai; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(52).value = results.xrayDiambil; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(53).value = results.pesakitDisaringOC; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(54).value = results.pesakitdirujukLesiMulut; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(55).value = results.pesakitDirujukTabiat; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(56).value = results.rokokSaringNasihat; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.getCell(57).value = results.rokokIntervensi; //C46          Orang Kurang Upaya Ulangan
+        rowNew28.commit();
+
+        //PG207
+        //Bukan Warganegara Baru
+        let rowNew29 = worksheet.getRow(47);
+        rowNew29.getCell(3).value = results.kedatanganTahunSemasa; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(4).value = results.sapuanFluorida; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(5).value = results.prrJenis1; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(6).value = results.muridBaruFS; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(7).value = results.muridSemulaFS; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(8).value = results.gigiBaruFS; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(9).value = results.gigiSemulaFS; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(10).value = results.tampalanAntGdBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(11).value = results.tampalanAntGdSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(12).value = results.tampalanAntGkBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(13).value = results.tampalanAntGkSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(14).value = results.tampalanPostGdBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(15).value = results.tampalanPostGdSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(16).value = results.tampalanPostGkBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(17).value = results.tampalanPostGkSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(18).value = results.tampalanPostAmgGdBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(19).value = results.tampalanPostAmgGdSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(20).value = results.tampalanPostAmgGkBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(21).value = results.tampalanPostAmgGkSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(22).value = results.inlayOnlayBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(23).value = results.inlayOnlaySemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(24).value = results.jumlahTampalanBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(25).value = results.jumlahTampalanSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(26).value = results.tampalanSementara; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(27).value = results.cabutanGd; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(28).value = results.cabutanGk; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(29).value = results.komplikasiSelepasCabutan; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(30).value = results.penskaleran; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(31).value = results.rawatanLain; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(32).value = results.rawatanEndo; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(33).value = results.rawatanOrtho; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(34).value = results.kesPerubatan; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(35).value = results.absesBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(36).value = results.AbsesSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(37).value = results.cabutanSurgical; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(38).value = results.fraktur; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(39).value = results.trauma; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(40).value = results.pembedahanKecilMulut; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(41).value = results.crownBridgeBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(42).value = results.crownBridgeSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(43).value = results.postCoreBaru; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(44).value = results.postCoreSemula; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(45).value = results.prosthodontikPenuhDentur; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(46).value = results.prosthodontikPenuhPesakit; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(47).value = results.prosthodontikSebahagianDentur; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(48).value = results.prosthodontikSebahagianPesakit; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(49).value = results.immediateDenture; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(50).value = results.pembaikanDenture; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(51).value = results.kesSelesai; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(52).value = results.xrayDiambil; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(53).value = results.pesakitDisaringOC; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(54).value = results.pesakitdirujukLesiMulut; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(55).value = results.pesakitDirujukTabiat; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(56).value = results.rokokSaringNasihat; //C47          Bukan Warganegara Baru
+        rowNew29.getCell(57).value = results.rokokIntervensi; //C47          Bukan Warganegara Baru
+        rowNew29.commit();
+
+        //PG207
+        //Bukan Warganegara Ulangan
+        let rowNew30 = worksheet.getRow(48);
+        rowNew30.getCell(3).value = results.kedatanganTahunSemasa; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(4).value = results.sapuanFluorida; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(5).value = results.prrJenis1; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(6).value = results.muridBaruFS; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(7).value = results.muridSemulaFS; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(8).value = results.gigiBaruFS; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(9).value = results.gigiSemulaFS; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(10).value = results.tampalanAntGdBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(11).value = results.tampalanAntGdSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(12).value = results.tampalanAntGkBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(13).value = results.tampalanAntGkSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(14).value = results.tampalanPostGdBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(15).value = results.tampalanPostGdSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(16).value = results.tampalanPostGkBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(17).value = results.tampalanPostGkSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(18).value = results.tampalanPostAmgGdBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(19).value = results.tampalanPostAmgGdSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(20).value = results.tampalanPostAmgGkBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(21).value = results.tampalanPostAmgGkSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(22).value = results.inlayOnlayBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(23).value = results.inlayOnlaySemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(24).value = results.jumlahTampalanBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(25).value = results.jumlahTampalanSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(26).value = results.tampalanSementara; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(27).value = results.cabutanGd; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(28).value = results.cabutanGk; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(29).value = results.komplikasiSelepasCabutan; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(30).value = results.penskaleran; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(31).value = results.rawatanLain; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(32).value = results.rawatanEndo; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(33).value = results.rawatanOrtho; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(34).value = results.kesPerubatan; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(35).value = results.absesBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(36).value = results.AbsesSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(37).value = results.cabutanSurgical; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(38).value = results.fraktur; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(39).value = results.trauma; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(40).value = results.pembedahanKecilMulut; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(41).value = results.crownBridgeBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(42).value = results.crownBridgeSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(43).value = results.postCoreBaru; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(44).value = results.postCoreSemula; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(45).value = results.prosthodontikPenuhDentur; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(46).value = results.prosthodontikPenuhPesakit; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(47).value = results.prosthodontikSebahagianDentur; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(48).value = results.prosthodontikSebahagianPesakit; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(49).value = results.immediateDenture; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(50).value = results.pembaikanDenture; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(51).value = results.kesSelesai; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(52).value = results.xrayDiambil; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(53).value = results.pesakitDisaringOC; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(54).value = results.pesakitdirujukLesiMulut; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(55).value = results.pesakitDirujukTabiat; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(56).value = results.rokokSaringNasihat; //C48          Bukan Warganegara Ulangan
+        rowNew30.getCell(57).value = results.rokokIntervensi; //C48          Bukan Warganegara Ulangan
+        rowNew30.commit();
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG207.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG211 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS211.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG211');
+
+        //PG211
+
+        //Kategori bawah 1 Tahun (baru)
+        let rowNew = worksheet.getRow(13);
+        rowNew.getCell(3).value = results.kedatanganTahunSemasa; //C13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(4).value = results.lelaki; //D13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(5).value = results.perempuan; //E13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(6).value = results.melayu; //F13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(7).value = results.cina; //G13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(8).value = results.india; //H13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(9).value = results.bajau; //I13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(10).value = results.dusun; //J13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(11).value = results.kadazan; //K13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(12).value = results.murut; //L13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(13).value = results.bumiputeraSabahLain; //M13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(14).value = results.melanau; //N13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(15).value = results.kedayan; //O13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(16).value = results.iban; //P13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(17).value = results.bidayuh; //Q13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(18).value = results.bumiputeraSarawakLain; //R13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(19).value = results.orangAsliSemenanjung; //S13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(20).value = results.lainLainKaum; //T13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(21).value = results.bukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(22).value = results.ibuMengandung; //V13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(23).value = results.bersekolah; //W13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(24).value = results.orangKurangUpaya; //X13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(25).value = results.pesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(26).value = results.pesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(27).value = results.rujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(30).value = results.rujukanHospKerajaan; //AD13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(31).value = results.rujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(32).value = results.rujukanLainLain; //AF13 Kategori bawah 1 Tahun (baru)
+        rowNew.commit();
+
+        //Kategori bawah 1 Tahun (ulangan)
+        let rowNew2 = worksheet.getRow(14);
+        rowNew2.getCell(3).value = results.kedatanganTahunSemasa; //C14	Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(4).value = results.lelaki; //D14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(5).value = results.perempuan; //E14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(6).value = results.melayu; //F14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(7).value = results.cina; //G14	Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(8).value = results.india; //H14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(9).value = results.bajau; //I14	Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(10).value = results.dusun; //J14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(11).value = results.kadazan; //K14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(12).value = results.murut; //L14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(13).value = results.bumiputeraSabahLain; //M14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(14).value = results.melanau; //N14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(15).value = results.kedayan; //O14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(16).value = results.iban; //P14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(17).value = results.bidayuh; //Q14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(18).value = results.bumiputeraSarawakLain; //R14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(19).value = results.orangAsliSemenanjung; //S14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(20).value = results.lainLainKaum; //T14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(21).value = results.bukanWarganegara; //U14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(22).value = results.ibuMengandung; //V14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(23).value = results.bersekolah; //W14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(24).value = results.orangKurangUpaya; //X14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(25).value = results.pesaraKerajaan; //Y14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(26).value = results.pesaraATM; //Z14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(27).value = results.rujukanDalaman; //AA14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(30).value = results.rujukanHospKerajaan; //AD14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(31).value = results.rujukanSwasta; //AE14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.getCell(32).value = results.rujukanLainLain; //AF14 Kategori bawah 1 Tahun (ulangan)
+        rowNew2.commit();
+
+        //Kategori Umur 1 hingga 4 Tahun (Baru)
+        let rowNew3 = worksheet.getRow(15);
+        rowNew3.getCell(3).value = results.kedatanganTahunSemasa; //C15	Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(4).value = results.lelaki; //D15	Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(5).value = results.perempuan; //E15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(6).value = results.melayu; //F15	Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(7).value = results.cina; //G15	Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(8).value = results.india; //H15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(9).value = results.bajau; //I15	Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(10).value = results.dusun; //J15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(11).value = results.kadazan; //K15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(12).value = results.murut; //L15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(13).value = results.bumiputeraSabahLain; //M15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(14).value = results.melanau; //N15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(15).value = results.kedayan; //O15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(16).value = results.iban; //P15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(17).value = results.bidayuh; //Q15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(18).value = results.bumiputeraSarawakLain; //R15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(19).value = results.orangAsliSemenanjung; //S15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(20).value = results.lainLainKaum; //T15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(21).value = results.bukanWarganegara; //U15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(22).value = results.ibuMengandung; //V15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(23).value = results.bersekolah; //W15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(24).value = results.orangKurangUpaya; //X15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(25).value = results.pesaraKerajaan; //Y15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(26).value = results.pesaraATM; //Z15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(27).value = results.rujukanDalaman; //AA15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(30).value = results.rujukanHospKerajaan; //AD15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(31).value = results.rujukanSwasta; //AE15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.getCell(32).value = results.rujukanLainLain; //AF15 Kategori Umur 1 hingga 4 Tahun (Baru)
+        rowNew3.commit();
+
+        //Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        let rowNew4 = worksheet.getRow(16);
+        rowNew4.getCell(3).value = results.kedatanganTahunSemasa; //C16	Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(4).value = results.lelaki; //D16	Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(5).value = results.perempuan; //E16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(6).value = results.melayu; //F16	Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(7).value = results.cina; //G16	Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(8).value = results.india; //H16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(9).value = results.bajau; //I16	Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(10).value = results.dusun; //J16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(11).value = results.kadazan; //K16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(12).value = results.murut; //L16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(13).value = results.bumiputeraSabahLain; //M16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(14).value = results.melanau; //N16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(15).value = results.kedayan; //O16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(16).value = results.iban; //P16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(17).value = results.bidayuh; //Q16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(18).value = results.bumiputeraSarawakLain; //R16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(19).value = results.orangAsliSemenanjung; //S16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(20).value = results.lainLainKaum; //T16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(21).value = results.bukanWarganegara; //U16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(22).value = results.ibuMengandung; //V16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(23).value = results.bersekolah; //W16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(24).value = results.orangKurangUpaya; //X16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(25).value = results.pesaraKerajaan; //Y16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(26).value = results.pesaraATM; //Z16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(27).value = results.rujukanDalaman; //AA16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(30).value = results.rujukanHospKerajaan; //AD16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(31).value = results.rujukanSwasta; //AE16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.getCell(32).value = results.rujukanLainLain; //AF16 Kategori Umur 1 hingga 4 Tahun (Ulangan)
+        rowNew4.commit();
+
+        //Kategori Umur 5 hingga 6 Tahun (Baru)
+        let rowNew5 = worksheet.getRow(17);
+        rowNew5.getCell(3).value = results.kedatanganTahunSemasa; //C17	Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(4).value = results.lelaki; //D17	Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(5).value = results.perempuan; //E17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(6).value = results.melayu; //F17	Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(7).value = results.cina; //G17	Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(8).value = results.india; //H17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(9).value = results.bajau; //I17	Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(10).value = results.dusun; //J17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(11).value = results.kadazan; //K17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(12).value = results.murut; //L17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(13).value = results.bumiputeraSabahLain; //M17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(14).value = results.melanau; //N17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(15).value = results.kedayan; //O17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(16).value = results.iban; //P17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(17).value = results.bidayuh; //Q17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(18).value = results.bumiputeraSarawakLain; //R17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(19).value = results.orangAsliSemenanjung; //S17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(20).value = results.lainLainKaum; //T17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(21).value = results.bukanWarganegara; //U17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(22).value = results.ibuMengandung; //V17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(23).value = results.bersekolah; //W17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(24).value = results.orangKurangUpaya; //X17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(25).value = results.pesaraKerajaan; //Y17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(26).value = results.pesaraATM; //Z17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(27).value = results.rujukanDalaman; //AA17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(30).value = results.rujukanHospKerajaan; //AD17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(31).value = results.rujukanSwasta; //AE17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.getCell(32).value = results.rujukanLainLain; //AF17 Kategori Umur 5 hingga 6 Tahun (Baru)
+        rowNew5.commit();
+
+        //Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        let rowNew6 = worksheet.getRow(18);
+        rowNew6.getCell(3).value = results.kedatanganTahunSemasa; //C18	Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(4).value = results.lelaki; //D18	Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(5).value = results.perempuan; //E18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(6).value = results.melayu; //F18	Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(7).value = results.cina; //G18	Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(8).value = results.india; //H18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(9).value = results.bajau; //I18	Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(10).value = results.dusun; //J18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(11).value = results.kadazan; //K18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(12).value = results.murut; //L18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(13).value = results.bumiputeraSabahLain; //M18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(14).value = results.melanau; //N18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(15).value = results.kedayan; //O18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(16).value = results.iban; //P18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(17).value = results.bidayuh; //Q18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(18).value = results.bumiputeraSarawakLain; //R18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(19).value = results.orangAsliSemenanjung; //S18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(20).value = results.lainLainKaum; //T18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(21).value = results.bukanWarganegara; //U18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(22).value = results.ibuMengandung; //V18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(23).value = results.bersekolah; //W18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(24).value = results.orangKurangUpaya; //X18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(25).value = results.pesaraKerajaan; //Y18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(26).value = results.pesaraATM; //Z18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(27).value = results.rujukanDalaman; //AA18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(30).value = results.rujukanHospKerajaan; //AD18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(31).value = results.rujukanSwasta; //AE18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.getCell(32).value = results.rujukanLainLain; //AF18 Kategori Umur 5 hingga 6 Tahun (Ulangan)
+        rowNew6.commit();
+
+        //Kategori Umur 7 hingga 9 Tahun (Baru)
+        let rowNew7 = worksheet.getRow(19);
+        rowNew7.getCell(3).value = results.kedatanganTahunSemasa; //C19	Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(4).value = results.lelaki; //D19	Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(5).value = results.perempuan; //E19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(6).value = results.melayu; //F19	Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(7).value = results.cina; //G19	Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(8).value = results.india; //H19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(9).value = results.bajau; //I19	Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(10).value = results.dusun; //J19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(11).value = results.kadazan; //K19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(12).value = results.murut; //L19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(13).value = results.bumiputeraSabahLain; //M19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(14).value = results.melanau; //N19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(15).value = results.kedayan; //O19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(16).value = results.iban; //P19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(17).value = results.bidayuh; //Q19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(18).value = results.bumiputeraSarawakLain; //R19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(19).value = results.orangAsliSemenanjung; //S19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(20).value = results.lainLainKaum; //T19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(21).value = results.bukanWarganegara; //U19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(22).value = results.ibuMengandung; //V19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(23).value = results.bersekolah; //W19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(24).value = results.orangKurangUpaya; //X19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(25).value = results.pesaraKerajaan; //Y19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(26).value = results.pesaraATM; //Z19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(27).value = results.rujukanDalaman; //AA19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(30).value = results.rujukanHospKerajaan; //AD19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(31).value = results.rujukanSwasta; //AE19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.getCell(32).value = results.rujukanLainLain; //AF19 Kategori Umur 7 hingga 9 Tahun (Baru)
+        rowNew7.commit();
+
+        //Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        let rowNew8 = worksheet.getRow(20);
+        rowNew8.getCell(3).value = results.kedatanganTahunSemasa; //C20	Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(4).value = results.lelaki; //D20	Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(5).value = results.perempuan; //E20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(6).value = results.melayu; //F20	Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(7).value = results.cina; //G20	Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(8).value = results.india; //H20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(9).value = results.bajau; //I20	Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(10).value = results.dusun; //J20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(11).value = results.kadazan; //K20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(12).value = results.murut; //L20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(13).value = results.bumiputeraSabahLain; //M20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(14).value = results.melanau; //N20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(15).value = results.kedayan; //O20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(16).value = results.iban; //P20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(17).value = results.bidayuh; //Q20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(18).value = results.bumiputeraSarawakLain; //R20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(19).value = results.orangAsliSemenanjung; //S20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(20).value = results.lainLainKaum; //T20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(21).value = results.bukanWarganegara; //U20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(22).value = results.ibuMengandung; //V20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(23).value = results.bersekolah; //W20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(24).value = results.orangKurangUpaya; //X20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(25).value = results.pesaraKerajaan; //Y20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(26).value = results.pesaraATM; //Z20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(27).value = results.rujukanDalaman; //AA20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(30).value = results.rujukanHospKerajaan; //AD20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(31).value = results.rujukanSwasta; //AE20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.getCell(32).value = results.rujukanLainLain; //AF20 Kategori Umur 7 hingga 9 Tahun (Ulangan)
+        rowNew8.commit();
+
+        //Kategori Umur 10 hingga 12 Tahun (Baru)
+        let rowNew9 = worksheet.getRow(21);
+        rowNew9.getCell(3).value = results.kedatanganTahunSemasa; //C21	Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(4).value = results.lelaki; //D21	Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(5).value = results.perempuan; //E21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(6).value = results.melayu; //F21	Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(7).value = results.cina; //G21	Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(8).value = results.india; //H21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(9).value = results.bajau; //I21	Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(10).value = results.dusun; //J21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(11).value = results.kadazan; //K21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(12).value = results.murut; //L21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(13).value = results.bumiputeraSabahLain; //M21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(14).value = results.melanau; //N21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(15).value = results.kedayan; //O21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(16).value = results.iban; //P21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(17).value = results.bidayuh; //Q21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(18).value = results.bumiputeraSarawakLain; //R21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(19).value = results.orangAsliSemenanjung; //S21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(20).value = results.lainLainKaum; //T21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(21).value = results.bukanWarganegara; //U21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(22).value = results.ibuMengandung; //V21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(23).value = results.bersekolah; //W21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(24).value = results.orangKurangUpaya; //X21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(25).value = results.pesaraKerajaan; //Y21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(26).value = results.pesaraATM; //Z21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(27).value = results.rujukanDalaman; //AA21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(30).value = results.rujukanHospKerajaan; //AD21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(31).value = results.rujukanSwasta; //AE21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.getCell(32).value = results.rujukanLainLain; //AF21 Kategori Umur 10 hingga 12 Tahun (Baru)
+        rowNew9.commit();
+
+        //Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        let rowNew10 = worksheet.getRow(22);
+        rowNew10.getCell(3).value = results.kedatanganTahunSemasa; //C22	Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(4).value = results.lelaki; //D22	Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(5).value = results.perempuan; //E22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(6).value = results.melayu; //F22	Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(7).value = results.cina; //G22	Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(8).value = results.india; //H22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(9).value = results.bajau; //I22	Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(10).value = results.dusun; //J22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(11).value = results.kadazan; //K22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(12).value = results.murut; //L22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(13).value = results.bumiputeraSabahLain; //M22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(14).value = results.melanau; //N22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(15).value = results.kedayan; //O22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(16).value = results.iban; //P22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(17).value = results.bidayuh; //Q22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(18).value = results.bumiputeraSarawakLain; //R22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(19).value = results.orangAsliSemenanjung; //S22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(20).value = results.lainLainKaum; //T22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(21).value = results.bukanWarganegara; //U22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(22).value = results.ibuMengandung; //V22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(23).value = results.bersekolah; //W22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(24).value = results.orangKurangUpaya; //X22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(25).value = results.pesaraKerajaan; //Y22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(26).value = results.pesaraATM; //Z22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(27).value = results.rujukanDalaman; //AA22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(30).value = results.rujukanHospKerajaan; //AD22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(31).value = results.rujukanSwasta; //AE22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.getCell(32).value = results.rujukanLainLain; //AF22 Kategori Umur 10 hingga 12 Tahun (Ulangan)
+        rowNew10.commit();
+
+        //Kategori Umur 13 hingga 14 Tahun (Baru)
+        let rowNew11 = worksheet.getRow(23);
+        rowNew11.getCell(3).value = results.kedatanganTahunSemasa; //C23	Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(4).value = results.lelaki; //D23	Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(5).value = results.perempuan; //E23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(6).value = results.melayu; //F23	Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(7).value = results.cina; //G23	Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(8).value = results.india; //H23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(9).value = results.bajau; //I23	Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(10).value = results.dusun; //J23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(11).value = results.kadazan; //K23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(12).value = results.murut; //L23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(13).value = results.bumiputeraSabahLain; //M23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(14).value = results.melanau; //N23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(15).value = results.kedayan; //O23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(16).value = results.iban; //P23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(17).value = results.bidayuh; //Q23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(18).value = results.bumiputeraSarawakLain; //R23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(19).value = results.orangAsliSemenanjung; //S23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(20).value = results.lainLainKaum; //T23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(21).value = results.bukanWarganegara; //U23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(22).value = results.ibuMengandung; //V23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(23).value = results.bersekolah; //W23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(24).value = results.orangKurangUpaya; //X23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(25).value = results.pesaraKerajaan; //Y23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(26).value = results.pesaraATM; //Z23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(27).value = results.rujukanDalaman; //AA23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(30).value = results.rujukanHospKerajaan; //AD23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(31).value = results.rujukanSwasta; //AE23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.getCell(32).value = results.rujukanLainLain; //AF23 Kategori Umur 13 hingga 14 Tahun (Baru)
+        rowNew11.commit();
+
+        //Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        let rowNew12 = worksheet.getRow(24);
+        rowNew12.getCell(3).value = results.kedatanganTahunSemasa; //C24	Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(4).value = results.lelaki; //D24	Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(5).value = results.perempuan; //E24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(6).value = results.melayu; //F24	Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(7).value = results.cina; //G24	Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(8).value = results.india; //H24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(9).value = results.bajau; //I24	Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(10).value = results.dusun; //J24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(11).value = results.kadazan; //K24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(12).value = results.murut; //L24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(13).value = results.bumiputeraSabahLain; //M24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(14).value = results.melanau; //N24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(15).value = results.kedayan; //O24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(16).value = results.iban; //P24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(17).value = results.bidayuh; //Q24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(18).value = results.bumiputeraSarawakLain; //R24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(19).value = results.orangAsliSemenanjung; //S24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(20).value = results.lainLainKaum; //T24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(21).value = results.bukanWarganegara; //U24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(22).value = results.ibuMengandung; //V24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(23).value = results.bersekolah; //W24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(24).value = results.orangKurangUpaya; //X24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(25).value = results.pesaraKerajaan; //Y24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(26).value = results.pesaraATM; //Z24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(27).value = results.rujukanDalaman; //AA24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(30).value = results.rujukanHospKerajaan; //AD24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(31).value = results.rujukanSwasta; //AE24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.getCell(32).value = results.rujukanLainLain; //AF24 Kategori Umur 13 hingga 14 Tahun (Ulangan)
+        rowNew12.commit();
+
+        //Kategori Umur 15 hingga 17 Tahun (Baru)
+        let rowNew13 = worksheet.getRow(25);
+        rowNew13.getCell(3).value = results.kedatanganTahunSemasa; //C25	Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(4).value = results.lelaki; //D25	Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(5).value = results.perempuan; //E25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(6).value = results.melayu; //F25	Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(7).value = results.cina; //G25	Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(8).value = results.india; //H25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(9).value = results.bajau; //I25	Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(10).value = results.dusun; //J25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(11).value = results.kadazan; //K25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(12).value = results.murut; //L25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(13).value = results.bumiputeraSabahLain; //M25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(14).value = results.melanau; //N25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(15).value = results.kedayan; //O25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(16).value = results.iban; //P25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(17).value = results.bidayuh; //Q25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(18).value = results.bumiputeraSarawakLain; //R25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(19).value = results.orangAsliSemenanjung; //S25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(20).value = results.lainLainKaum; //T25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(21).value = results.bukanWarganegara; //U25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(22).value = results.ibuMengandung; //V25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(23).value = results.bersekolah; //W25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(24).value = results.orangKurangUpaya; //X25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(25).value = results.pesaraKerajaan; //Y25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(26).value = results.pesaraATM; //Z25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(27).value = results.rujukanDalaman; //AA25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(30).value = results.rujukanHospKerajaan; //AD25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(31).value = results.rujukanSwasta; //AE25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.getCell(32).value = results.rujukanLainLain; //AF25 Kategori Umur 15 hingga 17 Tahun (Baru)
+        rowNew13.commit();
+
+        //Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        let rowNew14 = worksheet.getRow(26);
+        rowNew14.getCell(3).value = results.kedatanganTahunSemasa; //C26	Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(4).value = results.lelaki; //D26	Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(5).value = results.perempuan; //E26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(6).value = results.melayu; //F26	Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(7).value = results.cina; //G26	Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(8).value = results.india; //H26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(9).value = results.bajau; //I26	Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(10).value = results.dusun; //J26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(11).value = results.kadazan; //K26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(12).value = results.murut; //L26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(13).value = results.bumiputeraSabahLain; //M26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(14).value = results.melanau; //N26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(15).value = results.kedayan; //O26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(16).value = results.iban; //P26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(17).value = results.bidayuh; //Q26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(18).value = results.bumiputeraSarawakLain; //R26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(19).value = results.orangAsliSemenanjung; //S26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(20).value = results.lainLainKaum; //T26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(21).value = results.bukanWarganegara; //U26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(22).value = results.ibuMengandung; //V26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(23).value = results.bersekolah; //W26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(24).value = results.orangKurangUpaya; //X26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(25).value = results.pesaraKerajaan; //Y26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(26).value = results.pesaraATM; //Z26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(27).value = results.rujukanDalaman; //AA26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(30).value = results.rujukanHospKerajaan; //AD26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(31).value = results.rujukanSwasta; //AE26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.getCell(32).value = results.rujukanLainLain; //AF26 Kategori Umur 15 hingga 17 Tahun (Ulangan)
+        rowNew14.commit();
+
+        //Kategori Umur 18 hingga 19 Tahun (Baru)
+        let rowNew15 = worksheet.getRow(27);
+        rowNew15.getCell(3).value = results.kedatanganTahunSemasa; //C27	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(4).value = results.lelaki; //D27	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(5).value = results.perempuan; //E27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(6).value = results.melayu; //F27	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(7).value = results.cina; //G27	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(8).value = results.india; //H27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(9).value = results.bajau; //I27	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(10).value = results.dusun; //J27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(11).value = results.kadazan; //K27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(12).value = results.murut; //L27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(13).value = results.bumiputeraSabahLain; //M27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(14).value = results.melanau; //N27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(15).value = results.kedayan; //O27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(16).value = results.iban; //P27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(17).value = results.bidayuh; //Q27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(18).value = results.bumiputeraSarawakLain; //R27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(19).value = results.orangAsliSemenanjung; //S27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(20).value = results.lainLainKaum; //T27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(21).value = results.bukanWarganegara; //U27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(22).value = results.ibuMengandung; //V27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(23).value = results.bersekolah; //W27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(24).value = results.orangKurangUpaya; //X27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(25).value = results.pesaraKerajaan; //Y27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(26).value = results.pesaraATM; //Z27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(27).value = results.rujukanDalaman; //AA27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(30).value = results.rujukanHospKerajaan; //AD27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(31).value = results.rujukanSwasta; //AE27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.getCell(32).value = results.rujukanLainLain; //AF27 Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew15.commit();
+
+        // Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        let rowNew16 = worksheet.getRow(28);
+        rowNew16.getCell(3).value = results.kedatanganTahunSemasa; //C28	Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(4).value = results.lelaki; //D28	Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(5).value = results.perempuan; //E28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(6).value = results.melayu; //F28	Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(7).value = results.cina; //G28	Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(8).value = results.india; //H28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(9).value = results.bajau; //I28	Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(10).value = results.dusun; //J28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(11).value = results.kadazan; //K28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(12).value = results.murut; //L28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(13).value = results.bumiputeraSabahLain; //M28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(14).value = results.melanau; //N28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(15).value = results.kedayan; //O28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(16).value = results.iban; //P28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(17).value = results.bidayuh; //Q28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(18).value = results.bumiputeraSarawakLain; //R28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(19).value = results.orangAsliSemenanjung; //S28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(20).value = results.lainLainKaum; //T28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(21).value = results.bukanWarganegara; //U28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(22).value = results.ibuMengandung; //V28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(23).value = results.bersekolah; //W28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(24).value = results.orangKurangUpaya; //X28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(25).value = results.pesaraKerajaan; //Y28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(26).value = results.pesaraATM; //Z28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(27).value = results.rujukanDalaman; //AA28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(30).value = results.rujukanHospKerajaan; //AD28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(31).value = results.rujukanSwasta; //AE28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.getCell(32).value = results.rujukanLainLain; //AF28 Kategori Umur 18 hingga 19 Tahun (Ulangan)
+        rowNew16.commit();
+
+        // Kategori Umur 20 hingga 29 Tahun (Baru)
+        let rowNew17 = worksheet.getRow(29);
+        rowNew17.getCell(3).value = results.kedatanganTahunSemasa; //C29	Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(4).value = results.lelaki; //D29	Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(5).value = results.perempuan; //E29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(6).value = results.melayu; //F29	Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(7).value = results.cina; //G29	Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(8).value = results.india; //H29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(9).value = results.bajau; //I29	Kategori Umur 18 hingga 19 Tahun (Baru)
+        rowNew17.getCell(10).value = results.dusun; //J29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(11).value = results.kadazan; //K29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(12).value = results.murut; //L29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(13).value = results.bumiputeraSabahLain; //M29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(14).value = results.melanau; //N29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(15).value = results.kedayan; //O29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(16).value = results.iban; //P29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(17).value = results.bidayuh; //Q29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(18).value = results.bumiputeraSarawakLain; //R29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(19).value = results.orangAsliSemenanjung; //S29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(20).value = results.lainLainKaum; //T29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(21).value = results.bukanWarganegara; //U29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(22).value = results.ibuMengandung; //V29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(23).value = results.bersekolah; //W29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(24).value = results.orangKurangUpaya; //X29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(25).value = results.pesaraKerajaan; //Y29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(26).value = results.pesaraATM; //Z29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(27).value = results.rujukanDalaman; //AA29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(30).value = results.rujukanHospKerajaan; //AD29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(31).value = results.rujukanSwasta; //AE29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.getCell(32).value = results.rujukanLainLain; //AF29 Kategori Umur 20 hingga 29 Tahun (Baru)
+        rowNew17.commit();
+
+        // Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        let rowNew18 = worksheet.getRow(30);
+        rowNew18.getCell(3).value = results.kedatanganTahunSemasa; //C30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(4).value = results.lelaki; //D30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(5).value = results.perempuan; //E30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(6).value = results.melayu; //F30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(7).value = results.cina; //G30	Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(8).value = results.india; //H30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(9).value = results.bajau; //I30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(10).value = results.dusun; //J30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(11).value = results.kadazan; //K30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(12).value = results.murut; //L30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(13).value = results.bumiputeraSabahLain; //M30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(14).value = results.melanau; //N30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(15).value = results.kedayan; //O30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(16).value = results.iban; //P30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(17).value = results.bidayuh; //Q30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(18).value = results.bumiputeraSarawakLain; //R30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(19).value = results.orangAsliSemenanjung; //S30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(20).value = results.lainLainKaum; //T30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(21).value = results.bukanWarganegara; //U30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(22).value = results.ibuMengandung; //V30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(23).value = results.bersekolah; //W30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(24).value = results.orangKurangUpaya; //X30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(25).value = results.pesaraKerajaan; //Y30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(26).value = results.pesaraATM; //Z30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(27).value = results.rujukanDalaman; //AA30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(30).value = results.rujukanHospKerajaan; //AD30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(31).value = results.rujukanSwasta; //AE30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.getCell(32).value = results.rujukanLainLain; //AF30 Kategori Umur 20 hingga 29 Tahun (Ulangan)
+        rowNew18.commit();
+
+        // Kategori Umur 30 hingga 39 Tahun (Baru)
+        let rowNew19 = worksheet.getRow(31);
+        rowNew19.getCell(3).value = results.kedatanganTahunSemasa; //C31	Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(4).value = results.lelaki; //D31	Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(5).value = results.perempuan; //E31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(6).value = results.melayu; //F31	Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(7).value = results.cina; //G31	Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(8).value = results.india; //H31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(9).value = results.bajau; //I31	Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(10).value = results.dusun; //J31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(11).value = results.kadazan; //K31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(12).value = results.murut; //L31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(13).value = results.bumiputeraSabahLain; //M31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(14).value = results.melanau; //N31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(15).value = results.kedayan; //O31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(16).value = results.iban; //P31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(17).value = results.bidayuh; //Q31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(18).value = results.bumiputeraSarawakLain; //R31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(19).value = results.orangAsliSemenanjung; //S31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(20).value = results.lainLainKaum; //T31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(21).value = results.bukanWarganegara; //U31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(22).value = results.ibuMengandung; //V31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(23).value = results.bersekolah; //W31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(24).value = results.orangKurangUpaya; //X31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(25).value = results.pesaraKerajaan; //Y31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(26).value = results.pesaraATM; //Z31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(27).value = results.rujukanDalaman; //AA31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(30).value = results.rujukanHospKerajaan; //AD31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(31).value = results.rujukanSwasta; //AE31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.getCell(32).value = results.rujukanLainLain; //AF31 Kategori Umur 30 hingga 39 Tahun (Baru)
+        rowNew19.commit();
+
+        // Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        let rowNew20 = worksheet.getRow(32);
+        rowNew20.getCell(3).value = results.kedatanganTahunSemasa; //C32	Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(4).value = results.lelaki; //D32	Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(5).value = results.perempuan; //E32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(6).value = results.melayu; //F32	Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(7).value = results.cina; //G32	Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(8).value = results.india; //H32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(9).value = results.bajau; //I32	Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(10).value = results.dusun; //J32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(11).value = results.kadazan; //K32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(12).value = results.murut; //L32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(13).value = results.bumiputeraSabahLain; //M32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(14).value = results.melanau; //N32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(15).value = results.kedayan; //O32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(16).value = results.iban; //P32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(17).value = results.bidayuh; //Q32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(18).value = results.bumiputeraSarawakLain; //R32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(19).value = results.orangAsliSemenanjung; //S32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(20).value = results.lainLainKaum; //T32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(21).value = results.bukanWarganegara; //U32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(22).value = results.ibuMengandung; //V32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(23).value = results.bersekolah; //W32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(24).value = results.orangKurangUpaya; //X32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(25).value = results.pesaraKerajaan; //Y32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(26).value = results.pesaraATM; //Z32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(27).value = results.rujukanDalaman; //AA32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(30).value = results.rujukanHospKerajaan; //AD32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(31).value = results.rujukanSwasta; //AE32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.getCell(32).value = results.rujukanLainLain; //AF32 Kategori Umur 30 hingga 39 Tahun (Ulangan)
+        rowNew20.commit();
+
+        // Kategori Umur 40 hingga 49 Tahun (Baru)
+        let rowNew21 = worksheet.getRow(33);
+        rowNew21.getCell(3).value = results.kedatanganTahunSemasa; //C33	Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(4).value = results.lelaki; //D33	Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(5).value = results.perempuan; //E33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(6).value = results.melayu; //F33	Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(7).value = results.cina; //G33	Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(8).value = results.india; //H33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(9).value = results.bajau; //I33	Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(10).value = results.dusun; //J33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(11).value = results.kadazan; //K33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(12).value = results.murut; //L33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(13).value = results.bumiputeraSabahLain; //M33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(14).value = results.melanau; //N33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(15).value = results.kedayan; //O33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(16).value = results.iban; //P33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(17).value = results.bidayuh; //Q33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(18).value = results.bumiputeraSarawakLain; //R33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(19).value = results.orangAsliSemenanjung; //S33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(20).value = results.lainLainKaum; //T33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(21).value = results.bukanWarganegara; //U33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(22).value = results.ibuMengandung; //V33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(23).value = results.bersekolah; //W33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(24).value = results.orangKurangUpaya; //X33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(25).value = results.pesaraKerajaan; //Y33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(26).value = results.pesaraATM; //Z33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(27).value = results.rujukanDalaman; //AA33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(30).value = results.rujukanHospKerajaan; //AD33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(31).value = results.rujukanSwasta; //AE33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.getCell(32).value = results.rujukanLainLain; //AF33 Kategori Umur 40 hingga 49 Tahun (Baru)
+        rowNew21.commit();
+
+        // Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        let rowNew22 = worksheet.getRow(34);
+        rowNew22.getCell(3).value = results.kedatanganTahunSemasa; //C34	Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(4).value = results.lelaki; //D34	Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(5).value = results.perempuan; //E34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(6).value = results.melayu; //F34	Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(7).value = results.cina; //G34	Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(8).value = results.india; //H34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(9).value = results.bajau; //I34	Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(10).value = results.dusun; //J34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(11).value = results.kadazan; //K34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(12).value = results.murut; //L34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(13).value = results.bumiputeraSabahLain; //M34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(14).value = results.melanau; //N34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(15).value = results.kedayan; //O34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(16).value = results.iban; //P34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(17).value = results.bidayuh; //Q34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(18).value = results.bumiputeraSarawakLain; //R34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(19).value = results.orangAsliSemenanjung; //S34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(20).value = results.lainLainKaum; //T34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(21).value = results.bukanWarganegara; //U34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(22).value = results.ibuMengandung; //V34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(23).value = results.bersekolah; //W34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(24).value = results.orangKurangUpaya; //X34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(25).value = results.pesaraKerajaan; //Y34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(26).value = results.pesaraATM; //Z34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(27).value = results.rujukanDalaman; //AA34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(30).value = results.rujukanHospKerajaan; //AD34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(31).value = results.rujukanSwasta; //AE34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.getCell(32).value = results.rujukanLainLain; //AF34 Kategori Umur 40 hingga 49 Tahun (Ulangan)
+        rowNew22.commit();
+
+        // Kategori Umur 50 hingga 59 Tahun (Baru)
+        let rowNew23 = worksheet.getRow(35);
+        rowNew23.getCell(3).value = results.kedatanganTahunSemasa; //C35	Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(4).value = results.lelaki; //D35	Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(5).value = results.perempuan; //E35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(6).value = results.melayu; //F35	Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(7).value = results.cina; //G35	Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(8).value = results.india; //H35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(9).value = results.bajau; //I35	Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(10).value = results.dusun; //J35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(11).value = results.kadazan; //K35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(12).value = results.murut; //L35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(13).value = results.bumiputeraSabahLain; //M35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(14).value = results.melanau; //N35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(15).value = results.kedayan; //O35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(16).value = results.iban; //P35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(17).value = results.bidayuh; //Q35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(18).value = results.bumiputeraSarawakLain; //R35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(19).value = results.orangAsliSemenanjung; //S35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(20).value = results.lainLainKaum; //T35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(21).value = results.bukanWarganegara; //U35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(22).value = results.ibuMengandung; //V35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(23).value = results.bersekolah; //W35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(24).value = results.orangKurangUpaya; //X35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(25).value = results.pesaraKerajaan; //Y35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(26).value = results.pesaraATM; //Z35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(27).value = results.rujukanDalaman; //AA35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(30).value = results.rujukanHospKerajaan; //AD35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(31).value = results.rujukanSwasta; //AE35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.getCell(32).value = results.rujukanLainLain; //AF35 Kategori Umur 50 hingga 59 Tahun (Baru)
+        rowNew23.commit();
+
+        // Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        let rowNew24 = worksheet.getRow(36);
+        rowNew24.getCell(3).value = results.kedatanganTahunSemasa; //C36	Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(4).value = results.lelaki; //D36	Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(5).value = results.perempuan; //E36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(6).value = results.melayu; //F36	Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(7).value = results.cina; //G36	Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(8).value = results.india; //H36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(9).value = results.bajau; //I36	Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(10).value = results.dusun; //J36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(11).value = results.kadazan; //K36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(12).value = results.murut; //L36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(13).value = results.bumiputeraSabahLain; //M36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(14).value = results.melanau; //N36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(15).value = results.kedayan; //O36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(16).value = results.iban; //P36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(17).value = results.bidayuh; //Q36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(18).value = results.bumiputeraSarawakLain; //R36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(19).value = results.orangAsliSemenanjung; //S36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(20).value = results.lainLainKaum; //T36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(21).value = results.bukanWarganegara; //U36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(22).value = results.ibuMengandung; //V36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(23).value = results.bersekolah; //W36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(24).value = results.orangKurangUpaya; //X36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(25).value = results.pesaraKerajaan; //Y36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(26).value = results.pesaraATM; //Z36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(27).value = results.rujukanDalaman; //AA36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(30).value = results.rujukanHospKerajaan; //AD36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(31).value = results.rujukanSwasta; //AE36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.getCell(32).value = results.rujukanLainLain; //AF36 Kategori Umur 50 hingga 59 Tahun (Ulangan)
+        rowNew24.commit();
+
+        // Kategori Umur 60 Tahun (Baru)
+        let rowNew25 = worksheet.getRow(37);
+        rowNew25.getCell(3).value = results.kedatanganTahunSemasa; //C37	Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(4).value = results.lelaki; //D37	Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(5).value = results.perempuan; //E37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(6).value = results.melayu; //F37	Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(7).value = results.cina; //G37	Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(8).value = results.india; //H37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(9).value = results.bajau; //I37	Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(10).value = results.dusun; //J37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(11).value = results.kadazan; //K37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(12).value = results.murut; //L37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(13).value = results.bumiputeraSabahLain; //M37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(14).value = results.melanau; //N37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(15).value = results.kedayan; //O37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(16).value = results.iban; //P37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(17).value = results.bidayuh; //Q37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(18).value = results.bumiputeraSarawakLain; //R37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(19).value = results.orangAsliSemenanjung; //S37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(20).value = results.lainLainKaum; //T37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(21).value = results.bukanWarganegara; //U37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(22).value = results.ibuMengandung; //V37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(23).value = results.bersekolah; //W37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(24).value = results.orangKurangUpaya; //X37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(25).value = results.pesaraKerajaan; //Y37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(26).value = results.pesaraATM; //Z37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(27).value = results.rujukanDalaman; //AA37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(30).value = results.rujukanHospKerajaan; //AD37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(31).value = results.rujukanSwasta; //AE37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.getCell(32).value = results.rujukanLainLain; //AF37 Kategori Umur 60 Tahun (Baru)
+        rowNew25.commit();
+
+        // Kategori Umur 60 Tahun (Ulangan)
+        let rowNew26 = worksheet.getRow(38);
+        rowNew26.getCell(3).value = results.kedatanganTahunSemasa; //C38	Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(4).value = results.lelaki; //D38	Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(5).value = results.perempuan; //E38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(6).value = results.melayu; //F38	Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(7).value = results.cina; //G38	Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(8).value = results.india; //H38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(9).value = results.bajau; //I38	Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(10).value = results.dusun; //J38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(11).value = results.kadazan; //K38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(12).value = results.murut; //L38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(13).value = results.bumiputeraSabahLain; //M38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(14).value = results.melanau; //N38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(15).value = results.kedayan; //O38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(16).value = results.iban; //P38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(17).value = results.bidayuh; //Q38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(18).value = results.bumiputeraSarawakLain; //R38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(19).value = results.orangAsliSemenanjung; //S38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(20).value = results.lainLainKaum; //T38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(21).value = results.bukanWarganegara; //U38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(22).value = results.ibuMengandung; //V38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(23).value = results.bersekolah; //W38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(24).value = results.orangKurangUpaya; //X38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(25).value = results.pesaraKerajaan; //Y38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(26).value = results.pesaraATM; //Z38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(27).value = results.rujukanDalaman; //AA38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(30).value = results.rujukanHospKerajaan; //AD38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(31).value = results.rujukanSwasta; //AE38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.getCell(32).value = results.rujukanLainLain; //AF38 Kategori Umur 60 Tahun (Ulangan)
+        rowNew26.commit();
+
+        // Kategori Umur 61 hingga 64 Tahun (Baru)
+        let rowNew27 = worksheet.getRow(39);
+        rowNew27.getCell(3).value = results.kedatanganTahunSemasa; //C39	Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(4).value = results.lelaki; //D39	Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(5).value = results.perempuan; //E39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(6).value = results.melayu; //F39	Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(7).value = results.cina; //G39	Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(8).value = results.india; //H39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(9).value = results.bajau; //I39	Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(10).value = results.dusun; //J39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(11).value = results.kadazan; //K39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(12).value = results.murut; //L39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(13).value = results.bumiputeraSabahLain; //M39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(14).value = results.melanau; //N39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(15).value = results.kedayan; //O39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(16).value = results.iban; //P39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(17).value = results.bidayuh; //Q39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(18).value = results.bumiputeraSarawakLain; //R39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(19).value = results.orangAsliSemenanjung; //S39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(20).value = results.lainLainKaum; //T39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(21).value = results.bukanWarganegara; //U39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(22).value = results.ibuMengandung; //V39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(23).value = results.bersekolah; //W39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(24).value = results.orangKurangUpaya; //X39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(25).value = results.pesaraKerajaan; //Y39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(26).value = results.pesaraATM; //Z39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(27).value = results.rujukanDalaman; //AA39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(30).value = results.rujukanHospKerajaan; //AD39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(31).value = results.rujukanSwasta; //AE39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.getCell(32).value = results.rujukanLainLain; //AF39 Kategori Umur 61 hingga 64 Tahun (Baru)
+        rowNew27.commit();
+
+        // Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        let rowNew28 = worksheet.getRow(40);
+        rowNew28.getCell(3).value = results.kedatanganTahunSemasa; //C40	Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(4).value = results.lelaki; //D40	Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(5).value = results.perempuan; //E40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(6).value = results.melayu; //F40	Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(7).value = results.cina; //G40	Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(8).value = results.india; //H40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(9).value = results.bajau; //I40	Kategori Umur 60 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(10).value = results.dusun; //J40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(11).value = results.kadazan; //K40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(12).value = results.murut; //L40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(13).value = results.bumiputeraSabahLain; //M40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(14).value = results.melanau; //N40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(15).value = results.kedayan; //O40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(16).value = results.iban; //P40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(17).value = results.bidayuh; //Q40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(18).value = results.bumiputeraSarawakLain; //R40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(19).value = results.orangAsliSemenanjung; //S40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(20).value = results.lainLainKaum; //T40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(21).value = results.bukanWarganegara; //U40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(22).value = results.ibuMengandung; //V40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(23).value = results.bersekolah; //W40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(24).value = results.orangKurangUpaya; //X40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(25).value = results.pesaraKerajaan; //Y40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(26).value = results.pesaraATM; //Z40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(27).value = results.rujukanDalaman; //AA40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(30).value = results.rujukanHospKerajaan; //AD40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(31).value = results.rujukanSwasta; //AE40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.getCell(32).value = results.rujukanLainLain; //AF40 Kategori Umur 61 hingga 64 Tahun (Ulangan)
+        rowNew28.commit();
+
+        // Kategori Umur 65 tahun (Baru)
+        let rowNew29 = worksheet.getRow(41);
+        rowNew29.getCell(3).value = results.kedatanganTahunSemasa; //C41	Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(4).value = results.lelaki; //D41	Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(5).value = results.perempuan; //E41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(6).value = results.melayu; //F41	Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(7).value = results.cina; //G41	Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(8).value = results.india; //H41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(9).value = results.bajau; //I41	Kategori Umur 65 Tahun (Baru)
+        rowNew29.getCell(10).value = results.dusun; //J41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(11).value = results.kadazan; //K41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(12).value = results.murut; //L41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(13).value = results.bumiputeraSabahLain; //M41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(14).value = results.melanau; //N41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(15).value = results.kedayan; //O41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(16).value = results.iban; //P41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(17).value = results.bidayuh; //Q41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(18).value = results.bumiputeraSarawakLain; //R41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(19).value = results.orangAsliSemenanjung; //S41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(20).value = results.lainLainKaum; //T41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(21).value = results.bukanWarganegara; //U41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(22).value = results.ibuMengandung; //V41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(23).value = results.bersekolah; //W41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(24).value = results.orangKurangUpaya; //X41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(25).value = results.pesaraKerajaan; //Y41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(26).value = results.pesaraATM; //Z41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(27).value = results.rujukanDalaman; //AA41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(30).value = results.rujukanHospKerajaan; //AD41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(31).value = results.rujukanSwasta; //AE41 Kategori Umur 65 tahun (Baru)
+        rowNew29.getCell(32).value = results.rujukanLainLain; //AF41 Kategori Umur 65 tahun (Baru)
+        rowNew29.commit();
+
+        // Kategori Umur 65 tahun (Ulangan)
+        let rowNew30 = worksheet.getRow(42);
+        rowNew30.getCell(3).value = results.kedatanganTahunSemasa; //C42	Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(4).value = results.lelaki; //D42	Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(5).value = results.perempuan; //E42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(6).value = results.melayu; //F42	Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(7).value = results.cina; //G42	Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(8).value = results.india; //H42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(9).value = results.bajau; //I42	Kategori Umur 65 Tahun (Ulangan)
+        rowNew30.getCell(10).value = results.dusun; //J42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(11).value = results.kadazan; //K42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(12).value = results.murut; //L42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(13).value = results.bumiputeraSabahLain; //M42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(14).value = results.melanau; //N42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(15).value = results.kedayan; //O42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(16).value = results.iban; //P42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(17).value = results.bidayuh; //Q42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(18).value = results.bumiputeraSarawakLain; //R42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(19).value = results.orangAsliSemenanjung; //S42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(20).value = results.lainLainKaum; //T42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(21).value = results.bukanWarganegara; //U42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(22).value = results.ibuMengandung; //V42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(23).value = results.bersekolah; //W42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(24).value = results.orangKurangUpaya; //X42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(25).value = results.pesaraKerajaan; //Y42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(26).value = results.pesaraATM; //Z42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(27).value = results.rujukanDalaman; //AA42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(30).value = results.rujukanHospKerajaan; //AD42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(31).value = results.rujukanSwasta; //AE42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.getCell(32).value = results.rujukanLainLain; //AF42 Kategori Umur 65 tahun (Ulangan)
+        rowNew30.commit();
+
+        // Kategori Umur 66 hingga 69 Tahun (Baru)
+        let rowNew31 = worksheet.getRow(43);
+        rowNew31.getCell(3).value = results.kedatanganTahunSemasa; //C43	Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(4).value = results.lelaki; //D43	Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(5).value = results.perempuan; //E43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(6).value = results.melayu; //F43	Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(7).value = results.cina; //G43	Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(8).value = results.india; //H43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(9).value = results.bajau; //I43	Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(10).value = results.dusun; //J43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(11).value = results.kadazan; //K43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(12).value = results.murut; //L43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(13).value = results.bumiputeraSabahLain; //M43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(14).value = results.melanau; //N43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(15).value = results.kedayan; //O43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(16).value = results.iban; //P43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(17).value = results.bidayuh; //Q43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(18).value = results.bumiputeraSarawakLain; //R43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(19).value = results.orangAsliSemenanjung; //S43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(20).value = results.lainLainKaum; //T43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(21).value = results.bukanWarganegara; //U43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(22).value = results.ibuMengandung; //V43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(23).value = results.bersekolah; //W43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(24).value = results.orangKurangUpaya; //X43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(25).value = results.pesaraKerajaan; //Y43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(26).value = results.pesaraATM; //Z43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(27).value = results.rujukanDalaman; //AA43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(30).value = results.rujukanHospKerajaan; //AD43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(31).value = results.rujukanSwasta; //AE43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.getCell(32).value = results.rujukanLainLain; //AF43 Kategori Umur 66 hingga 69 Tahun (Baru)
+        rowNew31.commit();
+
+        // Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        let rowNew32 = worksheet.getRow(44);
+        rowNew32.getCell(3).value = results.kedatanganTahunSemasa; //C44	Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(4).value = results.lelaki; //D44	Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(5).value = results.perempuan; //E44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(6).value = results.melayu; //F44	Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(7).value = results.cina; //G44	Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(8).value = results.india; //H44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(9).value = results.bajau; //I44	Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(10).value = results.dusun; //J44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(11).value = results.kadazan; //K44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(12).value = results.murut; //L44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(13).value = results.bumiputeraSabahLain; //M44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(14).value = results.melanau; //N44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(15).value = results.kedayan; //O44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(16).value = results.iban; //P44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(17).value = results.bidayuh; //Q44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(18).value = results.bumiputeraSarawakLain; //R44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(19).value = results.orangAsliSemenanjung; //S44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(20).value = results.lainLainKaum; //T44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(21).value = results.bukanWarganegara; //U44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(22).value = results.ibuMengandung; //V44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(23).value = results.bersekolah; //W44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(24).value = results.orangKurangUpaya; //X44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(25).value = results.pesaraKerajaan; //Y44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(26).value = results.pesaraATM; //Z44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(27).value = results.rujukanDalaman; //AA44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(30).value = results.rujukanHospKerajaan; //AD44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(31).value = results.rujukanSwasta; //AE44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.getCell(32).value = results.rujukanLainLain; //AF44 Kategori Umur 66 hingga 69 Tahun (Ulangan)
+        rowNew32.commit();
+
+        // Kategori Umur 70 hingga 74 Tahun (Baru)
+        let rowNew33 = worksheet.getRow(45);
+        rowNew33.getCell(3).value = results.kedatanganTahunSemasa; //C45	Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(4).value = results.lelaki; //D45	Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(5).value = results.perempuan; //E45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(6).value = results.melayu; //F45	Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(7).value = results.cina; //G45	Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(8).value = results.india; //H45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(9).value = results.bajau; //I45	Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(10).value = results.dusun; //J45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(11).value = results.kadazan; //K45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(12).value = results.murut; //L45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(13).value = results.bumiputeraSabahLain; //M45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(14).value = results.melanau; //N45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(15).value = results.kedayan; //O45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(16).value = results.iban; //P45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(17).value = results.bidayuh; //Q45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(18).value = results.bumiputeraSarawakLain; //R45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(19).value = results.orangAsliSemenanjung; //S45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(20).value = results.lainLainKaum; //T45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(21).value = results.bukanWarganegara; //U45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(22).value = results.ibuMengandung; //V45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(23).value = results.bersekolah; //W45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(24).value = results.orangKurangUpaya; //X45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(25).value = results.pesaraKerajaan; //Y45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(26).value = results.pesaraATM; //Z45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(27).value = results.rujukanDalaman; //AA45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(30).value = results.rujukanHospKerajaan; //AD45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(31).value = results.rujukanSwasta; //AE45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.getCell(32).value = results.rujukanLainLain; //AF45 Kategori Umur 70 hingga 74 Tahun (Baru)
+        rowNew33.commit();
+
+        // Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        let rowNew34 = worksheet.getRow(46);
+        rowNew34.getCell(3).value = results.kedatanganTahunSemasa; //C46	Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(4).value = results.lelaki; //D46	Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(5).value = results.perempuan; //E46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(6).value = results.melayu; //F46	Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(7).value = results.cina; //G46	Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(8).value = results.india; //H46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(9).value = results.bajau; //I46	Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(10).value = results.dusun; //J46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(11).value = results.kadazan; //K46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(12).value = results.murut; //L46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(13).value = results.bumiputeraSabahLain; //M46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(14).value = results.melanau; //N46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(15).value = results.kedayan; //O46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(16).value = results.iban; //P46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(17).value = results.bidayuh; //Q46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(18).value = results.bumiputeraSarawakLain; //R46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(19).value = results.orangAsliSemenanjung; //S46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(20).value = results.lainLainKaum; //T46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(21).value = results.bukanWarganegara; //U46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(22).value = results.ibuMengandung; //V46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(23).value = results.bersekolah; //W46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(24).value = results.orangKurangUpaya; //X46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(25).value = results.pesaraKerajaan; //Y46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(26).value = results.pesaraATM; //Z46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(27).value = results.rujukanDalaman; //AA46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(30).value = results.rujukanHospKerajaan; //AD46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(31).value = results.rujukanSwasta; //AE46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.getCell(32).value = results.rujukanLainLain; //AF46 Kategori Umur 70 hingga 74 Tahun (Ulangan)
+        rowNew34.commit();
+
+        // Kategori Umur 75 tahun atau lebih (Baru)
+        let rowNew35 = worksheet.getRow(47);
+        rowNew35.getCell(3).value = results.kedatanganTahunSemasa; //C47	Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(4).value = results.lelaki; //D47	Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(5).value = results.perempuan; //E47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(6).value = results.melayu; //F47	Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(7).value = results.cina; //G47	Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(8).value = results.india; //H47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(9).value = results.bajau; //I47	Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(10).value = results.dusun; //J47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(11).value = results.kadazan; //K47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(12).value = results.murut; //L47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(13).value = results.bumiputeraSabahLain; //M47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(14).value = results.melanau; //N47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(15).value = results.kedayan; //O47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(16).value = results.iban; //P47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(17).value = results.bidayuh; //Q47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(18).value = results.bumiputeraSarawakLain; //R47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(19).value = results.orangAsliSemenanjung; //S47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(20).value = results.lainLainKaum; //T47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(21).value = results.bukanWarganegara; //U47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(22).value = results.ibuMengandung; //V47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(23).value = results.bersekolah; //W47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(24).value = results.orangKurangUpaya; //X47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(25).value = results.pesaraKerajaan; //Y47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(26).value = results.pesaraATM; //Z47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(27).value = results.rujukanDalaman; //AA47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(30).value = results.rujukanHospKerajaan; //AD47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(31).value = results.rujukanSwasta; //AE47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.getCell(32).value = results.rujukanLainLain; //AF47 Kategori Umur 75 tahun atau lebih (Baru)
+        rowNew35.commit();
+
+        // Kategori Umur 75 tahun atau lebih (Ulangan)
+        let rowNew36 = worksheet.getRow(48);
+        rowNew36.getCell(3).value = results.kedatanganTahunSemasa; //C48	Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(4).value = results.lelaki; //D48	Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(5).value = results.perempuan; //E48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(6).value = results.melayu; //F48	Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(7).value = results.cina; //G48	Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(8).value = results.india; //H48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(9).value = results.bajau; //I48	Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(10).value = results.dusun; //J48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(11).value = results.kadazan; //K48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(12).value = results.murut; //L48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(13).value = results.bumiputeraSabahLain; //M48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(14).value = results.melanau; //N48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(15).value = results.kedayan; //O48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(16).value = results.iban; //P48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(17).value = results.bidayuh; //Q48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(18).value = results.bumiputeraSarawakLain; //R48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(19).value = results.orangAsliSemenanjung; //S48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(20).value = results.lainLainKaum; //T48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(21).value = results.bukanWarganegara; //U48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(22).value = results.ibuMengandung; //V48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(23).value = results.bersekolah; //W48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(24).value = results.orangKurangUpaya; //X48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(25).value = results.pesaraKerajaan; //Y48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(26).value = results.pesaraATM; //Z48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(27).value = results.rujukanDalaman; //AA48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(28).value = results.rujukanKlinikGigiKerajaan; //AB48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(29).value = results.rujukanKlinikKesihatanKerajaan; //AC48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(30).value = results.rujukanHospKerajaan; //AD48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(31).value = results.rujukanSwasta; //AE48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.getCell(32).value = results.rujukanLainLain; //AF48 Kategori Umur 75 tahun atau lebih (Ulangan)
+        rowNew36.commit();
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG211.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG214 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS214.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG214');
+
+        //PG214
+        //Kategori Umur 60 Tahun
+        let rowNew = worksheet.getRow(13);
+        rowNew.getCell(3).value = results.melayu; //C13	Kategori Umur 60 Tahun
+        rowNew.getCell(4).value = results.cina; //D13	Kategori Umur 60 Tahun
+        rowNew.getCell(5).value = results.india; //E13	Kategori Umur 60 Tahun
+        rowNew.getCell(6).value = results.bajau; //F13	Kategori Umur 60 Tahun
+        rowNew.getCell(7).value = results.dusun; //G13	Kategori Umur 60 Tahun
+        rowNew.getCell(8).value = results.kadazan; //H13 Kategori Umur 60 Tahun
+        rowNew.getCell(9).value = results.murut; //I13	Kategori Umur 60 Tahun
+        rowNew.getCell(10).value = results.bumiputeraSabahLain; //J13 Kategori Umur 60 Tahun
+        rowNew.getCell(11).value = results.melanau; //K13 Kategori Umur 60 Tahun
+        rowNew.getCell(12).value = results.kedayan; //L13 Kategori Umur 60 Tahun
+        rowNew.getCell(13).value = results.iban; //M13 Kategori Umur 60 Tahun
+        rowNew.getCell(14).value = results.bidayuh; //N13 Kategori Umur 60 Tahun
+        rowNew.getCell(15).value = results.bumiputeraSarawakLain; //O13 Kategori Umur 60 Tahun
+        rowNew.getCell(16).value = results.orangAsliSemenanjung; //P13 Kategori Umur 60 Tahun
+        rowNew.getCell(17).value = results.lainLainKaum; //Q13 Kategori Umur 60 Tahun
+        rowNew.getCell(18).value = results.bukanWarganegara; //R13 Kategori Umur 60 Tahun
+        rowNew.getCell(19).value = results.lelaki; //S13 Kategori Umur 60 Tahun
+        rowNew.getCell(20).value = results.perempuan; //T13 Kategori Umur 60 Tahun
+        rowNew.getCell(21).value = results.edentulous; //U13 Kategori Umur 60 Tahun
+        rowNew.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V13 Kategori Umur 60 Tahun
+        rowNew.getCell(23).value = results.gigiKurangDari20Batang; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(24).value = results.bilGigi; //W13 Kategori Umur 60 Tahun
+        rowNew.commit();
+
+        //Kategori Umur 61 hingga 64 Tahun
+
+        let rowNew2 = worksheet.getRow(14);
+        rowNew2.getCell(3).value = results.melayu; //C14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(4).value = results.cina; //D14	Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(5).value = results.india; //E14	Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(6).value = results.bajau; //F14	Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(7).value = results.dusun; //G14	Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(8).value = results.kadazan; //H14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(9).value = results.murut; //I14	Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(10).value = results.bumiputeraSabahLain; //J14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(11).value = results.melanau; //K14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(12).value = results.kedayan; //L14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(13).value = results.iban; //M14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(14).value = results.bidayuh; //N14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(15).value = results.bumiputeraSarawakLain; //O14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(16).value = results.orangAsliSemenanjung; //P14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(17).value = results.lainLainKaum; //Q14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(18).value = results.bukanWarganegara; //R14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(19).value = results.lelaki; //S14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(20).value = results.perempuan; //T14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(21).value = results.edentulous; //U14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(23).value = results.gigiKurangDari20Batang; //W14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(24).value = results.bilGigi; //W14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.commit();
+
+        //Kategori Umur 65 tahun
+
+        let rowNew3 = worksheet.getRow(15);
+        rowNew3.getCell(3).value = results.melayu; //C15 Kategori Umur 65 Tahun
+        rowNew3.getCell(4).value = results.cina; //D15	Kategori Umur 65 Tahun
+        rowNew3.getCell(5).value = results.india; //E15	Kategori Umur 65 Tahun
+        rowNew3.getCell(6).value = results.bajau; //F15	Kategori Umur 65 Tahun
+        rowNew3.getCell(7).value = results.dusun; //G15	Kategori Umur 65 Tahun
+        rowNew3.getCell(8).value = results.kadazan; //H15 Kategori Umur 65 Tahun
+        rowNew3.getCell(9).value = results.murut; //I15	Kategori Umur 65 Tahun
+        rowNew3.getCell(10).value = results.bumiputeraSabahLain; //J15 Kategori Umur 65 Tahun
+        rowNew3.getCell(11).value = results.melanau; //K15 Kategori Umur 65 Tahun
+        rowNew3.getCell(12).value = results.kedayan; //L15 Kategori Umur 65 Tahun
+        rowNew3.getCell(13).value = results.iban; //M15 Kategori Umur 65 Tahun
+        rowNew3.getCell(14).value = results.bidayuh; //N15 Kategori Umur 65 Tahun
+        rowNew3.getCell(15).value = results.bumiputeraSarawakLain; //O15 Kategori Umur 65 Tahun
+        rowNew3.getCell(16).value = results.orangAsliSemenanjung; //P15 Kategori Umur 65 Tahun
+        rowNew3.getCell(17).value = results.lainLainKaum; //Q15 Kategori Umur 65 Tahun
+        rowNew3.getCell(18).value = results.bukanWarganegara; //R15 Kategori Umur 65 Tahun
+        rowNew3.getCell(19).value = results.lelaki; //S15 Kategori Umur 65 Tahun
+        rowNew3.getCell(20).value = results.perempuan; //T15 Kategori Umur 65 Tahun
+        rowNew3.getCell(21).value = results.edentulous; //U15 Kategori Umur 65 Tahun
+        rowNew3.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V15 Kategori Umur 65 Tahun
+        rowNew3.getCell(23).value = results.gigiKurangDari20Batang; //W15 Kategori Umur 65 Tahun
+        rowNew3.getCell(24).value = results.bilGigi; //W15 Kategori Umur 65 Tahun
+        rowNew3.commit();
+
+        //Kategori Umur 66 hingga 69 Tahun
+        let rowNew4 = worksheet.getRow(16);
+        rowNew4.getCell(3).value = results.melayu; //C16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(4).value = results.cina; //D16	Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(5).value = results.india; //E16	Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(6).value = results.bajau; //F16	Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(7).value = results.dusun; //G16	Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(8).value = results.kadazan; //H16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(9).value = results.murut; //I16	Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(10).value = results.bumiputeraSabahLain; //J16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(11).value = results.melanau; //K16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(12).value = results.kedayan; //L16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(13).value = results.iban; //M16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(14).value = results.bidayuh; //N16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(15).value = results.bumiputeraSarawakLain; //O16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(16).value = results.orangAsliSemenanjung; //P16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(17).value = results.lainLainKaum; //Q16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(18).value = results.bukanWarganegara; //R16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(19).value = results.lelaki; //S16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(20).value = results.perempuan; //T16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(21).value = results.edentulous; //U16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(23).value = results.gigiKurangDari20Batang; //W16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(24).value = results.bilGigi; //W16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.commit();
+
+        //Kategori Umur 70 hingga 74 Tahun
+
+        let rowNew5 = worksheet.getRow(17);
+        rowNew5.getCell(3).value = results.melayu; //C17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(4).value = results.cina; //D17	Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(5).value = results.india; //E17	Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(6).value = results.bajau; //F17	Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(7).value = results.dusun; //G17	Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(8).value = results.kadazan; //H17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(9).value = results.murut; //I17	Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(10).value = results.bumiputeraSabahLain; //J17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(11).value = results.melanau; //K17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(12).value = results.kedayan; //L17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(13).value = results.iban; //M17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(14).value = results.bidayuh; //N17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(15).value = results.bumiputeraSarawakLain; //O17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(16).value = results.orangAsliSemenanjung; //P17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(17).value = results.lainLainKaum; //Q17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(18).value = results.bukanWarganegara; //R17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(19).value = results.lelaki; //S17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(20).value = results.perempuan; //T17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(21).value = results.edentulous; //U17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(23).value = results.gigiKurangDari20Batang; //W17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(24).value = results.bilGigi; //W17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.commit();
+
+        //Kategori Umur 75 tahun atau lebih
+
+        let rowNew6 = worksheet.getRow(18);
+        rowNew6.getCell(3).value = results.melayu; //C18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(4).value = results.cina; //D18	Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(5).value = results.india; //E18	Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(6).value = results.bajau; //F18	Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(7).value = results.dusun; //G18	Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(8).value = results.kadazan; //H18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(9).value = results.murut; //I18	Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(10).value = results.bumiputeraSabahLain; //J18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(11).value = results.melanau; //K18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(12).value = results.kedayan; //L18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(13).value = results.iban; //M18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(14).value = results.bidayuh; //N18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(15).value = results.bumiputeraSarawakLain; //O18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(16).value = results.orangAsliSemenanjung; //P18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(17).value = results.lainLainKaum; //Q18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(18).value = results.bukanWarganegara; //R18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(19).value = results.lelaki; //S18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(20).value = results.perempuan; //T18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(21).value = results.edentulous; //U18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(23).value = results.gigiKurangDari20Batang; //W18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(24).value = results.bilGigi; //W18 Kategori Umur 75 tahun atau lebih
+        rowNew6.commit();
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG214.xlsx'
         );
 
         // Write the file
