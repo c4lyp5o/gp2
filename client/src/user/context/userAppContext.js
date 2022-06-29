@@ -69,9 +69,9 @@ function UserAppProvider({ children }) {
         displayPilihFasiliti,
         setDisplayPilihFasiliti,
         navigate,
-        useParams,
         loginUser,
         catchAxiosErrorAndLogout,
+        useParams,
       }}
     >
       {children}
