@@ -10,9 +10,10 @@ export default function Kotak(props) {
             <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  status merokok
+                  status merokok<span className='text-user6'>*</span>
                 </h4>
                 <select
+                  required
                   name='statusM'
                   id='statusM'
                   value={props.statusM}
@@ -30,16 +31,16 @@ export default function Kotak(props) {
                   </option>
                 </select>
               </article>
-
               <article
                 className={`${
-                  props.statusM == 'bukanPerokok' && 'hidden'
+                  props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
                 } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
               >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  jenis rokok
+                  jenis rokok<span className='text-user6'>*</span>
                 </h4>
                 <select
+                  required={props.statusM == 'perokokSemasa' ? true : false}
                   name='jenisR'
                   id='jenisR'
                   value={props.jenisR}
@@ -59,16 +60,17 @@ export default function Kotak(props) {
             <div>
               <article
                 className={`${
-                  props.statusM == 'bukanPerokok' && 'hidden'
+                  props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
                 } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
               >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   tarikh intervensi merokok
                 </h4>
                 <p className='flex items-center justify-center text-m font-m'>
-                  Sesi 1:
+                  Sesi 1:<span className='text-user6'>*</span>
                 </p>
                 <input
+                  required={props.statusM == 'perokokSemasa' ? true : false}
                   type='date'
                   name='tarikh1'
                   id='tarikh1'
@@ -122,7 +124,7 @@ export default function Kotak(props) {
             <div className='grid gap-2'>
               <article
                 className={`${
-                  props.statusM == 'bukanPerokok' && 'hidden'
+                  props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
                 } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
               >
                 <h4 className='font-bold flex flex-row pl-5 '>
@@ -176,7 +178,7 @@ export default function Kotak(props) {
               </article>
               <article
                 className={`${
-                  props.statusM == 'bukanPerokok' && 'hidden'
+                  props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
                 } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
               >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -195,7 +197,7 @@ export default function Kotak(props) {
               </article>
               <article
                 className={`${
-                  props.statusM == 'bukanPerokok' && 'hidden'
+                  props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
                 } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
               >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>

@@ -1487,7 +1487,7 @@ function UserFormSekolah() {
             onClick={saveDraft}
             className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
           >
-            simpan deraf
+            simpan draf
           </button>
         </div>
         <form onSubmit={handleSubmit}>
