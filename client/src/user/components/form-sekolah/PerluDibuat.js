@@ -22,19 +22,13 @@ export default function PerluDibuat(props) {
                   >
                     Baru
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='16'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fs'
                     id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -52,19 +46,13 @@ export default function PerluDibuat(props) {
                   >
                     Semula
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='16'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fs'
                     id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -81,20 +69,10 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Jumlah gigi FS gagal
-                    <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
-                    </span>
                   </label>
                   <input
                     min='0'
                     max='16'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
                     type='number'
                     name='jumlah-gigi-kekal-gagal-fs'
                     id='jumlah-gigi-kekal-gagal-fs'
@@ -120,19 +98,13 @@ export default function PerluDibuat(props) {
                   >
                     Baru
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='32'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fv'
                     id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -150,19 +122,13 @@ export default function PerluDibuat(props) {
                   >
                     Semula
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='32'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fv'
                     id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -188,19 +154,13 @@ export default function PerluDibuat(props) {
                   >
                     Baru
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='16'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -220,19 +180,13 @@ export default function PerluDibuat(props) {
                   >
                     Semula
                     <span className='text-user6'>
-                      {props.eAdaGigiDesidus > 0 &&
-                        props.eAdaGigiKekal > 0 &&
-                        '*'}
+                      {props.eAdaGigiKekal > 0 && '*'}
                     </span>
                   </label>
                   <input
                     min='0'
                     max='16'
-                    required={
-                      props.eAdaGigiDesidus > 0 && props.eAdaGigiKekal > 0
-                        ? true
-                        : false
-                    }
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
