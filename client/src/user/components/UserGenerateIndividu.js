@@ -2,14 +2,15 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export default function UserGenerateIndividu() {
-  const [jenisReten, setJenisReten] = useState('');
+  const [jenisReten, setJenisReten] = useState('plsSlct');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [formatFile, setFormatFile] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const saveFile = async (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}.${formatFile}`;
+    link.download = `${jenisReten}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -21,13 +22,24 @@ export default function UserGenerateIndividu() {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    const theBits = await axios.get(
-      `/api/v1/generate/testdownload?jenisReten=${jenisReten}&startDate=${startDate}&endDate=${endDate}`,
-      {
-        responseType: 'blob',
-      }
-    );
-    saveFile(theBits.data);
+    setErrorMsg('');
+    if (jenisReten === 'plsSlct') {
+      alert('Sila pilih reten yang ingin dijana');
+      return;
+    }
+    try {
+      const theBits = await axios.get(
+        `/api/v1/generate/testdownload?jenisReten=${jenisReten}&startDate=${startDate}&endDate=${endDate}`,
+        {
+          responseType: 'blob',
+        }
+      );
+      saveFile(theBits.data);
+    } catch {
+      setErrorMsg('Reten belum di implement');
+      return;
+    }
+    // console.log(theBits.response);
   };
 
   return (
@@ -73,7 +85,7 @@ export default function UserGenerateIndividu() {
               id='endDate'
               onChange={(e) => setEndDate(e.target.value)}
             />
-            <strong>Format: </strong>
+            {/* <strong>Format: </strong>
             <select
               name='formatFile'
               id='formatFile'
@@ -84,7 +96,7 @@ export default function UserGenerateIndividu() {
               <option value='xlsx'>Excel</option>
               <option value='pdf'>PDF</option>
               <option value='yeezus'>Holy Grail</option>
-            </select>
+            </select> */}
           </div>
           <br />
           <div>
@@ -98,6 +110,7 @@ export default function UserGenerateIndividu() {
               jana
             </button>
           </div>
+          <p>{errorMsg}</p>
           <div className='p-2 items-center mt-2'>
             <iframe
               className='w-full'
