@@ -20,6 +20,9 @@ const adminAPI = require('./routes/adminAPI');
 // generate import
 const genRouter = require('./routes/generateRouter');
 
+// kaunter import (TEST)
+const kaunterAPI = require('./routes/kaunterAPI');
+
 // IMPORT MIDDLEWARES --------------------------------------
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
@@ -46,6 +49,9 @@ app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/superadmin', adminAPI);
 // generate route
 app.use('/api/v1/generate', genRouter);
+
+// kaunter route (TEST)
+app.use('/api/v1/kaunter', kaunterAPI);
 
 // for use in deployment
 app.get('*', (req, res) => {
