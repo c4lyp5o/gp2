@@ -3,9 +3,9 @@ export default function PerluDibuat(props) {
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2'>
-          <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+          <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
-          </button>
+          </span>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -21,8 +21,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fs'
                     id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -39,8 +45,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fs'
                     id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -59,6 +71,8 @@ export default function PerluDibuat(props) {
                     Jumlah gigi FS gagal
                   </label>
                   <input
+                    min='0'
+                    max='16'
                     type='number'
                     name='jumlah-gigi-kekal-gagal-fs'
                     id='jumlah-gigi-kekal-gagal-fs'
@@ -83,8 +97,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='32'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-fv'
                     id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -101,8 +121,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='32'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-fv'
                     id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -127,8 +153,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Baru
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -147,8 +179,14 @@ export default function PerluDibuat(props) {
                     className='text-sm font-m'
                   >
                     Semula
+                    <span className='text-user6'>
+                      {props.eAdaGigiKekal > 0 && '*'}
+                    </span>
                   </label>
                   <input
+                    min='0'
+                    max='16'
+                    required={props.eAdaGigiKekal > 0 ? true : false}
                     type='number'
                     name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                     id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -169,10 +207,11 @@ export default function PerluDibuat(props) {
                   Silver Diamine Fluoride
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan
+                  Perlu Sapuan<span className='text-user6'>*</span>
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
+                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -197,6 +236,7 @@ export default function PerluDibuat(props) {
                     Ya
                   </label>
                   <input
+                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan'
                     id='tidak-silver-diamine-fluoride-perlu-sapuan'
@@ -247,12 +287,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -269,12 +313,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -291,12 +339,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -313,12 +365,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>
@@ -340,12 +396,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -362,12 +422,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -384,12 +448,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -406,12 +474,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>
@@ -433,12 +505,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -455,12 +531,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GD Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -477,12 +557,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Baru
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -499,12 +583,16 @@ export default function PerluDibuat(props) {
                           );
                         }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                        min='0'
+                        max='32'
+                        required
                       />
                       <label
                         htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                         className='text-sm font-m ml-2 m-1'
                       >
                         GK Semula
+                        <span className='text-user6'>*</span>
                       </label>
                     </div>
                   </article>

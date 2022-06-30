@@ -3,9 +3,9 @@ export default function PenyataAkhir1(props) {
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2'>
-          <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+          <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Penyata Akhir 1</p>
-          </button>
+          </span>
           <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -31,6 +31,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiKekalDibuatFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -49,6 +52,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiKekalDibuatFs(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
@@ -75,6 +81,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiKekalDiberiFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -93,6 +102,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiKekalDiberiFv(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                    required
                   />
                 </div>
               </article>
@@ -121,6 +133,9 @@ export default function PenyataAkhir1(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -141,6 +156,9 @@ export default function PenyataAkhir1(props) {
                       );
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
@@ -169,6 +187,9 @@ export default function PenyataAkhir1(props) {
                       props.setBaruJumlahGigiYangDiberiSdf(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -187,6 +208,9 @@ export default function PenyataAkhir1(props) {
                       props.setSemulaJumlahGigiYangDiberiSdf(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>

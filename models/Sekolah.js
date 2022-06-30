@@ -4,19 +4,15 @@ const SekolahSchema = new mongoose.Schema({
   // negeri, daerah, kp, operator are associated with each person
   createdByNegeri: {
     type: String,
-    required: true,
   },
   createdByDaerah: {
     type: String,
-    required: true,
   },
   createdByKp: {
     type: String,
-    required: true,
   },
   createdByUsername: {
     type: String,
-    required: true,
   },
   // save status -------------------------------------------------------
   statusRawatan: {
@@ -38,23 +34,35 @@ const SekolahSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please provide umur'],
   },
+  namaSekolah: {
+    type: String,
+    required: [true, 'Please provide nama sekolah'],
+  },
+  kelas: {
+    type: String,
+    required: [true, 'Please provide kelas'],
+  },
   ic: {
     type: String,
     required: [true, 'Please provide IC'],
   },
-  namaSekolah: {
+  tarikhLahir: {
     type: String,
-    required: [true, 'Please provide nama sekolah'],
+    required: [true, 'Please provide tarikh lahir'],
+  },
+  warganegara: {
+    type: String,
+    required: [true, 'Please provide warganegara'],
+  },
+  bangsa: {
+    type: String,
+    required: [true, 'Please provide bangsa'],
   },
   darjah: {
     type: Number,
   },
   tingkatan: {
     type: Number,
-  },
-  kelas: {
-    type: String,
-    required: [true, 'Please provide kelas'],
   },
   // pendaftaran -------------------------------------------------------
   kpBergerak: {

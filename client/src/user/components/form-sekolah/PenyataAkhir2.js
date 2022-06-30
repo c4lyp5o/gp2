@@ -3,9 +3,9 @@ export default function PenyataAkhir2(props) {
     <>
       <div className='p-2'>
         <div className='grid grid-cols-2'>
-          <button className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+          <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Penyata Akhir 2</p>
-          </button>
+          </span>
           <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -26,6 +26,8 @@ export default function PenyataAkhir2(props) {
                       props.setCabutDesidusPenyataAkhir2(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
+                    min='0'
+                    max='20'
                   />
                 </div>
                 <div className='flex items-center justify-center'>
@@ -39,6 +41,8 @@ export default function PenyataAkhir2(props) {
                       props.setCabutKekalPenyataAkhir2(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
+                    min='0'
+                    max='32'
                   />
                 </div>
               </article>
@@ -78,6 +82,8 @@ export default function PenyataAkhir2(props) {
                         props.setPulpotomiPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='20'
                     />
                   </div>
                   <div className='flex items-center flex-row pl-5'>
@@ -91,6 +97,8 @@ export default function PenyataAkhir2(props) {
                         props.setEndodontikPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='32'
                     />
                   </div>
                   <div className='flex items-center flex-row pl-5'>
@@ -104,6 +112,8 @@ export default function PenyataAkhir2(props) {
                         props.setAbsesPenyataAkhir2(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='1'
                     />
                   </div>
                 </div>
@@ -257,6 +267,7 @@ export default function PenyataAkhir2(props) {
                           );
                         }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        required
                       />
                       <label
                         htmlFor='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'

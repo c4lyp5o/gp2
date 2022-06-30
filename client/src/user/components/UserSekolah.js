@@ -73,7 +73,7 @@ function UserSekolah() {
 
   return (
     <>
-      <div className='container px-10 h-full p-3 overflow-y-auto'>
+      <div className='px-10 h-full p-3 overflow-y-auto'>
         <div>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
             PILIH
@@ -162,9 +162,21 @@ function UserSekolah() {
                     <td className='outline outline-1 outline-userBlack p-2'>
                       <Link
                         to={`/user/form-sekolah/${singlePersonSekolah._id}`}
-                        className='bg-user3 userWhite rounded-md shadow-xl p-1 m-1 hover:bg-user1 transition-all'
+                        className={`${
+                          singlePersonSekolah.statusRawatan === 'selesai'
+                            ? 'bg-user7 hover:bg-user8'
+                            : singlePersonSekolah.statusRawatan ===
+                              'belum selesai'
+                            ? 'bg-user3 hover:bg-user2'
+                            : 'bg-user6 hover:bg-user9'
+                        } text-userWhite rounded-md shadow-xl p-1 m-1 transition-all`}
                       >
-                        Action
+                        {singlePersonSekolah.statusRawatan === 'selesai'
+                          ? 'Selesai'
+                          : singlePersonSekolah.statusRawatan ===
+                            'belum selesai'
+                          ? 'kemaskini'
+                          : 'tambah'}
                       </Link>
                     </td>
                   </tr>
