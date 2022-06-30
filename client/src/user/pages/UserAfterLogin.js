@@ -11,6 +11,11 @@ import UserUmum from '../components/UserUmum';
 import UserSekolah from '../components/UserSekolah';
 import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
 
+import UserGenerateIndividu from '../components/UserGenerateIndividu';
+import UserGenerateKlinik from '../components/UserGenerateKlinik';
+
+import UserStatusHarian from '../components/UserStatusHarian';
+
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
 import UserFooter from '../components/UserFooter';
@@ -30,11 +35,16 @@ function UserAfterLogin() {
           {/* <Route path='form-umum' element={<UserFormUmum />} /> */}
 
           <Route path='sekolah' element={<UserSekolah />} />
-          <Route path='form-sekolah' element={<UserFormSekolahHeader />} />
+          <Route
+            path='form-sekolah/:personSekolahId'
+            element={<UserFormSekolahHeader />}
+          />
 
-          {/* <Route path='status-harian' element={<UserStatusHarian />} />
-          <Route path='generate-reten' element={<UserGenerateReten />} />
-          <Route path='carian' element={<UserCarian />} /> */}
+          <Route path='status-harian' element={<UserStatusHarian />} />
+          <Route path='generate-individu' element={<UserGenerateIndividu />} />
+          <Route path='generate-klinik' element={<UserGenerateKlinik />} />
+
+          {/* <Route path='carian' element={<UserCarian />} /> */}
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>

@@ -1,13 +1,13 @@
-import React from "react";
-import styles from "../Modal.module.css";
-import { RiCloseLine } from "react-icons/ri";
-import { useState, useEffect } from "react";
-import { getKP, addFacility } from "../controllers/Helper";
+import { useState, useEffect } from 'react';
+import { RiCloseLine } from 'react-icons/ri';
+import styles from '../Modal.module.css';
+
+import { getKP, addFacility } from '../context/Helper';
 
 const Modal = ({ setAddOpen, jenisFacility }) => {
-  const [facility, setFacility] = useState("");
+  const [facility, setFacility] = useState('');
   const [KP, setKP] = useState([]);
-  const [currKp, setCurrKp] = useState("");
+  const [currKp, setCurrKp] = useState('');
 
   const selectChangeKp = (event) => {
     const value = event.target.value;
@@ -47,22 +47,22 @@ const Modal = ({ setAddOpen, jenisFacility }) => {
               className={styles.closeBtn}
               onClick={() => setAddOpen(false)}
             >
-              <RiCloseLine style={{ marginBottom: "-3px" }} />
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              <div className="admin-pegawai-handler-container">
-                <div className="admin-pegawai-handler-input">
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
                   <p>Nama {jenisFacility}</p>
                   <input
-                    className="border-2"
-                    type="text"
-                    name="Nama"
-                    id="nama"
+                    className='border-2'
+                    type='text'
+                    name='Nama'
+                    id='nama'
                     onChange={(e) => setFacility(e.target.value)}
                   />
                 </div>
                 <p>Klinik Bertugas</p>
-                <select className="border-2" onChange={selectChangeKp}>
+                <select className='border-2' onChange={selectChangeKp}>
                   <option selected disabled>
                     Pilih Klinik
                   </option>
@@ -74,7 +74,7 @@ const Modal = ({ setAddOpen, jenisFacility }) => {
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} type="submit">
+                <button className={styles.deleteBtn} type='submit'>
                   TAMBAH
                 </button>
                 <button

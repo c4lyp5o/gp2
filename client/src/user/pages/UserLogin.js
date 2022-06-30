@@ -1,3 +1,5 @@
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 import UserHeader from '../components/UserHeader';
 
 import UserLoginForm from '../components/UserLoginForm';
@@ -5,8 +7,6 @@ import UserPilihNama from '../components/UserPilihNama';
 import UserPilihFasiliti from '../components/UserPilihFasiliti';
 
 import UserFooter from '../components/UserFooter';
-
-import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserLogin() {
   const { displayLoginForm, displayPilihNama, displayPilihFasiliti } =

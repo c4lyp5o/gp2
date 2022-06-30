@@ -4,14 +4,19 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 function UserNavbar() {
   const [showLinks, setShowLinks] = useState(false);
-  const [showSubMenu, setshowSubMenu] = useState(false);
+  const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
+  const [showGenerateSubMenu, setShowGenerateSubMenu] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
   };
 
-  const toggleSubMenu = () => {
-    setshowSubMenu(!showSubMenu);
+  const toggleRetenSubMenu = () => {
+    setShowRetenSubMenu(!showRetenSubMenu);
+  };
+
+  const toggleGenerateSubMenu = () => {
+    setShowGenerateSubMenu(!showGenerateSubMenu);
   };
 
   return (
@@ -25,6 +30,11 @@ function UserNavbar() {
         <div className='grid'>
           <NavLink
             to='/user'
+            onClick={() => {
+              setShowLinks(!showLinks);
+              setShowRetenSubMenu(false);
+              setShowGenerateSubMenu(false);
+            }}
             className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
           >
             DASHBOARD
@@ -32,38 +42,48 @@ function UserNavbar() {
           <div>
             <div
               className={`${
-                showSubMenu ? 'bg-user3' : 'bg-user4'
+                showRetenSubMenu ? 'bg-user3' : 'bg-user4'
               } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
-              onClick={toggleSubMenu}
+              onClick={toggleRetenSubMenu}
             >
               <span>RETEN</span>
               <span className='ml-10'>
                 <FaArrowAltCircleUp
-                  className={`transition-all ${showSubMenu && 'rotate-180'}`}
+                  className={`transition-all ${
+                    showRetenSubMenu && 'rotate-180'
+                  }`}
                 />
               </span>
             </div>
             <div
               className={`grid transition-all ${
-                showSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                showRetenSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
               }`}
             >
               <NavLink
                 to='umum'
+                onClick={() => {
+                  setShowLinks(!showLinks);
+                  setShowGenerateSubMenu(false);
+                }}
                 className={({ isActive }) =>
                   isActive
-                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                 }
               >
                 UMUM
               </NavLink>
               <NavLink
                 to='sekolah'
+                onClick={() => {
+                  setShowLinks(!showLinks);
+                  setShowGenerateSubMenu(false);
+                }}
                 className={({ isActive }) =>
                   isActive
-                    ? 'bg-user3 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user3 transition-all'
+                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                 }
               >
                 SEKOLAH
@@ -72,6 +92,11 @@ function UserNavbar() {
           </div>
           <NavLink
             to='status-harian'
+            onClick={() => {
+              setShowLinks(!showLinks);
+              setShowRetenSubMenu(false);
+              setShowGenerateSubMenu(false);
+            }}
             className={({ isActive }) =>
               isActive
                 ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
@@ -80,18 +105,64 @@ function UserNavbar() {
           >
             STATUS HARIAN
           </NavLink>
-          <NavLink
-            to='generate-reten'
-            className={({ isActive }) =>
-              isActive
-                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-            }
-          >
-            GENERATE RETEN
-          </NavLink>
+          <div>
+            <div
+              className={`${
+                showGenerateSubMenu ? 'bg-user3' : 'bg-user4'
+              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+              onClick={toggleGenerateSubMenu}
+            >
+              <span>GENERATE RETEN</span>
+              <span className='ml-10'>
+                <FaArrowAltCircleUp
+                  className={`transition-all ${
+                    showGenerateSubMenu && 'rotate-180'
+                  }`}
+                />
+              </span>
+            </div>
+            <div
+              className={`grid transition-all ${
+                showGenerateSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <NavLink
+                to='generate-individu'
+                onClick={() => {
+                  setShowLinks(!showLinks);
+                  setShowRetenSubMenu(false);
+                }}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                }
+              >
+                INDIVIDU
+              </NavLink>
+              <NavLink
+                to='generate-klinik'
+                onClick={() => {
+                  setShowLinks(!showLinks);
+                  setShowRetenSubMenu(false);
+                }}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                }
+              >
+                KLINIK
+              </NavLink>
+            </div>
+          </div>
           <NavLink
             to='carian'
+            onClick={() => {
+              setShowLinks(!showLinks);
+              setShowRetenSubMenu(false);
+              setShowGenerateSubMenu(false);
+            }}
             className={({ isActive }) =>
               isActive
                 ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'

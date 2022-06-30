@@ -2,26 +2,23 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     colors: {
-      // user1: '#58408f',
-      // user2: '#1f315f',
-      // user3: '#9ebcdf',
-      // user4: '#e1e9ef',
-      // user5: '#d9693f',
-      // user6: '#f32f2f',
-      // user7: '#415164',
-      user1: '#415164',
-      user2: '#1f315f',
-      user3: '#638cbb',
-      user4: '#9ebcdf',
-      user5: '#e1e9ef',
-      user6: '#d9693f',
+      user1: '#415164', // kelabu
+      user2: '#1f315f', // biru gelap
+      user3: '#638cbb', // biru biasa
+      user4: '#9ebcdf', // biru cair
+      user5: '#e1e9ef', // biru cair background
+      user6: '#d9693f', // merah warning
+      user7: '#37e186', // hijau
+      user8: '#ebcd59', // kuning
+      user9: '#ff6363', // merah
       userWhite: 'white',
       userBlack: 'black',
-      admin1: '#8c0d3c',
-      admin2: '#c44058',
-      admin3: '#e79595',
-      admin4: '#ffefd6',
-      admin5: '#0f0f0f',
+      admin1: '#c76565', // pink pucat
+      admin2: '#8c0d3c', // pink pekat
+      admin3: '#c44058', // pink biasa
+      admin4: '#e79595', // pink cair
+      admin5: '#ffefd6', // kuning cair
+      admin6: '#0f0f0f', // hitam custom
       adminWhite: 'white',
       adminBlack: 'black',
     },

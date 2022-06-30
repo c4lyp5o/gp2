@@ -1,821 +1,613 @@
 const mongoose = require('mongoose');
 
-const SekolahSchema = mongoose.Schema({
-    // negeri, daerah, kp is associated with each person
-    createdByNegeri: {
-        type: String,
-        required: true
-    },
-    createdByDaerah: {
-        type: String,
-        required: true
-    },
-    createdByKp: {
-        type: String,
-        required: true
-    },
-    // --------------------------------------------------
-    namaPendaftaranSekolah: {
-        type: String,
-        required: [true, 'Please provide nama'],
-        trim: true
-    },
-    umurPendaftaranSekolah: {
-        type: String,
-        required: [true, 'Please provide umur'],
-    },
-    kelasPendaftaranSekolah: {
-        type: String,
-        required: [true, 'Please provide kelas'],
-        trim: true
-    },					
-	ennrolmen: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    perokokSemasaLelakiMelayu: {
-    type: String,
-    defaultValue : "0",
-    },
-    perokokSemasaLelakiCina: {
-    type: String, 
-    defaultValue : "0",
-    
-    },
-    perokokSemasaLelakiIndia: {
-    type: String,
-    defaultValue : "0",
-    
-    },
-    perokokSemasaLelakiLain: {
-    type: String, 
-    defaultValue : "0",
-    
-    },
-    perokokSemasaPerempuanMelayu: {
-    type: String, 
-    defaultValue : "0",
-    
-    },
-    perokokSemasaPerempuanCina: {
-    type: String, 
-    defaultValue : "0",
-    
-    },
-    perokokSemasaPerempuanCina: {
-    type: String, 
-    defaultValue : "0",
-    
-    },
-    perokokSemasaPerempuanLainlain: {
-    type: String,
-    defaultValue : "0",
-    
-    },
-    bekasPerokokLelaki: {
-    type: String,
-    defaultValue : "0",
-    },
-    bekasPerokokPerempuan: {
-    type: String,
-    defaultValue : "0",
-    },
-    perokokPasifLelaki: {
-    type: String,
-    defaultValue : "0",
-    },
-    perokokPasifPerempuan: {
-    type: String,
-    defaultValue : "0",
-    },
-    bukanPerokokLelaki: {
-    type: String,
-    defaultValue : "0",
-    },
-    bukanPerokokPerempuan: {
-    type: String,
-    defaultValue : "0",
-    },
-    berhentiMerokokLebih3: {
-    type: String,
-    defaultValue: "0"
-    },
-    tidakBerhentiMerokokLebih3: {
-    type: String,
-    defaultValue: "0"
-    },
-    berhentiMerokokKurang3: {
-    type: String,
-    defaultValue: "0"
-    },
-    tidakBerhentiMerokokKurang3: {
-    type: String,
-    defaultValue: "0"
-    },
-    catatanSemakan: {
-    type: String,
-    defaultValue: "0"
-    },
-    nomborSiri: {
-    type: String,
-    defaultValue: "0"
-    },
-    kelas: {
-    type: String,
-    required: [true, 'Please provide value'],
-    trim: true
-    },
-    nama: {
-    type: String,
-    required: [true, 'Masukkan nama'],
-    trim: true
-    },
-    enrolmen: {
-    type: String,
-    defaultValue: "0"
-    },
-    kedatanganBaru: {
-    type: String,
-    defaultValue: "1"
-    },
-    kedatanganUlangan: {
-    type: String,
-    defaultValue: "0"
-    },
-    kedatanganEnggan: {
-    type: String,
-    defaultValue: "0"
-    },
-    kedatanganTidakHadir: {
-    type: String,
-    defaultValue: "0"
-    },
-    jantina: {
-    type: String, 
-    required: [true, 'Sila Pilih Jantina'],
-    },
-    umur: {
-    type: String, 
-    required: [true, 'Sila Masukkan Umur'],
-    },
-    Keturunan: {
-    type: String, 
-    required: [true, 'Sila Pilih Keturunan'],
-    },
-    statusMerokok: {
-    type: String,
-    defaultValue: "0"
-    },
-    cleftAda: {
-    type: String,
-    defaultValue: "0"
-    },
-    cleftRujuk: {
-    type: String,
-    defaultValue: "0"
-    },
-    traumaToothSurfaceLoss: {
-    type: String,
-    defaultValue: "0"
-    },
-    traumaTisuLembut: {
-    type: String,
-    defaultValue: "0"
-    },
-    traumaTisuKeras: {
-    type: String,
-    defaultValue: "0"
-    },
-    traumaKecederaanGigiAnterior: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusDenturAdaB: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusDenturAdaS: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusDenturPerluB: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusDenturPerluS: {
-    type: String,
-    defaultValue: "0"
-    },
-    kebersihanMulutA: {
-    type: String,
-    defaultValue: "0"
-    },
-    kebersihanMulutC: {
-    type: String,
-    defaultValue: "0"
-    },
-    kebersihanMulutE: {
-    type: String,
-    defaultValue: "0"
-    },
-    gisSkor0: {
-    type: String,
-    defaultValue: "0"
-    },
-    gisSkor1: {
-    type: String,
-    defaultValue: "0"
-    },
-    gisSkor2: {
-    type: String,
-    defaultValue: "0"
-    },
-    gisSkor3: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiDesidusD: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiDesidusM: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiDesidusF: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiDesidusX: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigidesidusJumlahdfx: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiDesidusdfx0: {
-    type: String,
-    defaultValue: "0"
-    },
-    gigiDesidusDfxKurangDari3: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalE: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalD: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalM: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalF: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalX: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusGigiKekalJumlahDMFX: {
-    type: String,
-    defaultValue: "0"
-    },
-    dFBilGigiCariesE: {
-    type: String,
-    defaultValue: "0"
-    },
-    dFClassIdanII: {
-    type: String,
-    defaultValue: "0"
-    },
-    dFClassISahaja: {
-    type: String,
-    defaultValue: "0"
-    },
-    gigiKekalDMFXsamaAtauKurangDari3: {
-    type: String,
-    defaultValue: "0"
-    },
-    gigiKekalDMFXsamaAtauKurangDari1: {
-    type: String,
-    defaultValue: "0"
-    },
-    totalStatusGigiKekalSamaKosong: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusBebasKaries: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusBebasKariesTapiElebihDariSatu: {
-    type: String,
-    defaultValue: "0"
-    },
-    MBK: {
-    type: String,
-    defaultValue: "0"
-    },
-    eMoreThanZero: {
-    type: String,
-    defaultValue: "0"
-    },
-    mulutBebasGingivitis: {
-    type: String,
-    defaultValue: "0"
-    },
-    tprSMKP: {
-    type: String,
-    defaultValue: "0"
-    },
-    tprICDAS: {
-    type: String,
-    defaultValue: "0"
-    },
-    CRA: {
-    type: String,
-    required: [true, 'Sila Masukkan Jumlah Faktor Risiko Karies'],
-    },
-    craRendah: {
-    type: String,
-    defaultValue: "0"
-    },
-    craSederhana: {
-    type: String,
-    defaultValue: "0"
-    },
-    craTinggi: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsDibuatPadaTahunLepas: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsDibuatPadaTahunSemasaResin: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsDibuatPadaTahunSemasaGIC: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFSMuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFSMuridS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFSGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFSGigiS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFsBilGigiFailed: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFvMuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFvMuridS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFvGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluFvGigiS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluPRR1MuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluPRR1MuridS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluPRR1BGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluPRR1BGigiS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluPRRatauFissureSealantAtauKeduaDua: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAntGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAntGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAntGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAntGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanPosGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanPosGdS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanPosGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanPosGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAmgGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAmgGdS: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAmgGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    perluTampalanAmgGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFSMuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFSMuridS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFSGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFSGigiS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFVMuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFVMuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFVGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFVGigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahPRR1GigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahPRR1MuridB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahPRR1GigiB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahPRR1GigiS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahFsOrPrr: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAntGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAntGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAntGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAntGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanPosGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanPosGdS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanPosGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanPosGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAmgGdB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAmgGdS: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAmgGkB: {
-    type: String,
-    defaultValue: "0"
-    },
-    telahTampalanAmgGkS: {
-    type: String,
-    defaultValue: "0"
-    },
-    jumlahTampalanB: {
-    type: String,
-    defaultValue: "0"
-    },
-    jumlahTampalanS: {
-    type: String,
-    defaultValue: "0"
-    },
-    tampalanSementara: {
-    type: String,
-    defaultValue: "0"
-    },
-    cabutanGd: {
-    type: String,
-    defaultValue: "0"
-    },
-    cabutanGk: {
-    type: String,
-    defaultValue: "0"
-    },
-    penskaleran: {
-    type: String,
-    defaultValue: "0"
-    },
-    abses: {
-    type: String,
-    defaultValue: "0"
-    },
-    pulpotomi: {
-    type: String,
-    defaultValue: "0"
-    },
-    rawatanEndo: {
-    type: String,
-    defaultValue: "0"
-    },
-    kesSelesaiICDAS: {
-    type: String,
-    defaultValue: "0"
-    },
-    kesSelesai: {
-    type: String,
-    defaultValue: "0"
-    },
-    rujuk: {
-    type: String,
-    defaultValue: "0"
-    },
-    kotakJumlahIntervensiLanjutanYangDisertai: {
-    type: String,
-    defaultValue: "0"
-    },
-    kotakAdaQuitDate: {
-    type: String,
-    defaultValue: "0"
-    },
-    kotakTiadaQuitDate: {
-    type: String,
-    defaultValue: "0"
-    },
-    kotakPerokokDirujukKepadaGuruKaunseling: {
-    type: String,
-    defaultValue: "0"
-    },
-    catatan: {
-    type: String,
-    defaultValue: "0"
-    },
-    namaOperatorCharting: {
-    type: String,
-    required: [true, 'Sila Masukkan Nama Operator'],
-    trim: true
-    },
-    sekolahRendah: {
-    type: String,
-    defaultValue: "0"
-    },
-    sekolahMenengah: {
-    type: String,
-    defaultValue: "0"
-    },
-    namaSekolah: {
-    type: String,
-    required: [true, 'Please provide value'],
-    trim: true
-    },
-    namaKlinikPergigian: {
-    type: String,
-    required: [true, 'Sila Masukkan Nama Klinik Pergigian'],
-    trim: true
-    },
-    darjah: {
-    type: String,
-    required: [true, 'Sila Masukkan Darjah'],
-    trim: true
-    },
-    tingkatan: {
-    type: String,
-    required: [true, 'Sila Masukkan Tingkatan'],
-    trim: true
-    },
-    pasukanBergerak: {
-    type: String,
-    defaultValue: "0"
-    },
-    praSekolah: {
-    type: String,
-    defaultValue: "0"
-    },
-    kanakIstimewa: {
-    type: String,
-    defaultValue: "0"
-    },
-    bpeSkor: {
-    type: String,
-    defaultValue: "0"
-    },
-    jenisRokok: {
-    type: String,
-    defaultValue: "0"
-    },
-    statusBerhentiMerokok: {
-    type: String,
-    defaultValue: "0"
-    },
-    menjalankanBEGIN: {
-    type: String,
-    defaultValue: "0"
-    },
-    gigiDesidus: {
-    type: String,
-    defaultValue: "0"
-    },
-    pemeriksaan: {
-    type: String,
-    defaultValue: "0"
-    },
-    permasyarakatan: {
-    type: String,
-    defaultValue: "0"
-    },
-    namaPenuhBapa: {
-    type: String,
-    defaultValue: "0"
-    },
-    jumlahAhliKeluargaKurangAtauDari17Tahun: {
-    type: String,
-    defaultValue: "0"
-    },
-    jumlahAhliKeluargaLebihAtauSamaDari18Tahun: {
-    type: String,
-    defaultValue: "0"
-    },
-    selesaiEmpatKaliSapuanDalamDuaTahun: {
-    type: String,
-    defaultValue: "0"
-    },
-    kekalBebasKariesSelepasEmpatKaliSapuan: {
-    type: String,
-    defaultValue: "0"
-    },
-    umurBulanUntukBayiSatuTahunKeBawah: {
-    type: String,
-    defaultValue: "0"
-    },
-    sekolahMasyarakatRujukkePP: {
-    type: String,
-    defaultValue: "0"
-    },
-    klinikPusatPergigianSekolahStatik: {
-    type: String,
-    defaultValue: "0"
-    },
-    pasukanKlinikPergigianBergerak: {
-    type: String,
-    defaultValue: "0"
-    },
-    ceramah: {
-    type: String,
-    defaultValue: "0"
-    },
-    pameran: {
-    type: String,
-    defaultValue: "0"
-    },
-    tarikhKehadiranIntervensiMerokokSesiSatu: {
-    type: String,
-    defaultValue: "0"
-    },
-    tarikhKehadiranIntervensiMerokokSesiDua: {
-    type: String,
-    defaultValue: "0"
-    },
-    tarikhKehadiranIntervensiMerokokSesiTiga: {
-    type: String,
-    defaultValue: "0"
-    },
-    tarikhKehadiranIntervensiMerokokSesiLanjutan: {
-    type: String,
-    defaultValue: "0"
-    },
-    tarikhBerhentiMerokok: {
-    type: String,
-    defaultValue: "0"
-    },
-    gigiKekal: {
-    type: String,
-    defaultValue: "0"
-    },
-    dClassI: {
-    type: String,
-    defaultValue: "0"
-    },
-    dClassII: {
-    type: String,
-    defaultValue: "0"
-    },
-    fClassI: {
-    type: String,
-    defaultValue: "0"
-    },
-    fClassII: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsTahunLepasGic: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsTahunLepasResin: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsTahunLepasLain: {
-    type: String,
-    defaultValue: "0"
-    },
-    fsTahunLepasIntactLain: {
-    type: String,
-    defaultValue: "0"
-    },
-    risikoSekolah: {
-    type: String,
-    defaultValue: "0"
-    }
+const SekolahSchema = new mongoose.Schema({
+  // negeri, daerah, kp, operator are associated with each person
+  createdByNegeri: {
+    type: String,
+    required: true,
+  },
+  createdByDaerah: {
+    type: String,
+    required: true,
+  },
+  createdByKp: {
+    type: String,
+    required: true,
+  },
+  createdByUsername: {
+    type: String,
+    required: true,
+  },
+  // save status -------------------------------------------------------
+  statusRawatan: {
+    type: String,
+    required: true,
+    default: 'belum mula',
+  },
+  // supplied by ERKM --------------------------------------------------
+  nama: {
+    type: String,
+    required: [true, 'Please provide nama'],
+    trim: true,
+  },
+  jantina: {
+    type: String,
+    required: [true, 'Please provide jantina'],
+  },
+  umur: {
+    type: Number,
+    required: [true, 'Please provide umur'],
+  },
+  ic: {
+    type: String,
+    required: [true, 'Please provide IC'],
+  },
+  namaSekolah: {
+    type: String,
+    required: [true, 'Please provide nama sekolah'],
+  },
+  darjah: {
+    type: Number,
+  },
+  tingkatan: {
+    type: Number,
+  },
+  kelas: {
+    type: String,
+    required: [true, 'Please provide kelas'],
+  },
+  // pendaftaran -------------------------------------------------------
+  kpBergerak: {
+    type: Boolean,
+    default: false,
+  },
+  pasukanPergigianBergerak: {
+    type: Boolean,
+    default: false,
+  },
+  plateNo: {
+    type: String,
+    default: '',
+  },
+  baruUlanganKedatanganPendaftaran: {
+    type: String,
+    default: '',
+  },
+  engganKedatanganPendaftaran: {
+    type: Boolean,
+    default: false,
+  },
+  tidakHadirKedatanganPendaftaran: {
+    type: Boolean,
+    default: false,
+  },
+  adaTiadaPemeriksaanPendaftaran: {
+    type: String,
+    default: '',
+  },
+  tinggiRendahRisikoSekolahPendaftaran: {
+    type: String,
+    default: '',
+  },
+  // pemeriksaan awal div 1 --------------------------------------------------
+  adaCleftLip: {
+    type: Boolean,
+    default: false,
+  },
+  rujukCleftLip: {
+    type: Boolean,
+    default: false,
+  },
+  yaTidakSediaAdaStatusDenture: {
+    type: String,
+    default: '',
+  },
+  atasSediaAdaDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhAtasSediaAdaDenture: {
+    type: String,
+    default: '',
+  },
+  bawahSediaAdaDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhBawahSediaAdaDenture: {
+    type: String,
+    default: '',
+  },
+  yaTidakPerluStatusDenture: {
+    type: String,
+    default: '',
+  },
+  atasPerluDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhAtasPerluDenture: {
+    type: String,
+    default: '',
+  },
+  bawahPerluDenture: {
+    type: Boolean,
+    default: false,
+  },
+  separaPenuhBawahPerluDenture: {
+    type: String,
+    default: '',
+  },
+  toothSurfaceLossTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  kecederaanGigiAnteriorTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  tisuLembutTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  tisuKerasTrauma: {
+    type: Boolean,
+    default: false,
+  },
+  // pemeriksaan awal div 2
+  kebersihanMulutOralHygiene: {
+    type: String,
+    default: '',
+  },
+  skorBpeOralHygiene: {
+    type: String,
+    default: '',
+  },
+  saringanKanserMulutOralHygiene: {
+    type: Boolean,
+    default: false,
+  },
+  skorGisMulutOralHygiene: {
+    type: String,
+    default: '',
+  },
+  dAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  dAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xAdaGigiKekal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  jumlahFaktorRisiko: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // pemeriksaan awal div 3
+  gicBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  resinBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  lainLainBilanganFsDibuat3TahunLepas: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  dBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  mBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  fBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  eBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  xBilanganFsDibuat3TahunLepasTerjadi: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classID: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIID: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIF: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  classIIF: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // perlu dibuat --------------------------------------------------
+  baruJumlahGigiKekalPerluFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  jumlahGigiFsGagal: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalPerluFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalPerluPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalPerluPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  yaTidakSilverDiamineFluoridePerluSapuan: {
+    type: String,
+    default: '',
+  },
+  baruGDAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGDPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGDPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruGKPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // penyata akhir 1 --------------------------------------------------
+  baruJumlahGigiKekalDibuatFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDibuatFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalDiberiFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDiberiFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalDiberiPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDiberiPrrJenis1: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiYangDiberiSdf: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiYangDiberiSdf: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaAnteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaPosteriorSewarnaJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdBaruPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gdSemulaPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkBaruPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  gkSemulaPosteriorAmalgamJumlahTampalanDibuat: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  // penyata akhir 2 --------------------------------------------------
+  cabutDesidusPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  cabutKekalPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  jumlahTampalanSementaraPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  pulpotomiPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  endodontikPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  absesPenyataAkhir2: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  penskaleranPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  kesSelesaiPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  kesSelesaiIcdasPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  rujukPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  ceramahPromosiPenyataAkhir2: {
+    type: String,
+    default: '',
+  },
+  lmgPromosiPenyataAkhir2: {
+    type: String,
+    default: '',
+  },
+  yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2: {
+    type: String,
+    default: '',
+  },
+  plakGigiNasihatPergigianIndividuPromosiPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  dietPemakananNasihatPergigianIndividuPromosiPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  penjagaanKesihatanMulutNasihatPergigianIndividuPromosiPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  kanserMulutNasihatPergigianIndividuPromosiPenyataAkhir2: {
+    type: Boolean,
+    default: false,
+  },
+  // kotak --------------------------------------------------
+  statusM: {
+    type: String,
+    default: '',
+  },
+  jenisR: {
+    type: String,
+    default: '',
+  },
+  tarikh1: {
+    type: String,
+    default: '',
+  },
+  tarikh2: {
+    type: String,
+    default: '',
+  },
+  tarikh3: {
+    type: String,
+    default: '',
+  },
+  tarikh4: {
+    type: String,
+    default: '',
+  },
+  adaQ: {
+    type: Boolean,
+    default: false,
+  },
+  tiadaQ: {
+    type: Boolean,
+    default: false,
+  },
+  rujukG: {
+    type: Boolean,
+    default: false,
+  },
+  tarikhQ: {
+    type: String,
+    default: '',
+  },
+  statusSelepas6Bulan: {
+    type: String,
+    default: '',
+  },
 });
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);

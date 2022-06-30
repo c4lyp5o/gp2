@@ -1,14 +1,14 @@
-import React from "react";
-import styles from "../../Modal.module.css";
-import { RiCloseLine } from "react-icons/ri";
-import { useState, useEffect } from "react";
-import { getKP, addPp } from "../../controllers/Helper";
+import { useState, useEffect } from 'react';
+import { RiCloseLine } from 'react-icons/ri';
+import styles from '../../Modal.module.css';
+
+import { getKP, addPp } from '../../context/Helper';
 
 const Modal = ({ setAddOpen }) => {
-  const [newPp, setnewPp] = useState("");
-  const [gred, setGred] = useState("");
-  const [currKp, setCurrKp] = useState("");
-  const [role, setRole] = useState("");
+  const [newPp, setnewPp] = useState('');
+  const [gred, setGred] = useState('');
+  const [currKp, setCurrKp] = useState('');
+  const [role, setRole] = useState('');
   const [KP, setKP] = useState([]);
 
   const selectChangeKp = (event) => {
@@ -55,31 +55,31 @@ const Modal = ({ setAddOpen }) => {
               className={styles.closeBtn}
               onClick={() => setAddOpen(false)}
             >
-              <RiCloseLine style={{ marginBottom: "-3px" }} />
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              <div className="admin-pegawai-handler-container">
-                <div className="admin-pegawai-handler-input">
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
                   <p>Nama Pegawai</p>
                   <input
-                    className="border-2"
-                    type="text"
-                    name="Nama"
-                    id="nama"
+                    className='border-2'
+                    type='text'
+                    name='Nama'
+                    id='nama'
                     onChange={(e) => setnewPp(e.target.value)}
                   />
                   <br />
                   <p>Gred</p>
                   <input
-                    className="border-2"
-                    type="text"
-                    name="Gred"
-                    id="gred"
+                    className='border-2'
+                    type='text'
+                    name='Gred'
+                    id='gred'
                     onChange={(e) => setGred(e.target.value)}
                   />
                   <br />
                   <p>Klinik Bertugas</p>
-                  <select className="border-2" onChange={selectChangeKp}>
+                  <select className='border-2' onChange={selectChangeKp}>
                     <option selected disabled>
                       Pilih Klinik
                     </option>
@@ -90,20 +90,19 @@ const Modal = ({ setAddOpen }) => {
                   {/* {currKp && <h2 className="hidden">{currKp}</h2>} */}
                   <br />
                   <p>Role</p>
-                  <select className="border-2" onChange={selectChangeRole}>
+                  <select className='border-2' onChange={selectChangeRole}>
                     <option selected disabled>
                       Pilih Role
                     </option>
-                    <option>Admin</option>
-                    <option>Marhaen</option>
+                    <option value='admin'>Admin</option>
+                    <option value='marhean'>Marhaen</option>
                   </select>
-                  {/* {role && <h2 className="hidden">{role}</h2>} */}
                 </div>
               </div>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} type="submit">
+                <button className={styles.deleteBtn} type='submit'>
                   TAMBAH
                 </button>
                 <button

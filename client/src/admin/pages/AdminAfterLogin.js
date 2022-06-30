@@ -1,131 +1,31 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 
-import AdminLoginForm from "../components/public/LoginForm";
-import AdminLoggedInNotFound from "./AdminLoggedInNotFound";
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-// defaults
-import AdminNavbar from "../components/Navbar";
-import AdminFooter from "../components/Footer";
+// -----------------------------------------------------------
+import AdminLoginForm from './AdminLoginForm';
 
 // logged in
-import AdminCenterStageLoggedIn from "../components/Centerstage";
-import AdminHeaderLoggedIn from "../components/HeaderLoggedIn";
-
+import AdminHeaderLoggedIn from '../components/AdminHeaderLoggedIn';
+import AdminNavbar from '../components/AdminNavbar';
+// paparan utama
+import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
 // klinik
-import KlinikCenter from "../components/klinik/Center";
-
+import KlinikCenter from '../components/klinik/Center';
 // pegawai
-import PegawaiCenter from "../components/pegawai/Center";
-
+import PegawaiCenter from '../components/pegawai/Center';
 // jp
-import JPCenter from "../components/jp/Center";
-
+import JPCenter from '../components/jp/Center';
 // data for facility
-import FacilityCenter from "../components/Data";
+import FacilityCenter from '../components/DataFacility';
+// logged in not found
+import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
-import { useGlobalAdminAppContext } from "../context/adminAppContext";
+import AdminFooter from '../components/AdminFooter';
+// -----------------------------------------------------------
 
 function AdminAfterLogin() {
-  const { token, setToken } = useGlobalAdminAppContext();
-
-  function LoggedIn() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <AdminCenterStageLoggedIn />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Klinik() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <KlinikCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function PP() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <PegawaiCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function JP() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <JPCenter />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Taska() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="taska" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Tadika() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="tadika" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function SR() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sr" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function SM() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="sm" />
-        <AdminFooter />
-      </>
-    );
-  }
-
-  function Institusi() {
-    return (
-      <>
-        <AdminHeaderLoggedIn />
-        <AdminNavbar />
-        <FacilityCenter FType="ins" />
-        <AdminFooter />
-      </>
-    );
-  }
+  const { token } = useGlobalAdminAppContext();
 
   if (!token) {
     return <AdminLoginForm />;
@@ -133,18 +33,24 @@ function AdminAfterLogin() {
 
   return (
     <>
-      <Routes>
-        <Route index element={<LoggedIn />} />
-        <Route path="kp" element={<Klinik />} />
-        <Route path="pp" element={<PP />} />
-        <Route path="jp" element={<JP />} />
-        <Route path="taska" element={<Taska />} />
-        <Route path="tadika" element={<Tadika />} />
-        <Route path="sr" element={<SR />} />
-        <Route path="sm" element={<SM />} />
-        <Route path="ins" element={<Institusi />} />
-        <Route path="*" element={<AdminLoggedInNotFound />} />
-      </Routes>
+      <AdminHeaderLoggedIn />
+      <div className='absolute inset-0 -z-10 bg-admin5'></div>
+      <AdminNavbar />
+      <div className='absolute inset-10 top-44 -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize'>
+        <Routes>
+          <Route index element={<AdminCenterStageLoggedIn />} />
+          <Route path='kp' element={<KlinikCenter />} />
+          <Route path='pp' element={<PegawaiCenter />} />
+          <Route path='jp' element={<JPCenter />} />
+          <Route path='taska' element={<FacilityCenter FType='taska' />} />
+          <Route path='tadika' element={<FacilityCenter FType='tadika' />} />
+          <Route path='sr' element={<FacilityCenter FType='sr' />} />
+          <Route path='sm' element={<FacilityCenter FType='sm' />} />
+          <Route path='ins' element={<FacilityCenter FType='ins' />} />
+          <Route path='*' element={<AdminLoggedInNotFound />} />
+        </Routes>
+      </div>
+      <AdminFooter />
     </>
   );
 }
