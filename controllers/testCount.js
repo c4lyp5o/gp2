@@ -1667,6 +1667,221 @@ exports.testFunction = function (req, res) {
       //     callback
       //   );
       // },
+       resultPG201: function (callback) { //belum siap lagi. tengah map lagi 
+        Sekolah.aggregate(
+          [
+            { $match: {} },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahD: {
+                  $sum: { $dAdaGigiKekal: 1 },
+                },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gte: ['$eAdaGigiKekal', '1'] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKariesTapiElebihDariSatu: {
+                  //DMFX=0 ; E≥1
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$dAdaGigiKekal', '0'] },
+                          { $eq: ['$mAdaGigiKekal', '0'] },
+                          { $eq: ['$fAdaGigiKekal', '0'] },
+                          { $eq: ['$xAdaGigiKekal', '0'] },
+                          { $gte: ['$eAdaGigiKekal', '1'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
+                          },
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSGigiB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
+                },
+                perluFSGigiS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalPerluFs', '0'] },
+                },
+                perluFvMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', '0'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                telahFSMuridB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
+                },
+                telahFSMuridS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
+                },
+                telahFSGigiB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
+                },
+                telahFSGigiS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
+                },
+                telahFvMuridB: {
+                  $sum: {
+                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
+                  },
+                },
+                telahFvMuridS: {
+                  $sum: {
+                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
+                  },
+                },
+                telahFvGigiB: {
+                  $sum: {
+                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
+                  },
+                },
+                telahFvGigiS: {
+                  $sum: {
+                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
+                  },
+                },
+                telahPRR1MuridB: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
+                    ],
+                  },
+                },
+                telahPRR1GigiB: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
+                    ],
+                  },
+                },
+                telahPRR1GigiS: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', '0'] },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     function (err, results) {
