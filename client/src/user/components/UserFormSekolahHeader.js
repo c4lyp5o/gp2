@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaInfoCircle } from 'react-icons/fa';
 
@@ -18,9 +18,8 @@ function UserFormSekolah() {
   const { personSekolahId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
-
-  const [saveDraftState, setSaveDraftState] = useState(true);
 
   // creating masterForm object to be used by the form
   const masterForm = {};
@@ -1254,7 +1253,9 @@ function UserFormSekolah() {
       );
       alert('Draft saved !');
     } catch (error) {
-      console.log(error.response.data.msg);
+      alert('Login expired, please login again');
+      catchAxiosErrorAndLogout();
+      navigate('/');
     }
   };
 
@@ -1408,8 +1409,6 @@ function UserFormSekolah() {
   const handleNext = () => {
     // do something..
   };
-
-  const [isShown, setIsShown] = useState(false);
 
   return (
     <>

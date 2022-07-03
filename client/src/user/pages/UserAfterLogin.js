@@ -33,7 +33,10 @@ function UserAfterLogin() {
           <Route index element={<UserDashboard />} />
 
           <Route path='umum' element={<UserUmum />} />
-          <Route path='form-umum' element={<UserFormUmumHeader />} />
+          <Route
+            path='form-umum/:personUmumId'
+            element={<UserFormUmumHeader />}
+          />
 
           <Route path='sekolah' element={<UserSekolah />} />
           <Route
