@@ -27,6 +27,7 @@ function App() {
           <Routes>
             <Route path='/' element={<UserLogin />} />
             <Route path='/kaunter/*' element={<KaunterLogin />} />
+            {/* <Route path='/kaunter/daftar' element={<KaunterDaftar />} /> */}
             <Route
               path='/user/*'
               element={

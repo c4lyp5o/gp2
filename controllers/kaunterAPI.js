@@ -57,11 +57,18 @@ async function loginPT(req, res) {
   }
 }
 
-async function getData(req, res) {
-  console.log(req.body);
-  res.status(200).json({
-    message: 'File Uploaded',
-  });
+async function getAllPesakit(req, res) {
+  try {
+    const semuaPesakit = await Umum.find({});
+    res.status(200).json({
+      message: 'Senarai semua pesakit',
+      semuaPesakit,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
 }
 
 async function saveUmumData(req, res) {
@@ -78,8 +85,14 @@ async function saveUmumData(req, res) {
     }
     const umum = await Umum.create(fields);
     console.log(fields);
-    res.status(200).json({ fields });
+    res.status(200).json({ umum });
   });
 }
 
-module.exports = { helloThere, registerPT, loginPT, getData, saveUmumData };
+module.exports = {
+  helloThere,
+  registerPT,
+  loginPT,
+  getAllPesakit,
+  saveUmumData,
+};
