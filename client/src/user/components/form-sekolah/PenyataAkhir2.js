@@ -138,7 +138,7 @@ export default function PenyataAkhir2(props) {
                   </label>
                 </div>
               </article>
-              <article className='grid grid-cols-1gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>status rawatan</h4>
                 <div className='flex flex-row items-center pl-5 m-2'>
                   <input
