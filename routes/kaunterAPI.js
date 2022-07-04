@@ -7,6 +7,7 @@ const kaunterCon = require('../controllers/kaunterAPI');
 
 // routes
 router.get('/', kaunterCon.helloThere);
+router.get('/all', kaunterCon.getAllPesakit);
 
 router.post('/register', kaunterCon.registerPT);
 router.post('/login', kaunterCon.loginPT);
