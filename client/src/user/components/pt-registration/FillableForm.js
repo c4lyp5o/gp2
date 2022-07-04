@@ -4,14 +4,14 @@ export default function FillableForm({ showForm, setShowForm }) {
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
+  const [umur, setUmur] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
-  const [jantina, setJantina] = useState('?');
-  const [umur, setUmur] = useState('0');
+  const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
-  const [kategoriPesakit, setKategoriPesakit] = useState('?');
-  const [kumpulanEtnik, setKumpulanEtnik] = useState('?');
+  const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
 
   const ADD_PATIENT = gql`
@@ -21,7 +21,13 @@ export default function FillableForm({ showForm, setShowForm }) {
       $ic: String
       $tarikhLahir: String
       $jantina: String
-      $umur: Int # $rujukDaripada: String # $tarikhKedatangan: String # $alamat: String # $waktuSampai: String # $kategoriPesakit: String # $kumpulanEtnik: String
+      $tarikhKedatangan: String
+      $umur: Int
+      $rujukDaripada: String
+      $alamat: String
+      $waktuSampai: String
+      $kategoriPesakit: String
+      $kumpulanEtnik: String
     ) {
       createPatient(
         patient: {
@@ -29,40 +35,33 @@ export default function FillableForm({ showForm, setShowForm }) {
           jenisIc: $jenisIc
           ic: $ic
           tarikhLahir: $tarikhLahir
-          # tarikhKedatangan: $tarikhKedatangan
+          tarikhKedatangan: $tarikhKedatangan
           jantina: $jantina
           umur: $umur
-          # alamat: $alamat
-          # waktuSampai: $waktuSampai
-          # kategoriPesakit: $kategoriPesakit
-          # kumpulanEtnik: $kumpulanEtnik
-          # rujukDaripada: $rujukDaripada
+          alamat: $alamat
+          waktuSampai: $waktuSampai
+          kategoriPesakit: $kategoriPesakit
+          kumpulanEtnik: $kumpulanEtnik
+          rujukDaripada: $rujukDaripada
         }
       ) {
         nama
         jenisIc
         ic
         tarikhLahir
-        # tarikhKedatangan
+        tarikhKedatangan
         jantina
         umur
-        # alamat
-        # waktuSampai
-        # kategoriPesakit
-        # kumpulanEtnik
-        # rujukDaripada
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
       }
     }
   `;
 
-  const [CreatePatient, { loading, error, data }] = useMutation(ADD_PATIENT, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const [CreatePatient, { loading, error, data }] = useMutation(ADD_PATIENT);
 
   if (loading) return <p>Submitting...</p>;
   if (error) return <p>Error :(</p>;
@@ -72,20 +71,6 @@ export default function FillableForm({ showForm, setShowForm }) {
       <>
         <form
           onSubmit={(e) => {
-            console.log(
-              nama,
-              jenisIc,
-              ic,
-              tarikhLahir,
-              // tarikhKedatangan,
-              jantina,
-              umur
-              // alamat,
-              // waktuSampai,
-              // kategoriPesakit,
-              // kumpulanEtnik,
-              // rujukDaripada
-            );
             e.preventDefault();
             CreatePatient({
               variables: {
@@ -93,14 +78,14 @@ export default function FillableForm({ showForm, setShowForm }) {
                 jenisIc: jenisIc,
                 ic: ic,
                 tarikhLahir: tarikhLahir,
-                // tarikhKedatangan: tarikhKedatangan,
+                tarikhKedatangan: tarikhKedatangan,
                 jantina: jantina,
                 umur: umur,
-                // alamat: alamat,
-                // waktuSampai: waktuSampai,
-                // kategoriPesakit: kategoriPesakit,
-                // kumpulanEtnik: kumpulanEtnik,
-                // rujukDaripada: rujukDaripada,
+                alamat: alamat,
+                waktuSampai: waktuSampai,
+                kategoriPesakit: kategoriPesakit,
+                kumpulanEtnik: kumpulanEtnik,
+                rujukDaripada: rujukDaripada,
               },
             });
             setShowForm(false);
@@ -163,7 +148,7 @@ export default function FillableForm({ showForm, setShowForm }) {
             <div className='text-left'>
               <strong>umur: </strong>
               <input
-                onChange={(e) => setUmur(e.target.value)}
+                onChange={(e) => setUmur(parseInt(e.target.value))}
                 type='number'
                 name='umur'
               />
@@ -175,6 +160,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                 id='jantina'
                 onChange={(e) => setJantina(e.target.value)}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='lelaki'>lelaki</option>
                 <option value='perempuan'>perempuan</option>
               </select>
@@ -202,6 +188,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                 id='kategoriPesakit'
                 onChange={(e) => setKategoriPesakit(e.target.value)}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='toddler'>toddler (0 - 4) tahun</option>
                 <option value='prasek'>prasekolah (5 - 6) tahun</option>
                 <option value='sekolahrendah'>sekolah rendah</option>
@@ -221,6 +208,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                   setKumpulanEtnik(e.target.value);
                 }}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='melayu'>melayu</option>
                 <option value='cina'>cina</option>
                 <option value='india'>india</option>
