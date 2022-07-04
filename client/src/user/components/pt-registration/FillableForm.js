@@ -1,49 +1,67 @@
-import { useMutation, useQuery, gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { useState } from 'react';
 export default function FillableForm({ showForm, setShowForm }) {
   const [nama, setNama] = useState('');
+  const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
+  const [umur, setUmur] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
-  const [jantina, setJantina] = useState('?');
-  const [umur, setUmur] = useState('0');
+  const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
-  const [kategoriPesakit, setKategoriPesakit] = useState('?');
-  const [kumpulanEtnik, setKumpulanEtnik] = useState('?');
+  const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
 
   const ADD_PATIENT = gql`
     mutation CreatePatient(
-      $nama: String!
-      $ic: String!
-      $tarikhLahir: String!
-      $tarikhKedatangan: String!
+      $nama: String
+      $jenisIc: String
+      $ic: String
+      $tarikhLahir: String
+      $jantina: String
+      $tarikhKedatangan: String
+      $umur: Int
+      $rujukDaripada: String
+      $alamat: String
+      $waktuSampai: String
+      $kategoriPesakit: String
+      $kumpulanEtnik: String
     ) {
       createPatient(
         patient: {
           nama: $nama
+          jenisIc: $jenisIc
           ic: $ic
           tarikhLahir: $tarikhLahir
           tarikhKedatangan: $tarikhKedatangan
+          jantina: $jantina
+          umur: $umur
+          alamat: $alamat
+          waktuSampai: $waktuSampai
+          kategoriPesakit: $kategoriPesakit
+          kumpulanEtnik: $kumpulanEtnik
+          rujukDaripada: $rujukDaripada
         }
       ) {
         nama
+        jenisIc
         ic
         tarikhLahir
         tarikhKedatangan
+        jantina
+        umur
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
       }
     }
   `;
 
-  const [CreatePatient, { loading, error, data }] = useMutation(ADD_PATIENT, {
-    onCompleted: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const [CreatePatient, { loading, error, data }] = useMutation(ADD_PATIENT);
 
   if (loading) return <p>Submitting...</p>;
   if (error) return <p>Error :(</p>;
@@ -57,15 +75,20 @@ export default function FillableForm({ showForm, setShowForm }) {
             CreatePatient({
               variables: {
                 nama: nama,
+                jenisIc: jenisIc,
                 ic: ic,
                 tarikhLahir: tarikhLahir,
                 tarikhKedatangan: tarikhKedatangan,
                 jantina: jantina,
                 umur: umur,
+                alamat: alamat,
+                waktuSampai: waktuSampai,
+                kategoriPesakit: kategoriPesakit,
+                kumpulanEtnik: kumpulanEtnik,
+                rujukDaripada: rujukDaripada,
               },
             });
             setShowForm(false);
-            window.location.reload();
           }}
         >
           <button
@@ -82,7 +105,6 @@ export default function FillableForm({ showForm, setShowForm }) {
             <strong>tarikh kedatangan: </strong>
             <input
               onChange={(e) => setTarikhKedatangan(e.target.value)}
-              required
               type='date'
               name='tarikhKedatangan'
             />
@@ -90,7 +112,6 @@ export default function FillableForm({ showForm, setShowForm }) {
           <div className='text-left'>
             <strong>nama: </strong>
             <input
-              required
               onChange={(e) => setNama(e.target.value)}
               type='text'
               name='namaUmum'
@@ -98,7 +119,12 @@ export default function FillableForm({ showForm, setShowForm }) {
           </div>
           <br />
           <div className='text-left'>
-            <select name='pengenalan' id='pengenalan'>
+            <select
+              name='pengenalan'
+              id='pengenalan'
+              onChange={(e) => setJenisIc(e.target.value)}
+            >
+              <option value='plsSlct'>Sila pilih..</option>
               <option value='mykad'>MyKad</option>
               <option value='passport'>Passport</option>
               <option value='tentera'>tentera</option>
@@ -106,7 +132,6 @@ export default function FillableForm({ showForm, setShowForm }) {
               <option value='sijil'>sijil lahir</option>
             </select>
             <input
-              required
               onChange={(e) => setIc(e.target.value)}
               type='text'
               name='ic'
@@ -116,7 +141,6 @@ export default function FillableForm({ showForm, setShowForm }) {
           <div className='text-left'>
             <strong>tarikh lahir: </strong>
             <input
-              required
               onChange={(e) => setTarikhLahir(e.target.value)}
               type='date'
               name='tarikhLahir'
@@ -124,8 +148,7 @@ export default function FillableForm({ showForm, setShowForm }) {
             <div className='text-left'>
               <strong>umur: </strong>
               <input
-                required
-                onChange={(e) => setUmur(e.target.value)}
+                onChange={(e) => setUmur(parseInt(e.target.value))}
                 type='number'
                 name='umur'
               />
@@ -137,6 +160,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                 id='jantina'
                 onChange={(e) => setJantina(e.target.value)}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='lelaki'>lelaki</option>
                 <option value='perempuan'>perempuan</option>
               </select>
@@ -144,7 +168,6 @@ export default function FillableForm({ showForm, setShowForm }) {
             <div className='text-left'>
               <strong>alamat: </strong>
               <input
-                required
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
@@ -153,7 +176,6 @@ export default function FillableForm({ showForm, setShowForm }) {
             <div className='text-left'>
               <strong>waktu sampai: </strong>
               <input
-                required
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
@@ -166,6 +188,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                 id='kategoriPesakit'
                 onChange={(e) => setKategoriPesakit(e.target.value)}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='toddler'>toddler (0 - 4) tahun</option>
                 <option value='prasek'>prasekolah (5 - 6) tahun</option>
                 <option value='sekolahrendah'>sekolah rendah</option>
@@ -181,8 +204,11 @@ export default function FillableForm({ showForm, setShowForm }) {
               <select
                 name='kumpulanEtnik'
                 id='kumpulanEtnik'
-                onChange={(e) => setKumpulanEtnik(e.target.value)}
+                onChange={(e) => {
+                  setKumpulanEtnik(e.target.value);
+                }}
               >
+                <option value='plsSlct'>Sila pilih..</option>
                 <option value='melayu'>melayu</option>
                 <option value='cina'>cina</option>
                 <option value='india'>india</option>
@@ -208,7 +234,6 @@ export default function FillableForm({ showForm, setShowForm }) {
             <div className='text-left mt-2'>
               <strong>rujuk daripada:</strong>
               <input
-                required
                 onChange={(e) => setRujukDaripada(e.target.value)}
                 type='text'
                 name='rujukDaripada'

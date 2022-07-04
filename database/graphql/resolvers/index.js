@@ -9,11 +9,17 @@ module.exports = {
           ...pt._doc,
           _id: pt.id,
           nama: pt.nama,
+          jenisIc: pt.jenisIc,
           ic: pt.ic,
           tarikhLahir: pt.tarikhLahir,
           umur: pt.umur,
           jantina: pt.jantina,
           tarikhKedatangan: pt.tarikhKedatangan,
+          alamat: pt.alamat,
+          waktuSampai: pt.waktuSampai,
+          kategoriPesakit: pt.kategoriPesakit,
+          kumpulanEtnik: pt.kumpulanEtnik,
+          rujukDaripada: pt.rujukDaripada,
           createdAt: new Date(pt._doc.createdAt).toISOString(),
         };
       });
@@ -42,15 +48,33 @@ module.exports = {
 
   createPatient: async (args) => {
     try {
-      const { nama, ic, tarikhLahir, umur, jantina, tarikhKedatangan } =
-        args.patient;
-      const ptdata = new Umum({
+      const {
         nama,
+        jenisIc,
         ic,
         tarikhLahir,
         umur,
         jantina,
         tarikhKedatangan,
+        alamat,
+        waktuSampai,
+        kategoriPesakit,
+        kumpulanEtnik,
+        rujukDaripada,
+      } = args.patient;
+      const ptdata = new Umum({
+        nama,
+        jenisIc,
+        ic,
+        tarikhLahir,
+        umur,
+        jantina,
+        tarikhKedatangan,
+        alamat,
+        waktuSampai,
+        kategoriPesakit,
+        kumpulanEtnik,
+        rujukDaripada,
       });
       const newPt = await ptdata.save();
       return { ...newPt._doc, _id: newPt.id };

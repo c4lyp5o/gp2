@@ -6,21 +6,33 @@ module.exports = buildSchema(`
   """
   type Patient {
     _id: ID!
-    nama: String!,
-    ic: String!,
-    tarikhLahir: String!,
+    nama: String,
+    jenisIc: String
+    ic: String,
+    tarikhLahir: String,
     umur: Int,
     jantina: String,
-    tarikhKedatangan: String!,
-    createdAt: String!
+    tarikhKedatangan: String,
+    alamat: String,
+    waktuSampai: String,
+    kategoriPesakit: String,
+    kumpulanEtnik: String,
+    rujukDaripada: String,
+    createdAt: String
   }
   input PatientType {
-    nama: String!,
-    ic: String!,
-    tarikhLahir: String!,
-    umur: Int,
+    nama: String,
+    jenisIc: String,
+    ic: String,
+    tarikhLahir: String,
+    tarikhKedatangan: String,
     jantina: String,
-    tarikhKedatangan: String!,
+    umur: Int,
+    alamat: String,
+    waktuSampai: String,
+    kategoriPesakit: String,
+    kumpulanEtnik: String,
+    rujukDaripada: String,
   }
   type RootQuery {
     patients: [Patient!]

@@ -22,18 +22,26 @@ const UmumSchema = new mongoose.Schema(
     // pendaftaran --------------------------------
     nama: {
       type: String,
-      required: [true, 'Please provide nama'],
+      // required: [true, 'Please provide nama'],
+      trim: true,
+    },
+    jenisIc: {
+      type: String,
+      // required: [true, 'Please provide jenis ic'],
       trim: true,
     },
     ic: {
       type: String,
-      required: [true, 'Please provide IC'],
-      // required: [true, 'Please provide nama'],
+      // required: [true, 'Please provide IC'],
       trim: true,
     },
     tarikhKedatangan: {
       type: String,
       // required: [true, 'Please provide tarikh kedatangan'],
+    },
+    waktuSampai: {
+      type: String,
+      // required: [true, 'Please provide waktu sampai'],
     },
     tarikhLahir: {
       type: String,
@@ -47,26 +55,22 @@ const UmumSchema = new mongoose.Schema(
       type: Number,
       // required: [true, 'Please provide umur'],
     },
-    //pendaftaran --------------------------------
-    tarikhLahir: {
-      //Leong added this
-      //dropdown menu
+    kategoriPesakit: {
+      type: String,
+      // required: [true, 'Please provide kategori pesakit'],
     },
-    statusOKU: {
-      //Leong added this
-      //nak tahu OKU atau tidak - utk generate reten PG211
+    kumpulanEtnik: {
+      type: String,
+      // required: [true, 'Please provide kumpulan etnik'],
     },
+    rujukDaripada: {
+      type: String,
+      // required: [true, 'Please provide rujuk dari'],
+    },
+    // end of pg101
     statusPesara: {
       //Leong added this
       //nak tahu pesara kerajaan atau ATM atau tidak - utk generate reten PG211
-    },
-    statusWarganegara: {
-      //Leong added this
-      //nak tahu warganegara atau tidak - utk generate reten PG211
-    },
-    bangsa: {
-      //Leong added this
-      //check-drop down to know the data
     },
     jenisFasilitiPerkhidmatan: {
       //Leong added this
@@ -97,10 +101,6 @@ const UmumSchema = new mongoose.Schema(
     tarikhRujukanKEPP: {
       //Leong added this
       // required: [true, 'Please provide umur'],
-    },
-    ic: {
-      type: String,
-      // required: [true, 'Please provide IC'],
     },
     tarikhMulaRawatanKEPP: {
       //Leong added this
