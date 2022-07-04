@@ -1,9 +1,13 @@
+import { useRef, useEffect, useState } from 'react';
+// import axios from 'axios';
+
 import UserHeader from '../components/UserHeader';
-import UserFooter from '../components/UserFooter';
+import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
+
 import PatientData from '../components/pt-registration/PatientData';
 import FillableForm from '../components/pt-registration/FillableForm';
-// import axios from 'axios';
-import { useRef, useEffect, useState } from 'react';
+
+import UserFooter from '../components/UserFooter';
 
 function Kaunter() {
   // const form = useRef(null);
@@ -31,6 +35,7 @@ function Kaunter() {
         encType='multipart/form-data'
       > */}
       <div className='absolute inset-0 -z-10 bg-user5'></div>
+      <KaunterHeaderLoggedIn />
       <div className='absolute inset-10 top-44 -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <div className='container px-10 h-full p-3 overflow-y-auto'>
           <PatientData showForm={showForm} setShowForm={setShowForm} />

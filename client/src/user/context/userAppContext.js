@@ -71,6 +71,7 @@ function UserAppProvider({ children }) {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
     localStorage.removeItem('fasilitiRelief');
+    localStorage.removeItem('kaunterToken');
     setUserToken(null);
     setUsername(null);
     setFasilitiRelief(null);

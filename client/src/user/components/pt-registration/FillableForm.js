@@ -1,5 +1,6 @@
-import { useMutation, gql } from '@apollo/client';
 import { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+
 export default function FillableForm({ showForm, setShowForm }) {
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
@@ -91,12 +92,12 @@ export default function FillableForm({ showForm, setShowForm }) {
             setShowForm(false);
           }}
         >
-          <button
-            className='border border-1 border-userBlack bg-user3 p-2 mt-2'
+          <span
+            className='border border-1 border-userBlack bg-user3 p-2 mt-2 hover:cursor-pointer'
             onClick={() => setShowForm(false)}
           >
-            No registration por favor
-          </button>
+            kembali
+          </span>
           <br />
           <br />
           <strong>pendaftaran</strong>
