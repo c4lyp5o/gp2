@@ -1,5 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+// kaunter import ----------------------------------------
+import KaunterLogin from './user/pages/KaunterLogin';
+// import KaunterProtectedRoute from './user/pages/KaunterProtectedRoute';
+import Kaunter from './user/pages/Kaunter';
+
 // user import ------------------------------------------
 import { UserAppProvider } from './user/context/userAppContext';
 
@@ -8,9 +13,6 @@ import UserProtectedRoute from './user/pages/UserProtectedRoute';
 import UserAfterLogin from './user/pages/UserAfterLogin';
 
 import UserNotFound from './user/pages/UserNotFound';
-
-// kaunter import ----------------------------------------
-import KaunterLogin from './user/pages/Kaunter';
 
 // admin import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
@@ -26,8 +28,15 @@ function App() {
         <UserAppProvider>
           <Routes>
             <Route path='/' element={<UserLogin />} />
-            <Route path='/kaunter/*' element={<KaunterLogin />} />
-            {/* <Route path='/kaunter/daftar' element={<KaunterDaftar />} /> */}
+            <Route path='/kaunter' element={<KaunterLogin />} />
+            <Route
+              path='/kaunter/daftar/*'
+              element={
+                // <KaunterProtectedRoute>
+                <Kaunter />
+                // </KaunterProtectedRoute>
+              }
+            />
             <Route
               path='/user/*'
               element={

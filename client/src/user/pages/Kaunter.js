@@ -5,7 +5,7 @@ import FillableForm from '../components/pt-registration/FillableForm';
 // import axios from 'axios';
 import { useRef, useEffect, useState } from 'react';
 
-export default function Kaunter() {
+function Kaunter() {
   // const form = useRef(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -108,3 +108,5 @@ export default function Kaunter() {
     </>
   );
 }
+
+export default Kaunter;
