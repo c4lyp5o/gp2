@@ -28,6 +28,35 @@ module.exports = {
     }
   },
 
+  listPatientByTarikhKedatangan: async (args) => {
+    try {
+      const patients = await Umum.find({
+        tarikhKedatangan: args.tarikhKedatangan,
+      });
+      return patients.map((pt) => {
+        return {
+          ...pt._doc,
+          _id: pt.id,
+          nama: pt.nama,
+          jenisIc: pt.jenisIc,
+          ic: pt.ic,
+          tarikhLahir: pt.tarikhLahir,
+          umur: pt.umur,
+          jantina: pt.jantina,
+          tarikhKedatangan: pt.tarikhKedatangan,
+          alamat: pt.alamat,
+          waktuSampai: pt.waktuSampai,
+          kategoriPesakit: pt.kategoriPesakit,
+          kumpulanEtnik: pt.kumpulanEtnik,
+          rujukDaripada: pt.rujukDaripada,
+          createdAt: new Date(pt._doc.createdAt).toISOString(),
+        };
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+
   patient: async (_id) => {
     try {
       const patient = await Umum.findById(_id);

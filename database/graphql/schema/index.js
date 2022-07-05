@@ -35,8 +35,9 @@ module.exports = buildSchema(`
     rujukDaripada: String,
   }
   type RootQuery {
-    patients: [Patient!]
     patient(_id: String!): Patient!
+    patients: [Patient!]
+    listPatientByTarikhKedatangan(tarikhKedatangan: String!): [Patient!]
   }
   type Mutation {
     createPatient(patient: PatientType): Patient,
