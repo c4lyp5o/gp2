@@ -37,7 +37,7 @@ function Kaunter() {
       <div className='absolute inset-0 -z-10 bg-user5'></div>
       <KaunterHeaderLoggedIn />
       <div className='absolute inset-10 top-44 -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
-        <div className='container px-10 h-full p-3 overflow-y-auto'>
+        <div className='px-10 h-full p-3 overflow-y-auto'>
           <PatientData showForm={showForm} setShowForm={setShowForm} />
           <FillableForm showForm={showForm} setShowForm={setShowForm} />
           {/* <input

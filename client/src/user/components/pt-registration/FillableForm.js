@@ -64,186 +64,206 @@ export default function FillableForm({ showForm, setShowForm }) {
 
   const [CreatePatient, { loading, error, data }] = useMutation(ADD_PATIENT);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    CreatePatient({
+      variables: {
+        nama: nama,
+        jenisIc: jenisIc,
+        ic: ic,
+        tarikhLahir: tarikhLahir,
+        tarikhKedatangan: tarikhKedatangan,
+        jantina: jantina,
+        umur: umur,
+        alamat: alamat,
+        waktuSampai: waktuSampai,
+        kategoriPesakit: kategoriPesakit,
+        kumpulanEtnik: kumpulanEtnik,
+        rujukDaripada: rujukDaripada,
+      },
+    });
+    setShowForm(false);
+  };
+
   if (loading) return <p>Submitting...</p>;
   if (error) return <p>Error :(</p>;
 
   if (showForm) {
     return (
       <>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            CreatePatient({
-              variables: {
-                nama: nama,
-                jenisIc: jenisIc,
-                ic: ic,
-                tarikhLahir: tarikhLahir,
-                tarikhKedatangan: tarikhKedatangan,
-                jantina: jantina,
-                umur: umur,
-                alamat: alamat,
-                waktuSampai: waktuSampai,
-                kategoriPesakit: kategoriPesakit,
-                kumpulanEtnik: kumpulanEtnik,
-                rujukDaripada: rujukDaripada,
-              },
-            });
-            setShowForm(false);
-          }}
-        >
-          <span
-            className='border border-1 border-userBlack bg-user3 p-2 mt-2 hover:cursor-pointer'
-            onClick={() => setShowForm(false)}
-          >
-            kembali
-          </span>
-          <br />
-          <br />
-          <strong>pendaftaran</strong>
-          <br />
-          <div className='text-right'>
-            <strong>tarikh kedatangan: </strong>
-            <input
-              onChange={(e) => setTarikhKedatangan(e.target.value)}
-              type='date'
-              name='tarikhKedatangan'
-            />
-          </div>
-          <div className='text-left'>
-            <strong>nama: </strong>
-            <input
-              onChange={(e) => setNama(e.target.value)}
-              type='text'
-              name='namaUmum'
-            />
-          </div>
-          <br />
-          <div className='text-left'>
-            <select
-              name='pengenalan'
-              id='pengenalan'
-              onChange={(e) => setJenisIc(e.target.value)}
-            >
-              <option value='plsSlct'>Sila pilih..</option>
-              <option value='mykad'>MyKad</option>
-              <option value='passport'>Passport</option>
-              <option value='tentera'>tentera</option>
-              <option value='polis'>polis</option>
-              <option value='sijil'>sijil lahir</option>
-            </select>
-            <input
-              onChange={(e) => setIc(e.target.value)}
-              type='text'
-              name='ic'
-            />
-          </div>
-          <br />
-          <div className='text-left'>
-            <strong>tarikh lahir: </strong>
-            <input
-              onChange={(e) => setTarikhLahir(e.target.value)}
-              type='date'
-              name='tarikhLahir'
-            />
-            <div className='text-left'>
-              <strong>umur: </strong>
+        <form onSubmit={handleSubmit}>
+          <h1 className='bg-user3 font-bold text-2xl'>pendaftaran</h1>
+          <div className='grid'>
+            <div className='flex m-2 ml-auto'>
+              <p className='mr-3 font-semibold'>tarikh kedatangan: </p>
               <input
+                required
+                onChange={(e) => setTarikhKedatangan(e.target.value)}
+                type='date'
+                name='tarikhKedatangan'
+                className='outline outline-1 outline-userBlack'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>nama: </p>
+              <input
+                required
+                onChange={(e) => setNama(e.target.value)}
+                type='text'
+                name='namaUmum'
+                className='appearance-none w-7/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>jenis pengenalan</p>
+              <select
+                required
+                name='pengenalan'
+                id='pengenalan'
+                onChange={(e) => setJenisIc(e.target.value)}
+                className='mr-3'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='mykad'>MyKad</option>
+                <option value='passport'>Passport</option>
+                <option value='tentera'>Tentera</option>
+                <option value='polis'>Polis</option>
+                <option value='sijil-lahir'>Sijil lahir</option>
+              </select>
+              <input
+                required
+                onChange={(e) => setIc(e.target.value)}
+                type='text'
+                name='ic'
+                placeholder='123456-09-0987'
+                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>tarikh lahir: </p>
+              <input
+                required
+                onChange={(e) => setTarikhLahir(e.target.value)}
+                type='date'
+                name='tarikhLahir'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>umur: </p>
+              <input
+                required
                 onChange={(e) => setUmur(parseInt(e.target.value))}
                 type='number'
                 name='umur'
+                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
               />
             </div>
-            <div className='text-left'>
-              <strong>jantina: </strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>jantina: </p>
               <select
+                required
                 name='jantina'
                 id='jantina'
                 onChange={(e) => setJantina(e.target.value)}
               >
-                <option value='plsSlct'>Sila pilih..</option>
+                <option value=''>Sila pilih..</option>
                 <option value='lelaki'>lelaki</option>
                 <option value='perempuan'>perempuan</option>
               </select>
             </div>
-            <div className='text-left'>
-              <strong>alamat: </strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>alamat: </p>
               <input
+                required
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
+                className='appearance-none w-10/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </div>
-            <div className='text-left'>
-              <strong>waktu sampai: </strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>waktu sampai: </p>
               <input
+                required
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
+                className='outline outline-1 outline-userBlack'
               />
             </div>
-            <div className='text-left'>
-              <strong>kategori pesakit:</strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>kategori pesakit:</p>
               <select
+                required
                 name='kategoriPesakit'
                 id='kategoriPesakit'
                 onChange={(e) => setKategoriPesakit(e.target.value)}
               >
-                <option value='plsSlct'>Sila pilih..</option>
-                <option value='toddler'>toddler (0 - 4) tahun</option>
-                <option value='prasek'>prasekolah (5 - 6) tahun</option>
-                <option value='sekolahrendah'>sekolah rendah</option>
-                <option value='sekolahmenengah'>sekolah menengah</option>
-                <option value='oku'>oku</option>
-                <option value='hamil'>ibu mengandung</option>
-                <option value='dewasa'>dewasa</option>
-                <option value='wargatua'>warga tua</option>
+                <option value=''>Sila pilih..</option>
+                <option value='toddler'>Toddler (0 - 4) tahun</option>
+                <option value='prasekolah'>Prasekolah (5 - 6) tahun</option>
+                <option value='sekolahrendah'>Sekolah rendah</option>
+                <option value='sekolahmenengah'>Sekolah menengah</option>
+                <option value='oku'>OKU</option>
+                <option value='hamil'>Ibu mengandung</option>
+                <option value='dewasa'>Dewasa</option>
+                <option value='warga-tua'>Warga tua</option>
               </select>
             </div>
-            <div className='text-left'>
-              <strong>kumpulan etnik:</strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>kumpulan etnik:</p>
               <select
+                required
                 name='kumpulanEtnik'
                 id='kumpulanEtnik'
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
               >
-                <option value='plsSlct'>Sila pilih..</option>
-                <option value='melayu'>melayu</option>
-                <option value='cina'>cina</option>
-                <option value='india'>india</option>
-                <option value='bajau'>bajau</option>
-                <option value='dusun'>dusun</option>
-                <option value='kadazan'>kadazan</option>
-                <option value='murut'>murut</option>
-                <option value='bumiputerasabahlain'>
-                  bumiputera sabah lain
+                <option value=''>Sila pilih..</option>
+                <option value='melayu'>Melayu</option>
+                <option value='cina'>Cina</option>
+                <option value='india'>India</option>
+                <option value='bajau'>Bajau</option>
+                <option value='dusun'>Dusun</option>
+                <option value='kadazan'>Kadazan</option>
+                <option value='murut'>Murut</option>
+                <option value='bumiputera-sabah-lain'>
+                  Bumiputera sabah lain
                 </option>
-                <option value='melanau'>melanau</option>
-                <option value='kedayan'>kedayan</option>
-                <option value='iban'>iban</option>
-                <option value='bidayuh'>bidayuh</option>
-                <option value='bumiputerasarawaklain'>
-                  bumiputera sarawak lain
+                <option value='melanau'>Melanau</option>
+                <option value='kedayan'>Kedayan</option>
+                <option value='iban'>Iban</option>
+                <option value='bidayuh'>Bidayuh</option>
+                <option value='bumiputera-sarawak-lain'>
+                  Bumiputera sarawak lain
                 </option>
-                <option value='orangAsli'>orang asli semenanjung</option>
-                <option value='lain-lain'>lain-lain</option>
-                <option value='non'>bukan warganegara</option>
+                <option value='orang-asli-semenanjung'>
+                  Orang asli semenanjung
+                </option>
+                <option value='lain-lain'>Lain-lain</option>
+                <option value='bukan-warganegara'>Bukan warganegara</option>
               </select>
             </div>
-            <div className='text-left mt-2'>
-              <strong>rujuk daripada:</strong>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>rujuk daripada:</p>
               <input
                 onChange={(e) => setRujukDaripada(e.target.value)}
                 type='text'
                 name='rujukDaripada'
+                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </div>
           </div>
+          <span
+            onClick={() => setShowForm(false)}
+            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite hover:cursor-pointer transition-all'
+          >
+            kembali
+          </span>
           <button
-            className='border border-1 border-userBlack bg-user3 p-2 mt-2 items-left'
             type='submit'
+            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
           >
             Submit
           </button>
