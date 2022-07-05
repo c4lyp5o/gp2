@@ -19,7 +19,11 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
-    // pendaftaran --------------------------------
+    // pendaftaran pg101 --------------------------------------------------
+    tarikhKedatangan: {
+      type: String,
+      // required: [true, 'Please provide tarikh kedatangan'],
+    },
     nama: {
       type: String,
       // required: [true, 'Please provide nama'],
@@ -35,25 +39,24 @@ const UmumSchema = new mongoose.Schema(
       // required: [true, 'Please provide IC'],
       trim: true,
     },
-    tarikhKedatangan: {
-      type: String,
-      // required: [true, 'Please provide tarikh kedatangan'],
-    },
-    waktuSampai: {
-      type: String,
-      // required: [true, 'Please provide waktu sampai'],
-    },
     tarikhLahir: {
       type: String,
       // required: [true, 'Please provide tarikh lahir'],
+    },
+    umur: {
+      type: Number,
+      // required: [true, 'Please provide umur'],
     },
     jantina: {
       type: String,
       // required: [true, 'Please provide jantina'],
     },
-    umur: {
-      type: Number,
-      // required: [true, 'Please provide umur'],
+    alamat: {
+      type: String,
+    },
+    waktuSampai: {
+      type: String,
+      // required: [true, 'Please provide waktu sampai'],
     },
     kategoriPesakit: {
       type: String,
@@ -67,7 +70,7 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       // required: [true, 'Please provide rujuk dari'],
     },
-    // end of pg101
+    // end of pendaftaran pg101 -------------------------------------------
     statusPesara: {
       //Leong added this
       //nak tahu pesara kerajaan atau ATM atau tidak - utk generate reten PG211

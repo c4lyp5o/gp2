@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -79,11 +79,11 @@ export default function FillableForm({ showForm, setShowForm }) {
         tarikhKedatangan: tarikhKedatangan,
         jantina: jantina,
         umur: umur,
-        alamat: alamat.toLowerCase(),
+        alamat: alamat,
         waktuSampai: waktuSampai,
         kategoriPesakit: kategoriPesakit,
         kumpulanEtnik: kumpulanEtnik,
-        rujukDaripada: rujukDaripada.toLowerCase(),
+        rujukDaripada: rujukDaripada,
       },
     });
     setShowForm(false);
@@ -97,20 +97,28 @@ export default function FillableForm({ showForm, setShowForm }) {
       <>
         <form onSubmit={handleSubmit}>
           <h1 className='bg-user3 font-bold text-2xl'>pendaftaran</h1>
+          <p className='font-semibold text-user6 text-left mt-3 ml-3'>
+            * required
+          </p>
           <div className='grid'>
             <div className='flex m-2 ml-auto'>
-              <p className='mr-3 font-semibold'>tarikh kedatangan: </p>
+              <p className='mr-3 font-semibold'>
+                tarikh kedatangan:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
+                value={tarikhKedatangan}
                 onChange={(e) => setTarikhKedatangan(e.target.value)}
                 type='date'
                 name='tarikhKedatangan'
                 className='outline outline-1 outline-userBlack'
-                value={tarikhKedatangan}
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>nama: </p>
+              <p className='mr-3 font-semibold'>
+                nama: <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
                 onChange={(e) => setNama(e.target.value)}
@@ -120,7 +128,10 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>jenis pengenalan</p>
+              <p className='mr-3 font-semibold'>
+                jenis pengenalan{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <select
                 required
                 name='pengenalan'
@@ -145,7 +156,10 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>tarikh lahir: </p>
+              <p className='mr-3 font-semibold'>
+                tarikh lahir:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
                 onChange={(e) => setTarikhLahir(e.target.value)}
@@ -154,7 +168,9 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>umur: </p>
+              <p className='mr-3 font-semibold'>
+                umur: <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
                 onChange={(e) => setUmur(parseInt(e.target.value))}
@@ -164,7 +180,9 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>jantina: </p>
+              <p className='mr-3 font-semibold'>
+                jantina: <span className='font-semibold text-user6'>*</span>
+              </p>
               <select
                 required
                 name='jantina'
@@ -172,12 +190,14 @@ export default function FillableForm({ showForm, setShowForm }) {
                 onChange={(e) => setJantina(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
-                <option value='lelaki'>lelaki</option>
-                <option value='perempuan'>perempuan</option>
+                <option value='lelaki'>Lelaki</option>
+                <option value='perempuan'>Perempuan</option>
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>alamat: </p>
+              <p className='mr-3 font-semibold'>
+                alamat: <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
                 onChange={(e) => setAlamat(e.target.value)}
@@ -187,7 +207,10 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>waktu sampai: </p>
+              <p className='mr-3 font-semibold'>
+                waktu sampai:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <input
                 required
                 onChange={(e) => setWaktuSampai(e.target.value)}
@@ -197,7 +220,10 @@ export default function FillableForm({ showForm, setShowForm }) {
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>kategori pesakit:</p>
+              <p className='mr-3 font-semibold'>
+                kategori pesakit:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <select
                 required
                 name='kategoriPesakit'
@@ -216,7 +242,10 @@ export default function FillableForm({ showForm, setShowForm }) {
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>kumpulan etnik:</p>
+              <p className='mr-3 font-semibold'>
+                kumpulan etnik:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
               <select
                 required
                 name='kumpulanEtnik'
@@ -251,7 +280,7 @@ export default function FillableForm({ showForm, setShowForm }) {
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>rujuk daripada:</p>
+              <p className='mr-3 font-semibold'>rujuk daripada: </p>
               <input
                 onChange={(e) => setRujukDaripada(e.target.value)}
                 type='text'
@@ -270,7 +299,7 @@ export default function FillableForm({ showForm, setShowForm }) {
             type='submit'
             className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
           >
-            Submit
+            daftar
           </button>
         </form>
       </>

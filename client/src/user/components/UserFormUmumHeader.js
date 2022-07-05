@@ -18,15 +18,27 @@ function UserFormUmumHeader() {
 
   const { personUmumId } = useParams();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isShown, setIsShown] = useState(false);
-  const [showKemaskini, setShowKemasKini] = useState(true);
+  const [singlePersonUmum, setSinglePersonUmum] = useState([]);
+  const [showKemaskini, setShowKemasKini] = useState(false);
 
   // creating masterForm object to be used by the form
   const masterForm = {};
 
   useEffect(() => {
-    // do something..
-  });
+    const fetchSinglePersonUmum = async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+        setSinglePersonUmum(data.singlePersonUmum);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSinglePersonUmum();
+  }, [showKemaskini]);
 
   const kemaskini = () => {
     setShowKemasKini(true);
@@ -58,55 +70,47 @@ function UserFormUmumHeader() {
                 <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
                   <div className='flex flex-row text-sm'>
                     <h2 className='font-semibold'>NAMA :</h2>
-                    <p className='ml-1'>lee been cheng</p>
+                    <p className='ml-1'>{singlePersonUmum.nama}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>IC/PASSPORT :</h2>
-                    <p className='ml-1'>902234-14-7631</p>
+                    <p className='ml-1'>{singlePersonUmum.ic}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>JANTINA :</h2>
-                    <p className='ml-1'>lelaki</p>
+                    <p className='ml-1'>{singlePersonUmum.jantina}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
                     <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                    <p className='ml-1'>14-3-1990</p>
+                    <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>WARGANEGARA :</h2>
-                    <p className='ml-1'>malaysia</p>
+                    <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                    <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
                   </div>
                   <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>BANGSA :</h2>
-                    <p className='ml-1'>melayu</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>OKU :</h2>
-                    <p className='ml-1'>tidak</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>PESARA :</h2>
-                    <p className='ml-1'>tidak</p>
+                    <h2 className='font-semibold'>KATEGORI PESAKIT :</h2>
+                    <p className='ml-1'>{singlePersonUmum.kategoriPesakit}</p>
                   </div>
                 </div>
               )}
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>NAMA :</h2>
-                <p className='ml-1'>lee been cheng</p>
+                <p className='ml-1'>{singlePersonUmum.nama}</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>UMUR :</h2>
-                <p className='ml-1'>35 tahun</p>
+                <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
               </div>
             </div>
             <div className='md:pt-10'>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>JANTINA :</h2>
-                <p className='ml-1'>lelaki</p>
+                <p className='ml-1'>{singlePersonUmum.jantina}</p>
               </div>
               <div className='text-s flex flex-row pl-5'>
                 <h2 className='font-semibold'>IC/Passport :</h2>
-                <p className='ml-1'>902234-14-7631</p>
+                <p className='ml-1'>{singlePersonUmum.ic}</p>
               </div>
               <button
                 onClick={kemaskini}
@@ -142,7 +146,12 @@ function UserFormUmumHeader() {
           </div>
         </form>
       </div>
-      {showKemaskini && <Kemaskini setShowKemaskini={setShowKemasKini} />}
+      {showKemaskini && (
+        <Kemaskini
+          showKemaskini={showKemaskini}
+          setShowKemaskini={setShowKemasKini}
+        />
+      )}
     </>
   );
 }
