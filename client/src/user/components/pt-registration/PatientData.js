@@ -1,28 +1,9 @@
 import { useQuery, gql } from '@apollo/client';
 
+import { useGlobalUserAppContext } from '../../context/userAppContext';
+
 export default function PatientData({ showForm, setShowForm }) {
-  // const { data, loading, error } = useQuery(
-  //   gql`
-  //     query {
-  //       listPatientByTarikhKedatangan(tarikhKedatangan: "2022-07-06") {
-  //         _id
-  //         nama
-  //         jenisIc
-  //         ic
-  //         tarikhLahir
-  //         umur
-  //         jantina
-  //         tarikhKedatangan
-  //         alamat
-  //         waktuSampai
-  //         kategoriPesakit
-  //         kumpulanEtnik
-  //         rujukDaripada
-  //         createdAt
-  //       }
-  //     }
-  //   `
-  // );
+  const { dateToday } = useGlobalUserAppContext();
 
   const GET_PATIENT_BY_TARIKH_KEDATANGAN = gql`
     query getPatientByTarikhKedatangan($tarikhKedatangan: String!) {
@@ -47,24 +28,9 @@ export default function PatientData({ showForm, setShowForm }) {
 
   const { loading, error, data } = useQuery(GET_PATIENT_BY_TARIKH_KEDATANGAN, {
     variables: {
-      tarikhKedatangan: '2022-07-06',
+      tarikhKedatangan: `${dateToday}`,
     },
   });
-
-  // const GET_PATIENTS = gql`
-  //   query {
-  //     patients {
-  //       nama
-  //       ic
-  //       tarikhLahir
-  //       umur
-  //       jantina
-  //       tarikhKedatangan
-  //     }
-  //   }
-  // `;
-
-  // const { loading, error, data } = useQuery(GET_PATIENTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;

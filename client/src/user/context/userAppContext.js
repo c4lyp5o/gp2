@@ -8,6 +8,13 @@ const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const storageKaunterToken = localStorage.getItem('kaunterToken');
 
+// get a date for today
+const rawToday = new Date();
+const dd = String(rawToday.getDate()).padStart(2, '0');
+const mm = String(rawToday.getMonth() + 1).padStart(2, '0');
+const yyyy = rawToday.getFullYear();
+const dateToday = yyyy + '-' + mm + '-' + dd;
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -99,6 +106,7 @@ function UserAppProvider({ children }) {
         loginKaunter,
         catchAxiosErrorAndLogout,
         useParams,
+        dateToday,
       }}
     >
       {children}

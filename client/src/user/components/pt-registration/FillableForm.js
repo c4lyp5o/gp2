@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
+import { useGlobalUserAppContext } from '../../context/userAppContext';
+
 export default function FillableForm({ showForm, setShowForm }) {
+  const { dateToday } = useGlobalUserAppContext();
+
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
   const [umur, setUmur] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState('');
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
@@ -102,6 +106,7 @@ export default function FillableForm({ showForm, setShowForm }) {
                 type='date'
                 name='tarikhKedatangan'
                 className='outline outline-1 outline-userBlack'
+                value={tarikhKedatangan}
               />
             </div>
             <div className='flex m-2'>
