@@ -1,6 +1,9 @@
 // CORE ----------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
+// KAUNTER IS USING GRAPHQL (TEST)
+const { graphqlHTTP } = require('express-graphql');
+// KAUNTER IS USING GRAPHQL (TEST)
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,6 +14,7 @@ const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const sekolah = require('./routes/sekolah');
+const umum = require('./routes/umum');
 // const tadika = require('./routes/tadika');
 // const allQueryRoute = require('./routes/allQueryRoute');
 
@@ -32,16 +36,33 @@ const genAuth = require('./middlewares/genAuth').verifyToken;
 // DATABASE ------------------------------------------------
 const connectDB = require('./database/connect');
 
+// KAUNTER IS USING GRAPHQL (TEST)
+const graphQlSchema = require('./database/graphql/schema');
+const graphQlResolvers = require('./database/graphql/resolvers');
+// KAUNTER IS USING GRAPHQL (TEST)
+
 // MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json());
+
+// KAUNTER IS USING GRAPHQL (TEST)
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
+    graphiql: true,
+  })
+);
+// KAUNTER IS USING GRAPHQL (TEST)
 
 // user route
 app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/sekolah', authCheck, sekolah);
+app.use('/api/v1/umum', authCheck, umum);
 // app.use('/api/v1/tadika', authCheck, tadika);
 // app.use('/api/v1/query', authCheck, allQueryRoute);
 

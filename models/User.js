@@ -24,9 +24,8 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please provide account type'],
     enum: {
-      values: ['negaraUser', 'negeriUser', 'daerahUser', 'kpUser'],
-      message:
-        '{VALUE} is not supported. Provide only "negaraUser", "negeriUser", "daerahUser", "kpUser"',
+      values: ['kpUser', 'kaunterUser'],
+      message: '{VALUE} is not supported. Provide only "kpUser", "kaunterUser"',
     },
   },
   password: {

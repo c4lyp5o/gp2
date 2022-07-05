@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,12 +6,23 @@ const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
 const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
+const storageKaunterToken = localStorage.getItem('kaunterToken');
+
+// get a date for today
+const rawToday = new Date();
+const dd = String(rawToday.getDate()).padStart(2, '0');
+const mm = String(rawToday.getMonth() + 1).padStart(2, '0');
+const yyyy = rawToday.getFullYear();
+const dateToday = yyyy + '-' + mm + '-' + dd;
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
   const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
+
+  const [kaunterToken, setKaunterToken] = useState(storageKaunterToken);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
@@ -43,10 +54,31 @@ function UserAppProvider({ children }) {
     }
   };
 
+  const loginKaunter = async ({ username, password }) => {
+    try {
+      const { data } = await axios.post('/api/v1/auth/kaunter/login', {
+        username,
+        password,
+      });
+      localStorage.setItem('kaunterToken', data.kaunterToken);
+      setKaunterToken(data.kaunterToken);
+      navigate('/kaunter/daftar');
+    } catch (error) {
+      catchAxiosErrorAndLogout();
+      setLoginErrorMessage(error.response.data.msg);
+      setIsLoginError(true);
+      setTimeout(() => {
+        setIsLoginError(false);
+      }, 3000);
+      navigate('/kaunter');
+    }
+  };
+
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
     localStorage.removeItem('fasilitiRelief');
+    localStorage.removeItem('kaunterToken');
     setUserToken(null);
     setUsername(null);
     setFasilitiRelief(null);
@@ -60,6 +92,7 @@ function UserAppProvider({ children }) {
         setUsername,
         fasilitiRelief,
         setFasilitiRelief,
+        kaunterToken,
         loginErrorMessage,
         isLoginError,
         displayLoginForm,
@@ -70,8 +103,10 @@ function UserAppProvider({ children }) {
         setDisplayPilihFasiliti,
         navigate,
         loginUser,
+        loginKaunter,
         catchAxiosErrorAndLogout,
         useParams,
+        dateToday,
       }}
     >
       {children}

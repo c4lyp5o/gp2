@@ -4,8 +4,9 @@ import { FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
+import Kemaskini from './form-umum/Kemaskini';
 import FasilitiPerkhidmatan from './form-umum/FasilitiPerkhidmatan';
-// import MaklumatLanjut from './form-umum/MaklumatLanjut';
+import MaklumatLanjut from './form-umum/MaklumatLanjut';
 // import Pemeriksaan from './form-umum/Pemeriksaan';
 import Rawatan from './form-umum/Rawatan';
 import Promosi from './form-umum/Promosi';
@@ -18,6 +19,7 @@ function UserFormUmumHeader() {
   const { personUmumId } = useParams();
 
   const [isShown, setIsShown] = useState(false);
+  const [showKemaskini, setShowKemasKini] = useState(true);
 
   // creating masterForm object to be used by the form
   const masterForm = {};
@@ -27,7 +29,7 @@ function UserFormUmumHeader() {
   });
 
   const kemaskini = () => {
-    // do something..
+    setShowKemasKini(true);
   };
 
   const handleSubmit = () => {
@@ -117,7 +119,7 @@ function UserFormUmumHeader() {
         </div>
         <form onSubmit={handleSubmit}>
           <FasilitiPerkhidmatan {...masterForm} />
-          {/* <MaklumatLanjut {...masterForm} /> */}
+          <MaklumatLanjut {...masterForm} />
           {/* <Pemeriksaan {...masterForm} /> */}
           <Rawatan {...masterForm} />
           <Promosi {...masterForm} />
@@ -140,6 +142,7 @@ function UserFormUmumHeader() {
           </div>
         </form>
       </div>
+      {showKemaskini && <Kemaskini setShowKemaskini={setShowKemasKini} />}
     </>
   );
 }

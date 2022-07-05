@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const handleSubmit = (e) => {
   e.preventDefault();
   // do something..
@@ -90,9 +92,12 @@ function UserUmum() {
               <h2 className='font-semibold'>IC/Passport :</h2>
               <p className='ml-1'>210145-12-2344</p>
             </div>
-            <button className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'>
+            <Link
+              to='/user/form-umum/123'
+              className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+            >
               masukkan reten
-            </button>
+            </Link>
           </div>
         </section>
       </div>

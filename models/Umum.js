@@ -22,18 +22,26 @@ const UmumSchema = new mongoose.Schema(
     // pendaftaran --------------------------------
     nama: {
       type: String,
-      required: [true, 'Please provide nama'],
-      trim: true,    
+      // required: [true, 'Please provide nama'],
+      trim: true,
+    },
+    jenisIc: {
+      type: String,
+      // required: [true, 'Please provide jenis ic'],
+      trim: true,
     },
     ic: {
       type: String,
-      required: [true, 'Please provide IC'],
-      // required: [true, 'Please provide nama'],
+      // required: [true, 'Please provide IC'],
       trim: true,
     },
     tarikhKedatangan: {
       type: String,
       // required: [true, 'Please provide tarikh kedatangan'],
+    },
+    waktuSampai: {
+      type: String,
+      // required: [true, 'Please provide waktu sampai'],
     },
     tarikhLahir: {
       type: String,
@@ -45,82 +53,97 @@ const UmumSchema = new mongoose.Schema(
     },
     umur: {
       type: Number,
-      required: [true, 'Please provide umur'], 
-    },
-    //pendaftaran --------------------------------
-    tarikhLahir:{    //Leong added this 
-      //dropdown menu 
-    },
-    statusOKU:{   //Leong added this 
-      //nak tahu OKU atau tidak - utk generate reten PG211
-    },
-    statusPesara:{ //Leong added this 
-      //nak tahu pesara kerajaan atau ATM atau tidak - utk generate reten PG211
-    }, 
-    statusWarganegara:{   //Leong added this 
-      //nak tahu warganegara atau tidak - utk generate reten PG211
-    },
-    bangsa:{   //Leong added this 
-        //check-drop down to know the data 
-    },
-    jenisFasilitiPerkhidmatan:{ //Leong added this
-        //check-drop down to know the data 
-    },
-    kedatanganSemasa:{ //Leong added this
-      //baru atau ulangan 
-    },
-    ibuMengandung:{ //Leong added this
-        //ya atau tidak 
-    },
-    episodMengandung:{
-      //diisi jika patient mengandung
-      //baru atau ulangan;
-      //Contoh: patient A dtg Januari 2022 ; patient A mengandung 8 bulan then kira episod baru 
-      //Patient A then bersalin April 2022 ; 
-      //patient A dtg klinik june 2022 ; kira dewasa ; kedatangan semasa = ulangan ; episode tiada ; sbb not ibu mengandung
-      //then patient A mengandung kali kedua dan dtg Aug 2022 ; kira ibu mengandung ; episode baru ; 
-      // kalau patient A dtg sep 2022 for appt ; kira ibu mengandung ; episode ulangan; 
-      //utk reten 207 punya ; 
-    },
-    kedatanganKEPP:{ //Leong added this
-      //baru atau ulangan
-    },
-    tarikhRujukanKEPP:{ //Leong added this
       // required: [true, 'Please provide umur'],
     },
-    ic: {
+    kategoriPesakit: {
       type: String,
-      // required: [true, 'Please provide IC'],
+      // required: [true, 'Please provide kategori pesakit'],
     },
-    tarikhMulaRawatanKEPP:{ //Leong added this 
+    kumpulanEtnik: {
+      type: String,
+      // required: [true, 'Please provide kumpulan etnik'],
     },
-    penyampaianPerkhidmatanBergerak:{ //Leong added this
+    rujukDaripada: {
+      type: String,
+      // required: [true, 'Please provide rujuk dari'],
     },
-    kampungAngkat:{ //Leong added this
+    // end of pg101
+    statusPesara: {
+      //Leong added this
+      //nak tahu pesara kerajaan atau ATM atau tidak - utk generate reten PG211
     },
-    institusiOKU:{ //Leong added this
+    jenisFasilitiPerkhidmatan: {
+      //Leong added this
+      //check-drop down to know the data
     },
-    institusiWargaEmas:{ //Leong added this
+    kedatanganSemasa: {
+      //Leong added this
+      //baru atau ulangan
     },
-    jenisFasilitiTadika:{ //Leong added this
+    ibuMengandung: {
+      //Leong added this
+      //ya atau tidak
     },
-    namaFasilitiTadika:{ //Leong added this
+    episodMengandung: {
+      //diisi jika patient mengandung
+      //baru atau ulangan;
+      //Contoh: patient A dtg Januari 2022 ; patient A mengandung 8 bulan then kira episod baru
+      //Patient A then bersalin April 2022 ;
+      //patient A dtg klinik june 2022 ; kira dewasa ; kedatangan semasa = ulangan ; episode tiada ; sbb not ibu mengandung
+      //then patient A mengandung kali kedua dan dtg Aug 2022 ; kira ibu mengandung ; episode baru ;
+      // kalau patient A dtg sep 2022 for appt ; kira ibu mengandung ; episode ulangan;
+      //utk reten 207 punya ;
     },
-    enrolmenTadika:{ //Leong added this
+    kedatanganKEPP: {
+      //Leong added this
+      //baru atau ulangan
     },
-    baruUlanganKedatanganEnrolmenTadika:{ //Leong added this
+    tarikhRujukanKEPP: {
+      //Leong added this
+      // required: [true, 'Please provide umur'],
     },
-    engganKedatanganEnrolmenTadika:{ //Leong added this
+    tarikhMulaRawatanKEPP: {
+      //Leong added this
     },
-    tidakHadirKedatanganEnrolmenTadika:{ //Leong added this
+    penyampaianPerkhidmatanBergerak: {
+      //Leong added this
     },
-    adaTiadaPemeriksaanEnrolmenTadika:{ //Leong added this
+    kampungAngkat: {
+      //Leong added this
     },
-    enrolmenKolejAtauIPG:{ //Leong added this
+    institusiOKU: {
+      //Leong added this
     },
-    jenisInstitusiKolejAtauIPG:{ //Leong added this
+    institusiWargaEmas: {
+      //Leong added this
     },
-
+    jenisFasilitiTadika: {
+      //Leong added this
+    },
+    namaFasilitiTadika: {
+      //Leong added this
+    },
+    enrolmenTadika: {
+      //Leong added this
+    },
+    baruUlanganKedatanganEnrolmenTadika: {
+      //Leong added this
+    },
+    engganKedatanganEnrolmenTadika: {
+      //Leong added this
+    },
+    tidakHadirKedatanganEnrolmenTadika: {
+      //Leong added this
+    },
+    adaTiadaPemeriksaanEnrolmenTadika: {
+      //Leong added this
+    },
+    enrolmenKolejAtauIPG: {
+      //Leong added this
+    },
+    jenisInstitusiKolejAtauIPG: {
+      //Leong added this
+    },
   },
   { timestamps: true }
 );
