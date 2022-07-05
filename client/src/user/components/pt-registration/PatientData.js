@@ -1,11 +1,35 @@
 import { useQuery, gql } from '@apollo/client';
 
 export default function PatientData({ showForm, setShowForm }) {
-  const GET_PATIENT_USING_DATE = gql`
-    query listPatientByTarikhKedatangan($date: String!) {
-      patient(tarikhKedatangan: "2022-07-06") {
+  // const { data, loading, error } = useQuery(
+  //   gql`
+  //     query {
+  //       listPatientByTarikhKedatangan(tarikhKedatangan: "2022-07-06") {
+  //         _id
+  //         nama
+  //         jenisIc
+  //         ic
+  //         tarikhLahir
+  //         umur
+  //         jantina
+  //         tarikhKedatangan
+  //         alamat
+  //         waktuSampai
+  //         kategoriPesakit
+  //         kumpulanEtnik
+  //         rujukDaripada
+  //         createdAt
+  //       }
+  //     }
+  //   `
+  // );
+
+  const GET_PATIENT_BY_TARIKH_KEDATANGAN = gql`
+    query getPatientByTarikhKedatangan($tarikhKedatangan: String!) {
+      listPatientByTarikhKedatangan(tarikhKedatangan: $tarikhKedatangan) {
         _id
         nama
+        jenisIc
         ic
         tarikhLahir
         umur
@@ -20,7 +44,12 @@ export default function PatientData({ showForm, setShowForm }) {
       }
     }
   `;
-  const { loading, error, data } = useQuery(GET_PATIENT_USING_DATE);
+
+  const { loading, error, data } = useQuery(GET_PATIENT_BY_TARIKH_KEDATANGAN, {
+    variables: {
+      tarikhKedatangan: '2022-07-06',
+    },
+  });
 
   // const GET_PATIENTS = gql`
   //   query {
@@ -58,7 +87,7 @@ export default function PatientData({ showForm, setShowForm }) {
         </button>
         <div className='border mt-2'>
           <div className='justify-center items-center'>
-            {data.patients.map((p, index) => (
+            {data.listPatientByTarikhKedatangan.map((p, index) => (
               <>
                 <div key={index}>
                   <p>Nama: {p.nama}</p>
