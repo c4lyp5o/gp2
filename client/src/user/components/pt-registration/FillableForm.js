@@ -72,18 +72,18 @@ export default function FillableForm({ showForm, setShowForm }) {
     e.preventDefault();
     CreatePatient({
       variables: {
-        nama: nama,
+        nama: nama.toLowerCase(),
         jenisIc: jenisIc,
         ic: ic,
         tarikhLahir: tarikhLahir,
         tarikhKedatangan: tarikhKedatangan,
         jantina: jantina,
         umur: umur,
-        alamat: alamat,
+        alamat: alamat.toLowerCase(),
         waktuSampai: waktuSampai,
         kategoriPesakit: kategoriPesakit,
         kumpulanEtnik: kumpulanEtnik,
-        rujukDaripada: rujukDaripada,
+        rujukDaripada: rujukDaripada.toLowerCase(),
       },
     });
     setShowForm(false);
