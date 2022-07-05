@@ -1,20 +1,41 @@
 import { useQuery, gql } from '@apollo/client';
 
 export default function PatientData({ showForm, setShowForm }) {
-  const GET_PATIENTS = gql`
-    query {
-      patients {
+  const GET_PATIENT_USING_DATE = gql`
+    query listPatientByTarikhKedatangan($date: String!) {
+      patient(tarikhKedatangan: "2022-07-06") {
+        _id
         nama
         ic
         tarikhLahir
         umur
         jantina
         tarikhKedatangan
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+        createdAt
       }
     }
   `;
+  const { loading, error, data } = useQuery(GET_PATIENT_USING_DATE);
 
-  const { loading, error, data } = useQuery(GET_PATIENTS);
+  // const GET_PATIENTS = gql`
+  //   query {
+  //     patients {
+  //       nama
+  //       ic
+  //       tarikhLahir
+  //       umur
+  //       jantina
+  //       tarikhKedatangan
+  //     }
+  //   }
+  // `;
+
+  // const { loading, error, data } = useQuery(GET_PATIENTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
