@@ -10,6 +10,8 @@ function UserUmum() {
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [queryResult, setQueryResult] = useState([]);
+  const [pilih, setPilih] = useState('');
+  const [resultPilih, setResultPilih] = useState([]);
 
   useEffect(() => {
     const query = async () => {
@@ -25,6 +27,13 @@ function UserUmum() {
     };
     query();
   }, [nama, tarikhKedatangan]);
+
+  useEffect(() => {
+    const resultFilter = queryResult.filter((singlePersonUmum) => {
+      return singlePersonUmum._id === pilih;
+    });
+    setResultPilih(resultFilter);
+  }, [pilih]);
 
   return (
     <>
@@ -57,12 +66,6 @@ function UserUmum() {
             id='tarikh-kedatangan'
             className='outline outline-1 outline-user1'
           />
-          <button
-            type='submit'
-            className='bg-user3 p-2 ml-3 w-1/5 justify-center hover:bg-user1 hover:text-userWhite transition-all'
-          >
-            CARI
-          </button>
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
@@ -82,55 +85,86 @@ function UserUmum() {
               </th>
               <th className='outline outline-1 outline-userBlack'>AKTIFKAN</th>
             </tr>
-            {queryResult.map((singlePersonUmum) => {
+            {queryResult.map((singlePersonUmum, index) => {
               return (
                 <tr>
-                  <td className='outline outline-1 outline-userBlack'>1</td>
-                  <td className='outline outline-1 outline-userBlack px-20'>
+                  <td
+                    className={`${
+                      pilih === singlePersonUmum._id && 'bg-user4'
+                    } outline outline-1 outline-userBlack`}
+                  >
+                    {index + 1}
+                  </td>
+                  <td
+                    className={`${
+                      pilih === singlePersonUmum._id && 'bg-user4'
+                    } outline outline-1 outline-userBlack`}
+                  >
                     {singlePersonUmum.nama}
                   </td>
-                  <td className='outline outline-1 outline-userBlack'>
+                  <td
+                    className={`${
+                      pilih === singlePersonUmum._id && 'bg-user4'
+                    } outline outline-1 outline-userBlack`}
+                  >
                     {singlePersonUmum.ic}
                   </td>
-                  <td className='outline outline-1 outline-userBlack'>
+                  <td
+                    className={`${
+                      pilih === singlePersonUmum._id && 'bg-user4'
+                    } outline outline-1 outline-userBlack`}
+                  >
                     {singlePersonUmum.tarikhKedatangan}
                   </td>
-                  <td className='outline outline-1 outline-userBlack'>Pilih</td>
+                  <td
+                    onClick={() => setPilih(singlePersonUmum._id)}
+                    className={`${
+                      pilih === singlePersonUmum._id && 'bg-user4'
+                    } outline outline-1 outline-userBlack hover:cursor-pointer text-user2`}
+                  >
+                    <u>PILIH</u>
+                  </td>
                 </tr>
               );
             })}
           </table>
         </section>
         <section className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
-          <div className='mb-3'>
-            <div className='text-l font-bold flex flex-row pl-5 p-2'>
-              <h1>MAKLUMAT AM PESAKIT</h1>
-            </div>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold'>NAMA :</h2>
-              <p className='ml-1'>ahmad abu</p>
-            </div>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold'>UMUR :</h2>
-              <p className='ml-1'>51 tahun</p>
-            </div>
-          </div>
-          <div className='md:pt-10'>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold'>JANTINA :</h2>
-              <p className='ml-1'>lelaki</p>
-            </div>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold'>IC/Passport :</h2>
-              <p className='ml-1'>210145-12-2344</p>
-            </div>
-            <Link
-              to='/user/form-umum/123'
-              className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-            >
-              masukkan reten
-            </Link>
-          </div>
+          {resultPilih.map((singlePersonUmum) => {
+            return (
+              <>
+                <div className='mb-3'>
+                  <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                    <h1>MAKLUMAT AM PESAKIT</h1>
+                  </div>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold'>NAMA :</h2>
+                    <p className='ml-1'>{singlePersonUmum.nama}</p>
+                  </div>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold'>UMUR :</h2>
+                    <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                  </div>
+                </div>
+                <div className='md:pt-10'>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold'>JANTINA :</h2>
+                    <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                  </div>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold'>IC/Passport :</h2>
+                    <p className='ml-1'>{singlePersonUmum.ic}</p>
+                  </div>
+                  <Link
+                    to={`/user/form-umum/${singlePersonUmum._id}`}
+                    className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                  >
+                    masukkan reten
+                  </Link>
+                </div>
+              </>
+            );
+          })}
         </section>
       </div>
     </>
