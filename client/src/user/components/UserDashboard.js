@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function UserDashboard() {
-  const [showAccordian1, setShowAccordian1] = useState(false);
-  const [showAccordian2, setShowAccordian2] = useState(false);
-  const [showAccordian3, setShowAccordian3] = useState(false);
+  const [showAccordian1, setShowAccordian1] = useState(true);
+  const [showAccordian2, setShowAccordian2] = useState(true);
+  const [showAccordian3, setShowAccordian3] = useState(true);
 
   return (
     <>

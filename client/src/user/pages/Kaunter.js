@@ -1,5 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
-// import axios from 'axios';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import UserHeader from '../components/UserHeader';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
@@ -11,7 +13,12 @@ import UserFooter from '../components/UserFooter';
 
 function Kaunter() {
   // const form = useRef(null);
+  const { kaunterToken, navigate, catchAxiosErrorAndLogout } =
+    useGlobalUserAppContext();
   const [showForm, setShowForm] = useState(false);
+  const [createdByKp, setCreatedByKp] = useState('');
+  const [createdByDaerah, setCreatedByDaerah] = useState('');
+  const [createdByNegeri, setCreatedByNegeri] = useState('');
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -26,6 +33,29 @@ function Kaunter() {
   //     });
   // };
 
+  useEffect(() => {
+    const fetchIdentity = async () => {
+      try {
+        const { data } = await axios.get('/api/v1/identity', {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        });
+        console.log(data);
+        setCreatedByKp(data.kp);
+        setCreatedByDaerah(data.daerah);
+        setCreatedByNegeri(data.negeri);
+      } catch (error) {
+        catchAxiosErrorAndLogout();
+        navigate('/kaunter');
+      }
+    };
+    fetchIdentity();
+  }, []);
+
+  const logout = () => {
+    catchAxiosErrorAndLogout();
+    navigate('/kaunter');
+  };
+
   return (
     <>
       <UserHeader />
@@ -35,11 +65,17 @@ function Kaunter() {
         encType='multipart/form-data'
       > */}
       <div className='absolute inset-0 -z-10 bg-user5'></div>
-      <KaunterHeaderLoggedIn />
+      <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
       <div className='absolute inset-10 top-44 -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <div className='px-10 h-full p-3 overflow-y-auto'>
           <PatientData showForm={showForm} setShowForm={setShowForm} />
-          <FillableForm showForm={showForm} setShowForm={setShowForm} />
+          <FillableForm
+            showForm={showForm}
+            setShowForm={setShowForm}
+            createdByKp={createdByKp}
+            createdByDaerah={createdByDaerah}
+            createdByNegeri={createdByNegeri}
+          />
           {/* <input
               className='p-2 w-auto'
               type='text'

@@ -37,4 +37,26 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
-module.exports = { getSinglePersonUmum, updatePersonUmum };
+// query route
+const queryPersonUmum = async (req, res) => {
+  const {
+    user: { kp },
+    query: { nama, tarikhKedatangan },
+  } = req;
+  const queryObject = {};
+  queryObject.createdByKp = kp;
+
+  if (nama) {
+    queryObject.nama = { $regex: nama, $options: 'i' };
+  }
+
+  if (tarikhKedatangan) {
+    queryObject.tarikhKedatangan = tarikhKedatangan;
+  }
+
+  const umumResultQuery = await Umum.find(queryObject);
+
+  res.status(200).json({ umumResultQuery });
+};
+
+module.exports = { getSinglePersonUmum, updatePersonUmum, queryPersonUmum };

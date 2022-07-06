@@ -1,144 +1,304 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-function Kemaskini({ setShowKemaskini }) {
-  const { userToken, username, navigate, catchAxiosErrorAndLogout, useParams } =
+function Kemaskini({ showKemaskini, setShowKemaskini }) {
+  const { userToken, catchAxiosErrorAndLogout, useParams } =
     useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
-  const masterForm = {};
+  const [tarikhKedatangan, setTarikhKedatangan] = useState('');
+  const [nama, setNama] = useState('');
+  const [jenisIc, setJenisIc] = useState('');
+  const [ic, setIc] = useState('');
+  const [tarikhLahir, setTarikhLahir] = useState('');
+  const [umur, setUmur] = useState('');
+  const [jantina, setJantina] = useState('');
+  const [alamat, setAlamat] = useState('');
+  const [waktuSampai, setWaktuSampai] = useState('');
+  const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
+  const [rujukDaripada, setRujukDaripada] = useState('');
 
   const closeModal = () => {
     setShowKemaskini(false);
   };
 
+  useEffect(() => {
+    const fetchSinglePersonUmum = async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        });
+        setTarikhKedatangan(data.singlePersonUmum.tarikhKedatangan);
+        setNama(data.singlePersonUmum.nama);
+        setJenisIc(data.singlePersonUmum.jenisIc);
+        setIc(data.singlePersonUmum.ic);
+        setTarikhLahir(data.singlePersonUmum.tarikhLahir);
+        setUmur(data.singlePersonUmum.umur);
+        setJantina(data.singlePersonUmum.jantina);
+        setAlamat(data.singlePersonUmum.alamat);
+        setWaktuSampai(data.singlePersonUmum.waktuSampai);
+        setKategoriPesakit(data.singlePersonUmum.kategoriPesakit);
+        setKumpulanEtnik(data.singlePersonUmum.kumpulanEtnik);
+        setRujukDaripada(data.singlePersonUmum.rujukDaripada);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSinglePersonUmum();
+  }, [showKemaskini]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(masterForm);
-    // try {
-    //   const { data } = await axios.patch(
-    //     `/api/v1/umum/${personUmumId}`,
-    //     masterForm,
-    //     { headers: { Authorization: `Bearer ${userToken}` } }
-    //   );
-    //   alert('kemaskini success');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await axios.patch(
+        `/api/v1/umum/${personUmumId}`,
+        {
+          tarikhKedatangan,
+          nama,
+          jenisIc,
+          ic,
+          tarikhLahir,
+          umur,
+          jantina,
+          alamat,
+          waktuSampai,
+          kategoriPesakit,
+          kumpulanEtnik,
+          rujukDaripada,
+        },
+        { headers: { Authorization: `Bearer ${userToken}` } }
+      );
+      alert('Kemaskini success');
+      setShowKemaskini(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
-      <div className='absolute inset-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100'>
-        <FaWindowClose
-          onClick={closeModal}
-          className='absolute m-2 text-4xl right-0 hover:text-5xl hover:cursor-pointer transition-all'
-        />
+      <div className='absolute inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto'>
+        <div className='sticky top-0'>
+          <FaWindowClose
+            onClick={closeModal}
+            className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user6 transition-all'
+          />
+          <h1 className='bg-user3 font-semibold text-xl'>kemaskini</h1>
+        </div>
         <form onSubmit={handleSubmit}>
-          <br />
-          <br />
-          <strong>pendaftaran</strong>
-          <br />
-          <div className='text-right'>
-            <strong>tarikh kedatangan: </strong>
-            <input
-              type='date'
-              name='tarikhKedatangan'
-              onChange={(e) => {
-                masterForm.tarikhKedatangan = e.target.value;
-              }}
-            />
-          </div>
-          <div className='text-left'>
-            <strong>nama: </strong>
-            <input type='text' name='namaUmum' />
-          </div>
-          <br />
-          <div className='text-left'>
-            <select name='pengenalan' id='pengenalan'>
-              <option value='mykad'>MyKad</option>
-              <option value='passport'>Passport</option>
-              <option value='tentera'>tentera</option>
-              <option value='polis'>polis</option>
-              <option value='sijil'>sijil lahir</option>
-            </select>
-            <input type='text' name='ic' />
-          </div>
-          <br />
-          <div className='text-left'>
-            <strong>tarikh lahir: </strong>
-            <input type='date' name='tarikhLahir' />
-            <div className='text-left'>
-              <strong>umur: </strong>
-              <input type='number' name='umur' />
+          <p className='font-semibold text-user6 text-left mt-3 ml-3'>
+            * required
+          </p>
+          <div className='grid'>
+            <div className='flex m-2 ml-auto'>
+              <p className='mr-3 font-semibold'>
+                tarikh kedatangan:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={tarikhKedatangan}
+                onChange={(e) => setTarikhKedatangan(e.target.value)}
+                type='date'
+                name='tarikhKedatangan'
+                className='outline outline-1 outline-userBlack'
+              />
             </div>
-            <div className='text-left'>
-              <strong>jantina: </strong>
-              <select name='jantina' id='jantina'>
-                <option value='lelaki'>lelaki</option>
-                <option value='perempuan'>perempuan</option>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                nama: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={nama.toLowerCase()}
+                onChange={(e) => setNama(e.target.value)}
+                type='text'
+                name='namaUmum'
+                className='capitalize appearance-none w-7/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                jenis pengenalan{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                name='pengenalan'
+                id='pengenalan'
+                value={jenisIc}
+                onChange={(e) => setJenisIc(e.target.value)}
+                className='mr-3'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='mykad'>MyKad</option>
+                <option value='passport'>Passport</option>
+                <option value='tentera'>Tentera</option>
+                <option value='polis'>Polis</option>
+                <option value='sijil-lahir'>Sijil lahir</option>
+              </select>
+              <input
+                required
+                value={ic}
+                onChange={(e) => setIc(e.target.value)}
+                type='text'
+                name='ic'
+                placeholder='123456-09-0987'
+                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                tarikh lahir:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={tarikhLahir}
+                onChange={(e) => setTarikhLahir(e.target.value)}
+                type='date'
+                name='tarikhLahir'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                umur: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={umur}
+                onChange={(e) => setUmur(e.target.value)}
+                type='number'
+                name='umur'
+                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                jantina: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                value={jantina}
+                name='jantina'
+                id='jantina'
+                onChange={(e) => setJantina(e.target.value)}
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='lelaki'>Lelaki</option>
+                <option value='perempuan'>Perempuan</option>
               </select>
             </div>
-            <div className='text-left'>
-              <strong>alamat: </strong>
-              <input type='text' name='alamat' />
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                alamat: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={alamat}
+                onChange={(e) => setAlamat(e.target.value)}
+                type='text'
+                name='alamat'
+                className='appearance-none w-10/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
             </div>
-            <div className='text-left'>
-              <strong>waktu sampai: </strong>
-              <input type='time' name='waktuSampai' />
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                waktu sampai:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={waktuSampai}
+                onChange={(e) => setWaktuSampai(e.target.value)}
+                type='time'
+                name='waktuSampai'
+                className='outline outline-1 outline-userBlack'
+              />
             </div>
-            <div className='text-left'>
-              <strong>kategori pesakit:</strong>
-              <select name='kategoriPesakit' id='kategoriPesakit'>
-                <option value='toddler'>toddler (0 - 4) tahun</option>
-                <option value='prasek'>prasekolah (5 - 6) tahun</option>
-                <option value='sekolahrendah'>sekolah rendah</option>
-                <option value='sekolahmenengah'>sekolah menengah</option>
-                <option value='oku'>oku</option>
-                <option value='hamil'>ibu mengandung</option>
-                <option value='dewasa'>dewasa</option>
-                <option value='wargatua'>warga tua</option>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                kategori pesakit:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                value={kategoriPesakit}
+                name='kategoriPesakit'
+                id='kategoriPesakit'
+                onChange={(e) => setKategoriPesakit(e.target.value)}
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='toddler'>Toddler (0 - 4) tahun</option>
+                <option value='prasekolah'>Prasekolah (5 - 6) tahun</option>
+                <option value='sekolahrendah'>Sekolah rendah</option>
+                <option value='sekolahmenengah'>Sekolah menengah</option>
+                <option value='oku'>OKU</option>
+                <option value='hamil'>Ibu mengandung</option>
+                <option value='dewasa'>Dewasa</option>
+                <option value='warga-tua'>Warga tua</option>
               </select>
             </div>
-            <div className='text-left'>
-              <strong>kumpulan etnik:</strong>
-              <select name='kumpulanEtnik' id='kumpulanEtnik'>
-                <option value='melayu'>melayu</option>
-                <option value='cina'>cina</option>
-                <option value='india'>india</option>
-                <option value='bajau'>bajau</option>
-                <option value='dusun'>dusun</option>
-                <option value='kadazan'>kadazan</option>
-                <option value='murut'>murut</option>
-                <option value='bumiputerasabahlain'>
-                  bumiputera sabah lain
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                kumpulan etnik:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                value={kumpulanEtnik}
+                name='kumpulanEtnik'
+                id='kumpulanEtnik'
+                onChange={(e) => {
+                  setKumpulanEtnik(e.target.value);
+                }}
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='melayu'>Melayu</option>
+                <option value='cina'>Cina</option>
+                <option value='india'>India</option>
+                <option value='bajau'>Bajau</option>
+                <option value='dusun'>Dusun</option>
+                <option value='kadazan'>Kadazan</option>
+                <option value='murut'>Murut</option>
+                <option value='bumiputera-sabah-lain'>
+                  Bumiputera sabah lain
                 </option>
-                <option value='melanau'>melanau</option>
-                <option value='kedayan'>kedayan</option>
-                <option value='iban'>iban</option>
-                <option value='bidayuh'>bidayuh</option>
-                <option value='bumiputerasarawaklain'>
-                  bumiputera sarawak lain
+                <option value='melanau'>Melanau</option>
+                <option value='kedayan'>Kedayan</option>
+                <option value='iban'>Iban</option>
+                <option value='bidayuh'>Bidayuh</option>
+                <option value='bumiputera-sarawak-lain'>
+                  Bumiputera sarawak lain
                 </option>
-                <option value='orangAsli'>orang asli semenanjung</option>
-                <option value='lain-lain'>lain-lain</option>
-                <option value='non'>bukan warganegara</option>
+                <option value='orang-asli-semenanjung'>
+                  Orang asli semenanjung
+                </option>
+                <option value='lain-lain'>Lain-lain</option>
+                <option value='bukan-warganegara'>Bukan warganegara</option>
               </select>
             </div>
-            <div className='text-left mt-2'>
-              <strong>rujuk daripada:</strong>
-              <input type='text' name='rujukDaripada' />
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>rujuk daripada: </p>
+              <input
+                value={rujukDaripada}
+                onChange={(e) => setRujukDaripada(e.target.value)}
+                type='text'
+                name='rujukDaripada'
+                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
             </div>
           </div>
           <button
-            className='border border-1 border-userBlack bg-user3 p-2 mt-2 items-left'
             type='submit'
+            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
           >
-            Submit
+            kemaskini
           </button>
         </form>
       </div>

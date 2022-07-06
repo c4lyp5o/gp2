@@ -6,6 +6,10 @@ module.exports = buildSchema(`
   """
   type Patient {
     _id: ID!
+    createdByNegeri: String,
+    createdByDaerah: String,
+    createdByKp: String,
+    createdByUsername: String,
     nama: String,
     jenisIc: String
     ic: String,
@@ -21,6 +25,10 @@ module.exports = buildSchema(`
     createdAt: String
   }
   input PatientType {
+    createdByNegeri: String,
+    createdByDaerah: String,
+    createdByKp: String,
+    createdByUsername: String,
     nama: String,
     jenisIc: String,
     ic: String,
@@ -42,7 +50,20 @@ module.exports = buildSchema(`
   type Mutation {
     createPatient(patient: PatientType): Patient,
     deletePatient(_id: String): Patient,
-    updatePatient(_id: String, body: String): String
+    updatePatient(_id: String, 
+      nama: String,
+      jenisIc: String,
+      ic: String,
+      tarikhLahir: String,
+      tarikhKedatangan: String,
+      jantina: String,
+      umur: Int,
+      alamat: String,
+      waktuSampai: String,
+      kategoriPesakit: String,
+      kumpulanEtnik: String,
+      rujukDaripada: String
+      ): String
   }
   schema {
     query: RootQuery
