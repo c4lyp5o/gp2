@@ -8,6 +8,10 @@ module.exports = {
         return {
           ...pt._doc,
           _id: pt.id,
+          createdByNegeri: pt.createdByNegeri,
+          createdByDaerah: pt.createdByDaerah,
+          createdByKp: pt.createdByKp,
+          createdByUsername: pt.createdByUsername,
           nama: pt.nama,
           jenisIc: pt.jenisIc,
           ic: pt.ic,
@@ -37,6 +41,10 @@ module.exports = {
         return {
           ...pt._doc,
           _id: pt.id,
+          createdByNegeri: pt.createdByNegeri,
+          createdByDaerah: pt.createdByDaerah,
+          createdByKp: pt.createdByKp,
+          createdByUsername: pt.createdByUsername,
           nama: pt.nama,
           jenisIc: pt.jenisIc,
           ic: pt.ic,
@@ -62,13 +70,22 @@ module.exports = {
       const patient = await Umum.findById(_id);
       return {
         ...patient._doc,
+        _id: patient.id,
+        createdByNegeri: patient.createdByNegeri,
+        createdByDaerah: patient.createdByDaerah,
+        createdByKp: patient.createdByKp,
+        createdByUsername: patient.createdByUsername,
         nama: patient.nama,
         ic: patient.ic,
         tarikhLahir: patient.tarikhLahir,
         umur: patient.umur,
         jantina: patient.jantina,
         tarikhKedatangan: patient.tarikhKedatangan,
-        createdAt: new Date(patient._doc.createdAt).toISOString(),
+        alamat: patient.alamat,
+        waktuSampai: patient.waktuSampai,
+        kategoriPesakit: patient.kategoriPesakit,
+        kumpulanEtnik: patient.kumpulanEtnik,
+        rujukDaripada: patient.rujukDaripada,
       };
     } catch (error) {
       throw error;
@@ -78,6 +95,10 @@ module.exports = {
   createPatient: async (args) => {
     try {
       const {
+        createdByNegeri,
+        createdByDaerah,
+        createdByKp,
+        createdByUsername,
         nama,
         jenisIc,
         ic,
@@ -92,6 +113,10 @@ module.exports = {
         rujukDaripada,
       } = args.patient;
       const ptdata = new Umum({
+        createdByNegeri,
+        createdByDaerah,
+        createdByKp,
+        createdByUsername,
         nama,
         jenisIc,
         ic,
@@ -127,13 +152,32 @@ module.exports = {
 
   updatePatient: async (args) => {
     try {
-      const { _id, nama, ic, tarikhLahir, umur, jantina } = args;
+      const {
+        _id,
+        nama,
+        ic,
+        tarikhLahir,
+        umur,
+        jantina,
+        tarikhKedatangan,
+        alamat,
+        waktuSampai,
+        kategoriPesakit,
+        kumpulanEtnik,
+        rujukDaripada,
+      } = args;
       const updatedPt = await Umum.findByIdAndUpdate(_id, {
         nama: nama,
         ic: ic,
         tarikhLahir: tarikhLahir,
         umur: umur,
         jantina: jantina,
+        tarikhKedatangan: tarikhKedatangan,
+        alamat: alamat,
+        waktuSampai: waktuSampai,
+        kategoriPesakit: kategoriPesakit,
+        kumpulanEtnik: kumpulanEtnik,
+        rujukDaripada: rujukDaripada,
       });
       return `Patient ${updatedPt.id} updated Successfully!!!`;
     } catch (error) {

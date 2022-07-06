@@ -1,34 +1,4 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-import { useGlobalUserAppContext } from '../context/userAppContext';
-
-function KaunterHeaderLoggedIn() {
-  const { kaunterToken, navigate, catchAxiosErrorAndLogout } =
-    useGlobalUserAppContext();
-
-  const [namaKlinik, setNamaKlinik] = useState('');
-
-  useEffect(() => {
-    const fetchIdentity = async () => {
-      try {
-        const { data } = await axios.get('/api/v1/identity', {
-          headers: { Authorization: `Bearer ${kaunterToken}` },
-        });
-        setNamaKlinik(data.kp);
-      } catch (error) {
-        catchAxiosErrorAndLogout();
-        navigate('/kaunter');
-      }
-    };
-    fetchIdentity();
-  }, []);
-
-  const logout = () => {
-    catchAxiosErrorAndLogout();
-    navigate('/kaunter');
-  };
-
+function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
   return (
     <div className='absolute top-14 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
       <img
