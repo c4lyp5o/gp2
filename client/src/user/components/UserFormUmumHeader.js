@@ -23,9 +23,23 @@ function UserFormUmumHeader() {
 
   // creating masterForm object to be used by the form
   const masterForm = {};
+  masterForm.createdByUsername = username;
+  //fasiliti perkhidmatan
+  const [jenisFasiliti, setJenisFasiliti] = useState('');
+  masterForm.jenisFasiliti = jenisFasiliti;
+  masterForm.setJenisFasiliti = setJenisFasiliti;
+  const [kepp, setKepp] = useState(false);
+  masterForm.kepp = kepp;
+  masterForm.setKepp = setKepp;
+  const [jenisProgramKomuniti, setJenisProgramKomuniti] = useState('');
+  masterForm.jenisProgramKomuniti = jenisProgramKomuniti;
+  masterForm.setJenisProgramKomuniti = setJenisProgramKomuniti;
 
   useEffect(() => {
-    // do something..
+    // map fasiliti perkhidmatan
+    setJenisFasiliti(data.singlePersonUmum.jenisFasiliti);
+    setKepp(data.singlePersonUmum.kepp);
+    setJenisProgramKomuniti(data.singlePersonUmum.jenisProgramKomuniti);
   });
 
   const kemaskini = () => {
@@ -33,7 +47,8 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = () => {
-    // do something..
+    // fasiliti perkhidmatan
+    jenisFasiliti, kepp, jenisProgramKomuniti;
   };
 
   const handleNext = () => {
