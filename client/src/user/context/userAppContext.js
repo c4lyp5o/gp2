@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { gql } from '@apollo/client';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
@@ -84,6 +85,107 @@ function UserAppProvider({ children }) {
     setFasilitiRelief(null);
   };
 
+  // GQL queries
+  const ADD_PATIENT = gql`
+    mutation CreatePatient(
+      $createdByNegeri: String
+      $createdByDaerah: String
+      $createdByKp: String
+      $createdByUsername: String
+      $nama: String
+      $jenisIc: String
+      $ic: String
+      $tarikhLahir: String
+      $jantina: String
+      $tarikhKedatangan: String
+      $umur: Int
+      $rujukDaripada: String
+      $alamat: String
+      $waktuSampai: String
+      $kategoriPesakit: String
+      $kumpulanEtnik: String
+    ) {
+      createPatient(
+        patient: {
+          createdByNegeri: $createdByNegeri
+          createdByDaerah: $createdByDaerah
+          createdByKp: $createdByKp
+          createdByUsername: $createdByUsername
+          nama: $nama
+          jenisIc: $jenisIc
+          ic: $ic
+          tarikhLahir: $tarikhLahir
+          tarikhKedatangan: $tarikhKedatangan
+          jantina: $jantina
+          umur: $umur
+          alamat: $alamat
+          waktuSampai: $waktuSampai
+          kategoriPesakit: $kategoriPesakit
+          kumpulanEtnik: $kumpulanEtnik
+          rujukDaripada: $rujukDaripada
+        }
+      ) {
+        createdByKp
+        createdByDaerah
+        createdByNegeri
+        createdByUsername
+        nama
+        jenisIc
+        ic
+        tarikhLahir
+        tarikhKedatangan
+        jantina
+        umur
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+      }
+    }
+  `;
+
+  const GET_PATIENT_BY_TARIKH_KEDATANGAN = gql`
+    query getPatientByTarikhKedatangan($tarikhKedatangan: String!) {
+      listPatientByTarikhKedatangan(tarikhKedatangan: $tarikhKedatangan) {
+        _id
+        nama
+        jenisIc
+        ic
+        tarikhLahir
+        umur
+        jantina
+        tarikhKedatangan
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+        createdAt
+      }
+    }
+  `;
+
+  const GET_PATIENT = gql`
+    query GetPatient($id: String!) {
+      patient(_id: $id) {
+        nama
+        jenisIc
+        ic
+        tarikhLahir
+        tarikhKedatangan
+        jantina
+        umur
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+      }
+    }
+  `;
+  // GQL QUERIES
+
   return (
     <UserAppContext.Provider
       value={{
@@ -107,6 +209,9 @@ function UserAppProvider({ children }) {
         catchAxiosErrorAndLogout,
         useParams,
         dateToday,
+        ADD_PATIENT,
+        GET_PATIENT_BY_TARIKH_KEDATANGAN,
+        GET_PATIENT,
       }}
     >
       {children}

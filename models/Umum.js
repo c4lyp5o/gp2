@@ -55,6 +55,10 @@ const UmumSchema = new mongoose.Schema(
       type: Number,
       // required: [true, 'Please provide umur'],
     },
+    alamat: {
+      type: String,
+      // required: [true, 'Please provide umur'],
+    },
     kategoriPesakit: {
       type: String,
       // required: [true, 'Please provide kategori pesakit'],
