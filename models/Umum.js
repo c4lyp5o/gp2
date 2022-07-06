@@ -53,14 +53,11 @@ const UmumSchema = new mongoose.Schema(
     },
     alamat: {
       type: String,
+      // required: [true, 'Please provide alamat'],
     },
     waktuSampai: {
       type: String,
       // required: [true, 'Please provide waktu sampai'],
-    },
-    alamat: {
-      type: String,
-      // required: [true, 'Please provide umur'],
     },
     kategoriPesakit: {
       type: String,

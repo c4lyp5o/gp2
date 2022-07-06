@@ -40,9 +40,11 @@ const updatePersonUmum = async (req, res) => {
 // query route
 const queryPersonUmum = async (req, res) => {
   const {
+    user: { kp },
     query: { nama, tarikhKedatangan },
   } = req;
   const queryObject = {};
+  queryObject.createdByKp = kp;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
