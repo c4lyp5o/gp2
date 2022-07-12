@@ -629,6 +629,124 @@ function UserFormUmumHeader() {
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum;
   masterForm.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum =
     setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum;
+  //promosi
+  const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
+  masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
+  masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
+  const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
+  masterForm.lmgPromosiUmum = lmgPromosiUmum;
+  masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
+  const [kursusSeminarBengkelPromosiUmum, setKursusSeminarBengkelPromosiUmum] =
+    useState(false);
+  masterForm.kursusSeminarBengkelPromosiUmum = kursusSeminarBengkelPromosiUmum;
+  masterForm.setKursusSeminarBengkelPromosiUmum =
+    setKursusSeminarBengkelPromosiUmum;
+  const [mainPerananPromosiUmum, setMainPerananPromosiUmum] = useState(false);
+  masterForm.mainPerananPromosiUmum = mainPerananPromosiUmum;
+  masterForm.setMainPerananPromosiUmum = setMainPerananPromosiUmum;
+  const [pertunjukanBonekaPromosiUmum, setPertunjukanBonekaPromosiUmum] =
+    useState(false);
+  masterForm.pertunjukanBonekaPromosiUmum = pertunjukanBonekaPromosiUmum;
+  masterForm.setPertunjukanBonekaPromosiUmum = setPertunjukanBonekaPromosiUmum;
+  const [berceritaPromosiUmum, setBerceritaPromosiUmum] = useState(false);
+  masterForm.berceritaPromosiUmum = berceritaPromosiUmum;
+  masterForm.setBerceritaPromosiUmum = setBerceritaPromosiUmum;
+  const [
+    plakGigiNasihatPergigianIndividuPromosiUmum,
+    setPlakGigiNasihatPergigianIndividuPromosiUmum,
+  ] = useState(false);
+  masterForm.plakGigiNasihatPergigianIndividuPromosiUmum =
+    plakGigiNasihatPergigianIndividuPromosiUmum;
+  masterForm.setPlakGigiNasihatPergigianIndividuPromosiUmum =
+    setPlakGigiNasihatPergigianIndividuPromosiUmum;
+  const [
+    penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
+    setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
+  ] = useState(false);
+  masterForm.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum =
+    penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum;
+  masterForm.setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum =
+    setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum;
+  const [
+    dietPemakananNasihatPergigianIndividuPromosiUmum,
+    setDietPemakananNasihatPergigianIndividuPromosiUmum,
+  ] = useState(false);
+  masterForm.dietPemakananNasihatPergigianIndividuPromosiUmum =
+    dietPemakananNasihatPergigianIndividuPromosiUmum;
+  masterForm.setDietPemakananNasihatPergigianIndividuPromosiUmum =
+    setDietPemakananNasihatPergigianIndividuPromosiUmum;
+  const [
+    kanserMulutNasihatPergigianIndividuPromosiUmum,
+    setKanserMulutNasihatPergigianIndividuPromosiUmum,
+  ] = useState(false);
+  masterForm.kanserMulutNasihatPergigianIndividuPromosiUmum =
+    kanserMulutNasihatPergigianIndividuPromosiUmum;
+  masterForm.setKanserMulutNasihatPergigianIndividuPromosiUmum =
+    setKanserMulutNasihatPergigianIndividuPromosiUmum;
+  const [
+    dirujukKaunselingPakarPublicHealthPromosiUmum,
+    setDirujukKaunselingPakarPublicHealthPromosiUmum,
+  ] = useState(false);
+  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
+    dirujukKaunselingPakarPublicHealthPromosiUmum;
+  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
+    setDirujukKaunselingPakarPublicHealthPromosiUmum;
+  const [
+    umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+  ] = useState('');
+  masterForm.umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  masterForm.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
+    setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
+  const [
+    melaksanakanAktivitiBeginPromosiUmum,
+    setMelaksanakanAktivitiBeginPromosiUmum,
+  ] = useState('');
+  masterForm.melaksanakanAktivitiBeginPromosiUmum =
+    melaksanakanAktivitiBeginPromosiUmum;
+  masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
+    setMelaksanakanAktivitiBeginPromosiUmum;
 
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
@@ -889,6 +1007,56 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
         );
+        //map promosi
+        setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
+        setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
+        setKursusSeminarBengkelPromosiUmum(
+          data.singlePersonUmum.kursusSeminarBengkelPromosiUmum
+        );
+        setMainPerananPromosiUmum(data.singlePersonUmum.mainPerananPromosiUmum);
+        setPertunjukanBonekaPromosiUmum(
+          data.singlePersonUmum.pertunjukanBonekaPromosiUmum
+        );
+        setBerceritaPromosiUmum(data.singlePersonUmum.berceritaPromosiUmum);
+        setPlakGigiNasihatPergigianIndividuPromosiUmum(
+          data.singlePersonUmum.plakGigiNasihatPergigianIndividuPromosiUmum
+        );
+        setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
+          data.singlePersonUmum
+            .penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
+        );
+        setDietPemakananNasihatPergigianIndividuPromosiUmum(
+          data.singlePersonUmum.dietPemakananNasihatPergigianIndividuPromosiUmum
+        );
+        setKanserMulutNasihatPergigianIndividuPromosiUmum(
+          data.singlePersonUmum.kanserMulutNasihatPergigianIndividuPromosiUmum
+        );
+        setDirujukKaunselingPakarPublicHealthPromosiUmum(
+          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
+        );
+        setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setMelaksanakanAktivitiBeginPromosiUmum(
+          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
+        );
       } catch (error) {
         console.log(error);
       }
@@ -945,6 +1113,22 @@ function UserFormUmumHeader() {
     // jumlahAnteriorKesEndodontikSelesaiRawatanUmum, jumlahPremolarKesEndodontikSelesaiRawatanUmum, jumlahMolarKesEndodontikSelesaiRawatanUmum,
     // rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum, memenuhiRditnKod3KesRujukUpprRawatanUmum,
     // restorasiPascaEndodontikKesRujukUpprRawatanUmum, komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
+    //promosi
+    // ceramahPromosiUmum, lmgPromosiUmum,
+    // kursusSeminarBengkelPromosiUmum, mainPerananPromosiUmum,
+    // pertunjukanBonekaPromosiUmum, berceritaPromosiUmum,
+    // plakGigiNasihatPergigianIndividuPromosiUmum,
+    // penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
+    // dietPemakananNasihatPergigianIndividuPromosiUmum,
+    // kanserMulutNasihatPergigianIndividuPromosiUmum,
+    // dirujukKaunselingPakarPublicHealthPromosiUmum,
+    // umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+    // melaksanakanAktivitiBeginPromosiUmum,
   };
 
   const handleNext = () => {

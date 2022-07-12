@@ -1,4 +1,4 @@
-export default function Promosi() {
+export default function Promosi(props) {
   return (
     <>
       <div className='p-2'>
@@ -17,6 +17,10 @@ export default function Promosi() {
                   <select
                     name='ceramah-promosi-umum'
                     id='ceramah-promosi-umum'
+                    value={props.ceramahPromosiUmum}
+                    onChange={(e) => {
+                      props.setCeramahPromosiUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
@@ -30,6 +34,10 @@ export default function Promosi() {
                   <select
                     name='lmg-promosi-umum'
                     id='lmg-promosi-umum'
+                    value={props.lmgPromosiUmum}
+                    onChange={(e) => {
+                      props.setLmgPromosiUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
@@ -45,6 +53,13 @@ export default function Promosi() {
                     type='checkbox'
                     name='kursus-seminar-bengkel-promosi-umum'
                     id='kursus-seminar-bengkel-promosi-umum'
+                    value='kursus-seminar-bengkel-promosi-umum'
+                    checked={props.kursusSeminarBengkelPromosiUmum}
+                    onChange={() => {
+                      props.setKursusSeminarBengkelPromosiUmum(
+                        !props.kursusSeminarBengkelPromosiUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -59,6 +74,13 @@ export default function Promosi() {
                     type='checkbox'
                     name='main-peranan-promosi-umum'
                     id='main-peranan-promosi-umum'
+                    value='main-peranan-promosi-umum'
+                    checked={props.mainPerananPromosiUmum}
+                    onChange={() => {
+                      props.setMainPerananPromosiUmum(
+                        !props.mainPerananPromosiUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -73,6 +95,13 @@ export default function Promosi() {
                     type='checkbox'
                     name='pertunjukan-boneka-promosi-umum'
                     id='pertunjukan-boneka-promosi-umum'
+                    value='pertunjukan-boneka-promosi-umum'
+                    checked={props.pertunjukanBonekaPromosiUmum}
+                    onChange={() => {
+                      props.setPertunjukanBonekaPromosiUmum(
+                        !props.pertunjukanBonekaPromosiUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -87,6 +116,13 @@ export default function Promosi() {
                     type='checkbox'
                     name='bercerita-promosi-umum'
                     id='bercerita-promosi-umum'
+                    value='bercerita-promosi-umum'
+                    checked={props.berceritaPromosiUmum}
+                    onChange={() => {
+                      props.setBerceritaPromosiUmum(
+                        !props.berceritaPromosiUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -105,6 +141,15 @@ export default function Promosi() {
                       type='checkbox'
                       name='plak-gigi-nasihat-pergigian-individu-promosi-umum'
                       id='plak-gigi-nasihat-pergigian-individu-promosi-umum'
+                      value='plak-gigi-nasihat-pergigian-individu-promosi-umum'
+                      checked={
+                        props.plakGigiNasihatPergigianIndividuPromosiUmum
+                      }
+                      onChange={() => {
+                        props.setPlakGigiNasihatPergigianIndividuPromosiUmum(
+                          !props.plakGigiNasihatPergigianIndividuPromosiUmum
+                        );
+                      }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label
@@ -119,6 +164,15 @@ export default function Promosi() {
                       type='checkbox'
                       name='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
                       id='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
+                      value='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
+                      checked={
+                        props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
+                      }
+                      onChange={() => {
+                        props.setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
+                          !props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
+                        );
+                      }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label
@@ -133,6 +187,15 @@ export default function Promosi() {
                       type='checkbox'
                       name='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
                       id='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
+                      value='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
+                      checked={
+                        props.dietPemakananNasihatPergigianIndividuPromosiUmum
+                      }
+                      onChange={() => {
+                        props.setDietPemakananNasihatPergigianIndividuPromosiUmum(
+                          !props.dietPemakananNasihatPergigianIndividuPromosiUmum
+                        );
+                      }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label
@@ -147,6 +210,15 @@ export default function Promosi() {
                       type='checkbox'
                       name='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
                       id='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
+                      value='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
+                      checked={
+                        props.kanserMulutNasihatPergigianIndividuPromosiUmum
+                      }
+                      onChange={() => {
+                        props.setKanserMulutNasihatPergigianIndividuPromosiUmum(
+                          !props.kanserMulutNasihatPergigianIndividuPromosiUmum
+                        );
+                      }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label
@@ -166,6 +238,15 @@ export default function Promosi() {
                       type='checkbox'
                       name='dirujuk-kaunseling-pakar-public-health-promosi-umum'
                       id='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                      value='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                      checked={
+                        props.dirujukKaunselingPakarPublicHealthPromosiUmum
+                      }
+                      onChange={() => {
+                        props.setDirujukKaunselingPakarPublicHealthPromosiUmum(
+                          !props.dirujukKaunselingPakarPublicHealthPromosiUmum
+                        );
+                      }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label
@@ -189,6 +270,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -198,6 +287,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -207,6 +304,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -216,6 +321,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -225,6 +338,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -234,6 +355,14 @@ export default function Promosi() {
                     type='number'
                     name='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                     id='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                    value={
+                      props.umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                    }
+                    onChange={(e) => {
+                      props.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -250,6 +379,17 @@ export default function Promosi() {
                       name='melaksanakan-aktiviti-begin-promosi-umum'
                       id='ya-melaksanakan-aktiviti-begin-promosi-umum'
                       value='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                      checked={
+                        props.melaksanakanAktivitiBeginPromosiUmum ===
+                        'ya-melaksanakan-aktiviti-begin-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMelaksanakanAktivitiBeginPromosiUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       required
                     />
@@ -266,6 +406,17 @@ export default function Promosi() {
                       name='melaksanakan-aktiviti-begin-promosi-umum'
                       id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
                       value='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                      checked={
+                        props.melaksanakanAktivitiBeginPromosiUmum ===
+                        'tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMelaksanakanAktivitiBeginPromosiUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
