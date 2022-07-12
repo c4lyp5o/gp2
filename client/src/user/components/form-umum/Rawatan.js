@@ -1,4 +1,4 @@
-export default function Rawatan() {
+export default function Rawatan(props) {
   return (
     <>
       <div className='p-2'>
@@ -26,6 +26,12 @@ export default function Rawatan() {
                     type='number'
                     name='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                     id='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
+                    value={props.baruJumlahGigiKekalDibuatFSRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDibuatFSRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
@@ -42,6 +48,12 @@ export default function Rawatan() {
                     type='number'
                     name='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                     id='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
+                    value={props.semulaJumlahGigiKekalDibuatFSRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDibuatFSRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
@@ -55,40 +67,93 @@ export default function Rawatan() {
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   jumlah gigi kekal diberi FV
                 </p>
-                {/* <div className='flex flex-row items-center pl-5'>
+                <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='baru-jumlah-gigi-kekal-diberi-fv'
+                    htmlFor='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     className='text-sm font-m'
                   >
                     Baru
                   </label>
                   <input
                     type='number'
-                    name='baru-jumlah-gigi-kekal-diberi-fv'
-                    id='baru-jumlah-gigi-kekal-diberi-fv'
+                    name='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
+                    id='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
+                    value={props.baruJumlahGigiKekalDiberiFVRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDiberiFVRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
                   <label
-                    htmlFor='semula-jumlah-gigi-kekal-diberi-fv'
+                    htmlFor='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     className='text-sm font-m'
                   >
                     Semula
                   </label>
                   <input
                     type='number'
-                    name='semula-jumlah-gigi-kekal-diberi-fv'
-                    id='semula-jumlah-gigi-kekal-diberi-fv'
+                    name='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
+                    id='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
+                    value={props.semulaJumlahGigiKekalDiberiFVRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDiberiFVRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
-                    required
                   />
-                </div> */}
+                </div>
+                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  murid dibuat FV
+                </p>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='baru-jumlah-murid-dibuat-fv-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Baru
+                  </label>
+                  <input
+                    type='number'
+                    name='baru-jumlah-murid-dibuat-fv-rawatan-umum'
+                    id='baru-jumlah-murid-dibuat-fv-rawatan-umum'
+                    value={props.baruJumlahMuridDibuatFVRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahMuridDibuatFVRawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                  />
+                </div>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='semula-jumlah-murid-dibuat-fv-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Semula
+                  </label>
+                  <input
+                    type='number'
+                    name='semula-jumlah-murid-dibuat-fv-rawatan-umum'
+                    id='semula-jumlah-murid-dibuat-fv-rawatan-umum'
+                    value={props.semulaJumlahMuridDibuatFVRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahMuridDibuatFVRawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                  />
+                </div>
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -108,6 +173,12 @@ export default function Rawatan() {
                     type='number'
                     name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                     id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
+                    value={props.baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
@@ -124,6 +195,14 @@ export default function Rawatan() {
                     type='number'
                     name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                     id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
+                    value={
+                      props.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum
+                    }
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
@@ -143,6 +222,10 @@ export default function Rawatan() {
                     type='number'
                     name='cabut-desidus-rawatan-umum'
                     id='cabut-desidus-rawatan-umum'
+                    value={props.cabutDesidusRawatanUmum}
+                    onChange={(e) => {
+                      props.setCabutDesidusRawatanUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                     min='0'
                     max='20'
@@ -154,6 +237,10 @@ export default function Rawatan() {
                     type='number'
                     name='cabut-kekal-rawatan-umum'
                     id='cabut-kekal-rawatan-umum'
+                    value={props.cabutKekalRawatanUmum}
+                    onChange={(e) => {
+                      props.setCabutKekalRawatanUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                     min='0'
                     max='32'
@@ -165,6 +252,12 @@ export default function Rawatan() {
                     type='number'
                     name='komplikasi-selepas-cabutan-rawatan-umum'
                     id='komplikasi-selepas-cabutan-rawatan-umum'
+                    value={props.komplikasiSelepasCabutanRawatanUmum}
+                    onChange={(e) => {
+                      props.setKomplikasiSelepasCabutanRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                     min='0'
                     max='32'
@@ -178,6 +271,12 @@ export default function Rawatan() {
                     type='number'
                     name='cabutan-disebabkan-periodontitis-rawatan-umum'
                     id='cabutan-disebabkan-periodontitis-rawatan-umum'
+                    value={props.cabutanDisebabkanPeriodontitisRawatanUmum}
+                    onChange={(e) => {
+                      props.setCabutanDisebabkanPeriodontitisRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                     min='0'
                     max='32'
@@ -195,11 +294,21 @@ export default function Rawatan() {
                   <div className='flex items-center justify-evenly'>
                     <div>
                       <input
-                        required
                         type='radio'
                         name='ya-tidak-abses-pembedahan-rawatan-umum'
                         id='ya-abses-pembedahan-rawatan-umum'
                         value='ya-abses-pembedahan-rawatan-umum'
+                        checked={
+                          props.yaTidakAbsesPembedahanRawatanUmum ===
+                          'ya-abses-pembedahan-rawatan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakAbsesPembedahanRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -211,11 +320,21 @@ export default function Rawatan() {
                     </div>
                     <div>
                       <input
-                        required
                         type='radio'
                         name='ya-tidak-abses-pembedahan-rawatan-umum'
                         id='tidak-abses-pembedahan-rawatan-umum'
                         value='tidak-abses-pembedahan-rawatan-umum'
+                        checked={
+                          props.yaTidakAbsesPembedahanRawatanUmum ===
+                          'tidak-abses-pembedahan-rawatan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakAbsesPembedahanRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -229,11 +348,21 @@ export default function Rawatan() {
                   <div className='flex items-center justify-evenly col-start-2'>
                     <div>
                       <input
-                        required
                         type='radio'
                         name='baru-semula-abses-pembedahan-rawatan-umum'
                         id='baru-abses-pembedahan-rawatan-umum'
                         value='baru-abses-pembedahan-rawatan-umum'
+                        checked={
+                          props.baruSemulaAbsesPembedahanRawatanUmum ===
+                          'baru-abses-pembedahan-rawatan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setBaruSemulaAbsesPembedahanRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -245,11 +374,21 @@ export default function Rawatan() {
                     </div>
                     <div>
                       <input
-                        required
                         type='radio'
                         name='baru-semula-abses-pembedahan-rawatan-umum'
                         id='semula-abses-pembedahan-rawatan-umum'
                         value='semula-abses-pembedahan-rawatan-umum'
+                        checked={
+                          props.baruSemulaAbsesPembedahanRawatanUmum ===
+                          'semula-abses-pembedahan-rawatan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setBaruSemulaAbsesPembedahanRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -267,6 +406,12 @@ export default function Rawatan() {
                     type='number'
                     name='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
                     id='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
+                    value={props.cabutanSurgikalPembedahanMulutRawatanUmum}
+                    onChange={(e) => {
+                      props.setCabutanSurgikalPembedahanMulutRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-1 text-sm font-m'
                     min='0'
                     max='32'
@@ -278,11 +423,21 @@ export default function Rawatan() {
                 <div className='flex items-center justify-evenly'>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-fraktur-pembedahan-rawatan-umum'
                       id='ya-fraktur-pembedahan-rawatan-umum'
                       value='ya-fraktur-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakFrakturPembedahanRawatanUmum ===
+                        'ya-fraktur-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakFrakturPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -294,11 +449,21 @@ export default function Rawatan() {
                   </div>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-fraktur-pembedahan-rawatan-umum'
                       id='tidak-fraktur-pembedahan-rawatan-umum'
                       value='tidak-fraktur-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakFrakturPembedahanRawatanUmum ===
+                        'tidak-fraktur-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakFrakturPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -315,11 +480,21 @@ export default function Rawatan() {
                 <div className='flex items-center justify-evenly'>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-trauma-pembedahan-rawatan-umum'
                       id='ya-trauma-pembedahan-rawatan-umum'
                       value='ya-trauma-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakTraumaPembedahanRawatanUmum ===
+                        'ya-trauma-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakTraumaPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -331,11 +506,21 @@ export default function Rawatan() {
                   </div>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-trauma-pembedahan-rawatan-umum'
                       id='tidak-trauma-pembedahan-rawatan-umum'
                       value='tidak-trauma-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakTraumaPembedahanRawatanUmum ===
+                        'tidak-trauma-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakTraumaPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -352,11 +537,21 @@ export default function Rawatan() {
                 <div className='flex items-center justify-evenly'>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                       id='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                       value='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum ===
+                        'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -368,11 +563,21 @@ export default function Rawatan() {
                   </div>
                   <div>
                     <input
-                      required
                       type='radio'
                       name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                       id='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                       value='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                      checked={
+                        props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum ===
+                        'tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
                     <label
@@ -391,6 +596,12 @@ export default function Rawatan() {
                     type='checkbox'
                     name='kes-selesai-rawatan-umum'
                     id='kes-selesai-rawatan-umum'
+                    checked={props.kesSelesaiRawatanUmum ? true : false}
+                    onChange={() => {
+                      props.setKesSelesaiRawatanUmum(
+                        !props.kesSelesaiRawatanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -405,6 +616,10 @@ export default function Rawatan() {
                     type='checkbox'
                     name='tpr-rawatan-umum'
                     id='tpr-rawatan-umum'
+                    checked={props.tprRawatanUmum ? true : false}
+                    onChange={() => {
+                      props.setTprRawatanUmum(!props.tprRawatanUmum);
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -419,6 +634,14 @@ export default function Rawatan() {
                     type='checkbox'
                     name='kes-selesai-periodontium-rawatan-umum'
                     id='kes-selesai-periodontium-rawatan-umum'
+                    checked={
+                      props.kesSelesaiPeriodontiumRawatanUmum ? true : false
+                    }
+                    onChange={() => {
+                      props.setKesSelesaiPeriodontiumRawatanUmum(
+                        !props.kesSelesaiPeriodontiumRawatanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -449,10 +672,15 @@ export default function Rawatan() {
                     type='number'
                     name='baru-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
                     id='baru-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
+                    value={props.baruJumlahGigiYangDiberiSdfRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiYangDiberiSdfRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
-                    required
                   />
                 </div>
                 <div className='flex flex-row items-center pl-5'>
@@ -466,10 +694,15 @@ export default function Rawatan() {
                     type='number'
                     name='semula-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
                     id='semula-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
+                    value={props.semulaJumlahGigiYangDiberiSdfRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahGigiYangDiberiSdfRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
-                    required
                   />
                 </div>
               </article>
@@ -491,6 +724,10 @@ export default function Rawatan() {
                     type='number'
                     name='baru-jumlah-crown-bridge-rawatan-umum'
                     id='baru-jumlah-crown-bridge-rawatan-umum'
+                    value={props.baruJumlahCrownBridgeRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahCrownBridgeRawatanUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
@@ -507,6 +744,12 @@ export default function Rawatan() {
                     type='number'
                     name='semula-jumlah-crown-bridge-rawatan-umum'
                     id='semula-jumlah-crown-bridge-rawatan-umum'
+                    value={props.semulaJumlahCrownBridgeRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahCrownBridgeRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
@@ -526,6 +769,10 @@ export default function Rawatan() {
                     type='number'
                     name='baru-jumlah-post-core-rawatan-umum'
                     id='baru-jumlah-post-core-rawatan-umum'
+                    value={props.baruJumlahPostCoreRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahPostCoreRawatanUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
@@ -542,6 +789,10 @@ export default function Rawatan() {
                     type='number'
                     name='semula-jumlah-post-core-rawatan-umum'
                     id='semula-jumlah-post-core-rawatan-umum'
+                    value={props.semulaJumlahPostCoreRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahPostCoreRawatanUmum(e.target.value);
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='32'
@@ -562,6 +813,12 @@ export default function Rawatan() {
                       type='number'
                       name='penuh-jumlah-dentur-prostodontik-rawatan-umum'
                       id='penuh-jumlah-dentur-prostodontik-rawatan-umum'
+                      value={props.penuhJumlahDenturProstodontikRawatanUmum}
+                      onChange={(e) => {
+                        props.setPenuhJumlahDenturProstodontikRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='2'
@@ -578,6 +835,14 @@ export default function Rawatan() {
                       type='number'
                       name='sebahagian-jumlah-dentur-prostodontik-rawatan-umum'
                       id='sebahagian-jumlah-dentur-prostodontik-rawatan-umum'
+                      value={
+                        props.sebahagianJumlahDenturProstodontikRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setSebahagianJumlahDenturProstodontikRawatanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='2'
@@ -595,6 +860,12 @@ export default function Rawatan() {
                     type='number'
                     name='immediate-dentur-prostodontik-rawatan-umum'
                     id='immediate-dentur-prostodontik-rawatan-umum'
+                    value={props.immediateDenturProstodontikRawatanUmum}
+                    onChange={(e) => {
+                      props.setImmediateDenturProstodontikRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 ml-3 text-sm font-m'
                     min='0'
                     max='2'
@@ -611,6 +882,12 @@ export default function Rawatan() {
                     type='number'
                     name='pembaikan-dentur-prostodontik-rawatan-umum'
                     id='pembaikan-dentur-prostodontik-rawatan-umum'
+                    value={props.pembaikanDenturProstodontikRawatanUmum}
+                    onChange={(e) => {
+                      props.setPembaikanDenturProstodontikRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 ml-3 text-sm font-m'
                     min='0'
                     max='2'
@@ -626,6 +903,12 @@ export default function Rawatan() {
                     type='checkbox'
                     name='penskaleran-rawatan-umum'
                     id='penskaleran-rawatan-umum'
+                    checked={props.penskaleranRawatanUmum ? true : false}
+                    onChange={() => {
+                      props.setPenskaleranRawatanUmum(
+                        !props.penskaleranRawatanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -640,6 +923,14 @@ export default function Rawatan() {
                     type='checkbox'
                     name='rawatan-lain-periodontik-rawatan-umum'
                     id='rawatan-lain-periodontik-rawatan-umum'
+                    checked={
+                      props.rawatanLainPeriodontikRawatanUmum ? true : false
+                    }
+                    onChange={() => {
+                      props.setRawatanLainPeriodontikRawatanUmum(
+                        !props.rawatanLainPeriodontikRawatanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -658,6 +949,10 @@ export default function Rawatan() {
                   type='number'
                   name='bilangan-xray-yang-diambil-rawatan-umum'
                   id='bilangan-xray-yang-diambil-rawatan-umum'
+                  value={props.bilanganXrayYangDiambilRawatanUmum}
+                  onChange={(e) => {
+                    props.setBilanganXrayYangDiambilRawatanUmum(e.target.value);
+                  }}
                   className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                 />
               </article>
@@ -677,6 +972,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -691,6 +994,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -705,6 +1016,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -719,6 +1038,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -738,6 +1065,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -752,6 +1087,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -766,6 +1109,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -780,6 +1131,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -799,6 +1158,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -813,6 +1180,14 @@ export default function Rawatan() {
                         type='number'
                         name='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -827,6 +1202,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -841,6 +1224,14 @@ export default function Rawatan() {
                         type='number'
                         name='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setGkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -860,6 +1251,14 @@ export default function Rawatan() {
                         type='number'
                         name='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                         id='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.baruInlayOnlayJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setBaruInlayOnlayJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -874,6 +1273,14 @@ export default function Rawatan() {
                         type='number'
                         name='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                         id='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.semulaInlayOnlayJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setSemulaInlayOnlayJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                       />
                       <label
@@ -899,6 +1306,14 @@ export default function Rawatan() {
                         type='number'
                         name='jumlah-tampalan-sementara-jumlah-tampalan-dibuat-rawatan-umum'
                         id='jumlah-tampalan-sementara-jumlah-tampalan-dibuat-rawatan-umum'
+                        value={
+                          props.jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum
+                        }
+                        onChange={(e) => {
+                          props.setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                       />
                     </div>
@@ -921,6 +1336,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
                     id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                    value={props.jumlahAnteriorRawatanSemulaKeppRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -935,6 +1356,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
                     id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                    value={props.jumlahPremolarRawatanSemulaKeppRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahPremolarRawatanSemulaKeppRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -949,6 +1376,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
                     id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                    value={props.jumlahMolarRawatanSemulaKeppRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahMolarRawatanSemulaKeppRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -969,6 +1402,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
                     id='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
+                    value={props.jumlahAnteriorKesEndodontikSelesaiRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahAnteriorKesEndodontikSelesaiRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -983,6 +1422,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
                     id='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
+                    value={props.jumlahPremolarKesEndodontikSelesaiRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahPremolarKesEndodontikSelesaiRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -997,6 +1442,12 @@ export default function Rawatan() {
                     type='number'
                     name='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
                     id='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
+                    value={props.jumlahMolarKesEndodontikSelesaiRawatanUmum}
+                    onChange={(e) => {
+                      props.setJumlahMolarKesEndodontikSelesaiRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1011,6 +1462,14 @@ export default function Rawatan() {
                     type='number'
                     name='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
                     id='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
+                    value={
+                      props.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum
+                    }
+                    onChange={(e) => {
+                      props.setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1031,6 +1490,12 @@ export default function Rawatan() {
                     type='number'
                     name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
                     id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                    value={props.memenuhiRditnKod3KesRujukUpprRawatanUmum}
+                    onChange={(e) => {
+                      props.setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1045,6 +1510,14 @@ export default function Rawatan() {
                     type='number'
                     name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
                     id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                    value={
+                      props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
+                    }
+                    onChange={(e) => {
+                      props.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1059,6 +1532,14 @@ export default function Rawatan() {
                     type='number'
                     name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
                     id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                    value={
+                      props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
+                    }
+                    onChange={(e) => {
+                      props.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
