@@ -136,7 +136,7 @@ export default function Kotak(props) {
                     name='adaQUmum'
                     id='adaQUmum'
                     checked={props.adaQUmum}
-                    onChange={(e) => {
+                    onChange={() => {
                       props.setAdaQUmum(!props.adaQUmum);
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
@@ -151,7 +151,7 @@ export default function Kotak(props) {
                     name='tiadaQUmum'
                     id='tiadaQUmum'
                     checked={props.tiadaQUmum}
-                    onChange={(e) => {
+                    onChange={() => {
                       props.setTiadaQUmum(!props.tiadaQUmum);
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
@@ -166,7 +166,7 @@ export default function Kotak(props) {
                     name='rujukGUmum'
                     id='rujukGUmum'
                     checked={props.rujukGUmum}
-                    onChange={(e) => {
+                    onChange={() => {
                       props.setRujukGUmum(!props.rujukGUmum);
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '

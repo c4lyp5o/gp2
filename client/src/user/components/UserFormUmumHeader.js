@@ -747,6 +747,39 @@ function UserFormUmumHeader() {
     melaksanakanAktivitiBeginPromosiUmum;
   masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
     setMelaksanakanAktivitiBeginPromosiUmum;
+  const [statusMUmum, setStatusMUmum] = useState('');
+  masterForm.statusMUmum = statusMUmum;
+  masterForm.setStatusMUmum = setStatusMUmum;
+  const [jenisRUmum, setJenisRUmum] = useState('');
+  masterForm.jenisRUmum = jenisRUmum;
+  masterForm.setJenisRUmum = setJenisRUmum;
+  const [tarikh1Umum, setTarikh1Umum] = useState('');
+  masterForm.tarikh1Umum = tarikh1Umum;
+  masterForm.setTarikh1Umum = setTarikh1Umum;
+  const [tarikh2Umum, setTarikh2Umum] = useState('');
+  masterForm.tarikh2Umum = tarikh2Umum;
+  masterForm.setTarikh2Umum = setTarikh2Umum;
+  const [tarikh3Umum, setTarikh3Umum] = useState('');
+  masterForm.tarikh3Umum = tarikh3Umum;
+  masterForm.setTarikh3Umum = setTarikh3Umum;
+  const [tarikh4Umum, setTarikh4Umum] = useState('');
+  masterForm.tarikh4Umum = tarikh4Umum;
+  masterForm.setTarikh4Umum = setTarikh4Umum;
+  const [adaQUmum, setAdaQUmum] = useState(false);
+  masterForm.adaQUmum = adaQUmum;
+  masterForm.setAdaQUmum = setAdaQUmum;
+  const [tiadaQUmum, setTiadaQUmum] = useState(false);
+  masterForm.tiadaQUmum = tiadaQUmum;
+  masterForm.setTiadaQUmum = setTiadaQUmum;
+  const [rujukGUmum, setRujukGUmum] = useState(false);
+  masterForm.rujukGUmum = rujukGUmum;
+  masterForm.setRujukGUmum = setRujukGUmum;
+  const [tarikhQUmum, setTarikhQUmum] = useState('');
+  masterForm.tarikhQUmum = tarikhQUmum;
+  masterForm.setTarikhQUmum = setTarikhQUmum;
+  const [statusSelepas6BulanUmum, setStatusSelepas6BulanUmum] = useState('');
+  masterForm.statusSelepas6BulanUmum = statusSelepas6BulanUmum;
+  masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
@@ -1057,6 +1090,20 @@ function UserFormUmumHeader() {
         setMelaksanakanAktivitiBeginPromosiUmum(
           data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
+        //map kotak
+        setStatusMUmum(data.singlePersonUmum.statusMUmum);
+        setJenisRUmum(data.singlePersonUmum.jenisRUmum);
+        setTarikh1Umum(data.singlePersonUmum.tarikh1Umum);
+        setTarikh2Umum(data.singlePersonUmum.tarikh2Umum);
+        setTarikh3Umum(data.singlePersonUmum.tarikh3Umum);
+        setTarikh4Umum(data.singlePersonUmum.tarikh4Umum);
+        setAdaQUmum(data.singlePersonUmum.adaQUmum);
+        setTiadaQUmum(data.singlePersonUmum.tiadaQUmum);
+        setRujukGUmum(data.singlePersonUmum.rujukGUmum);
+        setTarikhQUmum(data.singlePersonUmum.tarikhQUmum);
+        setStatusSelepas6BulanUmum(
+          data.singlePersonUmum.statusSelepas6BulanUmum
+        );
       } catch (error) {
         console.log(error);
       }
@@ -1129,6 +1176,12 @@ function UserFormUmumHeader() {
     // umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
     // umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
     // melaksanakanAktivitiBeginPromosiUmum,
+    //kotak
+    // statusMUmum, jenisRUmum,
+    // tarikh1Umum, tarikh2Umum,
+    // tarikh3Umum, tarikh4Umum,
+    // adaQUmum, tiadaQUmum, rujukGUmum,
+    // tarikhQUmum, statusSelepas6BulanUmum,
   };
 
   const handleNext = () => {
