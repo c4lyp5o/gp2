@@ -7,7 +7,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 import Kemaskini from './form-umum/Kemaskini';
 import FasilitiPerkhidmatan from './form-umum/FasilitiPerkhidmatan';
 import MaklumatLanjut from './form-umum/MaklumatLanjut';
-// import Pemeriksaan from './form-umum/Pemeriksaan';
+import Pemeriksaan from './form-umum/Pemeriksaan';
 import Rawatan from './form-umum/Rawatan';
 import Promosi from './form-umum/Promosi';
 import Kotak from './form-umum/Kotak';
@@ -1260,7 +1260,7 @@ function UserFormUmumHeader() {
         <form onSubmit={handleSubmit}>
           <FasilitiPerkhidmatan {...masterForm} />
           <MaklumatLanjut {...masterForm} />
-          {/* <Pemeriksaan {...masterForm} /> */}
+          <Pemeriksaan {...masterForm} />
           <Rawatan {...masterForm} />
           <Promosi {...masterForm} />
           <Kotak {...masterForm} />
