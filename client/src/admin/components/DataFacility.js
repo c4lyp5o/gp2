@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 import { getKP, getFacility, getCurrentUser } from '../context/Helper';
-import AddModalFacility from './AddModalFacility';
-import EditModalFacility from './EditModalFacility';
-import DeleteModal from './DeleteModal';
+import AddModalFacility from './AddFacility';
+import EditModalFacility from './EditFacility';
+import DeleteModal from './DeleteFacility';
 
 function FacilityCenter({ FType }) {
   const [kp, setKP] = useState([]);

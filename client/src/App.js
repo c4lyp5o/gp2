@@ -17,7 +17,7 @@ import UserNotFound from './user/pages/UserNotFound';
 // admin import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
 
-import AdminLoginForm from './admin/pages/AdminLoginForm';
+import AdminLoginForm from './admin/pages/AdminLogin';
 import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
 import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
