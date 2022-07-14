@@ -18,7 +18,7 @@ function UserFormUmumHeader() {
 
   const { personUmumId } = useParams();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonUmum, setSinglePersonUmum] = useState([]);
   const [showKemaskini, setShowKemasKini] = useState(false);
@@ -29,10 +29,12 @@ function UserFormUmumHeader() {
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
+        setIsLoading(true);
         const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setSinglePersonUmum(data.singlePersonUmum);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -57,68 +59,77 @@ function UserFormUmumHeader() {
       <div className='h-full p-3 px-10 overflow-y-auto'>
         <div className='p-2'>
           <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
-            <div>
-              <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                <h1>MAKLUMAT AM PESAKIT</h1>
-                <FaInfoCircle
-                  className='m-1 text-lg'
-                  onMouseEnter={() => setIsShown(true)}
-                  onMouseLeave={() => setIsShown(false)}
-                />
-              </div>
-              {isShown && (
-                <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
-                  <div className='flex flex-row text-sm'>
-                    <h2 className='font-semibold'>NAMA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.nama}</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>IC/PASSPORT :</h2>
-                    <p className='ml-1'>{singlePersonUmum.ic}</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>JANTINA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                    <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
-                    <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
-                  </div>
-                  <div className='text-sm flex flex-row '>
-                    <h2 className='font-semibold'>KATEGORI PESAKIT :</h2>
-                    <p className='ml-1'>{singlePersonUmum.kategoriPesakit}</p>
-                  </div>
+            {!isLoading && (
+              <div>
+                <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                  <h1>MAKLUMAT AM PESAKIT</h1>
+                  <FaInfoCircle
+                    className='m-1 text-lg'
+                    onMouseEnter={() => setIsShown(true)}
+                    onMouseLeave={() => setIsShown(false)}
+                  />
                 </div>
-              )}
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>NAMA :</h2>
-                <p className='ml-1'>{singlePersonUmum.nama}</p>
+                {isShown && (
+                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
+                    <div className='flex flex-row text-sm'>
+                      <h2 className='font-semibold'>NAMA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.nama}</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>IC/PASSPORT :</h2>
+                      <p className='ml-1'>{singlePersonUmum.ic}</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>JANTINA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                      <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                      <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>KATEGORI PESAKIT :</h2>
+                      <p className='ml-1'>{singlePersonUmum.kategoriPesakit}</p>
+                    </div>
+                  </div>
+                )}
+                <div className='text-s flex flex-row pl-5'>
+                  <h2 className='font-semibold'>NAMA :</h2>
+                  <p className='ml-1'>{singlePersonUmum.nama}</p>
+                </div>
+                <div className='text-s flex flex-row pl-5'>
+                  <h2 className='font-semibold'>UMUR :</h2>
+                  <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                </div>
               </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>UMUR :</h2>
-                <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+            )}
+            {!isLoading && (
+              <div className='md:pt-10'>
+                <div className='text-s flex flex-row pl-5'>
+                  <h2 className='font-semibold'>JANTINA :</h2>
+                  <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                </div>
+                <div className='text-s flex flex-row pl-5'>
+                  <h2 className='font-semibold'>IC/Passport :</h2>
+                  <p className='ml-1'>{singlePersonUmum.ic}</p>
+                </div>
+                <button
+                  onClick={kemaskini}
+                  className='float-right m-2 px-5 py-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                >
+                  kemaskini
+                </button>
               </div>
-            </div>
-            <div className='md:pt-10'>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>JANTINA :</h2>
-                <p className='ml-1'>{singlePersonUmum.jantina}</p>
-              </div>
-              <div className='text-s flex flex-row pl-5'>
-                <h2 className='font-semibold'>IC/Passport :</h2>
-                <p className='ml-1'>{singlePersonUmum.ic}</p>
-              </div>
-              <button
-                onClick={kemaskini}
-                className='float-right m-2 px-5 py-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-              >
-                kemaskini
-              </button>
-            </div>
+            )}
+            {isLoading && (
+              <p className='col-span-2 py-[58px] text-xl font-semibold'>
+                Loading...
+              </p>
+            )}
           </article>
         </div>
         <form onSubmit={handleSubmit}>
