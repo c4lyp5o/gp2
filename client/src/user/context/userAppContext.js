@@ -83,9 +83,31 @@ function UserAppProvider({ children }) {
     setUserToken(null);
     setUsername(null);
     setFasilitiRelief(null);
+    setKaunterToken(null);
   };
 
   // GQL queries
+  const GET_ALL_PATIENTS = gql`
+    query GetAllPatients($nothing: String) {
+      patients {
+        _id
+        nama
+        jenisIc
+        ic
+        tarikhLahir
+        umur
+        jantina
+        tarikhKedatangan
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+        createdAt
+      }
+    }
+  `;
+
   const ADD_PATIENT = gql`
     mutation CreatePatient(
       $createdByNegeri: String
@@ -167,13 +189,62 @@ function UserAppProvider({ children }) {
   `;
 
   const GET_PATIENT = gql`
-    query GetPatient($id: String!) {
+    query getPatient($id: String!) {
       patient(_id: $id) {
         nama
         jenisIc
         ic
         tarikhLahir
         tarikhKedatangan
+        jantina
+        umur
+        alamat
+        waktuSampai
+        kategoriPesakit
+        kumpulanEtnik
+        rujukDaripada
+      }
+    }
+  `;
+
+  const UPDATE_PATIENT = gql`
+    mutation UpdatePatient(
+      $_id: String
+      $nama: String
+      $jenisIc: String
+      $ic: String
+      $tarikhLahir: String
+      # $tarikhKedatangan: String
+      $jantina: String
+      $umur: Int
+      $alamat: String
+      $waktuSampai: String
+      $kategoriPesakit: String
+      $kumpulanEtnik: String
+      $rujukDaripada: String
+    ) {
+      updatePatient(
+        patient: {
+          _id: $_id
+          nama: $nama
+          jenisIc: $jenisIc
+          ic: $ic
+          tarikhLahir: $tarikhLahir
+          # tarikhKedatangan: $tarikhKedatangan
+          jantina: $jantina
+          umur: $umur
+          alamat: $alamat
+          waktuSampai: $waktuSampai
+          kategoriPesakit: $kategoriPesakit
+          kumpulanEtnik: $kumpulanEtnik
+          rujukDaripada: $rujukDaripada
+        }
+      ) {
+        nama
+        jenisIc
+        ic
+        tarikhLahir
+        # tarikhKedatangan
         jantina
         umur
         alamat
@@ -209,9 +280,11 @@ function UserAppProvider({ children }) {
         catchAxiosErrorAndLogout,
         useParams,
         dateToday,
+        GET_ALL_PATIENTS,
         ADD_PATIENT,
         GET_PATIENT_BY_TARIKH_KEDATANGAN,
         GET_PATIENT,
+        UPDATE_PATIENT,
       }}
     >
       {children}
