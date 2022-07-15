@@ -17,12 +17,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='ada-cleft-lip-pemeriksaan-umum'
                     id='ada-cleft-lip-pemeriksaan-umum'
-                    // checked={props.adaCleftLipPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setAdaCleftLipPemeriksanUmum(
-                    //     !props.adaCleftLipPemeriksanUmum
-                    //   );
-                    // }}
+                    checked={props.adaCleftLipPemeriksaanUmum}
+                    onChange={() => {
+                      props.setAdaCleftLipPemeriksaanUmum(
+                        !props.adaCleftLipPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -37,12 +37,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='rujuk-cleft-lip-palate-pemeriksaan-umum'
                     id='rujuk-cleft-lip-palate-pemeriksaan-umum'
-                    // checked={props.rujukCleftLipPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setRujukCleftLipPemeriksaanUmum(
-                    //     !props.rujukCleftLipPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.rujukCleftLipPemeriksaanUmum}
+                    onChange={() => {
+                      props.setRujukCleftLipPemeriksaanUmum(
+                        !props.rujukCleftLipPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -67,17 +67,17 @@ export default function Pemeriksaan(props) {
                         name='sedia-ada-status-denture-pemeriksaan-umum'
                         id='ya-sedia-ada-status-denture-pemeriksaan-umum'
                         value='ya-sedia-ada-status-denture-pemeriksaan-umum'
-                        // checked={
-                        //   props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        //   'ya-sedia-ada-status-denture-pemeriksaan-umum'
-                        //     ? true
-                        //     : false
-                        // }
-                        // onChange={(e) => {
-                        //   props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
-                        //     e.target.value
-                        //   );
-                        // }}
+                        checked={
+                          props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                          'ya-sedia-ada-status-denture-pemeriksaan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -92,17 +92,17 @@ export default function Pemeriksaan(props) {
                         name='sedia-ada-status-denture-pemeriksaan-umum'
                         id='tidak-sedia-ada-status-denture-pemeriksaan-umum'
                         value='tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                        // checked={
-                        //   props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        //   'tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                        //     ? true
-                        //     : false
-                        // }
-                        // onChange={(e) => {
-                        //   props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
-                        //     e.target.value
-                        //   );
-                        // }}
+                        checked={
+                          props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                          'tidak-sedia-ada-status-denture-pemeriksaan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -127,17 +127,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
                             id='separa-atas-sedia-ada-denture-pemeriksaan-umum'
                             value='separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
-                            //   'separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
+                              'separa-atas-sedia-ada-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -153,17 +153,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
                             id='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
                             value='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
-                            //   'penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
+                              'penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -190,17 +190,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
                             id='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
                             value='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
-                            //   'separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
+                              'separa-bawah-sedia-ada-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -216,17 +216,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
                             id='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
                             value='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
-                            //   'penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
+                              'penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -250,17 +250,17 @@ export default function Pemeriksaan(props) {
                         name='perlu-status-denture-pemeriksaan-umum'
                         id='ya-perlu-status-denture-pemeriksaan-umum'
                         value='ya-perlu-status-denture-pemeriksaan-umum'
-                        // checked={
-                        //   props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        //   'ya-perlu-status-denture-pemeriksaan-umum'
-                        //     ? true
-                        //     : false
-                        // }
-                        // onChange={(e) => {
-                        //   props.setYaTidakPerluStatusDenturePemeriksaanUmum(
-                        //     e.target.value
-                        //   );
-                        // }}
+                        checked={
+                          props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                          'ya-perlu-status-denture-pemeriksaan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPerluStatusDenturePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -275,17 +275,17 @@ export default function Pemeriksaan(props) {
                         name='perlu-status-denture-pemeriksaan-umum'
                         id='tidak-perlu-status-denture-pemeriksaan-umum'
                         value='tidak-perlu-status-denture-pemeriksaan-umum'
-                        // checked={
-                        //   props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        //   'tidak-perlu-status-denture-pemeriksaan-umum'
-                        //     ? true
-                        //     : false
-                        // }
-                        // onChange={(e) => {
-                        //   props.setYaTidakPerluStatusDenturePemeriksaanUmum(
-                        //     e.target.value
-                        //   );
-                        // }}
+                        checked={
+                          props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                          'tidak-perlu-status-denture-pemeriksaan-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPerluStatusDenturePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
@@ -315,17 +315,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
                             id='separa-atas-perlu-denture-pemeriksaan-umum'
                             value='separa-atas-perlu-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
-                            //   'separa-atas-perlu-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
+                              'separa-atas-perlu-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -341,17 +341,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
                             id='penuh-atas-perlu-denture-pemeriksaan-umum'
                             value='penuh-atas-perlu-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
-                            //   'penuh-atas-perlu-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
+                              'penuh-atas-perlu-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -378,17 +378,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
                             id='separa-bawah-perlu-denture-pemeriksaan-umum'
                             value='separa-bawah-perlu-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
-                            //   'separa-bawah-perlu-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
+                              'separa-bawah-perlu-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -404,17 +404,17 @@ export default function Pemeriksaan(props) {
                             name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
                             id='penuh-bawah-perlu-denture-pemeriksaan-umum'
                             value='penuh-bawah-perlu-denture-pemeriksaan-umum'
-                            // checked={
-                            //   props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
-                            //   'penuh-bawah-perlu-denture-pemeriksaan-umum'
-                            //     ? true
-                            //     : false
-                            // }
-                            // onChange={(e) => {
-                            //   props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
-                            //     e.target.value
-                            //   );
-                            // }}
+                            checked={
+                              props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
+                              'penuh-bawah-perlu-denture-pemeriksaan-umum'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
                           <label
@@ -438,12 +438,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='tooth-surface-loss-pemeriksaan-umum'
                     id='tooth-surface-loss-pemeriksaan-umum'
-                    // checked={props.toothSurfaceLossTraumaPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setToothSurfaceLossTraumaPemeriksaanUmum(
-                    //     !props.toothSurfaceLossTraumaPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.toothSurfaceLossTraumaPemeriksaanUmum}
+                    onChange={() => {
+                      props.setToothSurfaceLossTraumaPemeriksaanUmum(
+                        !props.toothSurfaceLossTraumaPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -458,12 +458,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='kecederaan-gigi-anterior-pemeriksaan-umum'
                     id='kecederaan-gigi-anterior-pemeriksaan-umum'
-                    // checked={props.kecederaanGigiAnteriorTraumaPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setKecederaanGigiAnteriorTraumaPemeriksaanUmum(
-                    //     !props.kecederaanGigiAnteriorTraumaPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.kecederaanGigiAnteriorTraumaPemeriksaanUmum}
+                    onChange={() => {
+                      props.setKecederaanGigiAnteriorTraumaPemeriksaanUmum(
+                        !props.kecederaanGigiAnteriorTraumaPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -478,12 +478,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='tisu-lembut-pemeriksaan-umum'
                     id='tisu-lembut-pemeriksaan-umum'
-                    // checked={props.tisuLembutTraumaPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setTisuLembutTraumaPemeriksaanUmum(
-                    //     !props.tisuLembutTraumaPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.tisuLembutTraumaPemeriksaanUmum}
+                    onChange={() => {
+                      props.setTisuLembutTraumaPemeriksaanUmum(
+                        !props.tisuLembutTraumaPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -498,12 +498,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='tisu-keras-pemeriksaan-umum'
                     id='tisu-keras-pemeriksaan-umum'
-                    // checked={props.tisuKerasTraumaPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setTisuKerasTraumaPemeriksaanUmum(
-                    //     !props.tisuKerasTraumaPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.tisuKerasTraumaPemeriksaanUmum}
+                    onChange={() => {
+                      props.setTisuKerasTraumaPemeriksaanUmum(
+                        !props.tisuKerasTraumaPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                   />
                   <label
@@ -528,6 +528,15 @@ export default function Pemeriksaan(props) {
                     name='fv-perlu-sapuan-pemeriksaan-umum'
                     id='ya-fv-perlu-sapuan-pemeriksaan-umum'
                     value='ya-fv-perlu-sapuan-pemeriksaan-umum'
+                    checked={
+                      props.fvPerluSapuanPemeriksaanUmum ===
+                      'ya-fv-perlu-sapuan-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -542,6 +551,15 @@ export default function Pemeriksaan(props) {
                     name='fv-perlu-sapuan-pemeriksaan-umum'
                     id='tidak-fv-perlu-sapuan-pemeriksaan-umum'
                     value='tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                    checked={
+                      props.fvPerluSapuanPemeriksaanUmum ===
+                      'tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -566,17 +584,17 @@ export default function Pemeriksaan(props) {
                     name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     id='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     value='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                    // checked={
-                    //   props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
-                    //   'ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
+                      'ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -591,17 +609,17 @@ export default function Pemeriksaan(props) {
                     name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     id='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     value='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                    // checked={
-                    //   props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
-                    //   'tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
+                      'tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -651,12 +669,12 @@ export default function Pemeriksaan(props) {
                     required={props.umur < 15 ? false : true}
                     name='skor-bpe-pemeriksaan-umum'
                     id='skor-bpe-pemeriksaan-umum'
-                    // value={props.skorBpeOralHygienePemeriksaanUmum}
-                    // onChange={(e) => {
-                    //   props.setSkorBpeOralHygienePemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={props.skorBpeOralHygienePemeriksaanUmum}
+                    onChange={(e) => {
+                      props.setSkorBpeOralHygienePemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
@@ -676,12 +694,12 @@ export default function Pemeriksaan(props) {
                     required
                     name='skor-gis-pemeriksaan-umum'
                     id='skor-gis-pemeriksaan-umum'
-                    // value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                    // onChange={(e) => {
-                    //   props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                    onChange={(e) => {
+                      props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
@@ -724,10 +742,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='d-ada-status-gigi-desidus-pemeriksaan-umum'
                       id='d-ada-status-gigi-desidus-pemeriksaan-umum'
-                      //   value={props.dAdaGigiDesidusPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setDAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.dAdaGigiDesidusPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setDAdaGigiDesidusPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -741,10 +759,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='m-ada-status-gigi-desidus-pemeriksaan-umum'
                       id='m-ada-status-gigi-desidus-pemeriksaan-umum'
-                      //   value={props.mAdaGigiDesidusPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setMAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.mAdaGigiDesidusPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setMAdaGigiDesidusPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -758,10 +776,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='f-ada-status-gigi-desidus-pemeriksaan-umum'
                       id='f-ada-status-gigi-desidus-pemeriksaan-umum'
-                      //   value={props.fAdaGigiDesidusPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setFAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.fAdaGigiDesidusPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setFAdaGigiDesidusPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -775,10 +793,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='e-ada-status-gigi-desidus-pemeriksaan-umum'
                       id='e-ada-status-gigi-desidus-pemeriksaan-umum'
-                      //   value={props.eAdaGigiDesidusPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setEAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.eAdaGigiDesidusPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setEAdaGigiDesidusPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -792,10 +810,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='x-ada-status-gigi-desidus-pemeriksaan-umum'
                       id='x-ada-status-gigi-desidus-pemeriksaan-umum'
-                      //   value={props.xAdaGigiDesidusPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setXAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.xAdaGigiDesidusPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setXAdaGigiDesidusPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -833,10 +851,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='d-ada-status-gigi-kekal-pemeriksaan-umum'
                       id='d-ada-status-gigi-kekal-pemeriksaan-umum'
-                      //   value={props.dAdaGigiKekalPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setDAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.dAdaGigiKekalPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setDAdaGigiKekalPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -850,10 +868,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='m-ada-status-gigi-kekal-pemeriksaan-umum'
                       id='m-ada-status-gigi-kekal-pemeriksaan-umum'
-                      //   value={props.mAdaGigiKekalPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setMAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.mAdaGigiKekalPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setMAdaGigiKekalPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -867,10 +885,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='f-ada-status-gigi-kekal-pemeriksaan-umum'
                       id='f-ada-status-gigi-kekal-pemeriksaan-umum'
-                      //   value={props.fAdaGigiKekalPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setFAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.fAdaGigiKekalPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setFAdaGigiKekalPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -884,10 +902,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='e-ada-status-gigi-kekal-pemeriksaan-umum'
                       id='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                      //   value={props.eAdaGigiKekalPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setEAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.eAdaGigiKekalPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setEAdaGigiKekalPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -901,10 +919,10 @@ export default function Pemeriksaan(props) {
                       type='number'
                       name='x-ada-status-gigi-kekal-pemeriksaan-umum'
                       id='x-ada-status-gigi-kekal-pemeriksaan-umum'
-                      //   value={props.xAdaGigiKekalPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setXAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      //   }}
+                      value={props.xAdaGigiKekalPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setXAdaGigiKekalPemeriksaanUmum(e.target.value);
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     />
                   </div>
@@ -922,12 +940,12 @@ export default function Pemeriksaan(props) {
                     <select
                       name='jumlah-faktor-risiko-pemeriksaan-umum'
                       id='jumlah-faktor-risiko-pemeriksaan-umum'
-                      //   value={props.jumlahFaktorRisikoPemeriksaanUmum}
-                      //   onChange={(e) => {
-                      //     props.setJumlahFaktorRisikoPemeriksaanUmum(
-                      //       e.target.value
-                      //     );
-                      //   }}
+                      value={props.jumlahFaktorRisikoPemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setJumlahFaktorRisikoPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     >
                       <option value=''></option>
@@ -997,17 +1015,17 @@ export default function Pemeriksaan(props) {
                     name='edentulous-warga-emas-pemeriksaan-umum'
                     id='ya-edentulous-warga-emas-pemeriksaan-umum'
                     value='ya-edentulous-warga-emas-pemeriksaan-umum'
-                    // checked={
-                    //   props.edentulousWargaEmasPemeriksaanUmum ===
-                    //   'ya-edentulous-warga-emas-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setEdentulousWargaEmasPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.edentulousWargaEmasPemeriksaanUmum ===
+                      'ya-edentulous-warga-emas-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setEdentulousWargaEmasPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1022,17 +1040,17 @@ export default function Pemeriksaan(props) {
                     name='edentulous-warga-emas-pemeriksaan-umum'
                     id='tidak-edentulous-warga-emas-pemeriksaan-umum'
                     value='tidak-edentulous-warga-emas-pemeriksaan-umum'
-                    // checked={
-                    //   props.edentulousWargaEmasPemeriksaanUmum ===
-                    //   'tidak-edentulous-warga-emas-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setEdentulousWargaEmasPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.edentulousWargaEmasPemeriksaanUmum ===
+                      'tidak-edentulous-warga-emas-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setEdentulousWargaEmasPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1051,17 +1069,17 @@ export default function Pemeriksaan(props) {
                     name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                     id='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                     value='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    // checked={
-                    //   props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
-                    //   'ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
+                      'ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1075,17 +1093,17 @@ export default function Pemeriksaan(props) {
                     name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                     id='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                     value='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    // checked={
-                    //   props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
-                    //   'tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
+                      'tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1103,14 +1121,14 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                     id='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    // value={
-                    //   props.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
-                    // }
-                    // onChange={(e) => {
-                    //   props.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={
+                      props.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
+                    }
+                    onChange={(e) => {
+                      props.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
                 </div>
@@ -1130,17 +1148,17 @@ export default function Pemeriksaan(props) {
                     name='disaring-program-kanser-mulut-pemeriksaan-umum'
                     id='ya-disaring-program-kanser-mulut-pemeriksaan-umum'
                     value='ya-disaring-program-kanser-mulut-pemeriksaan-umum'
-                    // checked={
-                    //   props.disaringProgramKanserMulutPemeriksaanUmum ===
-                    //   'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setDisaringProgramKanserMulutPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.disaringProgramKanserMulutPemeriksaanUmum ===
+                      'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setDisaringProgramKanserMulutPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1154,17 +1172,17 @@ export default function Pemeriksaan(props) {
                     name='disaring-program-kanser-mulut-pemeriksaan-umum'
                     id='tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
                     value='tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
-                    // checked={
-                    //   props.disaringProgramKanserMulutPemeriksaanUmum ===
-                    //   'tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setDisaringProgramKanserMulutPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.disaringProgramKanserMulutPemeriksaanUmum ===
+                      'tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setDisaringProgramKanserMulutPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1183,17 +1201,17 @@ export default function Pemeriksaan(props) {
                     name='dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     id='ya-dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     value='ya-dirujuk-program-kanser-mulut-pemeriksaan-umum'
-                    // checked={
-                    //   props.dirujukProgramKanserMulutPemeriksaanUmum ===
-                    //   'ya-dirujuk-program-kanser-mulut-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setDirujukProgramKanserMulutPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.dirujukProgramKanserMulutPemeriksaanUmum ===
+                      'ya-dirujuk-program-kanser-mulut-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setDirujukProgramKanserMulutPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1207,17 +1225,17 @@ export default function Pemeriksaan(props) {
                     name='dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     id='tidak-dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     value='tidak-dirujuk-program-kanser-mulut-pemeriksaan-umum'
-                    // checked={
-                    //   props.dirujukProgramKanserMulutPemeriksaanUmum ===
-                    //   'tidak-dirujuk-program-kanser-mulut-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setDirujukProgramKanserMulutPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.dirujukProgramKanserMulutPemeriksaanUmum ===
+                      'tidak-dirujuk-program-kanser-mulut-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setDirujukProgramKanserMulutPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1232,12 +1250,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='lesi-mulut-pemeriksaan-umum'
                     id='lesi-mulut-pemeriksaan-umum'
-                    // checked={props.lesiMulutPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setLesiMulutPemeriksaanUmum(
-                    //     !props.lesiMulutPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.lesiMulutPemeriksaanUmum}
+                    onChange={() => {
+                      props.setLesiMulutPemeriksaanUmum(
+                        !props.lesiMulutPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -1252,12 +1270,12 @@ export default function Pemeriksaan(props) {
                     type='checkbox'
                     name='tabiat-berisiko-tinggi-pemeriksaan-umum'
                     id='tabiat-berisiko-tinggi-pemeriksaan-umum'
-                    // checked={props.tabiatBerisikoTinggiPemeriksaanUmum}
-                    // onChange={() => {
-                    //   props.setTabiatBerisikoTinggiPemeriksaanUmum(
-                    //     !props.tabiatBerisikoTinggiPemeriksaanUmum
-                    //   );
-                    // }}
+                    checked={props.tabiatBerisikoTinggiPemeriksaanUmum}
+                    onChange={() => {
+                      props.setTabiatBerisikoTinggiPemeriksaanUmum(
+                        !props.tabiatBerisikoTinggiPemeriksaanUmum
+                      );
+                    }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
@@ -1283,12 +1301,14 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum}
-                    // onChange={(e) => {
-                    //   props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={
+                      props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
+                    }
+                    onChange={(e) => {
+                      props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1303,14 +1323,14 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={
-                    //   props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
-                    // }
-                    // onChange={(e) => {
-                    //   props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={
+                      props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
+                    }
+                    onChange={(e) => {
+                      props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1325,14 +1345,14 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={
-                    //   props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
-                    // }
-                    // onChange={(e) => {
-                    //   props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={
+                      props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
+                    }
+                    onChange={(e) => {
+                      props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1347,14 +1367,14 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={
-                    //   props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
-                    // }
-                    // onChange={(e) => {
-                    //   props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={
+                      props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
+                    }
+                    onChange={(e) => {
+                      props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1367,17 +1387,17 @@ export default function Pemeriksaan(props) {
                     name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                     value='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // checked={
-                    //   props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
-                    //   'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
+                      'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1391,17 +1411,17 @@ export default function Pemeriksaan(props) {
                     name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                     value='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // checked={
-                    //   props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
-                    //   'tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    //     ? true
-                    //     : false
-                    // }
-                    // onChange={(e) => {
-                    //   props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    checked={
+                      props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
+                      'tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                   <label
@@ -1422,12 +1442,12 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={props.cabutanKesEndodontikDiperlukanPemeriksaanUmum}
-                    // onChange={(e) => {
-                    //   props.setCabutanKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={props.cabutanKesEndodontikDiperlukanPemeriksaanUmum}
+                    onChange={(e) => {
+                      props.setCabutanKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
@@ -1442,12 +1462,12 @@ export default function Pemeriksaan(props) {
                     type='number'
                     name='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
                     id='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    // value={props.cabutanKesEndodontikDiperlukanPemeriksaanUmum}
-                    // onChange={(e) => {
-                    //   props.setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
-                    //     e.target.value
-                    //   );
-                    // }}
+                    value={props.tampalanKesEndodontikDiperlukanPemeriksaanUmum}
+                    onChange={(e) => {
+                      props.setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
+                        e.target.value
+                      );
+                    }}
                     className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                   />
                 </div>
