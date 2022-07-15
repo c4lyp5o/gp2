@@ -76,7 +76,7 @@ export default function Kotak(props) {
                   id='tarikh1Umum'
                   value={props.tarikh1Umum}
                   onChange={(e) => {
-                    props.setTarikh1(e.target.value);
+                    props.setTarikh1Umum(e.target.value);
                   }}
                   className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                 />

@@ -492,7 +492,10 @@ function MaklumatLanjut(props) {
                 }}
                 className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
               />
-              <label htmlFor='kp-bergerak' className='m-2 text-sm font-m'>
+              <label
+                htmlFor='kp-bergerak-maklumat-lanjut-umum'
+                className='m-2 text-sm font-m'
+              >
                 KP bergerak
               </label>
               <select
