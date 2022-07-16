@@ -13,8 +13,14 @@ import Promosi from './form-umum/Promosi';
 import Kotak from './form-umum/Kotak';
 
 function UserFormUmumHeader() {
-  const { userToken, username, navigate, catchAxiosErrorAndLogout, useParams } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    username,
+    navigate,
+    catchAxiosErrorAndLogout,
+    useParams,
+    toast,
+  } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
@@ -1753,6 +1759,7 @@ function UserFormUmumHeader() {
         <Kemaskini
           showKemaskini={showKemaskini}
           setShowKemaskini={setShowKemasKini}
+          toast={toast}
         />
       )}
     </>

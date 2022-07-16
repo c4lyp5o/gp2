@@ -66,6 +66,7 @@ function Kaunter() {
 
   return (
     <>
+      <ToastContainer />
       <UserHeader />
       <div className='absolute inset-0 -z-10 bg-user5'></div>
       <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
@@ -105,7 +106,6 @@ function Kaunter() {
           />
         </div>
       </div>
-      <ToastContainer />
       <UserFooter />
     </>
   );
