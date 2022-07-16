@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -21,6 +19,8 @@ function Kaunter() {
     navigate,
     catchAxiosErrorAndLogout,
     dateToday,
+    ToastContainer,
+    toast,
     GET_PATIENT_BY_TARIKH_KEDATANGAN,
   } = useGlobalUserAppContext();
 
