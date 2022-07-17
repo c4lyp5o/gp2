@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function UserDashboard() {
-  const [showAccordian1, setShowAccordian1] = useState(false);
-  const [showAccordian2, setShowAccordian2] = useState(false);
-  const [showAccordian3, setShowAccordian3] = useState(false);
+  const [showAccordian1, setShowAccordian1] = useState(true);
+  const [showAccordian2, setShowAccordian2] = useState(true);
+  const [showAccordian3, setShowAccordian3] = useState(true);
 
   return (
     <>
@@ -38,7 +38,7 @@ function UserDashboard() {
         <section
           className={`grid grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
             showAccordian1
-              ? 'max-h-60 overflow-y-auto'
+              ? 'max-h-80 overflow-y-auto'
               : 'max-h-0 overflow-hidden'
           }`}
         >

@@ -21,9 +21,14 @@ import UserLoggedInNotFound from './UserLoggedInNotFound';
 
 import UserFooter from '../components/UserFooter';
 
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 function UserAfterLogin() {
+  const { ToastContainer } = useGlobalUserAppContext();
+
   return (
     <>
+      <ToastContainer />
       <UserHeader />
       <div className='absolute inset-0 -z-10 bg-user5'></div>
       <UserNavbar />
@@ -33,7 +38,10 @@ function UserAfterLogin() {
           <Route index element={<UserDashboard />} />
 
           <Route path='umum' element={<UserUmum />} />
-          <Route path='form-umum' element={<UserFormUmumHeader />} />
+          <Route
+            path='form-umum/:personUmumId'
+            element={<UserFormUmumHeader />}
+          />
 
           <Route path='sekolah' element={<UserSekolah />} />
           <Route
