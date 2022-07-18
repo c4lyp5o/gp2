@@ -1,6 +1,6 @@
-import AddFacility from './AddFacility';
-import EditFacility from './EditFacility';
-import DeleteFacility from './DeleteFacility';
+import AddFacility from './Add';
+import EditFacility from './Edit';
+import DeleteFacility from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
 import { useState } from 'react';
