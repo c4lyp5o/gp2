@@ -78,12 +78,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Klinik');
+              setFacilityType('klinik');
               showKlinikNotFacil();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Klinik',
+                    jenisFasiliti: 'klinik',
                     daerah: daerah,
                   },
                 });
@@ -97,7 +97,7 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Pegawai');
+              setFacilityType('pegawai');
               showPegawaiOnly();
               setTimeout(() => {
                 getOperators({
@@ -128,12 +128,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Taska');
+              setFacilityType('taska');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Taska',
+                    jenisFasiliti: 'taska',
                     daerah: daerah,
                   },
                 });
@@ -147,12 +147,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Tadika');
+              setFacilityType('tadika');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Tadika',
+                    jenisFasiliti: 'tadika',
                     daerah: daerah,
                   },
                 });
@@ -166,12 +166,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Sekolah Rendah');
+              setFacilityType('sekolah-rendah');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Sekolah Rendah',
+                    jenisFasiliti: 'sekolah-rendah',
                     daerah: daerah,
                   },
                 });
@@ -185,12 +185,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Sekolah Menengah');
+              setFacilityType('sekolah-menengah');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Sekolah Menengah',
+                    jenisFasiliti: 'sekolah-menengah',
                     daerah: daerah,
                   },
                 });
@@ -204,12 +204,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('Institusi');
+              setFacilityType('institusi');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'Institusi',
+                    jenisFasiliti: 'institusi',
                     daerah: daerah,
                   },
                 });
@@ -223,12 +223,12 @@ function AdminNavbar({
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
             onClick={() => {
               reset();
-              setFacilityType('KP Bergerak');
+              setFacilityType('kp-bergerak');
               showFacilNotKlinik();
               setTimeout(() => {
                 getFacilities({
                   variables: {
-                    jenisFasiliti: 'KP Bergerak',
+                    jenisFasiliti: 'kp-bergerak',
                     daerah: daerah,
                   },
                 });

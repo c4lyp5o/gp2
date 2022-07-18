@@ -32,7 +32,7 @@ const Modal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (jenisFacility !== 'Pegawai') {
+    if (jenisFacility !== 'pegawai') {
       await createFacility({
         variables: {
           nama: currentName.current,
@@ -44,7 +44,7 @@ const Modal = ({
       });
       refetchFacilities();
     }
-    if (jenisFacility === 'Pegawai') {
+    if (jenisFacility === 'pegawai') {
       await createOperator({
         variables: {
           nama: currentName.current,
@@ -70,7 +70,7 @@ const Modal = ({
   };
 
   function AddPegawai() {
-    if (jenisFacility === 'Pegawai') {
+    if (jenisFacility === 'pegawai') {
       return (
         <>
           <form onSubmit={handleSubmit}>
@@ -160,7 +160,7 @@ const Modal = ({
   }
 
   function AddFacility() {
-    if (jenisFacility !== 'Klinik' && jenisFacility !== 'Pegawai') {
+    if (jenisFacility !== 'klinik' && jenisFacility !== 'pegawai') {
       return (
         <>
           <form onSubmit={handleSubmit}>
@@ -227,7 +227,7 @@ const Modal = ({
   }
 
   function AddKlinik() {
-    if (jenisFacility === 'Klinik') {
+    if (jenisFacility === 'klinik') {
       return (
         <>
           <form onSubmit={handleSubmit}>

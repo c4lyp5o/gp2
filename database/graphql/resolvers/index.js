@@ -7,7 +7,7 @@ module.exports = {
   // HOLY MOTHER
   klinik: async (args) => {
     const klinik = await Fasiliti.find({
-      jenisFasiliti: 'Klinik',
+      jenisFasiliti: 'klinik',
       daerah: args.daerah,
     });
     return klinik.map((klinik) => {
