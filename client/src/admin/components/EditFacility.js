@@ -177,7 +177,9 @@ const Modal = ({
                         currentKp.current = e.target.value;
                       }}
                     >
-                      <option disabled>Pilih Klinik</option>
+                      <option selected disabled>
+                        Pilih Klinik
+                      </option>
                       {klinikData.klinik.map((k, index) => (
                         <option value={k.nama}>{k.nama}</option>
                       ))}
@@ -190,7 +192,9 @@ const Modal = ({
                         currentRole.current = e.target.value;
                       }}
                     >
-                      <option disabled>Pilih Role</option>
+                      <option selected disabled>
+                        Pilih Role
+                      </option>
                       <option>Admin</option>
                       <option>Marhaen</option>
                     </select>
@@ -219,9 +223,29 @@ const Modal = ({
 
   if (loading || klinikLoading) {
     return (
-      <div>
-        <Ring />
-      </div>
+      <>
+        <div className={styles.darkBG} />
+        <div className={styles.centered}>
+          <div className={styles.modalEdit}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Loading</h5>
+            </div>
+            <button className={styles.closeBtn}>
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </button>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <Ring size={100} />
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}></div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
   if (error || klinikError) {

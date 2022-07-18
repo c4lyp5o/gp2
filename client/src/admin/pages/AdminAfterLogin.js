@@ -14,6 +14,8 @@ import AdminHeaderLoggedIn from '../components/AdminHeaderLoggedIn';
 import AdminNavbar from '../components/AdminNavbar';
 // paparan utama
 import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
+import Welcome from '../components/Welcome';
+import Data from '../components/Data';
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
@@ -108,33 +110,33 @@ function AdminAfterLogin() {
           <Route
             index
             element={
-              <AdminCenterStageLoggedIn
-                showWelcome={showWelcome}
-                showData={showData}
-                showFacility={showFacility}
-                showPegawai={showPegawai}
-                showKlinik={showKlinik}
-                user={loginInfo.username}
-                daerah={loginInfo.daerah}
-                negeri={loginInfo.negeri}
-                facilityType={facilityType}
-                data={facilitiesData}
-                loading={facilitiesLoading}
-                error={facilitiesError}
-                getOneFacility={getOneFacility}
-                oneFacility={oneFacility}
-                loadingOneFacility={loadingOneFacility}
-                errorOneFacility={errorOneFacility}
-                getOperators={getOperators}
-                operators={operators}
-                loadingOperators={loadingOperators}
-                errorOperators={errorOperators}
-                // refetch
-                refetchFacilities={refetchFacilities}
-                refetchOperators={refetchOperators}
-                // toastify
-                toast={toast}
-              />
+              <AdminCenterStageLoggedIn>
+                <Welcome showWelcome={showWelcome} />
+                <Data
+                  showData={showData}
+                  showFacility={showFacility}
+                  showPegawai={showPegawai}
+                  showKlinik={showKlinik}
+                  user={loginInfo.username}
+                  daerah={loginInfo.daerah}
+                  negeri={loginInfo.negeri}
+                  facilityType={facilityType}
+                  data={facilitiesData}
+                  loading={facilitiesLoading}
+                  error={facilitiesError}
+                  getOneFacility={getOneFacility}
+                  oneFacility={oneFacility}
+                  loadingOneFacility={loadingOneFacility}
+                  errorOneFacility={errorOneFacility}
+                  getOperators={getOperators}
+                  operators={operators}
+                  loadingOperators={loadingOperators}
+                  errorOperators={errorOperators}
+                  refetchFacilities={refetchFacilities}
+                  refetchOperators={refetchOperators}
+                  toast={toast}
+                />
+              </AdminCenterStageLoggedIn>
             }
           />
           <Route path='*' element={<AdminLoggedInNotFound />} />
