@@ -11481,5 +11481,5 @@ exports.createPG201 = function (req, res) {
         res.status(500).json({ error });
       }
     }
-  );
+  )
 };
