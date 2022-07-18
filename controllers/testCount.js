@@ -577,7 +577,7 @@ exports.testFunction = function (req, res) {
       resultPG201A: function (callback) {
         Sekolah.aggregate(
           [
-            { $match: {} },
+            { $match: { statusRawatan: 'selesai' } },
             {
               $group: {
                 _id: '$namaSekolah',
@@ -676,90 +676,64 @@ exports.testFunction = function (req, res) {
                     ],
                   },
                 },
-                // jumlahd: {
-                //   $sum: { '$dAdaGigiDesidus' },
-                // },
-                jumlahd: { $sum: { $toDouble: '$dAdaGigiDesidus' } },
-                jumlahf: { $sum: { $toDouble: '$fAdaGigiDesidus' } },
-                jumlahx: { $sum: { $toDouble: '$xAdaGigiDesidus' } },
-                jumlahE: { $sum: { $toDouble: '$eAdaGigiKekal' } },
-                jumlahD: { $sum: { $toDouble: '$dAdaGigiKekal' } },
-                jumlahM: { $sum: { $toDouble: '$mAdaGigiKekal' } },
-                jumlahF: { $sum: { $toDouble: '$fAdaGigiKekal' } },
-                jumlahX: { $sum: { $toDouble: '$xAdaGigiKekal' } },
-                // jumlahf: {
-                //   $sum: { $fAdaGigiDesidus: 1 },
-                // },
-                // jumlahx: {
-                //   $sum: { $xAdaGigiDesidus: 1 },
-                // },
-                // jumlahE: {
-                //   $sum: { $eAdaGigiKekal: 1 },
-                // },
-                // jumlahD: {
-                //   $sum: { $dAdaGigiKekal: 1 },
-                // },
-                // jumlahM: {
-                //   $sum: { $mAdaGigiKekal: 1 },
-                // },
-                // jumlahF: {
-                //   $sum: { $fAdaGigiKekal: 1 },
-                // },
-                // jumlahX: {
-                //   $sum: { $xAdaGigiKekal: 1 },
-                // },
-                // gigiKekalDMFXsamaAtauKurangDari3: {
-                //   //DMFX ≤ 3
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $sum: [
-                //           {
-                //             $dAdaGigiKekal: 1,
-                //             $mAdaGigiKekal: 1,
-                //             $fAdaGigiKekal: 1,
-                //             xAdaGigiKekal: 1,
-                //           },
-                //         ],
-                //       },
-                //       3,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // totalStatusGigiKekalSamaKosong: {
-                //   //X+M = 0
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $eq: ['$mAdaGigiKekal', '0'] },
-                //           { $eq: ['$xAdaGigiKekal', '0'] },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // eMoreThanZero: {
-                //   //E≥1 (ada karies awal)
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gte: ['$eAdaGigiKekal', '1'] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
+                jumlahd: { $sum: '$dAdaGigiDesidus' },
+                jumlahf: { $sum: '$fAdaGigiDesidus' },
+                jumlahx: { $sum: '$xAdaGigiDesidus' },
+                jumlahE: { $sum: '$eAdaGigiKekal'  },
+                jumlahD: { $sum: '$dAdaGigiKekal' },
+                jumlahM: { $sum: '$mAdaGigiKekal'  },
+                jumlahF: { $sum: '$fAdaGigiKekal' },
+                jumlahX: { $sum: '$xAdaGigiKekal'  },
+                gigiKekalDMFXsamaAtauKurangDari3: {
+                  //DMFX ≤ 3
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$dAdaGigiKekal', 1] },
+                          { $eq: ['$mAdaGigiKekal', 1] },
+                          { $eq: ['$fAdaGigiKekal', 1] },
+                          { $eq: ['$xAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                totalStatusGigiKekalSamaKosong: {
+                  //X+M = 0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$mAdaGigiKekal', 0] },
+                          { $eq: ['$xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gte: ['$eAdaGigiKekal', 1] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
                 jumlahMBK: {
                   //MBK
                   $sum: {
                     $cond: [
                       {
-                        $eq: ['$dAdaGigiDesidus', '0'],
+                        $eq: ['$dAdaGigiDesidus', 0],
                       },
                       1,
                       0,
@@ -772,10 +746,10 @@ exports.testFunction = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          { $eq: ['$dAdaGigiKekal', '0'] },
-                          { $eq: ['$mAdaGigiKekal', '0'] },
-                          { $eq: ['$fAdaGigiKekal', '0'] },
-                          { $eq: ['$xAdaGigiKekal', '0'] },
+                          { $eq: ['$dAdaGigiKekal', 0] },
+                          { $eq: ['$mAdaGigiKekal', 0] },
+                          { $eq: ['$fAdaGigiKekal', 0] },
+                          { $eq: ['$xAdaGigiKekal', 0] },
                         ],
                       },
                       1,
@@ -789,11 +763,11 @@ exports.testFunction = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          { $eq: ['$dAdaGigiKekal', '0'] },
-                          { $eq: ['$mAdaGigiKekal', '0'] },
-                          { $eq: ['$fAdaGigiKekal', '0'] },
-                          { $eq: ['$xAdaGigiKekal', '0'] },
-                          { $gte: ['$eAdaGigiKekal', '1'] },
+                          { $eq: ['$dAdaGigiKekal', 0] },
+                          { $eq: ['$mAdaGigiKekal', 0] },
+                          { $eq: ['$fAdaGigiKekal', 0] },
+                          { $eq: ['$xAdaGigiKekal', 0] },
+                          { $gte: ['$eAdaGigiKekal', 1] },
                         ],
                       },
                       1,
@@ -807,10 +781,9 @@ exports.testFunction = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          { $eq: ['$dAdaGigiDesidus', '0'] },
-                          { $eq: ['$mAdaGigiDesidus', '0'] },
-                          { $eq: ['$fAdaGigiDesidus', '0'] },
-                          { $eq: ['$xAdaGigiDesidus', '0'] },
+                          { $eq: ['$dAdaGigiDesidus', 0] },
+                          { $eq: ['$fAdaGigiDesidus', 0] },
+                          { $eq: ['$xAdaGigiDesidus', 0] },
                         ],
                       },
                       1,
@@ -836,11 +809,11 @@ exports.testFunction = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          { $eq: ['$dAdaGigiKekal', '0'] },
-                          { $eq: ['$mAdaGigiKekal', '0'] },
-                          { $eq: ['$fAdaGigiKekal', '0'] },
-                          { $eq: ['$xAdaGigiKekal', '0'] },
-                          { $eq: ['$eAdaGigiKekal', '0'] },
+                          { $eq: ['$dAdaGigiKekal', 0] },
+                          { $eq: ['$mAdaGigiKekal', 0] },
+                          { $eq: ['$fAdaGigiKekal', 0] },
+                          { $eq: ['$xAdaGigiKekal', 0] },
+                          { $eq: ['$eAdaGigiKekal', 0] },
                         ],
                       },
                       1,
@@ -860,28 +833,28 @@ exports.testFunction = function (req, res) {
                   $sum: { $toDouble: '$rujukCleftLip' },
                   // $sum: { $rujukCleftLip: 0 },
                 },
-                // perluFSMuridB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
-                //           {
-                //             $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
-                //           },
-                //           {
-                //             $eq: [
-                //               '$baruUlanganKedatanganPendaftaran',
-                //               'baru-kedatangan-pendaftaran',
-                //             ],
-                //           },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluFs', 0] },
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
+                          },
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
                 perluFSGigiB: {
                   $sum: { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
                 },
@@ -906,307 +879,307 @@ exports.testFunction = function (req, res) {
                   $sum: {
                     $cond: [
                       {
-                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
                       },
                       1,
                       0,
                     ],
                   },
                 },
-                // perluFvGigiB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluFvGigiS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1MuridB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1MuridS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           {
-                //             $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', '0'],
-                //           },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1GigiB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1GigiS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           {
-                //             $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', '0'],
-                //           },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluTampalanAntGdB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGDAnteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAntGdS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGDAnteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAntGkB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGKAnteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAntGkS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGKAnteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanPosGdB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGDPosteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanPosGdS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGDPosteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanPosGkB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGKPosteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanPosGkS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGKPosteriorSewarnaJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAmgGdB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGDPosteriorAmalgamJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAmgGdS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGDPosteriorAmalgamJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAmgGkB: {
-                //   $sum: {
-                //     $gt: [
-                //       '$baruGKPosteriorAmalgamJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // perluTampalanAmgGkS: {
-                //   $sum: {
-                //     $gt: [
-                //       '$semulaGKPosteriorAmalgamJumlahTampalanDiperlukan',
-                //       '0',
-                //     ],
-                //   },
-                // },
-                // telahFSMuridB: {
-                //   $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
-                // },
-                // telahFSMuridS: {
-                //   $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
-                // },
-                // telahFSGigiB: {
-                //   $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
-                // },
-                // telahFSGigiS: {
-                //   $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
-                // },
-                // telahFvMuridB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
-                //   },
-                // },
-                // telahFvMuridS: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
-                //   },
-                // },
-                // telahFvGigiB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
-                //   },
-                // },
-                // telahFvGigiS: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
-                //   },
-                // },
-                // telahPRR1MuridB: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                //     ],
-                //   },
-                // },
-                // telahPRR1MuridS: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                //     ],
-                //   },
-                // },
-                // telahPRR1GigiB: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                //     ],
-                //   },
-                // },
-                // telahPRR1GigiS: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                //     ],
-                //   },
-                // },
-                // telahTampalanAntGdB: {
-                //   $sum: {
-                //     $gt: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAntGdS: {
-                //   $sum: {
-                //     $gt: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAntGkB: {
-                //   $sum: {
-                //     $gt: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAntGkS: {
-                //   $sum: {
-                //     $gt: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanPosGdB: {
-                //   $sum: {
-                //     $gt: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanPosGdS: {
-                //   $sum: {
-                //     $gt: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanPosGkB: {
-                //   $sum: {
-                //     $gt: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanPosGkS: {
-                //   $sum: {
-                //     $gt: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAmgGdB: {
-                //   $sum: {
-                //     $gt: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAmgGdS: {
-                //   $sum: {
-                //     $gt: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAmgGkB: {
-                //   $sum: {
-                //     $gt: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat', '0'],
-                //   },
-                // },
-                // telahTampalanAmgGkS: {
-                //   $sum: {
-                //     $gt: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat', '0'],
-                //   },
-                // },
+                perluFvGigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', 0] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGdB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGdS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGkB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGkS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGdB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGdS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGkB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGkS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGdB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGdS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGkB: {
+                  $sum: {
+                    $gt: [
+                      '$baruGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGkS: {
+                  $sum: {
+                    $gt: [
+                      '$semulaGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                telahFSMuridB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', 0] },
+                },
+                telahFSMuridS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', 0] },
+                },
+                telahFSGigiB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', 0] },
+                },
+                telahFSGigiS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', 0] },
+                },
+                telahFvMuridB: {
+                  $sum: {
+                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', 0] }],
+                  },
+                },
+                telahFvMuridS: {
+                  $sum: {
+                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] }],
+                  },
+                },
+                telahFvGigiB: {
+                  $sum: {
+                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', 0] }],
+                  },
+                },
+                telahFvGigiS: {
+                  $sum: {
+                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] }],
+                  },
+                },
+                telahPRR1MuridB: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0] },
+                    ],
+                  },
+                },
+                telahPRR1MuridS: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 0] },
+                    ],
+                  },
+                },
+                telahPRR1GigiB: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0] },
+                    ],
+                  },
+                },
+                telahPRR1GigiS: {
+                  $sum: {
+                    $and: [
+                      { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 0] },
+                    ],
+                  },
+                },
+                telahTampalanAntGdB: {
+                  $sum: {
+                    $gt: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAntGdS: {
+                  $sum: {
+                    $gt: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAntGkB: {
+                  $sum: {
+                    $gt: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAntGkS: {
+                  $sum: {
+                    $gt: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanPosGdB: {
+                  $sum: {
+                    $gt: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanPosGdS: {
+                  $sum: {
+                    $gt: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanPosGkB: {
+                  $sum: {
+                    $gt: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanPosGkS: {
+                  $sum: {
+                    $gt: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAmgGdB: {
+                  $sum: {
+                    $gt: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAmgGdS: {
+                  $sum: {
+                    $gt: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAmgGkB: {
+                  $sum: {
+                    $gt: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
+                  },
+                },
+                telahTampalanAmgGkS: {
+                  $sum: {
+                    $gt: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
+                  },
+                },
                 cabutanGd: {
                   $sum: '$cabutDesidusPenyataAkhir2',
                 },
@@ -1216,64 +1189,95 @@ exports.testFunction = function (req, res) {
                 penskaleran: {
                   $sum: '$penskaleranPenyataAkhir2',
                 },
-                // caseCompletedICDAS: {
-                //   //kena finish E; cabutan ;scaling ; tampanlan
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $eq: ['$kesSelesaiPenyataAkhir2', true],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // skorGIS0: {
-                //   $sum: [{ $eq: ['$skorGisMulutOralHygiene', '0'] }],
-                //   // $sum: { $eq:  '$skorGisMulutOralHygiene', 0 },
-                // },
-                // skorGIS1: {
-                //   $sum: { $skorGisMulutOralHygiene: 1 },
-                // },
-                // skorGIS2: {
-                //   $sum: { $skorGisMulutOralHygiene: 2 },
-                // },
-                // skorGIS3: {
-                //   $sum: { $skorGisMulutOralHygiene: 3 },
-                // },
-                // toothSurfaceLoss: {
-                //   $sum: { $toothSurfaceLossTrauma: 1 },
-                // },
-                // traumaTisuLembut: {
-                //   $sum: { $tisuLembutTrauma: 1 },
-                // },
-                // traumaTisuKeras: {
-                //   $sum: { $tisuKerasTrauma: 1 },
-                // },
-                // pesakitAdaFullDentureAtas: {
-                //   $sum: { $yaTidakSediaAdaStatusDenture: 1 },
-                // },
-                // pesakitAdaPartialDentureAtas: {
-                //   $sum: { $yaTidakSediaAdaStatusDenture: 1 },
-                // },
-                // pesakitPerluFullDentureAtas: {
-                //   $sum: { $yaTidakPerluStatusDenture: 1 },
-                // },
-                // pesakitPerluPartialDentureAtas: {
-                //   $sum: { $yaTidakPerluStatusDenture: 1 },
-                // },
-                // pesakitAdaFullDentureBawah: {
-                //   $sum: { $yaTidakSediaAdaStatusDenture: 1 },
-                // },
-                // pesakitAdaPartialDentureBawah: {
-                //   $sum: { $yaTidakSediaAdaStatusDenture: 1 },
-                // },
-                // pesakitPerluFullDentureBawah: {
-                //   $sum: { $yaTidakPerluStatusDenture: 1 },
-                // },
-                // pesakitPerluPartialDentureBawah: {
-                //   $sum: { $yaTidakPerluStatusDenture: 1 },
-                // },
+                caseCompletedICDAS: {
+                  //kena finish E; cabutan ;scaling ; tampanlan
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$kesSelesaiPenyataAkhir2', true],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS0: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$skorGisMulutOralHygiene', '0'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS1: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$skorGisMulutOralHygiene', '1'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$skorGisMulutOralHygiene', '2'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS3: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$skorGisMulutOralHygiene', '3'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                toothSurfaceLoss: {
+                  $sum: '$toothSurfaceLossTrauma',
+                },
+                traumaTisuLembut: {
+                  $sum: '$tisuLembutTrauma',
+                },
+                traumaTisuKeras: {
+                  $sum: '$tisuKerasTrauma',
+                },
+                pesakitAdaFullDentureAtas: {
+                  $sum: '$yaTidakSediaAdaStatusDenture',
+                },
+                pesakitAdaPartialDentureAtas: {
+                  $sum: '$yaTidakSediaAdaStatusDenture',
+                },
+                pesakitPerluFullDentureAtas: {
+                  $sum: '$yaTidakPerluStatusDenture',
+                },
+                pesakitPerluPartialDentureAtas: {
+                  $sum: '$yaTidakPerluStatusDenture',
+                },
+                pesakitAdaFullDentureBawah: {
+                  $sum: '$yaTidakSediaAdaStatusDenture',
+                },
+                pesakitAdaPartialDentureBawah: {
+                  $sum: '$yaTidakSediaAdaStatusDenture',
+                },
+                pesakitPerluFullDentureBawah: {
+                  $sum: '$yaTidakPerluStatusDenture',
+                },
+                pesakitPerluPartialDentureBawah: {
+                  $sum: '$yaTidakPerluStatusDenture',
+                },
               },
             },
           ],
@@ -1668,221 +1672,222 @@ exports.testFunction = function (req, res) {
       //     callback
       //   );
       // },
-       resultPG201: function (callback) { //belum siap lagi. tengah map lagi 
-        Sekolah.aggregate(
-          [
-            { $match: {} },
-            {
-              $group: {
-                _id: '$createdByDaerah',
-                jumlahKedatanganBaru: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'baru-kedatangan-pendaftaran',
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                jumlahD: {
-                  $sum: { $dAdaGigiKekal: 1 },
-                },
-                eMoreThanZero: {
-                  //E≥1 (ada karies awal)
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [{ $gte: ['$eAdaGigiKekal', '1'] }],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                statusBebasKariesTapiElebihDariSatu: {
-                  //DMFX=0 ; E≥1
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [
-                          { $eq: ['$dAdaGigiKekal', '0'] },
-                          { $eq: ['$mAdaGigiKekal', '0'] },
-                          { $eq: ['$fAdaGigiKekal', '0'] },
-                          { $eq: ['$xAdaGigiKekal', '0'] },
-                          { $gte: ['$eAdaGigiKekal', '1'] },
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluFSMuridB: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [
-                          { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
-                          {
-                            $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
-                          },
-                          {
-                            $eq: [
-                              '$baruUlanganKedatanganPendaftaran',
-                              'baru-kedatangan-pendaftaran',
-                            ],
-                          },
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluFSGigiB: {
-                  $sum: { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
-                },
-                perluFSGigiS: {
-                  $sum: { $gt: ['$semulaJumlahGigiKekalPerluFs', '0'] },
-                },
-                perluFvMuridB: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluFvGigiB: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluFvGigiS: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluPRR1MuridB: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [
-                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluPRR1GigiB: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [
-                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                perluPRR1GigiS: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $and: [
-                          {
-                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', '0'],
-                          },
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                telahFSMuridB: {
-                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
-                },
-                telahFSMuridS: {
-                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
-                },
-                telahFSGigiB: {
-                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
-                },
-                telahFSGigiS: {
-                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
-                },
-                telahFvMuridB: {
-                  $sum: {
-                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
-                  },
-                },
-                telahFvMuridS: {
-                  $sum: {
-                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
-                  },
-                },
-                telahFvGigiB: {
-                  $sum: {
-                    $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
-                  },
-                },
-                telahFvGigiS: {
-                  $sum: {
-                    $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
-                  },
-                },
-                telahPRR1MuridB: {
-                  $sum: {
-                    $and: [
-                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                    ],
-                  },
-                },
-                telahPRR1GigiB: {
-                  $sum: {
-                    $and: [
-                      { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                    ],
-                  },
-                },
-                telahPRR1GigiS: {
-                  $sum: {
-                    $and: [
-                      { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', '0'] },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
-          callback
-        );
-      },
+      // resultPG201: function (callback) {
+      //   //belum siap lagi. tengah map lagi
+      //   Sekolah.aggregate(
+      //     [
+      //       { $match: {} },
+      //       {
+      //         $group: {
+      //           _id: '$createdByDaerah',
+      //           jumlahKedatanganBaru: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $eq: [
+      //                     '$baruUlanganKedatanganPendaftaran',
+      //                     'baru-kedatangan-pendaftaran',
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           jumlahD: {
+      //             $sum: { '$dAdaGigiKekal', 1 },
+      //           },
+      //           eMoreThanZero: {
+      //             //E≥1 (ada karies awal)
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [{ $gte: ['$eAdaGigiKekal', '1'] }],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           statusBebasKariesTapiElebihDariSatu: {
+      //             //DMFX=0 ; E≥1
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [
+      //                     { $eq: ['$dAdaGigiKekal', 0] },
+      //                     { $eq: ['$mAdaGigiKekal', 0] },
+      //                     { $eq: ['$fAdaGigiKekal', 0] },
+      //                     { $eq: ['$xAdaGigiKekal', 0] },
+      //                     { $gte: ['$eAdaGigiKekal', 1] },
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluFSMuridB: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [
+      //                     { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
+      //                     {
+      //                       $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
+      //                     },
+      //                     {
+      //                       $eq: [
+      //                         '$baruUlanganKedatanganPendaftaran',
+      //                         'baru-kedatangan-pendaftaran',
+      //                       ],
+      //                     },
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluFSGigiB: {
+      //             $sum: { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
+      //           },
+      //           perluFSGigiS: {
+      //             $sum: { $gt: ['$semulaJumlahGigiKekalPerluFs', '0'] },
+      //           },
+      //           perluFvMuridB: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluFvGigiB: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', '0'] }],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluFvGigiS: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', '0'] }],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluPRR1MuridB: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [
+      //                     { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluPRR1GigiB: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [
+      //                     { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', '0'] },
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           perluPRR1GigiS: {
+      //             $sum: {
+      //               $cond: [
+      //                 {
+      //                   $and: [
+      //                     {
+      //                       $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', '0'],
+      //                     },
+      //                   ],
+      //                 },
+      //                 1,
+      //                 0,
+      //               ],
+      //             },
+      //           },
+      //           telahFSMuridB: {
+      //             $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
+      //           },
+      //           telahFSMuridS: {
+      //             $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
+      //           },
+      //           telahFSGigiB: {
+      //             $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', '0'] },
+      //           },
+      //           telahFSGigiS: {
+      //             $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', '0'] },
+      //           },
+      //           telahFvMuridB: {
+      //             $sum: {
+      //               $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
+      //             },
+      //           },
+      //           telahFvMuridS: {
+      //             $sum: {
+      //               $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
+      //             },
+      //           },
+      //           telahFvGigiB: {
+      //             $sum: {
+      //               $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', '0'] }],
+      //             },
+      //           },
+      //           telahFvGigiS: {
+      //             $sum: {
+      //               $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', '0'] }],
+      //             },
+      //           },
+      //           telahPRR1MuridB: {
+      //             $sum: {
+      //               $and: [
+      //                 { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
+      //               ],
+      //             },
+      //           },
+      //           telahPRR1GigiB: {
+      //             $sum: {
+      //               $and: [
+      //                 { $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', '0'] },
+      //               ],
+      //             },
+      //           },
+      //           telahPRR1GigiS: {
+      //             $sum: {
+      //               $and: [
+      //                 { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', '0'] },
+      //               ],
+      //             },
+      //           },
+      //         },
+      //       },
+      //     ],
+      //     callback
+      //   );
+      // },
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     function (err, results) {
