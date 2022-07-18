@@ -9,6 +9,7 @@ const { graphqlHTTP } = require('express-graphql');
 // IMPORT ROUTER -----------------------------------------------
 // user import
 const authLogin = require('./routes/authLogin');
+const authRegister = require('./routes/authRegister');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
@@ -50,6 +51,7 @@ app.use(
 
 // user route
 app.use('/api/v1/auth', authLogin);
+app.use('/api/v1/register', authRegister);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);

@@ -580,7 +580,7 @@ exports.testFunction = function (req, res) {
             { $match: {} },
             {
               $group: {
-                _id: '$createdByKp',
+                _id: '$namaSekolah',
                 engganKedatanganPendaftaran: {
                   $sum: {
                     $cond: [
@@ -808,6 +808,7 @@ exports.testFunction = function (req, res) {
                       {
                         $and: [
                           { $eq: ['$dAdaGigiDesidus', '0'] },
+                          { $eq: ['$mAdaGigiDesidus', '0'] },
                           { $eq: ['$fAdaGigiDesidus', '0'] },
                           { $eq: ['$xAdaGigiDesidus', '0'] },
                         ],
