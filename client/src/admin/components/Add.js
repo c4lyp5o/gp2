@@ -72,6 +72,70 @@ const Modal = ({
     });
   };
 
+  function AddKlinik() {
+    klinikRefetch();
+    return (
+      <>
+        <form onSubmit={handleSubmit}>
+          <div
+            className={styles.darkBG}
+            onClick={() => setShowAddModal(false)}
+          />
+          <div className={styles.centered}>
+            <div className={styles.modalAdd}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
+              </div>
+              <button
+                className={styles.closeBtn}
+                onClick={() => setShowAddModal(false)}
+              >
+                <RiCloseLine style={{ marginBottom: '-3px' }} />
+              </button>
+              <div className={styles.modalContent}>
+                <div className='admin-pegawai-handler-container'>
+                  <div className='admin-pegawai-handler-input'>
+                    <p>Nama Klinik Pergigian</p>
+                    <input
+                      className='border-2'
+                      type='text'
+                      name='Nama'
+                      id='nama'
+                      onChange={(e) => (currentName.current = e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalContent}>
+                <input type='checkbox' name='checkbox' value='KEPP' />
+                KEPP
+                <br />
+                <input type='checkbox' name='checkbox' value='UTC' />
+                UTC
+                <br />
+                <input type='checkbox' name='checkbox' value='Visiting' />
+                Visiting
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  <button className={styles.deleteBtn} type='submit'>
+                    TAMBAH
+                  </button>
+                  <button
+                    className={styles.cancelBtn}
+                    onClick={() => setShowAddModal(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
+
   function AddPegawai() {
     klinikRefetch();
     return (
@@ -163,6 +227,7 @@ const Modal = ({
   }
 
   function AddFacility() {
+    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -227,70 +292,6 @@ const Modal = ({
     );
   }
 
-  function AddKlinik() {
-    klinikRefetch();
-    return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div
-            className={styles.darkBG}
-            onClick={() => setShowAddModal(false)}
-          />
-          <div className={styles.centered}>
-            <div className={styles.modalAdd}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
-              </div>
-              <button
-                className={styles.closeBtn}
-                onClick={() => setShowAddModal(false)}
-              >
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </button>
-              <div className={styles.modalContent}>
-                <div className='admin-pegawai-handler-container'>
-                  <div className='admin-pegawai-handler-input'>
-                    <p>Nama Klinik Pergigian</p>
-                    <input
-                      className='border-2'
-                      type='text'
-                      name='Nama'
-                      id='nama'
-                      onChange={(e) => (currentName.current = e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.modalContent}>
-                <input type='checkbox' name='checkbox' value='KEPP' />
-                KEPP
-                <br />
-                <input type='checkbox' name='checkbox' value='UTC' />
-                UTC
-                <br />
-                <input type='checkbox' name='checkbox' value='Visiting' />
-                Visiting
-              </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  <button className={styles.deleteBtn} type='submit'>
-                    TAMBAH
-                  </button>
-                  <button
-                    className={styles.cancelBtn}
-                    onClick={() => setShowAddModal(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </>
-    );
-  }
-
   if (klinikLoading) {
     return (
       <div>
@@ -305,11 +306,11 @@ const Modal = ({
 
   return (
     <>
+      {jenisFacility === 'klinik' && <AddKlinik />}
       {jenisFacility === 'pegawai' && <AddPegawai />}
       {jenisFacility !== 'klinik' && jenisFacility !== 'pegawai' && (
         <AddFacility />
       )}
-      {jenisFacility === 'klinik' && <AddKlinik />}
     </>
   );
 };
