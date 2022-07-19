@@ -21,6 +21,7 @@ const Modal = ({
     data: klinikData,
     loading: klinikLoading,
     error: klinikError,
+    refetch: klinikRefetch,
   } = useQuery(GET_KLINIK_FOR_DAERAH, {
     variables: { daerah: daerah },
   });
@@ -72,6 +73,7 @@ const Modal = ({
   };
 
   function AddPegawai() {
+    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -226,6 +228,7 @@ const Modal = ({
   }
 
   function AddKlinik() {
+    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
