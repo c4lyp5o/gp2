@@ -2757,15 +2757,7 @@ exports.testFunction2 = function (req, res) {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     async function (err, results) {
-      // if (err) {
-      //   console.log(err);
-      //   return res.status(500).json({
-      //     message: 'Error when getting Data',
-      //     error: err,
-      //   });
-      // // }
       console.log(results);
-      // return res.json(results.resultPG201A[1]);
       try {
         let filename = path.join(
           __dirname,
@@ -2779,6 +2771,18 @@ exports.testFunction2 = function (req, res) {
         await workbook.xlsx.readFile(filename);
         let worksheet = workbook.getWorksheet('PG201A');
         console.log('setting row1');
+        let rowNamaKlinik = worksheet.getRow(7);
+        rowNamaKlinik.getCell(9).value = 'Kelinik Gigi';
+        rowNamaKlinik.commit();
+
+        let rowNamaSekolah = worksheet.getRow(8);
+        rowNamaSekolah.getCell(9).value = results.resultPG201A[1]._id;
+        rowNamaSekolah.commit();
+
+        let rowNamaJenis = worksheet.getRow(9);
+        rowNamaJenis.getCell(9).value = 'PBSR';
+        rowNamaJenis.commit();
+
         //PG201A
         // Reten Sekolah (Darjah 1)
         let rowNew = worksheet.getRow(17);
