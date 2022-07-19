@@ -14,6 +14,7 @@ function AdminNavbar({
   daerah,
 }) {
   const [showLinks, setShowLinks] = useState(false);
+  const [thisIsClicked, setThisIsClicked] = useState('');
 
   const toggleData = () => {
     setShowLinks(!showLinks);
@@ -94,9 +95,14 @@ function AdminNavbar({
             KLINIK PERGIGIAN
           </button>
           <button
-            className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            className={
+              thisIsClicked === 'pegawai-pergigian'
+                ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            }
             onClick={() => {
               reset();
+              setThisIsClicked('pegawai-pergigian');
               setFacilityType('pegawai');
               showPegawaiOnly();
               setTimeout(() => {
@@ -125,9 +131,14 @@ function AdminNavbar({
             JURUTERAPI PERGIGIAN
           </NavLink> */}
           <button
-            className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            className={
+              thisIsClicked === 'taska'
+                ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            }
             onClick={() => {
               reset();
+              setThisIsClicked('taska');
               setFacilityType('taska');
               showFacilNotKlinik();
               setTimeout(() => {
@@ -144,9 +155,14 @@ function AdminNavbar({
             TASKA
           </button>
           <button
-            className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            className={
+              thisIsClicked === 'pegawai-pergigian'
+                ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            }
             onClick={() => {
               reset();
+              setThisIsClicked('tadika');
               setFacilityType('tadika');
               showFacilNotKlinik();
               setTimeout(() => {
@@ -163,9 +179,14 @@ function AdminNavbar({
             TADIKA
           </button>
           <button
-            className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            className={
+              thisIsClicked === 'pegawai-pergigian'
+                ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            }
             onClick={() => {
               reset();
+              setThisIsClicked('sekolah-rendah');
               setFacilityType('sekolah-rendah');
               showFacilNotKlinik();
               setTimeout(() => {
