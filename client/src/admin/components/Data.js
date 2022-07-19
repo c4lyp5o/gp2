@@ -1,9 +1,9 @@
+import { useState, useEffect } from 'react';
 import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
-import { useState } from 'react';
 export default function Data({
   showData,
   daerah,
@@ -130,6 +130,18 @@ export default function Data({
   }
 
   function Facility() {
+    const [pilihanKlinik, setPilihanKlinik] = useState('');
+
+    const namaKliniks = data.fasilitisByType.reduce(
+      (arrNamaKliniks, singleFasilitis) => {
+        if (!arrNamaKliniks.includes(singleFasilitis.handler)) {
+          arrNamaKliniks.push(singleFasilitis.handler);
+        }
+        return arrNamaKliniks.filter((valid) => valid);
+      },
+      ['']
+    );
+
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold'>
@@ -146,42 +158,55 @@ export default function Data({
               <th className='border border-slate-600 px-3'>Manage</th>
             </tr>
           </thead>
-          <select className='border-2 absolute top-40 right-5 w-24'>
-            {/* {kp.map((k, index) => (
-                  <option>{k.nama}</option>
-                ))} */}
+          <select
+            value={pilihanKlinik}
+            onChange={(e) => {
+              setPilihanKlinik(e.target.value);
+            }}
+            className='border-2 absolute top-40 right-5 w-24'
+          >
+            <option value=''>Filter..</option>
+            {namaKliniks.map((k, index) => (
+              <option key={index} value={k}>
+                {k}
+              </option>
+            ))}
           </select>
           <tbody>
-            {data.fasilitisByType.map((f, index) => (
-              <tr key={f._id}>
-                <td className='border border-slate-600 px-3'>{index + 1}</td>
-                <td className='border border-slate-600 px-20'>{f.nama}</td>
-                <td className='border border-slate-600 px-10'>{f.handler}</td>
-                <td className='border border-slate-600 px-3'>
-                  <button
-                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                    id={f._id}
-                    onClick={() => {
-                      setShowEditModal(true);
-                      setId(f._id);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                    id={f._id}
-                    onClick={(e) => {
-                      setShowDeleteModal(true);
-                      setId(f._id);
-                      setDeleteCandidate(f.nama);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {data.fasilitisByType
+              .filter((fs) => {
+                return fs.handler.includes(pilihanKlinik);
+              })
+              .map((f, index) => (
+                <tr key={f._id}>
+                  <td className='border border-slate-600 px-3'>{index + 1}</td>
+                  <td className='border border-slate-600 px-20'>{f.nama}</td>
+                  <td className='border border-slate-600 px-10'>{f.handler}</td>
+                  <td className='border border-slate-600 px-3'>
+                    <button
+                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                      id={f._id}
+                      onClick={() => {
+                        setShowEditModal(true);
+                        setId(f._id);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                      id={f._id}
+                      onClick={(e) => {
+                        setShowDeleteModal(true);
+                        setId(f._id);
+                        setDeleteCandidate(f.nama);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
