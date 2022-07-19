@@ -15,12 +15,6 @@ function AdminNavbar({
 }) {
   const [showLinks, setShowLinks] = useState(false);
 
-  const toggleData = () => {
-    setShowLinks(!showLinks);
-    setShowWelcome(false);
-    setShowData(true);
-  };
-
   const showWelcomeScreen = () => {
     setShowLinks(!showLinks);
     setShowWelcome(true);
@@ -28,12 +22,6 @@ function AdminNavbar({
     setShowFacility(false);
     setShowPegawai(false);
     setShowKlinik(false);
-  };
-
-  const showFacilNotKlinik = () => {
-    setShowFacility(true);
-    setShowKlinik(false);
-    setShowPegawai(false);
   };
 
   const showKlinikNotFacil = () => {
@@ -46,6 +34,18 @@ function AdminNavbar({
     setShowPegawai(true);
     setShowKlinik(false);
     setShowFacility(false);
+  };
+
+  const showFacilNotKlinik = () => {
+    setShowFacility(true);
+    setShowKlinik(false);
+    setShowPegawai(false);
+  };
+
+  const toggleData = () => {
+    setShowLinks(!showLinks);
+    setShowWelcome(false);
+    setShowData(true);
   };
 
   const reset = () => {

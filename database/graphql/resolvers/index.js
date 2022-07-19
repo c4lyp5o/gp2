@@ -335,9 +335,9 @@ module.exports = {
   },
 
   createOperator: async (args) => {
-    console.log('calling create operator with args: ', args);
     try {
-      var { nama, gred, daerah, kpSkrg, role } = args.operator;
+      let { nama, gred, daerah, kpSkrg, role } = args.operator;
+      nama = nama.toLowerCase();
       const opdata = new Operator({
         nama,
         gred,
@@ -353,10 +353,9 @@ module.exports = {
   },
 
   createFasiliti: async (args) => {
-    console.log('calling create fasiliti with args: ', args);
     try {
-      var { nama, negeri, daerah, handler, jenisFasiliti } = args.fasiliti;
-      // nama = nama.toLowerCase();
+      let { nama, negeri, daerah, handler, jenisFasiliti } = args.fasiliti;
+      nama = nama.toLowerCase();
       const fasdata = new Fasiliti({
         nama,
         negeri,

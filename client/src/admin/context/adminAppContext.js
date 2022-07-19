@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { useToken, getTokenized } from './Tokenizer';
 import axios from 'axios';
@@ -8,12 +9,18 @@ const AdminAppContext = React.createContext();
 function AdminAppProvider({ children }) {
   const { token, setToken } = useToken();
 
+  const navigate = useNavigate();
+
   async function getCurrentUser() {
     let response = await axios.post(`/api/v1/superadmin/getuser`, {
       token: getTokenized(),
     });
     return response;
   }
+
+  const catchAxiosErrorAndLogout = () => {
+    localStorage.removeItem('adminToken');
+  };
 
   // GQL queries
   const GET_FACILITIES = gql`
@@ -233,7 +240,9 @@ function AdminAppProvider({ children }) {
       value={{
         token,
         setToken,
+        navigate,
         getCurrentUser,
+        catchAxiosErrorAndLogout,
         GET_FACILITIES,
         GET_ONE_FACILITY,
         GET_ALL_OPERATORS,

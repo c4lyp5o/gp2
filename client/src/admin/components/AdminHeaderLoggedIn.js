@@ -1,4 +1,8 @@
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
+
 function AdminHeaderLoggedIn({ user, daerah }) {
+  const { navigate, catchAxiosErrorAndLogout } = useGlobalAdminAppContext();
+
   return (
     <div className='absolute top-0 left-0 right-0 flex flew-wrap items-center justify-center h-40 bg-admin2 text-adminWhite font-sans capitalize'>
       <div className='flex flex-wrap items-center shrink'>
@@ -35,8 +39,8 @@ function AdminHeaderLoggedIn({ user, daerah }) {
               type='button'
               className='mt-5 mb-5 p-1 text-admin2 bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all'
               onClick={() => {
-                localStorage.removeItem('adminToken');
-                window.location.href = '/admin';
+                catchAxiosErrorAndLogout();
+                navigate('/admin');
               }}
             >
               LOGOUT

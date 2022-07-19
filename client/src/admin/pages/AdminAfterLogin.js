@@ -1,13 +1,12 @@
-import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 // -----------------------------------------------------------
-import AdminLoginForm from './AdminLogin';
+import AdminLoginForm from './AdminLoginForm';
 
 // logged in
 import AdminHeaderLoggedIn from '../components/AdminHeaderLoggedIn';
@@ -25,11 +24,14 @@ import AdminFooter from '../components/AdminFooter';
 function AdminAfterLogin() {
   const {
     token,
+    navigate,
     getCurrentUser,
+    catchAxiosErrorAndLogout,
     GET_FACILITIES,
     GET_ONE_FACILITY,
     GET_OPERATORS_BY_DAERAH,
   } = useGlobalAdminAppContext();
+
   const [showWelcome, setShowWelcome] = useState(true);
   const [showData, setShowData] = useState(false);
   const [showFacility, setShowFacility] = useState(false);
@@ -42,6 +44,7 @@ function AdminAfterLogin() {
     daerah: '',
     negeri: '',
   });
+
   const [
     getFacilities,
     {
@@ -51,10 +54,12 @@ function AdminAfterLogin() {
       refetch: refetchFacilities,
     },
   ] = useLazyQuery(GET_FACILITIES);
+
   const [
     getOneFacility,
     { data: oneFacility, loading: loadingOneFacility, error: errorOneFacility },
   ] = useLazyQuery(GET_ONE_FACILITY);
+
   const [
     getOperators,
     {
@@ -74,14 +79,15 @@ function AdminAfterLogin() {
           daerah: res.data.data.daerah,
           negeri: res.data.data.negeri,
         });
-        console.log(res.data.data);
       })
       .catch((err) => {
         setLoginInfo({
           isLoggedIn: false,
         });
+        catchAxiosErrorAndLogout();
+        navigate('/admin');
       });
-  }, [getCurrentUser]);
+  }, []);
 
   if (!token) {
     return <AdminLoginForm />;
@@ -111,7 +117,7 @@ function AdminAfterLogin() {
             index
             element={
               <AdminCenterStageLoggedIn>
-                <Welcome showWelcome={showWelcome} />
+                {showWelcome && <Welcome />}
                 <Data
                   showData={showData}
                   showFacility={showFacility}
