@@ -163,6 +163,10 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  adaDesidus: {
+    type: Boolean,
+    default: false,
+  },
   dAdaGigiDesidus: {
     type: Number,
     min: 0,
@@ -182,6 +186,15 @@ const SekolahSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     default: 0,
+  },
+  smAdaGigiDesidus: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  adaKekal: {
+    type: Boolean,
+    default: false,
   },
   dAdaGigiKekal: {
     type: Number,
@@ -576,17 +589,13 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  adaQ: {
-    type: Boolean,
-    default: false,
+  adaTiadaQ: {
+    type: String,
+    default: '',
   },
-  tiadaQ: {
-    type: Boolean,
-    default: false,
-  },
-  rujukG: {
-    type: Boolean,
-    default: false,
+  rujukGuruKaunseling: {
+    type: String,
+    default: '',
   },
   tarikhQ: {
     type: String,
