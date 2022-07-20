@@ -12,8 +12,14 @@ import PenyataAkhir2 from './form-sekolah/PenyataAkhir2';
 import Kotak from './form-sekolah/Kotak';
 
 function UserFormSekolah() {
-  const { userToken, username, navigate, catchAxiosErrorAndLogout, useParams } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    username,
+    navigate,
+    catchAxiosErrorAndLogout,
+    useParams,
+    toast,
+  } = useGlobalUserAppContext();
 
   const { personSekolahId } = useParams();
 
@@ -127,6 +133,9 @@ function UserFormSekolah() {
   const [skorGisMulutOralHygiene, setSkorGisMulutOralHygiene] = useState('');
   masterForm.skorGisMulutOralHygiene = skorGisMulutOralHygiene;
   masterForm.setSkorGisMulutOralHygiene = setSkorGisMulutOralHygiene;
+  const [adaDesidus, setAdaDesidus] = useState(false);
+  masterForm.adaDesidus = adaDesidus;
+  masterForm.setAdaDesidus = setAdaDesidus;
   const [dAdaGigiDesidus, setDAdaGigiDesidus] = useState('');
   masterForm.dAdaGigiDesidus = dAdaGigiDesidus;
   masterForm.setDAdaGigiDesidus = setDAdaGigiDesidus;
@@ -139,8 +148,14 @@ function UserFormSekolah() {
   const [xAdaGigiDesidus, setXAdaGigiDesidus] = useState('');
   masterForm.xAdaGigiDesidus = xAdaGigiDesidus;
   masterForm.setXAdaGigiDesidus = setXAdaGigiDesidus;
+  const [smAdaGigiDesidus, setSmAdaGigiDesidus] = useState('');
+  masterForm.smAdaGigiDesidus = smAdaGigiDesidus;
+  masterForm.setSmAdaGigiDesidus = setSmAdaGigiDesidus;
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
   masterForm.sumDMFXDesidus = sumDMFXDesidus;
+  const [adaKekal, setAdaKekal] = useState(false);
+  masterForm.adaKekal = adaKekal;
+  masterForm.setAdaKekal = setAdaKekal;
   const [dAdaGigiKekal, setDAdaGigiKekal] = useState('');
   masterForm.dAdaGigiKekal = dAdaGigiKekal;
   masterForm.setDAdaGigiKekal = setDAdaGigiKekal;
@@ -635,15 +650,12 @@ function UserFormSekolah() {
   const [tarikh4, setTarikh4] = useState('');
   masterForm.tarikh4 = tarikh4;
   masterForm.setTarikh4 = setTarikh4;
-  const [adaQ, setAdaQ] = useState(false);
-  masterForm.adaQ = adaQ;
-  masterForm.setAdaQ = setAdaQ;
-  const [tiadaQ, setTiadaQ] = useState(false);
-  masterForm.tiadaQ = tiadaQ;
-  masterForm.setTiadaQ = setTiadaQ;
-  const [rujukG, setRujukG] = useState(false);
-  masterForm.rujukG = rujukG;
-  masterForm.setRujukG = setRujukG;
+  const [adaTiadaQ, setAdaTiadaQ] = useState('');
+  masterForm.adaTiadaQ = adaTiadaQ;
+  masterForm.setAdaTiadaQ = setAdaTiadaQ;
+  const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
+  masterForm.rujukGuruKaunseling = rujukGuruKaunseling;
+  masterForm.setRujukGuruKaunseling = setRujukGuruKaunseling;
   const [tarikhQ, setTarikhQ] = useState('');
   masterForm.tarikhQ = tarikhQ;
   masterForm.setTarikhQ = setTarikhQ;
@@ -717,10 +729,13 @@ function UserFormSekolah() {
         setSkorGisMulutOralHygiene(
           data.singlePersonSekolah.skorGisMulutOralHygiene
         );
+        setAdaDesidus(data.singlePersonSekolah.adaDesidus);
         setDAdaGigiDesidus(data.singlePersonSekolah.dAdaGigiDesidus);
         setMAdaGigiDesidus(data.singlePersonSekolah.mAdaGigiDesidus);
         setFAdaGigiDesidus(data.singlePersonSekolah.fAdaGigiDesidus);
         setXAdaGigiDesidus(data.singlePersonSekolah.xAdaGigiDesidus);
+        setSmAdaGigiDesidus(data.singlePersonSekolah.smAdaGigiDesidus);
+        setAdaKekal(data.singlePersonSekolah.adaKekal);
         setDAdaGigiKekal(data.singlePersonSekolah.dAdaGigiKekal);
         setMAdaGigiKekal(data.singlePersonSekolah.mAdaGigiKekal);
         setFAdaGigiKekal(data.singlePersonSekolah.fAdaGigiKekal);
@@ -946,9 +961,8 @@ function UserFormSekolah() {
         setTarikh2(data.singlePersonSekolah.tarikh2);
         setTarikh3(data.singlePersonSekolah.tarikh3);
         setTarikh4(data.singlePersonSekolah.tarikh4);
-        setAdaQ(data.singlePersonSekolah.adaQ);
-        setTiadaQ(data.singlePersonSekolah.tiadaQ);
-        setRujukG(data.singlePersonSekolah.rujukG);
+        setAdaTiadaQ(data.singlePersonSekolah.adaTiadaQ);
+        setRujukGuruKaunseling(data.singlePersonSekolah.rujukGuruKaunseling);
         setTarikhQ(data.singlePersonSekolah.tarikhQ);
         setStatusSelepas6Bulan(data.singlePersonSekolah.statusSelepas6Bulan);
       } catch (error) {
@@ -965,9 +979,16 @@ function UserFormSekolah() {
       parseInt(dAdaGigiDesidus) +
         parseInt(mAdaGigiDesidus) +
         parseInt(fAdaGigiDesidus) +
-        parseInt(xAdaGigiDesidus)
+        parseInt(xAdaGigiDesidus) +
+        parseInt(smAdaGigiDesidus)
     );
-  }, [dAdaGigiDesidus, mAdaGigiDesidus, fAdaGigiDesidus, xAdaGigiDesidus]);
+  }, [
+    dAdaGigiDesidus,
+    mAdaGigiDesidus,
+    fAdaGigiDesidus,
+    xAdaGigiDesidus,
+    smAdaGigiDesidus,
+  ]);
 
   // calculate total DMFX kekal
   useEffect(() => {
@@ -1038,6 +1059,50 @@ function UserFormSekolah() {
   }, [
     baruJumlahGigiKekalDiberiPrrJenis1,
     semulaJumlahGigiKekalDiberiPrrJenis1,
+  ]);
+
+  //reset value
+  useEffect(() => {
+    if (statikBergerak === 'klinik-pergigian-statik' || statikBergerak === '') {
+      setKpBergerak(false);
+      setPlateNo('');
+    }
+    if (!engganKedatanganPendaftaran) {
+      setAdaTiadaPemeriksaanPendaftaran('');
+    }
+    if (!tidakHadirKedatanganPendaftaran) {
+      setAdaTiadaPemeriksaanPendaftaran('');
+    }
+    if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
+      setSeparaPenuhAtasSediaAdaDenture('');
+      setSeparaPenuhBawahSediaAdaDenture('');
+    }
+    if (yaTidakPerluStatusDenture === 'tidak-perlu-status-denture') {
+      setSeparaPenuhAtasPerluDenture('');
+      setSeparaPenuhBawahPerluDenture('');
+    }
+    if (
+      statusM === 'perokokPasif' ||
+      statusM === 'bekasPerokok' ||
+      statusM === 'bukanPerokok' ||
+      statusM === ''
+    ) {
+      setTarikh1('');
+      setTarikh2('');
+      setTarikh3('');
+      setTarikh4('');
+      setAdaTiadaQ('');
+      setRujukGuruKaunseling('');
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+  }, [
+    statikBergerak,
+    engganKedatanganPendaftaran,
+    tidakHadirKedatanganPendaftaran,
+    yaTidakSediaAdaStatusDenture,
+    yaTidakPerluStatusDenture,
+    statusM,
   ]);
 
   // idea dapat masa angkat takbir subhanAllah..
@@ -1138,10 +1203,13 @@ function UserFormSekolah() {
           skorBpeOralHygiene,
           saringanKanserMulutOralHygiene,
           skorGisMulutOralHygiene,
+          adaDesidus,
           dAdaGigiDesidus,
           mAdaGigiDesidus,
           fAdaGigiDesidus,
           xAdaGigiDesidus,
+          smAdaGigiDesidus,
+          adaKekal,
           dAdaGigiKekal,
           mAdaGigiKekal,
           fAdaGigiKekal,
@@ -1228,15 +1296,22 @@ function UserFormSekolah() {
           tarikh2,
           tarikh3,
           tarikh4,
-          adaQ,
-          tiadaQ,
-          rujukG,
+          adaTiadaQ,
+          rujukGuruKaunseling,
           tarikhQ,
           statusSelepas6Bulan,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
-      alert('Draft saved !');
+      toast.info(`Pesakit berjaya disimpan draf`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       alert('Login expired, please login again');
       catchAxiosErrorAndLogout();
@@ -1320,10 +1395,13 @@ function UserFormSekolah() {
           skorBpeOralHygiene,
           saringanKanserMulutOralHygiene,
           skorGisMulutOralHygiene,
+          adaDesidus,
           dAdaGigiDesidus,
           mAdaGigiDesidus,
           fAdaGigiDesidus,
           xAdaGigiDesidus,
+          smAdaGigiDesidus,
+          adaKekal,
           dAdaGigiKekal,
           mAdaGigiKekal,
           fAdaGigiKekal,
@@ -1410,15 +1488,22 @@ function UserFormSekolah() {
           tarikh2,
           tarikh3,
           tarikh4,
-          adaQ,
-          tiadaQ,
-          rujukG,
+          adaTiadaQ,
+          rujukGuruKaunseling,
           tarikhQ,
           statusSelepas6Bulan,
         },
         { headers: { Authorization: `Bearer ${userToken}` } }
       );
-      alert('Update success !');
+      toast.success(`Maklumat pesakit berjaya dihantar`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       alert('Login expired, please login again');
       catchAxiosErrorAndLogout();
@@ -1434,7 +1519,7 @@ function UserFormSekolah() {
     <>
       <div className='h-full p-3 px-10 overflow-y-auto'>
         <div className='p-2'>
-          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
+          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 pb-2'>
             <div>
               <div className='text-l font-bold flex flex-row pl-5 p-2'>
                 <h1>MAKLUMAT AM PESAKIT</h1>
@@ -1504,29 +1589,36 @@ function UserFormSekolah() {
                   {singlePersonSekolah.darjah || singlePersonSekolah.tingkatan}
                 </p>
               </div>
-              <button
-                onClick={saveDraft}
-                className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-              >
-                simpan draf
-              </button>
             </div>
           </article>
         </div>
         <form onSubmit={handleSubmit}>
           <Pendaftaran {...masterForm} />
-          <PemeriksaanAwal {...masterForm} umur={singlePersonSekolah.umur} />
-          <PerluDibuat {...masterForm} />
-          <PenyataAkhir1 {...masterForm} />
-          <PenyataAkhir2 {...masterForm} />
-          <Kotak {...masterForm} />
+          {adaTiadaPemeriksaanPendaftaran !== 'tiada-pemeriksaan' && (
+            <PemeriksaanAwal {...masterForm} umur={singlePersonSekolah.umur} />
+          )}
+          {adaTiadaPemeriksaanPendaftaran !== 'tiada-pemeriksaan' && (
+            <PerluDibuat {...masterForm} />
+          )}
+          {adaTiadaPemeriksaanPendaftaran !== 'tiada-pemeriksaan' && (
+            <PenyataAkhir1 {...masterForm} />
+          )}
+          {adaTiadaPemeriksaanPendaftaran !== 'tiada-pemeriksaan' && (
+            <PenyataAkhir2 {...masterForm} />
+          )}
+          {adaTiadaPemeriksaanPendaftaran !== 'tiada-pemeriksaan' && (
+            <Kotak {...masterForm} />
+          )}
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
               <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
                 kosongkan
               </button>
-              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
-                teruskan
+              <button
+                onClick={saveDraft}
+                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+              >
+                simpan draf
               </button>
               <button
                 type='submit'
