@@ -280,3 +280,25 @@
                   },
                 },
 
+
+
+
+                
+        //PPIM 04-2020
+        //Nama perokok 1
+        let rowNew1= worksheet.getRow(11);
+          rowNew1.getCell(1).value=results.nama;                  //C11          Nama perokok 1
+          rowNew1.getCell(2).value=results.kelas;                  //C11          Nama perokok 1
+          rowNew1.getCell(3).value=results.tarikhIntervensi1;                  //C11          Nama perokok 1
+          rowNew1.getCell(4).value=results.tarikhIntervensi2;                  //C11          Nama perokok 1
+          rowNew1.getCell(5).value=results.tarikhIntervensi3;                  //C11          Nama perokok 1
+          rowNew1.getCell(6).value=results.tarikhIntervensi4;                  //C11          Nama perokok 1
+          rowNew1.getCell(7).value=results.adaTiadaQ;                  //C11          Nama perokok 1
+          rowNew1.getCell(8).value=results.adaTiadaQ;                  //C11          Nama perokok 1
+          rowNew1.getCell(9).value=results.tarikhQ;                  //C11          Nama perokok 1
+          rowNew1.getCell(10).value=results.rujukGuruKaunseling;                  //C11          Nama perokok 1
+          rowNew1.getCell(11).value=results.statusSelepas6Bulan;                  //C11          Nama perokok 1
+          rowNew1.getCell(12).value=results.statusSelepas6Bulan;                  //C11          Nama perokok 1
+
+
+          // Tutup PPIM 04-2020
