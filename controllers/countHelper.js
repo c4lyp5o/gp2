@@ -4814,6 +4814,7 @@ exports.createPGS203 = function (req, res) {
         rowNew2.getCell(71).value = results.cabutanGk; //Cabutan GK PraSekolah Tadika (Swasta)
         rowNew2.getCell(73).value = results.penskaleran; //Penskaleran PraSekolah Tadika (Swasta)
         rowNew2.getCell(74).value = results.caseCompleted; //Kes Selesai PraSekolah Tadika (Swasta)
+        rowNew2.commit();
 
         //PraSekolah Tadika (Murid Pendidikan Khas)
         let rowNew3 = worksheet.getRow(18);
