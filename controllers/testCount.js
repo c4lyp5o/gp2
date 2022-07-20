@@ -2950,7 +2950,7 @@ exports.testFunction3 = function (req, res) {
             { $match: { statusRawatan: 'selesai' } },
             {
               $group: {
-                _id: '$createdByDaerah',
+                _id: '$namaSekolah',
                 engganKedatanganPendaftaran: {
                   $sum: {
                     $cond: [
@@ -3175,8 +3175,7 @@ exports.testFunction3 = function (req, res) {
                       },
                       1,
                       0,
-                    ],
-                  },
+                    ],},
                 },
                 kecederaanGigiAnterior: {
                   $sum: { $toDouble: '$kecederaanGigiAnteriorTrauma' },
@@ -3202,261 +3201,60 @@ exports.testFunction3 = function (req, res) {
                       ]},
                       1,
                       0,
-                    ],
-                  },
+                    ],},
                 },
-                // perluFSGigiB: { $sum: {$gte: ["$baruJumlahGigiKekalPerluFs", 1]} },
-                // perluFSGigiB: { 
-                //   {$sum:'$baruJumlahGigiKekalPerluFs'},
-                //     {$cond: [ {$gte: ['$baruJumlahGigiKekalPerluFs', 1]], 1, 0] ,
-
-                //     }
-                
-                    
-
-                //   ]
-                  
-                //   "$baruJumlahGigiKekalPerluFs"},
-
+                perluFSGigiB: { $sum: '$baruJumlahGigiKekalPerluFs'},
                 perluFSGigiB: { $sum: "$baruJumlahGigiKekalPerluFs"},
                 perluFSGigiS: { $sum: "$semulaJumlahGigiKekalPerluFs"},
                 perluFsBilGigiFailed: { $sum: "$jumlahGigiFsGagal"},
-
-                // perluFvMuridB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $gte: ['$baruJumlahGigiKekalPerluFv', '1'],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluFvMuridS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluFvGigiB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', 0] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluFvGigiS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1MuridB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1MuridS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           {
-                //             $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
-                //           },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1GigiB: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                // perluPRR1GigiS: {
-                //   $sum: {
-                //     $cond: [
-                //       {
-                //         $and: [
-                //           {
-                //             $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
-                //           },
-                //         ],
-                //       },
-                //       1,
-                //       0,
-                //     ],
-                //   },
-                // },
-                
                 perluTampalanAntGdB: {$sum: '$baruGDAnteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanAntGdS: {$sum: '$semulaGDAnteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanAntGkB: {$sum: '$baruGKAnteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanAntGkS: {$sum: '$semulaGKAnteriorSewarnaJumlahTampalanDiperlukan'},
-
                 perluTampalanPosGdB: {$sum: '$baruGDPosteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanPosGdS: {$sum: '$semulaGDPosteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanPosGkB: {$sum: '$baruGKPosteriorSewarnaJumlahTampalanDiperlukan'},
                 perluTampalanPosGkS: {$sum: '$semulaGKPosteriorSewarnaJumlahTampalanDiperlukan'},
-
                 perluTampalanAmgGdB: {$sum: '$baruGDPosteriorAmalgamJumlahTampalanDiperlukan'},
                 perluTampalanAmgGdS: {$sum: '$semulaGDPosteriorAmalgamJumlahTampalanDiperlukan'},
                 perluTampalanAmgGkB: {$sum: '$baruGKPosteriorAmalgamJumlahTampalanDiperlukan'},
                 perluTampalanAmgGkS: {$sum: '$semulaGKPosteriorAmalgamJumlahTampalanDiperlukan'},
-                 
-                telahFSMuridB: {  // any chance to map the database from other document to compare?? 
-                  $sum: { $gt: ['$baruJumlahGigiKekalDibuatFs', 0] },
+                telahFSMuridB: {   
+                  $sum: {
+                    $cond: [
+                      { $gt: ['$baruJumlahGigiKekalDibuatFs', 0] },
+                      1,
+                      0,
+                      ],},
                 },
-                telahFSMuridS: { // any chance to map the dabatse from other documetn from last visit to comapre? 
-                  $sum: { $gt: ['$semulaJumlahGigiKekalDibuatFs', 0] },
+                telahFSMuridS: {   
+                  $sum: {
+                    $cond: [
+                      { $gt: ['$semulaJumlahGigiKekalDibuatFs', 0] },
+                      1,
+                      0,
+                      ],
+                    },                  
                 },
                 telahFSGigiB: { $sum: '$baruJumlahGigiKekalDibuatFs'},
                 telahFSGigiS: { $sum: '$semulaJumlahGigiKekalDibuatFs'},
-                
-                // telahFvMuridB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', 0] }],
-                //   },
-                // },
-                // telahFvMuridS: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] }],
-                //   },
-                // },
-                // telahFvGigiB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiFv', 0] }],
-                //   },
-                // },
-                // telahFvGigiS: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] }],
-                //   },
-                // },
-                // telahPRR1MuridB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0] }],
-                //   },
-                // },
-                // telahPRR1MuridS: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 0] },
-                //     ],
-                //   },
-                // },
-                // telahPRR1GigiB: {
-                //   $sum: {
-                //     $and: [{ $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0] }],
-                //   },
-                // },
-                // telahPRR1GigiS: {
-                //   $sum: {
-                //     $and: [
-                //       { $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 0] },
-                //     ],
-                //   },
-                // },
-                
-                telahTampalanAntGdB: {$sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuat'},
-                telahTampalanAntGdS: {
-                  $sum: {
-                    $gt: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAntGkB: {
-                  $sum: {
-                    $gt: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAntGkS: {
-                  $sum: {
-                    $gt: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanPosGdB: {
-                  $sum: {
-                    $gt: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanPosGdS: {
-                  $sum: {
-                    $gt: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanPosGkB: {
-                  $sum: {
-                    $gt: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanPosGkS: {
-                  $sum: {
-                    $gt: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAmgGdB: {
-                  $sum: {
-                    $gt: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAmgGdS: {
-                  $sum: {
-                    $gt: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAmgGkB: {
-                  $sum: {
-                    $gt: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
-                  },
-                },
-                telahTampalanAmgGkS: {
-                  $sum: {
-                    $gt: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
-                  },
-                },
-                cabutanGd: {
-                  $sum: '$cabutDesidusPenyataAkhir2',
-                },
-                cabutanGk: {
-                  $sum: '$cabutKekalPenyataAkhir2',
-                },
-                penskaleran: {
-                  $sum: '$penskaleranPenyataAkhir2',
-                },
+                telahTampalanAntGdB: { $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanAntGdS: { $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanAntGkB: { $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanAntGkS: { $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanPosGdB: { $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanPosGdS: { $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanPosGkB: { $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanPosGkS: { $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuat'},
+                telahTampalanAmgGdB: { $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuat'},
+                telahTampalanAmgGdS: { $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuat'},
+                telahTampalanAmgGkB: { $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuat'},
+                telahTampalanAmgGkS: { $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuat'},
+
+                cabutanGd: { $sum: '$cabutDesidusPenyataAkhir2'},
+                cabutanGk: { $sum: '$cabutKekalPenyataAkhir2'},
+                penskaleran: { $sum: '$penskaleranPenyataAkhir2'},
+                               
                 caseCompleted: {
                   $sum: {
                     $cond: [
@@ -3465,8 +3263,7 @@ exports.testFunction3 = function (req, res) {
                       },
                       1,
                       0,
-                    ],
-                  },
+                    ],},
                 },
                 skorGIS0: {
                   $sum: {
