@@ -1903,6 +1903,7 @@ exports.getDetails = async function (req, res) {
   }
 };
 exports.testFunction201A = function (req, res) {
+  //PG201A
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -2790,7 +2791,7 @@ exports.testFunction201SMKP = function (req, res) {
             { $match: { statusRawatan: 'selesai' } },
             {
               $group: {
-                _id: '$namaSekolah',
+                _id: '$createdByDaerah',
                 engganKedatanganPendaftaran: {
                   $sum: {
                     $cond: [
@@ -2802,6 +2803,7 @@ exports.testFunction201SMKP = function (req, res) {
                     ],
                   },
                 },
+
                 kedatanganTidakHadir: {
                   $sum: {
                     $cond: [
@@ -3027,15 +3029,12 @@ exports.testFunction201SMKP = function (req, res) {
                 },
                 kecederaanGigiAnterior: {
                   $sum: { $toDouble: '$kecederaanGigiAnteriorTrauma' },
-                  // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
                 },
                 cleftAda: {
                   $sum: { $toDouble: '$adaCleftLip' },
-                  // $sum: { $adaCleftLip: 0 },
                 },
                 cleftRujuk: {
                   $sum: { $toDouble: '$rujukCleftLip' },
-                  // $sum: { $rujukCleftLip: 0 },
                 },
                 perluFSMuridB: {
                   $sum: {
@@ -3153,11 +3152,15 @@ exports.testFunction201SMKP = function (req, res) {
                 telahTampalanAmgGkS: {
                   $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
                 },
-
-                cabutanGd: { $sum: '$cabutDesidusPenyataAkhir2' },
-                cabutanGk: { $sum: '$cabutKekalPenyataAkhir2' },
-                penskaleran: { $sum: '$penskaleranPenyataAkhir2' },
-
+                cabutanGd: {
+                  $sum: '$cabutDesidusPenyataAkhir2',
+                },
+                cabutanGk: {
+                  $sum: '$cabutKekalPenyataAkhir2',
+                },
+                penskaleran: {
+                  $sum: '$penskaleranPenyataAkhir2',
+                },
                 caseCompleted: {
                   $sum: {
                     $cond: [
@@ -3354,7 +3357,6 @@ exports.testFunctionBegin = function (req, res) {
       resultbudakBEGINtahun2keatas: function (callback) {
         Sekolah.aggregate(
           [
-            // jenis fasiliti mungkin erkm
             {
               $match: {
                 $and: [
@@ -3519,20 +3521,6 @@ exports.testFunctionMMI = function (req, res) {
             {
               $group: {
                 _id: '$createdByDaerah',
-                jumlahKedatanganBaru: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'baru-kedatangan-pendaftaran',
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
                 jumlahD: { $sum: '$dAdaGigiKekal' },
                 eMoreThanZero: {
                   //E≥1 (ada karies awal)
@@ -3677,13 +3665,13 @@ exports.testFunctionMMI = function (req, res) {
                     ],
                   },
                 },
-                perluPRR1GigiS: {
+                perluPRR1GigiB: {
                   $sum: {
                     $cond: [
                       {
                         $and: [
                           {
-                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
+                            $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0],
                           },
                         ],
                       },
@@ -3698,7 +3686,6 @@ exports.testFunctionMMI = function (req, res) {
           callback
         );
       },
-      // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     async function (err, results) {
       {
@@ -5006,6 +4993,319 @@ exports.testFunctionPG211 = function (req, res) {
                       0,
                     ],
                   },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction4 = function (req, res) {
+  //PPIM 05
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultPPIM05: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+
+                perokok: {
+                  $sum: {
+                    $cond: [{ $eq: ['$statusM', 'perokokSemasa'] }, 1, 0],
+                  },
+                },
+
+                //    Untuk tindakan seterusnya kalau dah add consent di form.
+
+                //  sertaiIntervensi: { // tak dapat buat currently concern is how to know their consent?
+                //     $sum: {
+                //       $cond: [
+                //         {$eq: [//consent'#setuju?' ,true false]},
+                //         1,
+                //         0,
+                //       ],
+                //       },
+
+                intervensi3WithQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', true, 'tarikhQ'] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2', 'tarikh3'] },
+                              {
+                                $eq: [
+                                  'tarikh1',
+                                  '$tarikh2',
+                                  'tarikh3',
+                                  'tarikh4',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensi3NoQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', false] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2', 'tarikh3'] },
+                              {
+                                $eq: [
+                                  'tarikh1',
+                                  '$tarikh2',
+                                  'tarikh3',
+                                  'tarikh4',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensiLess3WithQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', true] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2'] },
+                              { $eq: ['tarikh1'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensiLess3NoQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', false] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2'] },
+                              { $eq: ['tarikh1'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                dirujukKaunseling: {
+                  $sum: {
+                    $cond: [{ $eq: ['$dirujukKaunseling', true] }, 1, 0],
+                  },
+                },
+
+                berhentiRokok6Bulan: {
+                  $sum: {
+                    $cond: [
+                      { $eq: ['$statusSelepas6Bulan', 'berhenti'] },
+                      1,
+                      0,
+                    ],
+                  },
+
+                  masihRokok6Bulan: {
+                    $sum: {
+                      $cond: [
+                        { $eq: ['$statusSelepas6Bulan', 'tidakberhenti'] },
+                        1,
+                        0,
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction5 = function (req, res) {
+  //CPPC 2
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultCPPC2: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+
+                // dfStatus: {
+                //   $sum: {['$dAdaGigiKekal','fAdaGigiKekal'] },
+                // },
+
+                dfStatus: {
+                  $sum: ['$dAdaGigiKekal', 'fAdaGigiKekal'],
+                },
+
+                cIcIIstatus: {
+                  $sum: ['$classID', 'classIID', 'classIF', 'classIIF'],
+                },
+                cIstatus: {
+                  $sum: ['$classID', 'classIF'],
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction6 = function (req, res) {
+  //PG207
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultCPPC2: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                cIcIIstatus: {
+                  $sum: ['$classID', 'classIID', 'classIF', 'classIIF'],
+                },
+                cIstatus: {
+                  $sum: ['$classID', 'classIF'],
                 },
               },
             },
