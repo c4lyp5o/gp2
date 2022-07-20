@@ -2780,7 +2780,8 @@ exports.testFunction2 = function (req, res) { //PG201A
     }
   );
 };
-exports.testFunction3 = function (req, res) { //PG201 SMKP
+
+exports.testFunction3 = function (req, res) {
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -2802,6 +2803,7 @@ exports.testFunction3 = function (req, res) { //PG201 SMKP
                     ],
                   },
                 },
+
                 kedatanganTidakHadir: {
                   $sum: {
                     $cond: [
@@ -3452,7 +3454,7 @@ exports.testFunction5 = function (req, res) { //CPPC 2
       );
 };
 
-exports.testFunction5 = function (req, res) { //PG207
+exports.testFunction6 = function (req, res) { //PG207
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
