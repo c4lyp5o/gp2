@@ -2069,7 +2069,14 @@ exports.testFunction2 = function (req, res) {
       resultPG201A: function (callback) {
         Sekolah.aggregate(
           [
-            { $match: { statusRawatan: 'selesai' } },
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
             {
               $group: {
                 _id: '$namaSekolah',
@@ -2757,15 +2764,7 @@ exports.testFunction2 = function (req, res) {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     async function (err, results) {
-      // if (err) {
-      //   console.log(err);
-      //   return res.status(500).json({
-      //     message: 'Error when getting Data',
-      //     error: err,
-      //   });
-      // // }
-      console.log(results);
-      // return res.json(results.resultPG201A[1]);
+      console.log(results.resultPG201A[0]);
       try {
         let filename = path.join(
           __dirname,
@@ -2774,130 +2773,148 @@ exports.testFunction2 = function (req, res) {
           'exports',
           'PG201A.xlsx'
         );
-        console.log('getting workbook');
+        console.log('getting workbook: ' + filename);
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
         let worksheet = workbook.getWorksheet('PG201A');
         console.log('setting row1');
+        let rowNamaKlinik = worksheet.getRow(7);
+        rowNamaKlinik.getCell(9).value = 'Kelinik Gigi';
+        rowNamaKlinik.commit();
+
+        let rowNamaSekolah = worksheet.getRow(8);
+        rowNamaSekolah.getCell(9).value = results.resultPG201A[0]._id;
+        rowNamaSekolah.commit();
+        console.log('setting sekolah name: ' + results.resultPG201A[0]._id);
+
+        let rowNamaJenis = worksheet.getRow(9);
+        rowNamaJenis.getCell(9).value = 'PBSR';
+        rowNamaJenis.commit();
+
         //PG201A
         // Reten Sekolah (Darjah 1)
         let rowNew = worksheet.getRow(17);
         rowNew.getCell(2).value =
-          results.resultPG201A[1].engganKedatanganPendaftaran; //Kedatangan enggan (Darjah 1)
-        rowNew.getCell(3).value = results.resultPG201A[1].kedatanganTidakHadir; //Kedatangan Tidak Hadir (Darjah 1)
-        rowNew.getCell(4).value = results.resultPG201A[1].enrolmen; //Kedatangan enrolmen (Darjah 1)
-        rowNew.getCell(5).value = results.resultPG201A[1].jumlahKedatanganBaru; //Kedatangan baru (Darjah 1)
+          results.resultPG201A[0].engganKedatanganPendaftaran; //Kedatangan enggan (Darjah 1)
+        rowNew.getCell(3).value = results.resultPG201A[0].kedatanganTidakHadir; //Kedatangan Tidak Hadir (Darjah 1)
+        rowNew.getCell(4).value = results.resultPG201A[0].enrolmen; //Kedatangan enrolmen (Darjah 1)
+        rowNew.getCell(5).value = results.resultPG201A[0].jumlahKedatanganBaru; //Kedatangan baru (Darjah 1)
         rowNew.getCell(6).value =
-          results.resultPG201A[1].jumlahKedatanganUlangan; //Kedatangan ulangan (Darjah 1)
-        rowNew.getCell(8).value = results.resultPG201A[1].skorPlakA; //Kebersihan Mulut Skor A (Darjah 1)
-        rowNew.getCell(9).value = results.resultPG201A[1].jumlahd; //Karies Gigi Desidus (d) (Darjah 1)
-        rowNew.getCell(10).value = results.resultPG201A[1].jumlahf; //Telah Ditampal Gigi Desidus (f) (Darjah 1)
-        rowNew.getCell(11).value = results.resultPG201A[1].jumlahx; //Gigi Desidus Perlu Ditampal (x) (Darjah 1)
-        rowNew.getCell(13).value = results.resultPG201A[1].jumlahE; //Karies Awal Gigi Kekal (E) (Darjah 1)
-        rowNew.getCell(14).value = results.resultPG201A[1].jumlahD; //Karies Gigi Kekal (D) (Darjah 1)
-        rowNew.getCell(15).value = results.resultPG201A[1].jumlahM; //Gigi Kekal Telah Dicabut (M) (Darjah 1)
-        rowNew.getCell(16).value = results.resultPG201A[1].jumlahF; //Gigi Kekal Telah Ditampal (F) (Darjah 1)
-        rowNew.getCell(17).value = results.resultPG201A[1].jumlahX; //Jumlah DMFX (Darjah 1)
+          results.resultPG201A[0].jumlahKedatanganUlangan; //Kedatangan ulangan (Darjah 1)
+        rowNew.getCell(8).value = results.resultPG201A[0].skorPlakA; //Kebersihan Mulut Skor A (Darjah 1)
+        rowNew.getCell(9).value = results.resultPG201A[0].jumlahd; //Karies Gigi Desidus (d) (Darjah 1)
+        rowNew.getCell(10).value = results.resultPG201A[0].jumlahf; //Telah Ditampal Gigi Desidus (f) (Darjah 1)
+        rowNew.getCell(11).value = results.resultPG201A[0].jumlahx; //Gigi Desidus Perlu Ditampal (x) (Darjah 1)
+        rowNew.getCell(13).value = results.resultPG201A[0].jumlahE; //Karies Awal Gigi Kekal (E) (Darjah 1)
+        rowNew.getCell(14).value = results.resultPG201A[0].jumlahD; //Karies Gigi Kekal (D) (Darjah 1)
+        rowNew.getCell(15).value = results.resultPG201A[0].jumlahM; //Gigi Kekal Telah Dicabut (M) (Darjah 1)
+        rowNew.getCell(16).value = results.resultPG201A[0].jumlahF; //Gigi Kekal Telah Ditampal (F) (Darjah 1)
+        rowNew.getCell(17).value = results.resultPG201A[0].jumlahX; //Jumlah DMFX (Darjah 1)
         rowNew.getCell(19).value =
-          results.resultPG201A[1].gigiKekalDMFXsamaAtauKurangDari3; //Status Gigi Kekal DMFX <= 3 (Darjah 1)
+          results.resultPG201A[0].gigiKekalDMFXsamaAtauKurangDari3; //Status Gigi Kekal DMFX <= 3 (Darjah 1)
         rowNew.getCell(20).value =
-          results.resultPG201A[1].totalStatusGigiKekalSamaKosong; //Status Gigi Kekal X+M = results.resultPG201A[1].0  (Darjah 1)
-        rowNew.getCell(21).value = results.resultPG201A[1].eMoreThanZero; //E≥1 (ada karies awal) (Darjah 1)
-        rowNew.getCell(22).value = results.resultPG201A[1].jumlahMBK; //Mulut Bebas Karies (MBK) (Darjah 1)
-        rowNew.getCell(23).value = results.resultPG201A[1].statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.resultPG201A[1].0 (Darjah 1)
+          results.resultPG201A[0].totalStatusGigiKekalSamaKosong; //Status Gigi Kekal X+M = results.resultPG201A[0].0  (Darjah 1)
+        rowNew.getCell(21).value = results.resultPG201A[0].eMoreThanZero; //E≥1 (ada karies awal) (Darjah 1)
+        rowNew.getCell(22).value = results.resultPG201A[0].jumlahMBK; //Mulut Bebas Karies (MBK) (Darjah 1)
+        rowNew.getCell(23).value = results.resultPG201A[0].statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.resultPG201A[0].0 (Darjah 1)
         rowNew.getCell(24).value =
-          results.resultPG201A[1].statusBebasKariesTapiElebihDariSatu; //Bebas Karies (BK) tetapi E ≥ 1 (Darjah 1)
-        rowNew.getCell(25).value = results.resultPG201A[1].dfxEqualToZero; //dfx=0 (Darjah 1)
-        rowNew.getCell(26).value = results.resultPG201A[1].jumlahMBG; //Mulut Bebas Gingivitis (MBG) (Darjah 1)
-        rowNew.getCell(27).value = results.resultPG201A[1].jumlahTprICDAS; //TPR ICDAS (Darjah 1)
+          results.resultPG201A[0].statusBebasKariesTapiElebihDariSatu; //Bebas Karies (BK) tetapi E ≥ 1 (Darjah 1)
+        rowNew.getCell(25).value = results.resultPG201A[0].dfxEqualToZero; //dfx=0 (Darjah 1)
+        rowNew.getCell(26).value = results.resultPG201A[0].jumlahMBG; //Mulut Bebas Gingivitis (MBG) (Darjah 1)
+        rowNew.getCell(27).value = results.resultPG201A[0].jumlahTprICDAS; //TPR ICDAS (Darjah 1)
         rowNew.getCell(28).value =
-          results.resultPG201A[1].kecederaanGigiAnterior; //Kecederaan gigi Anterior (Darjah 1)
-        rowNew.getCell(29).value = results.resultPG201A[1].cleftAda; //cleft Ada (Darjah 1)
-        rowNew.getCell(30).value = results.resultPG201A[1].cleftRujuk; //cleft Rujuk (Darjah 1)
-        rowNew.getCell(32).value = results.resultPG201A[1].perluFSMuridB; //Bil. Murid Baru perlu Fisur Sealan (Darjah 1)
-        rowNew.getCell(33).value = results.resultPG201A[1].perluFSGigiB; //Bil. Gigi Baru perlu Fisur Sealan (Darjah 1)
-        rowNew.getCell(34).value = results.resultPG201A[1].perluFsBilGigiFailed; //Bilangan Gigi 'Failed' Semula FS (Darjah 1)
-        rowNew.getCell(35).value = results.resultPG201A[1].perluFvMuridB; //Bil. Murid Baru perlu Fluoride varnish (Darjah 1)
-        rowNew.getCell(36).value = results.resultPG201A[1].perluFvGigiB; //Bil. Gigi Baru perlu Fluoride varnish (Darjah 1)
-        rowNew.getCell(37).value = results.resultPG201A[1].perluPRR1MuridB; //Bil. Murid Baru perlu PRR Jenis 1 (Darjah 1)
-        rowNew.getCell(38).value = results.resultPG201A[1].perluPRR1GigiB; //Bil. Gigi Baru perlu PRR Jenis 1 (Darjah 1)
-        rowNew.getCell(39).value = results.resultPG201A[1].perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(40).value = results.resultPG201A[1].perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(41).value = results.resultPG201A[1].perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(42).value = results.resultPG201A[1].perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(43).value = results.resultPG201A[1].perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(44).value = results.resultPG201A[1].perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(46).value = results.resultPG201A[1].telahFSMuridB; //Bil. Murid B Telah Menerima Fisur Sealan (Darjah 1)
-        rowNew.getCell(47).value = results.resultPG201A[1].telahFSGigiB; //Bil. Gigi B Telah Menerima Fisur Sealan (Darjah 1)
-        rowNew.getCell(48).value = results.resultPG201A[1].telahFvMuridB; //Bil. Murid B Telah Menerima Fluoride Varnish (Darjah 1)
-        rowNew.getCell(49).value = results.resultPG201A[1].telahFvGigiB; //Bil. Gigi B Telah Menerima Fluoride Varnish (Darjah 1)
-        rowNew.getCell(50).value = results.resultPG201A[1].telahPRR1MuridB; //Bil. Murid B Telah Menerima PRR Jenis 1 (Darjah 1)
-        rowNew.getCell(51).value = results.resultPG201A[1].telahPRR1GigiB; //Bil. Gigi B Telah Menerima PRR Jenis 1 (Darjah 1)
-        rowNew.getCell(52).value = results.resultPG201A[1].telahTampalanAntGdB; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(53).value = results.resultPG201A[1].telahTampalanAntGkB; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(54).value = results.resultPG201A[1].telahTampalanPosGdB; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(55).value = results.resultPG201A[1].telahTampalanPosGkB; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(56).value = results.resultPG201A[1].telahTampalanAmgGdB; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
-        rowNew.getCell(57).value = results.resultPG201A[1].telahTampalanAmgGkB; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
-        rowNew.getCell(59).value = results.resultPG201A[1].cabutanGd; // Gigi Desidus Dicabut (Darjah 1)
-        rowNew.getCell(60).value = results.resultPG201A[1].cabutanGk; // Gigi Kekal Dicabut (Darjah 1)
-        rowNew.getCell(61).value = results.resultPG201A[1].penskaleran; // Penskelaran (Darjah 1)
-        rowNew.getCell(62).value = results.resultPG201A[1].caseCompletedICDAS; // Kes Selesai ICDAS (Darjah 1)
-        rowNew.getCell(63).value = results.resultPG201A[1].skorGIS0; // GIS SKOR 0 (Darjah 1)
-        rowNew.getCell(64).value = results.resultPG201A[1].skorGIS1; // GIS SKOR 1 (Darjah 1)
-        rowNew.getCell(65).value = results.resultPG201A[1].skorGIS2; // GIS SKOR 2 (Darjah 1)
-        rowNew.getCell(66).value = results.resultPG201A[1].skorGIS3; // GIS SKOR 3 (Darjah 1)
-        rowNew.getCell(68).value = results.resultPG201A[1].toothSurfaceLoss; // Trauma Tooth Surface Loss (Darjah 1)
-        rowNew.getCell(69).value = results.resultPG201A[1].traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
-        rowNew.getCell(70).value = results.resultPG201A[1].traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
+          results.resultPG201A[0].kecederaanGigiAnterior; //Kecederaan gigi Anterior (Darjah 1)
+        rowNew.getCell(29).value = results.resultPG201A[0].cleftAda; //cleft Ada (Darjah 1)
+        rowNew.getCell(30).value = results.resultPG201A[0].cleftRujuk; //cleft Rujuk (Darjah 1)
+        rowNew.getCell(32).value = results.resultPG201A[0].perluFSMuridB; //Bil. Murid Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(33).value = results.resultPG201A[0].perluFSGigiB; //Bil. Gigi Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(34).value = results.resultPG201A[0].perluFsBilGigiFailed; //Bilangan Gigi 'Failed' Semula FS (Darjah 1)
+        rowNew.getCell(35).value = results.resultPG201A[0].perluFvMuridB; //Bil. Murid Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(36).value = results.resultPG201A[0].perluFvGigiB; //Bil. Gigi Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(37).value = results.resultPG201A[0].perluPRR1MuridB; //Bil. Murid Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(38).value = results.resultPG201A[0].perluPRR1GigiB; //Bil. Gigi Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(39).value = results.resultPG201A[0].perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(40).value = results.resultPG201A[0].perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(41).value = results.resultPG201A[0].perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(42).value = results.resultPG201A[0].perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(43).value = results.resultPG201A[0].perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(44).value = results.resultPG201A[0].perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(46).value = results.resultPG201A[0].telahFSMuridB; //Bil. Murid B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(47).value = results.resultPG201A[0].telahFSGigiB; //Bil. Gigi B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(48).value = results.resultPG201A[0].telahFvMuridB; //Bil. Murid B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(49).value = results.resultPG201A[0].telahFvGigiB; //Bil. Gigi B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(50).value = results.resultPG201A[0].telahPRR1MuridB; //Bil. Murid B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(51).value = results.resultPG201A[0].telahPRR1GigiB; //Bil. Gigi B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(52).value = results.resultPG201A[0].telahTampalanAntGdB; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(53).value = results.resultPG201A[0].telahTampalanAntGkB; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(54).value = results.resultPG201A[0].telahTampalanPosGdB; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(55).value = results.resultPG201A[0].telahTampalanPosGkB; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(56).value = results.resultPG201A[0].telahTampalanAmgGdB; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(57).value = results.resultPG201A[0].telahTampalanAmgGkB; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(59).value = results.resultPG201A[0].cabutanGd; // Gigi Desidus Dicabut (Darjah 1)
+        rowNew.getCell(60).value = results.resultPG201A[0].cabutanGk; // Gigi Kekal Dicabut (Darjah 1)
+        rowNew.getCell(61).value = results.resultPG201A[0].penskaleran; // Penskelaran (Darjah 1)
+        rowNew.getCell(62).value = results.resultPG201A[0].caseCompletedICDAS; // Kes Selesai ICDAS (Darjah 1)
+        rowNew.getCell(63).value = results.resultPG201A[0].skorGIS0; // GIS SKOR 0 (Darjah 1)
+        rowNew.getCell(64).value = results.resultPG201A[0].skorGIS1; // GIS SKOR 1 (Darjah 1)
+        rowNew.getCell(65).value = results.resultPG201A[0].skorGIS2; // GIS SKOR 2 (Darjah 1)
+        rowNew.getCell(66).value = results.resultPG201A[0].skorGIS3; // GIS SKOR 3 (Darjah 1)
+        rowNew.getCell(68).value = results.resultPG201A[0].toothSurfaceLoss; // Trauma Tooth Surface Loss (Darjah 1)
+        rowNew.getCell(69).value = results.resultPG201A[0].traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
+        rowNew.getCell(70).value = results.resultPG201A[0].traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
         rowNew.getCell(72).value =
-          results.resultPG201A[1].pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
+          results.resultPG201A[0].pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
         rowNew.getCell(73).value =
-          results.resultPG201A[1].pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
+          results.resultPG201A[0].pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
         rowNew.getCell(74).value =
-          results.resultPG201A[1].pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
+          results.resultPG201A[0].pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
         rowNew.getCell(75).value =
-          results.resultPG201A[1].pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
+          results.resultPG201A[0].pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
         rowNew.commit();
         console.log('setting row2');
         let rowNew2 = worksheet.getRow(18);
-        rowNew2.getCell(8).value = results.resultPG201A[1].skorPlakC; //Kebersihan Mulut Skor C (Darjah 1)
+        rowNew2.getCell(8).value = results.resultPG201A[0].skorPlakC; //Kebersihan Mulut Skor C (Darjah 1)
         rowNew2.commit();
         console.log('setting row3');
         let rowNew3 = worksheet.getRow(19);
-        rowNew3.getCell(8).value = results.resultPG201A[1].skorPlakE; //Kebersihan Mulut Skor E (Darjah 1)
-        rowNew3.getCell(33).value = results.resultPG201A[1].perluFSGigiS; //Bil. Gigi Semula perlu Fisur Sealan	(Darjah 1)
-        rowNew3.getCell(35).value = results.resultPG201A[1].perluFvMuridS; //Bil. Murid Semula perlu Fluoride varnish (Darjah 1)
-        rowNew3.getCell(36).value = results.resultPG201A[1].perluFvGigiS; //Bil. Gigi Semula perlu Fluoride varnish (Darjah 1)
-        rowNew3.getCell(37).value = results.resultPG201A[1].perluPRR1MuridS; //Bil. Murid Semula perlu PRR Jenis 1 (Darjah 1)
-        rowNew3.getCell(38).value = results.resultPG201A[1].perluPRR1GigiS; //Bil. Gigi Semula perlu PRR Jenis 1 (Darjah 1)
-        rowNew3.getCell(39).value = results.resultPG201A[1].perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(40).value = results.resultPG201A[1].perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(41).value = results.resultPG201A[1].perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(42).value = results.resultPG201A[1].perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(43).value = results.resultPG201A[1].perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(44).value = results.resultPG201A[1].perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(46).value = results.resultPG201A[1].telahFSMuridS; //Bil. Murid S Telah Menerima Fisur Sealan (Darjah 1)
-        rowNew3.getCell(47).value = results.resultPG201A[1].telahFSGigiS; //Bil. Gigi S Telah Menerima Fisur Sealan (Darjah 1)
-        rowNew3.getCell(48).value = results.resultPG201A[1].telahFvMuridS; //Bil. Murid S Telah Menerima Fluoride Varnish (Darjah 1)
-        rowNew3.getCell(49).value = results.resultPG201A[1].telahFvGigiS; //Bil. Gigi S Telah Menerima Fluoride Varnish (Darjah 1)
-        rowNew3.getCell(50).value = results.resultPG201A[1].telahPRR1MuridS; //Bil. Murid S Telah Menerima PRR Jenis 1 (Darjah 1)
-        rowNew3.getCell(51).value = results.resultPG201A[1].telahPRR1GigiS; //Bil. Gigi S Telah Menerima PRR Jenis 1 (Darjah 1)
-        rowNew3.getCell(52).value = results.resultPG201A[1].telahTampalanAntGdS; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(53).value = results.resultPG201A[1].telahTampalanAntGkS; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(54).value = results.resultPG201A[1].telahTampalanPosGdS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(55).value = results.resultPG201A[1].telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
-        rowNew3.getCell(56).value = results.resultPG201A[1].telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
-        rowNew3.getCell(57).value = results.resultPG201A[1].telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(8).value = results.resultPG201A[0].skorPlakE; //Kebersihan Mulut Skor E (Darjah 1)
+        rowNew3.getCell(33).value = results.resultPG201A[0].perluFSGigiS; //Bil. Gigi Semula perlu Fisur Sealan	(Darjah 1)
+        rowNew3.getCell(35).value = results.resultPG201A[0].perluFvMuridS; //Bil. Murid Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(36).value = results.resultPG201A[0].perluFvGigiS; //Bil. Gigi Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(37).value = results.resultPG201A[0].perluPRR1MuridS; //Bil. Murid Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(38).value = results.resultPG201A[0].perluPRR1GigiS; //Bil. Gigi Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(39).value = results.resultPG201A[0].perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(40).value = results.resultPG201A[0].perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(41).value = results.resultPG201A[0].perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(42).value = results.resultPG201A[0].perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(43).value = results.resultPG201A[0].perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(44).value = results.resultPG201A[0].perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(46).value = results.resultPG201A[0].telahFSMuridS; //Bil. Murid S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(47).value = results.resultPG201A[0].telahFSGigiS; //Bil. Gigi S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(48).value = results.resultPG201A[0].telahFvMuridS; //Bil. Murid S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(49).value = results.resultPG201A[0].telahFvGigiS; //Bil. Gigi S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(50).value = results.resultPG201A[0].telahPRR1MuridS; //Bil. Murid S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(51).value = results.resultPG201A[0].telahPRR1GigiS; //Bil. Gigi S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(52).value = results.resultPG201A[0].telahTampalanAntGdS; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(53).value = results.resultPG201A[0].telahTampalanAntGkS; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(54).value = results.resultPG201A[0].telahTampalanPosGdS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(55).value = results.resultPG201A[0].telahTampalanPosGkS; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(56).value = results.resultPG201A[0].telahTampalanAmgGdS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(57).value = results.resultPG201A[0].telahTampalanAmgGkS; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
         rowNew3.getCell(72).value =
-          results.resultPG201A[1].pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
+          results.resultPG201A[0].pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
         rowNew3.getCell(73).value =
-          results.resultPG201A[1].pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
+          results.resultPG201A[0].pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
         rowNew3.getCell(74).value =
-          results.resultPG201A[1].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
+          results.resultPG201A[0].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
         rowNew3.getCell(75).value =
-          results.resultPG201A[1].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
+          results.resultPG201A[0].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
         rowNew3.commit();
+        console.log('setting row4');
+        let rowIdnt = worksheet.getRow(47);
+        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
+        console.log('done setting data');
+
         let newfile = path.join(
           __dirname,
           '..',
@@ -2907,10 +2924,13 @@ exports.testFunction2 = function (req, res) {
         );
         // Write the file
         await workbook.xlsx.writeFile(newfile);
+        console.log('writing file');
         setTimeout(function () {
           fs.unlinkSync(newfile); // delete this file after 30 seconds
+          console.log('deleting file');
         }, 30000);
         setTimeout(function () {
+          console.log('downloading file');
           return res.download(newfile); // delete this file after 30 seconds
         }, 3000);
       } catch (error) {
