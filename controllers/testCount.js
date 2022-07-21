@@ -5250,80 +5250,251 @@ exports.testFunction5 = function (req, res) {
     }
   );
 };
-exports.testFunction6 = function (req, res) {
-  //PG207
+exports.testFunction6 = function (req, res) { //PG207
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      resultCPPC2: function (callback) {
+      resultPG207: function (callback) {
         Sekolah.aggregate(
           [
             {
               $match: {
                 $and: [
-                  { statusRawatan: 'selesai' },
-                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                  { $eq:['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                  { $le:['$umur',1]},
                 ],
               },
-            },
+            }, 
             {
               $group: {
                 _id: '$namaSekolah',
-                jumlahKedatanganBaru: {
+           
+                kedatanganTahunSemasa: { //how to gorek data? by row? or by column?
+                  $sum: {
+                    $cond: [{$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},1,0,],
+                  },
+                },
+                sapuanFluorida: { //fvMuridB 
                   $sum: {
                     $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'baru-kedatangan-pendaftaran',
-                        ],
+                        { $and: [
+                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                          { $or: [
+                              {$gt:['$baruJumlahGigiKekalDiberiFv',0]},
+                              {$gt:['$semulaJumlahGigiKekalDiberiFv',0]},
+                            ],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                prrJenis1: { //prrJ1MuridB 
+                  $sum: {
+                    $cond: [
+                        { $and: [
+                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                          { $or: [
+                              {$gt:['$baruJumlahGigiKekalDiberiPrrJenis1',0]},
+                              {$gt:['$semulaJumlahGigiKekalDiberiPrrJenis1',0]},
+                            ],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                muridBaruFS: { //FSmuridBaru (Problem to be solve)
+                  $sum: {
+                    $cond: [
+                        { $and: [
+                          //{ $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                          //to add button to know patient's previous FS status on that year ; 
+                          //kalau pt pernah buat FS on the same year ; then kira ulangan. 
+                          { $gte: ['$baruJumlahGigiKekalDibuatFs',1]},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                muridSemulaFS: { //FSmuridSemula (Problem to be solve)
+                  $sum: {
+                    $cond: [
+                        { $and: [
+                          //{ $eq: ['$baruUlanganKedatanganPendaftaran','ulangan-kedatangan-pendaftaran']},
+                          //to add button to know patient's previous FS status on that year ; 
+                          //kalau pt pernah buat FS on the same year ; then kira ulangan. 
+                          { $gte: ['$semulaJumlahGigiKekalDibuatFs',1]},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                gigiBaruFS: { $sum: ['$baruJumlahGigiKekalDibuatFs']},
+                gigiSemulaFS: { $sum: ['$semulaJumlahGigiKekalDibuatFs']},
+                tampalanAntGdBaru: { $sum: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat']},
+                tampalanAntGdSemula: { $sum: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat']},
+                tampalanAntGkBaru: { $sum:['$gkBaruAnteriorSewarnaJumlahTampalanDibuat']},
+                tampalanAntGkSemula: { $sum: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat']},
+                tampalanPostGdBaru: { $sum: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat']},
+                tampalanPostGdSemula: {$sum: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat']},
+                tampalanPostGkBaru: { $sum: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat']},
+                tampalanPostGkSemula: { $sum: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat']},
+                tampalanPostAmgGdBaru: { $sum:['$gdBaruPosteriorAmalgamJumlahTampalanDibuat']},
+                tampalanPostAmgGdSemula:{ $sum:['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat']},
+                tampalanPostAmgGkBaru: { $sum:['$gkBaruPosteriorAmalgamJumlahTampalanDibuat']},
+                tampalanPostAmgGkSemula: { $sum:['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat']},
+                //inlayOnlayBaru: { $sum: ['$baruInlayOnlayJumlahTampalanDibuatRawatanUmum']},     //data sudah dpt dari form umum
+                //inlayOnlaySemula: { $sum: ['$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum']}, //data sudah dpt dari form umum
+                tampalanSementara: { $sum: ['$jumlahTampalanSementaraPenyataAkhir2']},
+                cabutanGd: { $sum:['$cabutDesidusPenyataAkhir2']},
+                cabutanGk: { $sum:['$cabutKekalPenyataAkhir2']},
+                //komplikasiSelepasCabutan :{ $sum:['$komplikasiSelepasCabutanRawatanUmum']}   //data sudah dpt dari form umum
+                penskaleran: { $sum:['$penskaleranPenyataAkhir2']},
+                //rawatanPerioLain: { $sum:['$rawatanLainPeriodontikRawatanUmum']},            //data sudah dpt dari form umum
+                rawatanEndo: {$sum:['$pulpotomiPenyataAkhir2','$endodontikPenyataAkhir2']},            
+                //rawatanOrtho: {$sum:['$rawatanOrtho']},                     //data nanty gorek dari form umum
+                //kesPerubatan:{$sum:['$kesPerubatanMulutPenyata??']},        //data nanty gorek dari form umum
+                absesBaru:{          //data sini campur sekolah form & umum form. blh ke? 
+                  $sum:{
+                    $cond:[ 
+                      {$and:[
+                        { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                        { $eq: ['$yaTidakAbsesPembedahanRawatanUmum',true]}, 
+                        { $eq: ['$baruSemulaAbsesPembedahanRawatanUmum',true]}
+                      ],},
+                      1,
+                      0,
+                    ],},
+                },
+                AbsesSemula:{       //data sini campur sekolah form & umum form. blh ke?
+                  $sum:{
+                    $cond:[ 
+                      {$and:[
+                        { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                        { $eq: ['$yaTidakAbsesPembedahanRawatanUmum',true]}, 
+                        { $eq: ['$baruSemulaAbsesPembedahanRawatanUmum',false]}
+                      ],},
+                      1,
+                      0,
+                    ]
+                  },
+                },
+                cabutanSurgical:{ $sum:['$cabutanSurgikalPembedahanMulutRawatanUmum']},     //data dari form umum
+                fraktur: {
+                  $sum:{
+                    $cond:[
+                      { $eq:['$yaTidakFrakturPembedahanRawatanUmum',true]},
+                      1,
+                      0,
+                    ]
+                  },
+                },
+                trauma: {
+                  $sum:{
+                    $cond:[
+                      { $eq:['$yaTidakTraumaPembedahanRawatanUmum',true]},
+                      1,
+                      0,
+                    ]
+                  },
+                },  
+                pembedahanKecilMulut:{
+                  $sum:{
+                    $cond:[
+                      { $eq:['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',true]},
+                      1,
+                      0,
+                    ]
+                  },
+                },
+                crownBridgeBaru:{$sum:['$baruJumlahCrownBridgeRawatanUmum']},
+                crownBridgeSemula:{$sum:['$semulaJumlahCrownBridgeRawatanUmum']},
+                postCoreBaru:{$sum:['$baruJumlahPostCoreRawatanUmum']},
+                postCoreSemula:{sum:['$semulaJumlahPostCoreRawatanUmum']},
+                prosthodontikPenuhDentur:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']},
+                //prosthodontikPenuhPesakit:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']}, // cari jalan lagi
+                prosthodontikSebahagianDentur:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']},
+                //prosthodontikSebahagianPesakit:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']}, //cari jalan lagi 
+                immediateDenture:{$sum:['$immediateDenturProstodontikRawatanUmum']},
+                pembaikanDenture:{$sum:['$pembaikanDenturProstodontikRawatanUmum']},
+                kesSelesai:{
+                  $sum:{
+                    $cond:[
+                      {$eq:['$kesSelesaiRawatanUmum',true]},
+                      1,
+                      0,
+                    ]},
+                  },
+                xrayDiambil:{$sum:['$bilanganXrayYangDiambilRawatanUmum']},
+                pesakitDisaringOC: {
+                  $sum:{
+                    $cond:[
+                      {$eq:['$disaringProgramKanserMulutPemeriksaanUmum', true]},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitdirujukLesiMulut: {
+                  $sum:{
+                    $cond:[
+                      {$eq:['$dirujukProgramKanserMulutPemeriksaanUmum', true]},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitDirujukTabiat: {
+                  $sum:{
+                    $cond:[
+                      {$eq:['$tabiatBerisikoTinggiPemeriksaanUmum', true]},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                rokokSaringNasihat: {
+                  $sum: {
+                    $cond:[
+                      {$or:[
+                        {$eq: ['jenisRUmum','perokokSemasa']},
+                        {$eq: ['jenisRUmum','bekasPerokok']},
+                        {$eq: ['jenisRUmum','perokokPasif']},
+                        {$eq: ['jenisRUmum','bukanPerokok']},]
                       },
                       1,
                       0,
                     ],
                   },
                 },
-                jumlahKedatanganUlangan: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'ulangan-kedatangan-pendaftaran',
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-
-                cIcIIstatus: {
-                  $sum: ['$classID', 'classIID', 'classIF', 'classIIF'],
-                },
-                cIstatus: {
-                  $sum: ['$classID', 'classIF'],
-                },
+              // rokokIntervensi:
+              //   $sum:{
+              //     $cond:[
               },
-            },
-          ],
-          callback
-        );
+          },
+            ],
+            callback
+          );
+        },
+        // break line to add more aggregate. please add this break line if you are using multiple aggregate
       },
-      // break line to add more aggregate. please add this break line if you are using multiple aggregate
-    },
-    async function (err, results) {
-      {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            message: 'Error when getting Data',
-            error: err,
-          });
+      async function (err, results) {
+        {
+          if (err) {
+            console.log(err);
+            return res.status(500).json({
+              message: 'Error when getting Data',
+              error: err,
+            });
+          }
+          console.log(results);
+          return res.json(results);
         }
-        console.log(results);
-        return res.json(results);
       }
-    }
-  );
+      );
 };
+
+
