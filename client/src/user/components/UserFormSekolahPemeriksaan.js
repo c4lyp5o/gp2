@@ -1931,7 +1931,7 @@ function UserFormSekolahPemeriksaan(props) {
                 </div>
               </article>
             </div>
-            <div className='grid'>
+            <div className='grid gap-2 auto-rows-min'>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Jumlah Tampalan Diperlukan
@@ -2265,6 +2265,106 @@ function UserFormSekolahPemeriksaan(props) {
                     </div>
                   </article>
                 </div>
+              </article>
+              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  status merokok<span className='text-user6'>*</span>
+                </h4>
+                <select
+                  required
+                  name='statusM'
+                  id='statusM'
+                  value={props.statusM}
+                  onChange={(e) => {
+                    props.setStatusM(e.target.value);
+                  }}
+                  className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                >
+                  <option value=''></option>
+                  <option value='perokokSemasa'>Perokok Semasa</option>
+                  <option value='bekasPerokok'>Bekas Perokok</option>
+                  <option value='perokokPasif'>Perokok Pasif</option>
+                  <option selected value='bukanPerokok'>
+                    Bukan Perokok
+                  </option>
+                </select>
+                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  ingin melakukan intervensi merokok?
+                </p>
+                <div className='flex items-center justify-center'>
+                  <input
+                    // required={props.statusM == 'perokokSemasa' ? true : false}
+                    type='radio'
+                    name='ingin-melakukan-intervensi-merokok'
+                    id='ya-ingin-melakukan-intervensi-merokok'
+                    value='ya-ingin-melakukan-intervensi-merokok'
+                    checked={
+                      props.inginMelakukanIntervensiMerokok ===
+                      'ya-ingin-melakukan-intervensi-merokok'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setInginMelakukanIntervensiMerokok(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='ya-ingin-melakukan-intervensi-merokok'
+                    className='m-2 text-sm font-m'
+                  >
+                    Ya
+                  </label>
+                  <input
+                    // required={props.statusM == 'perokokSemasa' ? true : false}
+                    type='radio'
+                    name='ingin-melakukan-intervensi-merokok'
+                    id='tidak-ingin-melakukan-intervensi-merokok'
+                    value='tidak-ingin-melakukan-intervensi-merokok'
+                    checked={
+                      props.inginMelakukanIntervensiMerokok ===
+                      'tidak-ingin-melakukan-intervensi-merokok'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      props.setInginMelakukanIntervensiMerokok(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='tidak-ingin-melakukan-intervensi-merokok'
+                    className='m-2 text-sm font-m'
+                  >
+                    Tidak
+                  </label>
+                </div>
+              </article>
+              <article
+                className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
+                // className={`${
+                //   props.statusM == 'perokokSemasa' ? 'visible' : 'hidden'
+                // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
+              >
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  jenis rokok<span className='text-user6'>*</span>
+                </h4>
+                <select
+                  //   required={props.statusM == 'perokokSemasa' ? true : false}
+                  name='jenisR'
+                  id='jenisR'
+                  value={props.jenisR}
+                  onChange={(e) => {
+                    props.setJenisR(e.target.value);
+                  }}
+                  className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                >
+                  <option value=''></option>
+                  <option value='rokokB'>Rokok Biasa</option>
+                  <option value='elektronik'>Elektronik</option>
+                  <option value='shisha'>Shisha</option>
+                  <option value='lain2'>Lain-lain</option>
+                </select>
               </article>
             </div>
           </section>
