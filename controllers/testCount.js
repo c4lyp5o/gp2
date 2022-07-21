@@ -2781,7 +2781,7 @@ exports.testFunction2 = function (req, res) { //PG201A
   );
 };
 
-exports.testFunction3 = function (req, res) {
+exports.testFunction3 = function (req, res) { //PG201 SMKP
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -3362,13 +3362,13 @@ exports.testFunction4 = function (req, res) { //PPIM 05
                   ],
                 },
               
-                masihRokok6Bulan: {
-                  $sum: {
-                    $cond: [ 
-                     {$eq: ['$statusSelepas6Bulan', 'tidakberhenti']}, 
-                    1, 
-                    0,
-                    ],
+              masihRokok6Bulan: {
+                 $sum: {
+                   $cond: [ 
+                    {$eq: ['$statusSelepas6Bulan', 'tidakberhenti']}, 
+                  1, 
+                  0,
+                  ],
                   },
               },
               },
@@ -3415,11 +3415,6 @@ exports.testFunction5 = function (req, res) { //CPPC 2
               $group: {
                 _id: '$namaSekolah',
 
-              // dfStatus: {
-              //   $sum: {['$dAdaGigiKekal','fAdaGigiKekal'] },
-              // },
-
-            
               dfStatus: {
                 $sum: ['$dAdaGigiKekal','fAdaGigiKekal'],
               },
@@ -3454,80 +3449,3 @@ exports.testFunction5 = function (req, res) { //CPPC 2
       );
 };
 
-exports.testFunction6 = function (req, res) { //PG207
-  async.parallel(
-    {
-      // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      resultCPPC2: function (callback) {
-        Sekolah.aggregate(
-          [
-            {
-              $match: {
-                $and: [
-                  { statusRawatan: 'selesai' },
-                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
-                ],
-              },
-            },
-            {
-              $group: {
-                _id: '$namaSekolah',
-           
-                jumlahKedatanganBaru: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'baru-kedatangan-pendaftaran',
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-                jumlahKedatanganUlangan: {
-                  $sum: {
-                    $cond: [
-                      {
-                        $eq: [
-                          '$baruUlanganKedatanganPendaftaran',
-                          'ulangan-kedatangan-pendaftaran',
-                        ],
-                      },
-                      1,
-                      0,
-                    ],
-                  },
-                },
-
-              cIcIIstatus: {
-                $sum: ['$classID','classIID','classIF','classIIF'],
-              },
-              cIstatus: {
-                $sum: ['$classID','classIF'],
-              },
-            },
-          },
-            ],
-            callback
-          );
-        },
-        // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      },
-      async function (err, results) {
-        {
-          if (err) {
-            console.log(err);
-            return res.status(500).json({
-              message: 'Error when getting Data',
-              error: err,
-            });
-          }
-          console.log(results);
-          return res.json(results);
-        }
-      }
-      );
-};
