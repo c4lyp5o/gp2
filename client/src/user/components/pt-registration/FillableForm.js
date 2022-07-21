@@ -108,6 +108,19 @@ export default function FillableForm({
                 className='outline outline-1 outline-userBlack'
               />
             </div>
+            <div className='flex m-2 ml-auto'>
+              <p className='mr-3 font-semibold'>
+                waktu sampai:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                onChange={(e) => setWaktuSampai(e.target.value)}
+                type='time'
+                name='waktuSampai'
+                className='outline outline-1 outline-userBlack'
+              />
+            </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 nama: <span className='font-semibold text-user6'>*</span>
@@ -201,19 +214,6 @@ export default function FillableForm({
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
-                waktu sampai:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                onChange={(e) => setWaktuSampai(e.target.value)}
-                type='time'
-                name='waktuSampai'
-                className='outline outline-1 outline-userBlack'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
                 kategori pesakit:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
@@ -274,12 +274,21 @@ export default function FillableForm({
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>rujuk daripada: </p>
-              <input
-                onChange={(e) => setRujukDaripada(e.target.value)}
-                type='text'
+              <select
+                required
                 name='rujukDaripada'
-                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
+                id='rujukDaripada'
+                onChange={(e) => setRujukDaripada(e.target.value)}
+                className='mr-3'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='dalaman'>Dalaman</option>
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kk'>Klinik Kesihatan</option>
+                <option value='hospital'>Hospital</option>
+                <option value='swasta'>Swasta</option>
+                <option value='lain2'>Lain-lain</option>
+              </select>
             </div>
           </div>
           <span
