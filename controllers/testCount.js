@@ -1912,10 +1912,7 @@ exports.testFunction201A = function (req, res) {
           [
             {
               $match: {
-                $and: [
-                  { statusRawatan: 'selesai' },
-                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
-                ],
+            statusRawatan: 'selesai'
               },
             },
             {
@@ -2605,7 +2602,7 @@ exports.testFunction201A = function (req, res) {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     async function (err, results) {
-      console.log(results.resultPG201A[0]);
+      console.log(results);
       try {
         let filename = path.join(
           __dirname,
