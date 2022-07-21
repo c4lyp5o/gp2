@@ -1902,7 +1902,8 @@ exports.getDetails = async function (req, res) {
     res.status(404).json({ err });
   }
 };
-exports.testFunction2 = function (req, res) {
+exports.testFunction201A = function (req, res) {
+  //PG201A
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -1911,10 +1912,7 @@ exports.testFunction2 = function (req, res) {
           [
             {
               $match: {
-                $and: [
-                  { statusRawatan: 'selesai' },
-                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
-                ],
+            statusRawatan: 'selesai'
               },
             },
             {
@@ -2604,7 +2602,7 @@ exports.testFunction2 = function (req, res) {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
     },
     async function (err, results) {
-      console.log(results.resultPG201A[0]);
+      console.log(results);
       try {
         let filename = path.join(
           __dirname,
@@ -2780,8 +2778,7 @@ exports.testFunction2 = function (req, res) {
     }
   );
 };
-
-exports.testFunction3 = function (req, res) {
+exports.testFunction201SMKP = function (req, res) {
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -2791,7 +2788,7 @@ exports.testFunction3 = function (req, res) {
             { $match: { statusRawatan: 'selesai' } },
             {
               $group: {
-                _id: '$namaSekolah',
+                _id: '$createdByDaerah',
                 engganKedatanganPendaftaran: {
                   $sum: {
                     $cond: [
@@ -3029,15 +3026,12 @@ exports.testFunction3 = function (req, res) {
                 },
                 kecederaanGigiAnterior: {
                   $sum: { $toDouble: '$kecederaanGigiAnteriorTrauma' },
-                  // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
                 },
                 cleftAda: {
                   $sum: { $toDouble: '$adaCleftLip' },
-                  // $sum: { $adaCleftLip: 0 },
                 },
                 cleftRujuk: {
                   $sum: { $toDouble: '$rujukCleftLip' },
-                  // $sum: { $rujukCleftLip: 0 },
                 },
                 perluFSMuridB: {
                   $sum: {
@@ -3155,11 +3149,15 @@ exports.testFunction3 = function (req, res) {
                 telahTampalanAmgGkS: {
                   $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
                 },
-
-                cabutanGd: { $sum: '$cabutDesidusPenyataAkhir2' },
-                cabutanGk: { $sum: '$cabutKekalPenyataAkhir2' },
-                penskaleran: { $sum: '$penskaleranPenyataAkhir2' },
-
+                cabutanGd: {
+                  $sum: '$cabutDesidusPenyataAkhir2',
+                },
+                cabutanGk: {
+                  $sum: '$cabutKekalPenyataAkhir2',
+                },
+                penskaleran: {
+                  $sum: '$penskaleranPenyataAkhir2',
+                },
                 caseCompleted: {
                   $sum: {
                     $cond: [
@@ -3214,6 +3212,2097 @@ exports.testFunction3 = function (req, res) {
                       0,
                     ],
                   },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunctionPPIM04 = async function (req, res) {
+  const semuaPelajar = await Sekolah.find({
+    namaSekolah: req.query.sekolah,
+  });
+  for (i = 0; i < semuaPelajar.length; i++) {
+    console.log(semuaPelajar[i].namaPelajar);
+    console.log(semuaPelajar[i].kelas);
+    console.log(semuaPelajar[i].tarikh1);
+    console.log(semuaPelajar[i].tarikh2);
+    console.log(semuaPelajar[i].tarikh3);
+    console.log(semuaPelajar[i].tarikh4);
+    console.log(semuaPelajar[i].adaTiadaQ);
+    console.log(semuaPelajar[i].tarikhQ);
+    // console.log(semuaPelajar.length);
+    console.log(semuaPelajar[i].statusSelepas6Bulan);
+  }
+  return;
+};
+exports.testFunctionBegin = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultbudakBEGIN: function (callback) {
+        Sekolah.aggregate(
+          [
+            // jenis fasiliti mungkin erkm
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { jenisFasiliti: 'taska/tadika/dll' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahBuatBegin: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2',
+                              true,
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoRendah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'rendah',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoSederhana: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'sederhana',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoTinggi: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'tinggi',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKanak2BuatBegin: {
+                  $sum: {
+                    $yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2,
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultbudakBEGINtahun2keatas: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { jenisFasiliti: 'taska/tadika/dll' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahKanak2BuatBeginBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2',
+                              true,
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoRendah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'rendah',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoSederhana: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'sederhana',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahRisikoTinggi: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$tinggiRendahRisikoSekolahPendaftaran',
+                          'tinggi',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKanakHiRiskBuatBegin: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakMelaksanakanAktivitiBeginPromosiPenyataAkhir2',
+                              true,
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$tinggiRendahRisikoSekolahPendaftaran',
+                              'tinggi',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultfasilitiBEGIN: function (callback) {
+        Fasiliti.aggregate(
+          [
+            {
+              $match: {
+                $and: [{ jenisFasiliti: 'taska/tadika/dll' }],
+              },
+            },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahFasiliti: { $sum: 1 },
+                jumlahFasilitiBegin: {
+                  $sum: '$melakukanBegin',
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunctionMMI = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultMMI: function (callback) {
+        Sekolah.aggregate(
+          [
+            // jenis fasiliti mungkin erkm
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { jenisFasiliti: 'taska/tadika/dll' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$createdByDaerah',
+                jumlahD: { $sum: '$dAdaGigiKekal' },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gte: ['$eAdaGigiKekal', 1] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKariesTapiElebihDariSatu: {
+                  //DMFX=0 ; E≥1
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$dAdaGigiKekal', 0] },
+                          { $eq: ['$mAdaGigiKekal', 0] },
+                          { $eq: ['$fAdaGigiKekal', 0] },
+                          { $eq: ['$xAdaGigiKekal', 0] },
+                          { $gte: ['$eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluFs', 0] },
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluFs', '0'],
+                          },
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSGigiB: {
+                  $sum: { $gt: ['$baruJumlahGigiKekalPerluFs', '0'] },
+                },
+                perluFSGigiS: {
+                  $sum: { $gt: ['$semulaJumlahGigiKekalPerluFs', '0'] },
+                },
+                perluFvMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $gt: ['$baruJumlahGigiKekalPerluFv', '0'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvMuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$baruJumlahGigiKekalPerluFv', 0] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [{ $gt: ['$semulaJumlahGigiKekalPerluFv', 0] }],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: ['$semulaJumlahGigiKekalPerluPrrJenis1', 0],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: ['$baruJumlahGigiKekalPerluPrrJenis1', 0],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunctionFV1 = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultFV1: function (callback) {
+        Sekolah.aggregate(
+          [
+            // jenis fasiliti mungkin erkm
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'taska/tadika/dll' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBK: {
+                  //MBK
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$dAdaGigiDesidus', 0],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                klinikYgMelayani: '$handler',
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunctionPG211 = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultPG211: function (callback) {
+        Umum.aggregate(
+          [
+            {
+              $match: { $umur: { $gt: 0 } },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbLelaki: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$jantina', 'lelaki'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$jantina', 'perempuan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbMelayu: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'melayu'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbCina: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'cina'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbIndia: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'india'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBajau: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bajau'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbDusun: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'dusun'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbKadazan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'kadazan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbMurut: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'murut'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBSabahL: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbMelanau: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'melanau'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbKedayan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'kedayan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbIban: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'iban'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBSwakLain: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbOrangAsli: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'orang-asli'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbLain2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'lain-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbWarganegara: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bukan-warganegara'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbIbuMengandung: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kategoriPesakit', 'hamil'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBersekolah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $or: [
+                              { $eq: ['$kategoriPesakit', 'sekolahmenengah'] },
+                              { $eq: ['$kategoriPesakit', 'sekolahrendah'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbOKU: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kategoriPesakit', 'oku'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbPesaraKerajaan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$statusPesara', 'kerajaan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbPesaraATM: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$statusPesara', 'atm'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujDalam: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'dalaman'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujKP: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'kp'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujKK: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'kk'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujHospital: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'hospital'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujSwasta: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'swasta'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbRujLain2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'lain2'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbLelaki: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$jantina', 'lelaki'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$jantina', 'perempuan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuMelayu: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'melayu'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuCina: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'cina'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuIndia: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'india'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuBajau: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bajau'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuDusun: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'dusun'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuKadazan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'kadazan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuMurut: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'murut'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuBSabahL: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuMelanau: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'melanau'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuKedayan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'kedayan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuIban: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'iban'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuBSwakLain: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuOrangAsli: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'orang-asli'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuLain2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'lain-lain'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuWarganegara: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bukan-warganegara'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuIbuMengandung: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kategoriPesakit', 'hamil'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuBersekolah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $or: [
+                              { $eq: ['$kategoriPesakit', 'sekolahmenengah'] },
+                              { $eq: ['$kategoriPesakit', 'sekolahrendah'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuOKU: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kategoriPesakit', 'oku'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuPesaraKerajaan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$statusPesara', 'kerajaan'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuPesaraATM: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$statusPesara', 'atm'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujDalam: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'dalaman'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujKP: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'kp'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujKK: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'kk'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujHospital: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'hospital'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujSwasta: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'swasta'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkuRujLain2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'ulangan-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$rujukDaripada', 'lain2'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction4 = function (req, res) {
+  //PPIM 05
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultPPIM05: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+
+                perokok: {
+                  $sum: {
+                    $cond: [{ $eq: ['$statusM', 'perokokSemasa'] }, 1, 0],
+                  },
+                },
+
+                //    Untuk tindakan seterusnya kalau dah add consent di form.
+
+                //  sertaiIntervensi: { // tak dapat buat currently concern is how to know their consent?
+                //     $sum: {
+                //       $cond: [
+                //         {$eq: [//consent'#setuju?' ,true false]},
+                //         1,
+                //         0,
+                //       ],
+                //       },
+
+                intervensi3WithQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', true, 'tarikhQ'] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2', 'tarikh3'] },
+                              {
+                                $eq: [
+                                  'tarikh1',
+                                  '$tarikh2',
+                                  'tarikh3',
+                                  'tarikh4',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensi3NoQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', false] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2', 'tarikh3'] },
+                              {
+                                $eq: [
+                                  'tarikh1',
+                                  '$tarikh2',
+                                  'tarikh3',
+                                  'tarikh4',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensiLess3WithQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', true] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2'] },
+                              { $eq: ['tarikh1'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                intervensiLess3NoQDate: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$adaTiadaQ', false] },
+                          {
+                            $or: [
+                              { $eq: ['tarikh1', '$tarikh2'] },
+                              { $eq: ['tarikh1'] },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                dirujukKaunseling: {
+                  $sum: {
+                    $cond: [{ $eq: ['$dirujukKaunseling', true] }, 1, 0],
+                  },
+                },
+
+                berhentiRokok6Bulan: {
+                  $sum: {
+                    $cond: [
+                      { $eq: ['$statusSelepas6Bulan', 'berhenti'] },
+                      1,
+                      0,
+                    ],
+                  },
+
+                  masihRokok6Bulan: {
+                    $sum: {
+                      $cond: [
+                        { $eq: ['$statusSelepas6Bulan', 'tidakberhenti'] },
+                        1,
+                        0,
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction5 = function (req, res) {
+  //CPPC 2
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultCPPC2: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+
+                // dfStatus: {
+                //   $sum: {['$dAdaGigiKekal','fAdaGigiKekal'] },
+                // },
+
+                dfStatus: {
+                  $sum: ['$dAdaGigiKekal', 'fAdaGigiKekal'],
+                },
+
+                cIcIIstatus: {
+                  $sum: ['$classID', 'classIID', 'classIF', 'classIIF'],
+                },
+                cIstatus: {
+                  $sum: ['$classID', 'classIF'],
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunction6 = function (req, res) {
+  //PG207
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultCPPC2: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $and: [
+                  { statusRawatan: 'selesai' },
+                  { namaSekolah: 'sekolah kebangsaan kebangsaan alor janggus' },
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                cIcIIstatus: {
+                  $sum: ['$classID', 'classIID', 'classIF', 'classIIF'],
+                },
+                cIstatus: {
+                  $sum: ['$classID', 'classIF'],
                 },
               },
             },

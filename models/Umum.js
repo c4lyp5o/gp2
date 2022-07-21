@@ -71,6 +71,9 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       // required: [true, 'Please provide rujuk dari'],
     },
+    statusPesara: {
+      type: String,
+    },
     // end of pendaftaran pg101 -------------------------------------------
     //fasiliti perkhidmatan
     jenisFasiliti: {
