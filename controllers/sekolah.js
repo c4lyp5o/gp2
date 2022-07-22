@@ -1,7 +1,7 @@
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
-const Kotak = require('../models/Kotak');
+const Kotaksekolah = require('../models/Kotaksekolah');
 const Fasiliti = require('../models/Fasiliti');
 
 // GET /
@@ -93,6 +93,7 @@ const createPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
+// set statusRawatan to 'belum selesai' when creating pemeriksaan
 // POST /pemeriksaan/:personSekolahId
 const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
@@ -108,7 +109,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
-        statusRawatan: req.body.statusRawatan,
+        statusRawatan: 'belum selesai',
       },
     },
     { new: true }
@@ -139,14 +140,15 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
+// kotak tak handle statusRawatan
 // POST /kotak/:personSekolahId
 const createKotakWithSetPersonSekolah = async (req, res) => {
-  // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
+  // associate negeri, daerah, kp to each person sekolah when creating kotak
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
-  const kotakSekolah = await Kotak.create(req.body);
+  const kotakSekolah = await Kotaksekolah.create(req.body);
 
   // masukkan kotak ID dalam personSekolah
   const personSekolah = await Sekolah.findOneAndUpdate(
@@ -154,7 +156,6 @@ const createKotakWithSetPersonSekolah = async (req, res) => {
     {
       $set: {
         kotakSekolah: kotakSekolah._id,
-        statusRawatan: req.body.statusRawatan,
       },
     },
     { new: true }
@@ -163,9 +164,10 @@ const createKotakWithSetPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
-// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
+// reset statusRawatan to 'belum selesai'
+// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
 const updatePemeriksaanSekolah = async (req, res) => {
-  const updatedSinglePemeriksaan = await Kotak.findOneAndUpdate(
+  const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     req.body,
     { new: true }
@@ -177,12 +179,18 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
 
+  await Sekolah.findOneAndUpdate(
+    { _id: req.query.personSekolahId },
+    { $set: { statusRawatan: 'belum selesai' } }
+  );
+
   res.status(200).json({ updatedSinglePemeriksaan });
 };
 
+// kotak tak handle status rawatan
 // PATCH /kotak/ubah/:kotakSekolahId
 const updateKotakSekolah = async (req, res) => {
-  const updatedSingleKotak = await Kotak.findOneAndUpdate(
+  const updatedSingleKotak = await Kotaksekolah.findOneAndUpdate(
     { _id: req.params.kotakSekolahId },
     req.body,
     { new: true }

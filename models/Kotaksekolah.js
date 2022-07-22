@@ -45,4 +45,4 @@ const KotakSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Kotak', KotakSchema);
+module.exports = mongoose.model('Kotaksekolah', KotakSchema);

@@ -66,7 +66,7 @@ const SekolahSchema = new mongoose.Schema({
   // kotak -------------------------------------------------------------
   kotakSekolah: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Kotak',
+    ref: 'Kotaksekolah',
   },
   // // pendaftaran -------------------------------------------------------
   // statikBergerak: {
