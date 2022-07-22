@@ -8,7 +8,9 @@ const {
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
+  createKotakWithSetPersonSekolah,
   updatePemeriksaanSekolah,
+  updateKotakSekolah,
 } = require('../controllers/sekolah');
 
 router.route('/').get(getAllPersonSekolahsVanilla).post(createPersonSekolah);
@@ -26,5 +28,6 @@ router
 router
   .route('/rawatan/:personSekolahId')
   .post(createRawatanWithPushPersonSekolah);
-
+router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
+router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 module.exports = router;

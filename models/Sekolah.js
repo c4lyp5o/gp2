@@ -63,6 +63,11 @@ const SekolahSchema = new mongoose.Schema({
       ref: 'Rawatansekolah',
     },
   ],
+  // kotak -------------------------------------------------------------
+  kotakSekolah: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Kotak',
+  },
   // // pendaftaran -------------------------------------------------------
   // statikBergerak: {
   //   type: String,

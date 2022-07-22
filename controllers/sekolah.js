@@ -1,6 +1,7 @@
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
+const Kotak = require('../models/Kotak');
 const Fasiliti = require('../models/Fasiliti');
 
 // GET /
@@ -66,7 +67,9 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     namaSekolah: { $in: [...namaSekolahs] },
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
+
   res.status(200).json({ allPersonSekolahs });
 };
 
@@ -76,7 +79,8 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     _id: req.params.personSekolahId,
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
 
   res.status(201).json({ personSekolahWithPopulate });
 };
@@ -135,9 +139,33 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
+// POST /kotak/:personSekolahId
+const createKotakWithSetPersonSekolah = async (req, res) => {
+  // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
+  req.body.createdByNegeri = req.user.negeri;
+  req.body.createdByDaerah = req.user.daerah;
+  req.body.createdByKp = req.user.kp;
+
+  const kotakSekolah = await Kotak.create(req.body);
+
+  // masukkan kotak ID dalam personSekolah
+  const personSekolah = await Sekolah.findOneAndUpdate(
+    { _id: req.params.personSekolahId },
+    {
+      $set: {
+        kotakSekolah: kotakSekolah._id,
+        statusRawatan: req.body.statusRawatan,
+      },
+    },
+    { new: true }
+  );
+
+  res.status(201).json({ personSekolah });
+};
+
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
 const updatePemeriksaanSekolah = async (req, res) => {
-  const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
+  const updatedSinglePemeriksaan = await Kotak.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     req.body,
     { new: true }
@@ -150,6 +178,23 @@ const updatePemeriksaanSekolah = async (req, res) => {
   }
 
   res.status(200).json({ updatedSinglePemeriksaan });
+};
+
+// PATCH /kotak/ubah/:kotakSekolahId
+const updateKotakSekolah = async (req, res) => {
+  const updatedSingleKotak = await Kotak.findOneAndUpdate(
+    { _id: req.params.kotakSekolahId },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedSingleKotak) {
+    return res
+      .status(404)
+      .json({ msg: `No document with id ${req.params.kotakSekolahId}` });
+  }
+
+  res.status(200).json({ updatedSingleKotak });
 };
 
 // query route
@@ -189,6 +234,8 @@ module.exports = {
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
+  createKotakWithSetPersonSekolah,
   updatePemeriksaanSekolah,
+  updateKotakSekolah,
   queryPersonSekolah,
 };

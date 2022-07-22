@@ -19,12 +19,22 @@ const RawatansekolahSchema = new mongoose.Schema({
     required: true,
   },
   // rawatan ----------------------------------------------------------
-  cabutDesidusPenyataAkhir2: {
+  baruJumlahGigiKekalDibuatFs: {
     type: Number,
     min: 0,
     default: 0,
   },
-  cabutKekalPenyataAkhir2: {
+  semulaJumlahGigiKekalDibuatFs: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  baruJumlahGigiKekalDiberiFv: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  semulaJumlahGigiKekalDiberiFv: {
     type: Number,
     min: 0,
     default: 0,
