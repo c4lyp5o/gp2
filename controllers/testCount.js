@@ -5498,3 +5498,302 @@ exports.testFunction6 = function (req, res) { //PG207
 };
 
 
+exports.testFunctionPG214 = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultPG214: function (callback) {
+        Umum.aggregate(
+          [
+            {
+              $match: { $umur: { $gt: 0 } },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                  // nanty tulis formula to classify umur:
+
+                jkbMelayu: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'melayu'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbCina: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'cina'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbIndia: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'india'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBajau: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'bajau'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbDusun: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'dusun'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbKadazan: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'kadazan'],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbMurut: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'murut'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBSabahL: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbMelanau: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'melanau'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbKedayan: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'kedayan'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbIban: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'iban'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bidayuh:{ 
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'bidayuh'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbBSwakLain: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbOrangAsli: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'orang-asli'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbLain2: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'lain-lain'],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbWarganegara: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$kumpulanEtnik', 'bukan-warganegara'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbLelaki: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          { $eq: ['$jantina', 'lelaki'],},
+                        ],},
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jkbPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {$and: [
+                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
+                          {$eq: ['$jantina', 'perempuan'],},
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                edentulous: {
+                  $sum:{
+                    $cond: [
+                      {$eq: ['$edentulousWargaEmasPemeriksaanUmum',true]},1,0,],
+                  }
+                },
+                edentulous: {
+                  $sum:{
+                    $cond: [
+                      {$eq: ['$edentulousWargaEmasPemeriksaanUmum',true]},1,0,],
+                  }
+                },
+                gigiSamaAtauLebihDari20Batang: {
+                  $sum:{
+                    $cond:[
+                      {$eq: ['$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum', true]},1,0,],
+                  },
+                },
+                gigiKurangDari20Batang:{ 
+                  $sum:{
+                    $cond:[
+                      {$eq: ['$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum', false]},1,0,],
+                  },
+                },
+                bilGigi:{ //macam mana nak tolak gigi? 
+                  $sum:{
+                    $subtract:{'$mAdaGigiKekalPemeriksaanUmum':[32]}
+                  },
+                },
+              },
+            },
+              ],
+              callback
+            );
+          },
+          // break line to add more aggregate. please add this break line if you are using multiple aggregate
+        },
+        async function (err, results) {
+          {
+            if (err) {
+              console.log(err);
+              return res.status(500).json({
+                message: 'Error when getting Data',
+                error: err,
+              });
+            }
+            console.log(results);
+            return res.json(results);
+          }
+        }
+        );
+  };
