@@ -295,13 +295,22 @@ export default function EditableForm({
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>rujuk daripada: </p>
-              <input
-                onChange={(e) => setRujukDaripada(e.target.value)}
-                type='text'
+              <select
+                required
                 name='rujukDaripada'
+                id='rujukDaripada'
                 value={editRujukDaripada}
-                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
+                onChange={(e) => setRujukDaripada(e.target.value)}
+                className='mr-3'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='dalaman'>Dalaman</option>
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kk'>Klinik Kesihatan</option>
+                <option value='hospital'>Hospital</option>
+                <option value='swasta'>Swasta</option>
+                <option value='lain2'>Lain-lain</option>
+              </select>
             </div>
           </div>
           <span
