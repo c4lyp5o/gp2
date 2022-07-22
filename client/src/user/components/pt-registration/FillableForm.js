@@ -25,6 +25,7 @@ export default function FillableForm({
   const [alamat, setAlamat] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
 
@@ -48,6 +49,7 @@ export default function FillableForm({
         alamat: alamat,
         waktuSampai: waktuSampai,
         kategoriPesakit: kategoriPesakit,
+        statusPesara: statusPesara,
         kumpulanEtnik: kumpulanEtnik,
         rujukDaripada: rujukDaripada,
       },
@@ -232,6 +234,28 @@ export default function FillableForm({
                 <option value='hamil'>Ibu mengandung</option>
                 <option value='dewasa'>Dewasa</option>
                 <option value='warga-tua'>Warga tua</option>
+              </select>
+            </div>
+            <div
+              className={`${
+                kategoriPesakit === 'warga-tua' ? 'visible' : 'hidden'
+              } flex m-2`}
+            >
+              <p className='mr-3 font-semibold'>
+                status pesara:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                name='statusPesara'
+                id='statusPesara'
+                onChange={(e) => setStatusPesara(e.target.value)}
+              >
+                <option selected disabled>
+                  Sila pilih..
+                </option>
+                <option value='kerajaan'>kerajaan</option>
+                <option value='atm'>ATM</option>
               </select>
             </div>
             <div className='flex m-2'>

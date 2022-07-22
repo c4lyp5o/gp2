@@ -18,6 +18,7 @@ module.exports = buildSchema(`
     waktuSampai: String,
     kategoriPesakit: String,
     kumpulanEtnik: String,
+    statusPesara: String,
     rujukDaripada: String,
     createdAt: String
   }
@@ -62,6 +63,7 @@ module.exports = buildSchema(`
     alamat: String,
     waktuSampai: String,
     kategoriPesakit: String,
+    statusPesara: String,
     kumpulanEtnik: String,
     rujukDaripada: String,
   }
@@ -95,6 +97,7 @@ module.exports = buildSchema(`
     alamat: String,
     waktuSampai: String,
     kategoriPesakit: String,
+    statusPesara: String,
     kumpulanEtnik: String,
     rujukDaripada: String,
   }

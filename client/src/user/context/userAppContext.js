@@ -126,6 +126,7 @@ function UserAppProvider({ children }) {
       $alamat: String
       $waktuSampai: String
       $kategoriPesakit: String
+      $statusPesara: String
       $kumpulanEtnik: String
     ) {
       createPatient(
@@ -144,6 +145,7 @@ function UserAppProvider({ children }) {
           alamat: $alamat
           waktuSampai: $waktuSampai
           kategoriPesakit: $kategoriPesakit
+          statusPesara: $statusPesara
           kumpulanEtnik: $kumpulanEtnik
           rujukDaripada: $rujukDaripada
         }

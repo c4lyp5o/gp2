@@ -98,6 +98,7 @@ module.exports = {
           alamat: pt.alamat,
           waktuSampai: pt.waktuSampai,
           kategoriPesakit: pt.kategoriPesakit,
+          statusPesara: pt.statusPesara,
           kumpulanEtnik: pt.kumpulanEtnik,
           rujukDaripada: pt.rujukDaripada,
           createdAt: new Date(pt._doc.createdAt).toISOString(),
@@ -167,6 +168,7 @@ module.exports = {
         alamat: patient.alamat,
         waktuSampai: patient.waktuSampai,
         kategoriPesakit: patient.kategoriPesakit,
+        statusPesara: patient.statusPesara,
         kumpulanEtnik: patient.kumpulanEtnik,
         rujukDaripada: patient.rujukDaripada,
       };
@@ -234,6 +236,7 @@ module.exports = {
           alamat: pt.alamat,
           waktuSampai: pt.waktuSampai,
           kategoriPesakit: pt.kategoriPesakit,
+          statusPesara: pt.statusPesara,
           kumpulanEtnik: pt.kumpulanEtnik,
           rujukDaripada: pt.rujukDaripada,
           createdAt: new Date(pt._doc.createdAt).toISOString(),
@@ -305,6 +308,7 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
       } = args.patient;
@@ -324,6 +328,7 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
       });
@@ -424,6 +429,7 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
       } = args.patient;
@@ -437,6 +443,7 @@ module.exports = {
         alamat: alamat,
         waktuSampai: waktuSampai,
         kategoriPesakit: kategoriPesakit,
+        statusPesara: statusPesara,
         kumpulanEtnik: kumpulanEtnik,
         rujukDaripada: rujukDaripada,
       });
