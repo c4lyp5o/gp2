@@ -59,10 +59,10 @@ function UserAfterLogin() {
             path='sekolah/form-sekolah/kotak'
             element={<UserFormSekolahKOTAK />}
           />
-          <Route
+          {/* <Route
             path='form-sekolah/:personSekolahId'
             element={<UserFormSekolahHeader />}
-          />
+          /> */}
 
           <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-individu' element={<UserGenerateIndividu />} />

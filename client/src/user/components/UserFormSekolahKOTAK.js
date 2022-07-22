@@ -1,8 +1,26 @@
 import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 function UserFormSekolahKOTAK(props) {
+  const {
+    userToken,
+    username,
+    navigate,
+    catchAxiosErrorAndLogout,
+    useParams,
+    toast,
+  } = useGlobalUserAppContext();
+
+  const { personSekolahId } = useParams();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [isShown, setIsShown] = useState(false);
+  const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+
+  const createdByUsername = username;
+  const [tarikh1, setTarikh1] = useState('');
 
   return (
     <>
