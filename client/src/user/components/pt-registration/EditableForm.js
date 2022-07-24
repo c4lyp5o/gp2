@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -28,11 +29,12 @@ export default function EditableForm({
   const [editKumpulanEtnik, setKumpulanEtnik] = useState('');
   const [editRujukDaripada, setRujukDaripada] = useState('');
 
-  const { data } = useQuery(GET_PATIENT, {
+  const { data, loading } = useQuery(GET_PATIENT, {
     variables: { id: editId },
   });
 
-  const [UpdatePatient, { editError }] = useMutation(UPDATE_PATIENT);
+  const [UpdatePatient, { editLoading, editError }] =
+    useMutation(UPDATE_PATIENT);
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -95,6 +97,14 @@ export default function EditableForm({
       setRujukDaripada(data.patient.rujukDaripada);
     }
   }, [data]);
+
+  if (editLoading || loading) {
+    return (
+      <p>
+        <Spinner />
+      </p>
+    );
+  }
 
   if (editForm) {
     return (

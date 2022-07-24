@@ -5,7 +5,7 @@ import UserHeader from '../components/UserHeader';
 import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
-import Kaunter from './Kaunter';
+import Kaunter from '../components/Kaunter';
 import UserFooter from '../components/UserFooter';
 
 import { useState } from 'react';
@@ -72,10 +72,14 @@ function KaunterAfterLogin() {
 
           <Route
             path='kkkd'
-            element={() => {
-              // setJenisFasiliti('kkkd');
-              <Kaunter jenisFasiliti='kkkd' />;
-            }}
+            element={
+              <Kaunter
+                jenisFasiliti='kkkd'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
           />
           {/* <Route
             path='form-sekolah/:personSekolahId'
@@ -84,10 +88,14 @@ function KaunterAfterLogin() {
 
           <Route
             path='tastad'
-            element={() => {
-              // setJenisFasiliti('tastad');
-              <Kaunter jenisFasiliti='tastad' />;
-            }}
+            element={
+              <Kaunter
+                jenisFasiliti='tastad'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
           />
           {/* <Route
             path='form-sekolah/:personSekolahId'
@@ -96,10 +104,14 @@ function KaunterAfterLogin() {
 
           <Route
             path='ipt'
-            element={() => {
-              // setJenisFasiliti('ipt');
-              <Kaunter jenisFasiliti='ipt' />;
-            }}
+            element={
+              <Kaunter
+                jenisFasiliti='ipt'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
           />
           {/* <Route
             path='form-sekolah/:personSekolahId'
@@ -107,11 +119,81 @@ function KaunterAfterLogin() {
           /> */}
 
           <Route
-            path='outreach'
-            element={() => {
-              // setJenisFasiliti('outreach');
-              <Kaunter jenisFasiliti='outreach' />;
-            }}
+            path='orang-asli'
+            element={
+              <Kaunter
+                jenisFasiliti='orang-asli'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='ppr'
+            element={
+              <Kaunter
+                jenisFasiliti='ppr'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='iwe'
+            element={
+              <Kaunter
+                jenisFasiliti='iwe'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='oku'
+            element={
+              <Kaunter
+                jenisFasiliti='oku'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='ngangkat'
+            element={
+              <Kaunter
+                jenisFasiliti='ngangkat'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='komlain'
+            element={
+              <Kaunter
+                jenisFasiliti='komlain'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='kelantan'
+            element={
+              <Kaunter
+                jenisFasiliti='kelantan'
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
           />
           {/* <Route
             path='form-sekolah/:personSekolahId'

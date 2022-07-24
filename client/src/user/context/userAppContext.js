@@ -123,6 +123,7 @@ function UserAppProvider({ children }) {
       $tarikhKedatangan: String
       $umur: Int
       $rujukDaripada: String
+      $jenisFasiliti: String
       $alamat: String
       $waktuSampai: String
       $kategoriPesakit: String
@@ -148,6 +149,7 @@ function UserAppProvider({ children }) {
           statusPesara: $statusPesara
           kumpulanEtnik: $kumpulanEtnik
           rujukDaripada: $rujukDaripada
+          jenisFasiliti: $jenisFasiliti
         }
       ) {
         createdByKp
@@ -166,13 +168,20 @@ function UserAppProvider({ children }) {
         kategoriPesakit
         kumpulanEtnik
         rujukDaripada
+        jenisFasiliti
       }
     }
   `;
 
   const GET_PATIENT_BY_TARIKH_KEDATANGAN = gql`
-    query getPatientByTarikhKedatangan($tarikhKedatangan: String!) {
-      listPatientByTarikhKedatangan(tarikhKedatangan: $tarikhKedatangan) {
+    query getPatientByTarikhKedatangan(
+      $tarikhKedatangan: String!
+      $jenisFasiliti: String!
+    ) {
+      listPatientByTarikhKedatangan(
+        tarikhKedatangan: $tarikhKedatangan
+        jenisFasiliti: $jenisFasiliti
+      ) {
         _id
         nama
         jenisIc
@@ -186,6 +195,7 @@ function UserAppProvider({ children }) {
         kategoriPesakit
         kumpulanEtnik
         rujukDaripada
+        jenisFasiliti
         createdAt
       }
     }

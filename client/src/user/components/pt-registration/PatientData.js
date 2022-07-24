@@ -1,3 +1,4 @@
+import { Spinner } from 'react-awesome-spinners';
 export default function PatientData({
   showForm,
   setShowForm,
@@ -10,7 +11,12 @@ export default function PatientData({
   philter,
   setPhilter,
 }) {
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <p>
+        <Spinner />
+      </p>
+    );
   if (error) return <p>Error :(</p>;
 
   if (!showForm && !editForm) {
@@ -54,7 +60,7 @@ export default function PatientData({
                     .filter((pt) => pt.nama.includes(philter))
                     .map((p, index) => (
                       <>
-                        <tr key={p._id}>
+                        <tr>
                           <td className='outline outline-1 outline-userBlack'>
                             {index + 1}
                           </td>

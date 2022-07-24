@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/client';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-import PatientData from '../components/pt-registration/PatientData';
-import FillableForm from '../components/pt-registration/FillableForm';
-import EditableForm from '../components/pt-registration/EditableForm';
+import PatientData from './pt-registration/PatientData';
+import FillableForm from './pt-registration/FillableForm';
+import EditableForm from './pt-registration/EditableForm';
 
 function Kaunter({
   jenisFasiliti,
@@ -26,6 +26,7 @@ function Kaunter({
     {
       variables: {
         tarikhKedatangan: `${dateToday}`,
+        jenisFasiliti: jenisFasiliti,
       },
       pollInterval: 500,
     }
@@ -52,6 +53,7 @@ function Kaunter({
           createdByKp={createdByKp}
           createdByDaerah={createdByDaerah}
           createdByNegeri={createdByNegeri}
+          jenisFasiliti={jenisFasiliti}
           dateToday={dateToday}
           refetch={refetch}
           toast={toast}
@@ -63,6 +65,7 @@ function Kaunter({
           createdByKp={createdByKp}
           createdByDaerah={createdByDaerah}
           createdByNegeri={createdByNegeri}
+          jenisFasiliti={jenisFasiliti}
           refetch={refetch}
           toast={toast}
         />

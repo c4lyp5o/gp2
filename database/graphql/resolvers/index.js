@@ -217,6 +217,7 @@ module.exports = {
     try {
       const patients = await Umum.find({
         tarikhKedatangan: args.tarikhKedatangan,
+        jenisFasiliti: args.jenisFasiliti,
       });
       return patients.map((pt) => {
         return {
@@ -311,6 +312,7 @@ module.exports = {
         statusPesara,
         kumpulanEtnik,
         rujukDaripada,
+        jenisFasiliti,
       } = args.patient;
       nama = nama.toLowerCase();
       const ptdata = new Umum({
@@ -331,6 +333,7 @@ module.exports = {
         statusPesara,
         kumpulanEtnik,
         rujukDaripada,
+        jenisFasiliti,
       });
       const newPt = await ptdata.save();
       return { ...newPt._doc, _id: newPt.id };

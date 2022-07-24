@@ -17,7 +17,7 @@ function UserHeader() {
         <p className='uppercase text-[0.65rem]'>program kesihatan pergigian</p>
       </div>
       <div className='grid grid-rows-2 text-2xl font-bold pl-10 text-center'>
-        <h1 className={!kaunterToken && 'row-span-2'}>sistem gi-Ret 2.0</h1>
+        <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
         {kaunterToken && <h1>KAUNTER</h1>}
       </div>
     </div>

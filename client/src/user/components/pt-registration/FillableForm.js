@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -9,6 +10,7 @@ export default function FillableForm({
   createdByKp,
   createdByDaerah,
   createdByNegeri,
+  jenisFasiliti,
   dateToday,
   refetch,
   toast,
@@ -52,6 +54,7 @@ export default function FillableForm({
         statusPesara: statusPesara,
         kumpulanEtnik: kumpulanEtnik,
         rujukDaripada: rujukDaripada,
+        jenisFasiliti: jenisFasiliti,
       },
     })
       .then(() => {
@@ -84,7 +87,12 @@ export default function FillableForm({
     });
   };
 
-  if (loading) return <p>Submitting...</p>;
+  if (loading)
+    return (
+      <p>
+        <Spinner />
+      </p>
+    );
   if (error) return <p>Error :(</p>;
 
   if (showForm) {
@@ -92,6 +100,9 @@ export default function FillableForm({
       <>
         <form onSubmit={handleSubmit}>
           <h1 className='bg-user3 font-bold text-2xl'>pendaftaran</h1>
+          <p className='font-semibold text-user6 text-left mt-3 ml-3'>
+            Fasiliti: {jenisFasiliti}
+          </p>
           <p className='font-semibold text-user6 text-left mt-3 ml-3'>
             * required
           </p>

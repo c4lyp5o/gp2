@@ -4,19 +4,15 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
-  const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
-  const [showGenerateSubMenu, setShowGenerateSubMenu] = useState(false);
+  const [showOutreachSubMenu, setshowOutreachSubMenu] = useState(false);
 
   const toggleLinks = () => {
+    setshowOutreachSubMenu(false);
     setShowLinks(!showLinks);
   };
 
-  const toggleRetenSubMenu = () => {
-    setShowRetenSubMenu(!showRetenSubMenu);
-  };
-
-  const toggleGenerateSubMenu = () => {
-    setShowGenerateSubMenu(!showGenerateSubMenu);
+  const toggleOutreachSubMenu = () => {
+    setshowOutreachSubMenu(!showOutreachSubMenu);
   };
 
   return (
@@ -29,11 +25,9 @@ function KaunterNavbar() {
         <div className='h-28'></div>
         <div className='grid'>
           <NavLink
-            to='/user'
+            to='/kaunter/daftar'
             onClick={() => {
-              setShowLinks(!showLinks);
-              setShowRetenSubMenu(false);
-              setShowGenerateSubMenu(false);
+              toggleLinks();
             }}
             className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
           >
@@ -42,9 +36,7 @@ function KaunterNavbar() {
           <NavLink
             to='klinik'
             onClick={() => {
-              setShowLinks(!showLinks);
-              setShowRetenSubMenu(false);
-              setShowGenerateSubMenu(false);
+              toggleLinks();
             }}
             className={({ isActive }) =>
               isActive
@@ -54,114 +46,10 @@ function KaunterNavbar() {
           >
             KLINIK
           </NavLink>
-          <div>
-            <div
-              className={`${
-                showRetenSubMenu ? 'bg-user3' : 'bg-user4'
-              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
-              onClick={toggleRetenSubMenu}
-            >
-              <span>RETEN</span>
-              <span className='ml-10'>
-                <FaArrowAltCircleUp
-                  className={`transition-all ${
-                    showRetenSubMenu && 'rotate-180'
-                  }`}
-                />
-              </span>
-            </div>
-            <div
-              className={`grid transition-all ${
-                showRetenSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
-              }`}
-            >
-              <NavLink
-                to='umum'
-                onClick={() => {
-                  setShowLinks(!showLinks);
-                  setShowGenerateSubMenu(false);
-                }}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                }
-              >
-                UMUM
-              </NavLink>
-              <NavLink
-                to='sekolah'
-                onClick={() => {
-                  setShowLinks(!showLinks);
-                  setShowGenerateSubMenu(false);
-                }}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                }
-              >
-                SEKOLAH
-              </NavLink>
-            </div>
-          </div>
-          <div>
-            <div
-              className={`${
-                showGenerateSubMenu ? 'bg-user3' : 'bg-user4'
-              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
-              onClick={toggleGenerateSubMenu}
-            >
-              <span>GENERATE RETEN</span>
-              <span className='ml-10'>
-                <FaArrowAltCircleUp
-                  className={`transition-all ${
-                    showGenerateSubMenu && 'rotate-180'
-                  }`}
-                />
-              </span>
-            </div>
-            <div
-              className={`grid transition-all ${
-                showGenerateSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
-              }`}
-            >
-              <NavLink
-                to='generate-individu'
-                onClick={() => {
-                  setShowLinks(!showLinks);
-                  setShowRetenSubMenu(false);
-                }}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                }
-              >
-                INDIVIDU
-              </NavLink>
-              <NavLink
-                to='generate-klinik'
-                onClick={() => {
-                  setShowLinks(!showLinks);
-                  setShowRetenSubMenu(false);
-                }}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                }
-              >
-                KLINIK
-              </NavLink>
-            </div>
-          </div>
           <NavLink
-            to='carian'
+            to='kkkd'
             onClick={() => {
-              setShowLinks(!showLinks);
-              setShowRetenSubMenu(false);
-              setShowGenerateSubMenu(false);
+              toggleLinks();
             }}
             className={({ isActive }) =>
               isActive
@@ -169,8 +57,158 @@ function KaunterNavbar() {
                 : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
             }
           >
-            CARIAN
+            KK / KD
           </NavLink>
+          <NavLink
+            to='tastad'
+            onClick={() => {
+              toggleLinks();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
+          >
+            TASKA / TADIKA
+          </NavLink>
+          <NavLink
+            to='ipt'
+            onClick={() => {
+              toggleLinks();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            }
+          >
+            IPTA / IPTS
+          </NavLink>
+          <div>
+            <div
+              className={`${
+                setshowOutreachSubMenu ? 'bg-user3' : 'bg-user4'
+              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+              onClick={toggleOutreachSubMenu}
+            >
+              <span>OUTREACH</span>
+              <span className='ml-10'>
+                <FaArrowAltCircleUp
+                  className={`transition-all ${
+                    showOutreachSubMenu && 'rotate-90'
+                  }`}
+                />
+              </span>
+            </div>
+            <div
+              className={`absolute w-60 h-screen bg-user2 text-userWhite text-center top-0 left-60 transition-all -z-20 ${
+                showOutreachSubMenu ? 'translate-x-0' : 'hidden -translate-x-60'
+              }`}
+            >
+              <div className='h-28'></div>
+              <div className='grid'>
+                <NavLink
+                  to='orang-asli'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  ORANG ASLI
+                </NavLink>
+                <NavLink
+                  to='ppr'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PPR
+                </NavLink>
+                <NavLink
+                  to='iwe'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  INSTITUSI WARGA EMAS
+                </NavLink>
+                <NavLink
+                  to='oku'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  INSTITUSI OKU
+                </NavLink>
+                <NavLink
+                  to='ngangkat'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  KAMPUNG ANGKAT
+                </NavLink>
+                <NavLink
+                  to='komlain'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PROJEK KOMUNITI LAIN
+                </NavLink>
+                <NavLink
+                  to='kelantan'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    showOutreachSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  RTC (KELANTAN SAHAJA)
+                </NavLink>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
       <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
