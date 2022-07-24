@@ -110,7 +110,7 @@ export default function EditableForm({
     return (
       <>
         <form onSubmit={handleEdit}>
-          <h1 className='bg-user3 font-bold text-2xl'>pendaftaran</h1>
+          <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
           <p className='font-semibold text-user6 text-left mt-3 ml-3'>
             * required
           </p>
@@ -126,7 +126,7 @@ export default function EditableForm({
                 value={editTarikhKedatangan}
                 type='date'
                 name='tarikhKedatangan'
-                className='outline outline-1 outline-userBlack'
+                className='outline outline-1 outline-kaunterBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -195,7 +195,7 @@ export default function EditableForm({
                 type='number'
                 name='umur'
                 value={editUmur}
-                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+                className='outline outline-1 outline-kaunterBlack w-16 text-sm font-m'
               />
             </div>
             <div className='flex m-2'>
@@ -238,7 +238,7 @@ export default function EditableForm({
                 type='time'
                 name='waktuSampai'
                 value={editWaktuSampai}
-                className='outline outline-1 outline-userBlack'
+                className='outline outline-1 outline-kaunterBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -324,14 +324,14 @@ export default function EditableForm({
             </div>
           </div>
           <span
-            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite hover:cursor-pointer transition-all'
+            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
             onClick={() => setEditForm(false)}
           >
             kembali
           </span>
           <button
             type='submit'
-            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
           >
             Submit
           </button>

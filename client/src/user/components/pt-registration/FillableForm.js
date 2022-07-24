@@ -99,7 +99,7 @@ export default function FillableForm({
     return (
       <>
         <form onSubmit={handleSubmit}>
-          <h1 className='bg-user3 font-bold text-2xl'>pendaftaran</h1>
+          <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
           <p className='font-semibold text-user6 text-left mt-3 ml-3'>
             Fasiliti: {jenisFasiliti}
           </p>
@@ -131,7 +131,7 @@ export default function FillableForm({
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
-                className='outline outline-1 outline-userBlack'
+                className='outline outline-1 outline-kaunterBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -328,13 +328,13 @@ export default function FillableForm({
           </div>
           <span
             onClick={() => setShowForm(false)}
-            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite hover:cursor-pointer transition-all'
+            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
           >
             kembali
           </span>
           <button
             type='submit'
-            className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
           >
             daftar
           </button>

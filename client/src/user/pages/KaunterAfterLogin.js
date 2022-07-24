@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
-import UserHeader from '../components/UserHeader';
+import KaunterHeader from '../components/KaunterHeader';
 import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
-import UserFooter from '../components/UserFooter';
+import KaunterFooter from '../components/KaunterFooter';
 
 import { useState } from 'react';
 
@@ -46,11 +46,11 @@ function KaunterAfterLogin() {
   return (
     <>
       <ToastContainer />
-      <UserHeader />
-      <div className='absolute inset-0 -z-10 bg-user5'></div>
+      <KaunterHeader />
+      <div className='absolute inset-0 -z-10 bg-kaunter3'></div>
       <KaunterNavbar />
       <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
-      <div className='absolute inset-10 top-[8rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
+      <div className='absolute inset-10 top-[8rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-1 outline-kaunterBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route index element={<KaunterLanding />} />
 
@@ -209,7 +209,7 @@ function KaunterAfterLogin() {
           {/* <Route path='*' element={<UserLoggedInNotFound />} /> */}
         </Routes>
       </div>
-      <UserFooter />
+      <KaunterFooter />
     </>
   );
 }

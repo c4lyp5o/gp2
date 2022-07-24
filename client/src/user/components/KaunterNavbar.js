@@ -5,20 +5,35 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
   const [showOutreachSubMenu, setshowOutreachSubMenu] = useState(false);
+  const [outreachIsOn, setOutreachIsOn] = useState(false);
 
   const toggleLinks = () => {
-    setshowOutreachSubMenu(false);
     setShowLinks(!showLinks);
+    outreachIsOn === true
+      ? setshowOutreachSubMenu(!showOutreachSubMenu)
+      : console.log('hehe'); // anyone got any ideas?
   };
 
   const toggleOutreachSubMenu = () => {
     setshowOutreachSubMenu(!showOutreachSubMenu);
   };
 
+  const outreachOn = () => {
+    setShowLinks(!showLinks);
+    setOutreachIsOn(true);
+    setshowOutreachSubMenu(!showOutreachSubMenu);
+  };
+
+  const outreachOff = () => {
+    setShowLinks(!showLinks);
+    setOutreachIsOn(false);
+    setshowOutreachSubMenu(false);
+  };
+
   return (
     <>
       <nav
-        className={`absolute w-60 h-screen bg-user2 text-userWhite text-center top-0 left-0 transition-all ${
+        className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-0 transition-all ${
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
       >
@@ -27,21 +42,21 @@ function KaunterNavbar() {
           <NavLink
             to='/kaunter/daftar'
             onClick={() => {
-              toggleLinks();
+              outreachOff();
             }}
-            className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+            className='bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
           >
             DASHBOARD
           </NavLink>
           <NavLink
             to='klinik'
             onClick={() => {
-              toggleLinks();
+              outreachOff();
             }}
             className={({ isActive }) =>
               isActive
-                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
             KLINIK
@@ -49,12 +64,12 @@ function KaunterNavbar() {
           <NavLink
             to='kkkd'
             onClick={() => {
-              toggleLinks();
+              outreachOff();
             }}
             className={({ isActive }) =>
               isActive
-                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
             KK / KD
@@ -62,12 +77,12 @@ function KaunterNavbar() {
           <NavLink
             to='tastad'
             onClick={() => {
-              toggleLinks();
+              outreachOff();
             }}
             className={({ isActive }) =>
               isActive
-                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
             TASKA / TADIKA
@@ -75,12 +90,12 @@ function KaunterNavbar() {
           <NavLink
             to='ipt'
             onClick={() => {
-              toggleLinks();
+              outreachOff();
             }}
             className={({ isActive }) =>
               isActive
-                ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
             IPTA / IPTS
@@ -88,8 +103,8 @@ function KaunterNavbar() {
           <div>
             <div
               className={`${
-                setshowOutreachSubMenu ? 'bg-user3' : 'bg-user4'
-              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+                setshowOutreachSubMenu ? 'bg-kaunter2' : 'bg-kaunter3'
+              } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all hover:cursor-pointer`}
               onClick={toggleOutreachSubMenu}
             >
               <span>OUTREACH</span>
@@ -102,7 +117,7 @@ function KaunterNavbar() {
               </span>
             </div>
             <div
-              className={`absolute w-60 h-screen bg-user2 text-userWhite text-center top-0 left-60 transition-all -z-20 ${
+              className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-60 transition-all -z-20 ${
                 showOutreachSubMenu ? 'translate-x-0' : 'hidden -translate-x-60'
               }`}
             >
@@ -111,13 +126,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='orang-asli'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   ORANG ASLI
@@ -125,13 +139,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='ppr'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   PPR
@@ -139,13 +152,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='iwe'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   INSTITUSI WARGA EMAS
@@ -153,13 +165,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='oku'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   INSTITUSI OKU
@@ -167,13 +178,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='ngangkat'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   KAMPUNG ANGKAT
@@ -181,13 +191,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='komlain'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   PROJEK KOMUNITI LAIN
@@ -195,13 +204,12 @@ function KaunterNavbar() {
                 <NavLink
                   to='kelantan'
                   onClick={() => {
-                    setShowLinks(!showLinks);
-                    showOutreachSubMenu(false);
+                    outreachOn();
                   }}
                   className={({ isActive }) =>
                     isActive
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
                   RTC (KELANTAN SAHAJA)
@@ -213,7 +221,7 @@ function KaunterNavbar() {
       </nav>
       <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
         <button
-          className='text-2xl bg-userWhite text-userBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
+          className='text-2xl bg-kaunterWhite text-kaunterBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
           onClick={toggleLinks}
         >
           <FaBars />
