@@ -4,34 +4,137 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
-  const [showOutreachSubMenu, setshowOutreachSubMenu] = useState(false);
+  const [showOutreachSubMenu, setShowOutreachSubMenu] = useState(false);
   const [outreachIsOn, setOutreachIsOn] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
-    outreachIsOn === true
-      ? setshowOutreachSubMenu(!showOutreachSubMenu)
-      : console.log('hehe'); // anyone got any ideas?
+    setShowOutreachSubMenu(false);
+    if (outreachIsOn === true && showLinks === false) {
+      setShowOutreachSubMenu(true);
+    }
   };
 
   const toggleOutreachSubMenu = () => {
-    setshowOutreachSubMenu(!showOutreachSubMenu);
+    setShowOutreachSubMenu(!showOutreachSubMenu);
   };
 
   const outreachOn = () => {
     setShowLinks(!showLinks);
     setOutreachIsOn(true);
-    setshowOutreachSubMenu(!showOutreachSubMenu);
+    setShowOutreachSubMenu(false);
   };
 
   const outreachOff = () => {
     setShowLinks(!showLinks);
     setOutreachIsOn(false);
-    setshowOutreachSubMenu(false);
+    setShowOutreachSubMenu(false);
   };
 
   return (
     <>
+      {/* nav stack for outreach submenu */}
+      <nav
+        className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-60 transition-all ${
+          showOutreachSubMenu ? 'translate-x-0' : '-translate-x-[480px]'
+        }`}
+      >
+        <div className='h-28'></div>
+        <div className='grid'>
+          <NavLink
+            to='orang-asli'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            ORANG ASLI
+          </NavLink>
+          <NavLink
+            to='ppr'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            PPR
+          </NavLink>
+          <NavLink
+            to='iwe'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            INSTITUSI WARGA EMAS
+          </NavLink>
+          <NavLink
+            to='oku'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            INSTITUSI OKU
+          </NavLink>
+          <NavLink
+            to='ngangkat'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            KAMPUNG ANGKAT
+          </NavLink>
+          <NavLink
+            to='komlain'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            PROJEK KOMUNITI LAIN
+          </NavLink>
+          <NavLink
+            to='kelantan'
+            onClick={() => {
+              outreachOn();
+            }}
+            className={({ isActive }) =>
+              isActive
+                ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+            }
+          >
+            RTC (KELANTAN SAHAJA)
+          </NavLink>
+        </div>
+      </nav>
+      {/* main nav stack */}
       <nav
         className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-0 transition-all ${
           showLinks ? 'translate-x-0' : '-translate-x-60'
@@ -103,7 +206,7 @@ function KaunterNavbar() {
           <div>
             <div
               className={`${
-                setshowOutreachSubMenu ? 'bg-kaunter2' : 'bg-kaunter3'
+                showOutreachSubMenu ? 'bg-kaunter3' : 'bg-kaunter2'
               } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all hover:cursor-pointer`}
               onClick={toggleOutreachSubMenu}
             >
@@ -116,109 +219,10 @@ function KaunterNavbar() {
                 />
               </span>
             </div>
-            <div
-              className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-60 transition-all -z-20 ${
-                showOutreachSubMenu ? 'translate-x-0' : 'hidden -translate-x-60'
-              }`}
-            >
-              <div className='h-28'></div>
-              <div className='grid'>
-                <NavLink
-                  to='orang-asli'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  ORANG ASLI
-                </NavLink>
-                <NavLink
-                  to='ppr'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  PPR
-                </NavLink>
-                <NavLink
-                  to='iwe'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  INSTITUSI WARGA EMAS
-                </NavLink>
-                <NavLink
-                  to='oku'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  INSTITUSI OKU
-                </NavLink>
-                <NavLink
-                  to='ngangkat'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  KAMPUNG ANGKAT
-                </NavLink>
-                <NavLink
-                  to='komlain'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  PROJEK KOMUNITI LAIN
-                </NavLink>
-                <NavLink
-                  to='kelantan'
-                  onClick={() => {
-                    outreachOn();
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-kaunter2 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  RTC (KELANTAN SAHAJA)
-                </NavLink>
-              </div>
-            </div>
           </div>
         </div>
       </nav>
+      {/* the toggle button */}
       <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
         <button
           className='text-2xl bg-kaunterWhite text-kaunterBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'

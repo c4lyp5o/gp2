@@ -53,7 +53,6 @@ function KaunterAfterLogin() {
       <div className='absolute inset-10 top-[8rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-1 outline-kaunterBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route index element={<KaunterLanding />} />
-
           <Route
             path='klinik'
             element={
@@ -65,11 +64,6 @@ function KaunterAfterLogin() {
               />
             }
           />
-          {/* <Route
-            path='form-umum/:personUmumId'
-            element={<UserFormUmumHeader />}
-          /> */}
-
           <Route
             path='kkkd'
             element={
@@ -81,11 +75,6 @@ function KaunterAfterLogin() {
               />
             }
           />
-          {/* <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
-          /> */}
-
           <Route
             path='tastad'
             element={
@@ -97,11 +86,6 @@ function KaunterAfterLogin() {
               />
             }
           />
-          {/* <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
-          /> */}
-
           <Route
             path='ipt'
             element={
@@ -113,11 +97,6 @@ function KaunterAfterLogin() {
               />
             }
           />
-          {/* <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
-          /> */}
-
           <Route
             path='orang-asli'
             element={
@@ -195,18 +174,6 @@ function KaunterAfterLogin() {
               />
             }
           />
-          {/* <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
-          /> */}
-
-          {/* <Route path='status-harian' element={<UserStatusHarian />} /> */}
-          {/* <Route path='generate-individu' element={<UserGenerateIndividu />} /> */}
-          {/* <Route path='generate-klinik' element={<UserGenerateKlinik />} /> */}
-
-          {/* <Route path='carian' element={<UserCarian />} /> */}
-
-          {/* <Route path='*' element={<UserLoggedInNotFound />} /> */}
         </Routes>
       </div>
       <KaunterFooter />
