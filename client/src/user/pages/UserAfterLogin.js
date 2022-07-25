@@ -48,21 +48,17 @@ function UserAfterLogin() {
 
           <Route path='sekolah' element={<UserSekolah />} />
           <Route
-            path='sekolah/form-sekolah/pemeriksaan'
+            path='sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
             element={<UserFormSekolahPemeriksaan />}
           />
           <Route
-            path='sekolah/form-sekolah/rawatan'
+            path='sekolah/form-sekolah/rawatan/:personSekolahId'
             element={<UserFormSekolahRawatan />}
           />
           <Route
-            path='sekolah/form-sekolah/kotak'
+            path='sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
             element={<UserFormSekolahKOTAK />}
           />
-          {/* <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
-          /> */}
 
           <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-individu' element={<UserGenerateIndividu />} />

@@ -299,7 +299,7 @@ function UserSekolah() {
               <th className='outline outline-1 outline-userBlack px-20'>
                 NAMA
               </th>
-              <th className='outline outline-1 outline-userBlack'>
+              <th className='outline outline-1 outline-userBlack px-3'>
                 OPERATOR TERAKHIR
               </th>
               <th className='outline outline-1 outline-userBlack'>
@@ -324,35 +324,62 @@ function UserSekolah() {
                         {singlePersonSekolah.nama}
                       </td>
                       <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.rawatanSekolah.length > 1 &&
+                        {singlePersonSekolah.rawatanSekolah.length >= 1 &&
                           singlePersonSekolah.rawatanSekolah.at(-1)
                             .createdByUsername}
                       </td>
                       <td className='outline outline-1 outline-userBlack'>
                         {singlePersonSekolah.statusRawatan}
                       </td>
-                      <td className='outline outline-1 outline-userBlack'>
+                      <td className='outline outline-1 outline-userBlack p-2'>
                         <Link
-                          to='form-sekolah/pemeriksaan'
-                          className='bg-user7 hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all'
+                          to={`form-sekolah/pemeriksaan/${
+                            singlePersonSekolah._id
+                          }/${
+                            singlePersonSekolah.pemeriksaanSekolah
+                              ? singlePersonSekolah.pemeriksaanSekolah._id
+                              : 'tambah-pemeriksaan'
+                          }`}
+                          className={`${
+                            singlePersonSekolah.pemeriksaanSekolah
+                              ? 'bg-user7'
+                              : 'bg-user6'
+                          } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
                         >
-                          selesai
-                        </Link>
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        <Link
-                          to='form-sekolah/rawatan'
-                          className='bg-user3 hover:bg-user2 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all'
-                        >
-                          kemaskini
+                          {singlePersonSekolah.pemeriksaanSekolah
+                            ? 'ubah pemeriksaan'
+                            : 'tambah pemeriksaan'}
                         </Link>
                       </td>
                       <td className='outline outline-1 outline-userBlack p-2'>
                         <Link
-                          to='form-sekolah/kotak'
-                          className='bg-user6 hover:bg-user9 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all'
+                          to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
+                          className={`${
+                            !singlePersonSekolah.pemeriksaanSekolah ||
+                            singlePersonSekolah.statusRawatan === 'selesai'
+                              ? 'pointer-events-none bg-user4'
+                              : 'bg-user3 hover:bg-user2'
+                          } text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
                         >
-                          tambah
+                          tambah rawatan
+                        </Link>
+                      </td>
+                      <td className='outline outline-1 outline-userBlack p-2'>
+                        <Link
+                          to={`form-sekolah/kotak/${singlePersonSekolah._id}/${
+                            singlePersonSekolah.kotakSekolah
+                              ? singlePersonSekolah.kotakSekolah._id
+                              : 'tambah-kotak'
+                          }`}
+                          className={`${
+                            singlePersonSekolah.kotakSekolah
+                              ? 'bg-user7'
+                              : 'bg-user6'
+                          } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
+                        >
+                          {singlePersonSekolah.kotakSekolah
+                            ? 'ubah kotak'
+                            : 'tambah kotak'}
                         </Link>
                       </td>
                     </tr>
