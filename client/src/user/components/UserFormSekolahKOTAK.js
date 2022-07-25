@@ -120,12 +120,7 @@ function UserFormSekolahKOTAK() {
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <div className='col-span-2'>
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-3'>
                     tarikh intervensi merokok
                   </h4>
@@ -133,7 +128,7 @@ function UserFormSekolahKOTAK() {
                     Sesi 1:<span className='text-user6'>*</span>
                   </p>
                   <input
-                    // required={statusM == 'perokokSemasa' ? true : false}
+                    required
                     type='date'
                     name='tarikh1'
                     id='tarikh1'
@@ -145,7 +140,7 @@ function UserFormSekolahKOTAK() {
                   />
                   <div className='flex items-center flex-row pl-5'>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required
                       type='radio'
                       name='ada-tiada-q-tarikh1'
                       id='ada-q-tarikh1'
@@ -165,7 +160,7 @@ function UserFormSekolahKOTAK() {
                       ada quit date
                     </label>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required
                       type='radio'
                       name='ada-tiada-q-tarikh1'
                       id='tiada-q-tarikh1'
@@ -376,12 +371,7 @@ function UserFormSekolahKOTAK() {
                 </article>
               </div>
               {adaTiadaQTarikh4 === 'tiada-q-tarikh4' && (
-                <article
-                  className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
                     status selepas intervensi
                   </h4>

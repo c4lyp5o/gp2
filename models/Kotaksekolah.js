@@ -19,15 +19,11 @@ const KotakSchema = new mongoose.Schema({
     required: true,
   },
   // kotak --------------------------------------------------
-  statusM: {
-    type: String,
-    default: '',
-  },
-  jenisR: {
-    type: String,
-    default: '',
-  },
   tarikh1: {
+    type: String,
+    default: '',
+  },
+  adaTiadaQTarikh1: {
     type: String,
     default: '',
   },
@@ -35,11 +31,35 @@ const KotakSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  adaTiadaQTarikh2: {
+    type: String,
+    default: '',
+  },
   tarikh3: {
     type: String,
     default: '',
   },
+  adaTiadaQTarikh3: {
+    type: String,
+    default: '',
+  },
   tarikh4: {
+    type: String,
+    default: '',
+  },
+  adaTiadaQTarikh4: {
+    type: String,
+    default: '',
+  },
+  rujukGuruKaunseling: {
+    type: String,
+    default: '',
+  },
+  tarikhQ: {
+    type: String,
+    default: '',
+  },
+  statusSelepas6Bulan: {
     type: String,
     default: '',
   },
