@@ -13,7 +13,7 @@ function UserFormSekolahPemeriksaan() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { personSekolahId } = useParams();
+  const { personSekolahId, pemeriksaanSekolahId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShown, setIsShown] = useState(false);
@@ -198,7 +198,7 @@ function UserFormSekolahPemeriksaan() {
   const [showCleftLip, setShowCleftLip] = useState(false);
   const [showTrauma, setShowTrauma] = useState(false);
 
-  // calculate total dmfx desidus
+  // calculate total dmfx + sm desidus
   useEffect(() => {
     setSumDMFXDesidus(
       parseInt(dAdaGigiDesidus) +
@@ -280,9 +280,9 @@ function UserFormSekolahPemeriksaan() {
       setSeparaPenuhBawahPerluDenture('');
     }
     if (
-      statusM === 'perokokPasif' ||
-      statusM === 'bekasPerokok' ||
-      statusM === 'bukanPerokok' ||
+      statusM === 'perokok-pasif' ||
+      statusM === 'bekas-perokok' ||
+      statusM === 'bukan-perokok' ||
       statusM === ''
     ) {
       setJenisR('');
@@ -1082,21 +1082,21 @@ function UserFormSekolahPemeriksaan() {
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
-                    <option value='perokokSemasa'>Perokok Semasa</option>
-                    <option value='bekasPerokok'>Bekas Perokok</option>
-                    <option value='perokokPasif'>Perokok Pasif</option>
-                    <option value='bukanPerokok'>Bukan Perokok</option>
+                    <option value='perokok-semasa'>Perokok Semasa</option>
+                    <option value='bekas-perokok'>Bekas Perokok</option>
+                    <option value='perokok-pasif'>Perokok Pasif</option>
+                    <option value='bukan-perokok'>Bukan Perokok</option>
                   </select>
                   <article
                     className={`${
-                      statusM == 'perokokSemasa' ? 'visible' : 'hidden'
+                      statusM == 'perokok-semasa' ? 'visible' : 'hidden'
                     } grid grid-cols-2 col-span-2 `}
                   >
                     <h4 className='font-semibold text-base flex flex-row pl-5 col-span-2'>
                       jenis rokok<span className='text-user6'>*</span>
                     </h4>
                     <select
-                      required={statusM == 'perokokSemasa' ? true : false}
+                      required={statusM == 'perokok-semasa' ? true : false}
                       name='jenisR'
                       id='jenisR'
                       value={jenisR}
@@ -1106,15 +1106,15 @@ function UserFormSekolahPemeriksaan() {
                       className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                     >
                       <option value=''></option>
-                      <option value='rokokB'>Rokok Biasa</option>
+                      <option value='rokok-biasa'>Rokok Biasa</option>
                       <option value='elektronik'>Elektronik</option>
                       <option value='shisha'>Shisha</option>
-                      <option value='lain2'>Lain-lain</option>
+                      <option value='lain-lain'>Lain-lain</option>
                     </select>
                   </article>
                   <div
                     className={`${
-                      statusM == 'perokokSemasa' ? 'visible' : 'hidden'
+                      statusM == 'perokok-semasa' ? 'visible' : 'hidden'
                     } col-span-2`}
                   >
                     <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
@@ -1122,7 +1122,7 @@ function UserFormSekolahPemeriksaan() {
                     </p>
                     <div className='flex items-center justify-center'>
                       <input
-                        required={statusM == 'perokokSemasa' ? true : false}
+                        required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='ya-ingin-melakukan-intervensi-merokok'
@@ -1145,7 +1145,7 @@ function UserFormSekolahPemeriksaan() {
                         Ya
                       </label>
                       <input
-                        required={statusM == 'perokokSemasa' ? true : false}
+                        required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='tidak-ingin-melakukan-intervensi-merokok'
@@ -1542,13 +1542,15 @@ function UserFormSekolahPemeriksaan() {
                 <article className='border border-userBlack pl-3 p-2 rounded-md'>
                   <div className='grid grid-cols-1'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      Risiko Karies
+                      Risiko Karies{' '}
+                      <span className='text-user6 text-xl'>*</span>
                     </h4>
                     <div className='flex flex-row'>
                       <p className='flex items-center flex-row pl-5'>
                         Jumlah Faktor Risiko:
                       </p>
                       <select
+                        required
                         name='jumlah-faktor-risiko'
                         id='jumlah-faktor-risiko'
                         value={jumlahFaktorRisiko}
