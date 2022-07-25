@@ -72,16 +72,6 @@ function UserSekolah() {
           setAllPersonSekolahs([]);
         }
         setIsLoading(false);
-        allPersonSekolahs.map((singlePersonSekolah) => {
-          if (
-            singlePersonSekolah.pemeriksaanSekolah &&
-            singlePersonSekolah.pemeriksaanSekolah.createdByUsername
-          ) {
-            console.log(
-              singlePersonSekolah.pemeriksaanSekolah.createdByUsername
-            );
-          }
-        });
       } catch (error) {
         console.log(error);
       }
@@ -334,8 +324,8 @@ function UserSekolah() {
                         {singlePersonSekolah.nama}
                       </td>
                       <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.pemeriksaanSekolah &&
-                          singlePersonSekolah.pemeriksaanSekolah
+                        {singlePersonSekolah.rawatanSekolah.length > 1 &&
+                          singlePersonSekolah.rawatanSekolah.at(-1)
                             .createdByUsername}
                       </td>
                       <td className='outline outline-1 outline-userBlack'>
