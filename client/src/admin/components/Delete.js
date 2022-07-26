@@ -23,13 +23,13 @@ const Modal = ({
         jenisFasiliti: jenisFacility,
       },
     });
-    if (jenisFacility !== 'Pegawai') {
-      refetchFacilities();
-    }
-    if (jenisFacility === 'Pegawai') {
-      refetchOperators();
-    }
     setShowDeleteModal(false);
+    if (jenisFacility !== 'pegawai') {
+      await refetchFacilities();
+    }
+    if (jenisFacility === 'pegawai') {
+      await refetchOperators();
+    }
     toast.info(`Data berjaya dipadam`, {
       position: 'top-right',
       autoClose: 5000,

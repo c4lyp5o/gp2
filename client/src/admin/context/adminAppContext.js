@@ -22,6 +22,15 @@ function AdminAppProvider({ children }) {
     localStorage.removeItem('adminToken');
   };
 
+  const Dictionary = {
+    taska: 'Taska',
+    tadika: 'Tadika',
+    'sekolah-rendah': 'Sekolah Rendah',
+    'sekolah-menengah': 'Sekolah Menengah',
+    institusi: 'Institusi',
+    'kp-bergerak': 'KP Bergerak',
+  };
+
   // GQL queries
   const GET_FACILITIES = gql`
     query GetAllFacilities($jenisFasiliti: String!, $daerah: String!) {
@@ -243,6 +252,7 @@ function AdminAppProvider({ children }) {
         navigate,
         getCurrentUser,
         catchAxiosErrorAndLogout,
+        Dictionary,
         GET_FACILITIES,
         GET_ONE_FACILITY,
         GET_ALL_OPERATORS,
