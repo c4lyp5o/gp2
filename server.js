@@ -7,6 +7,9 @@ const path = require('path');
 const { graphqlHTTP } = require('express-graphql');
 
 // IMPORT ROUTER -----------------------------------------------
+// erkm import
+const erkm = require('./routes/erkm');
+
 // user import
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
@@ -47,6 +50,8 @@ app.use(
     graphiql: true,
   })
 );
+
+app.use('/erkm', erkm);
 
 // user route
 app.use('/api/v1/auth', authLogin);
