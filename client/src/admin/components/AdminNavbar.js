@@ -64,7 +64,7 @@ function AdminNavbar({
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
       >
-        <div className='h-40'></div>
+        <div className='h-28'></div>
         <div className='grid'>
           <button
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
@@ -281,9 +281,9 @@ function AdminNavbar({
           </button>
         </div>
       </nav>
-      <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-40'>
+      <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
         <button
-          className='text-2xl bg-adminWhite text-adminBlack mt-14 mb-14 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
+          className='text-2xl bg-adminWhite text-adminBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
           onClick={() => setShowLinks(!showLinks)}
         >
           <FaBars />

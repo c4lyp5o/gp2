@@ -53,12 +53,16 @@ function AdminAfterLogin() {
       error: facilitiesError,
       refetch: refetchFacilities,
     },
-  ] = useLazyQuery(GET_FACILITIES);
+  ] = useLazyQuery(GET_FACILITIES, {
+    fetchPolicy: 'no-cache',
+  });
 
   const [
     getOneFacility,
     { data: oneFacility, loading: loadingOneFacility, error: errorOneFacility },
-  ] = useLazyQuery(GET_ONE_FACILITY);
+  ] = useLazyQuery(GET_ONE_FACILITY, {
+    fetchPolicy: 'no-cache',
+  });
 
   const [
     getOperators,
@@ -68,7 +72,9 @@ function AdminAfterLogin() {
       error: errorOperators,
       refetch: refetchOperators,
     },
-  ] = useLazyQuery(GET_OPERATORS_BY_DAERAH);
+  ] = useLazyQuery(GET_OPERATORS_BY_DAERAH, {
+    fetchPolicy: 'no-cache',
+  });
 
   useEffect(() => {
     getCurrentUser()
@@ -111,7 +117,7 @@ function AdminAfterLogin() {
         getOperators={getOperators}
         daerah={loginInfo.daerah}
       />
-      <div className='absolute inset-10 top-44 -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize'>
+      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route
             index

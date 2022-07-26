@@ -41,7 +41,7 @@ const Modal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (jenisFacility !== 'Pegawai') {
+    if (jenisFacility !== 'pegawai') {
       await updateFacility({
         variables: {
           _id: id,
@@ -54,7 +54,7 @@ const Modal = ({
       });
       refetchFacilities();
     }
-    if (jenisFacility === 'Pegawai') {
+    if (jenisFacility === 'pegawai') {
       await updateOperator({
         variables: {
           _id: id,
@@ -107,15 +107,20 @@ const Modal = ({
                     Gred{' '}
                     <span className='font-semibold text-lg text-admin3'>*</span>
                   </p>
-                  <input
+                  <select
                     required
-                    key='gred-input'
                     className='border-2'
-                    type='text'
-                    onChange={(e) => {
-                      currentGred.current = e.target.value;
-                    }}
-                  />
+                    onChange={(e) => (currentGred.current = e.target.value)}
+                  >
+                    <option value=''>Pilih Klinik</option>
+                    <option value='jusa'>JUSA</option>
+                    <option value='ug56'>UG56</option>
+                    <option value='ug54'>UG54</option>
+                    <option value='ug52'>UG52</option>
+                    <option value='ug48'>UG48</option>
+                    <option value='ug44'>UG44</option>
+                    <option value='ug41'>UG41</option>
+                  </select>
                   <br />
                   <p>
                     Klinik Bertugas{' '}

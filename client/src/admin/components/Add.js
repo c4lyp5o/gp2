@@ -1,8 +1,9 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { RiCloseLine } from 'react-icons/ri';
 import { Ring } from 'react-awesome-spinners';
+import axios from 'axios';
 import styles from '../Modal.module.css';
 
 const Modal = ({
@@ -14,16 +15,20 @@ const Modal = ({
   refetchOperators,
   toast,
 }) => {
-  const { GET_KLINIK_FOR_DAERAH, CREATE_OPERATOR, CREATE_FACILITY } =
-    useGlobalAdminAppContext();
+  const {
+    Dictionary,
+    GET_KLINIK_FOR_DAERAH,
+    CREATE_OPERATOR,
+    CREATE_FACILITY,
+  } = useGlobalAdminAppContext();
 
   const {
     data: klinikData,
     loading: klinikLoading,
     error: klinikError,
-    refetch: klinikRefetch,
   } = useQuery(GET_KLINIK_FOR_DAERAH, {
     variables: { daerah: daerah },
+    fetchPolicy: 'no-cache',
   });
 
   const [createOperator] = useMutation(CREATE_OPERATOR);
@@ -72,8 +77,30 @@ const Modal = ({
     });
   };
 
+  const [sekolah, setSekolah] = useState([]);
+
+  useEffect(() => {
+    const getSR = () => {
+      try {
+        axios.get('https://erkm.calypsocloud.one/data').then((res) => {
+          console.log(res.data);
+          if (jenisFacility === 'sekolah-rendah') {
+            setSekolah(res.data.sekolahRendah);
+            return;
+          }
+          if (jenisFacility === 'sekolah-menengah') {
+            setSekolah(res.data.sekolahMenengah);
+            return;
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSR();
+  }, []);
+
   function AddKlinik() {
-    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -143,7 +170,6 @@ const Modal = ({
   }
 
   function AddPegawai() {
-    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -187,14 +213,20 @@ const Modal = ({
                         *
                       </span>
                     </p>
-                    <input
+                    <select
                       required
                       className='border-2'
-                      type='text'
-                      name='Gred'
-                      id='gred'
                       onChange={(e) => (currentGred.current = e.target.value)}
-                    />
+                    >
+                      <option value=''>Pilih Klinik</option>
+                      <option value='jusa'>JUSA</option>
+                      <option value='ug56'>UG56</option>
+                      <option value='ug54'>UG54</option>
+                      <option value='ug52'>UG52</option>
+                      <option value='ug48'>UG48</option>
+                      <option value='ug44'>UG44</option>
+                      <option value='ug41'>UG41</option>
+                    </select>
                     <br />
                     <p>
                       Klinik Bertugas{' '}
@@ -252,7 +284,6 @@ const Modal = ({
   }
 
   function AddFacility() {
-    klinikRefetch();
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -263,7 +294,9 @@ const Modal = ({
           <div className={styles.centered}>
             <div className={styles.modalAdd}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah {jenisFacility}</h5>
+                <h5 className={styles.heading}>
+                  Tambah {Dictionary[jenisFacility]}
+                </h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -275,19 +308,37 @@ const Modal = ({
                 <div className='admin-pegawai-handler-container'>
                   <div className='admin-pegawai-handler-input'>
                     <p>
-                      Nama {jenisFacility}{' '}
+                      Nama {Dictionary[jenisFacility]}{' '}
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
                     </p>
-                    <input
-                      required
-                      className='border-2'
-                      type='text'
-                      name='Nama'
-                      id='nama'
-                      onChange={(e) => (currentName.current = e.target.value)}
-                    />
+                    {jenisFacility !== 'sekolah-rendah' &&
+                    jenisFacility !== 'sekolah-menengah' ? (
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) => (currentName.current = e.target.value)}
+                      />
+                    ) : (
+                      <select
+                        className='border-2'
+                        name='kp'
+                        onChange={(e) => {
+                          currentName.current = e.target.value;
+                        }}
+                      >
+                        <option value=''>Pilih Sekolah</option>
+                        {sekolah
+                          .filter((s) => s.daerah === daerah)
+                          .map((s, index) => (
+                            <option value={s.nama}>{s.nama}</option>
+                          ))}
+                      </select>
+                    )}
                   </div>
                   <p>
                     Klinik Bertugas{' '}

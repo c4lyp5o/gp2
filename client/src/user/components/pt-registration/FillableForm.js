@@ -82,6 +82,10 @@ export default function FillableForm({
     });
   };
 
+  const howOldAreYouMyFriend = (date) => {
+    return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
+  };
+
   if (loading) return <p>Submitting...</p>;
   if (error) return <p>Error :(</p>;
 
@@ -155,7 +159,10 @@ export default function FillableForm({
               </p>
               <input
                 required
-                onChange={(e) => setTarikhLahir(e.target.value)}
+                onChange={(e) => {
+                  setTarikhLahir(e.target.value);
+                  setUmur(parseInt(howOldAreYouMyFriend(e.target.value)));
+                }}
                 type='date'
                 name='tarikhLahir'
               />
@@ -165,10 +172,10 @@ export default function FillableForm({
                 umur: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
-                required
-                onChange={(e) => setUmur(parseInt(e.target.value))}
+                disabled
                 type='number'
                 name='umur'
+                value={umur}
                 className='outline outline-1 outline-userBlack w-16 text-sm font-m'
               />
             </div>
