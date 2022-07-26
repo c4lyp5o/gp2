@@ -17,7 +17,6 @@ import Welcome from '../components/Welcome';
 import Data from '../components/Data';
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
-import AdminForgetPassword from './AdminForgetPassword';
 
 import AdminFooter from '../components/AdminFooter';
 // -----------------------------------------------------------
@@ -153,7 +152,6 @@ function AdminAfterLogin() {
             }
           />
           <Route path='*' element={<AdminLoggedInNotFound />} />
-          <Route path='facepalm' element={<AdminForgetPassword />} />
         </Routes>
       </div>
       <ToastContainer />
