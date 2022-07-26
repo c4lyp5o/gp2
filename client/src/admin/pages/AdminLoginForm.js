@@ -62,7 +62,6 @@ export default function AdminLoginForm() {
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [ErrMsg, setErrMsg] = useState('');
-  // const [submitButton, setSubmitButton] = useState(0);
 
   const navigate = useNavigate();
 
@@ -117,21 +116,6 @@ export default function AdminLoginForm() {
               sila masukkan ID pengguna
             </h3>
             <form onSubmit={handleSubmit}>
-              {/* <input
-                className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
-                type="text"
-                placeholder="ID Pengguna"
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              /> */}
-              {/* <br />
-              <input
-                className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
-                type="password"
-                placeholder="Kata Laluan"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              /> */}
               {userIDBox({ setUserName, showUserIDBox })}
               {passwordBox({ setPassword, showPasswordBox })}
               <p className='mt-5 text-xs text-admin1'>{ErrMsg}</p>
@@ -153,7 +137,3 @@ export default function AdminLoginForm() {
     </>
   );
 }
-
-// AdminLoginForm.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };
