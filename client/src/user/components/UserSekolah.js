@@ -12,18 +12,20 @@ function UserSekolah() {
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [darjah, setDarjah] = useState([]);
   const [tingkatan, setTingkatan] = useState([]);
-  const [namaKelas, setNamaKelas] = useState([]);
+  const [namaKelasDarjah, setNamaKelasDarjah] = useState([]);
+  const [namaKelasTingkatan, setNamaKelasTingkatan] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanDarjah, setPilihanDarjah] = useState('');
   const [pilihanTingkatan, setPilihanTingkatan] = useState('');
-  const [pilihanKelas, setPilihanKelas] = useState('');
+  const [pilihanKelasDarjah, setPilihanKelasDarjah] = useState('');
+  const [pilihanKelasTingkatan, setPilihanKelasTingkatan] = useState('');
 
   // init fetch allPersonSekolahs
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get('/api/v1/sekolah', {
+        const { data } = await axios.get('/api/v1/sekolah/populate', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         const allPersonSekolahs = data.allPersonSekolahs;
@@ -54,23 +56,34 @@ function UserSekolah() {
           },
           ['']
         );
-        const namaKelas = allPersonSekolahs.reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-              arrNamaKelas.push(singlePersonSekolah.kelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
+        const namaKelasDarjah = allPersonSekolahs
+          .filter((person) => person.darjah)
+          .reduce(
+            (arrNamaKelas, singlePersonSekolah) => {
+              if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+                arrNamaKelas.push(singlePersonSekolah.kelas);
+              }
+              return arrNamaKelas.filter((valid) => valid);
+            },
+            ['']
+          );
+        const namaKelasTingkatan = allPersonSekolahs
+          .filter((person) => person.tingkatan)
+          .reduce(
+            (arrNamaKelas, singlePersonSekolah) => {
+              if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+                arrNamaKelas.push(singlePersonSekolah.kelas);
+              }
+              return arrNamaKelas.filter((valid) => valid);
+            },
+            ['']
+          );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
         setDarjah(darjah);
         setTingkatan(tingkatan);
-        setNamaKelas(namaKelas);
-        if (pilihanSekolah === '') {
-          setAllPersonSekolahs([]);
-        }
+        setNamaKelasDarjah(namaKelasDarjah);
+        setNamaKelasTingkatan(namaKelasTingkatan);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -79,114 +92,33 @@ function UserSekolah() {
     fetchAllPersonSekolahs();
   }, []);
 
-  // when query sekolah
+  // reset value
   useEffect(() => {
-    const query = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `/api/v1/query/sekolah?namaSekolah=${pilihanSekolah}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
-        );
-        const allPersonSekolahs = data.sekolahResultQuery;
-        const darjah = allPersonSekolahs.reduce(
-          (arrDarjah, singlePersonSekolah) => {
-            if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
-              arrDarjah.push(singlePersonSekolah.darjah);
-            }
-            return arrDarjah.filter((valid) => valid);
-          },
-          ['']
-        );
-        const tingkatan = allPersonSekolahs.reduce(
-          (arrTingkatan, singlePersonSekolah) => {
-            if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
-              arrTingkatan.push(singlePersonSekolah.tingkatan);
-            }
-            return arrTingkatan.filter((valid) => valid);
-          },
-          ['']
-        );
-        const namaKelas = allPersonSekolahs.reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-              arrNamaKelas.push(singlePersonSekolah.kelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
-        setAllPersonSekolahs(data.sekolahResultQuery);
-        setDarjah(darjah);
-        setTingkatan(tingkatan);
-        setNamaKelas(namaKelas);
-        setPilihanDarjah('');
-        setPilihanTingkatan('');
-        setPilihanKelas('');
-        if (pilihanSekolah === '') {
-          setAllPersonSekolahs([]);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    query();
+    setPilihanDarjah('');
+    setPilihanTingkatan('');
+    setPilihanKelasDarjah('');
+    setPilihanKelasTingkatan('');
   }, [pilihanSekolah]);
 
-  // when query darjah / tingkatan
   useEffect(() => {
-    const query = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `/api/v1/query/sekolah?namaSekolah=${pilihanSekolah}&darjah=${pilihanDarjah}&tingkatan=${pilihanTingkatan}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
-        );
-        const allPersonSekolahs = data.sekolahResultQuery;
-        const namaKelas = allPersonSekolahs.reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-              arrNamaKelas.push(singlePersonSekolah.kelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
-        setAllPersonSekolahs(data.sekolahResultQuery);
-        setNamaKelas(namaKelas);
-        setPilihanKelas('');
-        if (pilihanSekolah === '') {
-          setAllPersonSekolahs([]);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    query();
-  }, [pilihanDarjah, pilihanTingkatan]);
+    setPilihanTingkatan('');
+    setPilihanKelasDarjah('');
+    setPilihanKelasTingkatan('');
+  }, [pilihanDarjah]);
 
-  // when query kelas
   useEffect(() => {
-    const query = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `/api/v1/query/sekolah?namaSekolah=${pilihanSekolah}&darjah=${pilihanDarjah}&tingkatan=${pilihanTingkatan}&kelas=${pilihanKelas}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
-        );
-        setAllPersonSekolahs(data.sekolahResultQuery);
-        if (pilihanSekolah === '') {
-          setAllPersonSekolahs([]);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    query();
-  }, [pilihanKelas]);
+    setPilihanDarjah('');
+    setPilihanKelasDarjah('');
+    setPilihanKelasTingkatan('');
+  }, [pilihanTingkatan]);
+
+  useEffect(() => {
+    setPilihanKelasTingkatan('');
+  }, [pilihanKelasDarjah]);
+
+  useEffect(() => {
+    setPilihanKelasDarjah('');
+  }, [pilihanKelasTingkatan]);
 
   return (
     <>
@@ -266,28 +198,59 @@ function UserSekolah() {
               </select>
             </>
           )}
-          {(pilihanDarjah || pilihanTingkatan) && (
+          {pilihanDarjah && (
             <>
-              <p className='flex flex-row pl-12 p-2'>Kelas</p>
+              <p className='flex flex-row pl-12 p-2'>Kelas Darjah</p>
               <select
-                value={pilihanKelas}
+                value={pilihanKelasDarjah}
                 onChange={(e) => {
-                  setPilihanKelas(e.target.value);
+                  setPilihanKelasDarjah(e.target.value);
                 }}
                 className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
               >
                 <option value=''>Sila pilih..</option>
-                {namaKelas.map((singleNamaKelas, index) => {
-                  return (
-                    <option
-                      value={singleNamaKelas}
-                      key={index}
-                      className='capitalize'
-                    >
-                      {singleNamaKelas}
-                    </option>
-                  );
-                })}
+                {namaKelasDarjah
+                  .filter((kelasDarjah) => kelasDarjah.includes(pilihanDarjah))
+                  .map((singleNamaKelas, index) => {
+                    return (
+                      <option
+                        value={singleNamaKelas}
+                        key={index}
+                        className='capitalize'
+                      >
+                        {singleNamaKelas}
+                      </option>
+                    );
+                  })}
+              </select>
+            </>
+          )}
+          {pilihanTingkatan && (
+            <>
+              <p className='flex flex-row pl-12 p-2'>Kelas Tingkatan</p>
+              <select
+                value={pilihanKelasTingkatan}
+                onChange={(e) => {
+                  setPilihanKelasTingkatan(e.target.value);
+                }}
+                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                {namaKelasTingkatan
+                  .filter((kelasTingkatan) =>
+                    kelasTingkatan.includes(pilihanTingkatan)
+                  )
+                  .map((singleNamaKelas, index) => {
+                    return (
+                      <option
+                        value={singleNamaKelas}
+                        key={index}
+                        className='capitalize'
+                      >
+                        {singleNamaKelas}
+                      </option>
+                    );
+                  })}
               </select>
             </>
           )}
@@ -299,66 +262,124 @@ function UserSekolah() {
               <th className='outline outline-1 outline-userBlack px-20'>
                 NAMA
               </th>
-              <th className='outline outline-1 outline-userBlack'>JANTINA</th>
-              <th className='outline outline-1 outline-userBlack'>
+              <th className='outline outline-1 outline-userBlack px-3'>
                 OPERATOR TERAKHIR
               </th>
               <th className='outline outline-1 outline-userBlack'>
                 STATUS RAWATAN
               </th>
               <th className='outline outline-1 outline-userBlack'>
-                STATUS KOTAK
+                PEMERIKSAAN
               </th>
-              <th className='outline outline-1 outline-userBlack'>ACTION</th>
+              <th className='outline outline-1 outline-userBlack'>RAWATAN</th>
+              <th className='outline outline-1 outline-userBlack'>KOTAK</th>
             </tr>
             {!isLoading &&
               pilihanSekolah &&
-              allPersonSekolahs.map((singlePersonSekolah, index) => {
-                return (
-                  <>
-                    <tr>
-                      <td className='outline outline-1 outline-userBlack'>
-                        {index + 1}
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.nama}
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.jantina}
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.createdByUsername}
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        {singlePersonSekolah.statusRawatan}
-                      </td>
-                      <td className='outline outline-1 outline-userBlack'>
-                        BELUM MULA
-                      </td>
-                      <td className='outline outline-1 outline-userBlack p-2'>
-                        <Link
-                          to={`/user/form-sekolah/${singlePersonSekolah._id}`}
-                          className={`${
-                            singlePersonSekolah.statusRawatan === 'selesai'
-                              ? 'bg-user7 hover:bg-user8'
-                              : singlePersonSekolah.statusRawatan ===
-                                'belum selesai'
-                              ? 'bg-user3 hover:bg-user2'
-                              : 'bg-user6 hover:bg-user9'
-                          } text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
-                        >
-                          {singlePersonSekolah.statusRawatan === 'selesai'
-                            ? 'Selesai'
-                            : singlePersonSekolah.statusRawatan ===
-                              'belum selesai'
-                            ? 'kemaskini'
-                            : 'tambah'}
-                        </Link>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
+              allPersonSekolahs
+                .filter(
+                  (person) =>
+                    person.namaSekolah.includes(pilihanSekolah) &&
+                    person.kelas.includes(pilihanTingkatan) &&
+                    person.kelas.includes(pilihanDarjah) &&
+                    person.kelas.includes(pilihanKelasDarjah) &&
+                    person.kelas.includes(pilihanKelasTingkatan)
+                )
+                .map((singlePersonSekolah, index) => {
+                  return (
+                    <>
+                      <tr>
+                        <td className='outline outline-1 outline-userBlack'>
+                          {index + 1}
+                        </td>
+                        <td className='outline outline-1 outline-userBlack'>
+                          {singlePersonSekolah.nama}
+                        </td>
+                        <td className='outline outline-1 outline-userBlack'>
+                          {singlePersonSekolah.rawatanSekolah.length >= 1 &&
+                            singlePersonSekolah.rawatanSekolah.at(-1)
+                              .createdByUsername}
+                        </td>
+                        <td className='outline outline-1 outline-userBlack'>
+                          {singlePersonSekolah.statusRawatan}
+                        </td>
+                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
+                          <Link
+                            to={`form-sekolah/pemeriksaan/${
+                              singlePersonSekolah._id
+                            }/${
+                              singlePersonSekolah.pemeriksaanSekolah
+                                ? singlePersonSekolah.pemeriksaanSekolah._id
+                                : 'tambah-pemeriksaan'
+                            }`}
+                            className={`${
+                              singlePersonSekolah.pemeriksaanSekolah
+                                ? 'bg-user7'
+                                : 'bg-user6'
+                            } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
+                          >
+                            {singlePersonSekolah.pemeriksaanSekolah
+                              ? 'ubah pemeriksaan'
+                              : 'tambah pemeriksaan'}
+                          </Link>
+                        </td>
+                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
+                          <Link
+                            to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
+                            className={`${
+                              !singlePersonSekolah.pemeriksaanSekolah ||
+                              singlePersonSekolah.statusRawatan === 'selesai'
+                                ? 'pointer-events-none bg-user4'
+                                : 'bg-user3 hover:bg-user2'
+                            } text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
+                          >
+                            tambah rawatan
+                          </Link>
+                        </td>
+                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
+                          <Link
+                            to={`form-sekolah/kotak/${
+                              singlePersonSekolah._id
+                            }/${
+                              singlePersonSekolah.kotakSekolah
+                                ? singlePersonSekolah.kotakSekolah._id
+                                : 'tambah-kotak'
+                            }`}
+                            className={`${
+                              !singlePersonSekolah.kotakSekolah &&
+                              singlePersonSekolah.pemeriksaanSekolah &&
+                              singlePersonSekolah.pemeriksaanSekolah
+                                .inginMelakukanIntervensiMerokok ===
+                                'ya-ingin-melakukan-intervensi-merokok'
+                                ? 'bg-user6'
+                                : singlePersonSekolah.kotakSekolah &&
+                                  singlePersonSekolah.pemeriksaanSekolah &&
+                                  singlePersonSekolah.pemeriksaanSekolah
+                                    .inginMelakukanIntervensiMerokok ===
+                                    'ya-ingin-melakukan-intervensi-merokok'
+                                ? 'bg-user7'
+                                : 'pointer-events-none bg-user4'
+                            } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
+                          >
+                            {!singlePersonSekolah.kotakSekolah &&
+                            singlePersonSekolah.pemeriksaanSekolah &&
+                            singlePersonSekolah.pemeriksaanSekolah
+                              .inginMelakukanIntervensiMerokok ===
+                              'ya-ingin-melakukan-intervensi-merokok'
+                              ? 'tambah kotak'
+                              : singlePersonSekolah.kotakSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  .inginMelakukanIntervensiMerokok ===
+                                  'ya-ingin-melakukan-intervensi-merokok'
+                              ? 'ubah kotak'
+                              : 'tidak perlu kotak'}
+                          </Link>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
           </table>
           {isLoading && <p className='text-xl font-semibold'>Loading...</p>}
         </div>
