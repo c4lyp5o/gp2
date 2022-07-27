@@ -3,6 +3,10 @@ const Sekolah = require('../models/Sekolah');
 
 // GET /sr
 const getSrAndSaveErkm = async (req, res) => {
+  if (req.user.accountType !== 'erkmUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { data } = await axios.get('https://erkm.calypsocloud.one/sr');
 
   const arrSekolahRendah = {
@@ -73,6 +77,10 @@ const getSrAndSaveErkm = async (req, res) => {
 
 // GET sm
 const getSmAndSaveErkm = async (req, res) => {
+  if (req.user.accountType !== 'erkmUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { data } = await axios.get('https://erkm.calypsocloud.one/sm');
 
   const arrSekolahMenengah = {

@@ -6,6 +6,10 @@ const Fasiliti = require('../models/Fasiliti');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { kp } = req.user;
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
@@ -28,8 +32,13 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   res.status(200).json({ allPersonSekolahs });
 };
 
+// not used
 // GET /:personSekolahId
 const getSinglePersonSekolahVanilla = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     params: { id: personSekolahId },
   } = req;
@@ -47,6 +56,10 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
 
 // GET /populate
 const getAllPersonSekolahsWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { kp } = req.user;
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
@@ -63,8 +76,19 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     ['']
   );
 
+  const kodSekolahs = fasilitiSekolahs.reduce(
+    (arrKodSekolahs, singleFasilitiSekolah) => {
+      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
+        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
+      }
+      return arrKodSekolahs.filter((valid) => valid);
+    },
+    ['']
+  );
+
   const allPersonSekolahs = await Sekolah.find({
     namaSekolah: { $in: [...namaSekolahs] },
+    kodSekolah: { $in: [...kodSekolahs] },
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah')
@@ -75,6 +99,10 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
 // GET /populate/:personSekolahId
 const getSinglePersonSekolahWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const personSekolahWithPopulate = await Sekolah.findOne({
     _id: req.params.personSekolahId,
   })
@@ -85,9 +113,14 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
   res.status(201).json({ personSekolahWithPopulate });
 };
 
+// not used
 // POST /
 // will use for ERKM
 const createPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const personSekolah = await Sekolah.create(req.body);
 
   res.status(201).json({ personSekolah });
@@ -120,6 +153,10 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 
 // POST /rawatan/:personSekolahId
 const createRawatanWithPushPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   // associate negeri, daerah & kp to each person sekolah when creating rawatan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -143,6 +180,10 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
 // kotak tak handle statusRawatan
 // POST /kotak/:personSekolahId
 const createKotakWithSetPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   // associate negeri, daerah, kp to each person sekolah when creating kotak
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -167,6 +208,10 @@ const createKotakWithSetPersonSekolah = async (req, res) => {
 // reset statusRawatan to 'belum selesai'
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
 const updatePemeriksaanSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     req.body,
@@ -190,6 +235,10 @@ const updatePemeriksaanSekolah = async (req, res) => {
 // kotak tak handle status rawatan
 // PATCH /kotak/ubah/:kotakSekolahId
 const updateKotakSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const updatedSingleKotak = await Kotaksekolah.findOneAndUpdate(
     { _id: req.params.kotakSekolahId },
     req.body,
@@ -205,8 +254,13 @@ const updateKotakSekolah = async (req, res) => {
   res.status(200).json({ updatedSingleKotak });
 };
 
+// not used
 // query route
 const queryPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     user: { kp },
     query: { namaSekolah, darjah, tingkatan, kelas },

@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const { graphqlHTTP } = require('express-graphql');
+const axios = require('axios');
 
 // IMPORT ROUTER -----------------------------------------------
 // erkm import
@@ -53,6 +54,37 @@ app.use(
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
+// sync erkm every 10 mins
+setInterval(async () => {
+  const UserModel = require('./models/User');
+  try {
+    const erkmUser = await UserModel.findOne({
+      username: process.env.ERKM_SERVER_ID,
+    });
+
+    if (
+      !(
+        erkmUser &&
+        (await erkmUser.comparePassword(process.env.ERKM_SERVER_PASS))
+      )
+    ) {
+      return console.log('Invalid erkm credentials');
+    }
+
+    const erkmToken = erkmUser.createJWT();
+
+    await axios.get(`http://localhost:${process.env.PORT}/erkm/sr`, {
+      headers: { Authorization: `Bearer ${erkmToken}` },
+    });
+    await axios.get(`http://localhost:${process.env.PORT}/erkm/sm`, {
+      headers: { Authorization: `Bearer ${erkmToken}` },
+    });
+
+    console.log('erkm sync done in 10 mins interval');
+  } catch (error) {
+    console.log(error.response.data.msg);
+  }
+}, 600000);
 
 // user route
 app.use('/api/v1/auth', authLogin);

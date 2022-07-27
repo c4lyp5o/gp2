@@ -21,6 +21,9 @@ const authLogin = async (req, res) => {
   if (payloadAccountType.accountType === 'kaunterUser') {
     return res.status(401).json({ msg: 'This is kaunter credentials' });
   }
+  if (payloadAccountType.accountType === 'erkmUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
 
   res.status(200).json({ userToken });
 };
@@ -44,6 +47,9 @@ const authKaunter = async (req, res) => {
   const payloadAccountType = jwt.verify(kaunterToken, process.env.JWT_SECRET);
   if (payloadAccountType.accountType === 'kpUser') {
     return res.status(401).json({ msg: 'This is kp credentials' });
+  }
+  if (payloadAccountType.accountType === 'erkmUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   res.status(200).json({ kaunterToken });
