@@ -42,7 +42,7 @@ function UserAfterLogin() {
 
           <Route path='umum' element={<UserUmum />} />
           <Route
-            path='form-umum/:personUmumId'
+            path='umum/form-umum/:personUmumId'
             element={<UserFormUmumHeader />}
           />
 
