@@ -1266,12 +1266,12 @@ function UserFormSekolahRawatan() {
                 </article>
               </div>
             </section>
-            <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 hover:cursor-pointer'>
+            <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 '>
               <span
                 onClick={() => {
                   navigate(-1);
                 }}
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
               >
                 kembali
               </span>

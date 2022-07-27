@@ -331,7 +331,7 @@ function UserSekolah() {
                       <td className='outline outline-1 outline-userBlack'>
                         {singlePersonSekolah.statusRawatan}
                       </td>
-                      <td className='outline outline-1 outline-userBlack p-2'>
+                      <td className='outline outline-1 outline-userBlack text-sm p-2'>
                         <Link
                           to={`form-sekolah/pemeriksaan/${
                             singlePersonSekolah._id
@@ -351,7 +351,7 @@ function UserSekolah() {
                             : 'tambah pemeriksaan'}
                         </Link>
                       </td>
-                      <td className='outline outline-1 outline-userBlack p-2'>
+                      <td className='outline outline-1 outline-userBlack text-sm p-2'>
                         <Link
                           to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
                           className={`${
@@ -364,7 +364,7 @@ function UserSekolah() {
                           tambah rawatan
                         </Link>
                       </td>
-                      <td className='outline outline-1 outline-userBlack p-2'>
+                      <td className='outline outline-1 outline-userBlack text-sm p-2'>
                         <Link
                           to={`form-sekolah/kotak/${singlePersonSekolah._id}/${
                             singlePersonSekolah.kotakSekolah
@@ -372,14 +372,34 @@ function UserSekolah() {
                               : 'tambah-kotak'
                           }`}
                           className={`${
-                            singlePersonSekolah.kotakSekolah
+                            !singlePersonSekolah.kotakSekolah &&
+                            singlePersonSekolah.pemeriksaanSekolah &&
+                            singlePersonSekolah.pemeriksaanSekolah
+                              .inginMelakukanIntervensiMerokok ===
+                              'ya-ingin-melakukan-intervensi-merokok'
+                              ? 'bg-user6'
+                              : singlePersonSekolah.kotakSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  .inginMelakukanIntervensiMerokok ===
+                                  'ya-ingin-melakukan-intervensi-merokok'
                               ? 'bg-user7'
-                              : 'bg-user6'
+                              : 'pointer-events-none bg-user4'
                           } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
                         >
-                          {singlePersonSekolah.kotakSekolah
+                          {!singlePersonSekolah.kotakSekolah &&
+                          singlePersonSekolah.pemeriksaanSekolah &&
+                          singlePersonSekolah.pemeriksaanSekolah
+                            .inginMelakukanIntervensiMerokok ===
+                            'ya-ingin-melakukan-intervensi-merokok'
+                            ? 'tambah kotak'
+                            : singlePersonSekolah.kotakSekolah &&
+                              singlePersonSekolah.pemeriksaanSekolah &&
+                              singlePersonSekolah.pemeriksaanSekolah
+                                .inginMelakukanIntervensiMerokok ===
+                                'ya-ingin-melakukan-intervensi-merokok'
                             ? 'ubah kotak'
-                            : 'tambah kotak'}
+                            : 'tidak perlu kotak'}
                         </Link>
                       </td>
                     </tr>
