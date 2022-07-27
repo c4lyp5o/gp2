@@ -14,7 +14,6 @@ const Dictionary = {
 };
 
 async function sendVerificationEmail(email, userId) {
-  console.log(userId);
   let theKey = simpleCrypto.generateRandomString(20);
   const update = await Superadmin.findByIdAndUpdate(
     userId,
@@ -23,7 +22,6 @@ async function sendVerificationEmail(email, userId) {
     },
     { new: true }
   );
-  console.log(update);
   // const transporter = mailer.createTransport({
   //   host: process.env.EMAILER_HOST,
   //   port: process.env.EMAILER_PORT,
@@ -41,7 +39,7 @@ async function sendVerificationEmail(email, userId) {
   //   html:
   //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
   // });
-  console.log(theKey);
+  console.log('your key: ' + theKey);
   return theKey;
 }
 
@@ -56,12 +54,19 @@ exports.helloUser = async (req, res) => {
       });
       return;
     }
-    await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
+    // await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
+    //   console.log(err);
+    // });
+    const xxxKey = await sendVerificationEmail(
+      process.env.SEND_TO,
+      User._id
+    ).catch((err) => {
       console.log(err);
     });
     return res.status(200).json({
       status: 'success',
       message: 'Email sent to ' + process.env.SEND_TO,
+      tempKey: xxxKey,
     });
   }
   if (req.method === 'GET') {

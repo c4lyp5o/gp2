@@ -34,13 +34,15 @@ function AdminAppProvider({ children }) {
   // GQL queries
   const GET_FACILITIES = gql`
     query GetAllFacilities($jenisFasiliti: String!, $daerah: String!) {
-      fasilitisByType(jenisFasiliti: $jenisFasiliti, daerah: $daerah) {
+      fasilitisByType(jenisFasiliti: $jenisFasiliti, createdByDaerah: $daerah) {
         _id
         nama
-        negeri
-        daerah
+        kodSekolah
+        createdByNegeri
+        createdByDaerah
         handler
         jenisFasiliti
+        keppStatus
       }
     }
   `;
@@ -50,21 +52,23 @@ function AdminAppProvider({ children }) {
       fasiliti(_id: $_id) {
         _id
         nama
-        negeri
-        daerah
+        kodSekolah
+        createdByNegeri
+        createdByDaerah
         handler
         jenisFasiliti
+        keppStatus
       }
     }
   `;
 
   const GET_ALL_OPERATORS = gql`
     query listOperatorByDaerah($daerah: String!) {
-      listOperatorByDaerah(daerah: $daerah) {
+      listOperatorByDaerah(createdByDaerah: $daerah) {
         _id
         nama
         gred
-        daerah
+        createdByDaerah
         kpSkrg
         role
       }
@@ -77,7 +81,7 @@ function AdminAppProvider({ children }) {
         _id
         nama
         gred
-        daerah
+        createdByDaerah
         kpSkrg
         role
       }
@@ -89,8 +93,8 @@ function AdminAppProvider({ children }) {
       klinik(daerah: $daerah) {
         _id
         nama
-        negeri
-        daerah
+        createdByNegeri
+        createdByDaerah
       }
     }
   `;
@@ -101,7 +105,7 @@ function AdminAppProvider({ children }) {
         _id
         nama
         gred
-        daerah
+        createdByDaerah
         kpSkrg
         role
       }
@@ -111,26 +115,32 @@ function AdminAppProvider({ children }) {
   const CREATE_FACILITY = gql`
     mutation CreateFacility(
       $nama: String
+      $kodSekolah: String
       $negeri: String
       $daerah: String
       $handler: String
       $jenisFasiliti: String
+      $keppStatus: String
     ) {
       createFasiliti(
         fasiliti: {
           nama: $nama
-          negeri: $negeri
-          daerah: $daerah
+          kodSekolah: $kodSekolah
+          createdByNegeri: $negeri
+          createdByDaerah: $daerah
           handler: $handler
           jenisFasiliti: $jenisFasiliti
+          keppStatus: $keppStatus
         }
       ) {
         _id
         nama
-        negeri
-        daerah
+        kodSekolah
+        createdByNegeri
+        createdByDaerah
         handler
         jenisFasiliti
+        keppStatus
       }
     }
   `;
@@ -139,6 +149,7 @@ function AdminAppProvider({ children }) {
     mutation CreateOperator(
       $nama: String
       $gred: String
+      $negeri: String
       $daerah: String
       $kpSkrg: String
       $role: String
@@ -147,7 +158,8 @@ function AdminAppProvider({ children }) {
         operator: {
           nama: $nama
           gred: $gred
-          daerah: $daerah
+          createdByNegeri: $negeri
+          createdByDaerah: $daerah
           kpSkrg: $kpSkrg
           role: $role
         }
@@ -155,7 +167,8 @@ function AdminAppProvider({ children }) {
         _id
         nama
         gred
-        daerah
+        createdByNegeri
+        createdByDaerah
         kpSkrg
         role
       }
@@ -166,27 +179,33 @@ function AdminAppProvider({ children }) {
     mutation UpdateFacility(
       $_id: String
       $nama: String
+      $kodSekolah: String
       $negeri: String
       $daerah: String
       $handler: String
       $jenisFasiliti: String
+      $keppStatus: String
     ) {
       updateFasiliti(
         fasiliti: {
           _id: $_id
           nama: $nama
-          negeri: $negeri
-          daerah: $daerah
+          kodSekolah: $kodSekolah
+          createdByNegeri: $negeri
+          createdByDaerah: $daerah
           handler: $handler
           jenisFasiliti: $jenisFasiliti
+          keppStatus: $keppStatus
         }
       ) {
         _id
         nama
-        negeri
-        daerah
+        kodSekolah
+        createdByNegeri
+        createdByDaerah
         handler
         jenisFasiliti
+        keppStatus
       }
     }
   `;
@@ -196,6 +215,7 @@ function AdminAppProvider({ children }) {
       $_id: String
       $nama: String
       $gred: String
+      $negeri: String
       $daerah: String
       $kpSkrg: String
       $role: String
@@ -205,7 +225,8 @@ function AdminAppProvider({ children }) {
           _id: $_id
           nama: $nama
           gred: $gred
-          daerah: $daerah
+          createdByNegeri: $negeri
+          createdByDaerah: $daerah
           kpSkrg: $kpSkrg
           role: $role
         }
@@ -213,7 +234,8 @@ function AdminAppProvider({ children }) {
         _id
         nama
         gred
-        daerah
+        createdByNegeri
+        createdByDaerah
         kpSkrg
         role
       }
@@ -225,12 +247,14 @@ function AdminAppProvider({ children }) {
       facOrPeg(_id: $id) {
         _id
         nama
-        negeri
-        daerah
+        kodSekolah
+        createdByNegeri
+        createdByDaerah
         kpSkrg
         gred
         role
         handler
+        keppStatus
       }
     }
   `;

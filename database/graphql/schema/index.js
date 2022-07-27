@@ -27,27 +27,32 @@ module.exports = buildSchema(`
     _id: String
     nama: String
     gred: String
-    daerah: String
+    createdByNegeri: String
+    createdByDaerah: String
     kpSkrg: String
     role: String
   }
   type Fasiliti {
     _id: String
     nama: String
-    negeri: String
-    daerah: String
+    kodSekolah: String
+    createdByNegeri: String
+    createdByDaerah: String
     handler: String
     jenisFasiliti: String
+    keppStatus: String
   }
   type facOrPeg {
     _id: ID!
     nama: String
-    negeri: String
-    daerah: String
+    kodSekolah: String
+    createdByNegeri: String
+    createdByDaerah: String
     handler: String
     kpSkrg: String
     gred: String
     role: String
+    keppStatus: String
   }
   input PatientType {
     createdByNegeri: String,
@@ -72,16 +77,19 @@ module.exports = buildSchema(`
   input OperatorType {
     nama: String
     gred: String
-    daerah: String
+    createdByNegeri: String
+    createdByDaerah: String
     kpSkrg: String
     role: String
   }
   input FasilitiType {
     nama: String
-    negeri: String
-    daerah: String
+    kodSekolah: String
+    createdByNegeri: String
+    createdByDaerah: String
     handler: String
     jenisFasiliti: String
+    keppStatus: String
   }
   input UpdatePatient{
     _id: String,
@@ -107,16 +115,19 @@ module.exports = buildSchema(`
   input UpdateFasiliti{
     _id: String,
     nama: String
-    negeri: String
-    daerah: String
+    kodSekolah: String
+    createdByNegeri: String
+    createdByDaerah: String
     handler: String
     jenisFasiliti: String
+    keppStatus: String
   }
   input UpdateOperator{
     _id: String,
     nama: String
     gred: String
-    daerah: String
+    createdByNegeri: String
+    createdByDaerah: String
     kpSkrg: String
     role: String
   }
@@ -129,7 +140,7 @@ module.exports = buildSchema(`
     listOperatorByDaerah(daerah: String!): [Operator]
     fasiliti(_id: String!): Fasiliti!
     fasilitis: [Fasiliti]
-    fasilitisByType(jenisFasiliti: String!, daerah: String!): [Fasiliti]
+    fasilitisByType(jenisFasiliti: String!, createdByDaerah: String!): [Fasiliti]
     listPatientByTarikhKedatangan(tarikhKedatangan: String!, jenisFasiliti: String!): [Patient]
     facOrPeg(_id: String!): facOrPeg
   }

@@ -34,9 +34,12 @@ const Modal = ({
   const [createOperator] = useMutation(CREATE_OPERATOR);
   const [createFacility] = useMutation(CREATE_FACILITY);
   const currentName = useRef();
+  const currentKodSekolah = useRef();
   const currentKp = useRef();
   const currentGred = useRef();
   const currentRole = useRef();
+  const currentKeppStatus = useRef();
+  const currentIdSekolah = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,10 +47,12 @@ const Modal = ({
       await createFacility({
         variables: {
           nama: currentName.current,
+          kodSekolah: currentKodSekolah.current,
           negeri: negeri,
           daerah: daerah,
           handler: currentKp.current,
           jenisFasiliti: jenisFacility,
+          keppStatus: currentKeppStatus.current,
         },
       });
       refetchFacilities();
@@ -83,7 +88,6 @@ const Modal = ({
     const getSR = () => {
       try {
         axios.get('https://erkm.calypsocloud.one/data').then((res) => {
-          console.log(res.data);
           if (jenisFacility === 'sekolah-rendah') {
             setSekolah(res.data.sekolahRendah);
             return;
@@ -329,13 +333,21 @@ const Modal = ({
                         name='kp'
                         onChange={(e) => {
                           currentName.current = e.target.value;
+                          currentKodSekolah.current =
+                            currentIdSekolah.current.id;
                         }}
                       >
                         <option value=''>Pilih Sekolah</option>
                         {sekolah
                           .filter((s) => s.daerah === daerah)
                           .map((s, index) => (
-                            <option value={s.nama}>{s.nama}</option>
+                            <option
+                              value={s.nama}
+                              id={s.kodSekolah}
+                              ref={currentIdSekolah}
+                            >
+                              {s.nama}
+                            </option>
                           ))}
                       </select>
                     )}
