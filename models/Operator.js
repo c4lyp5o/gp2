@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const operatorSchema = new Schema({
@@ -10,7 +10,11 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
-  daerah: {
+  createdByNegeri: {
+    type: String,
+    // required: true
+  },
+  createdByDaerah: {
     type: String,
     // required: true
   },
@@ -24,6 +28,6 @@ const operatorSchema = new Schema({
   },
 });
 
-const Operator = mongoose.model("Operator", operatorSchema);
+const Operator = mongoose.model('Operator', operatorSchema);
 
 module.exports = Operator;
