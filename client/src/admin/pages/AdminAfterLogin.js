@@ -82,8 +82,8 @@ function AdminAfterLogin() {
         setLoginInfo({
           isLoggedIn: true,
           username: res.data.data.username,
-          daerah: res.data.data.daerah,
-          negeri: res.data.data.negeri,
+          daerah: res.data.data.createdByDaerah,
+          negeri: res.data.data.createdByNegeri,
         });
       })
       .catch((err) => {

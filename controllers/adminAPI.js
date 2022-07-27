@@ -23,7 +23,6 @@ async function sendVerificationEmail(email, userId) {
     },
     { new: true }
   );
-  console.log(update);
   // const transporter = mailer.createTransport({
   //   host: process.env.EMAILER_HOST,
   //   port: process.env.EMAILER_PORT,
@@ -41,7 +40,7 @@ async function sendVerificationEmail(email, userId) {
   //   html:
   //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
   // });
-  console.log(theKey);
+  console.log('your key: ' + theKey);
   return theKey;
 }
 
@@ -111,8 +110,8 @@ exports.loginUser = async (req, res) => {
     {
       userId: User._id,
       username: User.user_name,
-      daerah: User.daerah,
-      negeri: User.negeri,
+      createdByDaerah: User.createdByDaerah,
+      createdByNegeri: User.createdByNegeri,
     },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
@@ -129,8 +128,8 @@ exports.addAdmin = async (req, res) => {
   const Admin = new Superadmin({
     user_name: req.body.user_name,
     password: req.body.password,
-    daerah: req.body.daerah,
-    negeri: req.body.negeri,
+    createdByDaerah: req.body.daerah,
+    createdByNegeri: req.body.negeri,
   });
   Admin.save((err, data) => {
     if (err) {
@@ -149,8 +148,10 @@ exports.getCurrentUser = async (req, res) => {
   const data = {
     userId: jwt.verify(req.body.token, process.env.JWT_SECRET).userId,
     username: jwt.verify(req.body.token, process.env.JWT_SECRET).username,
-    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
+    createdByDaerah: jwt.verify(req.body.token, process.env.JWT_SECRET)
+      .createdByDaerah,
+    createdByNegeri: jwt.verify(req.body.token, process.env.JWT_SECRET)
+      .createdByNegeri,
   };
   res.status(200).json({
     status: 'success',
