@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAndSaveErkm } = require('../controllers/erkm');
+const { getSrAndSaveErkm, getSmAndSaveErkm } = require('../controllers/erkm');
 
-router.route('/').get(getAndSaveErkm);
+router.route('/sr').get(getSrAndSaveErkm);
+router.route('/sm').get(getSmAndSaveErkm);
 
 module.exports = router;

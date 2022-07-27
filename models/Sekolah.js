@@ -8,6 +8,10 @@ const SekolahSchema = new mongoose.Schema({
     default: 'belum mula',
   },
   // supplied by ERKM --------------------------------------------------
+  idConcat: {
+    type: String,
+    required: [true, 'Please provide ID'],
+  },
   nama: {
     type: String,
     required: [true, 'Please provide nama'],
@@ -25,6 +29,10 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide nama sekolah'],
   },
+  kodSekolah: {
+    type: String,
+    required: [true, 'Please provide kod sekolah'],
+  },
   kelas: {
     type: String,
     required: [true, 'Please provide kelas'],
@@ -37,13 +45,9 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide tarikh lahir'],
   },
-  warganegara: {
+  kumpulanEtnik: {
     type: String,
-    required: [true, 'Please provide warganegara'],
-  },
-  bangsa: {
-    type: String,
-    required: [true, 'Please provide bangsa'],
+    required: [true, 'Please provide kumpulanEtnik'],
   },
   darjah: {
     type: Number,

@@ -51,7 +51,8 @@ app.use(
   })
 );
 
-app.use('/erkm', erkm);
+// erkm route
+app.use('/erkm', authCheck, erkm);
 
 // user route
 app.use('/api/v1/auth', authLogin);
