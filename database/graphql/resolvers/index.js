@@ -509,7 +509,6 @@ module.exports = {
         jenisFasiliti,
         keppStatus,
       } = args.fasiliti;
-      console.log(_id);
       const updatedFas = await Fasiliti.findByIdAndUpdate(_id, {
         nama: nama,
         kodSekolah: kodSekolah,

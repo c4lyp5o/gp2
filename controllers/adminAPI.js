@@ -14,7 +14,6 @@ const Dictionary = {
 };
 
 async function sendVerificationEmail(email, userId) {
-  console.log(userId);
   let theKey = simpleCrypto.generateRandomString(20);
   const update = await Superadmin.findByIdAndUpdate(
     userId,
@@ -55,12 +54,19 @@ exports.helloUser = async (req, res) => {
       });
       return;
     }
-    await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
+    // await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
+    //   console.log(err);
+    // });
+    const xxxKey = await sendVerificationEmail(
+      process.env.SEND_TO,
+      User._id
+    ).catch((err) => {
       console.log(err);
     });
     return res.status(200).json({
       status: 'success',
       message: 'Email sent to ' + process.env.SEND_TO,
+      tempKey: xxxKey,
     });
   }
   if (req.method === 'GET') {
@@ -110,8 +116,8 @@ exports.loginUser = async (req, res) => {
     {
       userId: User._id,
       username: User.user_name,
-      createdByDaerah: User.createdByDaerah,
-      createdByNegeri: User.createdByNegeri,
+      daerah: User.daerah,
+      negeri: User.negeri,
     },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
@@ -128,8 +134,8 @@ exports.addAdmin = async (req, res) => {
   const Admin = new Superadmin({
     user_name: req.body.user_name,
     password: req.body.password,
-    createdByDaerah: req.body.daerah,
-    createdByNegeri: req.body.negeri,
+    daerah: req.body.daerah,
+    negeri: req.body.negeri,
   });
   Admin.save((err, data) => {
     if (err) {
@@ -148,10 +154,8 @@ exports.getCurrentUser = async (req, res) => {
   const data = {
     userId: jwt.verify(req.body.token, process.env.JWT_SECRET).userId,
     username: jwt.verify(req.body.token, process.env.JWT_SECRET).username,
-    createdByDaerah: jwt.verify(req.body.token, process.env.JWT_SECRET)
-      .createdByDaerah,
-    createdByNegeri: jwt.verify(req.body.token, process.env.JWT_SECRET)
-      .createdByNegeri,
+    daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
+    negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
   };
   res.status(200).json({
     status: 'success',
