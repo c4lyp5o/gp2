@@ -39,7 +39,6 @@ const Modal = ({
   const currentGred = useRef();
   const currentRole = useRef();
   const currentKeppStatus = useRef();
-  const currentIdSekolah = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -333,19 +332,16 @@ const Modal = ({
                         name='kp'
                         onChange={(e) => {
                           currentName.current = e.target.value;
-                          currentKodSekolah.current =
-                            currentIdSekolah.current.id;
+                          const index = e.target.selectedIndex;
+                          const el = e.target.childNodes[index];
+                          currentKodSekolah.current = el.getAttribute('id');
                         }}
                       >
                         <option value=''>Pilih Sekolah</option>
                         {sekolah
                           .filter((s) => s.daerah === daerah)
                           .map((s, index) => (
-                            <option
-                              value={s.nama}
-                              id={s.kodSekolah}
-                              ref={currentIdSekolah}
-                            >
+                            <option value={s.nama} id={s.kodSekolah}>
                               {s.nama}
                             </option>
                           ))}
