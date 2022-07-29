@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
+import axios from 'axios';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahKOTAK() {
   const {
@@ -13,9 +14,9 @@ function UserFormSekolahKOTAK() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { personSekolahId } = useParams();
+  const { personSekolahId, kotakSekolahId } = useParams();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
@@ -54,67 +55,201 @@ function UserFormSekolahKOTAK() {
     }
   }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3]);
 
+  //reset value
+  // TO DO..
+
+  // fetch singlePersonSekolah
+  useEffect(() => {
+    const fetchSinglePersonSekolah = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `/api/v1/sekolah/populate/${personSekolahId}`,
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        );
+        setSinglePersonSekolah(data.personSekolahWithPopulate);
+
+        // map to form if kotakSekolahId exist
+        if (kotakSekolahId !== 'tambah-kotak') {
+          setTarikh1(data.personSekolahWithPopulate.kotakSekolah.tarikh1);
+          setAdaTiadaQTarikh1(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh1
+          );
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSinglePersonSekolah();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (kotakSekolahId === 'tambah-kotak') {
+      try {
+        await axios.post(
+          `/api/v1/sekolah/kotak/${personSekolahId}`,
+          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        );
+        toast.success(`KOTAK pelajar berjaya dihantar`, {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+        toast.error('Gagal!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+    if (kotakSekolahId !== 'tambah-kotak') {
+      try {
+        await axios.patch(
+          `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
+          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        );
+        toast.success(`KOTAK pelajar berjaya dikemaskini`, {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+        toast.error('Gagal!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+  };
+
   return (
     <>
       <div className='h-full max-h-min 2xl:h-3/4 p-1 px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
-          <div>
-            <div className='text-l font-bold flex flex-row pl-5 p-2'>
-              <h1>MAKLUMAT AM PESAKIT</h1>
-              <FaInfoCircle
-                className='m-1 text-lg'
-                onMouseEnter={() => setIsShown(true)}
-                onMouseLeave={() => setIsShown(false)}
-              />
+          {!isLoading && (
+            <div>
+              <div className='text-sm font-bold flex flex-row pl-5 p-2'>
+                <h1>MAKLUMAT AM PESAKIT</h1>
+                <FaInfoCircle
+                  className='hover:cursor-pointer m-1 text-lg'
+                  onMouseEnter={() => setIsShown(true)}
+                  onMouseLeave={() => setIsShown(false)}
+                />
+              </div>
+              {isShown && (
+                <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
+                  <div className='text-xs flex flex-row'>
+                    <h2 className='font-semibold'>NAMA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.nama}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>NO IC :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>JANTINA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.jantina}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.tarikhLahir}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>BANGSA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.kumpulanEtnik}</p>
+                  </div>
+                </div>
+              )}
+              <div className='flex flex-row pl-5'>
+                <h2 className='font-semibold text-xs'>NAMA :</h2>
+                <p className='ml-1 text-xs'>{singlePersonSekolah.nama}</p>
+              </div>
             </div>
-            {isShown && (
-              <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
-                <div className='flex flex-row'>
-                  <h2 className='font-semibold'>NAMA :</h2>
-                  <p className='ml-1'>stone cold</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>NO IC :</h2>
-                  <p className='ml-1'>123456121234</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>JANTINA :</h2>
-                  <p className='ml-1'>perempuan</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                  <p className='ml-1'>2/12/2022</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>WARGANEGARA :</h2>
-                  <p className='ml-1'>malaysia</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>BANGSA :</h2>
-                  <p className='ml-1'>pan-asia</p>
+          )}
+          {!isLoading && (
+            <>
+              <div className='md:pt-10'>
+                <div className='flex flex-row pl-5'>
+                  <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
+                  <p className='ml-1 text-xs'>
+                    {singlePersonSekolah.namaSekolah}
+                  </p>
                 </div>
               </div>
-            )}
-            <div className='flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>NAMA :</h2>
-              <p className='ml-1 text-xs'>stone cold</p>
-            </div>
-          </div>
-          <div className='md:pt-10'>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
-              <p className='ml-1 text-xs'>sk hogwart</p>
-            </div>
-          </div>
-          <div className='lg:pt-10'>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>KELAS :</h2>
-              <p className='ml-1 text-xs'>2 amal</p>
-            </div>
-          </div>
+              <div className='lg:pt-10'>
+                <div className='flex flex-row pl-5'>
+                  <h2 className='font-semibold text-xs'>KELAS :</h2>
+                  <p className='ml-1 text-xs'>{singlePersonSekolah.kelas}</p>
+                </div>
+              </div>
+            </>
+          )}
+          {isLoading && (
+            <p className='col-span-3 pt-10 text-sm font-semibold'>Loading...</p>
+          )}
         </article>
         <div className='grid h-full overflow-scroll gap-2'>
-          <form>
+          <form onSubmit={handleSubmit}>
             <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
               <p className='ml-3 text-xl font-semibold'>KOTAK</p>
             </span>
@@ -485,11 +620,13 @@ function UserFormSekolahKOTAK() {
             <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
               <span
                 onClick={() => {
-                  navigate(-1);
+                  window.opener = null;
+                  window.open('', '_self');
+                  window.close();
                 }}
                 className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
               >
-                kembali
+                tutup
               </span>
               <input
                 type='reset'

@@ -126,8 +126,8 @@ const createPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
-// set statusRawatan to 'belum selesai' when creating pemeriksaan
 // POST /pemeriksaan/:personSekolahId
+// set statusRawatan to 'belum selesai' when creating pemeriksaan
 const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
@@ -177,8 +177,8 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
-// kotak tak handle statusRawatan
 // POST /kotak/:personSekolahId
+// kotak tak handle statusRawatan
 const createKotakWithSetPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -205,8 +205,8 @@ const createKotakWithSetPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
-// reset statusRawatan to 'belum selesai'
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
+// reset statusRawatan to 'belum selesai'
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -232,8 +232,8 @@ const updatePemeriksaanSekolah = async (req, res) => {
   res.status(200).json({ updatedSinglePemeriksaan });
 };
 
-// kotak tak handle status rawatan
 // PATCH /kotak/ubah/:kotakSekolahId
+// kotak tak handle status rawatan
 const updateKotakSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });

@@ -4,7 +4,7 @@ const authCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ msg: 'Please log in' });
+    return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const userToken = authHeader.split(' ')[1];
@@ -21,7 +21,7 @@ const authCheck = async (req, res, next) => {
     };
     next();
   } catch (error) {
-    return res.status(401).json({ msg: 'Please log in' });
+    return res.status(401).json({ msg: 'Unauthorized' });
   }
 };
 

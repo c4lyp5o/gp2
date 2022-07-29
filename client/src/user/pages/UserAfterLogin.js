@@ -10,10 +10,9 @@ import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
 import UserSekolah from '../components/UserSekolah';
-import UserFormSekolahPemeriksaan from '../components/UserFormSekolahPemeriksaan';
-import UserFormSekolahRawatan from '../components/UserFormSekolahRawatan';
-import UserFormSekolahKOTAK from '../components/UserFormSekolahKOTAK';
-import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
+import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekolahPemeriksaan';
+import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
+import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
 
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
