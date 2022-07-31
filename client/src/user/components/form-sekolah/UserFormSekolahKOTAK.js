@@ -65,7 +65,12 @@ function UserFormSekolahKOTAK() {
       setTarikhQ('');
       setStatusSelepas6Bulan('');
     }
-  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3]);
+    if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+      setRujukGuruKaunseling('');
+    }
+  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3, adaTiadaQTarikh4]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -514,7 +519,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 4:
-                      {adaTiadaQTarikh4 === 'tiada-q-tarikh4' && (
+                      {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                         <span className='text-user6'>*</span>
                       )}
                     </p>
