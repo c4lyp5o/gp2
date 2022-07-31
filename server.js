@@ -68,7 +68,7 @@ setInterval(async () => {
         (await erkmUser.comparePassword(process.env.ERKM_SERVER_PASS))
       )
     ) {
-      return console.log('Invalid erkm credentials');
+      return console.log('Invalid internal erkm credentials');
     }
 
     const erkmToken = erkmUser.createJWT();
@@ -80,7 +80,7 @@ setInterval(async () => {
       headers: { Authorization: `Bearer ${erkmToken}` },
     });
 
-    console.log('erkm sync done in 10 mins interval');
+    console.log('Erkm sync done in 10 mins interval');
   } catch (error) {
     console.log(error.response.data.msg);
   }

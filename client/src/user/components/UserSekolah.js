@@ -120,6 +120,83 @@ function UserSekolah() {
     setPilihanKelasDarjah('');
   }, [pilihanKelasTingkatan]);
 
+  const reloadData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get('/api/v1/sekolah/populate', {
+        headers: { Authorization: `Bearer ${userToken}` },
+      });
+      const allPersonSekolahs = data.allPersonSekolahs;
+      const namaSekolahs = allPersonSekolahs.reduce(
+        (arrNamaSekolahs, singlePersonSekolah) => {
+          if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+            arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+          }
+          return arrNamaSekolahs.filter((valid) => valid);
+        },
+        ['']
+      );
+      const darjah = allPersonSekolahs.reduce(
+        (arrDarjah, singlePersonSekolah) => {
+          if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
+            arrDarjah.push(singlePersonSekolah.darjah);
+          }
+          return arrDarjah.filter((valid) => valid);
+        },
+        ['']
+      );
+      const tingkatan = allPersonSekolahs.reduce(
+        (arrTingkatan, singlePersonSekolah) => {
+          if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
+            arrTingkatan.push(singlePersonSekolah.tingkatan);
+          }
+          return arrTingkatan.filter((valid) => valid);
+        },
+        ['']
+      );
+      const namaKelasDarjah = allPersonSekolahs
+        .filter((person) => person.darjah)
+        .reduce(
+          (arrNamaKelas, singlePersonSekolah) => {
+            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+              arrNamaKelas.push(singlePersonSekolah.kelas);
+            }
+            return arrNamaKelas.filter((valid) => valid);
+          },
+          ['']
+        );
+      const namaKelasTingkatan = allPersonSekolahs
+        .filter((person) => person.tingkatan)
+        .reduce(
+          (arrNamaKelas, singlePersonSekolah) => {
+            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+              arrNamaKelas.push(singlePersonSekolah.kelas);
+            }
+            return arrNamaKelas.filter((valid) => valid);
+          },
+          ['']
+        );
+      setAllPersonSekolahs(data.allPersonSekolahs);
+      setNamaSekolahs(namaSekolahs);
+      setDarjah(darjah);
+      setTingkatan(tingkatan);
+      setNamaKelasDarjah(namaKelasDarjah);
+      setNamaKelasTingkatan(namaKelasTingkatan);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // on tab focus reload data
+  useEffect(() => {
+    window.addEventListener('focus', reloadData);
+    reloadData();
+    return () => {
+      window.removeEventListener('focus', reloadData);
+    };
+  }, []);
+
   return (
     <>
       <div className='px-10 h-full p-3 overflow-y-auto'>
@@ -255,6 +332,14 @@ function UserSekolah() {
             </>
           )}
         </div>
+        <div className='flex justify-end px-12 '>
+          <button
+            onClick={reloadData}
+            className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
+          >
+            refresh pelajar
+          </button>
+        </div>
         <div>
           <table className='m-auto mb-5 w-11/12 outline outline-1 outline-userBlack'>
             <tr className='bg-user3 p-2'>
@@ -305,6 +390,7 @@ function UserSekolah() {
                         </td>
                         <td className='outline outline-1 outline-userBlack text-sm p-2'>
                           <Link
+                            target='_blank'
                             to={`form-sekolah/pemeriksaan/${
                               singlePersonSekolah._id
                             }/${
@@ -325,6 +411,7 @@ function UserSekolah() {
                         </td>
                         <td className='outline outline-1 outline-userBlack text-sm p-2'>
                           <Link
+                            target='_blank'
                             to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
                             className={`${
                               !singlePersonSekolah.pemeriksaanSekolah ||
@@ -338,6 +425,7 @@ function UserSekolah() {
                         </td>
                         <td className='outline outline-1 outline-userBlack text-sm p-2'>
                           <Link
+                            target='_blank'
                             to={`form-sekolah/kotak/${
                               singlePersonSekolah._id
                             }/${

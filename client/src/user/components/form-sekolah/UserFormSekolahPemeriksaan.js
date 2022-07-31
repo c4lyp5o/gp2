@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
+import axios from 'axios';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahPemeriksaan() {
   const {
@@ -15,7 +16,7 @@ function UserFormSekolahPemeriksaan() {
 
   const { personSekolahId, pemeriksaanSekolahId } = useParams();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
@@ -313,67 +314,201 @@ function UserFormSekolahPemeriksaan() {
     adaKekal,
   ]);
 
+  // fetch singlePersonSekolah
+  useEffect(() => {
+    const fetchSinglePersonSekolah = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `/api/v1/sekolah/populate/${personSekolahId}`,
+          { headers: { Authorization: `Bearer ${userToken}` } }
+        );
+        setSinglePersonSekolah(data.personSekolahWithPopulate);
+
+        // map to form if pemeriksaanSekolahId exist
+        if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+          setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
+          setInginMelakukanIntervensiMerokok(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .inginMelakukanIntervensiMerokok
+          );
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSinglePersonSekolah();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
+      try {
+        await axios.post(
+          `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
+          { createdByUsername, statusM, inginMelakukanIntervensiMerokok },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        );
+        toast.success(`Pemeriksaan pelajar berjaya dihantar`, {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+        toast.error('Gagal!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+    if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+      try {
+        await axios.patch(
+          `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
+          { createdByUsername, statusM, inginMelakukanIntervensiMerokok },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        );
+        toast.success(`Pemeriksaan pelajar berjaya dikemaskini`, {
+          position: 'top-right',
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }, 1000);
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+        toast.error('Gagal!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+  };
+
   return (
     <>
       <div className='h-full p-1 px-10 grid gap-2 pb-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
-          <div>
-            <div className='text-l font-bold flex flex-row pl-5 p-2'>
-              <h1>MAKLUMAT AM PESAKIT</h1>
-              <FaInfoCircle
-                className='m-1 text-lg'
-                onMouseEnter={() => setIsShown(true)}
-                onMouseLeave={() => setIsShown(false)}
-              />
+          {!isLoading && (
+            <div>
+              <div className='text-sm font-bold flex flex-row pl-5 p-2'>
+                <h1>MAKLUMAT AM PESAKIT</h1>
+                <FaInfoCircle
+                  className='hover:cursor-pointer m-1 text-lg'
+                  onMouseEnter={() => setIsShown(true)}
+                  onMouseLeave={() => setIsShown(false)}
+                />
+              </div>
+              {isShown && (
+                <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
+                  <div className='text-xs flex flex-row'>
+                    <h2 className='font-semibold'>NAMA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.nama}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>NO IC :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>JANTINA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.jantina}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.tarikhLahir}</p>
+                  </div>
+                  <div className='text-xs flex flex-row '>
+                    <h2 className='font-semibold'>BANGSA :</h2>
+                    <p className='ml-1'>{singlePersonSekolah.kumpulanEtnik}</p>
+                  </div>
+                </div>
+              )}
+              <div className='flex flex-row pl-5'>
+                <h2 className='font-semibold text-xs'>NAMA :</h2>
+                <p className='ml-1 text-xs'>{singlePersonSekolah.nama}</p>
+              </div>
             </div>
-            {isShown && (
-              <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
-                <div className='flex flex-row'>
-                  <h2 className='font-semibold'>NAMA :</h2>
-                  <p className='ml-1'>stone cold</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>NO IC :</h2>
-                  <p className='ml-1'>123456121234</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>JANTINA :</h2>
-                  <p className='ml-1'>perempuan</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                  <p className='ml-1'>2/12/2022</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>WARGANEGARA :</h2>
-                  <p className='ml-1'>malaysia</p>
-                </div>
-                <div className='text-sm flex flex-row '>
-                  <h2 className='font-semibold'>BANGSA :</h2>
-                  <p className='ml-1'>pan-asia</p>
+          )}
+          {!isLoading && (
+            <>
+              <div className='md:pt-10'>
+                <div className='flex flex-row pl-5'>
+                  <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
+                  <p className='ml-1 text-xs'>
+                    {singlePersonSekolah.namaSekolah}
+                  </p>
                 </div>
               </div>
-            )}
-            <div className='flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>NAMA :</h2>
-              <p className='ml-1 text-xs'>stone cold</p>
-            </div>
-          </div>
-          <div className='md:pt-10'>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
-              <p className='ml-1 text-xs'>sk hogwart</p>
-            </div>
-          </div>
-          <div className='lg:pt-10'>
-            <div className='text-s flex flex-row pl-5'>
-              <h2 className='font-semibold text-xs'>KELAS :</h2>
-              <p className='ml-1 text-xs'>2 amal</p>
-            </div>
-          </div>
+              <div className='lg:pt-10'>
+                <div className='flex flex-row pl-5'>
+                  <h2 className='font-semibold text-xs'>KELAS :</h2>
+                  <p className='ml-1 text-xs'>{singlePersonSekolah.kelas}</p>
+                </div>
+              </div>
+            </>
+          )}
+          {isLoading && (
+            <p className='col-span-3 py-[19px] text-sm font-semibold'>
+              Loading...
+            </p>
+          )}
         </article>
         <div className='grid h-full overflow-scroll gap-2'>
-          <form>
+          <form onSubmit={handleSubmit}>
             <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
               <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
             </span>
@@ -387,7 +522,7 @@ function UserFormSekolahPemeriksaan() {
                     tarikh:<span className='text-user6'>*</span>
                   </p>
                   <input
-                    required
+                    // required
                     type='date'
                     name='tarikh-pemeriksaan'
                     id='tarikh-pemeriksaan'
@@ -401,7 +536,7 @@ function UserFormSekolahPemeriksaan() {
                 {/* <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
                   <div className='flex items-center flex-row pl-5 '>
                     <input
-                      required
+                      // required
                       type='radio'
                       name='kedatangan'
                       id='baru-kedatangan-pendaftaran'
@@ -428,7 +563,7 @@ function UserFormSekolahPemeriksaan() {
                   </div>
                   <div className='flex items-center flex-row pl-5'>
                     <input
-                      required
+                      // required
                       type='radio'
                       name='kedatangan'
                       id='ulangan-kedatangan-pendaftaran'
@@ -508,12 +643,12 @@ function UserFormSekolahPemeriksaan() {
                   </h4>
                   <div className='flex items-center flex-row px-2'>
                     <input
-                      required={
-                        engganKedatanganPendaftaran ||
-                        tidakHadirKedatanganPendaftaran
-                          ? true
-                          : false
-                      }
+                      // required={
+                      //   engganKedatanganPendaftaran ||
+                      //   tidakHadirKedatanganPendaftaran
+                      //     ? true
+                      //     : false
+                      // }
                       type='radio'
                       name='pemeriksaan'
                       id='ada-pemeriksaan'
@@ -537,12 +672,12 @@ function UserFormSekolahPemeriksaan() {
                   </div>
                   <div className='flex items-center flex-row px-2'>
                     <input
-                      required={
-                        engganKedatanganPendaftaran ||
-                        tidakHadirKedatanganPendaftaran
-                          ? true
-                          : false
-                      }
+                      // required={
+                      //   engganKedatanganPendaftaran ||
+                      //   tidakHadirKedatanganPendaftaran
+                      //     ? true
+                      //     : false
+                      // }
                       type='radio'
                       name='pemeriksaan'
                       id='tiada-pemeriksaan'
@@ -572,7 +707,7 @@ function UserFormSekolahPemeriksaan() {
                 </h4>
                 <div className='flex flex-row items-center pl-5 col-span-2'>
                   <select
-                    required
+                    // required
                     name='statik-bergerak'
                     id='statik-bergerak'
                     value={statikBergerak}
@@ -617,7 +752,7 @@ function UserFormSekolahPemeriksaan() {
                   } flex flex-row items-center pl-5`}
                 >
                   <select
-                    required={kpBergerak && true}
+                    // required={kpBergerak && true}
                     name='plate-no'
                     id='plate-no'
                     value={plateNo}
@@ -638,7 +773,7 @@ function UserFormSekolahPemeriksaan() {
                 </h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    required
+                    // required
                     type='radio'
                     name='risiko-sekolah'
                     id='tinggi-risiko-sekolah'
@@ -663,7 +798,7 @@ function UserFormSekolahPemeriksaan() {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    required
+                    // required
                     type='radio'
                     name='risiko-sekolah'
                     id='rendah-risiko-sekolah'
@@ -701,7 +836,7 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture'
                           id='ya-sedia-ada-status-denture'
@@ -724,7 +859,7 @@ function UserFormSekolahPemeriksaan() {
                           Ya
                         </label>
                         <input
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture'
                           id='tidak-sedia-ada-status-denture'
@@ -890,7 +1025,7 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture'
                           id='ya-perlu-status-denture'
@@ -913,7 +1048,7 @@ function UserFormSekolahPemeriksaan() {
                           Ya
                         </label>
                         <input
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture'
                           id='tidak-perlu-status-denture'
@@ -1072,7 +1207,7 @@ function UserFormSekolahPemeriksaan() {
                     status merokok<span className='text-user6'>*</span>
                   </h4>
                   <select
-                    required
+                    // required
                     name='statusM'
                     id='statusM'
                     value={statusM}
@@ -1096,7 +1231,7 @@ function UserFormSekolahPemeriksaan() {
                       jenis rokok<span className='text-user6'>*</span>
                     </h4>
                     <select
-                      required={statusM == 'perokok-semasa' ? true : false}
+                      // required={statusM == 'perokok-semasa' ? true : false}
                       name='jenisR'
                       id='jenisR'
                       value={jenisR}
@@ -1122,7 +1257,7 @@ function UserFormSekolahPemeriksaan() {
                     </p>
                     <div className='flex items-center justify-center'>
                       <input
-                        required={statusM == 'perokok-semasa' ? true : false}
+                        // required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='ya-ingin-melakukan-intervensi-merokok'
@@ -1145,7 +1280,7 @@ function UserFormSekolahPemeriksaan() {
                         Ya
                       </label>
                       <input
-                        required={statusM == 'perokok-semasa' ? true : false}
+                        // required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='tidak-ingin-melakukan-intervensi-merokok'
@@ -1179,7 +1314,7 @@ function UserFormSekolahPemeriksaan() {
                       Kebersihan Mulut<span className='text-user6'>*</span>
                     </p>
                     <select
-                      required
+                      // required
                       name='kebersihan-mulut'
                       id='kebersihan-mulut'
                       value={kebersihanMulutOralHygiene}
@@ -1204,7 +1339,7 @@ function UserFormSekolahPemeriksaan() {
                       Skor BPE<span className='text-user6'>*</span>
                     </p>
                     <select
-                      // required={umur < 15 ? false : true}
+                      // // required={umur < 15 ? false : true}
                       name='skor-bpe'
                       id='skor-bpe'
                       value={skorBpeOralHygiene}
@@ -1251,7 +1386,7 @@ function UserFormSekolahPemeriksaan() {
                       Skor GIS<span className='text-user6'>*</span>
                     </p>
                     <select
-                      required
+                      // required
                       name='skor-gis'
                       id='skor-gis'
                       value={skorGisMulutOralHygiene}
@@ -1315,7 +1450,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>d: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='20'
                           type='number'
@@ -1332,7 +1467,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>m: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='20'
                           type='number'
@@ -1349,7 +1484,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>f: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='20'
                           type='number'
@@ -1366,7 +1501,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>x: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='20'
                           type='number'
@@ -1450,7 +1585,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>D: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='32'
                           type='number'
@@ -1467,7 +1602,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>M: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='32'
                           type='number'
@@ -1484,7 +1619,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>F: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='32'
                           type='number'
@@ -1501,7 +1636,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>E: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='32'
                           type='number'
@@ -1518,7 +1653,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>X: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          required
+                          // required
                           min='0'
                           max='32'
                           type='number'
@@ -1550,7 +1685,7 @@ function UserFormSekolahPemeriksaan() {
                         Jumlah Faktor Risiko:
                       </p>
                       <select
-                        required
+                        // required
                         name='jumlah-faktor-risiko'
                         id='jumlah-faktor-risiko'
                         value={jumlahFaktorRisiko}
@@ -1952,7 +2087,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-fs'
                       id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -1976,7 +2111,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-fs'
                       id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -2028,7 +2163,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-fs'
                       id='baru-jumlah-murid-perlu-fs'
@@ -2052,7 +2187,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-fs'
                       id='semula-jumlah-murid-perlu-fs'
@@ -2084,7 +2219,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-fv'
                       id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -2108,7 +2243,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-fv'
                       id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -2140,7 +2275,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-fv'
                       id='baru-jumlah-murid-perlu-fv'
@@ -2164,7 +2299,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-fv'
                       id='semula-jumlah-murid-perlu-fv'
@@ -2196,7 +2331,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                       id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -2220,7 +2355,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      required={eAdaGigiKekal > 0 ? true : false}
+                      // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                       id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -2252,7 +2387,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-prr-jenis-1'
                       id='baru-jumlah-murid-perlu-prr-jenis-1'
@@ -2278,7 +2413,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      // // required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-prr-jenis-1'
                       id='semula-jumlah-murid-perlu-prr-jenis-1'
@@ -2301,7 +2436,7 @@ function UserFormSekolahPemeriksaan() {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
-                      required
+                      // required
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan'
                       id='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -2326,7 +2461,7 @@ function UserFormSekolahPemeriksaan() {
                       Ya
                     </label>
                     <input
-                      required
+                      // required
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan'
                       id='tidak-silver-diamine-fluoride-perlu-sapuan'
@@ -2375,7 +2510,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2401,7 +2536,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2425,7 +2560,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2451,7 +2586,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2480,7 +2615,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2506,7 +2641,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2530,7 +2665,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2556,7 +2691,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2585,7 +2720,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2611,7 +2746,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2635,7 +2770,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2661,7 +2796,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          required
+                          // required
                         />
                         <label
                           htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2679,11 +2814,13 @@ function UserFormSekolahPemeriksaan() {
             <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
               <span
                 onClick={() => {
-                  navigate(-1);
+                  window.opener = null;
+                  window.open('', '_self');
+                  window.close();
                 }}
                 className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
               >
-                kembali
+                tutup
               </span>
               <input
                 type='reset'

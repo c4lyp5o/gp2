@@ -1755,6 +1755,15 @@ function UserFormUmumHeader() {
       });
     } catch (error) {
       console.log(error);
+      toast.error('Gagal!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -1768,7 +1777,7 @@ function UserFormUmumHeader() {
                 <div className='text-l font-bold flex flex-row pl-5 p-2'>
                   <h1>MAKLUMAT AM PESAKIT</h1>
                   <FaInfoCircle
-                    className='m-1 text-lg'
+                    className='hover:cursor-pointer m-1 text-lg'
                     onMouseEnter={() => setIsShown(true)}
                     onMouseLeave={() => setIsShown(false)}
                   />
