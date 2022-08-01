@@ -26,13 +26,17 @@ const fasilitiSchema = new Schema({
   jenisFasiliti: {
     type: String,
   },
+  keppStatus: {
+    type: Boolean,
+    default: false,
+  },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
   },
-  keppStatus: {
-    type: Boolean,
-    default: false,
+  risikoSekolahPersis: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
 });
 

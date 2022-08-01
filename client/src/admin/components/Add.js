@@ -39,6 +39,7 @@ const Modal = ({
   const currentGred = useRef();
   const currentRole = useRef();
   const currentKeppStatus = useRef();
+  const currentRisiko = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -381,7 +382,7 @@ const Modal = ({
                     <select
                       required
                       className='border-2'
-                      // onChange={(e) => (currentRisiko.current = e.target.value)}
+                      onChange={(e) => (currentRisiko.current = e.target.value)}
                     >
                       <option value=''>Pilih Risiko</option>
                       <option value='rendah'>Rendah</option>
