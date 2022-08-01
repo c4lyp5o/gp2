@@ -367,6 +367,27 @@ const Modal = ({
                       <option value={k.nama}>{k.nama}</option>
                     ))}
                   </select>
+                  {jenisFacility !== 'sekolah-rendah' &&
+                  jenisFacility !== 'sekolah-menengah' ? null : (
+                    <p>
+                      Risiko Sekolah (PERSiS){' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                  )}
+                  {jenisFacility !== 'sekolah-rendah' &&
+                  jenisFacility !== 'sekolah-menengah' ? null : (
+                    <select
+                      required
+                      className='border-2'
+                      // onChange={(e) => (currentRisiko.current = e.target.value)}
+                    >
+                      <option value=''>Pilih Risiko</option>
+                      <option value='rendah'>Rendah</option>
+                      <option value='tinggi'>Tinggi</option>
+                    </select>
+                  )}
                 </div>
               </div>
               <div className={styles.modalActions}>

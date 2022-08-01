@@ -31,10 +31,6 @@ function UserFormSekolahPemeriksaan() {
   const [statikBergerak, setStatikBergerak] = useState('');
   const [kpBergerak, setKpBergerak] = useState(false);
   const [plateNo, setPlateNo] = useState('');
-  const [
-    tinggiRendahRisikoSekolahPendaftaran,
-    setTinggiRendahRisikoSekolahPendaftaran,
-  ] = useState('');
   const [yaTidakSediaAdaStatusDenture, setYaTidakSediaAdaStatusDenture] =
     useState('');
   const [separaPenuhAtasSediaAdaDenture, setSeparaPenuhAtasSediaAdaDenture] =
@@ -350,10 +346,6 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah.kpBergerak
           );
           setPlateNo(data.personSekolahWithPopulate.pemeriksaanSekolah.plateNo);
-          setTinggiRendahRisikoSekolahPendaftaran(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .tinggiRendahRisikoSekolahPendaftaran
-          );
           setYaTidakSediaAdaStatusDenture(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .yaTidakSediaAdaStatusDenture
@@ -625,7 +617,6 @@ function UserFormSekolahPemeriksaan() {
             statikBergerak,
             kpBergerak,
             plateNo,
-            tinggiRendahRisikoSekolahPendaftaran,
             yaTidakSediaAdaStatusDenture,
             separaPenuhAtasSediaAdaDenture,
             separaPenuhBawahSediaAdaDenture,
@@ -752,7 +743,6 @@ function UserFormSekolahPemeriksaan() {
             statikBergerak,
             kpBergerak,
             plateNo,
-            tinggiRendahRisikoSekolahPendaftaran,
             yaTidakSediaAdaStatusDenture,
             separaPenuhAtasSediaAdaDenture,
             separaPenuhBawahSediaAdaDenture,
@@ -941,7 +931,7 @@ function UserFormSekolahPemeriksaan() {
             <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
               <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
             </span>
-            <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
+            <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                   Kedatangan<span className='text-user6'>*</span>
@@ -1194,61 +1184,6 @@ function UserFormSekolahPemeriksaan() {
                     <option value='1'>1</option>
                   </select>
                   {kpBergerak && <span className='text-user6'>*</span>}
-                </div>
-              </article>
-              <article className='grid grid-cols-2 border border-userBlack pl-5 rounded-md'>
-                <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                  Risiko Sekolah (PERSiS)<span className='text-user6'>*</span>
-                </h4>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    required
-                    type='radio'
-                    name='risiko-sekolah'
-                    id='tinggi-risiko-sekolah'
-                    value='tinggi-risiko-sekolah'
-                    checked={
-                      tinggiRendahRisikoSekolahPendaftaran ===
-                      'tinggi-risiko-sekolah'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      setTinggiRendahRisikoSekolahPendaftaran(e.target.value);
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='tinggi-risiko-sekolah'
-                    className='m-2 text-sm font-m'
-                  >
-                    Tinggi
-                  </label>
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    required
-                    type='radio'
-                    name='risiko-sekolah'
-                    id='rendah-risiko-sekolah'
-                    value='rendah-risiko-sekolah'
-                    checked={
-                      tinggiRendahRisikoSekolahPendaftaran ===
-                      'rendah-risiko-sekolah'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      setTinggiRendahRisikoSekolahPendaftaran(e.target.value);
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='rendah-risiko-sekolah'
-                    className='m-2 text-sm font-m'
-                  >
-                    Rendah
-                  </label>
                 </div>
               </article>
             </section>
