@@ -6,17 +6,22 @@ const fasilitiSchema = new Schema({
     type: String,
     // required: true
   },
-  negeri: {
+  kodSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  createdByNegeri: {
     type: String,
     // required: true
   },
-  daerah: {
+  createdByDaerah: {
     type: String,
     // required: true
   },
   handler: {
     type: String,
     // required: true
+    default: 'NOT APPLICABLE',
   },
   jenisFasiliti: {
     type: String,

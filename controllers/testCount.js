@@ -1912,7 +1912,7 @@ exports.testFunction201A = function (req, res) {
           [
             {
               $match: {
-            statusRawatan: 'selesai'
+                statusRawatan: 'selesai',
               },
             },
             {
@@ -5014,7 +5014,7 @@ exports.testFunctionPG211 = function (req, res) {
     }
   );
 };
-exports.testFunction4 = function (req, res) {
+exports.testFunctionPPIM05 = function (req, res) {
   //PPIM 05
   async.parallel(
     {
@@ -5193,7 +5193,7 @@ exports.testFunction4 = function (req, res) {
     }
   );
 };
-exports.testFunction5 = function (req, res) {
+exports.testFunctionCPPC2 = function (req, res) {
   //CPPC 2
   async.parallel(
     {
@@ -5250,7 +5250,8 @@ exports.testFunction5 = function (req, res) {
     }
   );
 };
-exports.testFunction6 = function (req, res) { //PG207
+exports.testFunctionPG207 = function (req, res) {
+  //PG207
   async.parallel(
     {
       // break line to add more aggregate. please add this break line if you are using multiple aggregate
@@ -5260,197 +5261,326 @@ exports.testFunction6 = function (req, res) { //PG207
             {
               $match: {
                 $and: [
-                  { $eq:['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                  { $le:['$umur',1]},
+                  {
+                    $eq: [
+                      '$baruUlanganKedatanganPendaftaran',
+                      'baru-kedatangan-pendaftaran',
+                    ],
+                  },
+                  { $le: ['$umur', 1] },
                 ],
               },
-            }, 
+            },
             {
               $group: {
                 _id: '$namaSekolah',
-           
-                kedatanganTahunSemasa: { //how to gorek data? by row? or by column?
-                  $sum: {
-                    $cond: [{$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},1,0,],
-                  },
-                },
-                sapuanFluorida: { //fvMuridB 
+
+                kedatanganTahunSemasa: {
+                  //how to gorek data? by row? or by column?
                   $sum: {
                     $cond: [
-                        { $and: [
-                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                          { $or: [
-                              {$gt:['$baruJumlahGigiKekalDiberiFv',0]},
-                              {$gt:['$semulaJumlahGigiKekalDiberiFv',0]},
-                            ],},
-                        ],},
+                      {
+                        $eq: [
+                          '$baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
-                prrJenis1: { //prrJ1MuridB 
+                sapuanFluorida: {
+                  //fvMuridB
                   $sum: {
                     $cond: [
-                        { $and: [
-                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                          { $or: [
-                              {$gt:['$baruJumlahGigiKekalDiberiPrrJenis1',0]},
-                              {$gt:['$semulaJumlahGigiKekalDiberiPrrJenis1',0]},
-                            ],},
-                        ],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $or: [
+                              { $gt: ['$baruJumlahGigiKekalDiberiFv', 0] },
+                              { $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] },
+                            ],
+                          },
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
-                muridBaruFS: { //FSmuridBaru (Problem to be solve)
+                prrJenis1: {
+                  //prrJ1MuridB
                   $sum: {
                     $cond: [
-                        { $and: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $or: [
+                              {
+                                $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0],
+                              },
+                              {
+                                $gt: [
+                                  '$semulaJumlahGigiKekalDiberiPrrJenis1',
+                                  0,
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                muridBaruFS: {
+                  //FSmuridBaru (Problem to be solve)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
                           //{ $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                          //to add button to know patient's previous FS status on that year ; 
-                          //kalau pt pernah buat FS on the same year ; then kira ulangan. 
-                          { $gte: ['$baruJumlahGigiKekalDibuatFs',1]},
-                        ],},
+                          //to add button to know patient's previous FS status on that year ;
+                          //kalau pt pernah buat FS on the same year ; then kira ulangan.
+                          { $gte: ['$baruJumlahGigiKekalDibuatFs', 1] },
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
-                muridSemulaFS: { //FSmuridSemula (Problem to be solve)
+                muridSemulaFS: {
+                  //FSmuridSemula (Problem to be solve)
                   $sum: {
                     $cond: [
-                        { $and: [
+                      {
+                        $and: [
                           //{ $eq: ['$baruUlanganKedatanganPendaftaran','ulangan-kedatangan-pendaftaran']},
-                          //to add button to know patient's previous FS status on that year ; 
-                          //kalau pt pernah buat FS on the same year ; then kira ulangan. 
-                          { $gte: ['$semulaJumlahGigiKekalDibuatFs',1]},
-                        ],},
+                          //to add button to know patient's previous FS status on that year ;
+                          //kalau pt pernah buat FS on the same year ; then kira ulangan.
+                          { $gte: ['$semulaJumlahGigiKekalDibuatFs', 1] },
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
-                gigiBaruFS: { $sum: ['$baruJumlahGigiKekalDibuatFs']},
-                gigiSemulaFS: { $sum: ['$semulaJumlahGigiKekalDibuatFs']},
-                tampalanAntGdBaru: { $sum: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat']},
-                tampalanAntGdSemula: { $sum: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat']},
-                tampalanAntGkBaru: { $sum:['$gkBaruAnteriorSewarnaJumlahTampalanDibuat']},
-                tampalanAntGkSemula: { $sum: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat']},
-                tampalanPostGdBaru: { $sum: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat']},
-                tampalanPostGdSemula: {$sum: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat']},
-                tampalanPostGkBaru: { $sum: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat']},
-                tampalanPostGkSemula: { $sum: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat']},
-                tampalanPostAmgGdBaru: { $sum:['$gdBaruPosteriorAmalgamJumlahTampalanDibuat']},
-                tampalanPostAmgGdSemula:{ $sum:['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat']},
-                tampalanPostAmgGkBaru: { $sum:['$gkBaruPosteriorAmalgamJumlahTampalanDibuat']},
-                tampalanPostAmgGkSemula: { $sum:['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat']},
+                gigiBaruFS: { $sum: ['$baruJumlahGigiKekalDibuatFs'] },
+                gigiSemulaFS: { $sum: ['$semulaJumlahGigiKekalDibuatFs'] },
+                tampalanAntGdBaru: {
+                  $sum: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanAntGdSemula: {
+                  $sum: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanAntGkBaru: {
+                  $sum: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanAntGkSemula: {
+                  $sum: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanPostGdBaru: {
+                  $sum: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanPostGdSemula: {
+                  $sum: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanPostGkBaru: {
+                  $sum: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanPostGkSemula: {
+                  $sum: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat'],
+                },
+                tampalanPostAmgGdBaru: {
+                  $sum: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat'],
+                },
+                tampalanPostAmgGdSemula: {
+                  $sum: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat'],
+                },
+                tampalanPostAmgGkBaru: {
+                  $sum: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat'],
+                },
+                tampalanPostAmgGkSemula: {
+                  $sum: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat'],
+                },
                 //inlayOnlayBaru: { $sum: ['$baruInlayOnlayJumlahTampalanDibuatRawatanUmum']},     //data sudah dpt dari form umum
                 //inlayOnlaySemula: { $sum: ['$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum']}, //data sudah dpt dari form umum
-                tampalanSementara: { $sum: ['$jumlahTampalanSementaraPenyataAkhir2']},
-                cabutanGd: { $sum:['$cabutDesidusPenyataAkhir2']},
-                cabutanGk: { $sum:['$cabutKekalPenyataAkhir2']},
+                tampalanSementara: {
+                  $sum: ['$jumlahTampalanSementaraPenyataAkhir2'],
+                },
+                cabutanGd: { $sum: ['$cabutDesidusPenyataAkhir2'] },
+                cabutanGk: { $sum: ['$cabutKekalPenyataAkhir2'] },
                 //komplikasiSelepasCabutan :{ $sum:['$komplikasiSelepasCabutanRawatanUmum']}   //data sudah dpt dari form umum
-                penskaleran: { $sum:['$penskaleranPenyataAkhir2']},
+                penskaleran: { $sum: ['$penskaleranPenyataAkhir2'] },
                 //rawatanPerioLain: { $sum:['$rawatanLainPeriodontikRawatanUmum']},            //data sudah dpt dari form umum
-                rawatanEndo: {$sum:['$pulpotomiPenyataAkhir2','$endodontikPenyataAkhir2']},            
+                rawatanEndo: {
+                  $sum: ['$pulpotomiPenyataAkhir2', '$endodontikPenyataAkhir2'],
+                },
                 //rawatanOrtho: {$sum:['$rawatanOrtho']},                     //data nanty gorek dari form umum
                 //kesPerubatan:{$sum:['$kesPerubatanMulutPenyata??']},        //data nanty gorek dari form umum
-                absesBaru:{          //data sini campur sekolah form & umum form. blh ke? 
-                  $sum:{
-                    $cond:[ 
-                      {$and:[
-                        { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                        { $eq: ['$yaTidakAbsesPembedahanRawatanUmum',true]}, 
-                        { $eq: ['$baruSemulaAbsesPembedahanRawatanUmum',true]}
-                      ],},
+                absesBaru: {
+                  //data sini campur sekolah form & umum form. blh ke?
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
+                          {
+                            $eq: [
+                              '$baruSemulaAbsesPembedahanRawatanUmum',
+                              true,
+                            ],
+                          },
+                        ],
+                      },
                       1,
                       0,
-                    ],},
-                },
-                AbsesSemula:{       //data sini campur sekolah form & umum form. blh ke?
-                  $sum:{
-                    $cond:[ 
-                      {$and:[
-                        { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                        { $eq: ['$yaTidakAbsesPembedahanRawatanUmum',true]}, 
-                        { $eq: ['$baruSemulaAbsesPembedahanRawatanUmum',false]}
-                      ],},
-                      1,
-                      0,
-                    ]
+                    ],
                   },
                 },
-                cabutanSurgical:{ $sum:['$cabutanSurgikalPembedahanMulutRawatanUmum']},     //data dari form umum
-                fraktur: {
-                  $sum:{
-                    $cond:[
-                      { $eq:['$yaTidakFrakturPembedahanRawatanUmum',true]},
+                AbsesSemula: {
+                  //data sini campur sekolah form & umum form. blh ke?
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
+                          {
+                            $eq: [
+                              '$baruSemulaAbsesPembedahanRawatanUmum',
+                              false,
+                            ],
+                          },
+                        ],
+                      },
                       1,
                       0,
-                    ]
+                    ],
+                  },
+                },
+                cabutanSurgical: {
+                  $sum: ['$cabutanSurgikalPembedahanMulutRawatanUmum'],
+                }, //data dari form umum
+                fraktur: {
+                  $sum: {
+                    $cond: [
+                      { $eq: ['$yaTidakFrakturPembedahanRawatanUmum', true] },
+                      1,
+                      0,
+                    ],
                   },
                 },
                 trauma: {
-                  $sum:{
-                    $cond:[
-                      { $eq:['$yaTidakTraumaPembedahanRawatanUmum',true]},
+                  $sum: {
+                    $cond: [
+                      { $eq: ['$yaTidakTraumaPembedahanRawatanUmum', true] },
                       1,
                       0,
-                    ]
-                  },
-                },  
-                pembedahanKecilMulut:{
-                  $sum:{
-                    $cond:[
-                      { $eq:['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',true]},
-                      1,
-                      0,
-                    ]
+                    ],
                   },
                 },
-                crownBridgeBaru:{$sum:['$baruJumlahCrownBridgeRawatanUmum']},
-                crownBridgeSemula:{$sum:['$semulaJumlahCrownBridgeRawatanUmum']},
-                postCoreBaru:{$sum:['$baruJumlahPostCoreRawatanUmum']},
-                postCoreSemula:{sum:['$semulaJumlahPostCoreRawatanUmum']},
-                prosthodontikPenuhDentur:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']},
-                //prosthodontikPenuhPesakit:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']}, // cari jalan lagi
-                prosthodontikSebahagianDentur:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']},
-                //prosthodontikSebahagianPesakit:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']}, //cari jalan lagi 
-                immediateDenture:{$sum:['$immediateDenturProstodontikRawatanUmum']},
-                pembaikanDenture:{$sum:['$pembaikanDenturProstodontikRawatanUmum']},
-                kesSelesai:{
-                  $sum:{
-                    $cond:[
-                      {$eq:['$kesSelesaiRawatanUmum',true]},
+                pembedahanKecilMulut: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
+                          true,
+                        ],
+                      },
                       1,
                       0,
-                    ]},
+                    ],
                   },
-                xrayDiambil:{$sum:['$bilanganXrayYangDiambilRawatanUmum']},
+                },
+                crownBridgeBaru: {
+                  $sum: ['$baruJumlahCrownBridgeRawatanUmum'],
+                },
+                crownBridgeSemula: {
+                  $sum: ['$semulaJumlahCrownBridgeRawatanUmum'],
+                },
+                postCoreBaru: { $sum: ['$baruJumlahPostCoreRawatanUmum'] },
+                postCoreSemula: { sum: ['$semulaJumlahPostCoreRawatanUmum'] },
+                prosthodontikPenuhDentur: {
+                  $sum: ['$penuhJumlahDenturProstodontikRawatanUmum'],
+                },
+                //prosthodontikPenuhPesakit:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']}, // cari jalan lagi
+                prosthodontikSebahagianDentur: {
+                  $sum: ['$sebahagianJumlahDenturProstodontikRawatanUmum'],
+                },
+                //prosthodontikSebahagianPesakit:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']}, //cari jalan lagi
+                immediateDenture: {
+                  $sum: ['$immediateDenturProstodontikRawatanUmum'],
+                },
+                pembaikanDenture: {
+                  $sum: ['$pembaikanDenturProstodontikRawatanUmum'],
+                },
+                kesSelesai: {
+                  $sum: {
+                    $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+                  },
+                },
+                xrayDiambil: { $sum: ['$bilanganXrayYangDiambilRawatanUmum'] },
                 pesakitDisaringOC: {
-                  $sum:{
-                    $cond:[
-                      {$eq:['$disaringProgramKanserMulutPemeriksaanUmum', true]},
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$disaringProgramKanserMulutPemeriksaanUmum',
+                          true,
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
                 pesakitdirujukLesiMulut: {
-                  $sum:{
-                    $cond:[
-                      {$eq:['$dirujukProgramKanserMulutPemeriksaanUmum', true]},
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$dirujukProgramKanserMulutPemeriksaanUmum',
+                          true,
+                        ],
+                      },
                       1,
                       0,
                     ],
                   },
                 },
                 pesakitDirujukTabiat: {
-                  $sum:{
-                    $cond:[
-                      {$eq:['$tabiatBerisikoTinggiPemeriksaanUmum', true]},
+                  $sum: {
+                    $cond: [
+                      { $eq: ['$tabiatBerisikoTinggiPemeriksaanUmum', true] },
                       1,
                       0,
                     ],
@@ -5458,46 +5588,46 @@ exports.testFunction6 = function (req, res) { //PG207
                 },
                 rokokSaringNasihat: {
                   $sum: {
-                    $cond:[
-                      {$or:[
-                        {$eq: ['jenisRUmum','perokokSemasa']},
-                        {$eq: ['jenisRUmum','bekasPerokok']},
-                        {$eq: ['jenisRUmum','perokokPasif']},
-                        {$eq: ['jenisRUmum','bukanPerokok']},]
+                    $cond: [
+                      {
+                        $or: [
+                          { $eq: ['jenisRUmum', 'perokokSemasa'] },
+                          { $eq: ['jenisRUmum', 'bekasPerokok'] },
+                          { $eq: ['jenisRUmum', 'perokokPasif'] },
+                          { $eq: ['jenisRUmum', 'bukanPerokok'] },
+                        ],
                       },
                       1,
                       0,
                     ],
                   },
                 },
-              // rokokIntervensi:
-              //   $sum:{
-              //     $cond:[
+                // rokokIntervensi:
+                //   $sum:{
+                //     $cond:[
               },
-          },
-            ],
-            callback
-          );
-        },
-        // break line to add more aggregate. please add this break line if you are using multiple aggregate
+            },
+          ],
+          callback
+        );
       },
-      async function (err, results) {
-        {
-          if (err) {
-            console.log(err);
-            return res.status(500).json({
-              message: 'Error when getting Data',
-              error: err,
-            });
-          }
-          console.log(results);
-          return res.json(results);
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
         }
+        console.log(results);
+        return res.json(results);
       }
-      );
+    }
+  );
 };
-
-
 exports.testFunctionPG214 = function (req, res) {
   async.parallel(
     {
@@ -5511,14 +5641,20 @@ exports.testFunctionPG214 = function (req, res) {
             {
               $group: {
                 _id: '$namaSekolah',
-                  // nanty tulis formula to classify umur:
+                // nanty tulis formula to classify umur:
 
                 jkbMelayu: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'melayu'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'melayu'] },
                         ],
                       },
                       1,
@@ -5529,9 +5665,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbCina: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'cina'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'cina'] },
                         ],
                       },
                       1,
@@ -5542,9 +5684,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbIndia: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'india'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'india'] },
                         ],
                       },
                       1,
@@ -5557,8 +5705,13 @@ exports.testFunctionPG214 = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'bajau'],},
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'bajau'] },
                         ],
                       },
                       1,
@@ -5569,9 +5722,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbDusun: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'dusun'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'dusun'] },
                         ],
                       },
                       1,
@@ -5582,10 +5741,17 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbKadazan: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'kadazan'],},
-                        ],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'kadazan'] },
+                        ],
+                      },
                       1,
                       0,
                     ],
@@ -5596,8 +5762,13 @@ exports.testFunctionPG214 = function (req, res) {
                     $cond: [
                       {
                         $and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'murut'],},
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'murut'] },
                         ],
                       },
                       1,
@@ -5608,9 +5779,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbBSabahL: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'] },
                         ],
                       },
                       1,
@@ -5621,9 +5798,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbMelanau: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'melanau'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'melanau'] },
                         ],
                       },
                       1,
@@ -5634,9 +5817,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbKedayan: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'kedayan'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'kedayan'] },
                         ],
                       },
                       1,
@@ -5647,9 +5836,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbIban: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'iban'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'iban'] },
                         ],
                       },
                       1,
@@ -5657,12 +5852,18 @@ exports.testFunctionPG214 = function (req, res) {
                     ],
                   },
                 },
-                bidayuh:{ 
+                bidayuh: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'bidayuh'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'bidayuh'] },
                         ],
                       },
                       1,
@@ -5673,10 +5874,19 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbBSwakLain: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],},
-                        ],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          {
+                            $eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],
+                          },
+                        ],
+                      },
                       1,
                       0,
                     ],
@@ -5685,9 +5895,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbOrangAsli: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'orang-asli'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'orang-asli'] },
                         ],
                       },
                       1,
@@ -5698,10 +5914,17 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbLain2: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'lain-lain'],},
-                        ],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'lain-lain'] },
+                        ],
+                      },
                       1,
                       0,
                     ],
@@ -5710,9 +5933,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbWarganegara: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$kumpulanEtnik', 'bukan-warganegara'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'bukan-warganegara'] },
                         ],
                       },
                       1,
@@ -5723,10 +5952,17 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbLelaki: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          { $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          { $eq: ['$jantina', 'lelaki'],},
-                        ],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$jantina', 'lelaki'] },
+                        ],
+                      },
                       1,
                       0,
                     ],
@@ -5735,9 +5971,15 @@ exports.testFunctionPG214 = function (req, res) {
                 jkbPerempuan: {
                   $sum: {
                     $cond: [
-                      {$and: [
-                          {$eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran',],},
-                          {$eq: ['$jantina', 'perempuan'],},
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$jantina', 'perempuan'] },
                         ],
                       },
                       1,
@@ -5746,54 +5988,77 @@ exports.testFunctionPG214 = function (req, res) {
                   },
                 },
                 edentulous: {
-                  $sum:{
+                  $sum: {
                     $cond: [
-                      {$eq: ['$edentulousWargaEmasPemeriksaanUmum',true]},1,0,],
-                  }
+                      { $eq: ['$edentulousWargaEmasPemeriksaanUmum', true] },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 edentulous: {
-                  $sum:{
+                  $sum: {
                     $cond: [
-                      {$eq: ['$edentulousWargaEmasPemeriksaanUmum',true]},1,0,],
-                  }
+                      { $eq: ['$edentulousWargaEmasPemeriksaanUmum', true] },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 gigiSamaAtauLebihDari20Batang: {
-                  $sum:{
-                    $cond:[
-                      {$eq: ['$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum', true]},1,0,],
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
                   },
                 },
-                gigiKurangDari20Batang:{ 
-                  $sum:{
-                    $cond:[
-                      {$eq: ['$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum', false]},1,0,],
+                gigiKurangDari20Batang: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                          false,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
                   },
                 },
-                bilGigi:{ //macam mana nak tolak gigi? 
-                  $sum:{
-                    $subtract:{'$mAdaGigiKekalPemeriksaanUmum':[32]}
+                bilGigi: {
+                  //macam mana nak tolak gigi?
+                  $sum: {
+                    $subtract: { $mAdaGigiKekalPemeriksaanUmum: [32] },
                   },
                 },
               },
             },
-              ],
-              callback
-            );
-          },
-          // break line to add more aggregate. please add this break line if you are using multiple aggregate
-        },
-        async function (err, results) {
-          {
-            if (err) {
-              console.log(err);
-              return res.status(500).json({
-                message: 'Error when getting Data',
-                error: err,
-              });
-            }
-            console.log(results);
-            return res.json(results);
-          }
-        }
+          ],
+          callback
         );
-  };
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
