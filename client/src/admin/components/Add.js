@@ -53,6 +53,7 @@ const Modal = ({
           handler: currentKp.current,
           jenisFasiliti: jenisFacility,
           keppStatus: currentKeppStatus.current,
+          risikoSekolahPersis: currentRisiko.current,
         },
       });
       refetchFacilities();

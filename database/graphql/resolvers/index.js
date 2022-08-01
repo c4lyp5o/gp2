@@ -383,6 +383,7 @@ module.exports = {
         handler,
         jenisFasiliti,
         keppStatus,
+        risikoSekolahPersis,
       } = args.fasiliti;
       nama = nama.toLowerCase();
       const fasdata = new Fasiliti({
@@ -393,6 +394,7 @@ module.exports = {
         handler,
         jenisFasiliti,
         keppStatus,
+        risikoSekolahPersis,
       });
       const newFas = await fasdata.save();
       return { ...newFas._doc, _id: newFas.id };
@@ -508,6 +510,7 @@ module.exports = {
         handler,
         jenisFasiliti,
         keppStatus,
+        risikoSekolahPersis,
       } = args.fasiliti;
       const updatedFas = await Fasiliti.findByIdAndUpdate(_id, {
         nama: nama,
@@ -517,6 +520,7 @@ module.exports = {
         handler: handler,
         jenisFasiliti: jenisFasiliti,
         keppStatus: keppStatus,
+        risikoSekolahPersis: risikoSekolahPersis,
       });
       return `Fasiliti updated Successfully!!!`;
     } catch (error) {

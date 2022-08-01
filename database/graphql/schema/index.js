@@ -41,6 +41,7 @@ module.exports = buildSchema(`
     handler: String
     jenisFasiliti: String
     keppStatus: Boolean
+    risikoSekolahPersis: String
   }
   type facOrPeg {
     _id: ID!
@@ -52,7 +53,8 @@ module.exports = buildSchema(`
     kpSkrg: String
     gred: String
     role: String
-    keppStatus: String
+    keppStatus: Boolean
+    risikoSekolahPersis: String
   }
   input PatientType {
     createdByNegeri: String,
@@ -90,6 +92,7 @@ module.exports = buildSchema(`
     handler: String
     jenisFasiliti: String
     keppStatus: Boolean
+    risikoSekolahPersis: String
   }
   input UpdatePatient{
     _id: String,
@@ -121,6 +124,7 @@ module.exports = buildSchema(`
     handler: String
     jenisFasiliti: String
     keppStatus: Boolean
+    risikoSekolahPersis: String
   }
   input UpdateOperator{
     _id: String,
