@@ -21,6 +21,10 @@ const fasilitiSchema = new Schema({
   jenisFasiliti: {
     type: String,
   },
+  kodSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
