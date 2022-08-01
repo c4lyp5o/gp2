@@ -40,7 +40,7 @@ module.exports = buildSchema(`
     createdByDaerah: String
     handler: String
     jenisFasiliti: String
-    keppStatus: String
+    keppStatus: Boolean
   }
   type facOrPeg {
     _id: ID!
@@ -89,7 +89,7 @@ module.exports = buildSchema(`
     createdByDaerah: String
     handler: String
     jenisFasiliti: String
-    keppStatus: String
+    keppStatus: Boolean
   }
   input UpdatePatient{
     _id: String,
@@ -120,7 +120,7 @@ module.exports = buildSchema(`
     createdByDaerah: String
     handler: String
     jenisFasiliti: String
-    keppStatus: String
+    keppStatus: Boolean
   }
   input UpdateOperator{
     _id: String,

@@ -120,7 +120,7 @@ function AdminAppProvider({ children }) {
       $daerah: String
       $handler: String
       $jenisFasiliti: String
-      $keppStatus: String
+      $keppStatus: Boolean
     ) {
       createFasiliti(
         fasiliti: {

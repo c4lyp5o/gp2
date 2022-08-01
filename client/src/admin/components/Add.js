@@ -143,7 +143,13 @@ const Modal = ({
                 </div>
               </div>
               <div className={styles.modalContent}>
-                <input type='checkbox' name='checkbox' value='KEPP' onChange={(event) => currentKeppStatus.current = true}>KEPP</input>
+                <input
+                  type='checkbox'
+                  name='checkbox'
+                  value='KEPP'
+                  onChange={(e) => (currentKeppStatus.current = true)}
+                />
+                KEPP
                 <br />
                 <input type='checkbox' name='checkbox' value='UTC' />
                 UTC
