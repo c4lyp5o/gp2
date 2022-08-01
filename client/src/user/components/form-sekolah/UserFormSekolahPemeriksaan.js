@@ -1832,7 +1832,7 @@ function UserFormSekolahPemeriksaan() {
                 </article>
                 <article className=' border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
-                    Status Gigi Desidus<span className='text-user6'>*</span>
+                    Status Gigi Desidus
                   </h4>
                   <div className='grid gap-1'>
                     <div className='flex items-center justify-center'>
@@ -1968,7 +1968,6 @@ function UserFormSekolahPemeriksaan() {
                 <article className='border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
                     Status Gigi Kekal
-                    <span className='text-user6 text-xl'>*</span>
                   </h4>
                   <div className='grid grid-cols-1'>
                     <div className='flex items-center justify-center peer-active:bg-user3'>

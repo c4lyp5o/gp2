@@ -129,19 +129,19 @@ function UserFormSekolahRawatan() {
   const [
     plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
     setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-  ] = useState('');
+  ] = useState(false);
   const [
     dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
     setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-  ] = useState('');
+  ] = useState(false);
   const [
     penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
     setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-  ] = useState('');
+  ] = useState(false);
   const [
     kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
     setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-  ] = useState('');
+  ] = useState(false);
 
   // calculate total dibuat FS
   useEffect(() => {
@@ -1244,6 +1244,7 @@ function UserFormSekolahRawatan() {
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
                       melaksanakan aktiviti begin
+                      <span className='text-user6 text-xl'>*</span>
                     </h4>
                     <div className='flex items-center justify-evenly'>
                       <div>
