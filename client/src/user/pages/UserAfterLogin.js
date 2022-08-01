@@ -10,7 +10,9 @@ import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
 import UserSekolah from '../components/UserSekolah';
-import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
+import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekolahPemeriksaan';
+import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
+import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
 
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
@@ -39,14 +41,22 @@ function UserAfterLogin() {
 
           <Route path='umum' element={<UserUmum />} />
           <Route
-            path='form-umum/:personUmumId'
+            path='umum/form-umum/:personUmumId'
             element={<UserFormUmumHeader />}
           />
 
           <Route path='sekolah' element={<UserSekolah />} />
           <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
+            path='sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+            element={<UserFormSekolahPemeriksaan />}
+          />
+          <Route
+            path='sekolah/form-sekolah/rawatan/:personSekolahId'
+            element={<UserFormSekolahRawatan />}
+          />
+          <Route
+            path='sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
+            element={<UserFormSekolahKOTAK />}
           />
 
           <Route path='status-harian' element={<UserStatusHarian />} />

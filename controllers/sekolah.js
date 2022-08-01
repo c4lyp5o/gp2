@@ -1,10 +1,15 @@
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
+const Kotaksekolah = require('../models/Kotaksekolah');
 const Fasiliti = require('../models/Fasiliti');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { kp } = req.user;
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
@@ -27,8 +32,13 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   res.status(200).json({ allPersonSekolahs });
 };
 
+// not used
 // GET /:personSekolahId
 const getSinglePersonSekolahVanilla = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     params: { id: personSekolahId },
   } = req;
@@ -46,6 +56,10 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
 
 // GET /populate
 const getAllPersonSekolahsWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { kp } = req.user;
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
@@ -62,34 +76,58 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     ['']
   );
 
+  const kodSekolahs = fasilitiSekolahs.reduce(
+    (arrKodSekolahs, singleFasilitiSekolah) => {
+      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
+        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
+      }
+      return arrKodSekolahs.filter((valid) => valid);
+    },
+    ['']
+  );
+
   const allPersonSekolahs = await Sekolah.find({
     namaSekolah: { $in: [...namaSekolahs] },
+    kodSekolah: { $in: [...kodSekolahs] },
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
+
   res.status(200).json({ allPersonSekolahs });
 };
 
 // GET /populate/:personSekolahId
 const getSinglePersonSekolahWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const personSekolahWithPopulate = await Sekolah.findOne({
     _id: req.params.personSekolahId,
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
 
   res.status(201).json({ personSekolahWithPopulate });
 };
 
+// not used
 // POST /
 // will use for ERKM
 const createPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const personSekolah = await Sekolah.create(req.body);
 
   res.status(201).json({ personSekolah });
 };
 
 // POST /pemeriksaan/:personSekolahId
+// set statusRawatan to 'belum selesai' when creating pemeriksaan
 const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
@@ -104,7 +142,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
-        statusRawatan: req.body.statusRawatan,
+        statusRawatan: 'belum selesai',
       },
     },
     { new: true }
@@ -115,6 +153,10 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 
 // POST /rawatan/:personSekolahId
 const createRawatanWithPushPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   // associate negeri, daerah & kp to each person sekolah when creating rawatan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -135,8 +177,41 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   res.status(201).json({ personSekolah });
 };
 
-// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
+// POST /kotak/:personSekolahId
+// kotak tak handle statusRawatan
+const createKotakWithSetPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  // associate negeri, daerah, kp to each person sekolah when creating kotak
+  req.body.createdByNegeri = req.user.negeri;
+  req.body.createdByDaerah = req.user.daerah;
+  req.body.createdByKp = req.user.kp;
+
+  const kotakSekolah = await Kotaksekolah.create(req.body);
+
+  // masukkan kotak ID dalam personSekolah
+  const personSekolah = await Sekolah.findOneAndUpdate(
+    { _id: req.params.personSekolahId },
+    {
+      $set: {
+        kotakSekolah: kotakSekolah._id,
+      },
+    },
+    { new: true }
+  );
+
+  res.status(201).json({ personSekolah });
+};
+
+// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
+// reset statusRawatan to 'belum selesai'
 const updatePemeriksaanSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     req.body,
@@ -149,11 +224,43 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
 
+  await Sekolah.findOneAndUpdate(
+    { _id: req.query.personSekolahId },
+    { $set: { statusRawatan: 'belum selesai' } }
+  );
+
   res.status(200).json({ updatedSinglePemeriksaan });
 };
 
+// PATCH /kotak/ubah/:kotakSekolahId
+// kotak tak handle status rawatan
+const updateKotakSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const updatedSingleKotak = await Kotaksekolah.findOneAndUpdate(
+    { _id: req.params.kotakSekolahId },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedSingleKotak) {
+    return res
+      .status(404)
+      .json({ msg: `No document with id ${req.params.kotakSekolahId}` });
+  }
+
+  res.status(200).json({ updatedSingleKotak });
+};
+
+// not used
 // query route
 const queryPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     user: { kp },
     query: { namaSekolah, darjah, tingkatan, kelas },
@@ -176,7 +283,10 @@ const queryPersonSekolah = async (req, res) => {
     queryObject.kelas = kelas;
   }
 
-  const sekolahResultQuery = await Sekolah.find(queryObject);
+  const sekolahResultQuery = await Sekolah.find(queryObject)
+    .populate('pemeriksaanSekolah')
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
 
   res.status(200).json({ sekolahResultQuery });
 };
@@ -189,6 +299,8 @@ module.exports = {
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
+  createKotakWithSetPersonSekolah,
   updatePemeriksaanSekolah,
+  updateKotakSekolah,
   queryPersonSekolah,
 };

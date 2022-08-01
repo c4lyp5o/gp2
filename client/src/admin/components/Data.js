@@ -1,3 +1,4 @@
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import Add from './Add';
 import Edit from './Edit';
@@ -27,6 +28,8 @@ export default function Data({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState('');
+
+  const { Dictionary } = useGlobalAdminAppContext();
 
   function Klinik() {
     return (
@@ -145,14 +148,14 @@ export default function Data({
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold'>
-          Senarai {facilityType} Daerah {daerah}
+          Senarai {Dictionary[facilityType]} Daerah {daerah}
         </h1>
         <table className='table-auto border-collapse border border-slate-500'>
           <thead>
             <tr>
               <th className='border border-slate-600 px-3'>Bil.</th>
               <th className='border border-slate-600 px-20'>
-                Nama {facilityType}
+                Nama {Dictionary[facilityType]}
               </th>
               <th className='border border-slate-600 px-10'>Nama Klinik</th>
               <th className='border border-slate-600 px-3'>Manage</th>
@@ -271,6 +274,7 @@ export default function Data({
             jenisFacility={facilityType}
             deleteCandidate={deleteCandidate}
             id={id}
+            daerah={daerah}
             refetchFacilities={refetchFacilities}
             refetchOperators={refetchOperators}
             toast={toast}

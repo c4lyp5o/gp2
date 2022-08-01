@@ -36,13 +36,16 @@ function userIDBox({ setUserName, showUserIDBox }) {
   }
 }
 
-function passwordBox({ setPassword, showPasswordBox }) {
+function passwordBox({ setPassword, showPasswordBox, showTempPass }) {
   if (showPasswordBox === true) {
     return (
       <div>
         <h3 className='text-xl font-semibold mt-10'>
           sila masukkan Key verifikasi
         </h3>
+        <p className='text-admin2 lowercase'>
+          Password sementara (copypaste ke box password): {showTempPass}
+        </p>
         <input
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
           type='password'
@@ -62,7 +65,7 @@ export default function AdminLoginForm() {
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [ErrMsg, setErrMsg] = useState('');
-  // const [submitButton, setSubmitButton] = useState(0);
+  const [showTempPass, setShowTempPass] = useState('');
 
   const navigate = useNavigate();
 
@@ -79,6 +82,7 @@ export default function AdminLoginForm() {
         const response = await axios.post('/api/v1/superadmin/', {
           username,
         });
+        setShowTempPass(response.data.tempKey);
       } catch (error) {
         setErrMsg(error.response.data.message);
         return;
@@ -117,23 +121,8 @@ export default function AdminLoginForm() {
               sila masukkan ID pengguna
             </h3>
             <form onSubmit={handleSubmit}>
-              {/* <input
-                className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
-                type="text"
-                placeholder="ID Pengguna"
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              /> */}
-              {/* <br />
-              <input
-                className="mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl"
-                type="password"
-                placeholder="Kata Laluan"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              /> */}
               {userIDBox({ setUserName, showUserIDBox })}
-              {passwordBox({ setPassword, showPasswordBox })}
+              {passwordBox({ setPassword, showPasswordBox, showTempPass })}
               <p className='mt-5 text-xs text-admin1'>{ErrMsg}</p>
               <div className='mt-5 text-xs text-admin6 underline'>
                 <a href='#lupa-kata-laluan'>lupa kata laluan</a>
@@ -153,7 +142,3 @@ export default function AdminLoginForm() {
     </>
   );
 }
-
-// AdminLoginForm.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };

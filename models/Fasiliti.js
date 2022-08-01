@@ -24,6 +24,9 @@ const fasilitiSchema = new Schema({
   melaksanakanBegin: {
     type: String,
     default: 'tidak',
+  keppStatus: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
 });
 

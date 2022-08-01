@@ -14,9 +14,10 @@ module.exports = {
       return {
         ...klinik._doc,
         nama: klinik.nama,
-        negeri: klinik.negeri,
-        daerah: klinik.daerah,
+        negeri: klinik.createdByNegeri,
+        daerah: klinik.createdByDaerah,
         handler: klinik.handler,
+        keppStatus: klinik.keppStatus,
       };
     });
   },
@@ -35,12 +36,14 @@ module.exports = {
         ...orang._doc,
         _id: orang.id,
         nama: orang.nama,
+        kodSekolah: 'NOT A FACILITY',
         negeri: 'NOT A FACILITY',
-        daerah: orang.daerah,
+        daerah: orang.createdByDaerah,
         kpSkrg: orang.kpSkrg,
         gred: orang.gred,
         role: orang.role,
         handler: 'NOT A FACILITY',
+        keppStatus: 'NOT A FACILITY',
       };
     }
     if (!orang) {
@@ -48,12 +51,14 @@ module.exports = {
         ...tempat._doc,
         _id: tempat.id,
         nama: tempat.nama,
-        negeri: tempat.negeri,
-        daerah: tempat.daerah,
+        kodSekolah: tempat.kodSekolah,
+        negeri: tempat.createdByNegeri,
+        daerah: tempat.createdByDaerah,
         kpSkrg: 'NOT AN OPERATOR',
         gred: 'NOT AN OPERATOR',
         role: 'NOT AN OPERATOR',
         handler: tempat.handler,
+        keppStatus: tempat.keppStatus,
       };
     }
   },
@@ -98,6 +103,7 @@ module.exports = {
           alamat: pt.alamat,
           waktuSampai: pt.waktuSampai,
           kategoriPesakit: pt.kategoriPesakit,
+          statusPesara: pt.statusPesara,
           kumpulanEtnik: pt.kumpulanEtnik,
           rujukDaripada: pt.rujukDaripada,
           createdAt: new Date(pt._doc.createdAt).toISOString(),
@@ -117,7 +123,7 @@ module.exports = {
           _id: op.id,
           nama: op.nama,
           gred: op.gred,
-          daerah: op.daerah,
+          daerah: op.createdByDaerah,
           kpSkrg: op.kpSkrg,
           role: op.role,
         };
@@ -135,10 +141,12 @@ module.exports = {
           ...fa._doc,
           _id: fa.id,
           nama: fa.nama,
-          negeri: fa.negeri,
-          daerah: fa.daerah,
+          kodSekolah: fa.kodSekolah,
+          negeri: fa.createdByNegeri,
+          daerah: fa.createdByDaerah,
           handler: fa.handler,
           jenisFasiliti: fa.jenisFasiliti,
+          keppStatus: fa.keppStatus,
         };
       });
     } catch (error) {
@@ -167,6 +175,7 @@ module.exports = {
         alamat: patient.alamat,
         waktuSampai: patient.waktuSampai,
         kategoriPesakit: patient.kategoriPesakit,
+        statusPesara: patient.statusPesara,
         kumpulanEtnik: patient.kumpulanEtnik,
         rujukDaripada: patient.rujukDaripada,
       };
@@ -183,7 +192,7 @@ module.exports = {
         _id: operator.id,
         nama: operator.nama,
         gred: operator.gred,
-        daerah: operator.daerah,
+        daerah: operator.createdByDaerah,
         kpSkrg: operator.kpSkrg,
         role: operator.role,
       };
@@ -199,10 +208,12 @@ module.exports = {
         ...fasiliti._doc,
         _id: fasiliti.id,
         nama: fasiliti.nama,
-        negeri: fasiliti.negeri,
-        daerah: fasiliti.daerah,
+        kodSekolah: fasiliti.kodSekolah,
+        negeri: fasiliti.createdByNegeri,
+        daerah: fasiliti.createdByDaerah,
         handler: fasiliti.handler,
         jenisFasiliti: fasiliti.jenisFasiliti,
+        keppStatus: fasiliti.keppStatus,
       };
     } catch (error) {
       throw error;
@@ -215,6 +226,7 @@ module.exports = {
     try {
       const patients = await Umum.find({
         tarikhKedatangan: args.tarikhKedatangan,
+        jenisFasiliti: args.jenisFasiliti,
       });
       return patients.map((pt) => {
         return {
@@ -234,6 +246,7 @@ module.exports = {
           alamat: pt.alamat,
           waktuSampai: pt.waktuSampai,
           kategoriPesakit: pt.kategoriPesakit,
+          statusPesara: pt.statusPesara,
           kumpulanEtnik: pt.kumpulanEtnik,
           rujukDaripada: pt.rujukDaripada,
           createdAt: new Date(pt._doc.createdAt).toISOString(),
@@ -247,7 +260,7 @@ module.exports = {
   listOperatorByDaerah: async (args) => {
     try {
       const operators = await Operator.find({
-        daerah: args.daerah,
+        createdByDaerah: args.daerah,
       });
       return operators.map((op) => {
         return {
@@ -255,7 +268,7 @@ module.exports = {
           _id: op.id,
           nama: op.nama,
           gred: op.gred,
-          daerah: op.daerah,
+          daerah: op.createdByDaerah,
           kpSkrg: op.kpSkrg,
           role: op.role,
         };
@@ -268,7 +281,7 @@ module.exports = {
   fasilitisByType: async (args) => {
     try {
       const fasilitis = await Fasiliti.find({
-        daerah: args.daerah,
+        createdBydaerah: args.daerah,
         jenisFasiliti: args.jenisFasiliti,
       });
       return fasilitis.map((fa) => {
@@ -276,10 +289,12 @@ module.exports = {
           ...fa._doc,
           _id: fa.id,
           nama: fa.nama,
-          negeri: fa.negeri,
-          daerah: fa.daerah,
+          kodSekolah: fa.kodSekolah,
+          negeri: fa.createdByNegeri,
+          daerah: fa.createdByDaerah,
           handler: fa.handler,
           jenisFasiliti: fa.jenisFasiliti,
+          keppStatus: fa.keppStatus,
         };
       });
     } catch (error) {
@@ -305,8 +320,10 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
+        jenisFasiliti,
       } = args.patient;
       nama = nama.toLowerCase();
       const ptdata = new Umum({
@@ -324,8 +341,10 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
+        jenisFasiliti,
       });
       const newPt = await ptdata.save();
       return { ...newPt._doc, _id: newPt.id };
@@ -336,12 +355,14 @@ module.exports = {
 
   createOperator: async (args) => {
     try {
-      let { nama, gred, daerah, kpSkrg, role } = args.operator;
+      let { nama, gred, createdByNegeri, createdByDaerah, kpSkrg, role } =
+        args.operator;
       nama = nama.toLowerCase();
       const opdata = new Operator({
         nama,
         gred,
-        daerah,
+        createdByNegeri,
+        createdByDaerah,
         kpSkrg,
         role,
       });
@@ -354,14 +375,24 @@ module.exports = {
 
   createFasiliti: async (args) => {
     try {
-      let { nama, negeri, daerah, handler, jenisFasiliti } = args.fasiliti;
+      let {
+        nama,
+        kodSekolah,
+        createdByNegeri,
+        createdByDaerah,
+        handler,
+        jenisFasiliti,
+        keppStatus,
+      } = args.fasiliti;
       nama = nama.toLowerCase();
       const fasdata = new Fasiliti({
         nama,
-        negeri,
-        daerah,
+        kodSekolah,
+        createdByNegeri,
+        createdByDaerah,
         handler,
         jenisFasiliti,
+        keppStatus,
       });
       const newFas = await fasdata.save();
       return { ...newFas._doc, _id: newFas.id };
@@ -369,6 +400,7 @@ module.exports = {
       throw error;
     }
   },
+  // CREATE STUFF
 
   // DELETE STUFF
   deletePatient: async (id) => {
@@ -409,6 +441,7 @@ module.exports = {
       throw error;
     }
   },
+  // DELETE STUFF
 
   // UPDATE STUFF
   updatePatient: async (args) => {
@@ -424,6 +457,7 @@ module.exports = {
         alamat,
         waktuSampai,
         kategoriPesakit,
+        statusPesara,
         kumpulanEtnik,
         rujukDaripada,
       } = args.patient;
@@ -437,6 +471,7 @@ module.exports = {
         alamat: alamat,
         waktuSampai: waktuSampai,
         kategoriPesakit: kategoriPesakit,
+        statusPesara: statusPesara,
         kumpulanEtnik: kumpulanEtnik,
         rujukDaripada: rujukDaripada,
       });
@@ -452,7 +487,7 @@ module.exports = {
       const updatedOp = await Operator.findByIdAndUpdate(_id, {
         nama: nama.toLowerCase(),
         gred: gred,
-        daerah: daerah,
+        createdByDaerah: daerah,
         kpSkrg: kpSkrg,
         role: role,
       });
@@ -463,17 +498,25 @@ module.exports = {
   },
 
   updateFasiliti: async (args) => {
-    console.log('trying to update fasiliti');
-    console.log(args);
     try {
-      var { _id, nama, negeri, daerah, handler, jenisFasiliti } = args.fasiliti;
-      console.log(_id);
+      var {
+        _id,
+        nama,
+        kodSekolah,
+        negeri,
+        daerah,
+        handler,
+        jenisFasiliti,
+        keppStatus,
+      } = args.fasiliti;
       const updatedFas = await Fasiliti.findByIdAndUpdate(_id, {
         nama: nama,
-        negeri: negeri,
-        daerah: daerah,
+        kodSekolah: kodSekolah,
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
         handler: handler,
         jenisFasiliti: jenisFasiliti,
+        keppStatus: keppStatus,
       });
       return `Fasiliti updated Successfully!!!`;
     } catch (error) {
@@ -481,3 +524,4 @@ module.exports = {
     }
   },
 };
+// UPDATE STUFF

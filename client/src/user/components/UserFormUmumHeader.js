@@ -46,6 +46,9 @@ function UserFormUmumHeader() {
   const [kedatangan, setKedatangan] = useState('');
   masterForm.kedatangan = kedatangan;
   masterForm.setKedatangan = setKedatangan;
+  const [tarikhKedatangan, setTarikhKedatangan] = useState('');
+  masterForm.tarikhKedatangan = tarikhKedatangan;
+  masterForm.setTarikhKedatangan = setTarikhKedatangan;
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
   masterForm.fasilitiTaskaTadika = fasilitiTaskaTadika;
   masterForm.setFasilitiTaskaTadika = setFasilitiTaskaTadika;
@@ -85,6 +88,9 @@ function UserFormUmumHeader() {
   const [tarikhRujukanKepp, setTarikhRujukanKepp] = useState('');
   masterForm.tarikhRujukanKepp = tarikhRujukanKepp;
   masterForm.setTarikhRujukanKepp = setTarikhRujukanKepp;
+  const [tarikhRundinganPertama, setTarikhRundinganPertama] = useState('');
+  masterForm.tarikhRundinganPertama = tarikhRundinganPertama;
+  masterForm.setTarikhRundinganPertama = setTarikhRundinganPertama;
   const [tarikhMulaRawatanKepp, setTarikhMulaRawatanKepp] = useState('');
   masterForm.tarikhMulaRawatanKepp = tarikhMulaRawatanKepp;
   masterForm.setTarikhMulaRawatanKepp = setTarikhMulaRawatanKepp;
@@ -172,6 +178,22 @@ function UserFormUmumHeader() {
     giatmaraInstitusiPengajianTinggiKolej;
   masterForm.setGiatmaraInstitusiPengajianTinggiKolej =
     setGiatmaraInstitusiPengajianTinggiKolej;
+  const [
+    iptaInstitusiPengajianTinggiKolej,
+    setIptaInstitusiPengajianTinggiKolej,
+  ] = useState('');
+  masterForm.iptaInstitusiPengajianTinggiKolej =
+    iptaInstitusiPengajianTinggiKolej;
+  masterForm.setIptaInstitusiPengajianTinggiKolej =
+    setIptaInstitusiPengajianTinggiKolej;
+  const [
+    iptsInstitusiPengajianTinggiKolej,
+    setIptsInstitusiPengajianTinggiKolej,
+  ] = useState('');
+  masterForm.iptsInstitusiPengajianTinggiKolej =
+    iptsInstitusiPengajianTinggiKolej;
+  masterForm.setIptsInstitusiPengajianTinggiKolej =
+    setIptsInstitusiPengajianTinggiKolej;
   const [
     enrolmenInstitusiPengajianTinggiKolej,
     setEnrolmenInstitusiPengajianTinggiKolej,
@@ -1733,11 +1755,16 @@ function UserFormUmumHeader() {
       });
     } catch (error) {
       console.log(error);
+      toast.error('Gagal!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-  };
-
-  const handleNext = () => {
-    // do something..
   };
 
   return (
@@ -1750,7 +1777,7 @@ function UserFormUmumHeader() {
                 <div className='text-l font-bold flex flex-row pl-5 p-2'>
                   <h1>MAKLUMAT AM PESAKIT</h1>
                   <FaInfoCircle
-                    className='m-1 text-lg'
+                    className='hover:cursor-pointer m-1 text-lg'
                     onMouseEnter={() => setIsShown(true)}
                     onMouseLeave={() => setIsShown(false)}
                   />
@@ -1827,12 +1854,19 @@ function UserFormUmumHeader() {
           <Kotak {...masterForm} />
           <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
             <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
-              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
-                kosongkan
-              </button>
-              <button className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'>
-                teruskan
-              </button>
+              <span
+                onClick={() => {
+                  navigate(-1);
+                }}
+                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+              >
+                kembali
+              </span>
+              <input
+                type='reset'
+                value='reset'
+                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+              />
               <button
                 type='submit'
                 className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'

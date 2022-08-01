@@ -1,6 +1,10 @@
 const Umum = require('../models/Umum');
 
 const getSinglePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     params: { id: personUmumId },
   } = req;
@@ -15,6 +19,10 @@ const getSinglePersonUmum = async (req, res) => {
 };
 
 const updatePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     params: { id: personUmumId },
   } = req;
@@ -39,9 +47,13 @@ const updatePersonUmum = async (req, res) => {
 
 // query route
 const queryPersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     user: { kp },
-    query: { nama, tarikhKedatangan },
+    query: { nama, tarikhKedatangan, jenisFasiliti },
   } = req;
   const queryObject = {};
   queryObject.createdByKp = kp;
@@ -52,6 +64,10 @@ const queryPersonUmum = async (req, res) => {
 
   if (tarikhKedatangan) {
     queryObject.tarikhKedatangan = tarikhKedatangan;
+  }
+
+  if (jenisFasiliti) {
+    queryObject.jenisFasiliti = jenisFasiliti;
   }
 
   const umumResultQuery = await Umum.find(queryObject);
