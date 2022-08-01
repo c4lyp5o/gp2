@@ -1683,6 +1683,7 @@ function UserFormSekolahPemeriksaan() {
                   >
                     <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
                       ingin melakukan intervensi merokok?
+                      <span className='text-user6'>*</span>
                     </p>
                     <div className='flex items-center justify-center'>
                       <input

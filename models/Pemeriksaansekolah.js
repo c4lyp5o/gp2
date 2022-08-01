@@ -47,6 +47,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  tinggiRendahRisikoSekolahPendaftaran: {
+    type: String,
+    default: '',
+  },
   yaTidakSediaAdaStatusDenture: {
     type: String,
     default: '',
