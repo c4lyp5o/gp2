@@ -327,10 +327,279 @@ function UserFormSekolahPemeriksaan() {
 
         // map to form if pemeriksaanSekolahId exist
         if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+          setTarikhPemeriksaanSemasa(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .tarikhPemeriksaanSemasa
+          );
+          setEngganKedatanganPendaftaran(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .engganKedatanganPendaftaran
+          );
+          setTidakHadirKedatanganPendaftaran(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .tidakHadirKedatanganPendaftaran
+          );
+          setAdaTiadaPemeriksaanPendaftaran(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .adaTiadaPemeriksaanPendaftaran
+          );
+          setStatikBergerak(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
+          );
+          setKpBergerak(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.kpBergerak
+          );
+          setPlateNo(data.personSekolahWithPopulate.pemeriksaanSekolah.plateNo);
+          setTinggiRendahRisikoSekolahPendaftaran(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .tinggiRendahRisikoSekolahPendaftaran
+          );
+          setYaTidakSediaAdaStatusDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakSediaAdaStatusDenture
+          );
+          setSeparaPenuhAtasSediaAdaDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .separaPenuhAtasSediaAdaDenture
+          );
+          setSeparaPenuhBawahSediaAdaDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .separaPenuhBawahSediaAdaDenture
+          );
+          setYaTidakPerluStatusDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakPerluStatusDenture
+          );
+          setSeparaPenuhAtasPerluDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .separaPenuhAtasPerluDenture
+          );
+          setSeparaPenuhBawahPerluDenture(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .separaPenuhBawahPerluDenture
+          );
           setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
+          setJenisR(data.personSekolahWithPopulate.pemeriksaanSekolah.jenisR);
           setInginMelakukanIntervensiMerokok(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .inginMelakukanIntervensiMerokok
+          );
+          setKebersihanMulutOralHygiene(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .kebersihanMulutOralHygiene
+          );
+          setSkorBpeOralHygiene(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.skorBpeOralHygiene
+          );
+          setSaringanKanserMulutOralHygiene(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .saringanKanserMulutOralHygiene
+          );
+          setSkorGisMulutOralHygiene(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .skorGisMulutOralHygiene
+          );
+          setAdaDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.adaDesidus
+          );
+          setDAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.dAdaGigiDesidus
+          );
+          setMAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.mAdaGigiDesidus
+          );
+          setFAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.fAdaGigiDesidus
+          );
+          setXAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.xAdaGigiDesidus
+          );
+          setSmAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.smAdaGigiDesidus
+          );
+          setAdaKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.adaKekal
+          );
+          setDAdaGigiKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.dAdaGigiKekal
+          );
+          setMAdaGigiKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.mAdaGigiKekal
+          );
+          setFAdaGigiKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.fAdaGigiKekal
+          );
+          setEAdaGigiKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.eAdaGigiKekal
+          );
+          setXAdaGigiKekal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.xAdaGigiKekal
+          );
+          setJumlahFaktorRisiko(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.jumlahFaktorRisiko
+          );
+          setAdaCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
+          );
+          setRujukCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
+          );
+          setToothSurfaceLossTrauma(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .toothSurfaceLossTrauma
+          );
+          setKecederaanGigiAnteriorTrauma(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .kecederaanGigiAnteriorTrauma
+          );
+          setTisuLembutTrauma(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.tisuLembutTrauma
+          );
+          setTisuKerasTrauma(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.tisuKerasTrauma
+          );
+          setGicBilanganFsDibuat3TahunLepas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .gicBilanganFsDibuat3TahunLepas
+          );
+          setResinBilanganFsDibuat3TahunLepas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .resinBilanganFsDibuat3TahunLepas
+          );
+          setLainLainBilanganFsDibuat3TahunLepas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .lainLainBilanganFsDibuat3TahunLepas
+          );
+          setDBilanganFsDibuat3TahunLepasTerjadi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .dBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setMBilanganFsDibuat3TahunLepasTerjadi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .mBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setFBilanganFsDibuat3TahunLepasTerjadi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .fBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setEBilanganFsDibuat3TahunLepasTerjadi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .eBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setXBilanganFsDibuat3TahunLepasTerjadi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .xBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
+          setClassIID(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIID
+          );
+          setClassIF(data.personSekolahWithPopulate.pemeriksaanSekolah.classIF);
+          setClassIIF(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIIF
+          );
+          setBaruJumlahGigiKekalPerluFs(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahGigiKekalPerluFs
+          );
+          setSemulaJumlahGigiKekalPerluFs(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahGigiKekalPerluFs
+          );
+          setJumlahGigiFsGagal(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.jumlahGigiFsGagal
+          );
+          setBaruJumlahMuridPerluFs(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahMuridPerluFs
+          );
+          setSemulaJumlahMuridPerluFs(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahMuridPerluFs
+          );
+          setBaruJumlahGigiKekalPerluFv(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahGigiKekalPerluFv
+          );
+          setSemulaJumlahGigiKekalPerluFv(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahGigiKekalPerluFv
+          );
+          setBaruJumlahMuridPerluFv(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahMuridPerluFv
+          );
+          setSemulaJumlahMuridPerluFv(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahMuridPerluFv
+          );
+          setBaruJumlahGigiKekalPerluPrrJenis1(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahGigiKekalPerluPrrJenis1
+          );
+          setSemulaJumlahGigiKekalPerluPrrJenis1(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahGigiKekalPerluPrrJenis1
+          );
+          setBaruJumlahMuridPerluPrrJenis1(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruJumlahMuridPerluPrrJenis1
+          );
+          setSemulaJumlahMuridPerluPrrJenis1(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaJumlahMuridPerluPrrJenis1
+          );
+          setYaTidakSilverDiamineFluoridePerluSapuan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakSilverDiamineFluoridePerluSapuan
+          );
+          setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGDAnteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGDAnteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGKAnteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGKAnteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGDPosteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGDPosteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGKPosteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGKPosteriorSewarnaJumlahTampalanDiperlukan
+          );
+          setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGDPosteriorAmalgamJumlahTampalanDiperlukan
+          );
+          setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGDPosteriorAmalgamJumlahTampalanDiperlukan
+          );
+          setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .baruGKPosteriorAmalgamJumlahTampalanDiperlukan
+          );
+          setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
         }
         setIsLoading(false);
@@ -347,7 +616,87 @@ function UserFormSekolahPemeriksaan() {
       try {
         await axios.post(
           `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
-          { createdByUsername, statusM, inginMelakukanIntervensiMerokok },
+          {
+            createdByUsername,
+            tarikhPemeriksaanSemasa,
+            engganKedatanganPendaftaran,
+            tidakHadirKedatanganPendaftaran,
+            adaTiadaPemeriksaanPendaftaran,
+            statikBergerak,
+            kpBergerak,
+            plateNo,
+            tinggiRendahRisikoSekolahPendaftaran,
+            yaTidakSediaAdaStatusDenture,
+            separaPenuhAtasSediaAdaDenture,
+            separaPenuhBawahSediaAdaDenture,
+            yaTidakPerluStatusDenture,
+            separaPenuhAtasPerluStatusDenture,
+            separaPenuhBawahPerluStatusDenture,
+            statusM,
+            jenisR,
+            inginMelakukanIntervensiMerokok,
+            kebersihanMulutOralHygiene,
+            skorBpeOralHygiene,
+            saringanKanserMulutOralHygiene,
+            skorGisMulutOralHygiene,
+            adaDesidus,
+            dAdaGigiDesidus,
+            mAdaGigiDesidus,
+            fAdaGigiDesidus,
+            xAdaGigiDesidus,
+            smAdaGigiDesidus,
+            adaKekal,
+            dAdaGigiKekal,
+            mAdaGigiKekal,
+            fAdaGigiKekal,
+            eAdaGigiKekal,
+            xAdaGigiKekal,
+            jumlahFaktorRisiko,
+            adaCleftLip,
+            rujukCleftLip,
+            toothSurfaceLossTrauma,
+            kecederaanGigiAnteriorTrauma,
+            tisuLembutTrauma,
+            tisuKerasTrauma,
+            gicBilanganFsDibuat3TahunLepas,
+            resinBilanganFsDibuat3TahunLepas,
+            lainLainBilanganFsDibuat3TahunLepas,
+            dBilanganFsDibuat3TahunLepasTerjadi,
+            mBilanganFsDibuat3TahunLepasTerjadi,
+            fBilanganFsDibuat3TahunLepasTerjadi,
+            eBilanganFsDibuat3TahunLepasTerjadi,
+            xBilanganFsDibuat3TahunLepasTerjadi,
+            classID,
+            classIID,
+            classIF,
+            classIIF,
+            baruJumlahGigiKekalPerluFs,
+            semulaJumlahGigiKekalPerluFs,
+            jumlahGigiFsGagal,
+            baruJumlahMuridPerluFs,
+            semulaJumlahMuridPerluFs,
+            baruJumlahGigiKekalPerluFv,
+            semulaJumlahGigiKekalPerluFv,
+            baruJumlahMuridPerluFv,
+            semulaJumlahMuridPerluFv,
+            baruJumlahGigiKekalPerluPrrJenis1,
+            semulaJumlahGigiKekalPerluPrrJenis1,
+            baruJumlahMuridPerluPrrJenis1,
+            semulaJumlahMuridPerluPrrJenis1,
+            yaTidakSilverDiamineFluoridePerluSapuan,
+            baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          },
           {
             headers: { Authorization: `Bearer ${userToken}` },
           }
@@ -394,7 +743,87 @@ function UserFormSekolahPemeriksaan() {
       try {
         await axios.patch(
           `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-          { createdByUsername, statusM, inginMelakukanIntervensiMerokok },
+          {
+            createdByUsername,
+            tarikhPemeriksaanSemasa,
+            engganKedatanganPendaftaran,
+            tidakHadirKedatanganPendaftaran,
+            adaTiadaPemeriksaanPendaftaran,
+            statikBergerak,
+            kpBergerak,
+            plateNo,
+            tinggiRendahRisikoSekolahPendaftaran,
+            yaTidakSediaAdaStatusDenture,
+            separaPenuhAtasSediaAdaDenture,
+            separaPenuhBawahSediaAdaDenture,
+            yaTidakPerluStatusDenture,
+            separaPenuhAtasPerluStatusDenture,
+            separaPenuhBawahPerluStatusDenture,
+            statusM,
+            jenisR,
+            inginMelakukanIntervensiMerokok,
+            kebersihanMulutOralHygiene,
+            skorBpeOralHygiene,
+            saringanKanserMulutOralHygiene,
+            skorGisMulutOralHygiene,
+            adaDesidus,
+            dAdaGigiDesidus,
+            mAdaGigiDesidus,
+            fAdaGigiDesidus,
+            xAdaGigiDesidus,
+            smAdaGigiDesidus,
+            adaKekal,
+            dAdaGigiKekal,
+            mAdaGigiKekal,
+            fAdaGigiKekal,
+            eAdaGigiKekal,
+            xAdaGigiKekal,
+            jumlahFaktorRisiko,
+            adaCleftLip,
+            rujukCleftLip,
+            toothSurfaceLossTrauma,
+            kecederaanGigiAnteriorTrauma,
+            tisuLembutTrauma,
+            tisuKerasTrauma,
+            gicBilanganFsDibuat3TahunLepas,
+            resinBilanganFsDibuat3TahunLepas,
+            lainLainBilanganFsDibuat3TahunLepas,
+            dBilanganFsDibuat3TahunLepasTerjadi,
+            mBilanganFsDibuat3TahunLepasTerjadi,
+            fBilanganFsDibuat3TahunLepasTerjadi,
+            eBilanganFsDibuat3TahunLepasTerjadi,
+            xBilanganFsDibuat3TahunLepasTerjadi,
+            classID,
+            classIID,
+            classIF,
+            classIIF,
+            baruJumlahGigiKekalPerluFs,
+            semulaJumlahGigiKekalPerluFs,
+            jumlahGigiFsGagal,
+            baruJumlahMuridPerluFs,
+            semulaJumlahMuridPerluFs,
+            baruJumlahGigiKekalPerluFv,
+            semulaJumlahGigiKekalPerluFv,
+            baruJumlahMuridPerluFv,
+            semulaJumlahMuridPerluFv,
+            baruJumlahGigiKekalPerluPrrJenis1,
+            semulaJumlahGigiKekalPerluPrrJenis1,
+            baruJumlahMuridPerluPrrJenis1,
+            semulaJumlahMuridPerluPrrJenis1,
+            yaTidakSilverDiamineFluoridePerluSapuan,
+            baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+            baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+            baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+          },
           {
             headers: { Authorization: `Bearer ${userToken}` },
           }
@@ -522,7 +951,7 @@ function UserFormSekolahPemeriksaan() {
                     tarikh:<span className='text-user6'>*</span>
                   </p>
                   <input
-                    // required
+                    required
                     type='date'
                     name='tarikh-pemeriksaan'
                     id='tarikh-pemeriksaan'
@@ -643,12 +1072,12 @@ function UserFormSekolahPemeriksaan() {
                   </h4>
                   <div className='flex items-center flex-row px-2'>
                     <input
-                      // required={
-                      //   engganKedatanganPendaftaran ||
-                      //   tidakHadirKedatanganPendaftaran
-                      //     ? true
-                      //     : false
-                      // }
+                      required={
+                        engganKedatanganPendaftaran ||
+                        tidakHadirKedatanganPendaftaran
+                          ? true
+                          : false
+                      }
                       type='radio'
                       name='pemeriksaan'
                       id='ada-pemeriksaan'
@@ -672,12 +1101,12 @@ function UserFormSekolahPemeriksaan() {
                   </div>
                   <div className='flex items-center flex-row px-2'>
                     <input
-                      // required={
-                      //   engganKedatanganPendaftaran ||
-                      //   tidakHadirKedatanganPendaftaran
-                      //     ? true
-                      //     : false
-                      // }
+                      required={
+                        engganKedatanganPendaftaran ||
+                        tidakHadirKedatanganPendaftaran
+                          ? true
+                          : false
+                      }
                       type='radio'
                       name='pemeriksaan'
                       id='tiada-pemeriksaan'
@@ -707,7 +1136,7 @@ function UserFormSekolahPemeriksaan() {
                 </h4>
                 <div className='flex flex-row items-center pl-5 col-span-2'>
                   <select
-                    // required
+                    required
                     name='statik-bergerak'
                     id='statik-bergerak'
                     value={statikBergerak}
@@ -752,7 +1181,7 @@ function UserFormSekolahPemeriksaan() {
                   } flex flex-row items-center pl-5`}
                 >
                   <select
-                    // required={kpBergerak && true}
+                    required={kpBergerak && true}
                     name='plate-no'
                     id='plate-no'
                     value={plateNo}
@@ -773,7 +1202,7 @@ function UserFormSekolahPemeriksaan() {
                 </h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    // required
+                    required
                     type='radio'
                     name='risiko-sekolah'
                     id='tinggi-risiko-sekolah'
@@ -798,7 +1227,7 @@ function UserFormSekolahPemeriksaan() {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    // required
+                    required
                     type='radio'
                     name='risiko-sekolah'
                     id='rendah-risiko-sekolah'
@@ -836,7 +1265,7 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
-                          // required
+                          required
                           type='radio'
                           name='sedia-ada-status-denture'
                           id='ya-sedia-ada-status-denture'
@@ -859,7 +1288,7 @@ function UserFormSekolahPemeriksaan() {
                           Ya
                         </label>
                         <input
-                          // required
+                          required
                           type='radio'
                           name='sedia-ada-status-denture'
                           id='tidak-sedia-ada-status-denture'
@@ -1025,7 +1454,7 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
-                          // required
+                          required
                           type='radio'
                           name='perlu-status-denture'
                           id='ya-perlu-status-denture'
@@ -1048,7 +1477,7 @@ function UserFormSekolahPemeriksaan() {
                           Ya
                         </label>
                         <input
-                          // required
+                          required
                           type='radio'
                           name='perlu-status-denture'
                           id='tidak-perlu-status-denture'
@@ -1207,7 +1636,7 @@ function UserFormSekolahPemeriksaan() {
                     status merokok<span className='text-user6'>*</span>
                   </h4>
                   <select
-                    // required
+                    required
                     name='statusM'
                     id='statusM'
                     value={statusM}
@@ -1231,7 +1660,7 @@ function UserFormSekolahPemeriksaan() {
                       jenis rokok<span className='text-user6'>*</span>
                     </h4>
                     <select
-                      // required={statusM == 'perokok-semasa' ? true : false}
+                      required={statusM == 'perokok-semasa' ? true : false}
                       name='jenisR'
                       id='jenisR'
                       value={jenisR}
@@ -1257,7 +1686,7 @@ function UserFormSekolahPemeriksaan() {
                     </p>
                     <div className='flex items-center justify-center'>
                       <input
-                        // required={statusM == 'perokok-semasa' ? true : false}
+                        required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='ya-ingin-melakukan-intervensi-merokok'
@@ -1280,7 +1709,7 @@ function UserFormSekolahPemeriksaan() {
                         Ya
                       </label>
                       <input
-                        // required={statusM == 'perokok-semasa' ? true : false}
+                        required={statusM == 'perokok-semasa' ? true : false}
                         type='radio'
                         name='ingin-melakukan-intervensi-merokok'
                         id='tidak-ingin-melakukan-intervensi-merokok'
@@ -1314,7 +1743,7 @@ function UserFormSekolahPemeriksaan() {
                       Kebersihan Mulut<span className='text-user6'>*</span>
                     </p>
                     <select
-                      // required
+                      required
                       name='kebersihan-mulut'
                       id='kebersihan-mulut'
                       value={kebersihanMulutOralHygiene}
@@ -1330,16 +1759,15 @@ function UserFormSekolahPemeriksaan() {
                     </select>
                   </div>
                   <div
-                    className='flex items-center flex-row pl-5'
-                    // className={`${
-                    //   umur < 15 && 'hidden'
-                    // } flex items-center flex-row pl-5`}
+                    className={`${
+                      singlePersonSekolah.umur < 15 && 'hidden'
+                    } flex items-center flex-row pl-5`}
                   >
                     <p className='text-sm font-m'>
                       Skor BPE<span className='text-user6'>*</span>
                     </p>
                     <select
-                      // // required={umur < 15 ? false : true}
+                      required={singlePersonSekolah.umur < 15 ? false : true}
                       name='skor-bpe'
                       id='skor-bpe'
                       value={skorBpeOralHygiene}
@@ -1357,10 +1785,9 @@ function UserFormSekolahPemeriksaan() {
                     </select>
                   </div>
                   <div
-                    className='flex items-center flex-row pl-5'
-                    // className={`${
-                    //   umur < 15 && 'hidden'
-                    // } flex items-center flex-row pl-5`}
+                    className={`${
+                      singlePersonSekolah.umur < 15 && 'hidden'
+                    } flex items-center flex-row pl-5`}
                   >
                     <label
                       htmlFor='saringan-kanser-mulut'
@@ -1386,7 +1813,7 @@ function UserFormSekolahPemeriksaan() {
                       Skor GIS<span className='text-user6'>*</span>
                     </p>
                     <select
-                      // required
+                      required
                       name='skor-gis'
                       id='skor-gis'
                       value={skorGisMulutOralHygiene}
@@ -1450,7 +1877,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>d: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='20'
                           type='number'
@@ -1467,7 +1894,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>m: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='20'
                           type='number'
@@ -1484,7 +1911,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>f: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='20'
                           type='number'
@@ -1501,7 +1928,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m lowercase'>x: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='20'
                           type='number'
@@ -1585,7 +2012,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>D: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='32'
                           type='number'
@@ -1602,7 +2029,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>M: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='32'
                           type='number'
@@ -1619,7 +2046,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>F: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='32'
                           type='number'
@@ -1636,7 +2063,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>E: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='32'
                           type='number'
@@ -1653,7 +2080,7 @@ function UserFormSekolahPemeriksaan() {
                         <p className='text-sm font-m '>X: </p>
                         <span className='text-user6'>*</span>
                         <input
-                          // required
+                          required
                           min='0'
                           max='32'
                           type='number'
@@ -1685,7 +2112,7 @@ function UserFormSekolahPemeriksaan() {
                         Jumlah Faktor Risiko:
                       </p>
                       <select
-                        // required
+                        required
                         name='jumlah-faktor-risiko'
                         id='jumlah-faktor-risiko'
                         value={jumlahFaktorRisiko}
@@ -2087,7 +2514,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-fs'
                       id='baru-jumlah-gigi-kekal-perlu-fs'
@@ -2111,7 +2538,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-fs'
                       id='semula-jumlah-gigi-kekal-perlu-fs'
@@ -2156,14 +2583,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Baru
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-fs'
                       id='baru-jumlah-murid-perlu-fs'
@@ -2180,14 +2607,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Semula
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-fs'
                       id='semula-jumlah-murid-perlu-fs'
@@ -2219,7 +2646,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-fv'
                       id='baru-jumlah-gigi-kekal-perlu-fv'
@@ -2243,7 +2670,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-fv'
                       id='semula-jumlah-gigi-kekal-perlu-fv'
@@ -2268,14 +2695,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Baru
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-fv'
                       id='baru-jumlah-murid-perlu-fv'
@@ -2292,14 +2719,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Semula
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-fv'
                       id='semula-jumlah-murid-perlu-fv'
@@ -2331,7 +2758,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                       id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -2355,7 +2782,7 @@ function UserFormSekolahPemeriksaan() {
                     <input
                       min='0'
                       max='16'
-                      // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
                       id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -2380,14 +2807,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Baru
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='checkbox'
                       name='baru-jumlah-murid-perlu-prr-jenis-1'
                       id='baru-jumlah-murid-perlu-prr-jenis-1'
@@ -2406,14 +2833,14 @@ function UserFormSekolahPemeriksaan() {
                       className='text-sm font-m'
                     >
                       Semula
-                      {/* <span className='text-user6'>
-                      {eAdaGigiKekal > 0 && '*'}
-                    </span> */}
+                      <span className='text-user6'>
+                        {eAdaGigiKekal > 0 && '*'}
+                      </span>
                     </label>
                     <input
                       min='0'
                       max='16'
-                      // // required={eAdaGigiKekal > 0 ? true : false}
+                      required={eAdaGigiKekal > 0 ? true : false}
                       type='number'
                       name='semula-jumlah-murid-perlu-prr-jenis-1'
                       id='semula-jumlah-murid-perlu-prr-jenis-1'
@@ -2436,7 +2863,7 @@ function UserFormSekolahPemeriksaan() {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
-                      // required
+                      required
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan'
                       id='ya-silver-diamine-fluoride-perlu-sapuan'
@@ -2461,7 +2888,7 @@ function UserFormSekolahPemeriksaan() {
                       Ya
                     </label>
                     <input
-                      // required
+                      required
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan'
                       id='tidak-silver-diamine-fluoride-perlu-sapuan'
@@ -2510,7 +2937,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2536,7 +2963,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2560,7 +2987,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2586,7 +3013,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2615,7 +3042,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2641,7 +3068,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2665,7 +3092,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2691,7 +3118,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2720,7 +3147,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2746,7 +3173,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2770,7 +3197,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -2796,7 +3223,7 @@ function UserFormSekolahPemeriksaan() {
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
                           min='0'
                           max='32'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'

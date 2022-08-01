@@ -200,7 +200,54 @@ function UserFormSekolahRawatan() {
     try {
       await axios.post(
         `/api/v1/sekolah/rawatan/${personSekolahId}`,
-        { createdByUsername, statusRawatan, kesSelesaiSekolahRawatan },
+        {
+          createdByUsername,
+          statusRawatan,
+          tarikhRawatanSemasa,
+          baruJumlahGigiKekalDibuatFs,
+          semulaJumlahGigiKekalDibuatFs,
+          baruJumlahMuridDibuatFs,
+          semulaJumlahMuridDibuatFs,
+          baruJumlahGigiKekalDiberiFv,
+          semulaJumlahGigiKekalDiberiFv,
+          baruJumlahMuridDiberiFv,
+          semulaJumlahMuridDiberiFv,
+          baruJumlahGigiKekalDiberiPrrJenis1,
+          semulaJumlahGigiKekalDiberiPrrJenis1,
+          baruJumlahMuridDiberiPrrJenis1,
+          semulaJumlahMuridDiberiPrrJenis1,
+          baruJumlahGigiYangDiberiSdf,
+          semulaJumlahGigiYangDiberiSdf,
+          gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+          gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+          gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+          gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+          cabutDesidusSekolahRawatan,
+          cabutKekalSekolahRawatan,
+          jumlahTampalanSementaraSekolahRawatan,
+          pulpotomiSekolahRawatan,
+          endodontikSekolahRawatan,
+          absesSekolahRawatan,
+          penskaleranSekolahRawatan,
+          kesSelesaiSekolahRawatan,
+          kesSelesaiIcdasSekolahRawatan,
+          rujukSekolahRawatan,
+          ceramahPromosiSekolahRawatan,
+          lmgPromosiSekolahRawatan,
+          yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
+          plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+          dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+          penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+          kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+        },
         {
           headers: { Authorization: `Bearer ${userToken}` },
         }
@@ -327,7 +374,7 @@ function UserFormSekolahRawatan() {
                     tarikh:<span className='text-user6'>*</span>
                   </p>
                   <input
-                    // required
+                    required
                     type='date'
                     name='tarikh-rawatan'
                     id='tarikh-rawatan'
@@ -365,7 +412,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -386,7 +433,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   {sumDibuatFs > 16 && (
@@ -415,7 +462,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -436,7 +483,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                 </article>
@@ -465,7 +512,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -486,7 +533,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   {sumDiberiFv > 16 && (
@@ -515,7 +562,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -536,7 +583,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                 </article>
@@ -565,7 +612,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -586,7 +633,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   {sumDiberiPrr > 16 && (
@@ -615,7 +662,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -636,7 +683,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // // required
+                      required
                     />
                   </div>
                 </article>
@@ -667,7 +714,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                   <div className='flex flex-row items-center pl-5'>
@@ -688,7 +735,7 @@ function UserFormSekolahRawatan() {
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
                       max='16'
-                      // required
+                      required
                     />
                   </div>
                 </article>
@@ -1217,7 +1264,7 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          // required
+                          required
                         />
                         <label
                           htmlFor='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
