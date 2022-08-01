@@ -174,6 +174,21 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { new: true }
   );
 
+  // set fasilitiSekolah's begin to true
+  if (
+    req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+    'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+  ) {
+    await Fasiliti.findOneAndUpdate(
+      {
+        nama: personSekolah.namaSekolah,
+        kodSekolah: personSekolah.kodSekolah,
+      },
+      { $set: { melaksanakanBegin: true } },
+      { new: true }
+    );
+  }
+
   res.status(201).json({ personSekolah });
 };
 
