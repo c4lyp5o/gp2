@@ -22,11 +22,12 @@ const fasilitiSchema = new Schema({
     type: String,
   },
   melaksanakanBegin: {
-    type: String,
-    default: 'tidak',
+    type: Boolean,
+    default: false,
+  },
   keppStatus: {
-    type: String,
-    default: 'NOT APPLICABLE',
+    type: Boolean,
+    default: false,
   },
 });
 
