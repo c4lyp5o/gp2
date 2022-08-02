@@ -183,6 +183,24 @@ function UserFormSekolahRawatan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sumDibuatFs > 16) {
+      toast.error('Jumlah dibuat FS tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDiberiFv > 16) {
+      toast.error('Jumlah diberi FV tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDiberiPrr > 16) {
+      toast.error('Jumlah diberi PRR tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
     let statusRawatan = '';
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';

@@ -597,6 +597,48 @@ function UserFormSekolahPemeriksaan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sumDMFXDesidus > 20) {
+      toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDMFXKekal > 32) {
+      toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumClassD > dAdaGigiKekal) {
+      toast.error('Jumlah Class D tidak boleh lebih dari jumlah d gigi kekal', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumClassF > fAdaGigiKekal) {
+      toast.error('Jumlah Class F tidak boleh lebih dari jumlah f gigi kekal', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumPerluFs > 16) {
+      toast.error('Jumlah Perlu Fs tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumPerluFv > 16) {
+      toast.error('Jumlah Perlu Fv tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumPerluPrr > 16) {
+      toast.error('Jumlah Perlu Prr tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
