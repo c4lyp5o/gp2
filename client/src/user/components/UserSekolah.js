@@ -454,14 +454,14 @@ function UserSekolah() {
                             singlePersonSekolah.pemeriksaanSekolah
                               .inginMelakukanIntervensiMerokok ===
                               'ya-ingin-melakukan-intervensi-merokok'
-                              ? 'tambah kotak'
+                              ? 'tambah KOTAK'
                               : singlePersonSekolah.kotakSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah
                                   .inginMelakukanIntervensiMerokok ===
                                   'ya-ingin-melakukan-intervensi-merokok'
-                              ? 'ubah kotak'
-                              : 'tidak perlu kotak'}
+                              ? 'ubah KOTAK'
+                              : 'tidak perlu KOTAK'}
                           </Link>
                         </td>
                       </tr>
