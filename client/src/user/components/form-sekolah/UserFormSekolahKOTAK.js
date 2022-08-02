@@ -278,7 +278,8 @@ function UserFormSekolahKOTAK() {
                     tarikh intervensi merokok
                   </h4>
                   <p className='flex items-center justify-center text-m font-m'>
-                    Sesi 1:<span className='text-user6'>*</span>
+                    Sesi 1:
+                    <span className='text-user6 text-xl font-semibold'>*</span>
                   </p>
                   <input
                     required
@@ -336,8 +337,10 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 2:
-                      {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                        <span className='text-user6'>*</span>
+                      {tarikh2 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
                       )}
                     </p>
                   )}
@@ -356,6 +359,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='ada-q-tarikh2'
@@ -375,9 +379,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={
-                        //   adaTiadaQTarikh1 == 'tiada-q-tarikh1' ? true : false
-                        // }
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='tiada-q-tarikh2'
@@ -401,8 +403,10 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 3:
-                      {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                        <span className='text-user6'>*</span>
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
                       )}
                     </p>
                   )}
@@ -421,9 +425,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={
-                        //   adaTiadaQTarikh2 == 'tiada-q-tarikh2' ? true : false
-                        // }
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='ada-q-tarikh3'
@@ -443,9 +445,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={
-                        //   adaTiadaQTarikh2 == 'tiada-q-tarikh2' ? true : false
-                        // }
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='tiada-q-tarikh3'
@@ -469,8 +469,10 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 4:
-                      {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                        <span className='text-user6'>*</span>
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
                       )}
                     </p>
                   )}
@@ -489,9 +491,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={
-                        //   adaTiadaQTarikh3 == 'tiada-q-tarikh3' ? true : false
-                        // }
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='ada-q-tarikh4'
@@ -511,9 +511,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={
-                        //   adaTiadaQTarikh3 == 'tiada-q-tarikh3' ? true : false
-                        // }
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='tiada-q-tarikh4'
