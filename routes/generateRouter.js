@@ -45,5 +45,6 @@ router.get('/testcount', generateTest.testFunction201A);
 router.get('/paa', generateTest.popAndAgg);
 router.get('/paa2', generateTest.popAndAgg2);
 router.get('/paa3', generateTest.tryPG101);
+router.get('/paa4', generateTest.bismillah);
 
 module.exports = router;
