@@ -6409,11 +6409,16 @@ exports.popAndAgg2 = function (req, res) {
                   $sum: {
                     $cond: [
                       {
-                        $and: [
-                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 1] },
+                        $lte: [
+                          {
+                            $add: [
+                              '$dAdaGigiKekal',
+                              '$mAdaGigiKekal',
+                              '$fAdaGigiKekal',
+                              '$xAdaGigiKekal',
+                            ],
+                          },
+                          3,
                         ],
                       },
                       1,
@@ -6919,10 +6924,10 @@ exports.popAndAgg2 = function (req, res) {
                   $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
                 },
                 pesakitAdaPartialDentureAtas: {
-                  $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
+                  $sum: '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
                 },
                 pesakitPerluFullDentureAtas: {
-                  $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
+                  $sum: '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
                 },
                 pesakitPerluPartialDentureAtas: {
                   $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
@@ -6931,13 +6936,13 @@ exports.popAndAgg2 = function (req, res) {
                   $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
                 },
                 pesakitAdaPartialDentureBawah: {
-                  $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
+                  $sum: '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
                 },
                 pesakitPerluFullDentureBawah: {
                   $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
                 },
                 pesakitPerluPartialDentureBawah: {
-                  $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
+                  $sum: '$pemeriksaanSekolah.separaPenuhBawahPerluDenture',
                 },
               },
             },
@@ -7173,25 +7178,25 @@ exports.popAndAgg2 = function (req, res) {
                       cabutKekal: {
                         $add: [
                           '$$value.cabut',
-                          '$$this.cabutDesidusSekolahRawatan',
+                          '$$this.cabutKekalSekolahRawatan',
                         ],
                       },
                       tampalanSementara: {
                         $add: [
                           '$$value.cabut',
-                          '$$this.cabutDesidusSekolahRawatan',
+                          '$$this.jumlahTampalanSementaraSekolahRawatan',
                         ],
                       },
                       pulpotomi: {
                         $add: [
                           '$$value.cabut',
-                          '$$this.cabutDesidusSekolahRawatan',
+                          '$$this.pulpotomiSekolahRawatan',
                         ],
                       },
                       endodontik: {
                         $add: [
                           '$$value.cabut',
-                          '$$this.cabutDesidusSekolahRawatan',
+                          '$$this.endodontikSekolahRawatan',
                         ],
                       },
                       abses: {
