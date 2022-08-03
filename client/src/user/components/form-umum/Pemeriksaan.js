@@ -764,7 +764,7 @@ export default function Pemeriksaan(props) {
               </article>
               <article className=' border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
-                  Status Gigi Desidus<span className='text-user6'>*</span>
+                  Status Gigi Desidus
                 </h4>
                 <div className='grid gap-1'>
                   <div className='flex items-center justify-center'>
@@ -915,7 +915,7 @@ export default function Pemeriksaan(props) {
               </article>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
-                  Status Gigi Kekal<span className='text-user6'>*</span>
+                  Status Gigi Kekal
                 </h4>
                 <div className='grid gap-1'>
                   <div className='flex items-center justify-center'>

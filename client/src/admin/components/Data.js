@@ -98,7 +98,9 @@ export default function Data({
                 <tr>
                   <td className='border border-slate-700'>{index + 1}</td>
                   <td className='border border-slate-700 px-3'>{o.nama}</td>
-                  <td className='border border-slate-700'>{o.gred}</td>
+                  <td className='border border-slate-700 uppercase'>
+                    {o.gred}
+                  </td>
                   <td className='border border-slate-700 px-3'>{o.kpSkrg}</td>
                   <td className='border border-slate-700'>{o.role}</td>
                   <td className='border border-slate-700'>

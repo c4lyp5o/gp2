@@ -20,7 +20,8 @@ function AdminHeaderLoggedIn({ user, daerah }) {
           </p>
         </div>
         <div className='grid grid-rows-2 text-2xl font-bold pl-10 text-center'>
-          <h1 className='row-span-2'>admin sistem gi-Ret 2.0</h1>
+          <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
+          <h1>ADMIN</h1>
         </div>
         <div className='admin-header-logged-in-container'>
           <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>

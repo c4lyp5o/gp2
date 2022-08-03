@@ -14,6 +14,7 @@ function UserHeader() {
       </div>
       <div className='grid grid-rows-2 text-2xl font-bold pl-10 text-center'>
         <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
+        <h1>PENGGUNA</h1>
       </div>
     </div>
   );

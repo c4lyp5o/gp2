@@ -530,6 +530,22 @@ function UserFormUmumHeader() {
   masterForm.setSemulaJumlahGigiKekalDibuatFSRawatanUmum =
     setSemulaJumlahGigiKekalDibuatFSRawatanUmum;
   const [
+    baruJumlahMuridDibuatFsRawatanUmum,
+    setBaruJumlahMuridDibuatFsRawatanUmum,
+  ] = useState('');
+  masterForm.baruJumlahMuridDibuatFsRawatanUmum =
+    baruJumlahMuridDibuatFsRawatanUmum;
+  masterForm.setBaruJumlahMuridDibuatFsRawatanUmum =
+    setBaruJumlahMuridDibuatFsRawatanUmum;
+  const [
+    semulaJumlahMuridDibuatFsRawatanUmum,
+    setSemulaJumlahMuridDibuatFsRawatanUmum,
+  ] = useState('');
+  masterForm.semulaJumlahMuridDibuatFsRawatanUmum =
+    semulaJumlahMuridDibuatFsRawatanUmum;
+  masterForm.setSemulaJumlahMuridDibuatFsRawatanUmum =
+    setSemulaJumlahMuridDibuatFsRawatanUmum;
+  const [
     baruJumlahGigiKekalDiberiFVRawatanUmum,
     setBaruJumlahGigiKekalDiberiFVRawatanUmum,
   ] = useState('');
@@ -577,6 +593,22 @@ function UserFormUmumHeader() {
     semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum;
   masterForm.setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum =
     setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum;
+  const [
+    baruJumlahMuridDiberiPrrJenis1RawatanUmum,
+    setBaruJumlahMuridDiberiPrrJenis1RawatanUmum,
+  ] = useState('');
+  masterForm.baruJumlahMuridDiberiPrrJenis1RawatanUmum =
+    baruJumlahMuridDiberiPrrJenis1RawatanUmum;
+  masterForm.setBaruJumlahMuridDiberiPrrJenis1RawatanUmum =
+    setBaruJumlahMuridDiberiPrrJenis1RawatanUmum;
+  const [
+    semulaJumlahMuridDiberiPrrJenis1RawatanUmum,
+    setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum,
+  ] = useState('');
+  masterForm.semulaJumlahMuridDiberiPrrJenis1RawatanUmum =
+    semulaJumlahMuridDiberiPrrJenis1RawatanUmum;
+  masterForm.setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum =
+    setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum;
   const [cabutDesidusRawatanUmum, setCabutDesidusRawatanUmum] = useState('');
   masterForm.cabutDesidusRawatanUmum = cabutDesidusRawatanUmum;
   masterForm.setCabutDesidusRawatanUmum = setCabutDesidusRawatanUmum;
@@ -1342,6 +1374,12 @@ function UserFormUmumHeader() {
         setSemulaJumlahGigiKekalDibuatFSRawatanUmum(
           data.singlePersonUmum.semulaJumlahGigiKekalDibuatFSRawatanUmum
         );
+        setBaruJumlahMuridDibuatFsRawatanUmum(
+          data.singlePersonUmum.baruJumlahMuridDibuatFsRawatanUmum
+        );
+        setSemulaJumlahMuridDibuatFsRawatanUmum(
+          data.singlePersonUmum.semulaJumlahMuridDibuatFsRawatanUmum
+        );
         setBaruJumlahGigiKekalDiberiFVRawatanUmum(
           data.singlePersonUmum.baruJumlahGigiKekalDiberiFVRawatanUmum
         );
@@ -1359,6 +1397,12 @@ function UserFormUmumHeader() {
         );
         setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
           data.singlePersonUmum.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum
+        );
+        setBaruJumlahMuridDiberiPrrJenis1RawatanUmum(
+          data.singlePersonUmum.baruJumlahMuridDiberiPrrJenis1RawatanUmum
+        );
+        setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum(
+          data.singlePersonUmum.semulaJumlahMuridDiberiPrrJenis1RawatanUmum
         );
         setCabutDesidusRawatanUmum(
           data.singlePersonUmum.cabutDesidusRawatanUmum
@@ -1684,12 +1728,16 @@ function UserFormUmumHeader() {
           //rawatan
           baruJumlahGigiKekalDibuatFSRawatanUmum,
           semulaJumlahGigiKekalDibuatFSRawatanUmum,
+          baruJumlahMuridDibuatFsRawatanUmum,
+          semulaJumlahMuridDibuatFsRawatanUmum,
           baruJumlahGigiKekalDiberiFVRawatanUmum,
           semulaJumlahGigiKekalDiberiFVRawatanUmum,
           baruJumlahMuridDibuatFVRawatanUmum,
           semulaJumlahMuridDibuatFVRawatanUmum,
           baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
           semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
+          baruJumlahMuridDiberiPrrJenis1RawatanUmum,
+          semulaJumlahMuridDiberiPrrJenis1RawatanUmum,
           cabutDesidusRawatanUmum,
           cabutKekalRawatanUmum,
           komplikasiSelepasCabutanRawatanUmum,

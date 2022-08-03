@@ -68,12 +68,6 @@ function Kaunter({
           editId={editId}
           editForm={editForm}
           setEditForm={setEditForm}
-          createdByKp={createdByKp}
-          createdByDaerah={createdByDaerah}
-          createdByNegeri={createdByNegeri}
-          jenisFasiliti={jenisFasiliti}
-          // refetch={refetch}
-          toast={toast}
         />
       </div>
     </>
