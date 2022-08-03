@@ -66,7 +66,7 @@ export default function UserGenerateKlinik() {
     e.preventDefault();
     try {
       const theBits = await axios.get(
-        `/api/v1/generate/testdownload?currentKp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
+        `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
         {
           responseType: 'blob',
         }

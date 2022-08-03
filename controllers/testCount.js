@@ -8729,7 +8729,9 @@ exports.new201 = function (req, res) {
     }
   );
 };
-async function generate201(reten, sekolah, klinik) {
+async function generate201(jenisReten, sekolah, klinik) {
+  console.log(sekolah);
+  console.log(klinik);
   async.parallel(
     {
       dataPemeriksaan: function (callback) {
@@ -9993,15 +9995,15 @@ async function generate201(reten, sekolah, klinik) {
 }
 exports.downloader = async function (req, res) {
   console.log(req.query);
-  const { jenisReten, pilihanSekolah, currentKp } = req.query;
-  await generate201(jenisReten, pilihanSekolah, currentKp);
+  const { jenisReten, sekolah, kp } = req.query;
+  await generate201(jenisReten, sekolah, kp);
   const theResult = () => {
     let newfile = path.join(
       __dirname,
       '..',
       'public',
       'exports',
-      'test-' + currentKp + '-PG201A.xlsx'
+      'test-' + kp + '-PG201A.xlsx'
     );
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     res.setHeader('Content-Type', 'application/vnd.ms-excel');
