@@ -611,46 +611,6 @@ export default function Rawatan(props) {
                     kes selesai
                   </label>
                 </div>
-                <div className='flex flex-row items-center pl-5 m-1'>
-                  <input
-                    type='checkbox'
-                    name='tpr-rawatan-umum'
-                    id='tpr-rawatan-umum'
-                    checked={props.tprRawatanUmum ? true : false}
-                    onChange={() => {
-                      props.setTprRawatanUmum(!props.tprRawatanUmum);
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                  />
-                  <label
-                    htmlFor='tpr-rawatan-umum'
-                    className='mx-2 text-sm font-m'
-                  >
-                    TPR
-                  </label>
-                </div>
-                <div className='flex flex-row items-center pl-5 m-1'>
-                  <input
-                    type='checkbox'
-                    name='kes-selesai-periodontium-rawatan-umum'
-                    id='kes-selesai-periodontium-rawatan-umum'
-                    checked={
-                      props.kesSelesaiPeriodontiumRawatanUmum ? true : false
-                    }
-                    onChange={() => {
-                      props.setKesSelesaiPeriodontiumRawatanUmum(
-                        !props.kesSelesaiPeriodontiumRawatanUmum
-                      );
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                  />
-                  <label
-                    htmlFor='kes-selesai-periodontium-rawatan-umum'
-                    className='mx-2 text-sm font-m'
-                  >
-                    kes selesai periodontium
-                  </label>
-                </div>
               </article>
             </div>
             <div className='grid gap-2 auto-rows-min'>
