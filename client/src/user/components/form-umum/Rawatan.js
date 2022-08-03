@@ -59,6 +59,55 @@ export default function Rawatan(props) {
                     max='16'
                   />
                 </div>
+                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  murid dibuat FS
+                </p>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='baru-jumlah-murid-dibuat-fs-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Baru
+                  </label>
+                  <input
+                    type='number'
+                    name='baru-jumlah-murid-dibuat-fs-rawatan-umum'
+                    id='baru-jumlah-murid-dibuat-fs-rawatan-umum'
+                    value={props.baruJumlahMuridDibuatFsRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahMuridDibuatFsRawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
+                  />
+                </div>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='semula-jumlah-murid-dibuat-fs-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Semula
+                  </label>
+                  <input
+                    type='number'
+                    name='semula-jumlah-murid-dibuat-fs-rawatan-umum'
+                    id='semula-jumlah-murid-dibuat-fs-rawatan-umum'
+                    value={props.semulaJumlahMuridDibuatFsRawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahMuridDibuatFsRawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
+                  />
+                </div>
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -206,6 +255,55 @@ export default function Rawatan(props) {
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
                     max='16'
+                  />
+                </div>
+                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  murid diberi PRR Jenis 1
+                </p>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Baru
+                  </label>
+                  <input
+                    type='number'
+                    name='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    id='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    value={props.baruJumlahMuridDiberiPrrJenis1RawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahMuridDiberiPrrJenis1RawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
+                  />
+                </div>
+                <div className='flex flex-row items-center pl-5'>
+                  <label
+                    htmlFor='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    className='text-sm font-m'
+                  >
+                    Semula
+                  </label>
+                  <input
+                    type='number'
+                    name='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    id='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
+                    value={props.semulaJumlahMuridDiberiPrrJenis1RawatanUmum}
+                    onChange={(e) => {
+                      props.setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='16'
+                    required
                   />
                 </div>
               </article>
