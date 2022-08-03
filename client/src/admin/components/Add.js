@@ -209,8 +209,7 @@ const Modal = ({
                     </p>
                     <input
                       required
-                      className='border-2 uppercase'
-                      placeholder='nama seperti di IC'
+                      className='border-2'
                       type='text'
                       name='Nama'
                       id='nama'
@@ -268,7 +267,7 @@ const Modal = ({
                     >
                       <option value=''>Pilih Role</option>
                       <option value='admin'>Admin</option>
-                      <option value='marhean'>Marhaen</option>
+                      <option value='umum'>Umum</option>
                     </select>
                   </div>
                 </div>

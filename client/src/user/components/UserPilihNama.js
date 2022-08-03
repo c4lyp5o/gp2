@@ -89,7 +89,7 @@ function UserPilihNama() {
           htmlFor='user-pilih-nama-pengguna-relief'
           className='m-5 text-sm hover:cursor-pointer'
         >
-          saya pegawai / staff relief
+          saya pegawai / juruterapi pergigian relief
         </label>
         <input
           ref={checkboxRelief}

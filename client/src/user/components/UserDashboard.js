@@ -211,10 +211,12 @@ function UserDashboard() {
             </tr>
             <tr>
               <td className='outline outline-1 outline-userBlack'>1</td>
-              <td className='outline outline-1 outline-userBlack'>selangor</td>
-              <td className='outline outline-1 outline-userBlack'>petaling</td>
+              <td className='outline outline-1 outline-userBlack'>kedah</td>
               <td className='outline outline-1 outline-userBlack'>
-                SK seksyen 19
+                kota setar
+              </td>
+              <td className='outline outline-1 outline-userBlack'>
+                sekolah kebangsaan alor janggus
               </td>
               <td className='outline outline-1 outline-userBlack'>98.0</td>
               <td className='outline outline-1 outline-userBlack'>70</td>
@@ -224,10 +226,12 @@ function UserDashboard() {
             </tr>
             <tr>
               <td className='outline outline-1 outline-userBlack'>2</td>
-              <td className='outline outline-1 outline-userBlack'>WPKL & P</td>
-              <td className='outline outline-1 outline-userBlack'>Cheras</td>
+              <td className='outline outline-1 outline-userBlack'>kedah</td>
               <td className='outline outline-1 outline-userBlack'>
-                SK bintang utara
+                kota setar
+              </td>
+              <td className='outline outline-1 outline-userBlack'>
+                sekolah menengah alor janggus
               </td>
               <td className='outline outline-1 outline-userBlack'>90.2</td>
               <td className='outline outline-1 outline-userBlack'>69</td>

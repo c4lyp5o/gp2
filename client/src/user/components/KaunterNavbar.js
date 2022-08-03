@@ -39,7 +39,7 @@ function KaunterNavbar() {
           showOutreachSubMenu ? 'translate-x-0' : '-translate-x-[480px]'
         }`}
       >
-        <div className='h-28'></div>
+        <div className='h-60'></div>
         <div className='grid'>
           <NavLink
             to='orang-asli'
@@ -119,7 +119,7 @@ function KaunterNavbar() {
           >
             PROJEK KOMUNITI LAIN
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to='kelantan'
             onClick={() => {
               outreachOn();
@@ -131,7 +131,7 @@ function KaunterNavbar() {
             }
           >
             RTC (KELANTAN SAHAJA)
-          </NavLink>
+          </NavLink> */}
         </div>
       </nav>
       {/* main nav stack */}

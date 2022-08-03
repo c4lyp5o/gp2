@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function UserStatusHarian() {
   const [pickedDate, setPickedDate] = useState(new Date());
   const [convertedDate, setConvertedDate] = useState('');
-  const mark = ['2022-07-28', '2022-07-27', '2022-07-25'];
+  const mark = ['2022-08-02', '2022-08-01'];
 
   // convert to standard date format to query to db
   useEffect(() => {
@@ -61,9 +61,7 @@ export default function UserStatusHarian() {
                 <td className='outline outline-1 outline-userBlack p-2'>
                   hana damia
                 </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  dr low
-                </td>
+                <td className='outline outline-1 outline-userBlack p-2'></td>
                 <td className='outline outline-1 outline-userBlack p-2'>
                   2022-07-31
                 </td>
@@ -71,10 +69,56 @@ export default function UserStatusHarian() {
                   belum selesai
                   <Link
                     to='/user/umum'
-                    className='m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                    className='m-2 p-1 rounded-md shadow-md bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
                   >
-                    kemaskini
+                    KEMASKINI
                   </Link>
+                </td>
+              </tr>
+              <tr>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  mohd solleh
+                </td>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  dr muhammad izyan
+                </td>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  2022-07-31
+                </td>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  selesai
+                  <Link
+                    to='/user/umum'
+                    className='pointer-events-none m-2 p-1 rounded-md shadow-md bg-user4 hover:text-userWhite transition-all'
+                  >
+                    KEMASKINI
+                  </Link>
+                </td>
+              </tr>
+              <tr>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  mohd haikal
+                </td>
+                <td className='outline outline-1 outline-userBlack p-2'></td>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  2022-07-31
+                </td>
+                <td className='outline outline-1 outline-userBlack p-2'>
+                  <Link
+                    to='/user/umum'
+                    className='pointer-events-none m-2 p-1 rounded-md shadow-md bg-user4 hover:text-userWhite transition-all'
+                  >
+                    KEMASKINI
+                  </Link>
+                  <input
+                    id='tidak-hadir'
+                    type='checkbox'
+                    checked={true}
+                    className='ml-3 w-4 h-4 rounded'
+                  />
+                  <label htmlFor='tidak-hadir' className='ml-1'>
+                    tidak hadir
+                  </label>
                 </td>
               </tr>
             </table>
