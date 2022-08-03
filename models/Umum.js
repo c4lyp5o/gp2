@@ -5,63 +5,48 @@ const UmumSchema = new mongoose.Schema(
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: {
       type: String,
-      // required: true,
     },
     createdByDaerah: {
       type: String,
-      // required: true,
     },
     createdByKp: {
       type: String,
-      // required: true,
     },
     createdByUsername: {
       type: String,
-      // required: true,
     },
-    // pendaftaran pg101 --------------------------------------------------
+    // kaunter --------------------------------------------------
+    tarikhKedatangan: {
+      type: String,
+    },
+    waktuSampai: {
+      type: String,
+    },
     nama: {
       type: String,
-      // required: [true, 'Please provide nama'],
       trim: true,
     },
     jenisIc: {
       type: String,
-      // required: [true, 'Please provide jenis ic'],
-      trim: true,
     },
     ic: {
       type: String,
-      // required: [true, 'Please provide IC'],
       trim: true,
-    },
-    umur: {
-      type: Number,
-      // required: [true, 'Please provide umur'],
     },
     tarikhLahir: {
       type: String,
-      // required: [true, 'Please provide tarikh lahir'],
     },
-    tarikhKedatangan: {
-      type: String,
-      // required: [true, 'Please provide tarikh kedatangan'],
+    umur: {
+      type: Number,
     },
     jantina: {
       type: String,
-      // required: [true, 'Please provide jantina'],
     },
     alamat: {
       type: String,
-      // required: [true, 'Please provide alamat'],
-    },
-    waktuSampai: {
-      type: String,
-      // required: [true, 'Please provide waktu sampai'],
     },
     kategoriPesakit: {
       type: String,
-      // required: [true, 'Please provide kategori pesakit'],
     },
     statusPesara: {
       type: String,
@@ -69,16 +54,12 @@ const UmumSchema = new mongoose.Schema(
     },
     kumpulanEtnik: {
       type: String,
-      // required: [true, 'Please provide kumpulan etnik'],
     },
     rujukDaripada: {
       type: String,
-      // required: [true, 'Please provide rujuk dari'],
     },
-    //fasiliti perkhidmatan
     jenisFasiliti: {
       type: String,
-      default: '',
     },
     kepp: {
       type: Boolean,
@@ -86,9 +67,8 @@ const UmumSchema = new mongoose.Schema(
     },
     jenisProgramKomuniti: {
       type: String,
-      default: '',
     },
-    // end of pendaftaran pg101 -------------------------------------------
+    // end of kaunter -------------------------------------------
     //maklumat lanjut
     kedatangan: {
       type: String,

@@ -1,108 +1,97 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
 import { Spinner } from 'react-awesome-spinners';
+import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-export default function EditableForm({
-  editId,
-  editForm,
-  setEditForm,
-  createdByKp,
-  createdByDaerah,
-  createdByNegeri,
-  refetch,
-  toast,
-}) {
-  const { GET_PATIENT, UPDATE_PATIENT } = useGlobalUserAppContext();
+export default function EditableForm({ editId, editForm, setEditForm }) {
+  const { kaunterToken, toast } = useGlobalUserAppContext();
 
+  const [editLoading, setIsEditLoading] = useState(false);
+  const [editTarikhKedatangan, setTarikhKedatangan] = useState('');
+  const [editWaktuSampai, setWaktuSampai] = useState('');
   const [editNama, setEditNama] = useState('');
   const [editJenisIc, setJenisIc] = useState('');
   const [editIc, setIc] = useState('');
-  const [editUmur, setUmur] = useState('');
   const [editTarikhLahir, setTarikhLahir] = useState('');
-  const [editTarikhKedatangan, setTarikhKedatangan] = useState('');
+  const [editUmur, setUmur] = useState(0);
   const [editJantina, setJantina] = useState('');
   const [editAlamat, setAlamat] = useState('');
-  const [editWaktuSampai, setWaktuSampai] = useState('');
   const [editKategoriPesakit, setKategoriPesakit] = useState('');
+  const [editStatusPesara, setStatusPesara] = useState('');
   const [editKumpulanEtnik, setKumpulanEtnik] = useState('');
   const [editRujukDaripada, setRujukDaripada] = useState('');
 
-  const { data, loading } = useQuery(GET_PATIENT, {
-    variables: { id: editId },
-  });
-
-  const [UpdatePatient, { editLoading, editError }] =
-    useMutation(UPDATE_PATIENT);
-
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
-    UpdatePatient({
-      variables: {
-        _id: editId,
-        createdByKp: createdByKp,
-        createdByDaerah: createdByDaerah,
-        createdByNegeri: createdByNegeri,
-        createdByUsername: 'AdminKaunter',
-        nama: editNama,
-        jenisIc: editJenisIc,
-        ic: editIc,
-        tarikhLahir: editTarikhLahir,
-        // tarikhKedatangan: editTarikhKedatangan,
-        jantina: editJantina,
-        umur: editUmur,
-        alamat: editAlamat,
-        waktuSampai: editWaktuSampai,
-        kategoriPesakit: editKategoriPesakit,
-        kumpulanEtnik: editKumpulanEtnik,
-        rujukDaripada: editRujukDaripada,
-      },
-    })
-      .then((res) => {
-        refetch();
-        editDoneNotification();
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/kaunter/${editId}`,
+          {
+            tarikhKedatangan: editTarikhKedatangan,
+            waktuSampai: editWaktuSampai,
+            nama: editNama.toLowerCase(),
+            jenisIc: editJenisIc,
+            ic: editIc,
+            tarikhLahir: editTarikhLahir,
+            umur: editUmur,
+            jantina: editJantina,
+            alamat: editAlamat,
+            kategoriPesakit: editKategoriPesakit,
+            statusPesara: editStatusPesara,
+            kumpulanEtnik: editKumpulanEtnik,
+            rujukDaripada: editRujukDaripada,
+          },
+          { headers: { Authorization: `Bearer ${kaunterToken}` } }
+        ),
+        {
+          pending: 'Mengemaskini...',
+          success: 'Pesakit berjaya dikemaskini',
+          error: 'Pesakit gagal dikemaskini',
+        },
+        { autoClose: 2000 }
+      )
+      .then(() => {
         setEditForm(false);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
 
-  const editDoneNotification = () => {
-    toast.info(`Pesakit berjaya dikemaskini`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   useEffect(() => {
-    if (data) {
-      setEditNama(data.patient.nama);
-      setJenisIc(data.patient.jenisIc);
-      setIc(data.patient.ic);
-      setUmur(data.patient.umur);
-      setTarikhLahir(data.patient.tarikhLahir);
-      setTarikhKedatangan(data.patient.tarikhKedatangan);
-      setJantina(data.patient.jantina);
-      setAlamat(data.patient.alamat);
-      setWaktuSampai(data.patient.waktuSampai);
-      setKategoriPesakit(data.patient.kategoriPesakit);
-      setKumpulanEtnik(data.patient.kumpulanEtnik);
-      setRujukDaripada(data.patient.rujukDaripada);
+    if (editForm === true) {
+      const fetchSinglePersonKaunter = async () => {
+        try {
+          setIsEditLoading(true);
+          const { data } = await axios.get(`/api/v1/kaunter/${editId}`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
+          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setEditNama(data.singlePersonKaunter.nama);
+          setJenisIc(data.singlePersonKaunter.jenisIc);
+          setIc(data.singlePersonKaunter.ic);
+          setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
+          setUmur(data.singlePersonKaunter.umur);
+          setJantina(data.singlePersonKaunter.jantina);
+          setAlamat(data.singlePersonKaunter.alamat);
+          setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
+          setStatusPesara(data.singlePersonKaunter.statusPesara);
+          setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
+          setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          setIsEditLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSinglePersonKaunter();
     }
-  }, [data]);
+  }, [editForm]);
 
-  if (editLoading || loading) {
+  if (editLoading) {
     return (
-      <p>
+      <div className='mt-20'>
         <Spinner />
-      </p>
+      </div>
     );
   }
 
