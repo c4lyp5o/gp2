@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -13,50 +13,56 @@ function Kaunter({
   createdByDaerah,
   createdByNegeri,
 }) {
-  const { dateToday, toast, GET_PATIENT_BY_TARIKH_KEDATANGAN } =
-    useGlobalUserAppContext();
+  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
 
-  const [editId, setEditId] = useState('');
-  const [editForm, setEditForm] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setIsLoading] = useState(true);
+  const [error, setIsError] = useState(false);
   const [philter, setPhilter] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editForm, setEditForm] = useState(false);
+  const [editId, setEditId] = useState('');
 
-  const { data, loading, error, refetch } = useQuery(
-    GET_PATIENT_BY_TARIKH_KEDATANGAN,
-    {
-      variables: {
-        tarikhKedatangan: `${dateToday}`,
-        jenisFasiliti: jenisFasiliti,
-      },
-      pollInterval: 500,
+  useEffect(() => {
+    if (showForm === false && editForm === false) {
+      const fetchPersonUmum = async () => {
+        try {
+          setIsLoading(true);
+          const { data } = await axios.get(
+            `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+            { headers: { Authorization: `Bearer ${kaunterToken}` } }
+          );
+          setData(data);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          setIsError(true);
+          setIsLoading(false);
+        }
+      };
+      fetchPersonUmum();
     }
-  );
+  }, [showForm, editForm, jenisFasiliti]);
 
   return (
     <>
       <div className='px-10 h-full p-3 overflow-y-auto'>
         <PatientData
-          showForm={showForm}
-          setShowForm={setShowForm}
-          setEditId={setEditId}
-          editForm={editForm}
-          setEditForm={setEditForm}
           data={data}
           loading={loading}
           error={error}
           philter={philter}
           setPhilter={setPhilter}
+          showForm={showForm}
+          setShowForm={setShowForm}
+          editForm={editForm}
+          setEditForm={setEditForm}
+          setEditId={setEditId}
         />
         <FillableForm
           showForm={showForm}
           setShowForm={setShowForm}
-          createdByKp={createdByKp}
-          createdByDaerah={createdByDaerah}
-          createdByNegeri={createdByNegeri}
           jenisFasiliti={jenisFasiliti}
-          dateToday={dateToday}
-          refetch={refetch}
-          toast={toast}
         />
         <EditableForm
           editId={editId}
@@ -66,7 +72,7 @@ function Kaunter({
           createdByDaerah={createdByDaerah}
           createdByNegeri={createdByNegeri}
           jenisFasiliti={jenisFasiliti}
-          refetch={refetch}
+          // refetch={refetch}
           toast={toast}
         />
       </div>

@@ -110,6 +110,12 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     .populate('rawatanSekolah')
     .populate('kotakSekolah');
 
+  if (!personSekolahWithPopulate) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  }
+
   res.status(201).json({ personSekolahWithPopulate });
 };
 

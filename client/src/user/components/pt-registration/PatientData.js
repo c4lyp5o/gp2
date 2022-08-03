@@ -1,70 +1,43 @@
 import { Spinner } from 'react-awesome-spinners';
+
 export default function PatientData({
-  showForm,
-  setShowForm,
-  setEditId,
-  editForm,
-  setEditForm,
   data,
   loading,
   error,
   philter,
   setPhilter,
+  showForm,
+  setShowForm,
+  editForm,
+  setEditForm,
+  setEditId,
 }) {
   if (loading)
     return (
-      <p>
+      <div className='mt-20'>
         <Spinner />
-      </p>
+      </div>
     );
+
   if (error) return <p>Error :(</p>;
 
   if (!showForm && !editForm) {
     return (
       <>
-        <div class='flex justify-center'>
-          <div class='mb-3 xl:w-96'>
+        <div className='flex justify-center'>
+          <div className='mb-3 xl:w-96'>
             <input
               type='search'
-              className='
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      '
+              className='outline outline-1 outline-userBlack rounded-md p-3'
               id='carianPesakit'
               placeholder='Cari pesakit...'
               onChange={(e) => setPhilter(e.target.value.toLowerCase())}
             />
           </div>
         </div>
-        {/* <input
-          className='p-2 w-auto'
-          type='text'
-          name='carianPesakit'
-          placeholder='Cari pesakit...'
-          onChange={(e) => setPhilter(e.target.value.toLowerCase())}
-        /> */}
-        {/* <button
-          className='border border-1 border-kaunterBlack bg-user3 p-2 mt-2 items-left'
-          onClick={() => setShowForm(true)}
-        >
-          Daftar Pesakit Baru
-        </button> */}
         <button
           type='button'
-          className='inline-block px-6 py-2.5 bg-kaunter3 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'
+          className='px-6 py-2.5 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={(e) => setShowForm(true)}
         >
           Daftar Pesakit Baru
@@ -91,7 +64,7 @@ export default function PatientData({
                       AKTIFKAN???
                     </th>
                   </tr>
-                  {data.listPatientByTarikhKedatangan
+                  {data.kaunterResultQuery
                     .filter((pt) => pt.nama.includes(philter))
                     .map((p, index) => (
                       <>
@@ -110,12 +83,10 @@ export default function PatientData({
                           </td>
                           <td className='outline outline-1 outline-kaunterBlack'>
                             <button
-                              className='inline-block px-6 py-2.5 bg-kaunter3 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out p-1'
+                              className='px-6 py-2.5 my-1 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
-                                setTimeout(() => {
-                                  setEditForm(true);
-                                }, 300);
+                                setEditForm(true);
                               }}
                             >
                               Edit

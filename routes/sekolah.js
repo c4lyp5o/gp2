@@ -30,4 +30,5 @@ router
   .post(createRawatanWithPushPersonSekolah);
 router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
 router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
+
 module.exports = router;
