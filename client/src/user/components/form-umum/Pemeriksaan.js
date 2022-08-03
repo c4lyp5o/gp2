@@ -1,7 +1,7 @@
 export default function Pemeriksaan(props) {
   return (
     <>
-      <div className='p-2'>
+      <div className='pb-1 pr-2 pl-2'>
         <div className=' grid grid-cols-2'>
           <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
@@ -630,6 +630,58 @@ export default function Pemeriksaan(props) {
                   </label>
                 </div>
               </article>
+              <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  status merokok<span className='text-user6'>*</span>
+                </h4>
+                <select
+                  required
+                  name='statusM-pemeriksaan-umum'
+                  id='statusM-pemeriksaan-umum'
+                  value={props.statusMPemeriksaanUmum}
+                  onChange={(e) => {
+                    props.setStatusMPemeriksaanUmum(e.target.value);
+                  }}
+                  className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                >
+                  <option value=''></option>
+                  <option value='perokok-semasa'>Perokok Semasa</option>
+                  <option value='bekas-perokok'>Bekas Perokok</option>
+                  <option value='perokok-pasif'>Perokok Pasif</option>
+                  <option value='bukan-perokok'>Bukan Perokok</option>
+                </select>
+                <article
+                  className={`${
+                    props.statusMPemeriksaanUmum == 'perokok-semasa'
+                      ? 'visible'
+                      : 'hidden'
+                  } grid grid-cols-2 col-span-2 `}
+                >
+                  <h4 className='font-semibold text-base flex flex-row pl-5 col-span-2'>
+                    jenis rokok<span className='text-user6'>*</span>
+                  </h4>
+                  <select
+                    required={
+                      props.statusMPemeriksaanUmum == 'perokok-semasa'
+                        ? true
+                        : false
+                    }
+                    name='jenisR-pemeriksaan-umum'
+                    id='jenisR-pemeriksaan-umum'
+                    value={props.jenisRPemeriksaanUmum}
+                    onChange={(e) => {
+                      props.setJenisRPemeriksaanUmum(e.target.value);
+                    }}
+                    className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                  >
+                    <option value=''></option>
+                    <option value='rokok-biasa'>Rokok Biasa</option>
+                    <option value='elektronik'>Elektronik</option>
+                    <option value='shisha'>Shisha</option>
+                    <option value='lain-lain'>Lain-lain</option>
+                  </select>
+                </article>
+              </article>
             </div>
             <div className='grid gap-2 auto-rows-min row-start-2 lg:row-start-1 col-start-1 lg:col-start-2'>
               <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
@@ -714,8 +766,33 @@ export default function Pemeriksaan(props) {
                 <h4 className='font-bold flex flex-row pl-5'>
                   Status Gigi Desidus<span className='text-user6'>*</span>
                 </h4>
-                <div className='grid grid-cols-2'>
-                  {/* <div className='flex items-center flex-row pl-5 col-span-2'>
+                <div className='grid gap-1'>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      type='checkbox'
+                      name='ada-desidus-pemeriksaan-umum'
+                      id='ada-desidus-pemeriksaan-umum'
+                      checked={props.adaDesidusPemeriksaanUmum}
+                      onChange={() => {
+                        props.setAdaDesidusPemeriksaanUmum(
+                          !props.adaDesidusPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='ada-desidus-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      ada gigi desidus
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !props.adaDesidusPemeriksaanUmum && 'hidden'
+                    } grid grid-cols-2`}
+                  >
+                    {/* <div className='flex items-center flex-row pl-5 col-span-2'>
                     <span
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
                       onClick={(e) =>
@@ -732,99 +809,141 @@ export default function Pemeriksaan(props) {
                         : 'Klik butang jika ada gigi desidus'}
                     </p>
                   </div> */}
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m lowercase'>d: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='20'
-                      type='number'
-                      name='d-ada-status-gigi-desidus-pemeriksaan-umum'
-                      id='d-ada-status-gigi-desidus-pemeriksaan-umum'
-                      value={props.dAdaGigiDesidusPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setDAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m lowercase'>m: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='20'
-                      type='number'
-                      name='m-ada-status-gigi-desidus-pemeriksaan-umum'
-                      id='m-ada-status-gigi-desidus-pemeriksaan-umum'
-                      value={props.mAdaGigiDesidusPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setMAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m lowercase'>f: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='20'
-                      type='number'
-                      name='f-ada-status-gigi-desidus-pemeriksaan-umum'
-                      id='f-ada-status-gigi-desidus-pemeriksaan-umum'
-                      value={props.fAdaGigiDesidusPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setFAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m lowercase'>e: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='20'
-                      type='number'
-                      name='e-ada-status-gigi-desidus-pemeriksaan-umum'
-                      id='e-ada-status-gigi-desidus-pemeriksaan-umum'
-                      value={props.eAdaGigiDesidusPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setEAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m lowercase'>x: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='20'
-                      type='number'
-                      name='x-ada-status-gigi-desidus-pemeriksaan-umum'
-                      id='x-ada-status-gigi-desidus-pemeriksaan-umum'
-                      value={props.xAdaGigiDesidusPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setXAdaGigiDesidusPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m lowercase'>d: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='20'
+                        type='number'
+                        name='d-ada-status-gigi-desidus-pemeriksaan-umum'
+                        id='d-ada-status-gigi-desidus-pemeriksaan-umum'
+                        value={props.dAdaGigiDesidusPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setDAdaGigiDesidusPemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m lowercase'>m: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='20'
+                        type='number'
+                        name='m-ada-status-gigi-desidus-pemeriksaan-umum'
+                        id='m-ada-status-gigi-desidus-pemeriksaan-umum'
+                        value={props.mAdaGigiDesidusPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setMAdaGigiDesidusPemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m lowercase'>f: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='20'
+                        type='number'
+                        name='f-ada-status-gigi-desidus-pemeriksaan-umum'
+                        id='f-ada-status-gigi-desidus-pemeriksaan-umum'
+                        value={props.fAdaGigiDesidusPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setFAdaGigiDesidusPemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m uppercase'>SM: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='20'
+                        type='number'
+                        name='sm-ada-status-gigi-desidus-pemeriksaan-umum'
+                        id='sm-ada-status-gigi-desidus-pemeriksaan-umum'
+                        value={props.smAdaGigiDesidusPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setSmAdaGigiDesidusPemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m lowercase'>x: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='20'
+                        type='number'
+                        name='x-ada-status-gigi-desidus-pemeriksaan-umum'
+                        id='x-ada-status-gigi-desidus-pemeriksaan-umum'
+                        value={props.xAdaGigiDesidusPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setXAdaGigiDesidusPemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
                   </div>
                 </div>
+                {props.sumDMFXDesidusUmum > 20 && (
+                  <p className='text-user6 font-semibold'>
+                    jumlah <span className='lowercase'>dmfx</span> dan SM tidak
+                    boleh melebihi 20
+                  </p>
+                )}
               </article>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
                   Status Gigi Kekal<span className='text-user6'>*</span>
                 </h4>
-                <div className='grid grid-cols-2'>
-                  {/* <div className='flex items-center flex-row pl-5 col-span-2'>
+                <div className='grid gap-1'>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      type='checkbox'
+                      name='ada-kekal-pemeriksaan-umum'
+                      id='ada-kekal-pemeriksaan-umum'
+                      checked={props.adaKekalPemeriksaanUmum}
+                      onChange={() => {
+                        props.setAdaKekalPemeriksaanUmum(
+                          !props.adaKekalPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='ada-kekal-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      ada gigi kekal
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !props.adaKekalPemeriksaanUmum && 'hidden'
+                    } grid grid-cols-2`}
+                  >
+                    {/* <div className='flex items-center flex-row pl-5 col-span-2'>
                     <span
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
                       onClick={(e) =>
@@ -841,90 +960,91 @@ export default function Pemeriksaan(props) {
                         : 'Klik butang jika ada gigi kekal'}
                     </p>
                   </div> */}
-                  <div className='flex flex-row items-center  pl-5'>
-                    <p className='text-sm font-m '>D: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='d-ada-status-gigi-kekal-pemeriksaan-umum'
-                      id='d-ada-status-gigi-kekal-pemeriksaan-umum'
-                      value={props.dAdaGigiKekalPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setDAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m '>M: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='m-ada-status-gigi-kekal-pemeriksaan-umum'
-                      id='m-ada-status-gigi-kekal-pemeriksaan-umum'
-                      value={props.mAdaGigiKekalPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setMAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m '>F: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='f-ada-status-gigi-kekal-pemeriksaan-umum'
-                      id='f-ada-status-gigi-kekal-pemeriksaan-umum'
-                      value={props.fAdaGigiKekalPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setFAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m '>E: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                      id='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                      value={props.eAdaGigiKekalPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setEAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m '>X: </p>
-                    <span className='text-user6'>*</span>
-                    <input
-                      required
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='x-ada-status-gigi-kekal-pemeriksaan-umum'
-                      id='x-ada-status-gigi-kekal-pemeriksaan-umum'
-                      value={props.xAdaGigiKekalPemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setXAdaGigiKekalPemeriksaanUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    />
+                    <div className='flex flex-row items-center  pl-5'>
+                      <p className='text-sm font-m '>D: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='d-ada-status-gigi-kekal-pemeriksaan-umum'
+                        id='d-ada-status-gigi-kekal-pemeriksaan-umum'
+                        value={props.dAdaGigiKekalPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setDAdaGigiKekalPemeriksaanUmum(e.target.value);
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m '>M: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='m-ada-status-gigi-kekal-pemeriksaan-umum'
+                        id='m-ada-status-gigi-kekal-pemeriksaan-umum'
+                        value={props.mAdaGigiKekalPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setMAdaGigiKekalPemeriksaanUmum(e.target.value);
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m '>F: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='f-ada-status-gigi-kekal-pemeriksaan-umum'
+                        id='f-ada-status-gigi-kekal-pemeriksaan-umum'
+                        value={props.fAdaGigiKekalPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setFAdaGigiKekalPemeriksaanUmum(e.target.value);
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m '>E: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                        id='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                        value={props.eAdaGigiKekalPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setEAdaGigiKekalPemeriksaanUmum(e.target.value);
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='text-sm font-m '>X: </p>
+                      <span className='text-user6'>*</span>
+                      <input
+                        required
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='x-ada-status-gigi-kekal-pemeriksaan-umum'
+                        id='x-ada-status-gigi-kekal-pemeriksaan-umum'
+                        value={props.xAdaGigiKekalPemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setXAdaGigiKekalPemeriksaanUmum(e.target.value);
+                        }}
+                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      />
+                    </div>
                   </div>
                 </div>
               </article>
