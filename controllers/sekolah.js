@@ -239,10 +239,26 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
 
-  await Sekolah.findOneAndUpdate(
+  const personSekolah = await Sekolah.findOneAndUpdate(
     { _id: req.query.personSekolahId },
     { $set: { statusRawatan: 'belum selesai' } }
   );
+
+  // delete KOTAK if inginMelakukanIntervensiMerokok === tidak || ''
+  if (
+    personSekolah.kotakSekolah &&
+    (req.body.inginMelakukanIntervensiMerokok === '' ||
+      req.body.inginMelakukanIntervensiMerokok ===
+        'tidak-ingin-melakukan-intervensi-merokok')
+  ) {
+    await Kotaksekolah.findOneAndRemove({
+      _id: personSekolah.kotakSekolah._id,
+    });
+    await Sekolah.findOneAndUpdate(
+      { _id: req.query.personSekolahId },
+      { $unset: { kotakSekolah: 1 } }
+    );
+  }
 
   res.status(200).json({ updatedSinglePemeriksaan });
 };

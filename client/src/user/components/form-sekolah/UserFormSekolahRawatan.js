@@ -5,14 +5,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahRawatan() {
-  const {
-    userToken,
-    username,
-    navigate,
-    catchAxiosErrorAndLogout,
-    useParams,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -190,6 +183,24 @@ function UserFormSekolahRawatan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sumDibuatFs > 16) {
+      toast.error('Jumlah dibuat FS tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDiberiFv > 16) {
+      toast.error('Jumlah diberi FV tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDiberiPrr > 16) {
+      toast.error('Jumlah diberi PRR tidak boleh lebih dari 16', {
+        autoClose: 3000,
+      });
+      return;
+    }
     let statusRawatan = '';
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';
@@ -197,98 +208,81 @@ function UserFormSekolahRawatan() {
     if (kesSelesaiSekolahRawatan === false) {
       statusRawatan = 'belum selesai';
     }
-    try {
-      await axios.post(
-        `/api/v1/sekolah/rawatan/${personSekolahId}`,
+    await toast
+      .promise(
+        axios.post(
+          `/api/v1/sekolah/rawatan/${personSekolahId}`,
+          {
+            createdByUsername,
+            statusRawatan,
+            tarikhRawatanSemasa,
+            baruJumlahGigiKekalDibuatFs,
+            semulaJumlahGigiKekalDibuatFs,
+            baruJumlahMuridDibuatFs,
+            semulaJumlahMuridDibuatFs,
+            baruJumlahGigiKekalDiberiFv,
+            semulaJumlahGigiKekalDiberiFv,
+            baruJumlahMuridDiberiFv,
+            semulaJumlahMuridDiberiFv,
+            baruJumlahGigiKekalDiberiPrrJenis1,
+            semulaJumlahGigiKekalDiberiPrrJenis1,
+            baruJumlahMuridDiberiPrrJenis1,
+            semulaJumlahMuridDiberiPrrJenis1,
+            baruJumlahGigiYangDiberiSdf,
+            semulaJumlahGigiYangDiberiSdf,
+            gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+            gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+            gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+            gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+            cabutDesidusSekolahRawatan,
+            cabutKekalSekolahRawatan,
+            jumlahTampalanSementaraSekolahRawatan,
+            pulpotomiSekolahRawatan,
+            endodontikSekolahRawatan,
+            absesSekolahRawatan,
+            penskaleranSekolahRawatan,
+            kesSelesaiSekolahRawatan,
+            kesSelesaiIcdasSekolahRawatan,
+            rujukSekolahRawatan,
+            ceramahPromosiSekolahRawatan,
+            lmgPromosiSekolahRawatan,
+            yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
+            plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+          },
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        ),
         {
-          createdByUsername,
-          statusRawatan,
-          tarikhRawatanSemasa,
-          baruJumlahGigiKekalDibuatFs,
-          semulaJumlahGigiKekalDibuatFs,
-          baruJumlahMuridDibuatFs,
-          semulaJumlahMuridDibuatFs,
-          baruJumlahGigiKekalDiberiFv,
-          semulaJumlahGigiKekalDiberiFv,
-          baruJumlahMuridDiberiFv,
-          semulaJumlahMuridDiberiFv,
-          baruJumlahGigiKekalDiberiPrrJenis1,
-          semulaJumlahGigiKekalDiberiPrrJenis1,
-          baruJumlahMuridDiberiPrrJenis1,
-          semulaJumlahMuridDiberiPrrJenis1,
-          baruJumlahGigiYangDiberiSdf,
-          semulaJumlahGigiYangDiberiSdf,
-          gdBaruAnteriorSewarnaJumlahTampalanDibuat,
-          gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
-          gkBaruAnteriorSewarnaJumlahTampalanDibuat,
-          gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
-          gdBaruPosteriorSewarnaJumlahTampalanDibuat,
-          gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
-          gkBaruPosteriorSewarnaJumlahTampalanDibuat,
-          gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
-          gdBaruPosteriorAmalgamJumlahTampalanDibuat,
-          gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
-          gkBaruPosteriorAmalgamJumlahTampalanDibuat,
-          gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-          cabutDesidusSekolahRawatan,
-          cabutKekalSekolahRawatan,
-          jumlahTampalanSementaraSekolahRawatan,
-          pulpotomiSekolahRawatan,
-          endodontikSekolahRawatan,
-          absesSekolahRawatan,
-          penskaleranSekolahRawatan,
-          kesSelesaiSekolahRawatan,
-          kesSelesaiIcdasSekolahRawatan,
-          rujukSekolahRawatan,
-          ceramahPromosiSekolahRawatan,
-          lmgPromosiSekolahRawatan,
-          yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
-          plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-          dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-          penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-          kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+          pending: 'Menghantar...',
+          success: 'Rawatan pelajar berjaya dihantar',
+          error: 'Rawatan pelajar gagal dihantar',
         },
         {
-          headers: { Authorization: `Bearer ${userToken}` },
+          autoClose: 2000,
         }
-      );
-      toast.success(`Rawatan pelajar berjaya dihantar`, {
-        position: 'top-right',
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setTimeout(() => {
-        toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
         });
-      }, 1000);
-      setTimeout(() => {
-        window.opener = null;
-        window.open('', '_self');
-        window.close();
-      }, 5000);
-    } catch (error) {
-      console.log(error);
-      toast.error('Gagal!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
       });
-    }
   };
 
   return (
