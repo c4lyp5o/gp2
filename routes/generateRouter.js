@@ -42,5 +42,8 @@ router.post('/buatreten', generatecon.borangPilihRetenTadika_post);
 // router.post('/testroute', generateTest.getDetails);
 router.get('/testdownload', generateTest.getDetails);
 router.get('/testcount', generateTest.testFunction201A);
+router.get('/paa', generateTest.popAndAgg);
+router.get('/paa2', generateTest.popAndAgg2);
+router.get('/paa3', generateTest.tryPG101);
 
 module.exports = router;
