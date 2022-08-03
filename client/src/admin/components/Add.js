@@ -39,6 +39,7 @@ const Modal = ({
   const currentGred = useRef();
   const currentRole = useRef();
   const currentKeppStatus = useRef();
+  const currentRisiko = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +53,7 @@ const Modal = ({
           handler: currentKp.current,
           jenisFasiliti: jenisFacility,
           keppStatus: currentKeppStatus.current,
+          risikoSekolahPersis: currentRisiko.current,
         },
       });
       refetchFacilities();
@@ -143,7 +145,12 @@ const Modal = ({
                 </div>
               </div>
               <div className={styles.modalContent}>
-                <input type='checkbox' name='checkbox' value='KEPP' />
+                <input
+                  type='checkbox'
+                  name='checkbox'
+                  value='KEPP'
+                  onChange={(e) => (currentKeppStatus.current = true)}
+                />
                 KEPP
                 <br />
                 <input type='checkbox' name='checkbox' value='UTC' />
@@ -362,6 +369,27 @@ const Modal = ({
                       <option value={k.nama}>{k.nama}</option>
                     ))}
                   </select>
+                  {jenisFacility !== 'sekolah-rendah' &&
+                  jenisFacility !== 'sekolah-menengah' ? null : (
+                    <p>
+                      Risiko Sekolah (PERSiS){' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                  )}
+                  {jenisFacility !== 'sekolah-rendah' &&
+                  jenisFacility !== 'sekolah-menengah' ? null : (
+                    <select
+                      required
+                      className='border-2'
+                      onChange={(e) => (currentRisiko.current = e.target.value)}
+                    >
+                      <option value=''>Pilih Risiko</option>
+                      <option value='rendah'>Rendah</option>
+                      <option value='tinggi'>Tinggi</option>
+                    </select>
+                  )}
                 </div>
               </div>
               <div className={styles.modalActions}>

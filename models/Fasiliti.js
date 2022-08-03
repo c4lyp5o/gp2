@@ -21,11 +21,20 @@ const fasilitiSchema = new Schema({
   handler: {
     type: String,
     // required: true
+    default: 'NOT APPLICABLE',
   },
   jenisFasiliti: {
     type: String,
   },
   keppStatus: {
+    type: Boolean,
+    default: false,
+  },
+  melaksanakanBegin: {
+    type: Boolean,
+    default: false,
+  },
+  risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
   },

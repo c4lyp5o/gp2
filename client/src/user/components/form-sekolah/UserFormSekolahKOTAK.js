@@ -5,14 +5,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahKOTAK() {
-  const {
-    userToken,
-    username,
-    navigate,
-    catchAxiosErrorAndLogout,
-    useParams,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
 
   const { personSekolahId, kotakSekolahId } = useParams();
 
@@ -53,10 +46,24 @@ function UserFormSekolahKOTAK() {
       setTarikh4('');
       setAdaTiadaQTarikh4('');
     }
-  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3]);
-
-  //reset value
-  // TO DO..
+    if (adaTiadaQTarikh1 === 'tiada-q-tarikh1') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh2 === 'tiada-q-tarikh2') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh3 === 'tiada-q-tarikh3') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+      setRujukGuruKaunseling('');
+    }
+  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3, adaTiadaQTarikh4]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -75,6 +82,25 @@ function UserFormSekolahKOTAK() {
           setAdaTiadaQTarikh1(
             data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh1
           );
+          setTarikh2(data.personSekolahWithPopulate.kotakSekolah.tarikh2);
+          setAdaTiadaQTarikh2(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh2
+          );
+          setTarikh3(data.personSekolahWithPopulate.kotakSekolah.tarikh3);
+          setAdaTiadaQTarikh3(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh3
+          );
+          setTarikh4(data.personSekolahWithPopulate.kotakSekolah.tarikh4);
+          setAdaTiadaQTarikh4(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh4
+          );
+          setRujukGuruKaunseling(
+            data.personSekolahWithPopulate.kotakSekolah.rujukGuruKaunseling
+          );
+          setTarikhQ(data.personSekolahWithPopulate.kotakSekolah.tarikhQ);
+          setStatusSelepas6Bulan(
+            data.personSekolahWithPopulate.kotakSekolah.statusSelepas6Bulan
+          );
         }
         setIsLoading(false);
       } catch (error) {
@@ -87,98 +113,90 @@ function UserFormSekolahKOTAK() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (kotakSekolahId === 'tambah-kotak') {
-      try {
-        await axios.post(
-          `/api/v1/sekolah/kotak/${personSekolahId}`,
-          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+      await toast
+        .promise(
+          axios.post(
+            `/api/v1/sekolah/kotak/${personSekolahId}`,
+            {
+              createdByUsername,
+              tarikh1,
+              adaTiadaQTarikh1,
+              tarikh2,
+              adaTiadaQTarikh2,
+              tarikh3,
+              adaTiadaQTarikh3,
+              tarikh4,
+              adaTiadaQTarikh4,
+              rujukGuruKaunseling,
+              tarikhQ,
+              statusSelepas6Bulan,
+            },
+            {
+              headers: { Authorization: `Bearer ${userToken}` },
+            }
+          ),
           {
-            headers: { Authorization: `Bearer ${userToken}` },
+            pending: 'Menghantar...',
+            success: 'KOTAK pelajar berjaya dihantar',
+            error: 'KOTAK pelajar gagal dihantar',
+          },
+          {
+            autoClose: 2000,
           }
-        );
-        toast.success(`KOTAK pelajar berjaya dihantar`, {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+        )
+        .then(() => {
+          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+            autoClose: 2000,
           });
-        }, 1000);
-        setTimeout(() => {
-          window.opener = null;
-          window.open('', '_self');
-          window.close();
-        }, 5000);
-      } catch (error) {
-        console.log(error);
-        toast.error('Gagal!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 3000);
         });
-      }
     }
     if (kotakSekolahId !== 'tambah-kotak') {
-      try {
-        await axios.patch(
-          `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
-          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
+            {
+              createdByUsername,
+              tarikh1,
+              adaTiadaQTarikh1,
+              tarikh2,
+              adaTiadaQTarikh2,
+              tarikh3,
+              adaTiadaQTarikh3,
+              tarikh4,
+              adaTiadaQTarikh4,
+              rujukGuruKaunseling,
+              tarikhQ,
+              statusSelepas6Bulan,
+            },
+            {
+              headers: { Authorization: `Bearer ${userToken}` },
+            }
+          ),
           {
-            headers: { Authorization: `Bearer ${userToken}` },
+            pending: 'Mengemaskini...',
+            success: 'KOTAK pelajar berjaya dikemaskini',
+            error: 'KOTAK pelajar gagal dikemaskini',
+          },
+          {
+            autoClose: 2000,
           }
-        );
-        toast.success(`KOTAK pelajar berjaya dikemaskini`, {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+        )
+        .then(() => {
+          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+            autoClose: 2000,
           });
-        }, 1000);
-        setTimeout(() => {
-          window.opener = null;
-          window.open('', '_self');
-          window.close();
-        }, 5000);
-      } catch (error) {
-        console.log(error);
-        toast.error('Gagal!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 3000);
         });
-      }
     }
   };
 
@@ -260,7 +278,8 @@ function UserFormSekolahKOTAK() {
                     tarikh intervensi merokok
                   </h4>
                   <p className='flex items-center justify-center text-m font-m'>
-                    Sesi 1:<span className='text-user6'>*</span>
+                    Sesi 1:
+                    <span className='text-user6 text-xl font-semibold'>*</span>
                   </p>
                   <input
                     required
@@ -318,13 +337,15 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 2:
+                      {tarikh2 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <input
-                      required={
-                        adaTiadaQTarikh1 == 'tiada-q-tarikh1' ? true : false
-                      }
                       type='date'
                       name='tarikh2'
                       id='tarikh2'
@@ -338,9 +359,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        required={
-                          adaTiadaQTarikh1 == 'tiada-q-tarikh1' ? true : false
-                        }
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='ada-q-tarikh2'
@@ -360,7 +379,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='tiada-q-tarikh2'
@@ -384,6 +403,11 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 3:
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
@@ -401,7 +425,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='ada-q-tarikh3'
@@ -421,7 +445,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='tiada-q-tarikh3'
@@ -445,6 +469,11 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <p className='flex items-center justify-center text-m font-m'>
                       Sesi 4:
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
@@ -462,7 +491,7 @@ function UserFormSekolahKOTAK() {
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='ada-q-tarikh4'
@@ -482,7 +511,7 @@ function UserFormSekolahKOTAK() {
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='tiada-q-tarikh4'
@@ -515,7 +544,9 @@ function UserFormSekolahKOTAK() {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required={
+                        adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                      }
                       type='radio'
                       name='rujuk-guru-kaunseling'
                       id='ya-rujuk-guru-kaunseling'
@@ -537,7 +568,9 @@ function UserFormSekolahKOTAK() {
                       Ya
                     </label>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required={
+                        adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                      }
                       type='radio'
                       name='rujuk-guru-kaunseling'
                       id='tidak-rujuk-guru-kaunseling'
@@ -565,12 +598,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     tarikh quit date
                   </h4>
@@ -590,12 +618,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     status selepas 6 bulan
                   </h4>

@@ -158,6 +158,10 @@ export default function Data({
                 Nama {Dictionary[facilityType]}
               </th>
               <th className='border border-slate-600 px-10'>Nama Klinik</th>
+              {facilityType !== 'sekolah-rendah' &&
+              facilityType !== 'sekolah-menengah' ? null : (
+                <th className='border border-slate-600 px-3'>PERSiS</th>
+              )}
               <th className='border border-slate-600 px-3'>Manage</th>
             </tr>
           </thead>
@@ -185,6 +189,12 @@ export default function Data({
                   <td className='border border-slate-600 px-3'>{index + 1}</td>
                   <td className='border border-slate-600 px-20'>{f.nama}</td>
                   <td className='border border-slate-600 px-10'>{f.handler}</td>
+                  {facilityType !== 'sekolah-rendah' &&
+                  facilityType !== 'sekolah-menengah' ? null : (
+                    <td className='border border-slate-600 px-3'>
+                      {f.risikoSekolahPersis}
+                    </td>
+                  )}
                   <td className='border border-slate-600 px-3'>
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'

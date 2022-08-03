@@ -43,6 +43,7 @@ function AdminAppProvider({ children }) {
         handler
         jenisFasiliti
         keppStatus
+        risikoSekolahPersis
       }
     }
   `;
@@ -58,6 +59,7 @@ function AdminAppProvider({ children }) {
         handler
         jenisFasiliti
         keppStatus
+        risikoSekolahPersis
       }
     }
   `;
@@ -120,7 +122,8 @@ function AdminAppProvider({ children }) {
       $daerah: String
       $handler: String
       $jenisFasiliti: String
-      $keppStatus: String
+      $keppStatus: Boolean
+      $risikoSekolahPersis: String
     ) {
       createFasiliti(
         fasiliti: {
@@ -131,6 +134,7 @@ function AdminAppProvider({ children }) {
           handler: $handler
           jenisFasiliti: $jenisFasiliti
           keppStatus: $keppStatus
+          risikoSekolahPersis: $risikoSekolahPersis
         }
       ) {
         _id
@@ -141,6 +145,7 @@ function AdminAppProvider({ children }) {
         handler
         jenisFasiliti
         keppStatus
+        risikoSekolahPersis
       }
     }
   `;
@@ -184,7 +189,8 @@ function AdminAppProvider({ children }) {
       $daerah: String
       $handler: String
       $jenisFasiliti: String
-      $keppStatus: String
+      $keppStatus: Boolean
+      $risikoSekolahPersis: String
     ) {
       updateFasiliti(
         fasiliti: {
@@ -196,6 +202,7 @@ function AdminAppProvider({ children }) {
           handler: $handler
           jenisFasiliti: $jenisFasiliti
           keppStatus: $keppStatus
+          risikoSekolahPersis: $risikoSekolahPersis
         }
       ) {
         _id
@@ -206,6 +213,7 @@ function AdminAppProvider({ children }) {
         handler
         jenisFasiliti
         keppStatus
+        risikoSekolahPersis
       }
     }
   `;
@@ -255,6 +263,7 @@ function AdminAppProvider({ children }) {
         role
         handler
         keppStatus
+        risikoSekolahPersis
       }
     }
   `;
