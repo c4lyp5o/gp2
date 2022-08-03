@@ -1,104 +1,65 @@
 import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { Spinner } from 'react-awesome-spinners';
+import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-export default function FillableForm({
-  showForm,
-  setShowForm,
-  createdByKp,
-  createdByDaerah,
-  createdByNegeri,
-  jenisFasiliti,
-  dateToday,
-  refetch,
-  toast,
-}) {
-  const { ADD_PATIENT } = useGlobalUserAppContext();
+export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
+  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
 
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [waktuSampai, setWaktuSampai] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
-  const [umur, setUmur] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [umur, setUmur] = useState(0);
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
-  const [waktuSampai, setWaktuSampai] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
 
-  const [CreatePatient, { loading, error }] = useMutation(ADD_PATIENT);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    CreatePatient({
-      variables: {
-        createdByKp: createdByKp,
-        createdByDaerah: createdByDaerah,
-        createdByNegeri: createdByNegeri,
-        createdByUsername: 'AdminKaunter',
-        nama: nama,
-        jenisIc: jenisIc,
-        ic: ic,
-        tarikhLahir: tarikhLahir,
-        tarikhKedatangan: tarikhKedatangan,
-        jantina: jantina,
-        umur: umur,
-        alamat: alamat,
-        waktuSampai: waktuSampai,
-        kategoriPesakit: kategoriPesakit,
-        statusPesara: statusPesara,
-        kumpulanEtnik: kumpulanEtnik,
-        rujukDaripada: rujukDaripada,
-        jenisFasiliti: jenisFasiliti,
-      },
-    })
+    await toast
+      .promise(
+        axios.post(
+          '/api/v1/kaunter',
+          {
+            createdByUsername: 'kaunter',
+            tarikhKedatangan,
+            waktuSampai,
+            nama: nama.toLowerCase(),
+            jenisIc,
+            ic,
+            tarikhLahir,
+            umur,
+            jantina,
+            alamat,
+            kategoriPesakit,
+            statusPesara,
+            kumpulanEtnik,
+            rujukDaripada,
+            jenisFasiliti,
+          },
+          { headers: { Authorization: `Bearer ${kaunterToken}` } }
+        ),
+        {
+          pending: 'Mendaftar...',
+          success: 'Pesakit berjaya didaftar',
+          error: 'Pesakit gagal didaftar',
+        },
+        { autoClose: 2000 }
+      )
       .then(() => {
-        refetch();
-        addDoneNotification();
         setShowForm(false);
-      })
-      .catch(() => {
-        toast.error('Gagal!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
       });
-  };
-
-  const addDoneNotification = () => {
-    toast.success(`Pesakit berjaya ditambah`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
   };
 
   const howOldAreYouMyFriend = (date) => {
     return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
   };
-
-  if (loading)
-    return (
-      <p>
-        <Spinner />
-      </p>
-    );
-
-  if (error) return <p>Error :(</p>;
 
   if (showForm) {
     return (
