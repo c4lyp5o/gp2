@@ -3,6 +3,10 @@ const path = require('path');
 const async = require('async');
 const Excel = require('exceljs');
 const Sekolah = require('../models/Sekolah');
+const Umum = require('../models/Umum');
+const Pemeriksaan = require('../models/Pemeriksaansekolah');
+const Rawatan = require('../models/Rawatansekolah');
+const Kotak = require('../models/Kotaksekolah');
 
 exports.testFunction = function (req, res) {
   async.parallel(
@@ -2570,28 +2574,118 @@ exports.testFunction201A = function (req, res) {
                   $sum: '$tisuKerasTrauma',
                 },
                 pesakitAdaFullDentureAtas: {
-                  $sum: '$yaTidakSediaAdaStatusDenture',
+                  //   $sum: '$yaTidakSediaAdaStatusDenture',
+                  // },
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasSediaAdaDenture',
+                          'penuh-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitAdaPartialDentureAtas: {
-                  $sum: '$yaTidakSediaAdaStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasSediaAdaDenture',
+                          'separa-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitPerluFullDentureAtas: {
-                  $sum: '$yaTidakPerluStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasPerluDenture',
+                          'penuh-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitPerluPartialDentureAtas: {
-                  $sum: '$yaTidakPerluStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasPerluDenture',
+                          'separa-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitAdaFullDentureBawah: {
-                  $sum: '$yaTidakSediaAdaStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhBawahSediaAdaDenture',
+                          'penuh-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitAdaPartialDentureBawah: {
-                  $sum: '$yaTidakSediaAdaStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhBawahSediaAdaDenture',
+                          'separa-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitPerluFullDentureBawah: {
-                  $sum: '$yaTidakPerluStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasPerluDenture',
+                          'penuh-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
                 pesakitPerluPartialDentureBawah: {
-                  $sum: '$yaTidakPerluStatusDenture',
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$separaPenuhAtasPerluDenture',
+                          'separa-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
                 },
               },
             },
@@ -3057,7 +3151,6 @@ exports.testFunction201SMKP = function (req, res) {
                     ],
                   },
                 },
-                perluFSGigiB: { $sum: '$baruJumlahGigiKekalPerluFs' },
                 perluFSGigiB: { $sum: '$baruJumlahGigiKekalPerluFs' },
                 perluFSGigiS: { $sum: '$semulaJumlahGigiKekalPerluFs' },
                 perluFsBilGigiFailed: { $sum: '$jumlahGigiFsGagal' },
@@ -5642,7 +5735,6 @@ exports.testFunctionPG214 = function (req, res) {
               $group: {
                 _id: '$namaSekolah',
                 // nanty tulis formula to classify umur:
-
                 jkbMelayu: {
                   $sum: {
                     $cond: [
@@ -6061,4 +6153,3861 @@ exports.testFunctionPG214 = function (req, res) {
       }
     }
   );
+};
+exports.popAndAgg = function (req, res) {
+  async.parallel(
+    {
+      tryingNow: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                kelas: '1 adil',
+                kodSekolah: 'YEE7872',
+                statusRawatan: 'belum selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Pemeriksaan.collection.name,
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            { $unwind: '$pemeriksaanSekolah' },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawa',
+              },
+            },
+            { $unwind: '$rawa' },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawa',
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahBudak: { $sum: 1 },
+                dAdaGigiKekal: {
+                  $sum: '$peme.dAdaGigiKekal',
+                },
+                FSKekalBaru: {
+                  $sum: '$rawa.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                },
+                engganKedatanganPendaftaran: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$peme.engganKedatanganPendaftaran', true],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kedatanganTidakHadir: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$peme.tidakHadirKedatanganPendaftaran', true],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$peme.baruUlanganKedatanganPendaftaran',
+                          'baru-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$peme.baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakA: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$peme.kebersihanMulutOralHygiene', 'A'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakC: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$peme.kebersihanMulutOralHygiene', 'C'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakE: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$peme.kebersihanMulutOralHygiene', 'E'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahd: { $sum: '$peme.dAdaGigiDesidus' },
+                jumlahf: { $sum: '$peme.fAdaGigiDesidus' },
+                jumlahx: { $sum: '$peme.xAdaGigiDesidus' },
+                jumlahE: { $sum: '$peme.eAdaGigiKekal' },
+                jumlahD: { $sum: '$peme.dAdaGigiKekal' },
+                jumlahM: { $sum: '$peme.mAdaGigiKekal' },
+                jumlahF: { $sum: '$peme.fAdaGigiKekal' },
+                jumlahX: { $sum: '$peme.xAdaGigiKekal' },
+              },
+            },
+            // {
+            //   $project: {
+            //     _id: 0,
+            //     namaSekolah: '$_id',
+            //     jumlahBudak: '$jumlahBudak',
+            //     dAdaGigiKekal: '$dAdaGigiKekal',
+            //     FSKekalBaru: '$FSKekalBaru',
+            //   },
+            // },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.popAndAgg2 = function (req, res) {
+  async.parallel(
+    {
+      dataPemeriksaan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                kelas: '1 amanah',
+                kodSekolah: 'YEE7872',
+                // statusRawatan: 'selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Pemeriksaan.collection.name,
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            { $unwind: '$pemeriksaanSekolah' },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            // { $unwind: '$rawatanSekolah' },
+            {
+              $lookup: {
+                from: Kotak.collection.name,
+                localField: 'kotakSekolah',
+                foreignField: '_id',
+                as: 'kotakSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$kotakSekolah',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahBudak: { $sum: 1 },
+                engganKedatanganPendaftaran: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kedatanganTidakHadir: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                // ambil dari fasilitis
+                // enrolmen: {
+                //   $sum: {
+                //     $cond: [
+                //       {
+                //         $eq: ['$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran', true],
+                //       },
+                //       1,
+                //       0,
+                //     ],
+                //   },
+                // },
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                          '$rawatanSekolah.tarikhPemeriksaanSemasa',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.baruUlanganKedatanganPendaftaran',
+                          'ulangan-kedatangan-pendaftaran',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakA: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'A',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakC: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'C',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakE: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'E',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahd: { $sum: '$pemeriksaanSekolah.dAdaGigiDesidus' },
+                jumlahf: { $sum: '$pemeriksaanSekolah.fAdaGigiDesidus' },
+                jumlahx: { $sum: '$pemeriksaanSekolah.xAdaGigiDesidus' },
+                jumlahE: { $sum: '$pemeriksaanSekolah.eAdaGigiKekal' },
+                jumlahD: { $sum: '$pemeriksaanSekolah.dAdaGigiKekal' },
+                jumlahM: { $sum: '$pemeriksaanSekolah.mAdaGigiKekal' },
+                jumlahF: { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
+                jumlahX: { $sum: '$pemeriksaanSekolah.xAdaGigiKekal' },
+                gigiKekalDMFXsamaAtauKurangDari3: {
+                  //DMFX ≤ 3
+                  $sum: {
+                    $cond: [
+                      {
+                        $lte: [
+                          {
+                            $add: [
+                              '$dAdaGigiKekal',
+                              '$mAdaGigiKekal',
+                              '$fAdaGigiKekal',
+                              '$xAdaGigiKekal',
+                            ],
+                          },
+                          3,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                totalStatusGigiKekalSamaKosong: {
+                  //X+M = 0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBK: {
+                  //MBK
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKaries: {
+                  //DMFX=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKariesTapiElebihDariSatu: {
+                  //DMFX=0 ; E≥1
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                dfxEqualToZero: {
+                  //dfx=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBG: {
+                  //Mulut bebas gingivitis
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                              '0',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTprICDAS: {
+                  //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kecederaanGigiAnterior: {
+                  $sum: {
+                    $toDouble:
+                      '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+                  },
+                  // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
+                },
+                cleftAda: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.adaCleftLip' },
+                  // $sum: { $adaCleftLip: 0 },
+                },
+                cleftRujuk: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.rujukCleftLip' },
+                  // $sum: { $rujukCleftLip: 0 },
+                },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                              0,
+                            ],
+                          },
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+                              '0',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSGigiB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                      '0',
+                    ],
+                  },
+                },
+                perluFSGigiS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+                      '0',
+                    ],
+                  },
+                },
+                perluFsBilGigiFailed: {
+                  $sum: { $gt: ['$pemeriksaanSekolah.jumlahGigiFsGagal', '0'] },
+                },
+                perluFvMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $gt: [
+                          '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+                          '0',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvMuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGdB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGdS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGkB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAntGkS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGdB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGdS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGkB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanPosGkS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGdB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGdS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGkB: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.baruGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                perluTampalanAmgGkS: {
+                  $sum: {
+                    $gt: [
+                      '$pemeriksaanSekolah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                      0,
+                    ],
+                  },
+                },
+                skorGIS0: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '0',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS1: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '1',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '2',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS3: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '3',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                toothSurfaceLoss: {
+                  $sum: '$pemeriksaanSekolah.toothSurfaceLossTrauma',
+                },
+                traumaTisuLembut: {
+                  $sum: '$pemeriksaanSekolah.tisuLembutTrauma',
+                },
+                traumaTisuKeras: {
+                  $sum: '$pemeriksaanSekolah.tisuKerasTrauma',
+                },
+                pesakitAdaFullDentureAtas: {
+                  $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
+                },
+                pesakitAdaPartialDentureAtas: {
+                  $sum: '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
+                },
+                pesakitPerluFullDentureAtas: {
+                  $sum: '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                },
+                pesakitPerluPartialDentureAtas: {
+                  $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
+                },
+                pesakitAdaFullDentureBawah: {
+                  $sum: '$pemeriksaanSekolah.yaTidakSediaAdaStatusDenture',
+                },
+                pesakitAdaPartialDentureBawah: {
+                  $sum: '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
+                },
+                pesakitPerluFullDentureBawah: {
+                  $sum: '$pemeriksaanSekolah.yaTidakPerluStatusDenture',
+                },
+                pesakitPerluPartialDentureBawah: {
+                  $sum: '$pemeriksaanSekolah.separaPenuhBawahPerluDenture',
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      dataRawatan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                kelas: '1 amanah',
+                kodSekolah: 'YEE7872',
+                // statusRawatan: 'selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            {
+              $project: {
+                namaPelajar: '$nama',
+                namaSekolah: '$namaSekolah',
+                rawatanYgDilakukan: {
+                  $reduce: {
+                    input: '$rawatanSekolah',
+                    initialValue: {
+                      baruJumlahGigiKekalDibuatFs: 0,
+                      semulaJumlahGigiKekalDibuatFs: 0,
+                      baruJumlahMuridDibuatFs: 0,
+                      semulaJumlahMuridDibuatFs: 0,
+                      baruJumlahGigiKekalDiberiFv: 0,
+                      semulaJumlahGigiKekalDiberiFv: 0,
+                      baruJumlahMuridDiberiFv: 0,
+                      semulaJumlahMuridDiberiFv: 0,
+                      baruJumlahGigiKekalDiberiPrrJenis1: 0,
+                      semulaJumlahGigiKekalDiberiPrrJenis1: 0,
+                      baruJumlahMuridDiberiPrrJenis1: 0,
+                      semulaJumlahMuridDiberiPrrJenis1: 0,
+                      baruJumlahGigiYangDiberiSdf: 0,
+                      semulaJumlahGigiYangDiberiSdf: 0,
+                      gdBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorSewarnaJumlahTampalanDibuat: 1,
+                      gkSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      cabutDesidus: 0,
+                      cabutKekal: 0,
+                      jumlahTampalanSementara: 0,
+                      pulpotomi: 0,
+                      endodontik: 0,
+                      abses: 0,
+                      penskaleran: 0,
+                    },
+                    in: {
+                      BARU_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      BARU_MuridBuatFs: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahMuridDibuatFs',
+                        ],
+                      },
+                      BARU_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      BARU_MuridBuatFv: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahMuridDiberiFv',
+                        ],
+                      },
+                      BARU_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.baruJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      SEMULA_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      SEMULA_MuridBuatFs: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahMuridDibuatFs',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      SEMULA_MuridBuatFv: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahMuridDiberiFv',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.semulaJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.tampal',
+                          '$$this.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      cabutDesidus: {
+                        $add: [
+                          '$$value.cabut',
+                          '$$this.cabutDesidusSekolahRawatan',
+                        ],
+                      },
+                      cabutKekal: {
+                        $add: [
+                          '$$value.cabut',
+                          '$$this.cabutKekalSekolahRawatan',
+                        ],
+                      },
+                      tampalanSementara: {
+                        $add: [
+                          '$$value.cabut',
+                          '$$this.jumlahTampalanSementaraSekolahRawatan',
+                        ],
+                      },
+                      pulpotomi: {
+                        $add: [
+                          '$$value.cabut',
+                          '$$this.pulpotomiSekolahRawatan',
+                        ],
+                      },
+                      endodontik: {
+                        $add: [
+                          '$$value.cabut',
+                          '$$this.endodontikSekolahRawatan',
+                        ],
+                      },
+                      abses: {
+                        $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
+                      },
+                      penskaleran: {
+                        $add: [
+                          '$$value.penskaleran',
+                          '$$this.penskaleranSekolahRawatan',
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahBudak: { $sum: 1 },
+                BARU_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFs',
+                },
+                BARU_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFs',
+                },
+                BARU_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFv',
+                },
+                BARU_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFv',
+                },
+                BARU_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatPRR1',
+                },
+                BARU_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatPRR1',
+                },
+                BARU_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatSdf',
+                },
+                BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                SEMULA_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFs',
+                },
+                SEMULA_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFs',
+                },
+                SEMULA_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFv',
+                },
+                SEMULA_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFv',
+                },
+                SEMULA_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatPRR1',
+                },
+                SEMULA_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatPRR1',
+                },
+                SEMULA_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatSdf',
+                },
+                SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                cabutDesidus: {
+                  $sum: '$rawatanYgDilakukan.cabutDesidus',
+                },
+                cabutKekal: {
+                  $sum: '$rawatanYgDilakukan.cabutKekal',
+                },
+                tampalanSementara: {
+                  $sum: '$rawatanYgDilakukan.tampalanSementara',
+                },
+                pulpotomi: {
+                  $sum: '$rawatanYgDilakukan.pulpotomi',
+                },
+                endodontik: {
+                  $sum: '$rawatanYgDilakukan.endodontik',
+                },
+                abses: {
+                  $sum: '$rawatanYgDilakukan.abses',
+                },
+                penskaleran: {
+                  $sum: '$rawatanYgDilakukan.penskaleran',
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.tryPG101 = function (req, res) {
+  Umum.aggregate([
+    {
+      $match: {},
+    },
+    {
+      $project: {
+        _id: 0,
+        nama: '$nama',
+        jantina: '$jantina',
+        umur: '$umur',
+        ic: '$ic',
+        alamat: '$alamat',
+        umur: '$umur',
+        waktuSampai: '$waktuSampai',
+        jantina: '$jantina',
+        kategoriPesakit: '$kategoriPesakit',
+        kumpulanEtnik: '$kumpulanEtnik',
+        rujukDaripada: '$rujukDaripada',
+      },
+    },
+  ]),
+    function (err, results) {
+      try {
+        console.log(results);
+        return res.json(results);
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+          message: 'Error when getting Data',
+          error: err,
+        });
+      }
+    };
+};
+exports.new201 = function (req, res) {
+  async.parallel(
+    {
+      dataPemeriksaan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                kelas: '1 adil',
+                kodSekolah: 'YEE7872',
+                statusRawatan: 'belum selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Pemeriksaan.collection.name,
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            { $unwind: '$pemeriksaanSekolah' },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            { $unwind: '$rawatanSekolah' },
+            {
+              $lookup: {
+                from: Kotak.collection.name,
+                localField: 'kotakSekolah',
+                foreignField: '_id',
+                as: 'kotakSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$kotakSekolah',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                // namaKlinik: '$pemeriksaanSekolah.createdByKp',
+                jumlahBudak: { $sum: 1 },
+                engganKedatanganPendaftaran: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kedatanganTidakHadir: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                // ambil dari fasilitis
+                // enrolmen: {
+                //   $sum: {
+                //     $cond: [
+                //       {
+                //         $eq: ['$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran', true],
+                //       },
+                //       1,
+                //       0,
+                //     ],
+                //   },
+                // },
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                          '$rawatanSekolah.tarikhRawatanSemasa',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $ne: [
+                          '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                          '$rawatanSekolah.tarikhRawatanSemasa',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakA: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'A',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakC: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'C',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakE: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'E',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahd: { $sum: '$pemeriksaanSekolah.dAdaGigiDesidus' },
+                jumlahf: { $sum: '$pemeriksaanSekolah.fAdaGigiDesidus' },
+                jumlahx: { $sum: '$pemeriksaanSekolah.xAdaGigiDesidus' },
+                jumlahE: { $sum: '$pemeriksaanSekolah.eAdaGigiKekal' },
+                jumlahD: { $sum: '$pemeriksaanSekolah.dAdaGigiKekal' },
+                jumlahM: { $sum: '$pemeriksaanSekolah.mAdaGigiKekal' },
+                jumlahF: { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
+                jumlahX: { $sum: '$pemeriksaanSekolah.xAdaGigiKekal' },
+                gigiKekalDMFXsamaAtauKurangDari3: {
+                  //DMFX ≤ 3
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                totalStatusGigiKekalSamaKosong: {
+                  //X+M = 0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBK: {
+                  //MBK
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKaries: {
+                  //DMFX=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKariesTapiElebihDariSatu: {
+                  //DMFX=0 ; E≥1
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                dfxEqualToZero: {
+                  //dfx=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBG: {
+                  //Mulut bebas gingivitis
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                              '0',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTprICDAS: {
+                  //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kecederaanGigiAnterior: {
+                  $sum: {
+                    $toDouble:
+                      '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+                  },
+                  // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
+                },
+                cleftAda: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.adaCleftLip' },
+                  // $sum: { $adaCleftLip: 0 },
+                },
+                cleftRujuk: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.rujukCleftLip' },
+                  // $sum: { $rujukCleftLip: 0 },
+                },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                              'true',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                              '$rawatanSekolah.tarikhRawatanSemasa',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSGigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                },
+                perluFSGigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+                },
+                perluFsBilGigiFailed: {
+                  $sum: '$pemeriksaanSekolah.jumlahGigiFsGagal',
+                },
+                perluFvMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                              'true',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                              '$rawatanSekolah.tarikhRawatanSemasa',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvMuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+                },
+                perluFvGigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                },
+                perluPRR1GigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                },
+                perluTampalanAntGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                skorGIS0: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '0',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS1: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '1',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '2',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS3: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '3',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                toothSurfaceLoss: {
+                  $sum: '$pemeriksaanSekolah.toothSurfaceLossTrauma',
+                },
+                traumaTisuLembut: {
+                  $sum: '$pemeriksaanSekolah.tisuLembutTrauma',
+                },
+                traumaTisuKeras: {
+                  $sum: '$pemeriksaanSekolah.tisuKerasTrauma',
+                },
+                pesakitAdaFullDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
+                          'penuh-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaPartialDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
+                          'separa-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluFullDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'penuh-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluPartialDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'separa-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaFullDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
+                          'penuh-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaPartialDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
+                          'separa-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluFullDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'penuh-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluPartialDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'separa-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      dataRawatan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                kelas: '1 adil',
+                kodSekolah: 'YEE7872',
+                statusRawatan: 'belum selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            {
+              $project: {
+                namaSekolah: '$namaSekolah',
+                rawatanYgDilakukan: {
+                  $reduce: {
+                    input: '$rawatanSekolah',
+                    initialValue: {
+                      baruJumlahGigiKekalDibuatFs: 0,
+                      semulaJumlahGigiKekalDibuatFs: 0,
+                      baruJumlahMuridDibuatFs: 0,
+                      semulaJumlahMuridDibuatFs: 0,
+                      baruJumlahGigiKekalDiberiFv: 0,
+                      semulaJumlahGigiKekalDiberiFv: 0,
+                      baruJumlahMuridDiberiFv: 0,
+                      semulaJumlahMuridDiberiFv: 0,
+                      baruJumlahGigiKekalDiberiPrrJenis1: 0,
+                      semulaJumlahGigiKekalDiberiPrrJenis1: 0,
+                      baruJumlahMuridDiberiPrrJenis1: 0,
+                      semulaJumlahMuridDiberiPrrJenis1: 0,
+                      baruJumlahGigiYangDiberiSdf: 0,
+                      semulaJumlahGigiYangDiberiSdf: 0,
+                      gdBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      cabutDesidus: 0,
+                      cabutKekal: 0,
+                      jumlahTampalanSementara: 0,
+                      pulpotomi: 0,
+                      endodontik: 0,
+                      abses: 0,
+                      penskaleran: 0,
+                    },
+                    in: {
+                      BARU_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDibuatFs',
+                          '$$this.baruJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      BARU_MuridBuatFs: {
+                        $add: [
+                          '$$value.baruJumlahMuridDibuatFs',
+                          '$$this.baruJumlahMuridDibuatFs',
+                        ],
+                      },
+                      BARU_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDiberiFv',
+                          '$$this.baruJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      BARU_MuridBuatFv: {
+                        $add: [
+                          '$$value.baruJumlahMuridDiberiFv',
+                          '$$this.baruJumlahMuridDiberiFv',
+                        ],
+                      },
+                      BARU_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDiberiPrrJenis1',
+                          '$$this.baruJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.baruJumlahMuridDiberiPrrJenis1',
+                          '$$this.baruJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.baruJumlahGigiYangDiberiSdf',
+                          '$$this.baruJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      SEMULA_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDibuatFs',
+                          '$$this.semulaJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      SEMULA_MuridBuatFs: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDibuatFs',
+                          '$$this.semulaJumlahMuridDibuatFs',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDiberiFv',
+                          '$$this.semulaJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      SEMULA_MuridBuatFv: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDiberiFv',
+                          '$$this.semulaJumlahMuridDiberiFv',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDiberiPrrJenis1',
+                          '$$this.semulaJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDiberiPrrJenis1',
+                          '$$this.semulaJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.semulaJumlahGigiYangDiberiSdf',
+                          '$$this.semulaJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      cabutDesidus: {
+                        $add: [
+                          '$$value.cabutDesidus',
+                          '$$this.cabutDesidusSekolahRawatan',
+                        ],
+                      },
+                      cabutKekal: {
+                        $add: [
+                          '$$value.cabutKekal',
+                          '$$this.cabutKekalSekolahRawatan',
+                        ],
+                      },
+                      tampalanSementara: {
+                        $add: [
+                          '$$value.jumlahTampalanSementara',
+                          '$$this.jumlahTampalanSementaraSekolahRawatan',
+                        ],
+                      },
+                      pulpotomi: {
+                        $add: [
+                          '$$value.pulpotomi',
+                          '$$this.pulpotomiSekolahRawatan',
+                        ],
+                      },
+                      endodontik: {
+                        $add: [
+                          '$$value.endodontik',
+                          '$$this.endodontikSekolahRawatan',
+                        ],
+                      },
+                      abses: {
+                        $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
+                      },
+                      penskaleran: {
+                        $add: [
+                          '$$value.penskaleran',
+                          '$$this.penskaleranSekolahRawatan',
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahBudak: { $sum: 1 },
+                BARU_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFs',
+                },
+                BARU_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFs',
+                },
+                BARU_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFv',
+                },
+                BARU_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFv',
+                },
+                BARU_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatPRR1',
+                },
+                BARU_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatPRR1',
+                },
+                BARU_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatSdf',
+                },
+                BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                SEMULA_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFs',
+                },
+                SEMULA_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFs',
+                },
+                SEMULA_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFv',
+                },
+                SEMULA_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFv',
+                },
+                SEMULA_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatPRR1',
+                },
+                SEMULA_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatPRR1',
+                },
+                SEMULA_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatSdf',
+                },
+                SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                cabutDesidus: {
+                  $sum: '$rawatanYgDilakukan.cabutDesidus',
+                },
+                cabutKekal: {
+                  $sum: '$rawatanYgDilakukan.cabutKekal',
+                },
+                tampalanSementara: {
+                  $sum: '$rawatanYgDilakukan.jumlahTampalanSementara',
+                },
+                pulpotomi: {
+                  $sum: '$rawatanYgDilakukan.pulpotomi',
+                },
+                endodontik: {
+                  $sum: '$rawatanYgDilakukan.endodontik',
+                },
+                abses: {
+                  $sum: '$rawatanYgDilakukan.abses',
+                },
+                penskaleran: {
+                  $sum: '$rawatanYgDilakukan.penskaleran',
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG201A.xlsx'
+        );
+        console.log('getting workbook: ' + filename);
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG201A');
+        console.log('setting row1');
+        //
+        let rowNamaKlinik = worksheet.getRow(7);
+        // let klinikFixed = results.dataPemeriksan[0].createdByKp;
+        // klinikFixed = klinikFixed
+        //   .toLowerCase()
+        //   .split(' ')
+        //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        //   .join(' ');
+        rowNamaKlinik.getCell(9).value = 'Klinik Gigi';
+        rowNamaKlinik.commit();
+        // console.log('setting klinik name: ' + klinikFixed);
+        //
+        let rowNamaSekolah = worksheet.getRow(8);
+        let sekolahFixed = results.dataPemeriksaan[0]._id;
+        rowNamaSekolah.getCell(9).value = sekolahFixed;
+        sekolahFixed = sekolahFixed
+          .toLowerCase()
+          .split(' ')
+          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(' ');
+        rowNamaSekolah.getCell(9).value = sekolahFixed;
+        rowNamaSekolah.commit();
+        console.log('setting sekolah name: ' + sekolahFixed);
+        //
+        let rowNamaJenis = worksheet.getRow(9);
+        rowNamaJenis.getCell(9).value = 'PBSR';
+        rowNamaJenis.commit();
+
+        //PG201A
+        // Reten Sekolah (Darjah 1)
+        let rowNew = worksheet.getRow(17);
+        rowNew.getCell(2).value =
+          results.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan enggan (Darjah 1)
+        rowNew.getCell(3).value =
+          results.dataPemeriksaan[0].kedatanganTidakHadir; //Kedatangan Tidak Hadir (Darjah 1)
+        rowNew.getCell(4).value = results.dataPemeriksaan[0].enrolmen; //Kedatangan enrolmen (Darjah 1)
+        rowNew.getCell(5).value =
+          results.dataPemeriksaan[0].jumlahKedatanganBaru; //Kedatangan baru (Darjah 1)
+        rowNew.getCell(6).value =
+          results.dataPemeriksaan[0].jumlahKedatanganUlangan; //Kedatangan ulangan (Darjah 1)
+        rowNew.getCell(8).value = results.dataPemeriksaan[0].skorPlakA; //Kebersihan Mulut Skor A (Darjah 1)
+        rowNew.getCell(9).value = results.dataPemeriksaan[0].jumlahd; //Karies Gigi Desidus (d) (Darjah 1)
+        rowNew.getCell(10).value = results.dataPemeriksaan[0].jumlahf; //Telah Ditampal Gigi Desidus (f) (Darjah 1)
+        rowNew.getCell(11).value = results.dataPemeriksaan[0].jumlahx; //Gigi Desidus Perlu Ditampal (x) (Darjah 1)
+        rowNew.getCell(13).value = results.dataPemeriksaan[0].jumlahE; //Karies Awal Gigi Kekal (E) (Darjah 1)
+        rowNew.getCell(14).value = results.dataPemeriksaan[0].jumlahD; //Karies Gigi Kekal (D) (Darjah 1)
+        rowNew.getCell(15).value = results.dataPemeriksaan[0].jumlahM; //Gigi Kekal Telah Dicabut (M) (Darjah 1)
+        rowNew.getCell(16).value = results.dataPemeriksaan[0].jumlahF; //Gigi Kekal Telah Ditampal (F) (Darjah 1)
+        rowNew.getCell(17).value = results.dataPemeriksaan[0].jumlahX; //Jumlah DMFX (Darjah 1)
+        rowNew.getCell(19).value =
+          results.dataPemeriksaan[0].gigiKekalDMFXsamaAtauKurangDari3; //Status Gigi Kekal DMFX <= 3 (Darjah 1)
+        rowNew.getCell(20).value =
+          results.dataPemeriksaan[0].totalStatusGigiKekalSamaKosong; //Status Gigi Kekal X+M = results.dataPemeriksaan[0].0  (Darjah 1)
+        rowNew.getCell(21).value = results.dataPemeriksaan[0].eMoreThanZero; //E≥1 (ada karies awal) (Darjah 1)
+        rowNew.getCell(22).value = results.dataPemeriksaan[0].jumlahMBK; //Mulut Bebas Karies (MBK) (Darjah 1)
+        rowNew.getCell(23).value = results.dataPemeriksaan[0].statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.dataPemeriksaan[0].0 (Darjah 1)
+        rowNew.getCell(24).value =
+          results.dataPemeriksaan[0].statusBebasKariesTapiElebihDariSatu; //Bebas Karies (BK) tetapi E ≥ 1 (Darjah 1)
+        rowNew.getCell(25).value = results.dataPemeriksaan[0].dfxEqualToZero; //dfx=0 (Darjah 1)
+        rowNew.getCell(26).value = results.dataPemeriksaan[0].jumlahMBG; //Mulut Bebas Gingivitis (MBG) (Darjah 1)
+        rowNew.getCell(27).value = results.dataPemeriksaan[0].jumlahTprICDAS; //TPR ICDAS (Darjah 1)
+        rowNew.getCell(28).value =
+          results.dataPemeriksaan[0].kecederaanGigiAnterior; //Kecederaan gigi Anterior (Darjah 1)
+        rowNew.getCell(29).value = results.dataPemeriksaan[0].cleftAda; //cleft Ada (Darjah 1)
+        rowNew.getCell(30).value = results.dataPemeriksaan[0].cleftRujuk; //cleft Rujuk (Darjah 1)
+        rowNew.getCell(32).value = results.dataPemeriksaan[0].perluFSMuridB; //Bil. Murid Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(33).value = results.dataPemeriksaan[0].perluFSGigiB; //Bil. Gigi Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(34).value =
+          results.dataPemeriksaan[0].perluFsBilGigiFailed; //Bilangan Gigi 'Failed' Semula FS (Darjah 1)
+        rowNew.getCell(35).value = results.dataPemeriksaan[0].perluFvMuridB; //Bil. Murid Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(36).value = results.dataPemeriksaan[0].perluFvGigiB; //Bil. Gigi Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(37).value = results.dataPemeriksaan[0].perluPRR1MuridB; //Bil. Murid Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(38).value = results.dataPemeriksaan[0].perluPRR1GigiB; //Bil. Gigi Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(39).value =
+          results.dataPemeriksaan[0].perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(40).value =
+          results.dataPemeriksaan[0].perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(41).value =
+          results.dataPemeriksaan[0].perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(42).value =
+          results.dataPemeriksaan[0].perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(43).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(44).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(46).value = results.dataRawatan[0].BARU_MuridBuatFs; //Bil. Murid B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(47).value = results.dataRawatan[0].BARU_GgKekalBuatFs; //Bil. Gigi B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(48).value = results.dataRawatan[0].BARU_MuridBuatFv; //Bil. Murid B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(49).value = results.dataRawatan[0].BARU_GgKekalBuatFv; //Bil. Gigi B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(50).value = results.dataRawatan[0].BARU_MuridBuatPRR1; //Bil. Murid B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(51).value = results.dataRawatan[0].BARU_GgKekalBuatPRR1; //Bil. Gigi B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(52).value =
+          results.dataRawatan[0].BARU_GgDesidusAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(53).value =
+          results.dataRawatan[0].BARU_GgKekalAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(54).value =
+          results.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(55).value =
+          results.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(56).value =
+          results.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(57).value =
+          results.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(59).value = results.dataRawatan[0].cabutDesidus; // Gigi Desidus Dicabut (Darjah 1)
+        rowNew.getCell(60).value = results.dataRawatan[0].cabutKekal; // Gigi Kekal Dicabut (Darjah 1)
+        rowNew.getCell(61).value = results.dataRawatan[0].penskaleran; // Penskelaran (Darjah 1)
+        rowNew.getCell(62).value = results.dataRawatan[0].caseCompletedICDAS; // Kes Selesai ICDAS (Darjah 1)
+        rowNew.getCell(63).value = results.dataPemeriksaan[0].skorGIS0; // GIS SKOR 0 (Darjah 1)
+        rowNew.getCell(64).value = results.dataPemeriksaan[0].skorGIS1; // GIS SKOR 1 (Darjah 1)
+        rowNew.getCell(65).value = results.dataPemeriksaan[0].skorGIS2; // GIS SKOR 2 (Darjah 1)
+        rowNew.getCell(66).value = results.dataPemeriksaan[0].skorGIS3; // GIS SKOR 3 (Darjah 1)
+        rowNew.getCell(68).value = results.dataPemeriksaan[0].toothSurfaceLoss; // Trauma Tooth Surface Loss (Darjah 1)
+        rowNew.getCell(69).value = results.dataPemeriksaan[0].traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
+        rowNew.getCell(70).value = results.dataPemeriksaan[0].traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
+        rowNew.getCell(72).value =
+          results.dataPemeriksaan[0].pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
+        rowNew.getCell(73).value =
+          results.dataPemeriksaan[0].pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
+        rowNew.getCell(74).value =
+          results.dataPemeriksaan[0].pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
+        rowNew.getCell(75).value =
+          results.dataPemeriksaan[0].pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
+        rowNew.commit();
+        console.log('setting row2');
+        let rowNew2 = worksheet.getRow(18);
+        rowNew2.getCell(8).value = results.dataPemeriksaan[0].skorPlakC; //Kebersihan Mulut Skor C (Darjah 1)
+        rowNew2.commit();
+        console.log('setting row3');
+        let rowNew3 = worksheet.getRow(19);
+        rowNew3.getCell(8).value = results.dataPemeriksaan[0].skorPlakE; //Kebersihan Mulut Skor E (Darjah 1)
+        rowNew3.getCell(33).value = results.dataPemeriksaan[0].perluFSGigiS; //Bil. Gigi Semula perlu Fisur Sealan	(Darjah 1)
+        rowNew3.getCell(35).value = results.dataPemeriksaan[0].perluFvMuridS; //Bil. Murid Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(36).value = results.dataPemeriksaan[0].perluFvGigiS; //Bil. Gigi Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(37).value = results.dataPemeriksaan[0].perluPRR1MuridS; //Bil. Murid Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(38).value = results.dataPemeriksaan[0].perluPRR1GigiS; //Bil. Gigi Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(39).value =
+          results.dataPemeriksaan[0].perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(40).value =
+          results.dataPemeriksaan[0].perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(41).value =
+          results.dataPemeriksaan[0].perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(42).value =
+          results.dataPemeriksaan[0].perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(43).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(44).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(46).value = results.dataRawatan[0].SEMULA_MuridBuatFs; //Bil. Murid S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(47).value = results.dataRawatan[0].SEMULA_GgKekalBuatFs; //Bil. Gigi S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(48).value = results.dataRawatan[0].SEMULA_MuridBuatFv; //Bil. Murid S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(49).value = results.dataRawatan[0].SEMULA_GgKekalBuatFv; //Bil. Gigi S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(50).value = results.dataRawatan[0].SEMULA_MuridBuatPRR1; //Bil. Murid S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(51).value =
+          results.dataRawatan[0].SEMULA_GgKekalBuatPRR1; //Bil. Gigi S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(52).value =
+          results.dataRawatan[0].SEMULA_GgDesidusAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(53).value =
+          results.dataRawatan[0].SEMULA_GgKekalAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(54).value =
+          results.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(55).value =
+          results.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(56).value =
+          results.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(57).value =
+          results.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(72).value =
+          results.dataPemeriksaan[0].pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(73).value =
+          results.dataPemeriksaan[0].pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
+        rowNew3.getCell(74).value =
+          results.dataPemeriksaan[0].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(75).value =
+          results.dataPemeriksaan[0].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
+        rowNew3.commit();
+        console.log('setting row4');
+        let rowIdnt = worksheet.getRow(47);
+        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
+        console.log('done setting data');
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG201A.xlsx'
+        );
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+        console.log('writing file');
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+          console.log('deleting file');
+        }, 30000);
+        setTimeout(function () {
+          console.log('downloading file');
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+async function generate201(reten, sekolah, klinik) {
+  async.parallel(
+    {
+      dataPemeriksaan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                // kelas: '1 adil',
+                namaSekolah: sekolah,
+                statusRawatan: 'belum selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Pemeriksaan.collection.name,
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            { $unwind: '$pemeriksaanSekolah' },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            { $unwind: '$rawatanSekolah' },
+            {
+              $lookup: {
+                from: Kotak.collection.name,
+                localField: 'kotakSekolah',
+                foreignField: '_id',
+                as: 'kotakSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$kotakSekolah',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                // namaKlinik: '$pemeriksaanSekolah.createdByKp',
+                jumlahBudak: { $sum: 1 },
+                engganKedatanganPendaftaran: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kedatanganTidakHadir: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran',
+                          true,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                // ambil dari fasilitis
+                // enrolmen: {
+                //   $sum: {
+                //     $cond: [
+                //       {
+                //         $eq: ['$pemeriksaanSekolah.tidakHadirKedatanganPendaftaran', true],
+                //       },
+                //       1,
+                //       0,
+                //     ],
+                //   },
+                // },
+                jumlahKedatanganBaru: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                          '$rawatanSekolah.tarikhRawatanSemasa',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahKedatanganUlangan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $ne: [
+                          '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                          '$rawatanSekolah.tarikhRawatanSemasa',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakA: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'A',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakC: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'C',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorPlakE: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                          'E',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahd: { $sum: '$pemeriksaanSekolah.dAdaGigiDesidus' },
+                jumlahf: { $sum: '$pemeriksaanSekolah.fAdaGigiDesidus' },
+                jumlahx: { $sum: '$pemeriksaanSekolah.xAdaGigiDesidus' },
+                jumlahE: { $sum: '$pemeriksaanSekolah.eAdaGigiKekal' },
+                jumlahD: { $sum: '$pemeriksaanSekolah.dAdaGigiKekal' },
+                jumlahM: { $sum: '$pemeriksaanSekolah.mAdaGigiKekal' },
+                jumlahF: { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
+                jumlahX: { $sum: '$pemeriksaanSekolah.xAdaGigiKekal' },
+                gigiKekalDMFXsamaAtauKurangDari3: {
+                  //DMFX ≤ 3
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 1] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                totalStatusGigiKekalSamaKosong: {
+                  //X+M = 0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                eMoreThanZero: {
+                  //E≥1 (ada karies awal)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBK: {
+                  //MBK
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKaries: {
+                  //DMFX=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                statusBebasKariesTapiElebihDariSatu: {
+                  //DMFX=0 ; E≥1
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                dfxEqualToZero: {
+                  //dfx=0
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahMBG: {
+                  //Mulut bebas gingivitis
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                              '0',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jumlahTprICDAS: {
+                  //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                kecederaanGigiAnterior: {
+                  $sum: {
+                    $toDouble:
+                      '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+                  },
+                  // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
+                },
+                cleftAda: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.adaCleftLip' },
+                  // $sum: { $adaCleftLip: 0 },
+                },
+                cleftRujuk: {
+                  $sum: { $toDouble: '$pemeriksaanSekolah.rujukCleftLip' },
+                  // $sum: { $rujukCleftLip: 0 },
+                },
+                perluFSMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                              'true',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                              '$rawatanSekolah.tarikhRawatanSemasa',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFSGigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                },
+                perluFSGigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+                },
+                perluFsBilGigiFailed: {
+                  $sum: '$pemeriksaanSekolah.jumlahGigiFsGagal',
+                },
+                perluFvMuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                              'true',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                              '$rawatanSekolah.tarikhRawatanSemasa',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvMuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluFvGigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+                },
+                perluFvGigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                },
+                perluPRR1MuridB: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1MuridS: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $gt: [
+                              '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                              0,
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perluPRR1GigiB: {
+                  $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+                },
+                perluPRR1GigiS: {
+                  $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluPrrJenis1',
+                },
+                perluTampalanAntGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAntGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanPosGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGdB: {
+                  $sum: '$pemeriksaanSekolah.baruGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGdS: {
+                  $sum: '$pemeriksaanSekolah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGkB: {
+                  $sum: '$pemeriksaanSekolah.baruGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                perluTampalanAmgGkS: {
+                  $sum: '$pemeriksaanSekolah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukan',
+                },
+                skorGIS0: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '0',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS1: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '1',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS2: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '2',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                skorGIS3: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                          '3',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                toothSurfaceLoss: {
+                  $sum: '$pemeriksaanSekolah.toothSurfaceLossTrauma',
+                },
+                traumaTisuLembut: {
+                  $sum: '$pemeriksaanSekolah.tisuLembutTrauma',
+                },
+                traumaTisuKeras: {
+                  $sum: '$pemeriksaanSekolah.tisuKerasTrauma',
+                },
+                pesakitAdaFullDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
+                          'penuh-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaPartialDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasSediaAdaDenture',
+                          'separa-atas-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluFullDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'penuh-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluPartialDentureAtas: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'separa-atas-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaFullDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
+                          'penuh-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitAdaPartialDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhBawahSediaAdaDenture',
+                          'separa-bawah-sedia-ada-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluFullDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'penuh-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                pesakitPerluPartialDentureBawah: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: [
+                          '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
+                          'separa-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      dataRawatan: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                // kelas: '1 adil',
+                namaSekolah: sekolah,
+                statusRawatan: 'belum selesai',
+              },
+            },
+            {
+              $lookup: {
+                from: Rawatan.collection.name,
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            {
+              $project: {
+                namaSekolah: '$namaSekolah',
+                rawatanYgDilakukan: {
+                  $reduce: {
+                    input: '$rawatanSekolah',
+                    initialValue: {
+                      baruJumlahGigiKekalDibuatFs: 0,
+                      semulaJumlahGigiKekalDibuatFs: 0,
+                      baruJumlahMuridDibuatFs: 0,
+                      semulaJumlahMuridDibuatFs: 0,
+                      baruJumlahGigiKekalDiberiFv: 0,
+                      semulaJumlahGigiKekalDiberiFv: 0,
+                      baruJumlahMuridDiberiFv: 0,
+                      semulaJumlahMuridDiberiFv: 0,
+                      baruJumlahGigiKekalDiberiPrrJenis1: 0,
+                      semulaJumlahGigiKekalDiberiPrrJenis1: 0,
+                      baruJumlahMuridDiberiPrrJenis1: 0,
+                      semulaJumlahMuridDiberiPrrJenis1: 0,
+                      baruJumlahGigiYangDiberiSdf: 0,
+                      semulaJumlahGigiYangDiberiSdf: 0,
+                      gdBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkSemulaAnteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gkSemulaPosteriorSewarnaJumlahTampalanDibuat: 0,
+                      gdBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gdSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkBaruPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      gkSemulaPosteriorAmalgamJumlahTampalanDibuat: 0,
+                      cabutDesidus: 0,
+                      cabutKekal: 0,
+                      jumlahTampalanSementara: 0,
+                      pulpotomi: 0,
+                      endodontik: 0,
+                      abses: 0,
+                      penskaleran: 0,
+                    },
+                    in: {
+                      BARU_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDibuatFs',
+                          '$$this.baruJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      BARU_MuridBuatFs: {
+                        $add: [
+                          '$$value.baruJumlahMuridDibuatFs',
+                          '$$this.baruJumlahMuridDibuatFs',
+                        ],
+                      },
+                      BARU_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDiberiFv',
+                          '$$this.baruJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      BARU_MuridBuatFv: {
+                        $add: [
+                          '$$value.baruJumlahMuridDiberiFv',
+                          '$$this.baruJumlahMuridDiberiFv',
+                        ],
+                      },
+                      BARU_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.baruJumlahGigiKekalDiberiPrrJenis1',
+                          '$$this.baruJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.baruJumlahMuridDiberiPrrJenis1',
+                          '$$this.baruJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      BARU_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.baruJumlahGigiYangDiberiSdf',
+                          '$$this.baruJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      SEMULA_GgKekalBuatFs: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDibuatFs',
+                          '$$this.semulaJumlahGigiKekalDibuatFs',
+                        ],
+                      },
+                      SEMULA_MuridBuatFs: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDibuatFs',
+                          '$$this.semulaJumlahMuridDibuatFs',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatFv: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDiberiFv',
+                          '$$this.semulaJumlahGigiKekalDiberiFv',
+                        ],
+                      },
+                      SEMULA_MuridBuatFv: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDiberiFv',
+                          '$$this.semulaJumlahMuridDiberiFv',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatPRR1: {
+                        $add: [
+                          '$$value.semulaJumlahGigiKekalDiberiPrrJenis1',
+                          '$$this.semulaJumlahGigiKekalDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_MuridBuatPRR1: {
+                        $add: [
+                          '$$value.semulaJumlahMuridDiberiPrrJenis1',
+                          '$$this.semulaJumlahMuridDiberiPrrJenis1',
+                        ],
+                      },
+                      SEMULA_GgKekalBuatSdf: {
+                        $add: [
+                          '$$value.semulaJumlahGigiYangDiberiSdf',
+                          '$$this.semulaJumlahGigiYangDiberiSdf',
+                        ],
+                      },
+                      SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                        $add: [
+                          '$$value.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                          '$$this.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                        $add: [
+                          '$$value.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                          '$$this.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                        ],
+                      },
+                      //
+                      cabutDesidus: {
+                        $add: [
+                          '$$value.cabutDesidus',
+                          '$$this.cabutDesidusSekolahRawatan',
+                        ],
+                      },
+                      cabutKekal: {
+                        $add: [
+                          '$$value.cabutKekal',
+                          '$$this.cabutKekalSekolahRawatan',
+                        ],
+                      },
+                      tampalanSementara: {
+                        $add: [
+                          '$$value.jumlahTampalanSementara',
+                          '$$this.jumlahTampalanSementaraSekolahRawatan',
+                        ],
+                      },
+                      pulpotomi: {
+                        $add: [
+                          '$$value.pulpotomi',
+                          '$$this.pulpotomiSekolahRawatan',
+                        ],
+                      },
+                      endodontik: {
+                        $add: [
+                          '$$value.endodontik',
+                          '$$this.endodontikSekolahRawatan',
+                        ],
+                      },
+                      abses: {
+                        $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
+                      },
+                      penskaleran: {
+                        $add: [
+                          '$$value.penskaleran',
+                          '$$this.penskaleranSekolahRawatan',
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+                jumlahBudak: { $sum: 1 },
+                BARU_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFs',
+                },
+                BARU_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFs',
+                },
+                BARU_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFv',
+                },
+                BARU_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatFv',
+                },
+                BARU_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatPRR1',
+                },
+                BARU_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.BARU_MuridBuatPRR1',
+                },
+                BARU_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatSdf',
+                },
+                BARU_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                BARU_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                BARU_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.BARU_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                SEMULA_GgKekalBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFs',
+                },
+                SEMULA_MuridBuatFs: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFs',
+                },
+                SEMULA_GgKekalBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatFv',
+                },
+                SEMULA_MuridBuatFv: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatFv',
+                },
+                SEMULA_GgKekalBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatPRR1',
+                },
+                SEMULA_MuridBuatPRR1: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_MuridBuatPRR1',
+                },
+                SEMULA_GgKekalBuatSdf: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalBuatSdf',
+                },
+                SEMULA_GgDesidusAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalAnteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalAnteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanSewarna: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanSewarna',
+                },
+                SEMULA_GgDesidusPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgDesidusPosteriorBuatTampalanAmalgam',
+                },
+                SEMULA_GgKekalPosteriorBuatTampalanAmalgam: {
+                  $sum: '$rawatanYgDilakukan.SEMULA_GgKekalPosteriorBuatTampalanAmalgam',
+                },
+                //
+                cabutDesidus: {
+                  $sum: '$rawatanYgDilakukan.cabutDesidus',
+                },
+                cabutKekal: {
+                  $sum: '$rawatanYgDilakukan.cabutKekal',
+                },
+                tampalanSementara: {
+                  $sum: '$rawatanYgDilakukan.jumlahTampalanSementara',
+                },
+                pulpotomi: {
+                  $sum: '$rawatanYgDilakukan.pulpotomi',
+                },
+                endodontik: {
+                  $sum: '$rawatanYgDilakukan.endodontik',
+                },
+                abses: {
+                  $sum: '$rawatanYgDilakukan.abses',
+                },
+                penskaleran: {
+                  $sum: '$rawatanYgDilakukan.penskaleran',
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG201A.xlsx'
+        );
+        console.log('getting workbook: ' + filename);
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG201A');
+        console.log('setting row1');
+        //
+        let rowNamaKlinik = worksheet.getRow(7);
+        // let klinikFixed = results.dataPemeriksan[0].createdByKp;
+        // klinikFixed = klinikFixed
+        //   .toLowerCase()
+        //   .split(' ')
+        //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+        //   .join(' ');
+        rowNamaKlinik.getCell(9).value = 'Klinik Gigi';
+        rowNamaKlinik.commit();
+        // console.log('setting klinik name: ' + klinikFixed);
+        //
+        let rowNamaSekolah = worksheet.getRow(8);
+        let sekolahFixed = results.dataPemeriksaan[0]._id;
+        rowNamaSekolah.getCell(9).value = sekolahFixed;
+        sekolahFixed = sekolahFixed
+          .toLowerCase()
+          .split(' ')
+          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(' ');
+        rowNamaSekolah.getCell(9).value = sekolahFixed;
+        rowNamaSekolah.commit();
+        console.log('setting sekolah name: ' + sekolahFixed);
+        //
+        let rowNamaJenis = worksheet.getRow(9);
+        rowNamaJenis.getCell(9).value = 'PBSR';
+        rowNamaJenis.commit();
+
+        //PG201A
+        // Reten Sekolah (Darjah 1)
+        let rowNew = worksheet.getRow(17);
+        rowNew.getCell(2).value =
+          results.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan enggan (Darjah 1)
+        rowNew.getCell(3).value =
+          results.dataPemeriksaan[0].kedatanganTidakHadir; //Kedatangan Tidak Hadir (Darjah 1)
+        rowNew.getCell(4).value = results.dataPemeriksaan[0].enrolmen; //Kedatangan enrolmen (Darjah 1)
+        rowNew.getCell(5).value =
+          results.dataPemeriksaan[0].jumlahKedatanganBaru; //Kedatangan baru (Darjah 1)
+        rowNew.getCell(6).value =
+          results.dataPemeriksaan[0].jumlahKedatanganUlangan; //Kedatangan ulangan (Darjah 1)
+        rowNew.getCell(8).value = results.dataPemeriksaan[0].skorPlakA; //Kebersihan Mulut Skor A (Darjah 1)
+        rowNew.getCell(9).value = results.dataPemeriksaan[0].jumlahd; //Karies Gigi Desidus (d) (Darjah 1)
+        rowNew.getCell(10).value = results.dataPemeriksaan[0].jumlahf; //Telah Ditampal Gigi Desidus (f) (Darjah 1)
+        rowNew.getCell(11).value = results.dataPemeriksaan[0].jumlahx; //Gigi Desidus Perlu Ditampal (x) (Darjah 1)
+        rowNew.getCell(13).value = results.dataPemeriksaan[0].jumlahE; //Karies Awal Gigi Kekal (E) (Darjah 1)
+        rowNew.getCell(14).value = results.dataPemeriksaan[0].jumlahD; //Karies Gigi Kekal (D) (Darjah 1)
+        rowNew.getCell(15).value = results.dataPemeriksaan[0].jumlahM; //Gigi Kekal Telah Dicabut (M) (Darjah 1)
+        rowNew.getCell(16).value = results.dataPemeriksaan[0].jumlahF; //Gigi Kekal Telah Ditampal (F) (Darjah 1)
+        rowNew.getCell(17).value = results.dataPemeriksaan[0].jumlahX; //Jumlah DMFX (Darjah 1)
+        rowNew.getCell(19).value =
+          results.dataPemeriksaan[0].gigiKekalDMFXsamaAtauKurangDari3; //Status Gigi Kekal DMFX <= 3 (Darjah 1)
+        rowNew.getCell(20).value =
+          results.dataPemeriksaan[0].totalStatusGigiKekalSamaKosong; //Status Gigi Kekal X+M = results.dataPemeriksaan[0].0  (Darjah 1)
+        rowNew.getCell(21).value = results.dataPemeriksaan[0].eMoreThanZero; //E≥1 (ada karies awal) (Darjah 1)
+        rowNew.getCell(22).value = results.dataPemeriksaan[0].jumlahMBK; //Mulut Bebas Karies (MBK) (Darjah 1)
+        rowNew.getCell(23).value = results.dataPemeriksaan[0].statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = results.dataPemeriksaan[0].0 (Darjah 1)
+        rowNew.getCell(24).value =
+          results.dataPemeriksaan[0].statusBebasKariesTapiElebihDariSatu; //Bebas Karies (BK) tetapi E ≥ 1 (Darjah 1)
+        rowNew.getCell(25).value = results.dataPemeriksaan[0].dfxEqualToZero; //dfx=0 (Darjah 1)
+        rowNew.getCell(26).value = results.dataPemeriksaan[0].jumlahMBG; //Mulut Bebas Gingivitis (MBG) (Darjah 1)
+        rowNew.getCell(27).value = results.dataPemeriksaan[0].jumlahTprICDAS; //TPR ICDAS (Darjah 1)
+        rowNew.getCell(28).value =
+          results.dataPemeriksaan[0].kecederaanGigiAnterior; //Kecederaan gigi Anterior (Darjah 1)
+        rowNew.getCell(29).value = results.dataPemeriksaan[0].cleftAda; //cleft Ada (Darjah 1)
+        rowNew.getCell(30).value = results.dataPemeriksaan[0].cleftRujuk; //cleft Rujuk (Darjah 1)
+        rowNew.getCell(32).value = results.dataPemeriksaan[0].perluFSMuridB; //Bil. Murid Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(33).value = results.dataPemeriksaan[0].perluFSGigiB; //Bil. Gigi Baru perlu Fisur Sealan (Darjah 1)
+        rowNew.getCell(34).value =
+          results.dataPemeriksaan[0].perluFsBilGigiFailed; //Bilangan Gigi 'Failed' Semula FS (Darjah 1)
+        rowNew.getCell(35).value = results.dataPemeriksaan[0].perluFvMuridB; //Bil. Murid Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(36).value = results.dataPemeriksaan[0].perluFvGigiB; //Bil. Gigi Baru perlu Fluoride varnish (Darjah 1)
+        rowNew.getCell(37).value = results.dataPemeriksaan[0].perluPRR1MuridB; //Bil. Murid Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(38).value = results.dataPemeriksaan[0].perluPRR1GigiB; //Bil. Gigi Baru perlu PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(39).value =
+          results.dataPemeriksaan[0].perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(40).value =
+          results.dataPemeriksaan[0].perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(41).value =
+          results.dataPemeriksaan[0].perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(42).value =
+          results.dataPemeriksaan[0].perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(43).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(44).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(46).value = results.dataRawatan[0].BARU_MuridBuatFs; //Bil. Murid B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(47).value = results.dataRawatan[0].BARU_GgKekalBuatFs; //Bil. Gigi B Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew.getCell(48).value = results.dataRawatan[0].BARU_MuridBuatFv; //Bil. Murid B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(49).value = results.dataRawatan[0].BARU_GgKekalBuatFv; //Bil. Gigi B Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew.getCell(50).value = results.dataRawatan[0].BARU_MuridBuatPRR1; //Bil. Murid B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(51).value = results.dataRawatan[0].BARU_GgKekalBuatPRR1; //Bil. Gigi B Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew.getCell(52).value =
+          results.dataRawatan[0].BARU_GgDesidusAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(53).value =
+          results.dataRawatan[0].BARU_GgKekalAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(54).value =
+          results.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(55).value =
+          results.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(56).value =
+          results.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Baru (Darjah 1)
+        rowNew.getCell(57).value =
+          results.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Baru (Darjah 1)
+        rowNew.getCell(59).value = results.dataRawatan[0].cabutDesidus; // Gigi Desidus Dicabut (Darjah 1)
+        rowNew.getCell(60).value = results.dataRawatan[0].cabutKekal; // Gigi Kekal Dicabut (Darjah 1)
+        rowNew.getCell(61).value = results.dataRawatan[0].penskaleran; // Penskelaran (Darjah 1)
+        rowNew.getCell(62).value = results.dataRawatan[0].caseCompletedICDAS; // Kes Selesai ICDAS (Darjah 1)
+        rowNew.getCell(63).value = results.dataPemeriksaan[0].skorGIS0; // GIS SKOR 0 (Darjah 1)
+        rowNew.getCell(64).value = results.dataPemeriksaan[0].skorGIS1; // GIS SKOR 1 (Darjah 1)
+        rowNew.getCell(65).value = results.dataPemeriksaan[0].skorGIS2; // GIS SKOR 2 (Darjah 1)
+        rowNew.getCell(66).value = results.dataPemeriksaan[0].skorGIS3; // GIS SKOR 3 (Darjah 1)
+        rowNew.getCell(68).value = results.dataPemeriksaan[0].toothSurfaceLoss; // Trauma Tooth Surface Loss (Darjah 1)
+        rowNew.getCell(69).value = results.dataPemeriksaan[0].traumaTisuLembut; // Trauma Tisu Lembut (Darjah 1)
+        rowNew.getCell(70).value = results.dataPemeriksaan[0].traumaTisuKeras; // Trauma Tisu Keras (Darjah 1)
+        rowNew.getCell(72).value =
+          results.dataPemeriksaan[0].pesakitAdaFullDentureAtas; // Pesakit Ada Full Denture Atas(Darjah 1)
+        rowNew.getCell(73).value =
+          results.dataPemeriksaan[0].pesakitAdaPartialDentureAtas; // Pesakit Ada Partial Denture Atas (Darjah 1)
+        rowNew.getCell(74).value =
+          results.dataPemeriksaan[0].pesakitPerluFullDentureAtas; // Pesakit Perlu Full Denture Atas (Darjah 1)
+        rowNew.getCell(75).value =
+          results.dataPemeriksaan[0].pesakitPerluPartialDentureAtas; // Pesakit Perlu Partial Denture Atas (Darjah 1)
+        rowNew.commit();
+        console.log('setting row2');
+        let rowNew2 = worksheet.getRow(18);
+        rowNew2.getCell(8).value = results.dataPemeriksaan[0].skorPlakC; //Kebersihan Mulut Skor C (Darjah 1)
+        rowNew2.commit();
+        console.log('setting row3');
+        let rowNew3 = worksheet.getRow(19);
+        rowNew3.getCell(8).value = results.dataPemeriksaan[0].skorPlakE; //Kebersihan Mulut Skor E (Darjah 1)
+        rowNew3.getCell(33).value = results.dataPemeriksaan[0].perluFSGigiS; //Bil. Gigi Semula perlu Fisur Sealan	(Darjah 1)
+        rowNew3.getCell(35).value = results.dataPemeriksaan[0].perluFvMuridS; //Bil. Murid Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(36).value = results.dataPemeriksaan[0].perluFvGigiS; //Bil. Gigi Semula perlu Fluoride varnish (Darjah 1)
+        rowNew3.getCell(37).value = results.dataPemeriksaan[0].perluPRR1MuridS; //Bil. Murid Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(38).value = results.dataPemeriksaan[0].perluPRR1GigiS; //Bil. Gigi Semula perlu PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(39).value =
+          results.dataPemeriksaan[0].perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(40).value =
+          results.dataPemeriksaan[0].perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(41).value =
+          results.dataPemeriksaan[0].perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(42).value =
+          results.dataPemeriksaan[0].perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(43).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(44).value =
+          results.dataPemeriksaan[0].perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(46).value = results.dataRawatan[0].SEMULA_MuridBuatFs; //Bil. Murid S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(47).value = results.dataRawatan[0].SEMULA_GgKekalBuatFs; //Bil. Gigi S Telah Menerima Fisur Sealan (Darjah 1)
+        rowNew3.getCell(48).value = results.dataRawatan[0].SEMULA_MuridBuatFv; //Bil. Murid S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(49).value = results.dataRawatan[0].SEMULA_GgKekalBuatFv; //Bil. Gigi S Telah Menerima Fluoride Varnish (Darjah 1)
+        rowNew3.getCell(50).value = results.dataRawatan[0].SEMULA_MuridBuatPRR1; //Bil. Murid S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(51).value =
+          results.dataRawatan[0].SEMULA_GgKekalBuatPRR1; //Bil. Gigi S Telah Menerima PRR Jenis 1 (Darjah 1)
+        rowNew3.getCell(52).value =
+          results.dataRawatan[0].SEMULA_GgDesidusAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(53).value =
+          results.dataRawatan[0].SEMULA_GgKekalAnteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Anterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(54).value =
+          results.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(55).value =
+          results.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanSewarna; //Telah Dibuat Tampalan Posterior Sewarna Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(56).value =
+          results.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Decidus Semula (Darjah 1)
+        rowNew3.getCell(57).value =
+          results.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanAmalgam; //Telah Dibuat Tampalan Posterior Amalgam Gigi Kekal Semula (Darjah 1)
+        rowNew3.getCell(72).value =
+          results.dataPemeriksaan[0].pesakitAdaFullDentureBawah; // Pesakit Ada Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(73).value =
+          results.dataPemeriksaan[0].pesakitAdaPartialDentureBawah; // Pesakit Ada Partial Denture Bawah (Darjah 1)
+        rowNew3.getCell(74).value =
+          results.dataPemeriksaan[0].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
+        rowNew3.getCell(75).value =
+          results.dataPemeriksaan[0].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
+        rowNew3.commit();
+        console.log('setting row4');
+        let rowIdnt = worksheet.getRow(47);
+        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
+        console.log('done setting data');
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-' + klinik + '-PG201A.xlsx'
+        );
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+        console.log('writing file');
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+          console.log('deleting file');
+        }, 30000);
+        return 'it is done';
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error });
+      }
+    }
+  );
+}
+exports.downloader = async function (req, res) {
+  console.log(req.query);
+  const { jenisReten, pilihanSekolah, currentKp } = req.query;
+  await generate201(jenisReten, pilihanSekolah, currentKp);
+  const theResult = () => {
+    let newfile = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'test-' + currentKp + '-PG201A.xlsx'
+    );
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    res.setHeader('Content-Type', 'application/vnd.ms-excel');
+    return res.status(200).send(file);
+  };
+  setTimeout(() => {
+    theResult(), console.log('times up');
+  }, 3000);
 };
