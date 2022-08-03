@@ -39,6 +39,8 @@ function UserAfterLogin() {
         <Routes>
           <Route index element={<UserDashboard />} />
 
+          <Route path='status-harian' element={<UserStatusHarian />} />
+
           <Route path='umum' element={<UserUmum />} />
           <Route
             path='umum/form-umum/:personUmumId'
@@ -59,7 +61,6 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
-          <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-individu' element={<UserGenerateIndividu />} />
           <Route path='generate-klinik' element={<UserGenerateKlinik />} />
 
