@@ -7429,7 +7429,7 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-async function tryPG101(req, res) {
+async function tryPG101(jenisReten, sekolah, klinik) {
   console.log('this is on');
   theData = await Umum.aggregate([
     {
@@ -7523,7 +7523,7 @@ async function tryPG101(req, res) {
       '..',
       'public',
       'exports',
-      'test-PG101.xlsx'
+      'test-' + klinik + '-PG101.xlsx'
     );
 
     // Write the file
@@ -10210,14 +10210,14 @@ exports.downloader = async function (req, res) {
     }, 3000);
   }
   if (jenisReten == 'PG101') {
-    await generate101(jenisReten, sekolah, kp);
+    await tryPG101(jenisReten, sekolah, kp);
     const theResult = () => {
       let newfile = path.join(
         __dirname,
         '..',
         'public',
         'exports',
-        'test-' + kp + '-PG101A.xlsx'
+        'test-' + kp + '-PG101.xlsx'
       );
       const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
