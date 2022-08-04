@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaEdit, FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -310,6 +310,13 @@ function UserFormUmumHeader() {
     yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum;
   masterForm.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum =
     setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum;
+  //kotak masuk sini sbb kotak ada sini
+  const [statusMPemeriksaanUmum, setStatusMPemeriksaanUmum] = useState('');
+  masterForm.statusMPemeriksaanUmum = statusMPemeriksaanUmum;
+  masterForm.setStatusMPemeriksaanUmum = setStatusMPemeriksaanUmum;
+  const [jenisRPemeriksaanUmum, setJenisRPemeriksaanUmum] = useState('');
+  masterForm.jenisRPemeriksaanUmum = jenisRPemeriksaanUmum;
+  masterForm.setJenisRPemeriksaanUmum = setJenisRPemeriksaanUmum;
   const [
     kebersihanMulutOralHygienePemeriksaanUmum,
     setKebersihanMulutOralHygienePemeriksaanUmum,
@@ -334,6 +341,10 @@ function UserFormUmumHeader() {
     skorGisMulutOralHygienePemeriksaanUmum;
   masterForm.setSkorGisMulutOralHygienePemeriksaanUmum =
     setSkorGisMulutOralHygienePemeriksaanUmum;
+  const [adaDesidusPemeriksaanUmum, setAdaDesidusPemeriksaanUmum] =
+    useState(false);
+  masterForm.adaDesidusPemeriksaanUmum = adaDesidusPemeriksaanUmum;
+  masterForm.setAdaDesidusPemeriksaanUmum = setAdaDesidusPemeriksaanUmum;
   const [dAdaGigiDesidusPemeriksaanUmum, setDAdaGigiDesidusPemeriksaanUmum] =
     useState('');
   masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
@@ -349,16 +360,22 @@ function UserFormUmumHeader() {
   masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
   masterForm.setFAdaGigiDesidusPemeriksaanUmum =
     setFAdaGigiDesidusPemeriksaanUmum;
-  const [eAdaGigiDesidusPemeriksaanUmum, setEAdaGigiDesidusPemeriksaanUmum] =
+  const [smAdaGigiDesidusPemeriksaanUmum, setSmAdaGigiDesidusPemeriksaanUmum] =
     useState('');
-  masterForm.eAdaGigiDesidusPemeriksaanUmum = eAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setEAdaGigiDesidusPemeriksaanUmum =
-    setEAdaGigiDesidusPemeriksaanUmum;
+  masterForm.smAdaGigiDesidusPemeriksaanUmum = smAdaGigiDesidusPemeriksaanUmum;
+  masterForm.setSmAdaGigiDesidusPemeriksaanUmum =
+    setSmAdaGigiDesidusPemeriksaanUmum;
   const [xAdaGigiDesidusPemeriksaanUmum, setXAdaGigiDesidusPemeriksaanUmum] =
     useState('');
   masterForm.xAdaGigiDesidusPemeriksaanUmum = xAdaGigiDesidusPemeriksaanUmum;
   masterForm.setXAdaGigiDesidusPemeriksaanUmum =
     setXAdaGigiDesidusPemeriksaanUmum;
+  const [sumDMFXDesidusUmum, setSumDMFXDesidusUmum] = useState(0);
+  masterForm.sumDMFXDesidusUmum = sumDMFXDesidusUmum;
+  masterForm.setSumDMFXDesidusUmum = setSumDMFXDesidusUmum;
+  const [adaKekalPemeriksaanUmum, setAdaKekalPemeriksaanUmum] = useState(false);
+  masterForm.adaKekalPemeriksaanUmum = adaKekalPemeriksaanUmum;
+  masterForm.setAdaKekalPemeriksaanUmum = setAdaKekalPemeriksaanUmum;
   const [dAdaGigiKekalPemeriksaanUmum, setDAdaGigiKekalPemeriksaanUmum] =
     useState('');
   masterForm.dAdaGigiKekalPemeriksaanUmum = dAdaGigiKekalPemeriksaanUmum;
@@ -633,17 +650,6 @@ function UserFormUmumHeader() {
   const [kesSelesaiRawatanUmum, setKesSelesaiRawatanUmum] = useState(false);
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
-  const [tprRawatanUmum, setTprRawatanUmum] = useState(false);
-  masterForm.tprRawatanUmum = tprRawatanUmum;
-  masterForm.setTprRawatanUmum = setTprRawatanUmum;
-  const [
-    kesSelesaiPeriodontiumRawatanUmum,
-    setKesSelesaiPeriodontiumRawatanUmum,
-  ] = useState(false);
-  masterForm.kesSelesaiPeriodontiumRawatanUmum =
-    kesSelesaiPeriodontiumRawatanUmum;
-  masterForm.setKesSelesaiPeriodontiumRawatanUmum =
-    setKesSelesaiPeriodontiumRawatanUmum;
   const [
     baruJumlahGigiYangDiberiSdfRawatanUmum,
     setBaruJumlahGigiYangDiberiSdfRawatanUmum,
@@ -1090,6 +1096,23 @@ function UserFormUmumHeader() {
   masterForm.statusSelepas6BulanUmum = statusSelepas6BulanUmum;
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
+  // calculate total dmfx + sm desidus
+  useEffect(() => {
+    setSumDMFXDesidusUmum(
+      parseInt(dAdaGigiDesidusPemeriksaanUmum) +
+        parseInt(mAdaGigiDesidusPemeriksaanUmum) +
+        parseInt(fAdaGigiDesidusPemeriksaanUmum) +
+        parseInt(xAdaGigiDesidusPemeriksaanUmum) +
+        parseInt(smAdaGigiDesidusPemeriksaanUmum)
+    );
+  }, [
+    dAdaGigiDesidusPemeriksaanUmum,
+    mAdaGigiDesidusPemeriksaanUmum,
+    fAdaGigiDesidusPemeriksaanUmum,
+    xAdaGigiDesidusPemeriksaanUmum,
+    smAdaGigiDesidusPemeriksaanUmum,
+  ]);
+
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
@@ -1212,6 +1235,9 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum
         );
+        // kotak masuk sini
+        setStatusMPemeriksaanUmum(data.singlePersonUmum.statusMPemeriksaanUmum);
+        setJenisRPemeriksaanUmum(data.singlePersonUmum.jenisRPemeriksaanUmum);
         setKebersihanMulutOralHygienePemeriksaanUmum(
           data.singlePersonUmum.kebersihanMulutOralHygienePemeriksaanUmum
         );
@@ -1220,6 +1246,9 @@ function UserFormUmumHeader() {
         );
         setSkorGisMulutOralHygienePemeriksaanUmum(
           data.singlePersonUmum.skorGisMulutOralHygienePemeriksaanUmum
+        );
+        setAdaDesidusPemeriksaanUmum(
+          data.singlePersonUmum.adaDesidusPemeriksaanUmum
         );
         setDAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
@@ -1230,11 +1259,14 @@ function UserFormUmumHeader() {
         setFAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
         );
-        setEAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.eAdaGigiDesidusPemeriksaanUmum
+        setSmAdaGigiDesidusPemeriksaanUmum(
+          data.singlePersonUmum.smAdaGigiDesidusPemeriksaanUmum
         );
         setXAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.xAdaGigiDesidusPemeriksaanUmum
+        );
+        setAdaKekalPemeriksaanUmum(
+          data.singlePersonUmum.adaKekalPemeriksaanUmum
         );
         setDAdaGigiKekalPemeriksaanUmum(
           data.singlePersonUmum.dAdaGigiKekalPemeriksaanUmum
@@ -1357,10 +1389,6 @@ function UserFormUmumHeader() {
           data.singlePersonUmum.yaTidakPembedahanKecilMulutPembedahanRawatanUmum
         );
         setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
-        setTprRawatanUmum(data.singlePersonUmum.tprRawatanUmum);
-        setKesSelesaiPeriodontiumRawatanUmum(
-          data.singlePersonUmum.kesSelesaiPeriodontiumRawatanUmum
-        );
         setBaruJumlahGigiYangDiberiSdfRawatanUmum(
           data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
         );
@@ -1614,22 +1642,25 @@ function UserFormUmumHeader() {
           yaTidakPerluStatusDenturePemeriksaanUmum,
           separaPenuhAtasPerluDenturePemeriksaanUmum,
           separaPenuhBawahPerluDenturePemeriksaanUmum,
-          yaTidakSediaAdaStatusDenturePemeriksaanUmum,
-          separaPenuhAtasSediaAdaDenturePemeriksaanUmum,
           toothSurfaceLossTraumaPemeriksaanUmum,
           kecederaanGigiAnteriorTraumaPemeriksaanUmum,
           tisuLembutTraumaPemeriksaanUmum,
           tisuKerasTraumaPemeriksaanUmum,
           fvPerluSapuanPemeriksaanUmum,
           yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum,
+          // kotak masuk sini
+          statusMPemeriksaanUmum,
+          jenisRPemeriksaanUmum,
           kebersihanMulutOralHygienePemeriksaanUmum,
           skorBpeOralHygienePemeriksaanUmum,
           skorGisMulutOralHygienePemeriksaanUmum,
+          adaDesidusPemeriksaanUmum,
           dAdaGigiDesidusPemeriksaanUmum,
           mAdaGigiDesidusPemeriksaanUmum,
           fAdaGigiDesidusPemeriksaanUmum,
-          eAdaGigiDesidusPemeriksaanUmum,
+          smAdaGigiDesidusPemeriksaanUmum,
           xAdaGigiDesidusPemeriksaanUmum,
+          adaKekalPemeriksaanUmum,
           dAdaGigiKekalPemeriksaanUmum,
           mAdaGigiKekalPemeriksaanUmum,
           fAdaGigiKekalPemeriksaanUmum,
@@ -1670,8 +1701,6 @@ function UserFormUmumHeader() {
           yaTidakTraumaPembedahanRawatanUmum,
           yaTidakPembedahanKecilMulutPembedahanRawatanUmum,
           kesSelesaiRawatanUmum,
-          tprRawatanUmum,
-          kesSelesaiPeriodontiumRawatanUmum,
           baruJumlahGigiYangDiberiSdfRawatanUmum,
           semulaJumlahGigiYangDiberiSdfRawatanUmum,
           baruJumlahCrownBridgeRawatanUmum,
@@ -1769,9 +1798,9 @@ function UserFormUmumHeader() {
 
   return (
     <>
-      <div className='h-full p-3 px-10 overflow-y-auto'>
+      <div className='h-full p-1 grid'>
         <div className='p-2'>
-          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
+          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
             {!isLoading && (
               <div>
                 <div className='text-l font-bold flex flex-row pl-5 p-2'>
@@ -1781,9 +1810,15 @@ function UserFormUmumHeader() {
                     onMouseEnter={() => setIsShown(true)}
                     onMouseLeave={() => setIsShown(false)}
                   />
+                  <button
+                    onClick={kemaskini}
+                    className='float-left px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-md text-xs font-medium'
+                  >
+                    kemaskini
+                  </button>
                 </div>
                 {isShown && (
-                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-72 p-5 bg-userWhite '>
+                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
                     <div className='flex flex-row text-sm'>
                       <h2 className='font-semibold'>NAMA :</h2>
                       <p className='ml-1'>{singlePersonUmum.nama}</p>
@@ -1811,32 +1846,26 @@ function UserFormUmumHeader() {
                   </div>
                 )}
                 <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold'>NAMA :</h2>
-                  <p className='ml-1'>{singlePersonUmum.nama}</p>
-                </div>
-                <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold'>UMUR :</h2>
-                  <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                  <h2 className='font-semibold text-xs'>NAMA :</h2>
+                  <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
                 </div>
               </div>
             )}
             {!isLoading && (
-              <div className='md:pt-10'>
-                <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold'>JANTINA :</h2>
-                  <p className='ml-1'>{singlePersonUmum.jantina}</p>
+              <>
+                <div className='md:pt-11'>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>JANTINA :</h2>
+                    <p className='ml-1 text-xs'>{singlePersonUmum.jantina}</p>
+                  </div>
                 </div>
-                <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold'>IC/Passport :</h2>
-                  <p className='ml-1'>{singlePersonUmum.ic}</p>
+                <div className='lg:pt-11'>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>IC/Passport :</h2>
+                    <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
+                  </div>
                 </div>
-                <button
-                  onClick={kemaskini}
-                  className='float-right m-2 px-5 py-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-                >
-                  kemaskini
-                </button>
-              </div>
+              </>
             )}
             {isLoading && (
               <p className='col-span-2 py-[58px] text-xl font-semibold'>
@@ -1845,37 +1874,39 @@ function UserFormUmumHeader() {
             )}
           </article>
         </div>
-        <form onSubmit={handleSubmit}>
-          <FasilitiPerkhidmatan {...masterForm} />
-          <MaklumatLanjut {...masterForm} />
-          <Pemeriksaan {...masterForm} />
-          <Rawatan {...masterForm} />
-          <Promosi {...masterForm} />
-          <Kotak {...masterForm} />
-          <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-            <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
-              <span
-                onClick={() => {
-                  navigate(-1);
-                }}
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-              >
-                kembali
-              </span>
-              <input
-                type='reset'
-                value='reset'
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-              />
-              <button
-                type='submit'
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-              >
-                hantar
-              </button>
+        <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
+          <form onSubmit={handleSubmit}>
+            {/* <FasilitiPerkhidmatan {...masterForm} /> */}
+            {/* <MaklumatLanjut {...masterForm} /> */}
+            <Pemeriksaan {...masterForm} />
+            <Rawatan {...masterForm} />
+            <Promosi {...masterForm} />
+            {/* <Kotak {...masterForm} /> */}
+            <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
+              <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                <span
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                >
+                  kembali
+                </span>
+                <input
+                  type='reset'
+                  value='reset'
+                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                />
+                <button
+                  type='submit'
+                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                >
+                  hantar
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
       {showKemaskini && (
         <Kemaskini

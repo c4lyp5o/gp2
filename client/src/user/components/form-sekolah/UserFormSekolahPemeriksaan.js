@@ -2553,13 +2553,11 @@ function UserFormSekolahPemeriksaan() {
                         Baru
                       </label>
                       <input
-                        min='0'
-                        max='16'
                         type='checkbox'
                         name='baru-jumlah-murid-perlu-fs'
                         id='baru-jumlah-murid-perlu-fs'
-                        value={baruJumlahMuridPerluFs}
-                        onChange={(e) => {
+                        checked={baruJumlahMuridPerluFs}
+                        onChange={() => {
                           setBaruJumlahMuridPerluFs(!baruJumlahMuridPerluFs);
                         }}
                         className='w-4 h-4 bg-user4 rounded focus:ring-user2 m-2'
@@ -2649,13 +2647,11 @@ function UserFormSekolahPemeriksaan() {
                         Baru
                       </label>
                       <input
-                        min='0'
-                        max='16'
                         type='checkbox'
                         name='baru-jumlah-murid-perlu-fv'
                         id='baru-jumlah-murid-perlu-fv'
-                        value={baruJumlahMuridPerluFv}
-                        onChange={(e) => {
+                        checked={baruJumlahMuridPerluFv}
+                        onChange={() => {
                           setBaruJumlahMuridPerluFv(!baruJumlahMuridPerluFv);
                         }}
                         className='w-4 h-4 bg-user4 rounded focus:ring-user2 m-2'
@@ -2747,13 +2743,11 @@ function UserFormSekolahPemeriksaan() {
                         Baru
                       </label>
                       <input
-                        min='0'
-                        max='16'
                         type='checkbox'
                         name='baru-jumlah-murid-perlu-prr-jenis-1'
                         id='baru-jumlah-murid-perlu-prr-jenis-1'
-                        value={baruJumlahMuridPerluPrrJenis1}
-                        onChange={(e) => {
+                        checked={baruJumlahMuridPerluPrrJenis1}
+                        onChange={() => {
                           setBaruJumlahMuridPerluPrrJenis1(
                             !baruJumlahMuridPerluPrrJenis1
                           );
