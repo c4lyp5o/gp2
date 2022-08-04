@@ -61,7 +61,7 @@ export default function PatientData({
                       TARIKH RAWATAN TERAKHIR
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
-                      AKTIFKAN???
+                      KEMASKINI
                     </th>
                   </tr>
                   {data.kaunterResultQuery
@@ -89,7 +89,7 @@ export default function PatientData({
                                 setEditForm(true);
                               }}
                             >
-                              Edit
+                              Kemaskini
                             </button>
                           </td>
                         </tr>
