@@ -4689,7 +4689,7 @@ exports.createPGS203 = function (req, res) {
         rowNew.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan PraSekolah Tadika (Kerajaan)
         rowNew.getCell(5).value = results.dStatusdfx; //d Status dfx PraSekolah Tadika (Kerajaan)
         rowNew.getCell(6).value = results.fStatusdfx; //f Status dfx PraSekolah Tadika (Kerajaan)
-        rowNew.getCell(7).value = results.XStatusdfx; //X Status dfx PraSekolah Tadika (Kerajaan)
+        rowNew.getCell(7).value = results.xStatusdfx; //X Status dfx PraSekolah Tadika (Kerajaan)
         rowNew.getCell(10).value = results.dStatusDMFX; //d Status DMFX PraSekolah Tadika (Kerajaan)
         rowNew.getCell(11).value = results.mStatusDMFX; //m Status DMFX PraSekolah Tadika (Kerajaan)
         rowNew.getCell(12).value = results.fStatusDMFX; //f Status DMFX PraSekolah Tadika (Kerajaan)
@@ -4755,7 +4755,7 @@ exports.createPGS203 = function (req, res) {
         rowNew2.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan PraSekolah Tadika (Swasta)
         rowNew2.getCell(5).value = results.dStatusdfx; //d Status dfx PraSekolah Tadika (Swasta)
         rowNew2.getCell(6).value = results.fStatusdfx; //f Status dfx PraSekolah Tadika (Swasta)
-        rowNew2.getCell(7).value = results.XStatusdfx; //X Status dfx PraSekolah Tadika (Swasta)
+        rowNew2.getCell(7).value = results.xStatusdfx; //X Status dfx PraSekolah Tadika (Swasta)
         rowNew2.getCell(10).value = results.dStatusDMFX; //d Status DMFX PraSekolah Tadika (Swasta)
         rowNew2.getCell(11).value = results.mStatusDMFX; //m Status DMFX PraSekolah Tadika (Swasta)
         rowNew2.getCell(12).value = results.fStatusDMFX; //f Status DMFX PraSekolah Tadika (Swasta)
@@ -4822,7 +4822,7 @@ exports.createPGS203 = function (req, res) {
         rowNew3.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan PraSekolah Tadika (Murid Pendidikan Khas)
         rowNew3.getCell(5).value = results.dStatusdfx; //d Status dfx PraSekolah Tadika (Murid Pendidikan Khas)
         rowNew3.getCell(6).value = results.fStatusdfx; //f Status dfx PraSekolah Tadika (Murid Pendidikan Khas)
-        rowNew3.getCell(7).value = results.XStatusdfx; //X Status dfx PraSekolah Tadika (Murid Pendidikan Khas)
+        rowNew3.getCell(7).value = results.xStatusdfx; //X Status dfx PraSekolah Tadika (Murid Pendidikan Khas)
         rowNew3.getCell(10).value = results.dStatusDMFX; //d Status DMFX PraSekolah Tadika (Murid Pendidikan Khas)
         rowNew3.getCell(11).value = results.mStatusDMFX; //m Status DMFX PraSekolah Tadika (Murid Pendidikan Khas)
         rowNew3.getCell(12).value = results.fStatusDMFX; //f Status DMFX PraSekolah Tadika (Murid Pendidikan Khas)
@@ -4889,7 +4889,7 @@ exports.createPGS203 = function (req, res) {
         rowNew4.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew4.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew4.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew4.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
+        rowNew4.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew4.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew4.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew4.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
@@ -4956,7 +4956,7 @@ exports.createPGS203 = function (req, res) {
         rowNew5.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
         rowNew5.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
         rowNew5.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
-        rowNew5.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
+        rowNew5.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
         rowNew5.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
         rowNew5.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
         rowNew5.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 1)
@@ -5023,7 +5023,7 @@ exports.createPGS203 = function (req, res) {
         rowNew6.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 6)
-        rowNew6.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 6)
+        rowNew6.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 6)
         rowNew6.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 6)
@@ -5090,7 +5090,7 @@ exports.createPGS203 = function (req, res) {
         rowNew7.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
         rowNew7.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
         rowNew7.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
-        rowNew7.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
+        rowNew7.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
         rowNew7.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
         rowNew7.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
         rowNew7.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tahun 6)
@@ -5157,7 +5157,7 @@ exports.createPGS203 = function (req, res) {
         rowNew8.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
         rowNew8.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
         rowNew8.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
-        rowNew8.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
+        rowNew8.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
         rowNew8.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
         rowNew8.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
         rowNew8.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Rendah)
@@ -5224,7 +5224,7 @@ exports.createPGS203 = function (req, res) {
         rowNew9.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
         rowNew9.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
         rowNew9.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
-        rowNew9.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
+        rowNew9.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
         rowNew9.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
         rowNew9.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
         rowNew9.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Rendah)
@@ -5291,7 +5291,7 @@ exports.createPGS203 = function (req, res) {
         rowNew10.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
         rowNew10.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
         rowNew10.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
-        rowNew10.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
+        rowNew10.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
         rowNew10.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
         rowNew10.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
         rowNew10.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Rendah)
@@ -5359,7 +5359,7 @@ exports.createPGS203 = function (req, res) {
         rowNew11.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
         rowNew11.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
         rowNew11.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
-        rowNew11.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
+        rowNew11.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
         rowNew11.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
         rowNew11.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
         rowNew11.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Rendah)
@@ -5427,7 +5427,7 @@ exports.createPGS203 = function (req, res) {
         rowNew12.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
         rowNew12.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
         rowNew12.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
-        rowNew12.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
+        rowNew12.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
         rowNew12.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
         rowNew12.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
         rowNew12.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Tingkatan 4)
@@ -5495,7 +5495,7 @@ exports.createPGS203 = function (req, res) {
         rowNew13.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
         rowNew13.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
         rowNew13.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
-        rowNew13.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
+        rowNew13.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
         rowNew13.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
         rowNew13.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
         rowNew13.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Tingkatan 4)
@@ -5563,7 +5563,7 @@ exports.createPGS203 = function (req, res) {
         rowNew14.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
         rowNew14.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
         rowNew14.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
-        rowNew14.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
+        rowNew14.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
         rowNew14.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
         rowNew14.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
         rowNew14.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Pendidikan Khas Menengah)
@@ -5631,7 +5631,7 @@ exports.createPGS203 = function (req, res) {
         rowNew15.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
         rowNew15.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
         rowNew15.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
-        rowNew15.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
+        rowNew15.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
         rowNew15.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
         rowNew15.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
         rowNew15.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Pendidikan Khas Menengah)
@@ -5699,7 +5699,7 @@ exports.createPGS203 = function (req, res) {
         rowNew16.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
         rowNew16.getCell(5).value = results.dStatusdfx; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
         rowNew16.getCell(6).value = results.fStatusdfx; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
-        rowNew16.getCell(7).value = results.XStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
+        rowNew16.getCell(7).value = results.xStatusdfx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
         rowNew16.getCell(10).value = results.dStatusDMFX; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
         rowNew16.getCell(11).value = results.mStatusDMFX; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
         rowNew16.getCell(12).value = results.fStatusDMFX; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Semua Murid Sekolah Menengah)
@@ -5767,7 +5767,7 @@ exports.createPGS203 = function (req, res) {
         rowNew17.getCell(4).value = results.kedatanganUlangan; //Kedatangn Ulangan Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
         rowNew17.getCell(5).value = results.dStatusdfx; //d Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
         rowNew17.getCell(6).value = results.fStatusdfx; //f Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
-        rowNew17.getCell(7).value = results.XStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
+        rowNew17.getCell(7).value = results.xStatusdfx; //X Status dfx Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
         rowNew17.getCell(10).value = results.dStatusDMFX; //d Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
         rowNew17.getCell(11).value = results.mStatusDMFX; //m Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
         rowNew17.getCell(12).value = results.fStatusDMFX; //f Status DMFX Pasukan atau Klinik Pergigian Bergerak (Semua Murid Sekolah Menengah)
@@ -11544,68 +11544,68 @@ exports.createCPPC2 = function (req, res) {
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
         let worksheet = workbook.getWorksheet('CPPC2');
-        
+
         //CPPC2
 
-        //Pre-school 5 years old 
+        //Pre-school 5 years old
         let rowNew = worksheet.getRow(13);
-        rowNew.getCell(2).value = results.dfStatus //dfStatus pre-schoool 5.y.o
-        rowNew.getCell(3).value = results.cIcIIstatus // cIcIIstatus pre-school 5.y.o
-        rowNew.getcell(5).value = results.cIstatus //cIstatus pre-school 5.y.o. 
+        rowNew.getCell(2).value = results.dfStatus; //dfStatus pre-schoool 5.y.o
+        rowNew.getCell(3).value = results.cIcIIstatus; // cIcIIstatus pre-school 5.y.o
+        rowNew.getcell(5).value = results.cIstatus; //cIstatus pre-school 5.y.o.
 
-        //Pre-school 6 years old 
+        //Pre-school 6 years old
         let rowNew1 = worksheet.getRow(14);
-        rowNew1.getCell(2).value = results.dfStatus //dfStatus pre-schoool 6.y.o
-        rowNew1.getCell(3).value = results.cIcIIstatus // cIcIIstatus pre-school 6.y.o
-        rowNew1.getcell(5).value = results.cIstatus //cIstatus pre-school 6.y.o. 
+        rowNew1.getCell(2).value = results.dfStatus; //dfStatus pre-schoool 6.y.o
+        rowNew1.getCell(3).value = results.cIcIIstatus; // cIcIIstatus pre-school 6.y.o
+        rowNew1.getcell(5).value = results.cIstatus; //cIstatus pre-school 6.y.o.
 
-        //Standard 1 OR Form 1 
+        //Standard 1 OR Form 1
         let rowNew2 = worksheet.getRow(15);
-        rowNew2.getCell(2).value = results.dfStatus //dfStatus S1 or F1 
-        rowNew2.getCell(3).value = results.cIcIIstatus // cIcIIstatus S1 or F1 
-        rowNew2.getcell(5).value = results.cIstatus //cIstatus S1 or F1 
+        rowNew2.getCell(2).value = results.dfStatus; //dfStatus S1 or F1
+        rowNew2.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S1 or F1
+        rowNew2.getcell(5).value = results.cIstatus; //cIstatus S1 or F1
 
-        //Standard 2 OR Form 2 
+        //Standard 2 OR Form 2
         let rowNew3 = worksheet.getRow(16);
-        rowNew3.getCell(2).value = results.dfStatus //dfStatus S2 or F2 
-        rowNew3.getCell(3).value = results.cIcIIstatus // cIcIIstatus S2 or F2 
-        rowNew3.getcell(5).value = results.cIstatus //cIstatus S2 or F2
+        rowNew3.getCell(2).value = results.dfStatus; //dfStatus S2 or F2
+        rowNew3.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S2 or F2
+        rowNew3.getcell(5).value = results.cIstatus; //cIstatus S2 or F2
 
-        //Standard 3 OR Form 3 
+        //Standard 3 OR Form 3
         let rowNew4 = worksheet.getRow(17);
-        rowNew4.getCell(2).value = results.dfStatus //dfStatus S3 or F3 
-        rowNew4.getCell(3).value = results.cIcIIstatus // cIcIIstatus S3 or F3 
-        rowNew4.getcell(5).value = results.cIstatus //cIstatus S3 or F3
+        rowNew4.getCell(2).value = results.dfStatus; //dfStatus S3 or F3
+        rowNew4.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S3 or F3
+        rowNew4.getcell(5).value = results.cIstatus; //cIstatus S3 or F3
 
-        //Standard 4 OR Form 4 
+        //Standard 4 OR Form 4
         let rowNew5 = worksheet.getRow(18);
-        rowNew5.getCell(2).value = results.dfStatus //dfStatus S4 or F4 
-        rowNew5.getCell(3).value = results.cIcIIstatus // cIcIIstatus S4 or F4 
-        rowNew5.getcell(5).value = results.cIstatus //cIstatus S4 or F4
+        rowNew5.getCell(2).value = results.dfStatus; //dfStatus S4 or F4
+        rowNew5.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S4 or F4
+        rowNew5.getcell(5).value = results.cIstatus; //cIstatus S4 or F4
 
-        //Standard 5 OR Form 5 
+        //Standard 5 OR Form 5
         let rowNew6 = worksheet.getRow(19);
-        rowNew6.getCell(2).value = results.dfStatus //dfStatus S5 or F5 
-        rowNew6.getCell(3).value = results.cIcIIstatus // cIcIIstatus S5 or F5 
-        rowNew6.getcell(5).value = results.cIstatus //cIstatus S5 or F5
+        rowNew6.getCell(2).value = results.dfStatus; //dfStatus S5 or F5
+        rowNew6.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S5 or F5
+        rowNew6.getcell(5).value = results.cIstatus; //cIstatus S5 or F5
 
         //Standard 6 OR Form 6 ults.cIstatus //cIstatus S6 or F6
         let rowNew7 = worksheet.getRow(20);
-        rowNew7.getCell(2).value = results.dfStatus //dfStatus S6 or F6 
-        rowNew7.getCell(3).value = results.cIcIIstatus // cIcIIstatus S6 or F6 
-        rowNew7.getcell(5).value = results.cIstatus //cIstatus S6 or F6
+        rowNew7.getCell(2).value = results.dfStatus; //dfStatus S6 or F6
+        rowNew7.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S6 or F6
+        rowNew7.getcell(5).value = results.cIstatus; //cIstatus S6 or F6
 
         //Peralihan
         let rowNew8 = worksheet.getRow(21);
-        rowNew8.getCell(2).value = results.dfStatus //dfStatus peralihan 
-        rowNew8.getCell(3).value = results.cIcIIstatus // cIcIIstatus peralihan
-        rowNew8.getcell(5).value = results.cIstatus //cIstatus peralihan
+        rowNew8.getCell(2).value = results.dfStatus; //dfStatus peralihan
+        rowNew8.getCell(3).value = results.cIcIIstatus; // cIcIIstatus peralihan
+        rowNew8.getcell(5).value = results.cIstatus; //cIstatus peralihan
 
-        //Kanak2 Istimewa (KKI) 
+        //Kanak2 Istimewa (KKI)
         let rowNew9 = worksheet.getRow(22);
-        rowNew9.getCell(2).value = results.dfStatus //dfStatus KKI 
-        rowNew9.getCell(3).value = results.cIcIIstatus // cIcIIstatus KKI
-        rowNew9.getcell(5).value = results.cIstatus //cIstatus KKI
+        rowNew9.getCell(2).value = results.dfStatus; //dfStatus KKI
+        rowNew9.getCell(3).value = results.cIcIIstatus; // cIcIIstatus KKI
+        rowNew9.getcell(5).value = results.cIstatus; //cIstatus KKI
 
         let newfile = path.join(
           __dirname,
@@ -11613,6 +11613,131 @@ exports.createCPPC2 = function (req, res) {
           'public',
           'exports',
           'test-CPPC2.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG101 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG101.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG101');
+
+        let rowNew = worksheet.getRow(11);
+
+        rowNew.getCell(1).value = results.tarikh;
+        rowNew.getCell(2).value = results.nomborSiri; //dapat dari mana?
+        rowNew.getCell(3).value = results.kedatanganEnggan;
+        rowNew.getCell(4).value = results.kedatanganTidakHadir;
+        rowNew.getCell(5).value = results.ic;
+        rowNew.getCell(6).value = results.nama;
+        rowNew.getCell(7).value = results.alamat;
+        rowNew.getCell(8).value = results.umur;
+        rowNew.getCell(9).value = results.waktuSampai;
+        rowNew.getCell(10).value = results.jantina; //Puan.. pakai boolean?
+        rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
+        rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
+        rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
+        rowNew.getCell(14).value = results.kategoriPesakit; //Sek Rendah..pakai boolean?
+        rowNew.getCell(15).value = results.kategoriPesakit; //Sek Men..pakai boolean?
+        rowNew.getCell(16).value = results.kategoriPesakit; //OKU..pakai boolean?
+        rowNew.getCell(17).value = results.kategoriPesakit; //Ibu Mengandung..pakai boolean?
+        rowNew.getCell(18).value = results.kategoriPesakit; //dewasa..pakai boolean?
+        rowNew.getCell(19).value = results.kategoriPesakit; //wargatua..pakai boolean?
+        rowNew.getCell(20).value = results.kumpulanEtnik; //melayu. boolean?
+        rowNew.getCell(21).value = results.kumpulanEtnik; //cina. boolean?
+        rowNew.getCell(22).value = results.kumpulanEtnik; //india. boolean?
+        rowNew.getCell(23).value = results.kumpulanEtnik; //bajau. boolean?
+        rowNew.getCell(24).value = results.kumpulanEtnik; //dusun. boolean?
+        rowNew.getCell(25).value = results.kumpulanEtnik; //kadazan. boolean?
+        rowNew.getCell(26).value = results.kumpulanEtnik; //murut. boolean?
+        rowNew.getCell(27).value = results.kumpulanEtnik; //BMP sabah. boolean?
+        rowNew.getCell(28).value = results.kumpulanEtnik; //melanau. boolean?
+        rowNew.getCell(29).value = results.kumpulanEtnik; //kedayan. boolean?
+        rowNew.getCell(30).value = results.kumpulanEtnik; //iban. boolean?
+        rowNew.getCell(31).value = results.kumpulanEtnik; //bidayuh. boolean?
+        rowNew.getCell(32).value = results.kumpulanEtnik; //BMP sarawak. boolean?
+        rowNew.getCell(33).value = results.kumpulanEtnik; //OA. boolean?
+        rowNew.getCell(34).value = results.kumpulanEtnik; //lain-lain. boolean?
+        rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
+        rowNew.getCell(36).value = results.catatan; //rujukDaripada
+        rowNew.getCell(37).value = results.catatan; //catatan
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG101.xlsx'
         );
 
         // Write the file
