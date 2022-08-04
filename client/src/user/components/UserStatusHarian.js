@@ -117,7 +117,7 @@ export default function UserStatusHarian() {
                     className='ml-3 w-4 h-4 rounded'
                   />
                   <label htmlFor='tidak-hadir' className='ml-1'>
-                    tidak hadir
+                    tidak diperiksa
                   </label>
                 </td>
               </tr>
