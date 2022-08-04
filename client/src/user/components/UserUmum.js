@@ -91,7 +91,7 @@ function UserUmum() {
             <option value='oku'>Institusi OKU</option>
             <option value='ngangkat'>Kampung angkat</option>
             <option value='komlain'>Projek komuniti lain</option>
-            <option value='kelantan'>RTC (Kelantan sahaja)</option>
+            {/* <option value='kelantan'>RTC (Kelantan sahaja)</option> */}
           </select>
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
