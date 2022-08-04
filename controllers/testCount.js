@@ -7429,14 +7429,16 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-exports.tryPG101 = function (req, res) {
-  Umum.aggregate([
+exports.tryPG101 = async function (req, res) {
+  console.log('this is on');
+  theData = await Umum.aggregate([
     {
       $match: {},
     },
     {
       $project: {
         _id: 0,
+        tarikhKedatangan: '$tarikhKedatangan',
         nama: '$nama',
         jantina: '$jantina',
         umur: '$umur',
@@ -7450,19 +7452,94 @@ exports.tryPG101 = function (req, res) {
         rujukDaripada: '$rujukDaripada',
       },
     },
-  ]),
-    function (err, results) {
-      try {
-        console.log(results);
-        return res.json(results);
-      } catch (err) {
-        console.log(err);
-        return res.status(500).json({
-          message: 'Error when getting Data',
-          error: err,
-        });
-      }
-    };
+  ]);
+  // function (err, results) {
+  //   try {
+  //     console.log(results);
+  //     return res.json(results);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return res.status(500).json({
+  //       message: 'Error when getting Data',
+  //       error: err,
+  //     });
+  //   }
+  // };
+  try {
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG101.xlsx'
+    );
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG101');
+
+    for (let i = 0; i < theData.length; i++) {
+      let rowNew = worksheet.getRow(11 + i);
+      rowNew.getCell(1).value = theData[i].tarikhKedatangan;
+      rowNew.getCell(2).value = theData[i].nomborSiri; //dapat dari mana?
+      rowNew.getCell(3).value = theData[i].kedatanganEnggan;
+      rowNew.getCell(4).value = theData[i].kedatanganTidakHadir;
+      rowNew.getCell(5).value = theData[i].ic;
+      rowNew.getCell(6).value = theData[i].nama;
+      rowNew.getCell(7).value = theData[i].alamat;
+      rowNew.getCell(8).value = theData[i].umur;
+      rowNew.getCell(9).value = theData[i].waktuSampai;
+      // rowNew.getCell(10).value = results.jantina; //Puan.. pakai boolean?
+      // rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
+      // rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
+      // rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
+      // rowNew.getCell(14).value = results.kategoriPesakit; //Sek Rendah..pakai boolean?
+      // rowNew.getCell(15).value = results.kategoriPesakit; //Sek Men..pakai boolean?
+      // rowNew.getCell(16).value = results.kategoriPesakit; //OKU..pakai boolean?
+      // rowNew.getCell(17).value = results.kategoriPesakit; //Ibu Mengandung..pakai boolean?
+      // rowNew.getCell(18).value = results.kategoriPesakit; //dewasa..pakai boolean?
+      // rowNew.getCell(19).value = results.kategoriPesakit; //wargatua..pakai boolean?
+      // rowNew.getCell(20).value = results.kumpulanEtnik; //melayu. boolean?
+      // rowNew.getCell(21).value = results.kumpulanEtnik; //cina. boolean?
+      // rowNew.getCell(22).value = results.kumpulanEtnik; //india. boolean?
+      // rowNew.getCell(23).value = results.kumpulanEtnik; //bajau. boolean?
+      // rowNew.getCell(24).value = results.kumpulanEtnik; //dusun. boolean?
+      // rowNew.getCell(25).value = results.kumpulanEtnik; //kadazan. boolean?
+      // rowNew.getCell(26).value = results.kumpulanEtnik; //murut. boolean?
+      // rowNew.getCell(27).value = results.kumpulanEtnik; //BMP sabah. boolean?
+      // rowNew.getCell(28).value = results.kumpulanEtnik; //melanau. boolean?
+      // rowNew.getCell(29).value = results.kumpulanEtnik; //kedayan. boolean?
+      // rowNew.getCell(30).value = results.kumpulanEtnik; //iban. boolean?
+      // rowNew.getCell(31).value = results.kumpulanEtnik; //bidayuh. boolean?
+      // rowNew.getCell(32).value = results.kumpulanEtnik; //BMP sarawak. boolean?
+      // rowNew.getCell(33).value = results.kumpulanEtnik; //OA. boolean?
+      // rowNew.getCell(34).value = results.kumpulanEtnik; //lain-lain. boolean?
+      // rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
+      // rowNew.getCell(36).value = results.catatan; //rujukDaripada
+      // rowNew.getCell(37).value = results.catatan; //catatan
+    }
+
+    let newfile = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'test-PG101.xlsx'
+    );
+
+    // Write the file
+    console.log('writing file');
+    await workbook.xlsx.writeFile(newfile);
+
+    setTimeout(function () {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+    }, 30000);
+    setTimeout(function () {
+      return res.download(newfile); // delete this file after 30 seconds
+    }, 3000);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
 };
 exports.new201 = function (req, res) {
   async.parallel(

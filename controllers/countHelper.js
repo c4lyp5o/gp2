@@ -11544,68 +11544,68 @@ exports.createCPPC2 = function (req, res) {
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
         let worksheet = workbook.getWorksheet('CPPC2');
-        
+
         //CPPC2
 
-        //Pre-school 5 years old 
+        //Pre-school 5 years old
         let rowNew = worksheet.getRow(13);
-        rowNew.getCell(2).value = results.dfStatus //dfStatus pre-schoool 5.y.o
-        rowNew.getCell(3).value = results.cIcIIstatus // cIcIIstatus pre-school 5.y.o
-        rowNew.getcell(5).value = results.cIstatus //cIstatus pre-school 5.y.o. 
+        rowNew.getCell(2).value = results.dfStatus; //dfStatus pre-schoool 5.y.o
+        rowNew.getCell(3).value = results.cIcIIstatus; // cIcIIstatus pre-school 5.y.o
+        rowNew.getcell(5).value = results.cIstatus; //cIstatus pre-school 5.y.o.
 
-        //Pre-school 6 years old 
+        //Pre-school 6 years old
         let rowNew1 = worksheet.getRow(14);
-        rowNew1.getCell(2).value = results.dfStatus //dfStatus pre-schoool 6.y.o
-        rowNew1.getCell(3).value = results.cIcIIstatus // cIcIIstatus pre-school 6.y.o
-        rowNew1.getcell(5).value = results.cIstatus //cIstatus pre-school 6.y.o. 
+        rowNew1.getCell(2).value = results.dfStatus; //dfStatus pre-schoool 6.y.o
+        rowNew1.getCell(3).value = results.cIcIIstatus; // cIcIIstatus pre-school 6.y.o
+        rowNew1.getcell(5).value = results.cIstatus; //cIstatus pre-school 6.y.o.
 
-        //Standard 1 OR Form 1 
+        //Standard 1 OR Form 1
         let rowNew2 = worksheet.getRow(15);
-        rowNew2.getCell(2).value = results.dfStatus //dfStatus S1 or F1 
-        rowNew2.getCell(3).value = results.cIcIIstatus // cIcIIstatus S1 or F1 
-        rowNew2.getcell(5).value = results.cIstatus //cIstatus S1 or F1 
+        rowNew2.getCell(2).value = results.dfStatus; //dfStatus S1 or F1
+        rowNew2.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S1 or F1
+        rowNew2.getcell(5).value = results.cIstatus; //cIstatus S1 or F1
 
-        //Standard 2 OR Form 2 
+        //Standard 2 OR Form 2
         let rowNew3 = worksheet.getRow(16);
-        rowNew3.getCell(2).value = results.dfStatus //dfStatus S2 or F2 
-        rowNew3.getCell(3).value = results.cIcIIstatus // cIcIIstatus S2 or F2 
-        rowNew3.getcell(5).value = results.cIstatus //cIstatus S2 or F2
+        rowNew3.getCell(2).value = results.dfStatus; //dfStatus S2 or F2
+        rowNew3.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S2 or F2
+        rowNew3.getcell(5).value = results.cIstatus; //cIstatus S2 or F2
 
-        //Standard 3 OR Form 3 
+        //Standard 3 OR Form 3
         let rowNew4 = worksheet.getRow(17);
-        rowNew4.getCell(2).value = results.dfStatus //dfStatus S3 or F3 
-        rowNew4.getCell(3).value = results.cIcIIstatus // cIcIIstatus S3 or F3 
-        rowNew4.getcell(5).value = results.cIstatus //cIstatus S3 or F3
+        rowNew4.getCell(2).value = results.dfStatus; //dfStatus S3 or F3
+        rowNew4.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S3 or F3
+        rowNew4.getcell(5).value = results.cIstatus; //cIstatus S3 or F3
 
-        //Standard 4 OR Form 4 
+        //Standard 4 OR Form 4
         let rowNew5 = worksheet.getRow(18);
-        rowNew5.getCell(2).value = results.dfStatus //dfStatus S4 or F4 
-        rowNew5.getCell(3).value = results.cIcIIstatus // cIcIIstatus S4 or F4 
-        rowNew5.getcell(5).value = results.cIstatus //cIstatus S4 or F4
+        rowNew5.getCell(2).value = results.dfStatus; //dfStatus S4 or F4
+        rowNew5.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S4 or F4
+        rowNew5.getcell(5).value = results.cIstatus; //cIstatus S4 or F4
 
-        //Standard 5 OR Form 5 
+        //Standard 5 OR Form 5
         let rowNew6 = worksheet.getRow(19);
-        rowNew6.getCell(2).value = results.dfStatus //dfStatus S5 or F5 
-        rowNew6.getCell(3).value = results.cIcIIstatus // cIcIIstatus S5 or F5 
-        rowNew6.getcell(5).value = results.cIstatus //cIstatus S5 or F5
+        rowNew6.getCell(2).value = results.dfStatus; //dfStatus S5 or F5
+        rowNew6.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S5 or F5
+        rowNew6.getcell(5).value = results.cIstatus; //cIstatus S5 or F5
 
         //Standard 6 OR Form 6 ults.cIstatus //cIstatus S6 or F6
         let rowNew7 = worksheet.getRow(20);
-        rowNew7.getCell(2).value = results.dfStatus //dfStatus S6 or F6 
-        rowNew7.getCell(3).value = results.cIcIIstatus // cIcIIstatus S6 or F6 
-        rowNew7.getcell(5).value = results.cIstatus //cIstatus S6 or F6
+        rowNew7.getCell(2).value = results.dfStatus; //dfStatus S6 or F6
+        rowNew7.getCell(3).value = results.cIcIIstatus; // cIcIIstatus S6 or F6
+        rowNew7.getcell(5).value = results.cIstatus; //cIstatus S6 or F6
 
         //Peralihan
         let rowNew8 = worksheet.getRow(21);
-        rowNew8.getCell(2).value = results.dfStatus //dfStatus peralihan 
-        rowNew8.getCell(3).value = results.cIcIIstatus // cIcIIstatus peralihan
-        rowNew8.getcell(5).value = results.cIstatus //cIstatus peralihan
+        rowNew8.getCell(2).value = results.dfStatus; //dfStatus peralihan
+        rowNew8.getCell(3).value = results.cIcIIstatus; // cIcIIstatus peralihan
+        rowNew8.getcell(5).value = results.cIstatus; //cIstatus peralihan
 
-        //Kanak2 Istimewa (KKI) 
+        //Kanak2 Istimewa (KKI)
         let rowNew9 = worksheet.getRow(22);
-        rowNew9.getCell(2).value = results.dfStatus //dfStatus KKI 
-        rowNew9.getCell(3).value = results.cIcIIstatus // cIcIIstatus KKI
-        rowNew9.getcell(5).value = results.cIstatus //cIstatus KKI
+        rowNew9.getCell(2).value = results.dfStatus; //dfStatus KKI
+        rowNew9.getCell(3).value = results.cIcIIstatus; // cIcIIstatus KKI
+        rowNew9.getcell(5).value = results.cIstatus; //cIstatus KKI
 
         let newfile = path.join(
           __dirname,
@@ -11686,13 +11686,13 @@ exports.createPG101 = function (req, res) {
           '..',
           'public',
           'exports',
-          'MMI.xlsx'
+          'PG101.xlsx'
         );
         let workbook = new Excel.Workbook();
         await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('MMI');
+        let worksheet = workbook.getWorksheet('PG101');
 
-        let rowNew = worksheet.getRow(11)
+        let rowNew = worksheet.getRow(11);
 
         rowNew.getCell(1).value = results.tarikh;
         rowNew.getCell(2).value = results.nomborSiri; //dapat dari mana?
@@ -11703,7 +11703,7 @@ exports.createPG101 = function (req, res) {
         rowNew.getCell(7).value = results.alamat;
         rowNew.getCell(8).value = results.umur;
         rowNew.getCell(9).value = results.waktuSampai;
-        rowNew.getCell(10).value = results.jantina;//Puan.. pakai boolean?
+        rowNew.getCell(10).value = results.jantina; //Puan.. pakai boolean?
         rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
         rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
         rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
@@ -11731,7 +11731,6 @@ exports.createPG101 = function (req, res) {
         rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
         rowNew.getCell(36).value = results.catatan; //rujukDaripada
         rowNew.getCell(37).value = results.catatan; //catatan
-        
 
         let newfile = path.join(
           __dirname,
@@ -11757,6 +11756,3 @@ exports.createPG101 = function (req, res) {
     }
   );
 };
-
-
-
