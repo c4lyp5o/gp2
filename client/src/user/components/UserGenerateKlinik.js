@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken } = useGlobalUserAppContext();
+  const { userToken, toast } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -64,6 +64,7 @@ export default function UserGenerateKlinik() {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    toast.info('3 saat..', { autoClose: 2500 });
     try {
       const theBits = await axios.get(
         `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
