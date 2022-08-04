@@ -7632,16 +7632,21 @@ exports.new201 = function (req, res) {
                 jumlahM: { $sum: '$pemeriksaanSekolah.mAdaGigiKekal' },
                 jumlahF: { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
                 jumlahX: { $sum: '$pemeriksaanSekolah.xAdaGigiKekal' },
-                gigiKekalDMFXsamaAtauKurangDari3: {
+                gigiKekalDMFXsamaAtauKurangDari3: { //DMFX<=3 //Formula updated - edited by Leong 03.08.2022
                   //DMFX ≤ 3
                   $sum: {
                     $cond: [
                       {
-                        $and: [
-                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 1] },
-                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 1] },
+                        $lte: [
+                          {
+                            $add: [
+                              '$pemeriksaanSekolah.dAdaGigiKekal',
+                              '$pemeriksaanSekolah.mAdaGigiKekal',
+                              '$pemeriksaanSekolah.fAdaGigiKekal',
+                              '$pemeriksaanSekolah.xAdaGigiKekal',
+                            ],
+                          },
+                          3,
                         ],
                       },
                       1,
@@ -7649,8 +7654,51 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                totalStatusGigiKekalSamaKosong: {
-                  //X+M = 0
+                gigiKekalDMFXsamaAtauKurangDari2: { //DMFX<=2 //data untuk PGS203
+                  //DMFX ≤ 2
+                  $sum: {
+                    $cond: [
+                      {
+                        $lte: [
+                          {
+                            $add: [
+                              '$pemeriksaanSekolah.dAdaGigiKekal',
+                              '$pemeriksaanSekolah.mAdaGigiKekal',
+                              '$pemeriksaanSekolah.fAdaGigiKekal',
+                              '$pemeriksaanSekolah.xAdaGigiKekal',
+                            ],
+                          },
+                          2,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                gigiKekalDMFXsamaAtauKurangDari2: { //DMFX<=1 //data untuk PGS203
+                  //DMFX ≤ 2
+                  $sum: {
+                    $cond: [
+                      {
+                        $lte: [
+                          {
+                            $add: [
+                              '$pemeriksaanSekolah.dAdaGigiKekal',
+                              '$pemeriksaanSekolah.mAdaGigiKekal',
+                              '$pemeriksaanSekolah.fAdaGigiKekal',
+                              '$pemeriksaanSekolah.xAdaGigiKekal',
+                            ],
+                          },
+                          1,
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                totalStatusGigiKekalSamaKosong: { //X+M = 0
                   $sum: {
                     $cond: [
                       {
@@ -7664,8 +7712,7 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                eMoreThanZero: {
-                  //E≥1 (ada karies awal)
+                eMoreThanZero: { //E≥1 (ada karies awal)                  
                   $sum: {
                     $cond: [
                       {
@@ -7678,20 +7725,28 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                jumlahMBK: {
-                  //MBK
+                jumlahMBK: { //Formula updated (copied from 201SMKP) - edited by Leong 03.08.2022
+                  //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
                   $sum: {
                     $cond: [
-                      {
-                        $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0],
-                      },
+                        {
+                         $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                         ],
+                       },  
                       1,
                       0,
                     ],
                   },
                 },
-                statusBebasKaries: {
-                  //DMFX=0
+                statusBebasKaries: { //DMFX=0
                   $sum: {
                     $cond: [
                       {
@@ -7707,8 +7762,7 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                statusBebasKariesTapiElebihDariSatu: {
-                  //DMFX=0 ; E≥1
+                statusBebasKariesTapiElebihDariSatu: {//DMFX=0 ; E≥1
                   $sum: {
                     $cond: [
                       {
@@ -7725,8 +7779,18 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                dfxEqualToZero: {
-                  //dfx=0
+                eMoreThanZero: { //E≥1 (data utk PGS203)
+                  $sum: {
+                    $cond: [
+                      { 
+                        $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] 
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                dfxEqualToZero: { //dfx=0
                   $sum: {
                     $cond: [
                       {
@@ -7771,6 +7835,35 @@ exports.new201 = function (req, res) {
                           { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
                           { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
                           { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                tpr: { //ini utk keluar reten PG201SMKP - added by Leong 03.08.2022
+                  //TPR can be considered if (f/F >1 +/- m/M >1 +/- SM>1); cannot claim TPR if d/D > 1 or x/X > 1 or GIS skor 1 or 3
+                  //no mixed dentition ; dx =0 ; sm = 0 ; fm >=0; GIS skor 0 or 2
+                  //mixed dentition ; dfmx =0 ; DMFX = 0 ; sm = 0 ; GIS skor 0 or 2
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                          { $gte: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                          { $gte: ['$pemeriksaanSekolah.mAdaGigiDesidus', 0] },
+                          { $gte: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                          { $gte: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                          { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                          {
+                            $or: [
+                              { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'] },
+                              { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'] },
+                            ],
+                          },
                         ],
                       },
                       1,
@@ -8135,7 +8228,7 @@ exports.new201 = function (req, res) {
           callback
         );
       },
-      dataRawatan: function (callback) {
+      dataRawatan: function (callback) { //data rawatan
         Sekolah.aggregate(
           [
             {
@@ -8154,7 +8247,7 @@ exports.new201 = function (req, res) {
               },
             },
             {
-              $project: {
+              $project: { //ini kita assign initial OR default value 
                 namaSekolah: '$namaSekolah',
                 rawatanYgDilakukan: {
                   $reduce: {
@@ -8194,7 +8287,8 @@ exports.new201 = function (req, res) {
                       abses: 0,
                       penskaleran: 0,
                     },
-                    in: {
+                    in: { //ini gorek data dari form yang di-isikan oleh user 
+                      //$value dpt dari database ; this dari initial value kita declared di atas
                       BARU_GgKekalBuatFs: {
                         $add: [
                           '$$value.baruJumlahGigiKekalDibuatFs',
@@ -8398,7 +8492,7 @@ exports.new201 = function (req, res) {
               },
             },
             {
-              $group: {
+              $group: { //ini utk kira jumlah rawatan data dari atas 
                 _id: '$namaSekolah',
                 jumlahBudak: { $sum: 1 },
                 BARU_GgKekalBuatFs: {
