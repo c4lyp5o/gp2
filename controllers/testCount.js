@@ -9984,7 +9984,7 @@ async function generate201(jenisReten, sekolah, klinik) {
         setTimeout(function () {
           fs.unlinkSync(newfile); // delete this file after 30 seconds
           console.log('deleting file');
-        }, 30000);
+        }, 15000);
         return 'it is done';
       } catch (error) {
         console.log(error);
