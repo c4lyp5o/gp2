@@ -60,10 +60,14 @@ export default function UserGenerateKlinik() {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    toast.info('3 saat..', { autoClose: 2500 });
-    try {
-      const theBits = await axios.get(
-        `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
+    await toast
+      .promise(
+        axios.get(
+          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
+          {
+            responseType: 'blob',
+          }
+        ),
         {
           pending: 'Menghasilkan reten...',
           success: 'Reten berjaya dihasilkan',
@@ -99,6 +103,7 @@ export default function UserGenerateKlinik() {
               <option value='MMI1'>BORANG MMI/1</option>
               <option value='FV'>FV</option>
               <option value='PG201'>PG201</option>
+              <option value='PG201SMKP'>PG201 SMKP</option>
               <option value='GIS'>GIS</option>
               <option value='PERSIS1'>PERSiS-1</option>
               <option value='PPIM03'>PPIM 03-2020</option>

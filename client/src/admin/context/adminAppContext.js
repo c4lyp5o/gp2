@@ -258,10 +258,10 @@ function AdminAppProvider({ children }) {
         kodSekolah
         createdByNegeri
         createdByDaerah
+        handler
         kpSkrg
         gred
         role
-        handler
         keppStatus
         risikoSekolahPersis
       }

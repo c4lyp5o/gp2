@@ -43,7 +43,7 @@ module.exports = {
         gred: orang.gred,
         role: orang.role,
         handler: 'NOT A FACILITY',
-        keppStatus: 'NOT A FACILITY',
+        keppStatus: false,
       };
     }
     if (!orang) {
@@ -58,6 +58,7 @@ module.exports = {
         gred: 'NOT AN OPERATOR',
         role: 'NOT AN OPERATOR',
         handler: tempat.handler,
+        melaksanakanBegin: tempat.melaksanakanBegin,
         keppStatus: tempat.keppStatus,
       };
     }
