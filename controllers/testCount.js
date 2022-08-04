@@ -7429,7 +7429,7 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-exports.tryPG101 = async function (req, res) {
+async function tryPG101(req, res) {
   console.log('this is on');
   theData = await Umum.aggregate([
     {
@@ -7529,18 +7529,17 @@ exports.tryPG101 = async function (req, res) {
     // Write the file
     console.log('writing file');
     await workbook.xlsx.writeFile(newfile);
-
+    console.log('writing file');
     setTimeout(function () {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
     }, 30000);
-    setTimeout(function () {
-      return res.download(newfile); // delete this file after 30 seconds
-    }, 3000);
+    return 'it is done';
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
   }
-};
+}
 exports.new201 = function (req, res) {
   async.parallel(
     {
@@ -10192,22 +10191,42 @@ async function generate201(jenisReten, sekolah, klinik) {
 exports.downloader = async function (req, res) {
   console.log(req.query);
   const { jenisReten, sekolah, kp } = req.query;
-  await generate201(jenisReten, sekolah, kp);
-  const theResult = () => {
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG201A.xlsx'
-    );
-    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    res.setHeader('Content-Type', 'application/vnd.ms-excel');
-    return res.status(200).send(file);
-  };
-  setTimeout(() => {
-    theResult(), console.log('times up');
-  }, 3000);
+  if (jenisReten === 'PG201A') {
+    await generate201(jenisReten, sekolah, kp);
+    const theResult = () => {
+      let newfile = path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        'test-' + kp + '-PG201A.xlsx'
+      );
+      const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      return res.status(200).send(file);
+    };
+    setTimeout(() => {
+      theResult(), console.log('times up');
+    }, 3000);
+  }
+  if (jenisReten == 'PG101') {
+    await generate101(jenisReten, sekolah, kp);
+    const theResult = () => {
+      let newfile = path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        'test-' + kp + '-PG101A.xlsx'
+      );
+      const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      return res.status(200).send(file);
+    };
+    setTimeout(() => {
+      theResult(), console.log('times up');
+    }, 3000);
+  }
 };
 exports.mother201 = function (req, res) {
   async.parallel(
