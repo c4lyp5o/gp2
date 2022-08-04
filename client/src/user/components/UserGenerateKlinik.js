@@ -187,8 +187,7 @@ export default function UserGenerateKlinik() {
               </button>
             </div>
           </div>
-
-          <div className='p-2 items-center mt-2'>
+          {/* <div className='p-2 items-center mt-2'>
             <iframe
               className='w-full'
               height='400'
@@ -196,7 +195,7 @@ export default function UserGenerateKlinik() {
               src=''
               frameBorder='0'
             ></iframe>
-          </div>
+          </div> */}
         </form>
       </div>
     </>
