@@ -7676,7 +7676,7 @@ exports.new201 = function (req, res) {
                     ],
                   },
                 },
-                gigiKekalDMFXsamaAtauKurangDari2: { //DMFX<=1 //data untuk PGS203
+                gigiKekalDMFXsamaAtauKurangDari1: { //DMFX<=1 //data untuk PGS203
                   //DMFX ≤ 2
                   $sum: {
                     $cond: [
