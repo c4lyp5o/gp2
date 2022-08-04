@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast } = useGlobalUserAppContext();
-
+  const { userToken, toast, dateToday } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -61,14 +60,10 @@ export default function UserGenerateKlinik() {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    await toast
-      .promise(
-        axios.get(
-          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
-          {
-            responseType: 'blob',
-          }
-        ),
+    toast.info('3 saat..', { autoClose: 2500 });
+    try {
+      const theBits = await axios.get(
+        `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
         {
           pending: 'Menghasilkan reten...',
           success: 'Reten berjaya dihasilkan',
@@ -147,17 +142,6 @@ export default function UserGenerateKlinik() {
               id='endDate'
               onChange={(e) => setEndDate(e.target.value)}
             />
-            <strong>Format: </strong>
-            <select
-              name='formatFile'
-              id='formatFile'
-              onChange={(e) => setFormatFile(e.target.value)}
-            >
-              <option value=''>Sila pilih format file</option>
-              <option value='xlsx'>Excel</option>
-              <option value='pdf'>PDF</option>
-              <option value='yeezus'>Holy Grail</option>
-            </select>
           </div>
           <br />
           <div>
@@ -175,7 +159,6 @@ export default function UserGenerateKlinik() {
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
                 <option value='pdf'>PDF</option>
-                <option value='yeezus'>Holy Grail</option>
               </select>
             </div>
             <button

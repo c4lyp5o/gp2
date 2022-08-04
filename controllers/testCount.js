@@ -7429,11 +7429,14 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-async function tryPG101(jenisReten, sekolah, klinik) {
-  console.log('this is on');
+async function tryPG101(jenisReten, sekolah, klinik, dateToday) {
   theData = await Umum.aggregate([
     {
-      $match: {},
+      $match: {
+        tarikhKedatangan: {
+          $eq: dateToday,
+        },
+      },
     },
     {
       $project: {
@@ -7452,19 +7455,12 @@ async function tryPG101(jenisReten, sekolah, klinik) {
         rujukDaripada: '$rujukDaripada',
       },
     },
+    {
+      $sort: {
+        tarikhKedatangan: 1,
+      },
+    },
   ]);
-  // function (err, results) {
-  //   try {
-  //     console.log(results);
-  //     return res.json(results);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.status(500).json({
-  //       message: 'Error when getting Data',
-  //       error: err,
-  //     });
-  //   }
-  // };
   try {
     let filename = path.join(
       __dirname,
@@ -10190,7 +10186,7 @@ async function generate201(jenisReten, sekolah, klinik) {
 }
 exports.downloader = async function (req, res) {
   console.log(req.query);
-  const { jenisReten, sekolah, kp } = req.query;
+  const { jenisReten, sekolah, kp, dateToday } = req.query;
   if (jenisReten === 'PG201A') {
     await generate201(jenisReten, sekolah, kp);
     const theResult = () => {
@@ -10210,7 +10206,7 @@ exports.downloader = async function (req, res) {
     }, 3000);
   }
   if (jenisReten == 'PG101') {
-    await tryPG101(jenisReten, sekolah, kp);
+    await tryPG101(jenisReten, sekolah, kp, dateToday);
     const theResult = () => {
       let newfile = path.join(
         __dirname,
@@ -10218,6 +10214,24 @@ exports.downloader = async function (req, res) {
         'public',
         'exports',
         'test-' + kp + '-PG101.xlsx'
+      );
+      const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      return res.status(200).send(file);
+    };
+    setTimeout(() => {
+      theResult(), console.log('times up');
+    }, 3000);
+  }
+  if (jenisReten == 'PGS203') {
+    await generate203(jenisReten, sekolah, kp, dateToday);
+    const theResult = () => {
+      let newfile = path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        'test-' + kp + '-PGS203.xlsx'
       );
       const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
