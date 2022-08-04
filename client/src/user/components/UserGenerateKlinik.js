@@ -5,13 +5,12 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
   const { userToken, toast } = useGlobalUserAppContext();
+
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [formatFile, setFormatFile] = useState('');
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [pilihanSekolah, setPilihanSekolah] = useState([]);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [currentKp, setCurrentKp] = useState('');
@@ -19,7 +18,6 @@ export default function UserGenerateKlinik() {
   useEffect(() => {
     const fetchSekolah = async () => {
       try {
-        // setIsLoading(true);
         const { data } = await axios.get('/api/v1/sekolah/populate', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
@@ -42,7 +40,6 @@ export default function UserGenerateKlinik() {
         );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
-        // setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -64,18 +61,24 @@ export default function UserGenerateKlinik() {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    toast.info('3 saat..', { autoClose: 2500 });
-    try {
-      const theBits = await axios.get(
-        `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
+    await toast
+      .promise(
+        axios.get(
+          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
+          {
+            responseType: 'blob',
+          }
+        ),
         {
-          responseType: 'blob',
-        }
-      );
-      saveFile(theBits.data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
+          pending: 'Menghasilkan reten...',
+          success: 'Reten berjaya dihasilkan',
+          error: 'Reten tidak berjaya dihasilkan',
+        },
+        { autoClose: 2000 }
+      )
+      .then((theBits) => {
+        saveFile(theBits.data);
+      });
   };
 
   return (
