@@ -8927,6 +8927,19 @@ exports.mother201 = function (req, res) {
                 _id: '$namaSekolah',
                 // namaKlinik: '$pemeriksaanSekolah.createdByKp',
                 jumlahBudak: { $sum: 1 },
+
+                /*  PGPS 2 2021 Compile Column maklumat Asas
+                
+                1) Jumlah Prasekolah / Tadika Dalam Daerah / Negeri
+                2) Jumlah Prasekolah / Tadika Dilawati
+                3) Peratus Prasekolah / Tadika Dilawati (col. 53/col. 52 x 100)
+             
+                Kotak kecil di bawah juga perlu diisi
+                Aktiviti Promosi Kesihatan Pergigian				Bil diadakan			Bil Peserta		
+
+                                
+                */
+
                 engganKedatanganPendaftaran: {
                   $sum: {
                     $cond: [
