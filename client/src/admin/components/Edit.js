@@ -287,7 +287,7 @@ const Modal = ({
     );
   }
 
-  if (error || klinikError) {
+  if (error) {
     return <div>Error!</div>;
   }
 
