@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast } = useGlobalUserAppContext();
-
+  const { userToken, toast, dateToday } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -64,7 +63,7 @@ export default function UserGenerateKlinik() {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&startDate=${startDate}&endDate=${endDate}`,
+          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
           {
             responseType: 'blob',
           }
@@ -104,6 +103,7 @@ export default function UserGenerateKlinik() {
               <option value='MMI1'>BORANG MMI/1</option>
               <option value='FV'>FV</option>
               <option value='PG201'>PG201</option>
+              <option value='PG201SMKP'>PG201 SMKP</option>
               <option value='GIS'>GIS</option>
               <option value='PERSIS1'>PERSiS-1</option>
               <option value='PPIM03'>PPIM 03-2020</option>
@@ -147,17 +147,6 @@ export default function UserGenerateKlinik() {
               id='endDate'
               onChange={(e) => setEndDate(e.target.value)}
             />
-            <strong>Format: </strong>
-            <select
-              name='formatFile'
-              id='formatFile'
-              onChange={(e) => setFormatFile(e.target.value)}
-            >
-              <option value=''>Sila pilih format file</option>
-              <option value='xlsx'>Excel</option>
-              <option value='pdf'>PDF</option>
-              <option value='yeezus'>Holy Grail</option>
-            </select>
           </div>
           <br />
           <div>
@@ -175,7 +164,6 @@ export default function UserGenerateKlinik() {
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
                 <option value='pdf'>PDF</option>
-                <option value='yeezus'>Holy Grail</option>
               </select>
             </div>
             <button
