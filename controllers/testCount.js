@@ -10365,6 +10365,46 @@ async function generatePG203(jenisReten, sekolah, klinik) {
                 //     ],
                 //   },
                 // },
+
+                /*  CPPC 2   No.of Teeth carious experience (D+F)   Saiful                                  
+                jumlahDdanF: 
+                 { $sum: '$pemeriksaanSekolah.dAdaGigiKekal' }, + 
+                { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
+                
+                jumlahDClass1Dan2: 
+                { $sum: '$pemeriksaanSekolah.classID' }, +  
+                { $sum: '$pemeriksaanSekolah.classIID' },
+
+                jumlahDClass1: 
+                { $sum: '$pemeriksaanSekolah.classID' }
+               
+                */
+
+                /*
+               Ya CO1 SM
+               jumlah15-19Tahun : sum tapis berdasarkan umur
+               jumlah20-24Tahun : sum tapis berdasarkan umur
+               jumlah25-27Tahun : sum tapis berdasarkan umur
+               jumlah20-24Tahun : sum tapis berdasarkan umur
+               
+              sumLelaki: { $sum: '$data jantina Lelaki sekolah oleh ERKM' },
+              sumPerempuan: { $sum: '$data jantina Perempuan sekolah oleh ERKM' },
+
+
+              sumSkorBPE0: { $sum: '$pemeriksaaan umum atau sekolah.SkorBpeOralHygiene', skor 0 },
+              sumSkorBPE1: { $sum: '$pemeriksaaan umum atau sekolah.SkorBpeOralHygiene', skor 1 },
+              sumSkorBPE2: { $sum: '$pemeriksaaan umum atau sekolah.SkorBpeOralHygiene' ,skor 2 },
+              sumSkorBPE3: { $sum: '$pemeriksaaan umum atau sekolah.SkorBpeOralHygiene', skor 3 },
+              sumSkorBPE4: { $sum: '$pemeriksaaan umum atau sekolah.SkorBpeOralHygiene', skor 4 },
+
+              sumCRARendah : { $sum: '$     Kesemua ini berdasarkan pengiraan bilangan faktor risiko, Status caries gigi
+              sumCRASederhana : { $sum: '$
+              sumCRATinggi : { $sum: '$
+              
+              sumDirujukKeKlinikBedahMulut: Nilai ini tidak dikutip dari form
+              sumDirujukKeKlinikBerhentiMerokok: Nilai ini tidak dikutip dari form
+              
+                */
                 jumlahKedatanganBaru: {
                   $sum: {
                     $cond: [
