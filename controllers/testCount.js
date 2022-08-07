@@ -8919,6 +8919,7 @@ exports.mother201 = function (req, res) {
                 preserveNullAndEmptyArrays: true,
               },
             },
+            //perlu look-up kaunter form ; utk gorek data jantini & etnik
             {
               $group: {
                 _id: '$namaSekolah',
@@ -9659,6 +9660,522 @@ exports.mother201 = function (req, res) {
                         $eq: [
                           '$pemeriksaanSekolah.separaPenuhAtasPerluDenture',
                           'separa-bawah-perlu-denture',
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaLelakiMelayu: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.kumpulanEtnik',
+                              'melayu',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaLelakiCina: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                          {
+                            $eq: ['$pemeriksaanSekolah.kumpulanEtnik', 'cina'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaLelakiIndia: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                          {
+                            $eq: ['$pemeriksaanSekolah.kumpulanEtnik', 'india'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaLelakiLainLain: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                          {
+                            $or: [
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bajau',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'dusun',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'kadazan',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'murut',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bumiputera sabah lain',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'melanau',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'kedayan',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'iban',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bidayuh',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bumiputera sarawak lain',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'orang asli semenanjung',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'lain-lain',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaPerempuanMelayu: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.kumpulanEtnik',
+                              'melayu',
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaPerempuanCina: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                          {
+                            $eq: ['$pemeriksaanSekolah.kumpulanEtnik', 'cina'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaPerempuanIndia: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                          {
+                            $eq: ['$pemeriksaanSekolah.kumpulanEtnik', 'india'],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokSemasaPerempuanLainLain: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-semasa',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                          {
+                            $or: [
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bajau',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'dusun',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'kadazan',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'murut',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bumiputera sabah lain',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'melanau',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'kedayan',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'iban',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bidayuh',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'bumiputera sarawak lain',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'orang asli semenanjung',
+                                ],
+                              },
+                              {
+                                $eq: [
+                                  '$pemeriksaanSekolah.kumpulanEtnik',
+                                  'lain-lain',
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jenisRokokBiasa: {
+                  //untuk reten PPIM03 - Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.jenisR', 'rokok-biasa'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jenisRokokElektronik: {
+                  //untuk reten PPIM03 - Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.jenisR', 'elektronik'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jenisRokokShisha: {
+                  //untuk reten PPIM03 - Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.jenisR', 'shisha'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                jenisRokokLainLain: {
+                  //untuk reten PPIM03 - Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$pemeriksaanSekolah.jenisR', 'lain-lain'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bilDirujukUntukIntervensi: {
+                  //Untuk reten PPIM03 //Leong Edited on 05-08-2022 - formula TBC
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$kotakSekolah.rujukGuruKaunseling', true],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bekasPerokokLelaki: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'bekas-perokok',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bekasPerokokPerempuan: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'bekas-perokok',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokPasifLelaki: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-pasif',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokPasifPerempuan: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'perokok-pasif',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bukanPerokokLelaki: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'bukan-perokok',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'lelaki'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                bukanPerokokPerempuan: {
+                  //untuk reten PPIM03 -Leong edited on 05-08-2022
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$pemeriksaanSekolah.statusM',
+                              'bukan-perokok',
+                            ],
+                          },
+                          { $eq: ['$pemeriksaanSekolah.jantina', 'perempuan'] },
                         ],
                       },
                       1,
