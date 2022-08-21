@@ -1924,8 +1924,8 @@ function UserFormUmumHeader() {
         </div>
         <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
           <form onSubmit={handleSubmit}>
-            {/* <FasilitiPerkhidmatan {...masterForm} /> */}
-            {/* <MaklumatLanjut {...masterForm} /> */}
+            <FasilitiPerkhidmatan {...masterForm} />
+            <MaklumatLanjut {...masterForm} />
             <Pemeriksaan {...masterForm} />
             <Rawatan {...masterForm} />
             <Promosi {...masterForm} />

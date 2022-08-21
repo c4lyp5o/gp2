@@ -87,6 +87,21 @@ function UserAppProvider({ children }) {
     setKaunterToken(null);
   };
 
+  const Dictionary = {
+    kp: 'Klinik Pergigian',
+    'kk-kd': 'Klinik Kesihatan / Klinik Desa',
+    'taska-tadika': 'Taska / Tadika',
+    'ipt-kolej': 'IPT / Kolej',
+    'orang-asli': 'Orang Asli',
+    'kp-bergerak': 'KP Bergerak',
+    ppr: 'PPR',
+    'institusi-warga-emas': 'Institusi Warga Emas',
+    'institusi-oku': 'Institusi OKU',
+    'kampung-angkat': 'Kampung Angkat',
+    'projek-komuniti-lain': 'Projek Komuniti Lain',
+    // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
+  };
+
   return (
     <UserAppContext.Provider
       value={{
@@ -108,6 +123,7 @@ function UserAppProvider({ children }) {
         loginUser,
         loginKaunter,
         catchAxiosErrorAndLogout,
+        Dictionary,
         useParams,
         dateToday,
         ToastContainer,

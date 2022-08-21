@@ -4,10 +4,12 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
-  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
+  const { kaunterToken, Dictionary, dateToday, toast } =
+    useGlobalUserAppContext();
 
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
+  const [kepp, setKepp] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
@@ -67,7 +69,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
         <form onSubmit={handleSubmit}>
           <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
           <p className='font-semibold text-user6 text-left mt-3 ml-3'>
-            Fasiliti: {jenisFasiliti}
+            Fasiliti: {Dictionary[jenisFasiliti]}
           </p>
           <p className='font-semibold text-user6 text-left mt-3 ml-3'>
             * required
@@ -99,6 +101,21 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 name='waktuSampai'
                 className='outline outline-1 outline-kaunterBlack'
               />
+            </div>
+            <div className='flex items-center flex-row pl-12'>
+              <input
+                type='checkbox'
+                id='kepp'
+                name='kepp'
+                checked={kepp}
+                onChange={() => {
+                  setKepp(!kepp);
+                }}
+                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+              />
+              <label htmlFor='kepp' className='ml-2 text-sm font-m'>
+                KEPP
+              </label>
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -279,7 +296,6 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>rujuk daripada: </p>
               <select
-                required
                 name='rujukDaripada'
                 id='rujukDaripada'
                 onChange={(e) => setRujukDaripada(e.target.value)}
