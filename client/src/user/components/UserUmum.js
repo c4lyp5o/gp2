@@ -5,12 +5,12 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserUmum() {
-  const { userToken, dateToday } = useGlobalUserAppContext();
+  const { userToken, Dictionary, dateToday } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
-  const [jenisFasiliti, setJenisFasiliti] = useState('klinik');
+  const [jenisFasiliti, setJenisFasiliti] = useState('kp');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
@@ -81,17 +81,17 @@ function UserUmum() {
               setJenisFasiliti(e.target.value);
             }}
           >
-            <option value='klinik'>Klinik</option>
-            <option value='kkkd'>KK / KD</option>
-            <option value='tastad'>Taska / Tadika</option>
-            <option value='ipt'>IPTA / IPTS</option>
+            <option value='kp'>Klinik</option>
+            <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+            <option value='taska-tadika'>Taska / Tadika</option>
+            <option value='ipt-kolej'>IPT / KOLEJ</option>
             <option value='orang-asli'>Orang asli</option>
             <option value='ppr'>PPR</option>
-            <option value='iwe'>Institusi warga emas</option>
-            <option value='oku'>Institusi OKU</option>
-            <option value='ngangkat'>Kampung angkat</option>
-            <option value='komlain'>Projek komuniti lain</option>
-            {/* <option value='kelantan'>RTC (Kelantan sahaja)</option> */}
+            <option value='institusi-warga-emas'>Institusi warga emas</option>
+            <option value='institusi-oku'>Institusi OKU</option>
+            <option value='kampung-angkat'>Kampung angkat</option>
+            <option value='projek-komuniti-lain'>Projek komuniti lain</option>
+            {/* <option value='rtc-kelantan'>RTC (Kelantan sahaja)</option> */}
           </select>
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
@@ -138,7 +138,7 @@ function UserUmum() {
                         pilih === singlePersonUmum._id && 'bg-user4'
                       } outline outline-1 outline-userBlack`}
                     >
-                      {singlePersonUmum.jenisFasiliti}
+                      {Dictionary[singlePersonUmum.jenisFasiliti]}
                     </td>
                     <td
                       className={`${

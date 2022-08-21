@@ -93,7 +93,6 @@ function UserAppProvider({ children }) {
     'taska-tadika': 'Taska / Tadika',
     'ipt-kolej': 'IPT / Kolej',
     'orang-asli': 'Orang Asli',
-    'kp-bergerak': 'KP Bergerak',
     ppr: 'PPR',
     'institusi-warga-emas': 'Institusi Warga Emas',
     'institusi-oku': 'Institusi OKU',
