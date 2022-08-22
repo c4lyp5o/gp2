@@ -58,6 +58,7 @@ function Kaunter({
           editForm={editForm}
           setEditForm={setEditForm}
           setEditId={setEditId}
+          jenisFasiliti={jenisFasiliti}
         />
         <FillableForm
           showForm={showForm}
