@@ -1,5 +1,7 @@
 import { Spinner } from 'react-awesome-spinners';
 
+import { useGlobalUserAppContext } from '../../context/userAppContext';
+
 export default function PatientData({
   data,
   loading,
@@ -11,7 +13,10 @@ export default function PatientData({
   editForm,
   setEditForm,
   setEditId,
+  jenisFasiliti,
 }) {
+  const { Dictionary, dateToday } = useGlobalUserAppContext();
+
   if (loading)
     return (
       <div className='mt-20'>
@@ -24,6 +29,14 @@ export default function PatientData({
   if (!showForm && !editForm) {
     return (
       <>
+        <div className='flex'>
+          <p className='font-semibold text-user6 mt-3 ml-3'>
+            Fasiliti: {Dictionary[jenisFasiliti]}
+          </p>
+          <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
+            Tarikh: {dateToday}
+          </p>
+        </div>
         <div className='flex justify-center'>
           <div className='mb-3 xl:w-96'>
             <input

@@ -3,205 +3,66 @@ const mongoose = require('mongoose');
 const UmumSchema = new mongoose.Schema(
   {
     // negeri, daerah, kp, operator are associated with each person
-    createdByNegeri: {
-      type: String,
-    },
-    createdByDaerah: {
-      type: String,
-    },
-    createdByKp: {
-      type: String,
-    },
-    createdByUsername: {
-      type: String,
-    },
+    createdByNegeri: { type: String, default: '' },
+    createdByDaerah: { type: String, default: '' },
+    createdByKp: { type: String, default: '' },
+    createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
-    tarikhKedatangan: {
-      type: String,
-    },
-    waktuSampai: {
-      type: String,
-    },
-    nama: {
-      type: String,
-      trim: true,
-    },
-    jenisIc: {
-      type: String,
-    },
-    ic: {
-      type: String,
-      trim: true,
-    },
-    tarikhLahir: {
-      type: String,
-    },
-    umur: {
-      type: Number,
-    },
-    jantina: {
-      type: String,
-    },
-    alamat: {
-      type: String,
-    },
-    kategoriPesakit: {
-      type: String,
-    },
-    statusPesara: {
-      type: String,
-      default: 'bukan-pesara',
-    },
-    kumpulanEtnik: {
-      type: String,
-    },
-    rujukDaripada: {
-      type: String,
-    },
-    jenisFasiliti: {
-      type: String,
-    },
-    kepp: {
-      type: Boolean,
-      default: false,
-    },
-    jenisProgramKomuniti: {
-      type: String,
-    },
+    jenisFasiliti: { type: String, required: true },
+    tarikhKedatangan: { type: String, default: '' },
+    waktuSampai: { type: String, default: '' },
+    kedatangan: { type: String, default: '' },
+    nama: { type: String, trim: true, default: '' },
+    jenisIc: { type: String, default: '' },
+    ic: { type: String, default: '' },
+    tarikhLahir: { type: String, default: '' },
+    umur: { type: Number, default: 0 },
+    jantina: { type: String, default: '' },
+    alamat: { type: String, default: '' },
+    kategoriPesakit: { type: String, default: '' },
+    statusPesara: { type: String, default: '' },
+    kumpulanEtnik: { type: String, default: '' },
+    rujukDaripada: { type: String, default: '' },
+    // kepp
+    kepp: { type: Boolean, default: false },
+    kedatanganKepp: { type: String, default: '' },
+    tarikhRujukanKepp: { type: String, default: '' },
+    tarikhRundinganPertama: { type: String, default: '' },
+    tarikhMulaRawatanKepp: { type: String, default: '' },
+    // penyampaian perkhidmatan
+    kpBergerak: { type: Boolean, default: false },
+    labelKpBergerak: { type: String, default: '' },
+    pasukanPergigianBergerak: { type: Boolean, default: false },
+    makmalPergigianBergerak: { type: Boolean, default: false },
+    labelMakmalPergigianBergerak: { type: String, default: '' },
+    // taska / tadika
+    fasilitiTaskaTadika: { type: String, default: '' },
+    jenisTaskaTadika: { type: String, default: '' },
+    kelasToddler: { type: Boolean, default: false },
+    namaFasilitiTaskaTadika: { type: String, default: '' },
+    enrolmenTaskaTadika: { type: Boolean, default: false },
+    engganTaskaTadika: { type: Boolean, default: false },
+    tidakHadirTaskaTadika: { type: Boolean, default: false },
+    pemeriksaanTaskaTadika: { type: String, default: '' },
+    // ipt / kolej
+    iptKolej: { type: String, default: '' },
+    ipg: { type: String, default: '' },
+    kolejKomuniti: { type: String, default: '' },
+    politeknik: { type: String, default: '' },
+    institutLatihanKerajaan: { type: String, default: '' },
+    giatmara: { type: String, default: '' },
+    ipta: { type: String, default: '' },
+    ipts: { type: String, default: '' },
+    enrolmenIptKolej: { type: Boolean, default: false },
+    // institusi warga emas
+    institusiWargaEmas: { type: String, default: '' },
+    kerajaanInstitusiWargaEmas: { type: String, default: '' },
+    swastaInstitusiWargaEmas: { type: String, default: '' },
+    // institusi OKU
+    institusiOku: { type: String, default: '' },
+    // kampung angkat
+    kgAngkat: { type: String, default: '' },
     // end of kaunter -------------------------------------------
-    //maklumat lanjut
-    kedatangan: {
-      type: String,
-      default: '',
-    },
-    fasilitiTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    jenisTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    kelasToddler: {
-      type: Boolean,
-      default: false,
-    },
-    namaFasilitiTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    enrolmenTaskaTadika: {
-      type: Boolean,
-      default: false,
-    },
-    kedatanganTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    engganTaskaTadika: {
-      type: Boolean,
-      default: false,
-    },
-    tidakHadirTaskaTadika: {
-      type: Boolean,
-      default: false,
-    },
-    pemeriksaanTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    kedatanganKEPP: {
-      type: String,
-      default: '',
-    },
-    tarikhRujukanKEPP: {
-      type: String,
-      default: '',
-    },
-    tarikhRundinganPertama: {
-      type: String,
-      default: '',
-    },
-    tarikhMulaRawatanKEPP: {
-      type: String,
-      default: '',
-    },
-    kpBergerakMaklumatLanjutUmum: {
-      type: Boolean,
-      default: false,
-    },
-    labelKpBergerakMaklumatLanjutUmum: {
-      type: String,
-      default: '',
-    },
-    pasukanPergigianBergerakMaklumatLanjutUmum: {
-      type: Boolean,
-      default: false,
-    },
-    makmalPergigianBergerakMaklumatLanjutUmum: {
-      type: Boolean,
-      default: false,
-    },
-    labelMakmalPergigianBergerakMaklumatLanjutUmum: {
-      type: String,
-      default: '',
-    },
-    kgAngkat: {
-      type: Boolean,
-      default: false,
-    },
-    institusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    ipgInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    kolejKomunitiInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    politeknikInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    institutLatihanKerajaanInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    giatmaraInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    iptaInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    iptsInstitusiPengajianTinggiKolej: {
-      type: String,
-      default: '',
-    },
-    enrolmenInstitusiPengajianTinggiKolej: {
-      type: Boolean,
-      default: false,
-    },
-    institusiOku: {
-      type: String,
-      default: '',
-    },
-    institusiWargaEmas: {
-      type: String,
-      default: '',
-    },
-    kerajaanInstitusiWargaEmas: {
-      type: String,
-      default: '',
-    },
-    swastaInstitusiWargaEmas: {
-      type: String,
-      default: '',
-    },
     //pemeriksaan
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,

@@ -92,9 +92,10 @@ function UserPilihNama() {
           saya pegawai / juruterapi pergigian relief
         </label>
         <input
+          id='user-pilih-nama-pengguna-relief'
           ref={checkboxRelief}
           type='checkbox'
-          className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer'
+          className='w-4 h-4 rounded hover:cursor-pointer'
         />
         <br />
         <br />

@@ -68,7 +68,7 @@ function KaunterNavbar() {
             PPR
           </NavLink>
           <NavLink
-            to='iwe'
+            to='institusi-warga-emas'
             onClick={() => {
               outreachOn();
             }}
@@ -81,7 +81,7 @@ function KaunterNavbar() {
             INSTITUSI WARGA EMAS
           </NavLink>
           <NavLink
-            to='oku'
+            to='institusi-oku'
             onClick={() => {
               outreachOn();
             }}
@@ -94,7 +94,7 @@ function KaunterNavbar() {
             INSTITUSI OKU
           </NavLink>
           <NavLink
-            to='ngangkat'
+            to='kampung-angkat'
             onClick={() => {
               outreachOn();
             }}
@@ -107,7 +107,7 @@ function KaunterNavbar() {
             KAMPUNG ANGKAT
           </NavLink>
           <NavLink
-            to='komlain'
+            to='projek-komuniti-lain'
             onClick={() => {
               outreachOn();
             }}
@@ -120,7 +120,7 @@ function KaunterNavbar() {
             PROJEK KOMUNITI LAIN
           </NavLink>
           {/* <NavLink
-            to='kelantan'
+            to='rtc-kelantan'
             onClick={() => {
               outreachOn();
             }}
@@ -152,7 +152,7 @@ function KaunterNavbar() {
             DASHBOARD
           </NavLink>
           <NavLink
-            to='klinik'
+            to='kp'
             onClick={() => {
               outreachOff();
             }}
@@ -162,10 +162,10 @@ function KaunterNavbar() {
                 : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
-            KLINIK
+            KLINIK PERGIGIAN
           </NavLink>
           <NavLink
-            to='kkkd'
+            to='kk-kd'
             onClick={() => {
               outreachOff();
             }}
@@ -178,7 +178,7 @@ function KaunterNavbar() {
             KK / KD
           </NavLink>
           <NavLink
-            to='tastad'
+            to='taska-tadika'
             onClick={() => {
               outreachOff();
             }}
@@ -191,7 +191,7 @@ function KaunterNavbar() {
             TASKA / TADIKA
           </NavLink>
           <NavLink
-            to='ipt'
+            to='ipt-kolej'
             onClick={() => {
               outreachOff();
             }}
@@ -201,7 +201,7 @@ function KaunterNavbar() {
                 : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
             }
           >
-            IPTA / IPTS
+            IPT / KOLEJ
           </NavLink>
           <div>
             <div
@@ -210,8 +210,8 @@ function KaunterNavbar() {
               } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all hover:cursor-pointer`}
               onClick={toggleOutreachSubMenu}
             >
-              <span>OUTREACH</span>
-              <span className='ml-10'>
+              <span>PROGRAM KOMUNITI</span>
+              <span className='ml-5'>
                 <FaArrowAltCircleUp
                   className={`transition-all ${
                     showOutreachSubMenu && 'rotate-90'

@@ -298,7 +298,7 @@ function MaklumatLanjut(props) {
               </div>
             </article>
           </div>
-          {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+          <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
             <div>
               <p className='font-semibold'>ibu mengandung</p>
             </div>
@@ -400,7 +400,7 @@ function MaklumatLanjut(props) {
                 </label>
               </div>
             </div>
-          </article> */}
+          </article>
           <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
             <div className='flex'>
               <div className='flex items-center flex-row pl-5 '>

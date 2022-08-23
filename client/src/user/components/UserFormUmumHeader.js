@@ -1916,7 +1916,7 @@ function UserFormUmumHeader() {
               </>
             )}
             {isLoading && (
-              <p className='col-span-2 py-[58px] text-xl font-semibold'>
+              <p className='col-span-3 py-[15px] text-xl font-semibold'>
                 Loading...
               </p>
             )}
