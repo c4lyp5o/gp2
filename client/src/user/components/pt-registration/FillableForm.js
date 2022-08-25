@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
+import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
+export default function FillableForm({
+  showForm,
+  setShowForm,
+  jenisFasiliti,
+  editId,
+  setEditId,
+}) {
   const { kaunterToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
+
+  const [editLoading, setIsEditLoading] = useState(false);
 
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -75,87 +84,166 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await toast
-      .promise(
-        axios.post(
-          '/api/v1/kaunter',
-          {
-            createdByUsername: 'kaunter',
-            jenisFasiliti,
-            tarikhKedatangan,
-            waktuSampai,
-            nama: nama.toLowerCase(),
-            jenisIc,
-            ic,
-            tarikhLahir,
-            umur,
-            jantina,
-            alamat,
-            daerahAlamat,
-            negeriAlamat,
-            poskodAlamat,
-            kategoriPesakit,
-            statusPesara,
-            kumpulanEtnik,
-            rujukDaripada,
-            // kepp
-            kepp,
-            kedatanganKepp,
-            tarikhRujukanKepp,
-            tarikhRundinganPertama,
-            tarikhMulaRawatanKepp,
-            // penyampaian perkhidmatan
-            kpBergerak,
-            labelKpBergerak,
-            pasukanPergigianBergerak,
-            makmalPergigianBergerak,
-            labelMakmalPergigianBergerak,
-            // taska / tadika
-            fasilitiTaskaTadika,
-            jenisTaskaTadika,
-            kelasToddler,
-            namaFasilitiTaskaTadika,
-            enrolmenTaskaTadika,
-            engganTaskaTadika,
-            tidakHadirTaskaTadika,
-            pemeriksaanTaskaTadika,
-            // ipt / kolej
-            iptKolej,
-            ipg,
-            kolejKomuniti,
-            politeknik,
-            institutLatihanKerajaan,
-            giatmara,
-            ipta,
-            ipts,
-            enrolmenIptKolej,
-            // institusi warga emas
-            institusiWargaEmas,
-            kerajaanInstitusiWargaEmas,
-            swastaInstitusiWargaEmas,
-            // institusi OKU
-            institusiOku,
-            // kampung angkat
-            kgAngkat,
-          },
-          { headers: { Authorization: `Bearer ${kaunterToken}` } }
-        ),
-        {
-          pending: 'Mendaftar...',
-          success: 'Pesakit berjaya didaftar',
-          error: 'Pesakit gagal didaftar',
-        },
-        { autoClose: 2000 }
-      )
-      .then(() => {
-        setShowForm(false);
-      });
-  };
-
   const howOldAreYouMyFriend = (date) => {
     return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!editId) {
+      await toast
+        .promise(
+          axios.post(
+            '/api/v1/kaunter',
+            {
+              createdByUsername: 'kaunter',
+              jenisFasiliti,
+              tarikhKedatangan,
+              waktuSampai,
+              kedatangan,
+              nama: nama.toLowerCase(),
+              jenisIc,
+              ic,
+              tarikhLahir,
+              umur,
+              jantina,
+              alamat,
+              daerahAlamat,
+              negeriAlamat,
+              poskodAlamat,
+              kategoriPesakit,
+              statusPesara,
+              kumpulanEtnik,
+              rujukDaripada,
+              // kepp
+              kepp,
+              kedatanganKepp,
+              tarikhRujukanKepp,
+              tarikhRundinganPertama,
+              tarikhMulaRawatanKepp,
+              // penyampaian perkhidmatan
+              kpBergerak,
+              labelKpBergerak,
+              pasukanPergigianBergerak,
+              makmalPergigianBergerak,
+              labelMakmalPergigianBergerak,
+              // taska / tadika
+              fasilitiTaskaTadika,
+              jenisTaskaTadika,
+              kelasToddler,
+              namaFasilitiTaskaTadika,
+              enrolmenTaskaTadika,
+              engganTaskaTadika,
+              tidakHadirTaskaTadika,
+              pemeriksaanTaskaTadika,
+              // ipt / kolej
+              iptKolej,
+              ipg,
+              kolejKomuniti,
+              politeknik,
+              institutLatihanKerajaan,
+              giatmara,
+              ipta,
+              ipts,
+              enrolmenIptKolej,
+              // institusi warga emas
+              institusiWargaEmas,
+              kerajaanInstitusiWargaEmas,
+              swastaInstitusiWargaEmas,
+              // institusi OKU
+              institusiOku,
+              // kampung angkat
+              kgAngkat,
+            },
+            { headers: { Authorization: `Bearer ${kaunterToken}` } }
+          ),
+          {
+            pending: 'Mendaftar...',
+            success: 'Pesakit berjaya didaftar',
+            error: 'Pesakit gagal didaftar',
+          },
+          { autoClose: 2000 }
+        )
+        .then(() => {
+          setShowForm(false);
+        });
+    }
+    if (editId) {
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/kaunter/${editId}`,
+            {
+              tarikhKedatangan,
+              waktuSampai,
+              kedatangan,
+              nama: nama.toLowerCase(),
+              jenisIc,
+              ic,
+              tarikhLahir,
+              umur,
+              jantina,
+              alamat,
+              daerahAlamat,
+              negeriAlamat,
+              poskodAlamat,
+              kategoriPesakit,
+              statusPesara,
+              kumpulanEtnik,
+              rujukDaripada,
+              // kepp
+              kepp,
+              kedatanganKepp,
+              tarikhRujukanKepp,
+              tarikhRundinganPertama,
+              tarikhMulaRawatanKepp,
+              // penyampaian perkhidmatan
+              kpBergerak,
+              labelKpBergerak,
+              pasukanPergigianBergerak,
+              makmalPergigianBergerak,
+              labelMakmalPergigianBergerak,
+              // taska / tadika
+              fasilitiTaskaTadika,
+              jenisTaskaTadika,
+              kelasToddler,
+              namaFasilitiTaskaTadika,
+              enrolmenTaskaTadika,
+              engganTaskaTadika,
+              tidakHadirTaskaTadika,
+              pemeriksaanTaskaTadika,
+              // ipt / kolej
+              iptKolej,
+              ipg,
+              kolejKomuniti,
+              politeknik,
+              institutLatihanKerajaan,
+              giatmara,
+              ipta,
+              ipts,
+              enrolmenIptKolej,
+              // institusi warga emas
+              institusiWargaEmas,
+              kerajaanInstitusiWargaEmas,
+              swastaInstitusiWargaEmas,
+              // institusi OKU
+              institusiOku,
+              // kampung angkat
+              kgAngkat,
+            },
+            { headers: { Authorization: `Bearer ${kaunterToken}` } }
+          ),
+          {
+            pending: 'Mengemaskini...',
+            success: 'Pesakit berjaya dikemaskini',
+            error: 'Pesakit gagal dikemaskini',
+          },
+          { autoClose: 2000 }
+        )
+        .then(() => {
+          setShowForm(false);
+        });
+    }
   };
 
   // reset form when change jenisFasiliti or change showForm
@@ -215,24 +303,95 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
+    if (showForm === false) {
+      // reset editId when change jenisFasiliti & showForm === false
+      setEditId('');
+    }
   }, [jenisFasiliti, showForm]);
+
+  // close form when change jenisFasiliti
+  useEffect(() => {
+    setShowForm(false);
+  }, [jenisFasiliti]);
 
   // reset ic when change jenis ic
   useEffect(() => {
-    setIc('');
+    if (!editId) {
+      setIc('');
+    }
   }, [jenisIc]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
-    setKedatanganKepp('');
+    if (!editId) {
+      setKedatanganKepp('');
+    }
   }, [kepp]);
 
   // reset tarikh kepp when change kedatangan kepp
   useEffect(() => {
-    setTarikhRujukanKepp('');
-    setTarikhRundinganPertama('');
-    setTarikhMulaRawatanKepp('');
+    if (!editId) {
+      setTarikhRujukanKepp('');
+      setTarikhRundinganPertama('');
+      setTarikhMulaRawatanKepp('');
+    }
   }, [kedatanganKepp]);
+
+  // fetch personKaunter to edit if editId === true
+  useEffect(() => {
+    if (editId) {
+      const fetchSinglePersonKaunter = async () => {
+        try {
+          setIsEditLoading(true);
+          const { data } = await axios.get(`/api/v1/kaunter/${editId}`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          // core
+          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
+          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setKedatangan(data.singlePersonKaunter.kedatangan);
+          setNama(data.singlePersonKaunter.nama);
+          setJenisIc(data.singlePersonKaunter.jenisIc);
+          setIc(data.singlePersonKaunter.ic);
+          setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
+          setUmur(data.singlePersonKaunter.umur);
+          setJantina(data.singlePersonKaunter.jantina);
+          setAlamat(data.singlePersonKaunter.alamat);
+          setDaerahAlamat(data.singlePersonKaunter.daerahAlamat);
+          setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
+          setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
+          setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
+          setStatusPesara(data.singlePersonKaunter.statusPesara);
+          setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
+          setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          // kepp
+          setKepp(data.singlePersonKaunter.kepp);
+          setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
+          setTarikhRujukanKepp(data.singlePersonKaunter.tarikhRujukanKepp);
+          setTarikhRundinganPertama(
+            data.singlePersonKaunter.tarikhRundinganPertama
+          );
+          setTarikhMulaRawatanKepp(
+            data.singlePersonKaunter.tarikhMulaRawatanKepp
+          );
+          // penyampaian perkhidmatan
+          //
+          setIsEditLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSinglePersonKaunter();
+    }
+  }, [editId]);
+
+  if (editLoading) {
+    return (
+      <div className='mt-20'>
+        <Spinner />
+      </div>
+    );
+  }
 
   if (showForm) {
     return (
@@ -329,7 +488,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md capitalize'
               />
             </div>
             <div className='flex m-2'>

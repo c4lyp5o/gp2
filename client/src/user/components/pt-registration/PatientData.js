@@ -71,7 +71,7 @@ export default function PatientData({
                       NO I/C
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
-                      TARIKH RAWATAN TERAKHIR
+                      TARIKH KEDATANGAN
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
                       KEMASKINI
@@ -99,7 +99,8 @@ export default function PatientData({
                               className='px-6 py-2.5 my-1 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
-                                setEditForm(true);
+                                // setEditForm(true);
+                                setShowForm(true);
                               }}
                             >
                               Kemaskini

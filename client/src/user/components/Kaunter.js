@@ -5,7 +5,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import PatientData from './pt-registration/PatientData';
 import FillableForm from './pt-registration/FillableForm';
-import EditableForm from './pt-registration/EditableForm';
+// import EditableForm from './pt-registration/EditableForm';
 
 function Kaunter({
   jenisFasiliti,
@@ -13,7 +13,7 @@ function Kaunter({
   createdByDaerah,
   createdByNegeri,
 }) {
-  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
+  const { kaunterToken, dateToday } = useGlobalUserAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -64,12 +64,14 @@ function Kaunter({
           showForm={showForm}
           setShowForm={setShowForm}
           jenisFasiliti={jenisFasiliti}
+          editId={editId}
+          setEditId={setEditId}
         />
-        <EditableForm
+        {/* <EditableForm
           editId={editId}
           editForm={editForm}
           setEditForm={setEditForm}
-        />
+        /> */}
       </div>
     </>
   );
