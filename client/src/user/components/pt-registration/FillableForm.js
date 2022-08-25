@@ -18,6 +18,9 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
   const [umur, setUmur] = useState(0);
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
+  const [daerahAlamat, setDaerahAlamat] = useState('');
+  const [negeriAlamat, setNegeriAlamat] = useState('');
+  const [poskodAlamat, setPoskodAlamat] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
@@ -90,6 +93,9 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
             umur,
             jantina,
             alamat,
+            daerahAlamat,
+            negeriAlamat,
+            poskodAlamat,
             kategoriPesakit,
             statusPesara,
             kumpulanEtnik,
@@ -152,7 +158,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
   };
 
-  // reset form when change jenisFasiliti
+  // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
     setWaktuSampai('');
     setKedatangan('');
@@ -163,6 +169,9 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     setUmur(0);
     setJantina('');
     setAlamat('');
+    setDaerahAlamat('');
+    setNegeriAlamat('');
+    setPoskodAlamat('');
     setKategoriPesakit('');
     setStatusPesara('');
     setKumpulanEtnik('');
@@ -206,7 +215,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
-  }, [jenisFasiliti]);
+  }, [jenisFasiliti, showForm]);
 
   // reset ic when change jenis ic
   useEffect(() => {
@@ -316,11 +325,11 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               <input
                 required
                 type='text'
-                id='namaUmum'
-                name='namaUmum'
+                id='nama-umum'
+                name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-7/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
@@ -349,7 +358,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                   type='text'
                   name='ic'
                   pattern='[0-9]+'
-                  title='12 characters MyKad / MyKid'
+                  title='12 numbers MyKad / MyKid'
                   minLength={12}
                   maxLength={12}
                   value={ic}
@@ -377,12 +386,14 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               </p>
               <input
                 required
+                value={tarikhLahir}
                 onChange={(e) => {
                   setTarikhLahir(e.target.value);
                   setUmur(parseInt(howOldAreYouMyFriend(e.target.value)));
                 }}
                 type='date'
                 name='tarikhLahir'
+                className='outline outline-1 outline-userBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -405,6 +416,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='jantina'
                 id='jantina'
+                value={jantina}
                 onChange={(e) => setJantina(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -418,10 +430,55 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               </p>
               <input
                 required
+                value={alamat}
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
-                className='appearance-none w-10/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                daerah: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={daerahAlamat}
+                onChange={(e) => setDaerahAlamat(e.target.value)}
+                type='text'
+                name='daerah-alamat'
+                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                negeri: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={negeriAlamat}
+                onChange={(e) => setNegeriAlamat(e.target.value)}
+                type='text'
+                name='negeri-alamat'
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                poskod: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                type='text'
+                name='poskod-alamat'
+                pattern='[0-9]+'
+                title='5 numbers poskod'
+                minLength={5}
+                maxLength={5}
+                value={poskodAlamat}
+                onChange={(e) => setPoskodAlamat(e.target.value)}
+                placeholder='62519'
+                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
@@ -433,6 +490,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='kategoriPesakit'
                 id='kategoriPesakit'
+                value={kategoriPesakit}
                 onChange={(e) => setKategoriPesakit(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -455,6 +513,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='statusPesara'
                 id='statusPesara'
+                value={statusPesara}
                 onChange={(e) => setStatusPesara(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -472,6 +531,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='kumpulanEtnik'
                 id='kumpulanEtnik'
+                value={kumpulanEtnik}
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
@@ -506,6 +566,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               <select
                 name='rujukDaripada'
                 id='rujukDaripada'
+                value={rujukDaripada}
                 onChange={(e) => setRujukDaripada(e.target.value)}
                 className='mr-3'
               >
@@ -515,7 +576,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 <option value='kk'>Klinik Kesihatan</option>
                 <option value='hospital'>Hospital</option>
                 <option value='swasta'>Swasta</option>
-                <option value='lain2'>Lain-lain</option>
+                <option value='lain-lain'>Lain-lain</option>
               </select>
             </div>
             {jenisFasiliti === 'kp' && (
