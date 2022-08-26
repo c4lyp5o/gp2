@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
+import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
+export default function FillableForm({
+  showForm,
+  setShowForm,
+  jenisFasiliti,
+  editId,
+  setEditId,
+}) {
   const { kaunterToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
+
+  const [editLoading, setIsEditLoading] = useState(false);
 
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -18,6 +27,9 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
   const [umur, setUmur] = useState(0);
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
+  const [daerahAlamat, setDaerahAlamat] = useState('');
+  const [negeriAlamat, setNegeriAlamat] = useState('');
+  const [poskodAlamat, setPoskodAlamat] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
@@ -72,87 +84,169 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await toast
-      .promise(
-        axios.post(
-          '/api/v1/kaunter',
-          {
-            createdByUsername: 'kaunter',
-            jenisFasiliti,
-            tarikhKedatangan,
-            waktuSampai,
-            nama: nama.toLowerCase(),
-            jenisIc,
-            ic,
-            tarikhLahir,
-            umur,
-            jantina,
-            alamat,
-            kategoriPesakit,
-            statusPesara,
-            kumpulanEtnik,
-            rujukDaripada,
-            // kepp
-            kepp,
-            kedatanganKepp,
-            tarikhRujukanKepp,
-            tarikhRundinganPertama,
-            tarikhMulaRawatanKepp,
-            // penyampaian perkhidmatan
-            kpBergerak,
-            labelKpBergerak,
-            pasukanPergigianBergerak,
-            makmalPergigianBergerak,
-            labelMakmalPergigianBergerak,
-            // taska / tadika
-            fasilitiTaskaTadika,
-            jenisTaskaTadika,
-            kelasToddler,
-            namaFasilitiTaskaTadika,
-            enrolmenTaskaTadika,
-            engganTaskaTadika,
-            tidakHadirTaskaTadika,
-            pemeriksaanTaskaTadika,
-            // ipt / kolej
-            iptKolej,
-            ipg,
-            kolejKomuniti,
-            politeknik,
-            institutLatihanKerajaan,
-            giatmara,
-            ipta,
-            ipts,
-            enrolmenIptKolej,
-            // institusi warga emas
-            institusiWargaEmas,
-            kerajaanInstitusiWargaEmas,
-            swastaInstitusiWargaEmas,
-            // institusi OKU
-            institusiOku,
-            // kampung angkat
-            kgAngkat,
-          },
-          { headers: { Authorization: `Bearer ${kaunterToken}` } }
-        ),
-        {
-          pending: 'Mendaftar...',
-          success: 'Pesakit berjaya didaftar',
-          error: 'Pesakit gagal didaftar',
-        },
-        { autoClose: 2000 }
-      )
-      .then(() => {
-        setShowForm(false);
-      });
-  };
-
   const howOldAreYouMyFriend = (date) => {
     return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
   };
 
-  // reset form when change jenisFasiliti
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!editId) {
+      await toast
+        .promise(
+          axios.post(
+            '/api/v1/kaunter',
+            {
+              createdByUsername: 'kaunter',
+              jenisFasiliti,
+              tarikhKedatangan,
+              waktuSampai,
+              kedatangan,
+              nama: nama.toLowerCase(),
+              jenisIc,
+              ic,
+              tarikhLahir,
+              umur,
+              jantina,
+              alamat,
+              daerahAlamat,
+              negeriAlamat,
+              poskodAlamat,
+              kategoriPesakit,
+              statusPesara,
+              kumpulanEtnik,
+              rujukDaripada,
+              // kepp
+              kepp,
+              kedatanganKepp,
+              tarikhRujukanKepp,
+              tarikhRundinganPertama,
+              tarikhMulaRawatanKepp,
+              // penyampaian perkhidmatan
+              kpBergerak,
+              labelKpBergerak,
+              pasukanPergigianBergerak,
+              makmalPergigianBergerak,
+              labelMakmalPergigianBergerak,
+              // taska / tadika
+              fasilitiTaskaTadika,
+              jenisTaskaTadika,
+              kelasToddler,
+              namaFasilitiTaskaTadika,
+              enrolmenTaskaTadika,
+              engganTaskaTadika,
+              tidakHadirTaskaTadika,
+              pemeriksaanTaskaTadika,
+              // ipt / kolej
+              iptKolej,
+              ipg,
+              kolejKomuniti,
+              politeknik,
+              institutLatihanKerajaan,
+              giatmara,
+              ipta,
+              ipts,
+              enrolmenIptKolej,
+              // institusi warga emas
+              institusiWargaEmas,
+              kerajaanInstitusiWargaEmas,
+              swastaInstitusiWargaEmas,
+              // institusi OKU
+              institusiOku,
+              // kampung angkat
+              kgAngkat,
+            },
+            { headers: { Authorization: `Bearer ${kaunterToken}` } }
+          ),
+          {
+            pending: 'Mendaftar...',
+            success: 'Pesakit berjaya didaftar',
+            error: 'Pesakit gagal didaftar',
+          },
+          { autoClose: 2000 }
+        )
+        .then(() => {
+          setShowForm(false);
+        });
+    }
+    if (editId) {
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/kaunter/${editId}`,
+            {
+              tarikhKedatangan,
+              waktuSampai,
+              kedatangan,
+              nama: nama.toLowerCase(),
+              jenisIc,
+              ic,
+              tarikhLahir,
+              umur,
+              jantina,
+              alamat,
+              daerahAlamat,
+              negeriAlamat,
+              poskodAlamat,
+              kategoriPesakit,
+              statusPesara,
+              kumpulanEtnik,
+              rujukDaripada,
+              // kepp
+              kepp,
+              kedatanganKepp,
+              tarikhRujukanKepp,
+              tarikhRundinganPertama,
+              tarikhMulaRawatanKepp,
+              // penyampaian perkhidmatan
+              kpBergerak,
+              labelKpBergerak,
+              pasukanPergigianBergerak,
+              makmalPergigianBergerak,
+              labelMakmalPergigianBergerak,
+              // taska / tadika
+              fasilitiTaskaTadika,
+              jenisTaskaTadika,
+              kelasToddler,
+              namaFasilitiTaskaTadika,
+              enrolmenTaskaTadika,
+              engganTaskaTadika,
+              tidakHadirTaskaTadika,
+              pemeriksaanTaskaTadika,
+              // ipt / kolej
+              iptKolej,
+              ipg,
+              kolejKomuniti,
+              politeknik,
+              institutLatihanKerajaan,
+              giatmara,
+              ipta,
+              ipts,
+              enrolmenIptKolej,
+              // institusi warga emas
+              institusiWargaEmas,
+              kerajaanInstitusiWargaEmas,
+              swastaInstitusiWargaEmas,
+              // institusi OKU
+              institusiOku,
+              // kampung angkat
+              kgAngkat,
+            },
+            { headers: { Authorization: `Bearer ${kaunterToken}` } }
+          ),
+          {
+            pending: 'Mengemaskini...',
+            success: 'Pesakit berjaya dikemaskini',
+            error: 'Pesakit gagal dikemaskini',
+          },
+          { autoClose: 2000 }
+        )
+        .then(() => {
+          setShowForm(false);
+        });
+    }
+  };
+
+  // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
     setWaktuSampai('');
     setKedatangan('');
@@ -163,6 +257,9 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     setUmur(0);
     setJantina('');
     setAlamat('');
+    setDaerahAlamat('');
+    setNegeriAlamat('');
+    setPoskodAlamat('');
     setKategoriPesakit('');
     setStatusPesara('');
     setKumpulanEtnik('');
@@ -206,24 +303,95 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
+    if (showForm === false) {
+      // reset editId when change jenisFasiliti & showForm === false
+      setEditId('');
+    }
+  }, [jenisFasiliti, showForm]);
+
+  // close form when change jenisFasiliti
+  useEffect(() => {
+    setShowForm(false);
   }, [jenisFasiliti]);
 
   // reset ic when change jenis ic
   useEffect(() => {
-    setIc('');
+    if (!editId) {
+      setIc('');
+    }
   }, [jenisIc]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
-    setKedatanganKepp('');
+    if (!editId) {
+      setKedatanganKepp('');
+    }
   }, [kepp]);
 
   // reset tarikh kepp when change kedatangan kepp
   useEffect(() => {
-    setTarikhRujukanKepp('');
-    setTarikhRundinganPertama('');
-    setTarikhMulaRawatanKepp('');
+    if (!editId) {
+      setTarikhRujukanKepp('');
+      setTarikhRundinganPertama('');
+      setTarikhMulaRawatanKepp('');
+    }
   }, [kedatanganKepp]);
+
+  // fetch personKaunter to edit if editId === true
+  useEffect(() => {
+    if (editId) {
+      const fetchSinglePersonKaunter = async () => {
+        try {
+          setIsEditLoading(true);
+          const { data } = await axios.get(`/api/v1/kaunter/${editId}`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          // core
+          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
+          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setKedatangan(data.singlePersonKaunter.kedatangan);
+          setNama(data.singlePersonKaunter.nama);
+          setJenisIc(data.singlePersonKaunter.jenisIc);
+          setIc(data.singlePersonKaunter.ic);
+          setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
+          setUmur(data.singlePersonKaunter.umur);
+          setJantina(data.singlePersonKaunter.jantina);
+          setAlamat(data.singlePersonKaunter.alamat);
+          setDaerahAlamat(data.singlePersonKaunter.daerahAlamat);
+          setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
+          setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
+          setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
+          setStatusPesara(data.singlePersonKaunter.statusPesara);
+          setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
+          setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          // kepp
+          setKepp(data.singlePersonKaunter.kepp);
+          setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
+          setTarikhRujukanKepp(data.singlePersonKaunter.tarikhRujukanKepp);
+          setTarikhRundinganPertama(
+            data.singlePersonKaunter.tarikhRundinganPertama
+          );
+          setTarikhMulaRawatanKepp(
+            data.singlePersonKaunter.tarikhMulaRawatanKepp
+          );
+          // penyampaian perkhidmatan
+          //
+          setIsEditLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSinglePersonKaunter();
+    }
+  }, [editId]);
+
+  if (editLoading) {
+    return (
+      <div className='mt-20'>
+        <Spinner />
+      </div>
+    );
+  }
 
   if (showForm) {
     return (
@@ -316,11 +484,11 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               <input
                 required
                 type='text'
-                id='namaUmum'
-                name='namaUmum'
+                id='nama-umum'
+                name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-7/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md capitalize'
               />
             </div>
             <div className='flex m-2'>
@@ -349,7 +517,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                   type='text'
                   name='ic'
                   pattern='[0-9]+'
-                  title='12 characters MyKad / MyKid'
+                  title='12 numbers MyKad / MyKid'
                   minLength={12}
                   maxLength={12}
                   value={ic}
@@ -377,12 +545,14 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               </p>
               <input
                 required
+                value={tarikhLahir}
                 onChange={(e) => {
                   setTarikhLahir(e.target.value);
                   setUmur(parseInt(howOldAreYouMyFriend(e.target.value)));
                 }}
                 type='date'
                 name='tarikhLahir'
+                className='outline outline-1 outline-userBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -405,6 +575,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='jantina'
                 id='jantina'
+                value={jantina}
                 onChange={(e) => setJantina(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -418,10 +589,55 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               </p>
               <input
                 required
+                value={alamat}
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
-                className='appearance-none w-10/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                daerah: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={daerahAlamat}
+                onChange={(e) => setDaerahAlamat(e.target.value)}
+                type='text'
+                name='daerah-alamat'
+                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                negeri: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={negeriAlamat}
+                onChange={(e) => setNegeriAlamat(e.target.value)}
+                type='text'
+                name='negeri-alamat'
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                poskod: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                type='text'
+                name='poskod-alamat'
+                pattern='[0-9]+'
+                title='5 numbers poskod'
+                minLength={5}
+                maxLength={5}
+                value={poskodAlamat}
+                onChange={(e) => setPoskodAlamat(e.target.value)}
+                placeholder='62519'
+                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
@@ -433,6 +649,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='kategoriPesakit'
                 id='kategoriPesakit'
+                value={kategoriPesakit}
                 onChange={(e) => setKategoriPesakit(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -455,6 +672,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='statusPesara'
                 id='statusPesara'
+                value={statusPesara}
                 onChange={(e) => setStatusPesara(e.target.value)}
               >
                 <option value=''>Sila pilih..</option>
@@ -472,6 +690,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 required
                 name='kumpulanEtnik'
                 id='kumpulanEtnik'
+                value={kumpulanEtnik}
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
@@ -506,6 +725,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
               <select
                 name='rujukDaripada'
                 id='rujukDaripada'
+                value={rujukDaripada}
                 onChange={(e) => setRujukDaripada(e.target.value)}
                 className='mr-3'
               >
@@ -515,7 +735,7 @@ export default function FillableForm({ showForm, setShowForm, jenisFasiliti }) {
                 <option value='kk'>Klinik Kesihatan</option>
                 <option value='hospital'>Hospital</option>
                 <option value='swasta'>Swasta</option>
-                <option value='lain2'>Lain-lain</option>
+                <option value='lain-lain'>Lain-lain</option>
               </select>
             </div>
             {jenisFasiliti === 'kp' && (

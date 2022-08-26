@@ -81,7 +81,7 @@ function UserUmum() {
               setJenisFasiliti(e.target.value);
             }}
           >
-            <option value='kp'>Klinik</option>
+            <option value='kp'>Klinik Pergigian</option>
             <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
             <option value='taska-tadika'>Taska / Tadika</option>
             <option value='ipt-kolej'>IPT / KOLEJ</option>
