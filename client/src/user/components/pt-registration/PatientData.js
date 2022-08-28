@@ -68,7 +68,7 @@ export default function PatientData({
                       NAMA
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
-                      NO I/C
+                      PENGENALAN
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
                       TARIKH KEDATANGAN
@@ -86,10 +86,10 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           <td className='outline outline-1 outline-kaunterBlack'>
-                            {p.nama}
+                            {p.nama.toUpperCase()}
                           </td>
                           <td className='outline outline-1 outline-kaunterBlack'>
-                            {p.ic}
+                            {p.ic.toUpperCase()}
                           </td>
                           <td className='outline outline-1 outline-kaunterBlack'>
                             {p.tarikhKedatangan}

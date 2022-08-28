@@ -71,7 +71,7 @@ export default function FillableForm({
   const [giatmara, setGiatmara] = useState('');
   const [ipta, setIpta] = useState('');
   const [ipts, setIpts] = useState('');
-  const [enrolmenIptKolej, setEnrolmenKolej] = useState(false);
+  const [enrolmenIptKolej, setEnrolmenIptKolej] = useState(false);
 
   // institusi warga emas
   const [institusiWargaEmas, setInstitusiWargaEmas] = useState('');
@@ -298,7 +298,7 @@ export default function FillableForm({
     setGiatmara('');
     setIpta('');
     setIpts('');
-    setEnrolmenKolej(false);
+    setEnrolmenIptKolej(false);
     // institusi warga emas
     setInstitusiWargaEmas('');
     setKerajaanInstitusiWargaEmas('');
@@ -387,7 +387,56 @@ export default function FillableForm({
             data.singlePersonKaunter.tarikhMulaRawatanKepp
           );
           // penyampaian perkhidmatan
-          //
+          setKpBergerak(data.singlePersonKaunter.kpBergerak);
+          setLabelKpBergerak(data.singlePersonKaunter.labelKpBergerak);
+          setPasukanPergigianBergerak(
+            data.singlePersonKaunter.pasukanPergigianBergerak
+          );
+          setMakmalPergigianBergerak(
+            data.singlePersonKaunter.makmalPergigianBergerak
+          );
+          setLabelMakmalPergigianBergerak(
+            data.singlePersonKaunter.labelMakmalPergigianBergerak
+          );
+          // taska / tadika
+          setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
+          setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
+          setKelasToddler(data.singlePersonKaunter.kelasToddler);
+          setNamaFasilitiTaskaTadika(
+            data.singlePersonKaunter.namaFasilitiTaskaTadika
+          );
+          setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
+          setEngganTaskaTadika(data.singlePersonKaunter.engganTaskaTadika);
+          setTidakHadirTaskaTadika(
+            data.singlePersonKaunter.tidakHadirTaskaTadika
+          );
+          setPemeriksaanTaskaTadika(
+            data.singlePersonKaunter.pemeriksaanTaskaTadika
+          );
+          // ipt / kolej
+          setIptKolej(data.singlePersonKaunter.iptKolej);
+          setIpg(data.singlePersonKaunter.ipg);
+          setKolejKomuniti(data.singlePersonKaunter.kolejKomuniti);
+          setPoliteknik(data.singlePersonKaunter.politeknik);
+          setInstitutLatihanKerajaan(
+            data.singlePersonKaunter.institutLatihanKerajaan
+          );
+          setGiatmara(data.singlePersonKaunter.giatmara);
+          setIpta(data.singlePersonKaunter.ipta);
+          setIpts(data.singlePersonKaunter.ipts);
+          setEnrolmenIptKolej(data.singlePersonKaunter.enrolmenIptKolej);
+          // institusi warga emas
+          setInstitusiWargaEmas(data.singlePersonKaunter.institusiWargaEmas);
+          setKerajaanInstitusiWargaEmas(
+            data.singlePersonKaunter.kerajaanInstitusiWargaEmas
+          );
+          setSwastaInstitusiWargaEmas(
+            data.singlePersonKaunter.swastaInstitusiWargaEmas
+          );
+          // institusi OKU
+          setInstitusiOku(data.singlePersonKaunter.institusiOku);
+          // kampung angkat
+          setKgAngkat(data.singlePersonKaunter.kgAngkat);
           setIsEditLoading(false);
         } catch (error) {
           console.log(error);
@@ -500,7 +549,7 @@ export default function FillableForm({
                 name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md capitalize'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
             <div className='flex m-2'>
@@ -1475,7 +1524,7 @@ export default function FillableForm({
                       value='enrolmen-institusi-pengajian-tinggi-kolej'
                       checked={enrolmenIptKolej}
                       onChange={() => {
-                        setEnrolmenKolej(!enrolmenIptKolej);
+                        setEnrolmenIptKolej(!enrolmenIptKolej);
                       }}
                       className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />
