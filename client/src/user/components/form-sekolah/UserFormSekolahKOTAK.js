@@ -202,7 +202,7 @@ function UserFormSekolahKOTAK() {
 
   return (
     <>
-      <div className='h-full max-h-min 2xl:h-3/4 p-1 px-10 grid gap-2'>
+      <div className='h-full max-h-min 2xl:h-3/4 p-1 px-2 md:px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -277,7 +277,7 @@ function UserFormSekolahKOTAK() {
                   <h4 className='font-bold flex flex-row pl-5 col-span-3'>
                     tarikh intervensi merokok
                   </h4>
-                  <p className='flex items-center justify-center text-m font-m'>
+                  <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                     Sesi 1:
                     <span className='text-user6 text-xl font-semibold'>*</span>
                   </p>
@@ -290,7 +290,7 @@ function UserFormSekolahKOTAK() {
                     onChange={(e) => {
                       setTarikh1(e.target.value);
                     }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                    className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                   />
                   <div className='flex items-center flex-row pl-5'>
                     <input
@@ -309,7 +309,7 @@ function UserFormSekolahKOTAK() {
                     />
                     <label
                       htmlFor='ada-q-tarikh1'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-xs sm:text-sm font-m'
                     >
                       ada quit date
                     </label>
@@ -329,13 +329,13 @@ function UserFormSekolahKOTAK() {
                     />
                     <label
                       htmlFor='tiada-q-tarikh1'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-xs sm:text-sm font-m'
                     >
                       tiada quit date
                     </label>
                   </div>
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 2:
                       {tarikh2 && (
                         <span className='text-user6 text-xl font-semibold'>
@@ -353,7 +353,7 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh2(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
@@ -374,7 +374,7 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh2'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
@@ -394,14 +394,14 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh2'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
                     </div>
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 3:
                       {tarikh3 && (
                         <span className='text-user6 text-xl font-semibold'>
@@ -419,7 +419,7 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh3(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
@@ -440,7 +440,7 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh3'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
@@ -460,14 +460,14 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh3'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
                     </div>
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 4:
                       {tarikh3 && (
                         <span className='text-user6 text-xl font-semibold'>
@@ -485,7 +485,7 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh4(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
@@ -506,7 +506,7 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh4'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
@@ -526,7 +526,7 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh4'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
@@ -598,7 +598,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     tarikh quit date
                   </h4>
@@ -618,7 +618,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     status selepas 6 bulan
                   </h4>

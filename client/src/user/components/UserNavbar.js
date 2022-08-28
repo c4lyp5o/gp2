@@ -26,7 +26,21 @@ function UserNavbar() {
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
       >
-        <div className='h-28'></div>
+        <div className='h-52 sm:h-28'>
+          <div className='grid grid-rows-[50px_10px_10px] sm:hidden gap-1 text-center pt-24'>
+            <img
+              className='w-full h-full'
+              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              alt='missing jata negara'
+            />
+            <p className='uppercase text-[0.65rem]'>
+              kementerian kesihatan malaysia
+            </p>
+            <p className='uppercase text-[0.65rem]'>
+              program kesihatan pergigian
+            </p>
+          </div>
+        </div>
         <div className='grid'>
           <NavLink
             to='/user'
@@ -173,7 +187,7 @@ function UserNavbar() {
           </NavLink>
         </div>
       </nav>
-      <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
+      <div className='absolute w-60 top-0 left-0 flex text-center flex-row sm:justify-center h-28 pl-5 sm:pl-0'>
         <button
           className='text-2xl bg-userWhite text-userBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
           onClick={toggleLinks}

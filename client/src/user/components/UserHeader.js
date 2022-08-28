@@ -1,7 +1,7 @@
 function UserHeader() {
   return (
     <div className='absolute top-0 left-0 right-0 flex items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-center'>
-      <div className='grid grid-rows-[50px_10px_10px] gap-1 text-center'>
+      <div className='hidden sm:grid grid-rows-[50px_10px_10px] gap-1 text-center '>
         <img
           className='w-full h-full'
           src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
