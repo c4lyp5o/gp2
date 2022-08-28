@@ -31,6 +31,7 @@ export default function FillableForm({
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
@@ -112,6 +113,7 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               kategoriPesakit,
+              noOku,
               statusPesara,
               kumpulanEtnik,
               rujukDaripada,
@@ -188,6 +190,7 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               kategoriPesakit,
+              noOku,
               statusPesara,
               kumpulanEtnik,
               rujukDaripada,
@@ -261,6 +264,7 @@ export default function FillableForm({
     setNegeriAlamat('');
     setPoskodAlamat('');
     setKategoriPesakit('');
+    setNoOku('');
     setStatusPesara('');
     setKumpulanEtnik('');
     setRujukDaripada('');
@@ -321,6 +325,13 @@ export default function FillableForm({
     }
   }, [jenisIc]);
 
+  // reset noOku when change kategori pesakit
+  useEffect(() => {
+    if (!editId) {
+      setNoOku('');
+    }
+  }, [kategoriPesakit]);
+
   // reset kedatangan kepp when change kepp
   useEffect(() => {
     if (!editId) {
@@ -361,6 +372,7 @@ export default function FillableForm({
           setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
           setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
           setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
+          setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
@@ -663,6 +675,21 @@ export default function FillableForm({
                 <option value='warga-tua'>Warga tua</option>
               </select>
             </div>
+            {kategoriPesakit === 'oku' && (
+              <div className='flex m-2'>
+                <p className='mr-3 font-semibold'>
+                  no. OKU: <span className='font-semibold text-user6'>*</span>
+                </p>
+                <input
+                  required
+                  value={noOku}
+                  onChange={(e) => setNoOku(e.target.value)}
+                  type='text'
+                  name='no-oku'
+                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              </div>
+            )}
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 status pesara:{' '}
