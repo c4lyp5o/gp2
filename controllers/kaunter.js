@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const cryptoJs = require('crypto-js');
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {
@@ -16,6 +17,13 @@ const getSinglePersonKaunter = async (req, res) => {
       .json({ msg: `No person with id ${req.params.personKaunterId}` });
   }
 
+  // decrypt
+  const decryptedIc = cryptoJs.AES.decrypt(
+    singlePersonKaunter.ic,
+    process.env.CRYPTO_JS_SECRET
+  ).toString(cryptoJs.enc.Utf8);
+  singlePersonKaunter.ic = decryptedIc;
+
   res.status(201).json({ singlePersonKaunter });
 };
 
@@ -30,6 +38,13 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
+  // encrypt
+  const encryptedIc = cryptoJs.AES.encrypt(
+    req.body.ic,
+    process.env.CRYPTO_JS_SECRET
+  ).toString();
+  req.body.ic = encryptedIc;
+
   const singlePersonKaunter = await Umum.create(req.body);
 
   res.status(201).json({ singlePersonKaunter });
@@ -40,6 +55,13 @@ const updatePersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  // encrypt
+  const encryptedIc = cryptoJs.AES.encrypt(
+    req.body.ic,
+    process.env.CRYPTO_JS_SECRET
+  ).toString();
+  req.body.ic = encryptedIc;
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     { _id: req.params.personKaunterId },
@@ -105,6 +127,15 @@ const queryPersonKaunter = async (req, res) => {
   }
 
   const kaunterResultQuery = await Umum.find(queryObject);
+
+  // decrypt
+  kaunterResultQuery.forEach((p) => {
+    const decryptedIc = cryptoJs.AES.decrypt(
+      p.ic,
+      process.env.CRYPTO_JS_SECRET
+    ).toString(cryptoJs.enc.Utf8);
+    p.ic = decryptedIc;
+  });
 
   res.status(200).json({ kaunterResultQuery });
 };

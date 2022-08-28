@@ -23,6 +23,7 @@ const UmumSchema = new mongoose.Schema(
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
     kategoriPesakit: { type: String, default: '' },
+    noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
     kumpulanEtnik: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },

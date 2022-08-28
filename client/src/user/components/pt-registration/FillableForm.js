@@ -31,6 +31,7 @@ export default function FillableForm({
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
   const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
@@ -70,7 +71,7 @@ export default function FillableForm({
   const [giatmara, setGiatmara] = useState('');
   const [ipta, setIpta] = useState('');
   const [ipts, setIpts] = useState('');
-  const [enrolmenIptKolej, setEnrolmenKolej] = useState(false);
+  const [enrolmenIptKolej, setEnrolmenIptKolej] = useState(false);
 
   // institusi warga emas
   const [institusiWargaEmas, setInstitusiWargaEmas] = useState('');
@@ -112,6 +113,7 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               kategoriPesakit,
+              noOku,
               statusPesara,
               kumpulanEtnik,
               rujukDaripada,
@@ -188,6 +190,7 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               kategoriPesakit,
+              noOku,
               statusPesara,
               kumpulanEtnik,
               rujukDaripada,
@@ -261,6 +264,7 @@ export default function FillableForm({
     setNegeriAlamat('');
     setPoskodAlamat('');
     setKategoriPesakit('');
+    setNoOku('');
     setStatusPesara('');
     setKumpulanEtnik('');
     setRujukDaripada('');
@@ -294,7 +298,7 @@ export default function FillableForm({
     setGiatmara('');
     setIpta('');
     setIpts('');
-    setEnrolmenKolej(false);
+    setEnrolmenIptKolej(false);
     // institusi warga emas
     setInstitusiWargaEmas('');
     setKerajaanInstitusiWargaEmas('');
@@ -320,6 +324,13 @@ export default function FillableForm({
       setIc('');
     }
   }, [jenisIc]);
+
+  // reset noOku when change kategori pesakit
+  useEffect(() => {
+    if (!editId) {
+      setNoOku('');
+    }
+  }, [kategoriPesakit]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
@@ -361,6 +372,7 @@ export default function FillableForm({
           setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
           setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
           setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
+          setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
@@ -375,7 +387,56 @@ export default function FillableForm({
             data.singlePersonKaunter.tarikhMulaRawatanKepp
           );
           // penyampaian perkhidmatan
-          //
+          setKpBergerak(data.singlePersonKaunter.kpBergerak);
+          setLabelKpBergerak(data.singlePersonKaunter.labelKpBergerak);
+          setPasukanPergigianBergerak(
+            data.singlePersonKaunter.pasukanPergigianBergerak
+          );
+          setMakmalPergigianBergerak(
+            data.singlePersonKaunter.makmalPergigianBergerak
+          );
+          setLabelMakmalPergigianBergerak(
+            data.singlePersonKaunter.labelMakmalPergigianBergerak
+          );
+          // taska / tadika
+          setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
+          setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
+          setKelasToddler(data.singlePersonKaunter.kelasToddler);
+          setNamaFasilitiTaskaTadika(
+            data.singlePersonKaunter.namaFasilitiTaskaTadika
+          );
+          setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
+          setEngganTaskaTadika(data.singlePersonKaunter.engganTaskaTadika);
+          setTidakHadirTaskaTadika(
+            data.singlePersonKaunter.tidakHadirTaskaTadika
+          );
+          setPemeriksaanTaskaTadika(
+            data.singlePersonKaunter.pemeriksaanTaskaTadika
+          );
+          // ipt / kolej
+          setIptKolej(data.singlePersonKaunter.iptKolej);
+          setIpg(data.singlePersonKaunter.ipg);
+          setKolejKomuniti(data.singlePersonKaunter.kolejKomuniti);
+          setPoliteknik(data.singlePersonKaunter.politeknik);
+          setInstitutLatihanKerajaan(
+            data.singlePersonKaunter.institutLatihanKerajaan
+          );
+          setGiatmara(data.singlePersonKaunter.giatmara);
+          setIpta(data.singlePersonKaunter.ipta);
+          setIpts(data.singlePersonKaunter.ipts);
+          setEnrolmenIptKolej(data.singlePersonKaunter.enrolmenIptKolej);
+          // institusi warga emas
+          setInstitusiWargaEmas(data.singlePersonKaunter.institusiWargaEmas);
+          setKerajaanInstitusiWargaEmas(
+            data.singlePersonKaunter.kerajaanInstitusiWargaEmas
+          );
+          setSwastaInstitusiWargaEmas(
+            data.singlePersonKaunter.swastaInstitusiWargaEmas
+          );
+          // institusi OKU
+          setInstitusiOku(data.singlePersonKaunter.institusiOku);
+          // kampung angkat
+          setKgAngkat(data.singlePersonKaunter.kgAngkat);
           setIsEditLoading(false);
         } catch (error) {
           console.log(error);
@@ -488,7 +549,7 @@ export default function FillableForm({
                 name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md capitalize'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
             <div className='flex m-2'>
@@ -663,6 +724,21 @@ export default function FillableForm({
                 <option value='warga-tua'>Warga tua</option>
               </select>
             </div>
+            {kategoriPesakit === 'oku' && (
+              <div className='flex m-2'>
+                <p className='mr-3 font-semibold'>
+                  no. OKU: <span className='font-semibold text-user6'>*</span>
+                </p>
+                <input
+                  required
+                  value={noOku}
+                  onChange={(e) => setNoOku(e.target.value)}
+                  type='text'
+                  name='no-oku'
+                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              </div>
+            )}
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 status pesara:{' '}
@@ -1448,7 +1524,7 @@ export default function FillableForm({
                       value='enrolmen-institusi-pengajian-tinggi-kolej'
                       checked={enrolmenIptKolej}
                       onChange={() => {
-                        setEnrolmenKolej(!enrolmenIptKolej);
+                        setEnrolmenIptKolej(!enrolmenIptKolej);
                       }}
                       className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                     />

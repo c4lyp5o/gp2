@@ -78,7 +78,7 @@ exports.helloUser = async (req, res) => {
 };
 
 exports.getCipher = async (req, res) => {
-  const crypt = new simpleCrypto(process.env.API_SALT);
+  const crypt = new simpleCrypto(process.env.API_SECRET);
   const cipherText = crypt.encrypt(process.env.API_KEY);
   res.status(200).json({
     status: 'success',
@@ -89,9 +89,9 @@ exports.getCipher = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const { username, password, key } = req.body;
-  const crypt = new simpleCrypto(process.env.API_SALT);
+  const crypt = new simpleCrypto(process.env.API_SECRET);
   const decipheredText = crypt.decrypt(key);
-  if (decipheredText != process.env.API_KEY) {
+  if (decipheredText !== process.env.API_KEY) {
     return res.status(401).json({
       status: 'error',
       message: 'Invalid API key',
