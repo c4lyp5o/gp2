@@ -5,12 +5,13 @@ const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const Dictionary = {
-  klinik: 'Klinik',
-  taska: 'Taska',
-  tadika: 'Tadika',
-  sr: 'Sekolah Rendah',
-  sm: 'Sekolah Menengah',
-  ins: 'Institusi',
+  klinik: 'klinik',
+  taska: 'taska',
+  tadika: 'tadika',
+  sr: 'sekolah-rendah',
+  sm: 'sekolah-menengah',
+  ins: 'institusi',
+  kpb: 'kp-bergerak',
 };
 
 async function sendVerificationEmail(email, userId) {
@@ -39,7 +40,7 @@ async function sendVerificationEmail(email, userId) {
   //   html:
   //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
   // });
-  console.log('your key: ' + theKey);
+  // console.log('your key: ' + theKey);
   return theKey;
 }
 
@@ -88,6 +89,7 @@ exports.getCipher = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  // console.log(req.body);
   const { username, password, key } = req.body;
   const crypt = new simpleCrypto(process.env.API_SECRET);
   const decipheredText = crypt.decrypt(key);
@@ -205,7 +207,7 @@ exports.listPg = (req, res) => {
 exports.listTaska = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Taska',
+      jenisFasiliti: 'taska',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -226,7 +228,7 @@ exports.listTaska = (req, res) => {
 exports.listTadika = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Tadika',
+      jenisFasiliti: 'tadika',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -247,7 +249,7 @@ exports.listTadika = (req, res) => {
 exports.listSr = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Sekolah Rendah',
+      jenisFasiliti: 'sekolah-rendah',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -268,7 +270,7 @@ exports.listSr = (req, res) => {
 exports.listSm = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Sekolah Menengah',
+      jenisFasiliti: 'sekolah-menengah',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },
@@ -289,7 +291,7 @@ exports.listSm = (req, res) => {
 exports.listInstitusi = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: 'Institusi',
+      jenisFasiliti: 'institusi',
       //   daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
       daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     },

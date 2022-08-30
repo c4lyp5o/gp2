@@ -1,19 +1,7 @@
-import { useState, useEffect } from 'react';
-
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-function AdminHeaderLoggedIn() {
-  const [user, setUser] = useState('');
-  const [daerah, setDaerah] = useState('');
-  const { getCurrentUser, navigate, catchAxiosErrorAndLogout } =
-    useGlobalAdminAppContext();
-
-  useEffect(() => {
-    getCurrentUser().then((res) => {
-      setUser(res.data.data.username);
-      setDaerah(res.data.data.daerah);
-    });
-  }, []);
+function AdminHeaderLoggedIn({ user, daerah }) {
+  const { navigate, catchAxiosErrorAndLogout } = useGlobalAdminAppContext();
 
   return (
     <div className='absolute top-0 left-0 right-0 flex flew-wrap items-center justify-center h-28 bg-admin2 text-adminWhite font-sans capitalize'>

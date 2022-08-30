@@ -1,4 +1,4 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useRef, useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { RiCloseLine } from 'react-icons/ri';

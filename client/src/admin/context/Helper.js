@@ -173,7 +173,7 @@ export async function getFacility(data) {
     token: getTokenized(),
     jenisFacility: data,
   });
-  // console.log(response);
+  console.log(response);
   return response.data;
 }
 
