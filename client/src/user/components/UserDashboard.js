@@ -9,14 +9,14 @@ function UserDashboard() {
   return (
     <>
       <div className='h-full p-3 overflow-y-auto'>
-        <div className='grid grid-cols-2 mb-3'>
-          <h3 className='text-xl font-semibold text-left px-3'>
+        <div className='grid grid-cols-2 mb-1'>
+          <h3 className='text-xs lg:text-lg font-semibold text-left px-2'>
             INFOGRAFIK STATUS KESIHATAN PERGIGIAN PELAJAR
           </h3>
           <select
             name='tahun-dashboard'
             id='tahun-dashboard'
-            className=' mr-0 ml-auto w-60 px-2 py-1'
+            className='text-xs lg:text-base mr-0 ml-auto lg:w-60 px-2 py-1'
           >
             <option disabled>TAHUN</option>
             <option value='2022'>2022</option>
@@ -25,7 +25,7 @@ function UserDashboard() {
           </select>
         </div>
         <button
-          className='flex bg-user3 p-2 w-full capitalize'
+          className='flex bg-user3 p-1 w-full capitalize'
           onClick={() => setShowAccordian1(!showAccordian1)}
         >
           {showAccordian1 ? (
@@ -36,7 +36,7 @@ function UserDashboard() {
           <p className='ml-3'>jumlah data entri</p>
         </button>
         <section
-          className={`grid grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
+          className={`grid grid-cols-1 lg:grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
             showAccordian1
               ? 'max-h-80 overflow-y-auto'
               : 'max-h-0 overflow-hidden'
