@@ -6,6 +6,9 @@ function UserDashboard() {
   const [showAccordian2, setShowAccordian2] = useState(true);
   const [showAccordian3, setShowAccordian3] = useState(true);
 
+  const [rankingSekolahRendah, setRankingSekolahRendah] = useState(true);
+  const [rankingSekolahMenengah, setRankingSekolahMenengah] = useState(false);
+
   return (
     <>
       <div className='h-full p-3 overflow-y-auto'>
@@ -38,7 +41,7 @@ function UserDashboard() {
         <section
           className={`grid grid-cols-1 lg:grid-cols-4 gap-1 mt-3 mb-3 transition-all ${
             showAccordian1
-              ? 'max-h-80 overflow-y-auto'
+              ? 'max-h-[100rem] overflow-y-auto'
               : 'max-h-0 overflow-hidden'
           }`}
         >
@@ -100,7 +103,7 @@ function UserDashboard() {
           </article>
         </section>
         <button
-          className='flex bg-user3 p-2 w-full capitalize'
+          className='flex bg-user3 p-1 w-full capitalize'
           onClick={() => setShowAccordian2(!showAccordian2)}
         >
           {showAccordian2 ? (
@@ -111,16 +114,16 @@ function UserDashboard() {
           <p className='ml-3'>status kesihatan pergigian pelajar</p>
         </button>
         <section
-          className={`grid grid-cols-5 gap-1 mt-3 mb-3 transition-all ${
+          className={`grid grid-cols-2 lg:grid-cols-5 gap-1 mt-3 mb-3 transition-all ${
             showAccordian2
-              ? 'max-h-60 overflow-y-auto'
+              ? 'max-h-[100rem] overflow-y-auto'
               : 'max-h-0 overflow-hidden'
           }`}
         >
           <select
             name='jenis-institusi'
             id='jenis-institusi'
-            className='col-start-1 col-end-6 w-60 px-2 py-1'
+            className='col-start-1 col-end-3 lg:col-start-1 lg:col-end-6 text-xs lg:text-base w-60 px-2 py-1'
           >
             <option disabled>INSTITUSI</option>
             <option value='taska'>TASKA</option>
@@ -145,13 +148,13 @@ function UserDashboard() {
             <h4 className='text-2xl pt-3'>TPR</h4>
             <div className='text-4xl'>76%</div>
           </article>
-          <article className='grid grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
+          <article className='grid col-span-2 lg:col-span-1 grid-rows-2 border border-userBlack pl-3 px-1 rounded-md h-36'>
             <h4 className='text-2xl pt-3 lowercase'>dfx=0</h4>
             <div className='text-4xl'>76%</div>
           </article>
         </section>
         <button
-          className='flex bg-user3 p-2 w-full capitalize'
+          className='flex bg-user3 p-1 w-full text-left capitalize'
           onClick={() => setShowAccordian3(!showAccordian3)}
         >
           {showAccordian3 ? (
@@ -164,26 +167,35 @@ function UserDashboard() {
         <section
           className={`mt-3 mb-3 transition-all ${
             showAccordian3
-              ? 'max-h-60 overflow-y-auto'
+              ? 'max-h-[100rem] overflow-y-auto'
               : 'max-h-0 overflow-hidden'
           }`}
         >
-          <div className='flex text-left space-x-10'>
+          <div className='flex text-left text-xs lg:text-base'>
             <div>
               <input
                 type='checkbox'
-                value='sekolah rendah'
+                checked={rankingSekolahRendah}
+                onChange={() => {
+                  setRankingSekolahRendah(!rankingSekolahRendah);
+                }}
                 id='sekolah-rendah'
                 className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer m-3'
               />
-              <label htmlFor='sekolah-rendah' className='hover:cursor-pointer'>
+              <label
+                htmlFor='sekolah-rendah'
+                className='hover:cursor-pointer mr-3'
+              >
                 sekolah rendah
               </label>
             </div>
             <div>
               <input
                 type='checkbox'
-                value='sekolah menengah'
+                checked={rankingSekolahMenengah}
+                onChange={() => {
+                  setRankingSekolahMenengah(!rankingSekolahMenengah);
+                }}
                 id='sekolah-menengah'
                 className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer m-3'
               />
@@ -195,53 +207,55 @@ function UserDashboard() {
               </label>
             </div>
           </div>
-          <table className='m-auto mb-5 w-11/12 outline outline-1 outline-userBlack'>
-            <tr className='bg-user3'>
-              <th className='outline outline-1 outline-userBlack'>BIL</th>
-              <th className='outline outline-1 outline-userBlack'>NEGERI</th>
-              <th className='outline outline-1 outline-userBlack'>DAERAH</th>
-              <th className='outline outline-1 outline-userBlack'>SEKOLAH</th>
-              <th className='outline outline-1 outline-userBlack'>
-                % MURID DILIPUTI
-              </th>
-              <th className='outline outline-1 outline-userBlack'>% MBK</th>
-              <th className='outline outline-1 outline-userBlack'>% BK</th>
-              <th className='outline outline-1 outline-userBlack'>% MBG</th>
-              <th className='outline outline-1 outline-userBlack'>% TPR</th>
-            </tr>
-            <tr>
-              <td className='outline outline-1 outline-userBlack'>1</td>
-              <td className='outline outline-1 outline-userBlack'>kedah</td>
-              <td className='outline outline-1 outline-userBlack'>
-                kota setar
-              </td>
-              <td className='outline outline-1 outline-userBlack'>
-                sekolah kebangsaan alor janggus
-              </td>
-              <td className='outline outline-1 outline-userBlack'>98.0</td>
-              <td className='outline outline-1 outline-userBlack'>70</td>
-              <td className='outline outline-1 outline-userBlack'>75</td>
-              <td className='outline outline-1 outline-userBlack'>75</td>
-              <td className='outline outline-1 outline-userBlack'>75</td>
-            </tr>
-            <tr>
-              <td className='outline outline-1 outline-userBlack'>2</td>
-              <td className='outline outline-1 outline-userBlack'>kedah</td>
-              <td className='outline outline-1 outline-userBlack'>
-                kota setar
-              </td>
-              <td className='outline outline-1 outline-userBlack'>
-                sekolah menengah alor janggus
-              </td>
-              <td className='outline outline-1 outline-userBlack'>90.2</td>
-              <td className='outline outline-1 outline-userBlack'>69</td>
-              <td className='outline outline-1 outline-userBlack'>71</td>
-              <td className='outline outline-1 outline-userBlack'>71</td>
-              <td className='outline outline-1 outline-userBlack'>71</td>
-            </tr>
-          </table>
+          <div className='flex items-center justify-center m-1 text-xs lg:text-base'>
+            <table className='w-full outline outline-1 outline-userBlack'>
+              <tr className='bg-user3'>
+                <th className='outline outline-1 outline-userBlack'>BIL</th>
+                <th className='outline outline-1 outline-userBlack'>NEGERI</th>
+                <th className='outline outline-1 outline-userBlack'>DAERAH</th>
+                <th className='outline outline-1 outline-userBlack'>SEKOLAH</th>
+                <th className='outline outline-1 outline-userBlack'>
+                  % MURID DILIPUTI
+                </th>
+                <th className='outline outline-1 outline-userBlack'>% MBK</th>
+                <th className='outline outline-1 outline-userBlack'>% BK</th>
+                <th className='outline outline-1 outline-userBlack'>% MBG</th>
+                <th className='outline outline-1 outline-userBlack'>% TPR</th>
+              </tr>
+              <tr>
+                <td className='outline outline-1 outline-userBlack'>1</td>
+                <td className='outline outline-1 outline-userBlack'>kedah</td>
+                <td className='outline outline-1 outline-userBlack'>
+                  kota setar
+                </td>
+                <td className='outline outline-1 outline-userBlack'>
+                  sekolah kebangsaan alor janggus
+                </td>
+                <td className='outline outline-1 outline-userBlack'>98.0</td>
+                <td className='outline outline-1 outline-userBlack'>70</td>
+                <td className='outline outline-1 outline-userBlack'>75</td>
+                <td className='outline outline-1 outline-userBlack'>75</td>
+                <td className='outline outline-1 outline-userBlack'>75</td>
+              </tr>
+              <tr>
+                <td className='outline outline-1 outline-userBlack'>2</td>
+                <td className='outline outline-1 outline-userBlack'>kedah</td>
+                <td className='outline outline-1 outline-userBlack'>
+                  kota setar
+                </td>
+                <td className='outline outline-1 outline-userBlack'>
+                  sekolah menengah alor janggus
+                </td>
+                <td className='outline outline-1 outline-userBlack'>90.2</td>
+                <td className='outline outline-1 outline-userBlack'>69</td>
+                <td className='outline outline-1 outline-userBlack'>71</td>
+                <td className='outline outline-1 outline-userBlack'>71</td>
+                <td className='outline outline-1 outline-userBlack'>71</td>
+              </tr>
+            </table>
+          </div>
         </section>
-        <p className='text-user6 text-xs text-left pt-3'>
+        <p className='text-user6 text-xs text-left'>
           <span className='uppercase'>* NOTA PENTING</span>: maklumat{' '}
           <span className='lowercase'>
             ini hanya untuk analisa pencapaian semasa sahaja
