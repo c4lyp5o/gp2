@@ -6,11 +6,11 @@
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
-    "server": "nodemon server",
+    "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
     "build-client": "cd client && npm run build",
-    "deploy": "nodemon server"
+    "deploy-local": "npm run build-client && npm run server"
   },
   "repository": {
     "type": "git",

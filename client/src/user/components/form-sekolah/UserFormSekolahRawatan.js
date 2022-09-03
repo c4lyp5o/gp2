@@ -287,7 +287,7 @@ function UserFormSekolahRawatan() {
 
   return (
     <>
-      <div className='h-full p-1 px-10 grid gap-2'>
+      <div className='h-full p-1 px-2 md:px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -359,7 +359,7 @@ function UserFormSekolahRawatan() {
               <p className='ml-3 text-xl font-semibold'>Rawatan</p>
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-2'>
+              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   tarikh pemeriksaan
                 </h4>
@@ -380,7 +380,7 @@ function UserFormSekolahRawatan() {
                   />
                 </div>
               </article>
-              <div className='grid gap-1'>
+              <div className='grid gap-1 auto-rows-min'>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Fisur Sealan
@@ -682,7 +682,7 @@ function UserFormSekolahRawatan() {
                   </div>
                 </article>
               </div>
-              <div className='grid gap-1'>
+              <div className='grid gap-1 auto-rows-min'>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Silver Diamine Fluoride

@@ -865,7 +865,7 @@ function UserFormSekolahPemeriksaan() {
 
   return (
     <>
-      <div className='h-full p-1 px-10 grid gap-2 pb-2'>
+      <div className='h-full p-1 px-2 md:px-10 grid gap-2 pb-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -1193,9 +1193,9 @@ function UserFormSekolahPemeriksaan() {
               </article>
             </section>
             {adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? null : (
-              <section className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2 '>
-                <div className='grid gap-2 '>
-                  <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
+              <section className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2 '>
+                <div className='grid gap-2 col-span-2 sm:col-span-1'>
+                  <article className='row-span-1 sm:row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
                       Status denture
                     </h4>
@@ -2092,7 +2092,7 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </article>
                 </div>
-                <div className='grid grid-cols-2 2xl:grid-cols-1 gap-2 auto-rows-min col-span-2 2xl:col-span-1'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-1 gap-2 auto-rows-min col-span-2 2xl:col-span-1'>
                   <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
                     <h4
                       className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'
@@ -2463,12 +2463,12 @@ function UserFormSekolahPemeriksaan() {
               </section>
             )}
             {adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? null : (
-              <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+              <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
                 <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
               </span>
             )}
             {adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? null : (
-              <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
+              <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                 <div className='grid gap-2'>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>

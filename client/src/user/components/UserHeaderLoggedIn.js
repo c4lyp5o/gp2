@@ -51,7 +51,7 @@ function UserHeaderLoggedIn() {
   };
 
   return (
-    <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
+    <div className='hidden lg:flex absolute top-10 right-5 w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
       <div className='m-3 space-y-1 text-right pr-2'>
         <p className='w-96 text-sm leading-3'>
           <b>{username}</b>
