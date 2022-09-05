@@ -9,6 +9,8 @@ export default function UserStatusHarian() {
   const [convertedDate, setConvertedDate] = useState('');
   const mark = ['2022-08-02', '2022-08-01'];
 
+  const [tidakHadir, setTidakHadir] = useState(true);
+
   // convert to standard date format to query to db
   useEffect(() => {
     const dd = String(pickedDate.getDate()).padStart(2, '0');
@@ -22,9 +24,9 @@ export default function UserStatusHarian() {
 
   return (
     <>
-      <div className='h-full p-3 overflow-y-auto'>
+      <div className='h-full p-3 lg:p-7 overflow-y-auto'>
         <h1 className='mt-3 text-xl font-semibold'>JUMLAH DATA HARIAN</h1>
-        <div className='grid grid-cols-3 mt-5'>
+        <div className='grid lg:grid-cols-3 mt-3'>
           <div className='grid justify-center text-center'>
             <Calendar
               onChange={setPickedDate}
@@ -34,93 +36,159 @@ export default function UserStatusHarian() {
                   return 'text-user6 font-bold';
                 }
               }}
-              className='font-semibold shadow-lg'
+              className='font-semibold shadow-lg m-auto'
             />
-            <div className='flex mt-3'>
-              <div className='bg-user6 ml-3 mr-3 h-5 w-5 outline outline-1 outline-userBlack'></div>
+            <div className='flex my-3 m-auto'>
+              <div className='bg-user6 mr-3 h-5 w-5 outline outline-1 outline-userBlack'></div>
               <p className='text-left text-sm'>perlu dikemaskini</p>
             </div>
           </div>
-          <div className='col-span-2'>
-            <table className='m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'>
-              <tr className='bg-user2 text-userWhite'>
-                <th className='outline outline-1 outline-userBlack p-2'>
-                  nama pesakit
-                </th>
-                <th className='outline outline-1 outline-userBlack p-2'>
-                  nama pegawai / JP
-                </th>
-                <th className='outline outline-1 outline-userBlack p-2'>
-                  tarikh lawatan terakhir
-                </th>
-                <th className='outline outline-1 outline-userBlack p-2'>
-                  status kemaskini reten
-                </th>
-              </tr>
-              <tr>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  hana damia
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'></td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  2022-07-31
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  belum selesai
-                  <Link
-                    to='/user/umum'
-                    className='m-2 p-1 rounded-md shadow-md bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    KEMASKINI
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  mohd solleh
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  dr muhammad izyan
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  2022-07-31
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  selesai
-                  <Link
-                    to='/user/umum'
-                    className='pointer-events-none m-2 p-1 rounded-md shadow-md bg-user4 hover:text-userWhite transition-all'
-                  >
-                    KEMASKINI
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  mohd haikal
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'></td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  2022-07-31
-                </td>
-                <td className='outline outline-1 outline-userBlack p-2'>
-                  <Link
-                    to='/user/umum'
-                    className='pointer-events-none m-2 p-1 rounded-md shadow-md bg-user4 hover:text-userWhite transition-all'
-                  >
-                    KEMASKINI
-                  </Link>
-                  <input
-                    id='tidak-hadir'
-                    type='checkbox'
-                    checked={true}
-                    className='ml-3 w-4 h-4 rounded'
-                  />
-                  <label htmlFor='tidak-hadir' className='ml-1'>
-                    tidak diperiksa
-                  </label>
-                </td>
-              </tr>
+          <div className='lg:col-span-2 lg:m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-userWhite bg-user2'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    BIL.
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NAMA PESAKIT
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NAMA PEGAWAI / JP
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    TARIKH LAWATAN TERAKHIR
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    STATUS KEMASKINI RETEN
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='bg-user4'>
+                <tr>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    1
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    hana damia
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'></td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    2022-07-31
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    <div className='grid my-1'>
+                      <p className='leading-3 pt-1'>belum selesai</p>
+                      <Link
+                        to='/user/umum'
+                        className='mt-2 p-1 rounded-md shadow-md bg-user3 transition-all hover:bg-user1 hover:text-userWhite '
+                      >
+                        KEMASKINI
+                      </Link>
+                      <div className='mt-2 mb-1 flex justify-center text-center'>
+                        <input
+                          id='tidak-hadir'
+                          type='checkbox'
+                          checked={tidakHadir}
+                          onChange={() => {
+                            setTidakHadir(!tidakHadir);
+                          }}
+                          className='w-4 h-4 rounded'
+                        />
+                        <label
+                          htmlFor='tidak-hadir'
+                          className='ml-1 whitespace-nowrap'
+                        >
+                          tidak diperiksa
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    1
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    mohd solleh bin muhammadlsadkfjlsdf abu samad abu bakar bin
+                    ali nama panjang fsalkfjalkfjsdlkfjsldkfjsldkfj
+                    lsadkjflsadfjlsfjlskadfjlasdkfj lsadfjksadlfjsdlkfjsdaklfj
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    dr muhammad izyan
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    2022-07-31
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    <div className='grid my-1'>
+                      <p className='leading-3 pt-1'>selesai</p>
+                      <Link
+                        to='/user/umum'
+                        className='mt-2 p-1 rounded-md shadow-md bg-user1 transition-all pointer-events-none'
+                      >
+                        KEMASKINI
+                      </Link>
+                      <div className='mt-2 mb-1 flex justify-center text-center'>
+                        <input
+                          id='tidak-hadir'
+                          type='checkbox'
+                          checked={tidakHadir}
+                          onChange={() => {
+                            setTidakHadir(!tidakHadir);
+                          }}
+                          className='w-4 h-4 rounded'
+                        />
+                        <label
+                          htmlFor='tidak-hadir'
+                          className='ml-1 whitespace-nowrap'
+                        >
+                          tidak diperiksa
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    1
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    mohd haikal
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'></td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    2022-07-31
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    <div className='grid my-1'>
+                      <Link
+                        to='/user/umum'
+                        className='mt-2 p-1 rounded-md shadow-md bg-user1 transition-all pointer-events-none'
+                      >
+                        KEMASKINI
+                      </Link>
+                      <div className='mt-2 mb-1 flex justify-center text-center'>
+                        <input
+                          id='tidak-hadir'
+                          type='checkbox'
+                          checked={tidakHadir}
+                          onChange={() => {
+                            setTidakHadir(!tidakHadir);
+                          }}
+                          className='w-4 h-4 rounded'
+                        />
+                        <label
+                          htmlFor='tidak-hadir'
+                          className='ml-1 whitespace-nowrap'
+                        >
+                          tidak diperiksa
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
