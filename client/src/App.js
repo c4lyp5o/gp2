@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+// landing page import
+import LandingPage from './LandingPage';
+
 // kaunter import ----------------------------------------
 import KaunterLogin from './user/pages/KaunterLogin';
 import KaunterAfterLogin from './user/pages/KaunterAfterLogin';
@@ -27,7 +30,9 @@ function App() {
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
-            <Route path='/' element={<UserLogin />} />
+            {/* landing page selection */}
+            <Route path='/' element={<LandingPage />} />
+            {/* kaunter */}
             <Route path='/kaunter' element={<KaunterLogin />} />
             <Route
               path='/kaunter/daftar/*'
@@ -37,8 +42,10 @@ function App() {
                 </KaunterProtectedRoute>
               }
             />
+            {/* pengguna */}
+            <Route path='/pengguna' element={<UserLogin />} />
             <Route
-              path='/user/*'
+              path='/pengguna/landing/*'
               element={
                 <UserProtectedRoute>
                   <UserAfterLogin />
@@ -50,6 +57,7 @@ function App() {
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
+            {/* admin */}
             <Route path='/admin' element={<AdminLoginForm />} />
             <Route
               path='/admin/landing/*'

@@ -46,7 +46,7 @@ function UserNavbar() {
         setNamaKlinik(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchIdentity();
@@ -60,12 +60,12 @@ function UserNavbar() {
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
     setFasilitiRelief(null);
-    navigate('/');
+    navigate('/pengguna');
   };
 
   const logout = () => {
     catchAxiosErrorAndLogout();
-    navigate('/');
+    navigate('/pengguna');
   };
 
   return (
@@ -91,7 +91,7 @@ function UserNavbar() {
         </div>
         <div className='grid'>
           <NavLink
-            to='/user'
+            to='/pengguna/landing'
             onClick={() => {
               setShowLinks(!showLinks);
               setShowRetenSubMenu(false);
