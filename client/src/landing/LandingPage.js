@@ -23,8 +23,7 @@ function LandingPage() {
           </p>
         </div>
         <div className='grid grid-rows-2 text-2xl font-bold text-center'>
-          <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
-          <h1>PILIHLAH :D</h1>
+          <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
         </div>
       </div>
       {/* content */}
@@ -45,7 +44,7 @@ function LandingPage() {
                   onClick={() => {
                     setShowKlinikSubMenu(!showKlinikSubMenu);
                   }}
-                  className='flex items-center justify-center rounded-md shadow-md p-3 m-1 bg-user4 hover:bg-user3 transition-all hover:cursor-pointer'
+                  className='flex items-center justify-center rounded-md shadow-md p-3 m-1 bg-user3 hover:bg-user2 hover:text-userWhite transition-all hover:cursor-pointer'
                 >
                   <span>Klinik</span>
                   <span className='ml-10'>
@@ -63,13 +62,13 @@ function LandingPage() {
                 >
                   <Link
                     to='/kaunter'
-                    className='hidden lg:grid bg-user1 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    className='hidden lg:grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
                   >
                     Kaunter
                   </Link>
                   <Link
                     to='/pengguna'
-                    className='bg-user1 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    className='bg-user4 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-user3 hover:text-userWhite transition-all'
                   >
                     Pengguna
                   </Link>
@@ -77,7 +76,7 @@ function LandingPage() {
               </div>
               <Link
                 to='/admin'
-                className='hidden lg:grid bg-user1 rounded-md shadow-md p-3 h-max w-56 ml-auto mt-1 hover:bg-user8 text-center justify-center transition-all'
+                className='hidden lg:grid bg-admin3 rounded-md shadow-md p-3 h-max w-56 ml-auto mt-1 hover:bg-admin2 hover:text-userWhite text-center justify-center transition-all'
               >
                 Admin
               </Link>
