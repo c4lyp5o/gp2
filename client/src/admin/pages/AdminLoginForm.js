@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
@@ -117,8 +117,8 @@ export default function AdminLoginForm() {
       <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
-            <h3 className='text-xl font-semibold mt-10'>
-              sila masukkan ID pengguna
+            <h3 className='text-xl font-semibold mt-20'>
+              sila masukkan ID admin
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
@@ -128,12 +128,20 @@ export default function AdminLoginForm() {
                 <a href='#lupa-kata-laluan'>lupa kata laluan</a>
               </div>
               <br />
-              <button
-                type='submit'
-                className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
-              >
-                log masuk
-              </button>
+              <div className='grid grid-cols-2 gap-2 ml-20 mr-20'>
+                <Link
+                  to='/'
+                  className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+                >
+                  kembali ke halaman utama
+                </Link>
+                <button
+                  type='submit'
+                  className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+                >
+                  log masuk
+                </button>
+              </div>
             </form>
           </div>
         </div>

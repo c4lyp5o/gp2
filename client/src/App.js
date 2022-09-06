@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // landing page import
-import LandingPage from './LandingPage';
+import LandingPage from './landing/LandingPage';
 
 // kaunter import ----------------------------------------
 import KaunterLogin from './user/pages/KaunterLogin';
