@@ -60,7 +60,7 @@ function UserUmum() {
             type='text'
             name='nama-pesakit'
             id='nama-pesakit'
-            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2'
+            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 mb-2'
           />
           <div className='m-2 col-span-2 lg:col-span-1'>
             <label htmlFor='kad-pengenalan'>tarikh kedatangan :</label>

@@ -353,7 +353,7 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
                   OPERATOR TERAKHIR
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-3 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
                   STATUS RAWATAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
