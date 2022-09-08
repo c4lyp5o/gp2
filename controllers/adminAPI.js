@@ -6,12 +6,435 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const Dictionary = {
   klinik: 'klinik',
+  pegawai: 'pegawai',
   taska: 'taska',
   tadika: 'tadika',
   sr: 'sekolah-rendah',
   sm: 'sekolah-menengah',
   ins: 'institusi',
   kpb: 'kp-bergerak',
+};
+
+exports.getData = async (req, res, next) => {
+  if (req.method === 'GET') {
+    res.status(200).json({
+      message: 'Hello World',
+    });
+  } else {
+    console.log(req.body);
+    const { FType, daerah, negeri } = req.body;
+    const theType = Dictionary[FType];
+    switch (theType) {
+      case 'klinik':
+        try {
+          const klinik = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(klinik);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'pegawai':
+        try {
+          const pegawai = await Operator.find({
+            createdByDaerah: daerah,
+            createdByNegeri: negeri,
+          });
+          res.status(200).json(pegawai);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'taska':
+        try {
+          const taska = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(taska);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'tadika':
+        try {
+          const tadika = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(tadika);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-rendah':
+        try {
+          const sr = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(sr);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-menengah':
+        try {
+          const sm = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(sm);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'institusi':
+        try {
+          const ins = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(ins);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'kp-bergerak':
+        try {
+          const kpb = await Fasiliti.find({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+          });
+          res.status(200).json(kpb);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      default:
+        res.status(500).json({ message: 'Invalid Fasiliti Type' });
+        break;
+    }
+  }
+};
+
+exports.addData = async (req, res) => {
+  if (req.method === 'GET') {
+    res.status(200).json({
+      message: 'Hello World',
+    });
+  } else {
+    const { FType, daerah, negeri, data } = req.body;
+    const theType = Dictionary[FType];
+    switch (theType) {
+      case 'klinik':
+        try {
+          const klinik = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(klinik);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'pegawai':
+        try {
+          const pegawai = await Operator.create({
+            createdByDaerah: daerah,
+            createdByNegeri: negeri,
+            data,
+          });
+          res.status(200).json(pegawai);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'taska':
+        try {
+          const taska = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(taska);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'tadika':
+        try {
+          const tadika = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(tadika);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-rendah':
+        try {
+          const sr = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(sr);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-menengah':
+        try {
+          const sm = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(sm);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'institusi':
+        try {
+          const ins = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(ins);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'kp-bergerak':
+        try {
+          const kpb = await Fasiliti.create({
+            jenisFasiliti: theType,
+            daerah,
+            negeri,
+            data,
+          });
+          res.status(200).json(kpb);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      default:
+        res.status(500).json({ message: 'Invalid Fasiliti Type' });
+        break;
+    }
+  }
+};
+
+exports.updateData = async (req, res) => {
+  if (req.method === 'GET') {
+    res.status(200).json({
+      message: 'Hello World',
+    });
+  } else {
+    const { FType, daerah, negeri, data } = req.body;
+    const theType = Dictionary[FType];
+    switch (theType) {
+      case 'klinik':
+        try {
+          const klinik = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(klinik);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'pegawai':
+        try {
+          const pegawai = await Operator.findOneAndUpdate(
+            {
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(pegawai);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'taska':
+        try {
+          const taska = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(taska);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'tadika':
+        try {
+          const tadika = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(tadika);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-rendah':
+        try {
+          const sr = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(sr);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'sekolah-menengah':
+        try {
+          const sm = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(sm);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'institusi':
+        try {
+          const ins = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(ins);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      case 'kp-bergerak':
+        try {
+          const kpb = await Fasiliti.findOneAndUpdate(
+            {
+              jenisFasiliti: theType,
+              daerah,
+              negeri,
+            },
+            {
+              data,
+            },
+            {
+              new: true,
+            }
+          );
+          res.status(200).json(kpb);
+        } catch (error) {
+          res.status(500).json({ message: error.message });
+        }
+        break;
+      default:
+        res.status(500).json({ message: 'Invalid Fasiliti Type' });
+        break;
+    }
+  }
+};
+
+exports.deleteData = async (req, res) => {
+  if (req.method === 'GET') {
+    res.status(200).json({
+      message: 'Hello World',
+    });
+  } else {
+    const { Id } = req.body;
+    try {
+      const deleted = await Fasiliti.findByIdAndDelete(Id);
+      res.status(200).json(deleted);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 };
 
 async function sendVerificationEmail(email, userId) {
@@ -107,7 +530,7 @@ exports.loginUser = async (req, res) => {
       message: msg,
     });
   }
-  if (password != User.tempKey) {
+  if (password !== User.tempKey) {
     const msg = 'Key salah';
     return res.status(401).json({
       status: 'error',

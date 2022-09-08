@@ -13,6 +13,9 @@ router.get('/getcipher', adminAPI.getCipher);
 router.get('/', adminAPI.helloUser);
 router.post('/', adminAPI.helloUser);
 
+router.get('/newroute', adminAPI.getData);
+router.post('/newroute', adminAPI.getData);
+
 router.post('/adduser', adminAPI.addAdmin);
 router.post('/getuser', adminAPI.getCurrentUser);
 

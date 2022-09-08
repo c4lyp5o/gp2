@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
-import styles from '../Modal.module.css';
+import styles from '../../Modal.module.css';
 
 import { getKP, searchFacility, editFacility } from '../../context/Helper';
 

@@ -5,7 +5,7 @@ import styles from '../../../admin/Modal.module.css';
 
 import { getCurrentUser, getKP, deleteData } from '../../context/Helper';
 import AddModalKlinik from './AddModalKlinik';
-import EditModalKlinik from './EditModalFacility';
+import EditModalKlinik from './EditModalKlinik';
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);

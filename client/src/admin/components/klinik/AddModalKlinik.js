@@ -41,18 +41,49 @@ const Modal = ({ setAddOpen, daerah, negeri }) => {
                     id='nama'
                     onChange={(e) => setnewKp(e.target.value)}
                   />
+                  <br />
+                  <p>Role Klinik Pergigian</p>
+                  <div className='flex items-center'>
+                    <input
+                      className='mr-2'
+                      type='checkbox'
+                      name='checkbox'
+                      value='KEPP'
+                    />
+                    KEPP
+                    <input
+                      className='mr-2'
+                      type='checkbox'
+                      name='checkbox'
+                      value='UTC'
+                    />
+                    UTC
+                    <input
+                      className='mr-2'
+                      type='checkbox'
+                      name='checkbox'
+                      value='RTC'
+                    />
+                    RTC
+                    <input
+                      className='mr-2'
+                      type='checkbox'
+                      name='checkbox'
+                      value='Visiting'
+                    />
+                    Visiting
+                  </div>
+                  <br />
+                  <p>Status Klinik Pergigian</p>
+                  <div className={styles.modalContent}>
+                    <input type='checkbox' name='checkbox' value='active' />
+                    Aktif
+                    <br />
+                    <input type='checkbox' name='checkbox' value='nonactive' />
+                    Tidak Aktif
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.modalContent}>
-              <input type='checkbox' name='checkbox' value='KEPP' />
-              KEPP
-              <br />
-              <input type='checkbox' name='checkbox' value='UTC' />
-              UTC
-              <br />
-              <input type='checkbox' name='checkbox' value='Visiting' />
-              Visiting
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
