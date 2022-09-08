@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useToken, getTokenized } from './Tokenizer';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useToast } from 'react-toastify';
+import { useToken, getTokenized } from './Tokenizer';
 
 const AdminAppContext = React.createContext();
 
 function AdminAppProvider({ children }) {
   const { token, setToken } = useToken();
   const navigate = useNavigate();
+  const toast = useToast();
 
   async function getCurrentUser() {
     let response = await axios.post(`/api/v1/superadmin/getuser`, {
@@ -25,8 +27,8 @@ function AdminAppProvider({ children }) {
     tadika: 'Tadika',
     sr: 'Sekolah Rendah',
     sm: 'Sekolah Menengah',
-    institusi: 'Institusi',
-    'kp-bergerak': 'KP Bergerak',
+    ins: 'Institusi',
+    kpb: 'KP Bergerak',
   };
 
   return (
@@ -38,6 +40,8 @@ function AdminAppProvider({ children }) {
         catchAxiosErrorAndLogout,
         Dictionary,
         navigate,
+        toast,
+        getTokenized,
       }}
     >
       {children}

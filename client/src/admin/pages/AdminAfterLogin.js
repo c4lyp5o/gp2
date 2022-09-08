@@ -25,6 +25,8 @@ import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 import AdminFooter from '../components/AdminFooter';
 // -----------------------------------------------------------
 
+import { ToastContainer } from 'react-toastify';
+
 function AdminAfterLogin() {
   const { token } = useGlobalAdminAppContext();
 
@@ -40,18 +42,20 @@ function AdminAfterLogin() {
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route index element={<AdminCenterStageLoggedIn />} />
-          <Route path='kp' element={<KlinikCenter />} />
-          <Route path='pp' element={<PegawaiCenter />} />
+          <Route path='kp' element={<KlinikCenter FType='kp' />} />
+          <Route path='pp' element={<PegawaiCenter FType='peg' />} />
           <Route path='jp' element={<JPCenter />} />
           <Route path='taska' element={<FacilityCenter FType='taska' />} />
           <Route path='tadika' element={<FacilityCenter FType='tadika' />} />
           <Route path='sr' element={<FacilityCenter FType='sr' />} />
           <Route path='sm' element={<FacilityCenter FType='sm' />} />
           <Route path='ins' element={<FacilityCenter FType='ins' />} />
+          <Route path='kpb' element={<FacilityCenter FType='kpb' />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
       <AdminFooter />
+      <ToastContainer />
     </>
   );
 }
