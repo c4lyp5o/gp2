@@ -5,6 +5,7 @@ import styles from '../../../admin/Modal.module.css';
 
 import { getCurrentUser, getKP, deleteData } from '../../context/Helper';
 import AddModalKlinik from './AddModalKlinik';
+import EditModalKlinik from './EditModalFacility';
 
 function KlinikTable() {
   const [KP, setKP] = useState([]);
@@ -12,6 +13,7 @@ function KlinikTable() {
   const [daerah, setDaerah] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [Id, setId] = useState('');
 
   useEffect(() => {
@@ -85,7 +87,11 @@ function KlinikTable() {
         <thead>
           <tr>
             <th className='border border-slate-600'>Bil.</th>
+            <th className='border border-slate-600'>Kod Fasiliti</th>
             <th className='border border-slate-600'>Nama KP</th>
+            <th className='border border-slate-600'>Role KP</th>
+            <th className='border border-slate-600'>Emel KP</th>
+            <th className='border border-slate-600'>Status KP</th>
             <th className='border border-slate-600'>Manage</th>
           </tr>
         </thead>
@@ -94,22 +100,37 @@ function KlinikTable() {
             <tr>
               <td className='border border-slate-700'>{index + 1}</td>
               <td className='border border-slate-700'>{kp.nama}</td>
+              <td className='border border-slate-700'>Kode here</td>
+              <td className='border border-slate-700'>Role here</td>
+              <td className='border border-slate-700'>Email here</td>
+              <td className='border border-slate-700'>Status here</td>
               <td className='border border-slate-700'>
-                <div>
-                  <button
-                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
-                    id={kp._id}
-                    onClick={(e) => {
-                      setIsOpen(true);
-                      // setEditOpen(false);
-                      handleClick(e);
-                    }}
-                  >
-                    Delete
-                  </button>
-                  {/* {isOpen && <DeleteModal setIsOpen={setIsOpen} setId={Id} />} */}
-                  {isOpen && <AlternativeDelete />}
-                </div>
+                <button
+                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                  id={kp._id}
+                  onClick={() => {
+                    setEditOpen(true);
+                    setId(kp._id);
+                  }}
+                >
+                  Edit
+                </button>
+                {editOpen && (
+                  <EditModalKlinik setEditOpen={setEditOpen} Id={Id} />
+                )}
+                <button
+                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
+                  id={kp._id}
+                  onClick={(e) => {
+                    setIsOpen(true);
+                    // setEditOpen(false);
+                    handleClick(e);
+                  }}
+                >
+                  Delete
+                </button>
+                {/* {isOpen && <DeleteModal setIsOpen={setIsOpen} setId={Id} />} */}
+                {isOpen && <AlternativeDelete />}
               </td>
             </tr>
           ))}

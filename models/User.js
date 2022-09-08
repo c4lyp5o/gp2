@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const Runningnumber = require('./Runningnumber');
+const emailGen = require('../lib/emailgen');
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -24,9 +26,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide account type'],
     enum: {
-      values: ['kpUser', 'kaunterUser', 'erkmUser'],
+      values: [
+        'kpUser',
+        'kaunterUser',
+        'erkmUser',
+        'daerahUser',
+        'negeriUser',
+        'hqUser',
+      ],
       message:
-        '{VALUE} is not supported. Provide only "kpUser", "kaunterUser", "erkmUser"',
+        '{VALUE} is not supported. Provide only "kpUser", "kaunterUser", "erkmUser", "daerahUser", "negeriUser", "hqUser"',
     },
   },
   password: {
@@ -34,11 +43,45 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide password'],
     minlength: 6,
   },
+  email: {
+    type: String,
+    required: [true, 'Please provide email'],
+    unique: true,
+  },
+  kodFasiliti: {
+    type: String,
+    required: [true, 'Please provide account type'],
+    enum: {
+      values: ['kp', 'kepp', 'utc', 'rtc', 'visiting'],
+      message:
+        '{VALUE} is not supported. Provide only "kp", "kepp", "utc", "rtc", "visiting"',
+    },
+    default: 'kp',
+  },
 });
 
 UserSchema.pre('save', async function () {
-  const salt = await bcryptjs.genSalt(10);
-  this.password = await bcryptjs.hash(this.password, salt);
+  try {
+    const salt = await bcryptjs.genSalt(10);
+    this.password = await bcryptjs.hash(this.password, salt);
+    const negeriNum = emailGen[this.negeri].kodNegeri;
+    const daerahNum = emailGen[this.negeri].daerah[this.daerah];
+    const currentRunningNumber = await Runningnumber.findOne({
+      jenis: this.kodFasiliti,
+      negeri: this.negeri,
+    });
+    const newRunningNumber = currentRunningNumber.runningnumber + 1;
+    const email = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber}@moh.gov.my`;
+    this.email = email;
+    const updateRunningNumber = await Runningnumber.findByIdAndUpdate(
+      currentRunningNumber._id,
+      { runningnumber: newRunningNumber },
+      { new: true }
+    );
+    console.log(updateRunningNumber);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 UserSchema.methods.createJWT = function () {
