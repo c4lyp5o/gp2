@@ -15,6 +15,7 @@ export default function Data({ FType }) {
   const { Dictionary, getTokenized } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
+  const [klinik, setKlinik] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [daerah, setDaerah] = useState([]);
@@ -43,7 +44,29 @@ export default function Data({ FType }) {
         setLoading(false);
       }
     };
-    fetchData();
+    const fetchKlinik = async () => {
+      try {
+        const response = await fetch(`/api/v1/superadmin/newroute`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            token: getTokenized(),
+            type: 'klinik',
+          }),
+        });
+        const json = await response.json();
+        setKlinik(json.data);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData().then(() => {
+      if (FType !== 'klinik' && FType !== 'pegawai') {
+        fetchKlinik();
+      }
+    });
   }, []);
 
   function Klinik() {
@@ -61,7 +84,7 @@ export default function Data({ FType }) {
             </tr>
           </thead>
           <tbody>
-            {data.fasilitisByType.map((kp, index) => (
+            {data.map((kp, index) => (
               <tr>
                 <td className='border border-slate-700'>{index + 1}</td>
                 <td className='border border-slate-700'>{kp.nama}</td>
@@ -109,7 +132,7 @@ export default function Data({ FType }) {
               </tr>
             </thead>
             <tbody>
-              {data.listOperatorByDaerah.map((o, index) => (
+              {data.map((o, index) => (
                 <tr>
                   <td className='border border-slate-700'>{index + 1}</td>
                   <td className='border border-slate-700 px-3'>{o.nama}</td>
@@ -152,7 +175,7 @@ export default function Data({ FType }) {
   function Facility() {
     const [pilihanKlinik, setPilihanKlinik] = useState('');
 
-    const namaKliniks = data.fasilitisByType.reduce(
+    const namaKliniks = klinik.reduce(
       (arrNamaKliniks, singleFasilitis) => {
         if (!arrNamaKliniks.includes(singleFasilitis.handler)) {
           arrNamaKliniks.push(singleFasilitis.handler);
