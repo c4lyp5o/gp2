@@ -32,6 +32,7 @@ const genRouter = require('./routes/generateRouter');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
+const { apiKeyVerifier } = require('./middlewares/apiKeyVerifier');
 
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');

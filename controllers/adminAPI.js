@@ -21,110 +21,197 @@ exports.getData = async (req, res, next) => {
       message: 'This is the get data route',
     });
   } else {
-    console.log(req.body);
-    const { FType, token } = req.body;
+    console.log('new fn! with body', req.body);
+    var { Fn, FType, Data, token, Id } = req.body;
+    const theType = Dictionary[FType];
     const dataGeografik = {
       daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
       negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
     };
-    const theType = Dictionary[FType];
-    // console.log(req.body.FType, req.body.daerah, req.body.negeri, theType);
-    switch (theType) {
-      case 'klinik':
-        // console.log('klinik');
-        try {
-          const klinik = await Fasiliti.find({
+    switch (Fn) {
+      case 'create':
+        if (theType !== 'pegawai') {
+          Data = { ...Data, jenisFasility: theType, ...dataGeografik };
+          const data = await Fasiliti.create(Data);
+          res.status(200).json(data);
+        }
+        if (theType === 'pegawai') {
+          Data = {
+            ...Data,
+            createdByDaerah: dataGeografik.daerah,
+            createdByNegeri: dataGeografik.negeri,
+          };
+          const data = await Operator.create(Data);
+          res.status(200).json(data);
+        }
+        break;
+      case 'read':
+        console.log('read for ', theType);
+        if (theType !== 'pegawai') {
+          const data = await Fasiliti.find({
             jenisFasiliti: theType,
             dataGeografik,
           });
-          // console.log(klinik);
-          res.status(200).json(klinik);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
+          res.status(200).json(data);
+        }
+        if (theType === 'pegawai') {
+          const data = await Operator.find({
+            createdByDaerah: dataGeografik.daerah,
+            createdByNegeri: dataGeografik.negeri,
+          });
+          res.status(200).json(data);
         }
         break;
-      case 'pegawai':
-        try {
-          const pegawai = await Operator.find({
-            createdByDaerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-            createdByNegeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+      case 'readOne':
+        if (theType !== 'pegawai') {
+          const data = await Fasiliti.findById({
+            _id: id,
           });
-          console.log(pegawai);
-          res.status(200).json(pegawai);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
+          res.status(200).json(data);
+        }
+        if (theType === 'pegawai') {
+          const data = await Operator.findById({
+            _id: id,
+          });
+          res.status(200).json(data);
         }
         break;
-      case 'taska':
-        try {
-          const taska = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(taska);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
+      case 'update':
+        if (theType !== 'pegawai') {
+          const data = await Fasiliti.findByIdAndUpdate(
+            { _id: Id },
+            { $set: Data },
+            { new: true }
+          );
+          res.status(200).json(data);
+        }
+        if (theType === 'pegawai') {
+          const data = await Operator.findByIdAndUpdate(
+            { _id: Id },
+            { $set: Data },
+            { new: true }
+          );
+          res.status(200).json(data);
         }
         break;
-      case 'tadika':
-        try {
-          const tadika = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(tadika);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
+      case 'delete':
+        if (theType !== 'pegawai') {
+          const data = await Fasiliti.findByIdAndDelete({ _id: Id });
+          res.status(200).json(data);
         }
-        break;
-      case 'sekolah-rendah':
-        try {
-          const sr = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(sr);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
-        }
-        break;
-      case 'sekolah-menengah':
-        try {
-          const sm = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(sm);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
-        }
-        break;
-      case 'institusi':
-        try {
-          const ins = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(ins);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
-        }
-        break;
-      case 'kp-bergerak':
-        try {
-          const kpb = await Fasiliti.find({
-            jenisFasiliti: theType,
-            dataGeografik,
-          });
-          res.status(200).json(kpb);
-        } catch (error) {
-          res.status(500).json({ message: error.message });
+        if (theType === 'pegawai') {
+          const data = await Operator.findByIdAndDelete({ _id: Id });
+          res.status(200).json(data);
         }
         break;
       default:
-        res.status(500).json({ message: 'Invalid Fasiliti Type' });
-        break;
+        res.status(200).json({
+          message: 'This is the default case',
+        });
     }
+    // const { FType, token } = req.body;
+    // const dataGeografik = {
+    //   daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+    //   negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+    // };
+    // const theType = Dictionary[FType];
+    // // console.log(req.body.FType, req.body.daerah, req.body.negeri, theType);
+    // switch (theType) {
+    //   case 'klinik':
+    //     // console.log('klinik');
+    //     try {
+    //       const klinik = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       // console.log(klinik);
+    //       res.status(200).json(klinik);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'pegawai':
+    //     try {
+    // const pegawai = await Operator.find({
+    //   createdByDaerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+    //   createdByNegeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+    // });
+    // console.log(pegawai);
+    // res.status(200).json(pegawai);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'taska':
+    //     try {
+    //       const taska = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(taska);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'tadika':
+    //     try {
+    //       const tadika = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(tadika);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'sekolah-rendah':
+    //     try {
+    //       const sr = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(sr);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'sekolah-menengah':
+    //     try {
+    //       const sm = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(sm);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'institusi':
+    //     try {
+    //       const ins = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(ins);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   case 'kp-bergerak':
+    //     try {
+    //       const kpb = await Fasiliti.find({
+    //         jenisFasiliti: theType,
+    //         dataGeografik,
+    //       });
+    //       res.status(200).json(kpb);
+    //     } catch (error) {
+    //       res.status(500).json({ message: error.message });
+    //     }
+    //     break;
+    //   default:
+    //     res.status(500).json({ message: 'Invalid Fasiliti Type' });
+    //     break;
+    // }
   }
 };
 

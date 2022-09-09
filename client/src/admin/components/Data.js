@@ -1,6 +1,6 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
-// import Add from './Add';
+import Add from './Add';
 // import Edit from './Edit';
 // import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
@@ -27,22 +27,21 @@ export default function Data({ FType }) {
   const [showFasiliti, setShowFasiliti] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    setData([]);
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/v1/superadmin/newroute`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            // 'x-api-key': process.env.REACT_APP_API_KEY,
           },
           body: JSON.stringify({
             token: getTokenized(),
+            Fn: 'read',
             FType: FType,
           }),
         });
         const json = await response.json();
-        console.log(json);
         setData(json);
       } catch (error) {
         setError(error);
@@ -54,14 +53,15 @@ export default function Data({ FType }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            // 'x-api-key': process.env.REACT_APP_API_KEY,
           },
           body: JSON.stringify({
             token: getTokenized(),
+            Fn: 'read',
             FType: 'kp',
           }),
         });
         const json = await response.json();
-        // console.log(json);
         setKlinik(json);
       } catch (error) {
         setError(error);
@@ -299,7 +299,7 @@ export default function Data({ FType }) {
     return <div>Error! Refer react dev tools under Query</div>;
   }
 
-  if (!loading && data) {
+  if (!loading) {
     return (
       <>
         {FType === 'kp' && <Klinik />}
@@ -317,10 +317,14 @@ export default function Data({ FType }) {
             <FaPlus />
           </div>
         </button>
-        {/* {showAddModal && (
-          <Add setShowAddModal={setShowAddModal} Ftype={FType} />
+        {showAddModal && (
+          <Add
+            setShowAddModal={setShowAddModal}
+            FType={FType}
+            daerah={daerah}
+          />
         )}
-        {showEditModal && (
+        {/* {showEditModal && (
           <Edit setShowEditModal={setShowEditModal} Ftype={FType} id={id} />
         )}
         {showDeleteModal && (
