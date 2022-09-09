@@ -10,6 +10,14 @@ export const Dictionary = {
   ins: 'Institusi',
 };
 
+export async function newRoute(query) {
+  let response = await axios.post(`/api/v1/superadmin/newroute`, {
+    token: getTokenized(),
+    query,
+  });
+  return response;
+}
+
 export async function getCurrentUser() {
   let response = await axios.post(`/api/v1/superadmin/getuser`, {
     token: getTokenized(),

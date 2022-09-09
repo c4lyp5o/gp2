@@ -5,8 +5,8 @@ const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const Dictionary = {
-  klinik: 'klinik',
-  pegawai: 'pegawai',
+  kp: 'klinik',
+  peg: 'pegawai',
   taska: 'taska',
   tadika: 'tadika',
   sr: 'sekolah-rendah',
@@ -18,20 +18,26 @@ const Dictionary = {
 exports.getData = async (req, res, next) => {
   if (req.method === 'GET') {
     res.status(200).json({
-      message: 'Hello World',
+      message: 'This is the get data route',
     });
   } else {
     console.log(req.body);
-    const { FType, daerah, negeri } = req.body;
+    const { FType, token } = req.body;
+    const dataGeografik = {
+      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+    };
     const theType = Dictionary[FType];
+    // console.log(req.body.FType, req.body.daerah, req.body.negeri, theType);
     switch (theType) {
       case 'klinik':
+        // console.log('klinik');
         try {
           const klinik = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
+          // console.log(klinik);
           res.status(200).json(klinik);
         } catch (error) {
           res.status(500).json({ message: error.message });
@@ -40,9 +46,10 @@ exports.getData = async (req, res, next) => {
       case 'pegawai':
         try {
           const pegawai = await Operator.find({
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
+            createdByDaerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+            createdByNegeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
           });
+          console.log(pegawai);
           res.status(200).json(pegawai);
         } catch (error) {
           res.status(500).json({ message: error.message });
@@ -52,8 +59,7 @@ exports.getData = async (req, res, next) => {
         try {
           const taska = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(taska);
         } catch (error) {
@@ -64,8 +70,7 @@ exports.getData = async (req, res, next) => {
         try {
           const tadika = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(tadika);
         } catch (error) {
@@ -76,8 +81,7 @@ exports.getData = async (req, res, next) => {
         try {
           const sr = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(sr);
         } catch (error) {
@@ -88,8 +92,7 @@ exports.getData = async (req, res, next) => {
         try {
           const sm = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(sm);
         } catch (error) {
@@ -100,8 +103,7 @@ exports.getData = async (req, res, next) => {
         try {
           const ins = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(ins);
         } catch (error) {
@@ -112,8 +114,7 @@ exports.getData = async (req, res, next) => {
         try {
           const kpb = await Fasiliti.find({
             jenisFasiliti: theType,
-            daerah,
-            negeri,
+            dataGeografik,
           });
           res.status(200).json(kpb);
         } catch (error) {
@@ -130,7 +131,7 @@ exports.getData = async (req, res, next) => {
 exports.addData = async (req, res) => {
   if (req.method === 'GET') {
     res.status(200).json({
-      message: 'Hello World',
+      message: 'This is the add data route',
     });
   } else {
     const { FType, daerah, negeri, data } = req.body;
@@ -249,7 +250,7 @@ exports.addData = async (req, res) => {
 exports.updateData = async (req, res) => {
   if (req.method === 'GET') {
     res.status(200).json({
-      message: 'Hello World',
+      message: 'This is the update data route',
     });
   } else {
     const { FType, daerah, negeri, data } = req.body;
@@ -424,7 +425,7 @@ exports.updateData = async (req, res) => {
 exports.deleteData = async (req, res) => {
   if (req.method === 'GET') {
     res.status(200).json({
-      message: 'Hello World',
+      message: 'This is the delete data route',
     });
   } else {
     const { Id } = req.body;
@@ -582,11 +583,7 @@ exports.getCurrentUser = async (req, res) => {
     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
   };
-  res.status(200).json({
-    status: 'success',
-    message: 'Data user berjaya diambil',
-    data: data,
-  });
+  res.status(200).json(data);
 };
 
 exports.listKp = (req, res) => {

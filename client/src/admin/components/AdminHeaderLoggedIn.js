@@ -10,8 +10,8 @@ function AdminHeaderLoggedIn() {
 
   useEffect(() => {
     getCurrentUser().then((res) => {
-      setUser(res.data.data.username);
-      setDaerah(res.data.data.daerah);
+      setUser(res.data.username);
+      setDaerah(res.data.daerah);
     });
   }, []);
 

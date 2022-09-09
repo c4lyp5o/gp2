@@ -1,8 +1,8 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
-import Add from './Add';
-import Edit from './Edit';
-import Delete from './Delete';
+// import Add from './Add';
+// import Edit from './Edit';
+// import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
 export default function Data({ FType }) {
@@ -12,18 +12,23 @@ export default function Data({ FType }) {
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState('');
 
-  const { Dictionary, getTokenized } = useGlobalAdminAppContext();
+  const { Dictionary, getTokenized, getCurrentUser } =
+    useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [klinik, setKlinik] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [daerah, setDaerah] = useState([]);
+  const [daerah, setDaerah] = useState(null);
+  const [negeri, setNegeri] = useState(null);
+  const [user, setUser] = useState(null);
   const [showKlinik, setShowKlinik] = useState(false);
   const [showPegawai, setShowPegawai] = useState(false);
   const [showFasiliti, setShowFasiliti] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setData([]);
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/v1/superadmin/newroute`, {
@@ -33,15 +38,14 @@ export default function Data({ FType }) {
           },
           body: JSON.stringify({
             token: getTokenized(),
-            type: FType,
+            FType: FType,
           }),
         });
         const json = await response.json();
-        setData(json.data);
+        console.log(json);
+        setData(json);
       } catch (error) {
         setError(error);
-      } finally {
-        setLoading(false);
       }
     };
     const fetchKlinik = async () => {
@@ -53,21 +57,40 @@ export default function Data({ FType }) {
           },
           body: JSON.stringify({
             token: getTokenized(),
-            type: 'klinik',
+            FType: 'kp',
           }),
         });
         const json = await response.json();
-        setKlinik(json.data);
+        // console.log(json);
+        setKlinik(json);
       } catch (error) {
         setError(error);
       }
     };
-    fetchData().then(() => {
-      if (FType !== 'klinik' && FType !== 'pegawai') {
-        fetchKlinik();
-      }
+    getCurrentUser().then((res) => {
+      setDaerah(res.data.daerah);
+      setNegeri(res.data.negeri);
+      setUser(res.data.nama);
     });
-  }, []);
+    fetchData()
+      .then(() => {
+        if (FType !== 'kp' && FType !== 'peg') {
+          fetchKlinik();
+        }
+        if (FType === 'peg') {
+          setShowPegawai(true);
+        } else if (FType === 'kp') {
+          setShowKlinik(true);
+        } else {
+          setShowFasiliti(true);
+        }
+      })
+      .then(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      });
+  }, [FType, getTokenized, getCurrentUser]);
 
   function Klinik() {
     return (
@@ -175,7 +198,7 @@ export default function Data({ FType }) {
   function Facility() {
     const [pilihanKlinik, setPilihanKlinik] = useState('');
 
-    const namaKliniks = klinik.reduce(
+    const namaKliniks = data.reduce(
       (arrNamaKliniks, singleFasilitis) => {
         if (!arrNamaKliniks.includes(singleFasilitis.handler)) {
           arrNamaKliniks.push(singleFasilitis.handler);
@@ -198,8 +221,7 @@ export default function Data({ FType }) {
                 Nama {Dictionary[FType]}
               </th>
               <th className='border border-slate-600 px-10'>Nama Klinik</th>
-              {Dictionary[FType] !== 'sekolah-rendah' &&
-              Dictionary[FType] !== 'sekolah-menengah' ? null : (
+              {FType !== 'sr' && FType !== 'sm' ? null : (
                 <th className='border border-slate-600 px-3'>PERSiS</th>
               )}
               <th className='border border-slate-600 px-3'>Manage</th>
@@ -220,7 +242,7 @@ export default function Data({ FType }) {
             ))}
           </select>
           <tbody>
-            {data.fasilitisByType
+            {data
               .filter((fs) => {
                 return fs.handler.includes(pilihanKlinik);
               })
@@ -229,8 +251,7 @@ export default function Data({ FType }) {
                   <td className='border border-slate-600 px-3'>{index + 1}</td>
                   <td className='border border-slate-600 px-20'>{f.nama}</td>
                   <td className='border border-slate-600 px-10'>{f.handler}</td>
-                  {Dictionary[FType] !== 'sekolah-rendah' &&
-                  Dictionary[FType] !== 'sekolah-menengah' ? null : (
+                  {FType !== 'sr' && FType !== 'sm' ? null : (
                     <td className='border border-slate-600 px-3'>
                       {f.risikoSekolahPersis}
                     </td>
@@ -278,12 +299,12 @@ export default function Data({ FType }) {
     return <div>Error! Refer react dev tools under Query</div>;
   }
 
-  if (!loading) {
+  if (!loading && data) {
     return (
       <>
-        {FType === 'klinik' && <Klinik />}
+        {FType === 'kp' && <Klinik />}
         {FType === 'peg' && <Pegawai />}
-        {FType !== 'peg' && FType !== 'klinik' && <Facility />}
+        {FType !== 'kp' && FType !== 'peg' && <Facility />}
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={() => {
@@ -296,7 +317,7 @@ export default function Data({ FType }) {
             <FaPlus />
           </div>
         </button>
-        {showAddModal && (
+        {/* {showAddModal && (
           <Add setShowAddModal={setShowAddModal} Ftype={FType} />
         )}
         {showEditModal && (
@@ -309,7 +330,7 @@ export default function Data({ FType }) {
             deleteCandidate={deleteCandidate}
             id={id}
           />
-        )}
+        )} */}
       </>
     );
   }
