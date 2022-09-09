@@ -2,7 +2,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import Add from './Add';
 // import Edit from './Edit';
-// import Delete from './Delete';
+import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
 export default function Data({ FType }) {
@@ -326,15 +326,15 @@ export default function Data({ FType }) {
         )}
         {/* {showEditModal && (
           <Edit setShowEditModal={setShowEditModal} Ftype={FType} id={id} />
-        )}
+        )} */}
         {showDeleteModal && (
           <Delete
             setShowDeleteModal={setShowDeleteModal}
-            Ftype={FType}
+            FType={FType}
             deleteCandidate={deleteCandidate}
             id={id}
           />
-        )} */}
+        )}
       </>
     );
   }
