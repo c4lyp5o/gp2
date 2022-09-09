@@ -30,8 +30,14 @@ exports.getData = async (req, res, next) => {
     };
     switch (Fn) {
       case 'create':
+        console.log('create for', theType);
         if (theType !== 'pegawai') {
-          Data = { ...Data, jenisFasility: theType, ...dataGeografik };
+          Data = {
+            ...Data,
+            jenisFasiliti: theType,
+            createdByDaerah: dataGeografik.daerah,
+            createdByNegeri: dataGeografik.negeri,
+          };
           const data = await Fasiliti.create(Data);
           res.status(200).json(data);
         }
@@ -46,7 +52,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'read':
-        console.log('read for ', theType);
+        console.log('read for', theType);
         if (theType !== 'pegawai') {
           const data = await Fasiliti.find({
             jenisFasiliti: theType,
@@ -63,6 +69,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'readOne':
+        console.log('readOne for', theType);
         if (theType !== 'pegawai') {
           const data = await Fasiliti.findById({
             _id: id,
@@ -77,6 +84,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'update':
+        console.log('update for', theType);
         if (theType !== 'pegawai') {
           const data = await Fasiliti.findByIdAndUpdate(
             { _id: Id },
@@ -95,6 +103,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'delete':
+        console.log('delete for', theType);
         if (theType !== 'pegawai') {
           const data = await Fasiliti.findByIdAndDelete({ _id: Id });
           res.status(200).json(data);

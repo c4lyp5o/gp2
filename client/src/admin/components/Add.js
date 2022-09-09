@@ -23,18 +23,28 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let Data = {};
-    setShowAddModal(false);
+    Data = {
+      ...Data,
+      nama: currentName.current,
+      handler: currentKp.current,
+    };
     if (FType === 'peg') {
       Data = {
-        ...Data,
         nama: currentName.current,
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
       };
     }
-    if (FType === 'klinik') {
-      Data = { ...Data, nama: currentName.current };
+    if (FType === 'kp') {
+      Data = { nama: currentName.current };
+    }
+    if (FType === 'sr' || FType === 'sm') {
+      Data = {
+        ...Data,
+        kodSekolah: currentKodSekolah.current,
+        risikoSekolahPersis: currentRisiko.current,
+      };
     }
     const token = getTokenized();
     console.log(Data);
@@ -54,6 +64,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     //   draggable: true,
     //   progress: undefined,
     // });
+    setShowAddModal(false);
   };
 
   const [sekolah, setSekolah] = useState([]);
