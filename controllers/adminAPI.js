@@ -72,13 +72,13 @@ exports.getData = async (req, res, next) => {
         console.log('readOne for', theType);
         if (theType !== 'pegawai') {
           const data = await Fasiliti.findById({
-            _id: id,
+            _id: Id,
           });
           res.status(200).json(data);
         }
         if (theType === 'pegawai') {
           const data = await Operator.findById({
-            _id: id,
+            _id: Id,
           });
           res.status(200).json(data);
         }
@@ -514,22 +514,6 @@ exports.updateData = async (req, res) => {
       default:
         res.status(500).json({ message: 'Invalid Fasiliti Type' });
         break;
-    }
-  }
-};
-
-exports.deleteData = async (req, res) => {
-  if (req.method === 'GET') {
-    res.status(200).json({
-      message: 'This is the delete data route',
-    });
-  } else {
-    const { Id } = req.body;
-    try {
-      const deleted = await Fasiliti.findByIdAndDelete(Id);
-      res.status(200).json(deleted);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
     }
   }
 };

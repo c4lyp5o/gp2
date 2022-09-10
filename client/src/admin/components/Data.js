@@ -1,7 +1,7 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import Add from './Add';
-// import Edit from './Edit';
+import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
@@ -102,7 +102,11 @@ export default function Data({ FType }) {
           <thead>
             <tr>
               <th className='border border-slate-600'>Bil.</th>
+              <th className='border border-slate-600'>Kod Fasiliti</th>
               <th className='border border-slate-600'>Nama KP</th>
+              <th className='border border-slate-600'>Role KP</th>
+              <th className='border border-slate-600'>Emel KP</th>
+              <th className='border border-slate-600'>Status KP</th>
               <th className='border border-slate-600'>Manage</th>
             </tr>
           </thead>
@@ -111,7 +115,11 @@ export default function Data({ FType }) {
               <tr>
                 <td className='border border-slate-700'>{index + 1}</td>
                 <td className='border border-slate-700'>{kp.nama}</td>
+                <td className='border border-slate-700'>Kode here</td>
+                <td className='border border-slate-700'>Role here</td>
+                <td className='border border-slate-700'>Email here</td>
                 <td className='border border-slate-700'>
+                  Status here
                   <div>
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
@@ -324,9 +332,9 @@ export default function Data({ FType }) {
             daerah={daerah}
           />
         )}
-        {/* {showEditModal && (
-          <Edit setShowEditModal={setShowEditModal} Ftype={FType} id={id} />
-        )} */}
+        {showEditModal && (
+          <Edit setShowEditModal={setShowEditModal} FType={FType} id={id} />
+        )}
         {showDeleteModal && (
           <Delete
             setShowDeleteModal={setShowDeleteModal}

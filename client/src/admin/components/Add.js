@@ -139,20 +139,59 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
               <div className={styles.modalContent}>
                 <div className='admin-pegawai-handler-container'>
                   <div className='admin-pegawai-handler-input'>
-                    <p>
-                      Nama Klinik Pergigian{' '}
-                      <span className='font-semibold text-lg text-admin3'>
-                        *
-                      </span>
-                    </p>
+                    <p>Nama Klinik Pergigian</p>
                     <input
                       className='border-2'
                       type='text'
                       name='Nama'
                       id='nama'
                       onChange={(e) => (currentName.current = e.target.value)}
-                      required
                     />
+                    <br />
+                    <p>Role Klinik Pergigian</p>
+                    <div className='flex items-center'>
+                      <input
+                        className='mr-2'
+                        type='checkbox'
+                        name='checkbox'
+                        value='KEPP'
+                      />
+                      KEPP
+                      <input
+                        className='mr-2'
+                        type='checkbox'
+                        name='checkbox'
+                        value='UTC'
+                      />
+                      UTC
+                      <input
+                        className='mr-2'
+                        type='checkbox'
+                        name='checkbox'
+                        value='RTC'
+                      />
+                      RTC
+                      <input
+                        className='mr-2'
+                        type='checkbox'
+                        name='checkbox'
+                        value='Visiting'
+                      />
+                      Visiting
+                    </div>
+                    <br />
+                    <p>Status Klinik Pergigian</p>
+                    <div className={styles.modalContent}>
+                      <input type='checkbox' name='checkbox' value='active' />
+                      Aktif
+                      <br />
+                      <input
+                        type='checkbox'
+                        name='checkbox'
+                        value='nonactive'
+                      />
+                      Tidak Aktif
+                    </div>
                   </div>
                 </div>
               </div>
