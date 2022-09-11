@@ -7,18 +7,18 @@ import axios from 'axios';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowAddModal, FType, daerah }) => {
-  const { Dictionary, getTokenized } = useGlobalAdminAppContext();
+  const { Dictionary, getTokenized, toast } = useGlobalAdminAppContext();
 
   const currentName = useRef();
+  const currentStatusPerkhidmatan = useRef();
   const currentKodSekolah = useRef();
   const currentKp = useRef();
   const currentGred = useRef();
-  const currentRole = useRef();
-  const currentKeppStatus = useRef();
+  const currentRole = useRef('');
   const currentRisiko = useRef();
   const [klinik, setKlinik] = useState([]);
+  const [sekolah, setSekolah] = useState([]);
   const [loading, setLoading] = useState(true);
-  //   const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +37,14 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
       };
     }
     if (FType === 'kp') {
-      Data = { nama: currentName.current };
+      if (currentRole.current === '') {
+        currentRole.current = 'klinik';
+      }
+      Data = {
+        nama: currentName.current,
+        statusRoleKlinik: currentRole.current,
+        statusPerkhidmatan: currentStatusPerkhidmatan.current,
+      };
     }
     if (FType === 'sr' || FType === 'sm') {
       Data = {
@@ -55,19 +62,30 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
       token,
     });
     console.log(res);
-    // toast.info(`Data berjaya ditambah`, {
-    //   position: 'top-right',
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    // });
-    setShowAddModal(false);
+    if (res.statusText === 'OK') {
+      toast.info(`Data berjaya ditambah`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setShowAddModal(false);
+    } else {
+      toast.error(`Data tidak berjaya ditambah`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setShowAddModal(false);
+    }
   };
-
-  const [sekolah, setSekolah] = useState([]);
 
   useEffect(() => {
     const getSR = () => {
@@ -117,7 +135,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     }, 1000);
   }, [FType, getTokenized]);
 
-  function AddKlinik() {
+  function Klinik() {
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -151,64 +169,67 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                     <p>Role Klinik Pergigian</p>
                     <div className='flex items-center'>
                       <input
+                        type='radio'
                         className='mr-2'
-                        type='checkbox'
+                        id='role'
                         name='checkbox'
                         value='KEPP'
+                        onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       KEPP
                       <input
+                        type='radio'
                         className='mr-2'
-                        type='checkbox'
+                        id='role'
                         name='checkbox'
                         value='UTC'
+                        onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       UTC
                       <input
+                        type='radio'
                         className='mr-2'
-                        type='checkbox'
+                        id='role'
                         name='checkbox'
                         value='RTC'
+                        onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       RTC
                       <input
+                        type='radio'
                         className='mr-2'
-                        type='checkbox'
+                        id='role'
                         name='checkbox'
                         value='Visiting'
+                        onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       Visiting
                     </div>
                     <br />
                     <p>Status Klinik Pergigian</p>
                     <div className={styles.modalContent}>
-                      <input type='checkbox' name='checkbox' value='active' />
+                      <input
+                        type='checkbox'
+                        name='checkbox'
+                        value='active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
+                      />
                       Aktif
                       <br />
                       <input
                         type='checkbox'
                         name='checkbox'
-                        value='nonactive'
+                        value='non-active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
                       />
                       Tidak Aktif
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.modalContent}>
-                <input
-                  type='checkbox'
-                  name='checkbox'
-                  value='KEPP'
-                  onChange={(e) => (currentKeppStatus.current = true)}
-                />
-                KEPP
-                <br />
-                <input type='checkbox' name='checkbox' value='UTC' />
-                UTC
-                <br />
-                <input type='checkbox' name='checkbox' value='visiting' />
-                Visiting
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
@@ -230,7 +251,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     );
   }
 
-  function AddPegawai() {
+  function Pegawai() {
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -343,7 +364,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     );
   }
 
-  function AddFacility() {
+  function Facility() {
     return (
       <>
         <form onSubmit={handleSubmit}>
@@ -457,23 +478,24 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     );
   }
 
-  //   if (!loading) {
-  //     return (
-  //       <div>
-  //         <Ring />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (!klinik) {
-  //     return <div>Error!</div>;
-  //   }
+  if (loading) {
+    return (
+      <>
+        <div className={styles.darkBG} />
+        <div className={styles.modalContent}>
+          <div className={styles.centered}>
+            <Ring size={100} />
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-      {FType === 'kp' && <AddKlinik />}
-      {FType === 'peg' && <AddPegawai />}
-      {FType !== 'kp' && FType !== 'peg' && <AddFacility />}
+      {FType === 'kp' && <Klinik />}
+      {FType === 'peg' && <Pegawai />}
+      {FType !== 'kp' && FType !== 'peg' && <Facility />}
     </>
   );
 };

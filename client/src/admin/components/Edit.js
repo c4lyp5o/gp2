@@ -1,13 +1,14 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useEffect, useRef, useState } from 'react';
-import { Ring, Spinner } from 'react-awesome-spinners';
+import { Ring } from 'react-awesome-spinners';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowEditModal, id, FType }) => {
-  const { Dictionary, getTokenized } = useGlobalAdminAppContext();
+  const { getTokenized, toast } = useGlobalAdminAppContext();
 
   const currentKp = useRef();
+  const currentStatusPerkhidmatan = useRef();
   const currentGred = useRef();
   const currentRole = useRef();
   const currentRisiko = useRef();
@@ -55,46 +56,207 @@ const Modal = ({ setShowEditModal, id, FType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (jenisFacility !== 'pegawai') {
-    //   await updateFacility({
-    //     variables: {
-    //       _id: id,
-    //       nama: data.facOrPeg.nama,
-    //       negeri: data.facOrPeg.negeri,
-    //       daerah: daerah,
-    //       handler: currentKp.current,
-    //       jenisFasiliti: jenisFacility,
-    //       keppStatus: data.facOrPeg.keppStatus,
-    //       risikoSekolahPersis: currentRisiko.current,
-    //     },
-    //   });
-    //   refetchFacilities();
+    let Data = {};
+    Data = {
+      ...Data,
+      // nama: currentName.current,
+      handler: currentKp.current,
+    };
+    if (FType === 'peg') {
+      Data = {
+        // nama: currentName.current,
+        gred: currentGred.current,
+        kpSkrg: currentKp.current,
+        role: currentRole.current,
+      };
+    }
+    if (FType === 'kp') {
+      if (currentRole.current === '') {
+        currentRole.current = 'klinik';
+      }
+      Data = {
+        // nama: currentName.current,
+        statusRoleKlinik: currentRole.current,
+        statusPerkhidmatan: currentStatusPerkhidmatan.current,
+      };
+    }
+    // if (FType === 'sr' || FType === 'sm') {
+    //   Data = {
+    //     ...Data,
+    //     kodSekolah: currentKodSekolah.current,
+    //     risikoSekolahPersis: currentRisiko.current,
+    //   };
     // }
-    // if (jenisFacility === 'pegawai') {
-    //   await updateOperator({
-    //     variables: {
-    //       _id: id,
-    //       nama: data.facOrPeg.nama,
-    //       negeri: data.facOrPeg.negeri,
-    //       daerah: data.facOrPeg.daerah,
-    //       kpSkrg: currentKp.current,
-    //       gred: currentGred.current,
-    //       role: currentRole.current,
-    //     },
-    //   });
-    //   refetchOperators();
-    // }
-    setShowEditModal(false);
-    // toast.info(`Data berjaya dikemaskini`, {
-    //   position: 'top-right',
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
+    console.log(Data);
+    // const res = await axios.post(`/api/v1/superadmin/newroute`, {
+    //   Fn: 'create',
+    //   FType,
+    //   Data,
+    //   token,
     // });
+    const response = await fetch(`/api/v1/superadmin/newroute`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${getTokenized()}`,
+      },
+      body: JSON.stringify({
+        Fn: 'update',
+        FType,
+        Data,
+        Id: id,
+        token: getTokenized(),
+      }),
+    });
+    console.log(response);
+    if (response.ok) {
+      toast.success('Berjaya mengemaskini data');
+    } else {
+      toast.error('Gagal mengemaskini data');
+    }
+    setShowEditModal(false);
   };
+
+  function Klinik() {
+    return (
+      <>
+        <form onSubmit={handleSubmit}>
+          <div
+            className={styles.darkBG}
+            onClick={() => setShowEditModal(false)}
+          />
+          <div className={styles.centered}>
+            <div className={styles.modalAdd}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
+              </div>
+              <span
+                className={styles.closeBtn}
+                onClick={() => setShowEditModal(false)}
+              >
+                <RiCloseLine style={{ marginBottom: '-3px' }} />
+              </span>
+              <div className={styles.modalContent}>
+                <div className='admin-pegawai-handler-container'>
+                  <div className='admin-pegawai-handler-input'>
+                    <p>Nama Klinik Pergigian</p>
+                    <input
+                      className='border-2'
+                      defaultValue={editedEntity.nama}
+                      type='text'
+                      name='Nama'
+                      id='nama'
+                      // onChange={(e) => (currentName.current = e.target.value)}
+                    />
+                    <br />
+                    <p>Role Klinik Pergigian</p>
+                    <div className='items-center'>
+                      <input
+                        defaultChecked={
+                          editedEntity.statusRoleKlinik === 'KEPP'
+                            ? true
+                            : false
+                        }
+                        type='radio'
+                        id='role'
+                        name='role'
+                        value='KEPP'
+                        onChange={(e) => (currentRole.current = e.target.value)}
+                      />
+                      KEPP
+                      <input
+                        defaultChecked={
+                          editedEntity.statusRoleKlinik === 'UTC' ? true : false
+                        }
+                        type='radio'
+                        id='role'
+                        name='role'
+                        value='UTC'
+                        onChange={(e) => (currentRole.current = e.target.value)}
+                      />
+                      UTC
+                      <input
+                        defaultChecked={
+                          editedEntity.statusRoleKlinik === 'RTC' ? true : false
+                        }
+                        type='radio'
+                        id='role'
+                        name='role'
+                        value='RTC'
+                        onChange={(e) => (currentRole.current = e.target.value)}
+                      />
+                      RTC
+                      <input
+                        defaultChecked={
+                          editedEntity.statusRoleKlinik === 'visiting'
+                            ? true
+                            : false
+                        }
+                        type='radio'
+                        id='role'
+                        name='role'
+                        value='visiting'
+                        onChange={(e) => (currentRole.current = e.target.value)}
+                      />
+                      Visiting
+                    </div>
+                    <br />
+                    <p>Status Klinik Pergigian</p>
+                    <div className={styles.modalContent}>
+                      <input
+                        defaultChecked={
+                          editedEntity.statusPerkhidmatan === 'active'
+                            ? true
+                            : false
+                        }
+                        id='statusPerkhidmatan'
+                        name='statusPerkhidmatan'
+                        type='radio'
+                        value='active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
+                      />
+                      Aktif
+                      <br />
+                      <input
+                        defaultChecked={
+                          editedEntity.statusPerkhidmatan === 'non-active'
+                            ? true
+                            : false
+                        }
+                        id='statusPerkhidmatan'
+                        name='statusPerkhidmatan'
+                        type='radio'
+                        value='non-active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
+                      />
+                      Tidak Aktif
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  <button className={styles.deleteBtn} type='submit'>
+                    TAMBAH
+                  </button>
+                  <span
+                    className={styles.cancelBtn}
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Cancel
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
 
   function Pegawai() {
     return (
@@ -225,7 +387,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     onChange={(e) => (currentKp.current = e.target.value)}
                   >
                     <option value=''>Pilih Klinik Baru..</option>
-                    {klinik.map((k, index) => (
+                    {klinik.map((k) => (
                       <option value={k.nama}>{k.nama}</option>
                     ))}
                   </select>
@@ -274,38 +436,20 @@ const Modal = ({ setShowEditModal, id, FType }) => {
     return (
       <>
         <div className={styles.darkBG} />
-        <div className={styles.centered}>
-          <div className={styles.modalEdit}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Loading</h5>
-            </div>
-            <button className={styles.closeBtn}>
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </button>
-            <div className={styles.modalContent}>
-              <div className='admin-pegawai-handler-container'>
-                <div className='admin-pegawai-handler-input'>
-                  <Ring size={100} />
-                </div>
-              </div>
-            </div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}></div>
-            </div>
+        <div className={styles.modalContent}>
+          <div className={styles.centered}>
+            <Ring size={100} />
           </div>
         </div>
       </>
     );
   }
 
-  // if (error) {
-  //   return <div>Error!</div>;
-  // }
-
   return (
     <>
-      {FType !== 'peg' && <Facility />}
+      {FType === 'kp' && <Klinik />}
       {FType === 'peg' && <Pegawai />}
+      {FType !== 'peg' && FType !== 'kp' && <Facility />}
     </>
   );
 };

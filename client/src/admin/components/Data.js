@@ -4,7 +4,9 @@ import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
+import { BiCheck, BiDownArrowAlt } from 'react-icons/bi';
 import { Ring } from 'react-awesome-spinners';
+
 export default function Data({ FType }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -12,11 +14,10 @@ export default function Data({ FType }) {
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState('');
 
-  const { Dictionary, getTokenized, getCurrentUser } =
+  const { Dictionary, getTokenized, getCurrentUser, main } =
     useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
-  const [klinik, setKlinik] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [daerah, setDaerah] = useState(null);
@@ -27,6 +28,7 @@ export default function Data({ FType }) {
   const [showFasiliti, setShowFasiliti] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/v1/superadmin/newroute`, {
@@ -39,58 +41,47 @@ export default function Data({ FType }) {
             token: getTokenized(),
             Fn: 'read',
             FType: FType,
+            main: main,
           }),
         });
         const json = await response.json();
+        console.log(json);
         setData(json);
       } catch (error) {
         setError(error);
       }
     };
-    const fetchKlinik = async () => {
-      try {
-        const response = await fetch(`/api/v1/superadmin/newroute`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // 'x-api-key': process.env.REACT_APP_API_KEY,
-          },
-          body: JSON.stringify({
-            token: getTokenized(),
-            Fn: 'read',
-            FType: 'kp',
-          }),
-        });
-        const json = await response.json();
-        setKlinik(json);
-      } catch (error) {
-        setError(error);
-      }
-    };
+    // const fetchKlinik = async () => {
+    //   try {
+    //     const response = await fetch(`/api/v1/superadmin/newroute`, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         // 'x-api-key': process.env.REACT_APP_API_KEY,
+    //       },
+    //       body: JSON.stringify({
+    //         token: getTokenized(),
+    //         Fn: 'read',
+    //         FType: 'kp',
+    //       }),
+    //     });
+    //     const json = await response.json();
+    //     setKlinik(json);
+    //   } catch (error) {
+    //     setError(error);
+    //   }
+    // };
     getCurrentUser().then((res) => {
       setDaerah(res.data.daerah);
       setNegeri(res.data.negeri);
       setUser(res.data.nama);
     });
-    fetchData()
-      .then(() => {
-        if (FType !== 'kp' && FType !== 'peg') {
-          fetchKlinik();
-        }
-        if (FType === 'peg') {
-          setShowPegawai(true);
-        } else if (FType === 'kp') {
-          setShowKlinik(true);
-        } else {
-          setShowFasiliti(true);
-        }
-      })
-      .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      });
-  }, [FType, getTokenized, getCurrentUser]);
+    fetchData().then(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
+  }, [FType]);
 
   function Klinik() {
     return (
@@ -116,24 +107,47 @@ export default function Data({ FType }) {
                 <td className='border border-slate-700'>{index + 1}</td>
                 <td className='border border-slate-700'>{kp.nama}</td>
                 <td className='border border-slate-700'>Kode here</td>
-                <td className='border border-slate-700'>Role here</td>
+                <td className='border border-slate-700'>
+                  {kp.statusRoleKlinik}
+                </td>
                 <td className='border border-slate-700'>Email here</td>
                 <td className='border border-slate-700'>
-                  Status here
-                  <div>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
-                      id={kp._id}
-                      onClick={(e) => {
-                        setShowDeleteModal(true);
-                        setId(kp._id);
-                        setDeleteCandidate(kp.nama);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  {kp.statusPerkhidmatan === 'active' ? (
+                    <div className='flex items-center justify-center gap-2'>
+                      <span class='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                        Aktif
+                      </span>
+                    </div>
+                  ) : (
+                    <div className='flex items-center justify-center gap-2'>
+                      <span class='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                        Tidak Aktif
+                      </span>
+                    </div>
+                  )}
                 </td>
+                <div>
+                  <button
+                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                    onClick={() => {
+                      setShowEditModal(true);
+                      setId(kp._id);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
+                    id={kp._id}
+                    onClick={(e) => {
+                      setShowDeleteModal(true);
+                      setId(kp._id);
+                      setDeleteCandidate(kp.nama);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </tr>
             ))}
           </tbody>
@@ -295,7 +309,7 @@ export default function Data({ FType }) {
     );
   }
 
-  if (loading) {
+  if (loading || !data) {
     return (
       <div>
         <Ring />

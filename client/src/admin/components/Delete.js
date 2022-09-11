@@ -4,7 +4,7 @@ import styles from '../Modal.module.css';
 import { RiCloseLine } from 'react-icons/ri';
 
 const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
-  const { getTokenized } = useGlobalAdminAppContext();
+  const { getTokenized, toast } = useGlobalAdminAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,15 +23,15 @@ const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
     });
     const data = await res.json();
     console.log(data);
-    // toast.info(`Data berjaya dipadam`, {
-    //   position: 'top-right',
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    // });
+    toast.info(`Data berjaya dipadam`, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     setShowDeleteModal(false);
   };
 

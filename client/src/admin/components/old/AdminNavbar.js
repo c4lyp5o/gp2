@@ -16,7 +16,7 @@ function AdminNavbar() {
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
       >
-        <div className='h-40'></div>
+        <div className='h-28'></div>
         <div className='grid'>
           <NavLink
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'

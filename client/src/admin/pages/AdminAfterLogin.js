@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { Routes, Route } from 'react-router-dom';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
@@ -30,7 +32,33 @@ import Data from '../components/Data';
 import { ToastContainer } from 'react-toastify';
 
 function AdminAfterLogin() {
-  const { token } = useGlobalAdminAppContext();
+  const { navigate, token, getCurrentUser, catchAxiosErrorAndLogout } =
+    useGlobalAdminAppContext();
+  const [loginInfo, setLoginInfo] = useState({
+    isLoggedIn: false,
+    username: '',
+    daerah: '',
+    negeri: '',
+  });
+
+  useEffect(() => {
+    getCurrentUser()
+      .then((res) => {
+        setLoginInfo({
+          isLoggedIn: true,
+          username: res.data.username,
+          daerah: res.data.daerah,
+          negeri: res.data.negeri,
+        });
+      })
+      .catch(() => {
+        setLoginInfo({
+          isLoggedIn: false,
+        });
+        catchAxiosErrorAndLogout();
+        navigate('/admin');
+      });
+  }, []);
 
   if (!token) {
     return <AdminLoginForm />;
@@ -38,7 +66,10 @@ function AdminAfterLogin() {
 
   return (
     <>
-      <AdminHeaderLoggedIn />
+      <AdminHeaderLoggedIn
+        daerah={loginInfo.daerah}
+        user={loginInfo.username}
+      />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <AdminNavbar />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize'>
