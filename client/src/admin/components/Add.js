@@ -3,11 +3,10 @@ import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import { Ring } from 'react-awesome-spinners';
 import axios from 'axios';
-// import { useToast } from 'react-toastify';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowAddModal, FType, daerah }) => {
-  const { Dictionary, getTokenized, toast } = useGlobalAdminAppContext();
+  const { Dictionary, getTokenized, toast, main } = useGlobalAdminAppContext();
 
   const currentName = useRef();
   const currentStatusPerkhidmatan = useRef();
@@ -56,6 +55,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     const token = getTokenized();
     console.log(Data);
     const res = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: main,
       Fn: 'create',
       FType,
       Data,
@@ -110,9 +110,9 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // 'x-api-key': process.env.REACT_APP_API_KEY,
           },
           body: JSON.stringify({
+            main: main,
             token: getTokenized(),
             Fn: 'read',
             FType: 'kp',
@@ -133,7 +133,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [FType, getTokenized]);
+  }, [FType]);
 
   function Klinik() {
     return (
@@ -299,7 +299,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                       className='border-2'
                       onChange={(e) => (currentGred.current = e.target.value)}
                     >
-                      <option value=''>Pilih Klinik</option>
+                      <option value=''>Pilih Gred</option>
                       <option value='jusa'>JUSA</option>
                       <option value='ug56'>UG56</option>
                       <option value='ug54'>UG54</option>

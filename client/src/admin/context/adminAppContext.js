@@ -11,8 +11,10 @@ function AdminAppProvider({ children }) {
   const navigate = useNavigate();
 
   async function getCurrentUser() {
-    let response = await axios.post(`/api/v1/superadmin/getuser`, {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
       token: getTokenized(),
+      main: 'UserCenter',
+      Fn: 'read',
     });
     return response;
   }

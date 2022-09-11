@@ -5,7 +5,7 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowEditModal, id, FType }) => {
-  const { getTokenized, toast } = useGlobalAdminAppContext();
+  const { getTokenized, toast, main } = useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentStatusPerkhidmatan = useRef();
@@ -22,9 +22,9 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Authorization: `Bearer ${getTokenized()}`,
         },
         body: JSON.stringify({
+          main: main,
           Fn: 'readOne',
           FType: FType,
           Id: id,
@@ -40,9 +40,9 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Authorization: `Bearer ${getTokenized()}`,
         },
         body: JSON.stringify({
+          main: main,
           Fn: 'read',
           FType: 'kp',
           token: getTokenized(),
@@ -98,9 +98,9 @@ const Modal = ({ setShowEditModal, id, FType }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${getTokenized()}`,
       },
       body: JSON.stringify({
+        main: main,
         Fn: 'update',
         FType,
         Data,
@@ -290,7 +290,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     className='border-2'
                     onChange={(e) => (currentGred.current = e.target.value)}
                   >
-                    <option value=''>Pilih Klinik</option>
+                    <option value=''>Pilih Gred</option>
                     <option value='jusa'>JUSA</option>
                     <option value='ug56'>UG56</option>
                     <option value='ug54'>UG54</option>

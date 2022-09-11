@@ -123,10 +123,10 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'UserCenter':
-        var { Fn, username } = req.body;
+        var { Fn, username, password, email, nama, daerah, negeri, token } =
+          req.body;
         switch (Fn) {
           case 'create':
-            const { email, nama, daerah, negeri } = req.body;
             console.log('create for user');
             const regData = await Superadmin.create({
               email,
@@ -138,7 +138,6 @@ exports.getData = async (req, res, next) => {
             break;
           case 'read':
             console.log('read for user');
-            const { token } = req.body;
             const userData = {
               userId: jwt.verify(token, process.env.JWT_SECRET).userId,
               username: jwt.verify(token, process.env.JWT_SECRET).username,
@@ -166,16 +165,14 @@ exports.getData = async (req, res, next) => {
             ).catch((err) => {
               console.log(err);
             });
-            // return res.status(200).json({
-            //   status: 'success',
-            //   message: 'Email sent to ' + process.env.SEND_TO,
-            //   tempKey: xxxKey,
-            // });
-            res.status(200).json(tempUser);
+            return res.status(200).json({
+              status: 'success',
+              message: 'Email sent to ' + process.env.SEND_TO,
+              tempKey: xxxKey,
+            });
             break;
           case 'update':
-            console.log('read for user');
-            const { password } = req.body;
+            console.log('update for user');
             // const crypt = new simpleCrypto(process.env.API_SECRET);
             // const decipheredText = crypt.decrypt(key);
             // if (decipheredText !== process.env.API_KEY) {

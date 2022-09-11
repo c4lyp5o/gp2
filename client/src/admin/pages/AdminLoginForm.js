@@ -8,16 +8,22 @@ import AdminHeader from '../components/AdminHeader';
 import AdminFooter from '../components/AdminFooter';
 
 async function loginUser(credentials) {
-  try {
-    const response = await axios.post('/api/v1/superadmin/login', credentials);
-    return response.data;
-  } catch (error) {
-    const theError = {
-      status: error.response.status,
-      message: error.response.data.message,
-    };
-    return theError;
-  }
+  const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    username: credentials.username,
+    password: credentials.password,
+    main: 'UserCenter',
+    Fn: 'update',
+  });
+  return response;
+}
+
+async function checkUser(username) {
+  const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    username,
+    main: 'UserCenter',
+    Fn: 'readOne',
+  });
+  return response;
 }
 
 function userIDBox({ setUserName, showUserIDBox }) {
@@ -79,9 +85,7 @@ export default function AdminLoginForm() {
       }
       setErrMsg('');
       try {
-        const response = await axios.post('/api/v1/superadmin/', {
-          username,
-        });
+        const response = await checkUser(username);
         setShowTempPass(response.data.tempKey);
       } catch (error) {
         setErrMsg(error.response.data.message);
@@ -102,10 +106,11 @@ export default function AdminLoginForm() {
         password,
         key,
       });
+      console.log(token);
       if (token.status === 401) {
-        setErrMsg(token.message);
+        setErrMsg(token.data.message);
       } else {
-        setToken(token.adminToken);
+        setToken(token.data.adminToken);
         navigate('/admin/landing');
       }
     }

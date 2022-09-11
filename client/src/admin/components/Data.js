@@ -4,7 +4,6 @@ import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
-import { BiCheck, BiDownArrowAlt } from 'react-icons/bi';
 import { Ring } from 'react-awesome-spinners';
 
 export default function Data({ FType }) {
@@ -23,9 +22,6 @@ export default function Data({ FType }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
-  const [showKlinik, setShowKlinik] = useState(false);
-  const [showPegawai, setShowPegawai] = useState(false);
-  const [showFasiliti, setShowFasiliti] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +31,6 @@ export default function Data({ FType }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // 'x-api-key': process.env.REACT_APP_API_KEY,
           },
           body: JSON.stringify({
             token: getTokenized(),
@@ -51,26 +46,6 @@ export default function Data({ FType }) {
         setError(error);
       }
     };
-    // const fetchKlinik = async () => {
-    //   try {
-    //     const response = await fetch(`/api/v1/superadmin/newroute`, {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         // 'x-api-key': process.env.REACT_APP_API_KEY,
-    //       },
-    //       body: JSON.stringify({
-    //         token: getTokenized(),
-    //         Fn: 'read',
-    //         FType: 'kp',
-    //       }),
-    //     });
-    //     const json = await response.json();
-    //     setKlinik(json);
-    //   } catch (error) {
-    //     setError(error);
-    //   }
-    // };
     getCurrentUser().then((res) => {
       setDaerah(res.data.daerah);
       setNegeri(res.data.negeri);
@@ -103,7 +78,7 @@ export default function Data({ FType }) {
           </thead>
           <tbody>
             {data.map((kp, index) => (
-              <tr>
+              <tr key={kp._id}>
                 <td className='border border-slate-700'>{index + 1}</td>
                 <td className='border border-slate-700'>{kp.nama}</td>
                 <td className='border border-slate-700'>Kode here</td>
@@ -113,41 +88,35 @@ export default function Data({ FType }) {
                 <td className='border border-slate-700'>Email here</td>
                 <td className='border border-slate-700'>
                   {kp.statusPerkhidmatan === 'active' ? (
-                    <div className='flex items-center justify-center gap-2'>
-                      <span class='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                        Aktif
-                      </span>
-                    </div>
+                    <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                      Aktif
+                    </span>
                   ) : (
-                    <div className='flex items-center justify-center gap-2'>
-                      <span class='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                        Tidak Aktif
-                      </span>
-                    </div>
+                    <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                      Tidak Aktif
+                    </span>
                   )}
                 </td>
-                <div>
-                  <button
-                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                    onClick={() => {
-                      setShowEditModal(true);
-                      setId(kp._id);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
-                    id={kp._id}
-                    onClick={(e) => {
-                      setShowDeleteModal(true);
-                      setId(kp._id);
-                      setDeleteCandidate(kp.nama);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+                <button
+                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                  onClick={() => {
+                    setShowEditModal(true);
+                    setId(kp._id);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
+                  id={kp._id}
+                  onClick={(e) => {
+                    setShowDeleteModal(true);
+                    setId(kp._id);
+                    setDeleteCandidate(kp.nama);
+                  }}
+                >
+                  Delete
+                </button>
               </tr>
             ))}
           </tbody>
