@@ -28,7 +28,7 @@ function UserPilihNama() {
         setNamaFasilitiToken(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchIdentity();
@@ -40,7 +40,7 @@ function UserPilihNama() {
         setListPilihNama(data.operators);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchPilihNama();
@@ -53,7 +53,7 @@ function UserPilihNama() {
       setUsername(pilihanOperator.current.value);
       setDisplayLoginForm(true);
       setDisplayPilihNama(false);
-      navigate('/user');
+      navigate('/pengguna/landing');
     }
     if (checkboxRelief.current.checked === true) {
       localStorage.setItem('username', pilihanOperator.current.value);

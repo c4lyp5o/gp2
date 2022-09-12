@@ -207,51 +207,99 @@ function UserDashboard() {
               </label>
             </div>
           </div>
-          <div className='flex items-center justify-center m-1 text-xs lg:text-base'>
-            <table className='w-full outline outline-1 outline-userBlack'>
-              <tr className='bg-user3'>
-                <th className='outline outline-1 outline-userBlack'>BIL</th>
-                <th className='outline outline-1 outline-userBlack'>NEGERI</th>
-                <th className='outline outline-1 outline-userBlack'>DAERAH</th>
-                <th className='outline outline-1 outline-userBlack'>SEKOLAH</th>
-                <th className='outline outline-1 outline-userBlack'>
-                  % MURID DILIPUTI
-                </th>
-                <th className='outline outline-1 outline-userBlack'>% MBK</th>
-                <th className='outline outline-1 outline-userBlack'>% BK</th>
-                <th className='outline outline-1 outline-userBlack'>% MBG</th>
-                <th className='outline outline-1 outline-userBlack'>% TPR</th>
-              </tr>
-              <tr>
-                <td className='outline outline-1 outline-userBlack'>1</td>
-                <td className='outline outline-1 outline-userBlack'>kedah</td>
-                <td className='outline outline-1 outline-userBlack'>
-                  kota setar
-                </td>
-                <td className='outline outline-1 outline-userBlack'>
-                  sekolah kebangsaan alor janggus
-                </td>
-                <td className='outline outline-1 outline-userBlack'>98.0</td>
-                <td className='outline outline-1 outline-userBlack'>70</td>
-                <td className='outline outline-1 outline-userBlack'>75</td>
-                <td className='outline outline-1 outline-userBlack'>75</td>
-                <td className='outline outline-1 outline-userBlack'>75</td>
-              </tr>
-              <tr>
-                <td className='outline outline-1 outline-userBlack'>2</td>
-                <td className='outline outline-1 outline-userBlack'>kedah</td>
-                <td className='outline outline-1 outline-userBlack'>
-                  kota setar
-                </td>
-                <td className='outline outline-1 outline-userBlack'>
-                  sekolah menengah alor janggus
-                </td>
-                <td className='outline outline-1 outline-userBlack'>90.2</td>
-                <td className='outline outline-1 outline-userBlack'>69</td>
-                <td className='outline outline-1 outline-userBlack'>71</td>
-                <td className='outline outline-1 outline-userBlack'>71</td>
-                <td className='outline outline-1 outline-userBlack'>71</td>
-              </tr>
+          <div className='lg:m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-userWhite bg-user2'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    BIL.
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NEGERI
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    DAERAH
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    SEKOLAH
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    PERATUS MURID DILIPUTI (%)
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    PERATUS MULUT BEBAS KARIES (%)
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    PERATUS BEBAS KARIES (%)
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    PERATUS MULUT BEBAS GINGIVITIS (%)
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    PERATUS TIDAK PERLU RAWATAN (%)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='bg-user4'>
+                <tr>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    1
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    kedah
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    kota setar
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    sekolah kebangsaan alor janggus
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    98.0
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    70
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    75
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    75
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    75
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    2
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    kedah
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    kota setar
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    sekolah menengah alor janggus
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    90.2
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    69
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    71
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    71
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                    71
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </section>

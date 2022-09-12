@@ -199,12 +199,12 @@ function UserSekolah() {
 
   return (
     <>
-      <div className='px-10 h-full p-3 overflow-y-auto'>
+      <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
         <div>
-          <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
+          <h2 className='text-xl font-semibold flex flex-row pl-5 lg:pl-12 p-2'>
             SILA PILIH
           </h2>
-          <p className='flex flex-row pl-12 p-2'>Nama Sekolah</p>
+          <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Sekolah</p>
           <select
             value={pilihanSekolah}
             onChange={(e) => {
@@ -227,7 +227,7 @@ function UserSekolah() {
           </select>
           {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
             <>
-              <p className='flex flex-row pl-12 p-2'>Darjah</p>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Darjah</p>
               <select
                 value={pilihanDarjah}
                 onChange={(e) => {
@@ -252,7 +252,7 @@ function UserSekolah() {
           )}
           {pilihanSekolah.includes('menengah') && (
             <>
-              <p className='flex flex-row pl-12 p-2'>Tingkatan</p>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Tingkatan</p>
               <select
                 value={pilihanTingkatan}
                 onChange={(e) => {
@@ -277,7 +277,7 @@ function UserSekolah() {
           )}
           {pilihanDarjah && (
             <>
-              <p className='flex flex-row pl-12 p-2'>Kelas Darjah</p>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Darjah</p>
               <select
                 value={pilihanKelasDarjah}
                 onChange={(e) => {
@@ -304,7 +304,7 @@ function UserSekolah() {
           )}
           {pilihanTingkatan && (
             <>
-              <p className='flex flex-row pl-12 p-2'>Kelas Tingkatan</p>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Tingkatan</p>
               <select
                 value={pilihanKelasTingkatan}
                 onChange={(e) => {
@@ -331,34 +331,42 @@ function UserSekolah() {
               </select>
             </>
           )}
+          <div className='flex justify-end px-12 '>
+            <button
+              onClick={reloadData}
+              className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
+            >
+              refresh pelajar
+            </button>
+          </div>
         </div>
-        <div className='flex justify-end px-12 '>
-          <button
-            onClick={reloadData}
-            className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
-          >
-            refresh pelajar
-          </button>
-        </div>
-        <div>
-          <table className='m-auto mb-5 w-11/12 outline outline-1 outline-userBlack'>
-            <tr className='bg-user3 p-2'>
-              <th className='outline outline-1 outline-userBlack'>BIL</th>
-              <th className='outline outline-1 outline-userBlack px-20'>
-                NAMA
-              </th>
-              <th className='outline outline-1 outline-userBlack px-3'>
-                OPERATOR TERAKHIR
-              </th>
-              <th className='outline outline-1 outline-userBlack'>
-                STATUS RAWATAN
-              </th>
-              <th className='outline outline-1 outline-userBlack'>
-                PEMERIKSAAN
-              </th>
-              <th className='outline outline-1 outline-userBlack'>RAWATAN</th>
-              <th className='outline outline-1 outline-userBlack'>KOTAK</th>
-            </tr>
+        <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+          <table className='table-auto'>
+            <thead className='text-userWhite bg-user2'>
+              <tr>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  BIL
+                </th>
+                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                  NAMA
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                  OPERATOR TERAKHIR
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
+                  STATUS RAWATAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  PEMERIKSAAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  RAWATAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  KOTAK
+                </th>
+              </tr>
+            </thead>
             {!isLoading &&
               pilihanSekolah &&
               allPersonSekolahs
@@ -373,98 +381,100 @@ function UserSekolah() {
                 .map((singlePersonSekolah, index) => {
                   return (
                     <>
-                      <tr>
-                        <td className='outline outline-1 outline-userBlack'>
-                          {index + 1}
-                        </td>
-                        <td className='outline outline-1 outline-userBlack'>
-                          {singlePersonSekolah.nama}
-                        </td>
-                        <td className='outline outline-1 outline-userBlack'>
-                          {singlePersonSekolah.rawatanSekolah.length >= 1 &&
-                            singlePersonSekolah.rawatanSekolah.at(-1)
-                              .createdByUsername}
-                        </td>
-                        <td className='outline outline-1 outline-userBlack'>
-                          {singlePersonSekolah.statusRawatan}
-                        </td>
-                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
-                          <Link
-                            target='_blank'
-                            to={`form-sekolah/pemeriksaan/${
-                              singlePersonSekolah._id
-                            }/${
-                              singlePersonSekolah.pemeriksaanSekolah
-                                ? singlePersonSekolah.pemeriksaanSekolah._id
-                                : 'tambah-pemeriksaan'
-                            }`}
-                            className={`${
-                              singlePersonSekolah.pemeriksaanSekolah
-                                ? 'bg-user7'
-                                : 'bg-user6'
-                            } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
-                          >
-                            {singlePersonSekolah.pemeriksaanSekolah
-                              ? 'ubah pemeriksaan'
-                              : 'tambah pemeriksaan'}
-                          </Link>
-                        </td>
-                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
-                          <Link
-                            target='_blank'
-                            to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
-                            className={`${
-                              !singlePersonSekolah.pemeriksaanSekolah ||
-                              singlePersonSekolah.statusRawatan === 'selesai'
-                                ? 'pointer-events-none bg-user4'
-                                : 'bg-user3 hover:bg-user2'
-                            } text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
-                          >
-                            tambah rawatan
-                          </Link>
-                        </td>
-                        <td className='outline outline-1 outline-userBlack text-sm p-2'>
-                          <Link
-                            target='_blank'
-                            to={`form-sekolah/kotak/${
-                              singlePersonSekolah._id
-                            }/${
-                              singlePersonSekolah.kotakSekolah
-                                ? singlePersonSekolah.kotakSekolah._id
-                                : 'tambah-kotak'
-                            }`}
-                            className={`${
-                              !singlePersonSekolah.kotakSekolah &&
+                      <tbody className='bg-user4'>
+                        <tr>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            {index + 1}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            {singlePersonSekolah.nama}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 &&
+                              singlePersonSekolah.rawatanSekolah.at(-1)
+                                .createdByUsername}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            {singlePersonSekolah.statusRawatan}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <Link
+                              target='_blank'
+                              to={`form-sekolah/pemeriksaan/${
+                                singlePersonSekolah._id
+                              }/${
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  ? singlePersonSekolah.pemeriksaanSekolah._id
+                                  : 'tambah-pemeriksaan'
+                              }`}
+                              className={`${
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  ? 'bg-user7'
+                                  : 'bg-user6'
+                              } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                            >
+                              {singlePersonSekolah.pemeriksaanSekolah
+                                ? 'ubah pemeriksaan'
+                                : 'tambah pemeriksaan'}
+                            </Link>
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <Link
+                              target='_blank'
+                              to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
+                              className={`${
+                                !singlePersonSekolah.pemeriksaanSekolah ||
+                                singlePersonSekolah.statusRawatan === 'selesai'
+                                  ? 'pointer-events-none bg-user4'
+                                  : 'bg-user3 hover:bg-user2'
+                              } text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                            >
+                              tambah rawatan
+                            </Link>
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <Link
+                              target='_blank'
+                              to={`form-sekolah/kotak/${
+                                singlePersonSekolah._id
+                              }/${
+                                singlePersonSekolah.kotakSekolah
+                                  ? singlePersonSekolah.kotakSekolah._id
+                                  : 'tambah-kotak'
+                              }`}
+                              className={`${
+                                !singlePersonSekolah.kotakSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah &&
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  .inginMelakukanIntervensiMerokok ===
+                                  'ya-ingin-melakukan-intervensi-merokok'
+                                  ? 'bg-user6'
+                                  : singlePersonSekolah.kotakSekolah &&
+                                    singlePersonSekolah.pemeriksaanSekolah &&
+                                    singlePersonSekolah.pemeriksaanSekolah
+                                      .inginMelakukanIntervensiMerokok ===
+                                      'ya-ingin-melakukan-intervensi-merokok'
+                                  ? 'bg-user7'
+                                  : 'pointer-events-none bg-user4'
+                              } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                            >
+                              {!singlePersonSekolah.kotakSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah
                                 .inginMelakukanIntervensiMerokok ===
                                 'ya-ingin-melakukan-intervensi-merokok'
-                                ? 'bg-user6'
+                                ? 'tambah KOTAK'
                                 : singlePersonSekolah.kotakSekolah &&
                                   singlePersonSekolah.pemeriksaanSekolah &&
                                   singlePersonSekolah.pemeriksaanSekolah
                                     .inginMelakukanIntervensiMerokok ===
                                     'ya-ingin-melakukan-intervensi-merokok'
-                                ? 'bg-user7'
-                                : 'pointer-events-none bg-user4'
-                            } hover:bg-user8 text-userWhite rounded-sm shadow-xl p-1 m-1 transition-all`}
-                          >
-                            {!singlePersonSekolah.kotakSekolah &&
-                            singlePersonSekolah.pemeriksaanSekolah &&
-                            singlePersonSekolah.pemeriksaanSekolah
-                              .inginMelakukanIntervensiMerokok ===
-                              'ya-ingin-melakukan-intervensi-merokok'
-                              ? 'tambah KOTAK'
-                              : singlePersonSekolah.kotakSekolah &&
-                                singlePersonSekolah.pemeriksaanSekolah &&
-                                singlePersonSekolah.pemeriksaanSekolah
-                                  .inginMelakukanIntervensiMerokok ===
-                                  'ya-ingin-melakukan-intervensi-merokok'
-                              ? 'ubah KOTAK'
-                              : 'tidak perlu KOTAK'}
-                          </Link>
-                        </td>
-                      </tr>
+                                ? 'ubah KOTAK'
+                                : 'tidak perlu KOTAK'}
+                            </Link>
+                          </td>
+                        </tr>
+                      </tbody>
                     </>
                   );
                 })}

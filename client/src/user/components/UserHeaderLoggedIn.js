@@ -28,7 +28,7 @@ function UserHeaderLoggedIn() {
         setNamaKlinik(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchIdentity();
@@ -42,12 +42,12 @@ function UserHeaderLoggedIn() {
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
     setFasilitiRelief(null);
-    navigate('/');
+    navigate('/pengguna');
   };
 
   const logout = () => {
     catchAxiosErrorAndLogout();
-    navigate('/');
+    navigate('/pengguna');
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -55,12 +56,20 @@ function UserLoginForm() {
         >
           lupa kata laluan
         </p>
-        <button
-          type='submit'
-          className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
-        >
-          log masuk
-        </button>
+        <div className='grid lg:grid-cols-2 gap-2 mt-5 ml-20 mr-20'>
+          <Link
+            to='/'
+            className='order-last lg:order-first capitalize bg-user6 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+          >
+            kembali ke halaman utama
+          </Link>
+          <button
+            type='submit'
+            className='order-first lg:order-last capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+          >
+            log masuk
+          </button>
+        </div>
       </form>
     </>
   );
