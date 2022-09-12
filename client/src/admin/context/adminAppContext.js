@@ -10,13 +10,34 @@ function AdminAppProvider({ children }) {
   const { token, setToken } = useToken();
   const navigate = useNavigate();
 
+  async function pingApdmServer() {
+    const response = await axios.get(`https://erkm.calypsocloud.one/`);
+    return response;
+  }
+
+  const encryptEmail = (email) => {
+    if (!email) return 'No email provided';
+    const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
+    const encrypted =
+      email
+        .split('@')[0]
+        .replace(
+          email.split('@')[0].substring(0, letterToEncrypt),
+          '*'.repeat(letterToEncrypt)
+        ) +
+      '@' +
+      email.split('@')[1];
+    return encrypted;
+  };
+
   // user
 
   async function getCurrentUser() {
     let response = await axios.post(`/api/v1/superadmin/newroute`, {
-      token: getTokenized(),
+      apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
       Fn: 'read',
+      token: getTokenized(),
     });
     return response;
   }
@@ -25,6 +46,7 @@ function AdminAppProvider({ children }) {
 
   const createData = async (type, data) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
       main: 'DataCenter',
       Fn: 'create',
       FType: type,
@@ -36,6 +58,7 @@ function AdminAppProvider({ children }) {
 
   const readData = async (type) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
       main: 'DataCenter',
       Fn: 'read',
       FType: type,
@@ -46,6 +69,7 @@ function AdminAppProvider({ children }) {
 
   const readKpData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
       main: 'DataCenter',
       Fn: 'read',
       FType: 'kp',
@@ -53,6 +77,46 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
+
+  const readOneData = async (type, id) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'readOne',
+      FType: type,
+      Id: id,
+      token: getTokenized(),
+    });
+    return response;
+  };
+
+  const updateData = async (type, id, data) => {
+    console.log(data);
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'update',
+      FType: type,
+      Id: id,
+      Data: data,
+      token: getTokenized(),
+    });
+    return response;
+  };
+
+  const deleteData = async (type, id) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'delete',
+      FType: type,
+      Id: id,
+      token: getTokenized(),
+    });
+    return response;
+  };
+
+  // erkm
 
   const readSekolahData = async (FType) => {
     const response = await axios.get('https://erkm.calypsocloud.one/data');
@@ -66,48 +130,13 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  const readOneData = async (type, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'DataCenter',
-      Fn: 'readOne',
-      FType: type,
-      Id: id,
-      token: getTokenized(),
-    });
-    return response;
-  };
-
-  const updateData = async (type, id, data) => {
-    console.log(data);
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'DataCenter',
-      Fn: 'update',
-      FType: type,
-      Id: id,
-      Data: data,
-      token: getTokenized(),
-    });
-    return response;
-  };
-
-  const deleteData = async (type, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'DataCenter',
-      Fn: 'delete',
-      FType: type,
-      Id: id,
-      token: getTokenized(),
-    });
-    return response;
-  };
-
-  //
-
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('adminToken');
   };
 
   const Dictionary = {
+    pp: 'Pegawai Pergigian',
+    jp: 'Juruterapi Pergigian',
     taska: 'Taska',
     tadika: 'Tadika',
     sr: 'Sekolah Rendah',
@@ -134,6 +163,8 @@ function AdminAppProvider({ children }) {
         navigate,
         toast,
         getTokenized,
+        pingApdmServer,
+        encryptEmail,
       }}
     >
       {children}

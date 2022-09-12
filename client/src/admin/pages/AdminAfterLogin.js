@@ -72,8 +72,8 @@ function AdminAfterLogin() {
         <Routes>
           <Route index element={<AdminCenterStageLoggedIn />} />
           <Route path='kp' element={<Data FType='kp' />} />
-          <Route path='pp' element={<Data FType='peg' />} />
-          {/* <Route path='jp' element={<JPCenter />} /> */}
+          <Route path='pp' element={<Data FType='pp' />} />
+          <Route path='jp' element={<Data FType='jp' />} />
           <Route path='taska' element={<Data FType='taska' />} />
           <Route path='tadika' element={<Data FType='tadika' />} />
           <Route path='sr' element={<Data FType='sr' />} />

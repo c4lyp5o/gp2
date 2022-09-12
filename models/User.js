@@ -7,24 +7,24 @@ const emailGen = require('../lib/emailgen');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, 'Please provide username'],
+    // required: [true, 'Please provide username'],
     unique: true,
   },
   negeri: {
     type: String,
-    required: [true, 'Please provide negeri'],
+    // required: [true, 'Please provide negeri'],
   },
   daerah: {
     type: String,
-    required: [true, 'Please provide daerah'],
+    // required: [true, 'Please provide daerah'],
   },
   kp: {
     type: String,
-    required: [true, 'Please provide KP'],
+    // required: [true, 'Please provide KP'],
   },
   accountType: {
     type: String,
-    required: [true, 'Please provide account type'],
+    // required: [true, 'Please provide account type'],
     enum: {
       values: [
         'kpUser',
@@ -40,49 +40,95 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide password'],
+    // required: [true, 'Please provide password'],
     minlength: 6,
   },
   email: {
     type: String,
-    required: [true, 'Please provide email'],
+    // required: [true, 'Please provide email'],
     unique: true,
   },
+
+  // this is klinik
   kodFasiliti: {
     type: String,
-    required: [true, 'Please provide account type'],
+    default: 'NOT APPLICABLE',
+  },
+  statusPerkhidmatan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  statusRoleKlinik: {
+    type: String,
+    // required: [true, 'Please provide account type'],
     enum: {
-      values: ['kp', 'kepp', 'utc', 'rtc', 'visiting'],
+      values: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
       message:
-        '{VALUE} is not supported. Provide only "kp", "kepp", "utc", "rtc", "visiting"',
+        '{VALUE} is not supported. Provide only "klinik", "kepp", "utc", "rtc", "visiting"',
     },
-    default: 'kp',
+    default: 'klinik',
   },
 });
 
 UserSchema.pre('save', async function () {
   try {
-    const salt = await bcryptjs.genSalt(10);
-    this.password = await bcryptjs.hash(this.password, salt);
+    const generateRandomString = (length) => {
+      let result = '';
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    };
+    // const salt = await bcryptjs.genSalt(10);
+    // this.password = await bcryptjs.hash(this.password, salt);
     const negeriNum = emailGen[this.negeri].kodNegeri;
     const daerahNum = emailGen[this.negeri].daerah[this.daerah];
-    const currentRunningNumber = await Runningnumber.findOne({
-      jenis: this.kodFasiliti,
+    const randomString = generateRandomString(6);
+    this.password = randomString;
+    let currentRunningNumber = await Runningnumber.findOne({
       negeri: this.negeri,
+      daerah: this.daerah,
     });
-    const newRunningNumber = currentRunningNumber.runningnumber + 1;
-    const email = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber}@moh.gov.my`;
-    this.email = email;
-    const updateRunningNumber = await Runningnumber.findByIdAndUpdate(
-      currentRunningNumber._id,
-      { runningnumber: newRunningNumber },
-      { new: true }
-    );
-    console.log(updateRunningNumber);
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        negeri: this.negeri,
+        daerah: this.daerah,
+        runningnumber: 1,
+      });
+      const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber.runningnumber}`;
+      this.username = username;
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save();
+      const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${currentRunningNumber.runningnumber}`;
+      this.username = username;
+    }
+    console.log('updateRunningNumber');
   } catch (err) {
     console.error(err);
   }
 });
+
+UserSchema.methods.updateRunningNumber = async function () {
+  try {
+    const currentRunningNumber = await Runningnumber.findOne({
+      jenis: this.kodFasiliti,
+      negeri: this.negeri,
+      daerah: this.daerah,
+    });
+    currentRunningNumber.runningNumber += 1;
+    await currentRunningNumber.save();
+    console.log('updateRunningNumber');
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(

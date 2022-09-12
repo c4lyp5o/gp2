@@ -22,10 +22,12 @@ export default function Data({ FType }) {
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
 
-  const { Dictionary, getCurrentUser, readData } = useGlobalAdminAppContext();
+  const { Dictionary, getCurrentUser, readData, encryptEmail } =
+    useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
+    setData([]);
     getCurrentUser().then((res) => {
       setDaerah(res.data.daerah);
       setNegeri(res.data.negeri);
@@ -36,7 +38,7 @@ export default function Data({ FType }) {
       setData(res.data);
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 1000);
     });
   }, [FType]);
 
@@ -54,6 +56,8 @@ export default function Data({ FType }) {
               <th className='border border-slate-600'>Nama KP</th>
               <th className='border border-slate-600'>Role KP</th>
               <th className='border border-slate-600'>Emel KP</th>
+              <th className='border border-slate-600'>Username KP</th>
+              <th className='border border-slate-600'>Password KP</th>
               <th className='border border-slate-600'>Status KP</th>
               <th className='border border-slate-600'>Manage</th>
             </tr>
@@ -62,12 +66,16 @@ export default function Data({ FType }) {
             {data.map((kp, index) => (
               <tr key={kp._id}>
                 <td className='border border-slate-700'>{index + 1}</td>
-                <td className='border border-slate-700'>{kp.nama}</td>
-                <td className='border border-slate-700'>Kode here</td>
+                <td className='border border-slate-700'>{kp.kodFasiliti}</td>
+                <td className='border border-slate-700'>{kp.kp}</td>
                 <td className='border border-slate-700'>
                   {kp.statusRoleKlinik}
                 </td>
-                <td className='border border-slate-700'>Email here</td>
+                <td className='border border-slate-700'>
+                  {encryptEmail(kp.email)}
+                </td>
+                <td className='border border-slate-700'>{kp.username}</td>
+                <td className='border border-slate-700'>{kp.password}</td>
                 <td className='border border-slate-700'>
                   {kp.statusPerkhidmatan === 'active' ? (
                     <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
@@ -91,10 +99,10 @@ export default function Data({ FType }) {
                 <button
                   className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
                   id={kp._id}
-                  onClick={(e) => {
+                  onClick={() => {
                     setShowDeleteModal(true);
                     setId(kp._id);
-                    setDeleteCandidate(kp.nama);
+                    setDeleteCandidate(kp.kp);
                   }}
                 >
                   Delete
@@ -108,10 +116,31 @@ export default function Data({ FType }) {
   }
 
   function Pegawai() {
+    const [pilihanKlinik, setPilihanKlinik] = useState('');
+    const [pilihanRole, setPilihanRole] = useState('');
+
+    const namaKliniks = data.reduce(
+      (arrNamaKliniks, pegawai) => {
+        if (!arrNamaKliniks.includes(pegawai.kpSkrg)) {
+          arrNamaKliniks.push(pegawai.kpSkrg);
+        }
+        return arrNamaKliniks.filter((valid) => valid);
+      },
+      ['']
+    );
+    const namaRoles = data.reduce(
+      (arrNamaRoles, pegawai) => {
+        if (!arrNamaRoles.includes(pegawai.role)) {
+          arrNamaRoles.push(pegawai.role);
+        }
+        return arrNamaRoles.filter((valid) => valid);
+      },
+      ['']
+    );
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold'>
-          Senarai Pegawai Pergigian Daerah {daerah}
+          Senarai {Dictionary[FType]} {daerah}
         </h1>
         <div>
           <table className='table-auto border-collapse border border-slate-500'>
@@ -119,6 +148,12 @@ export default function Data({ FType }) {
               <tr>
                 <th className='border border-slate-600 px-3'>Bil.</th>
                 <th className='border border-slate-600 px-20'>Nama</th>
+                {FType === 'pp' && (
+                  <th className='border border-slate-600 px-20'>Nombor MDC</th>
+                )}
+                {FType === 'jp' && (
+                  <th className='border border-slate-600 px-20'>Nombor MDTB</th>
+                )}
                 <th className='border border-slate-600 px-4'>Gred</th>
                 <th className='border border-slate-600 px-5'>
                   Nama Klinik Pergigian
@@ -127,40 +162,86 @@ export default function Data({ FType }) {
                 <th className='border border-slate-600 px-4'>Manage</th>
               </tr>
             </thead>
-            <tbody>
-              {data.map((o, index) => (
-                <tr>
-                  <td className='border border-slate-700'>{index + 1}</td>
-                  <td className='border border-slate-700 px-3'>{o.nama}</td>
-                  <td className='border border-slate-700 uppercase'>
-                    {o.gred}
-                  </td>
-                  <td className='border border-slate-700 px-3'>{o.kpSkrg}</td>
-                  <td className='border border-slate-700'>{o.role}</td>
-                  <td className='border border-slate-700'>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                      onClick={() => {
-                        setShowEditModal(true);
-                        setId(o._id);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                      id={o._id}
-                      onClick={(e) => {
-                        setShowDeleteModal(true);
-                        setId(o._id);
-                        setDeleteCandidate(o.nama);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+            <select
+              value={pilihanKlinik}
+              onChange={(e) => {
+                setPilihanKlinik(e.target.value);
+              }}
+              className='border-2 absolute top-40 right-5 w-24'
+            >
+              <option value=''>Filter..</option>
+              {namaKliniks.map((k, index) => (
+                <option key={index} value={k}>
+                  {k}
+                </option>
               ))}
+            </select>
+            <select
+              value={pilihanRole}
+              onChange={(e) => {
+                setPilihanRole(e.target.value);
+              }}
+              className='border-2 absolute top-32 right-5 w-24'
+            >
+              <option value=''>Filter..</option>
+              {namaRoles.map((k, index) => (
+                <option key={index} value={k}>
+                  {k}
+                </option>
+              ))}
+            </select>
+            <button
+              className='border-2 absolute top-48 right-5 w-24'
+              onClick={() => {
+                setPilihanRole('');
+                setPilihanKlinik('');
+              }}
+            >
+              Reset Filter
+            </button>
+            <tbody>
+              {data
+                .filter((os) => {
+                  const officersChoice = os.kpSkrg.includes(pilihanKlinik);
+                  const officersRole = os.role.includes(pilihanRole);
+                  return officersChoice && officersRole;
+                })
+                .map((o, index) => (
+                  <tr>
+                    <td className='border border-slate-700'>{index + 1}</td>
+                    <td className='border border-slate-700 px-3'>{o.nama}</td>
+                    <td className='border border-slate-700 px-3'>
+                      {o.mdcNumber}
+                    </td>
+                    <td className='border border-slate-700 uppercase'>
+                      {o.gred}
+                    </td>
+                    <td className='border border-slate-700 px-3'>{o.kpSkrg}</td>
+                    <td className='border border-slate-700'>{o.role}</td>
+                    <td className='border border-slate-700'>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        onClick={() => {
+                          setShowEditModal(true);
+                          setId(o._id);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={o._id}
+                        onClick={(e) => {
+                          setShowDeleteModal(true);
+                          setId(o._id);
+                          setDeleteCandidate(o.nama);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -194,8 +275,22 @@ export default function Data({ FType }) {
                 Nama {Dictionary[FType]}
               </th>
               <th className='border border-slate-600 px-10'>Nama Klinik</th>
-              {FType !== 'sr' && FType !== 'sm' ? null : (
-                <th className='border border-slate-600 px-3'>PERSiS</th>
+              {(FType === 'taska' || FType === 'tadika') && (
+                <>
+                  <th className='border border-slate-600 px-3'>
+                    Kod {Dictionary[FType]}
+                  </th>
+                  <th className='border border-slate-600 px-3'>
+                    Catatan {Dictionary[FType]}
+                  </th>
+                </>
+              )}
+              {(FType === 'sr' || FType === 'sm') && (
+                <>
+                  <th className='border border-slate-600 px-3'>Kod Sekolah</th>
+                  <th className='border border-slate-600 px-3'>Status</th>
+                  <th className='border border-slate-600 px-3'>PERSiS</th>
+                </>
               )}
               <th className='border border-slate-600 px-3'>Manage</th>
             </tr>
@@ -224,10 +319,28 @@ export default function Data({ FType }) {
                   <td className='border border-slate-600 px-3'>{index + 1}</td>
                   <td className='border border-slate-600 px-20'>{f.nama}</td>
                   <td className='border border-slate-600 px-10'>{f.handler}</td>
-                  {FType !== 'sr' && FType !== 'sm' ? null : (
-                    <td className='border border-slate-600 px-3'>
-                      {f.risikoSekolahPersis}
-                    </td>
+                  {(FType === 'taska' || FType === 'tadika') && (
+                    <>
+                      <td className='border border-slate-600 px-3'>
+                        {f.kodSekolah}
+                      </td>
+                      <td className='border border-slate-600 px-3'>
+                        {f.catatanTastad}
+                      </td>
+                    </>
+                  )}
+                  {(FType === 'sr' || FType === 'sm') && (
+                    <>
+                      <td className='border border-slate-600 px-3'>
+                        {f.kodSekolah}
+                      </td>
+                      <td className='border border-slate-600 px-3'>
+                        {f.statusPerkhidmatan}
+                      </td>
+                      <td className='border border-slate-600 px-3'>
+                        {f.risikoSekolahPersis}
+                      </td>
+                    </>
                   )}
                   <td className='border border-slate-600 px-3'>
                     <button
@@ -260,10 +373,18 @@ export default function Data({ FType }) {
     );
   }
 
-  if (loading || !data) {
+  if (loading) {
     return (
       <div>
         <Ring />
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div>
+        <h1>There is no data</h1>
       </div>
     );
   }
@@ -276,8 +397,8 @@ export default function Data({ FType }) {
     return (
       <>
         {FType === 'kp' && <Klinik />}
-        {FType === 'peg' && <Pegawai />}
-        {FType !== 'kp' && FType !== 'peg' && <Facility />}
+        {(FType === 'pp' || FType === 'jp') && <Pegawai />}
+        {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && <Facility />}
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={() => {

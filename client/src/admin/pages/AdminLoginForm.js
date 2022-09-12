@@ -9,6 +9,7 @@ import AdminFooter from '../components/AdminFooter';
 
 async function loginUser(credentials) {
   const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    apiKey: process.env.REACT_APP_API_KEY,
     username: credentials.username,
     password: credentials.password,
     main: 'UserCenter',
@@ -19,6 +20,7 @@ async function loginUser(credentials) {
 
 async function checkUser(username) {
   const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    apiKey: process.env.REACT_APP_API_KEY,
     username,
     main: 'UserCenter',
     Fn: 'readOne',

@@ -4,9 +4,11 @@ const mailer = require('nodemailer');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
+const User = require('../models/User');
 const Dictionary = {
   kp: 'klinik',
-  peg: 'pegawai',
+  pp: 'pegawai',
+  jp: 'juruterapi pergigian',
   taska: 'taska',
   tadika: 'tadika',
   sr: 'sekolah-rendah',
@@ -33,7 +35,7 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'create':
             console.log('create for', theType);
-            if (theType !== 'pegawai') {
+            if (theType !== 'pegawai' && theType !== 'klinik') {
               Data = {
                 ...Data,
                 jenisFasiliti: theType,
@@ -52,28 +54,76 @@ exports.getData = async (req, res, next) => {
               const data = await Operator.create(Data);
               res.status(200).json(data);
             }
+            if (theType === 'klinik') {
+              Data = {
+                ...Data,
+                daerah: dataGeografik.daerah,
+                negeri: dataGeografik.negeri,
+              };
+              const data = await User.create(Data);
+              console.log(Data);
+              res.status(200).json(data);
+            }
             break;
           case 'read':
             console.log('read for', theType);
-            if (theType !== 'pegawai') {
+            if (theType !== 'pegawai' && theType !== 'klinik') {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
                 dataGeografik,
               });
-
-              res.status(200).json(data);
+              return res.status(200).json(data);
             }
             if (theType === 'pegawai') {
               const data = await Operator.find({
                 createdByDaerah: dataGeografik.daerah,
                 createdByNegeri: dataGeografik.negeri,
+                statusPegawai: 'pp',
               });
-              res.status(200).json(data);
+              return res.status(200).json(data);
+            }
+            if (theType === 'juruterapi pergigian') {
+              const data = await Operator.find({
+                daerah: dataGeografik.daerah,
+                negeri: dataGeografik.negeri,
+                statusPegawai: 'jp',
+              });
+              return res.status(200).json(data);
+            }
+            if (theType === 'klinik') {
+              let data = [];
+              const kp = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                statusRoleKlinik: 'klinik',
+              });
+              const kepp = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                statusRoleKlinik: 'kepp',
+              });
+              const utc = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                statusRoleKlinik: 'utc',
+              });
+              const rtc = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                statusRoleKlinik: 'rtc',
+              });
+              const visiting = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                statusRoleKlinik: 'visiting',
+              });
+              data = [...kp, ...kepp, ...utc, ...rtc, ...visiting];
+              return res.status(200).json(data);
             }
             break;
           case 'readOne':
             console.log('readOne for', theType);
-            if (theType !== 'pegawai') {
+            if (theType !== 'pegawai' && theType !== 'klinik') {
               const data = await Fasiliti.findById({
                 _id: Id,
               });
@@ -85,10 +135,16 @@ exports.getData = async (req, res, next) => {
               });
               res.status(200).json(data);
             }
+            if (theType === 'klinik') {
+              const data = await User.findById({
+                _id: Id,
+              });
+              res.status(200).json(data);
+            }
             break;
           case 'update':
             console.log('update for', theType);
-            if (theType !== 'pegawai') {
+            if (theType !== 'pegawai' && theType !== 'klinik') {
               const data = await Fasiliti.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
@@ -104,15 +160,27 @@ exports.getData = async (req, res, next) => {
               );
               res.status(200).json(data);
             }
+            if (theType === 'klinik') {
+              const data = await User.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(data);
+            }
             break;
           case 'delete':
             console.log('delete for', theType);
-            if (theType !== 'pegawai') {
+            if (theType !== 'pegawai' && theType !== 'klinik') {
               const data = await Fasiliti.findByIdAndDelete({ _id: Id });
               res.status(200).json(data);
             }
             if (theType === 'pegawai') {
               const data = await Operator.findByIdAndDelete({ _id: Id });
+              res.status(200).json(data);
+            }
+            if (theType === 'klinik') {
+              const data = await User.findByIdAndDelete({ _id: Id });
               res.status(200).json(data);
             }
             break;
@@ -156,19 +224,18 @@ exports.getData = async (req, res, next) => {
               });
               return;
             }
-            // await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
-            //   console.log(err);
-            // });
-            const xxxKey = await sendVerificationEmail(
-              process.env.SEND_TO,
-              tempUser._id
-            ).catch((err) => {
-              console.log(err);
-            });
+            const theKey = simpleCrypto.generateRandomString(20);
+            const update = await Superadmin.findByIdAndUpdate(
+              tempUser._id,
+              {
+                tempKey: theKey,
+              },
+              { new: true }
+            );
             return res.status(200).json({
               status: 'success',
               message: 'Email sent to ' + process.env.SEND_TO,
-              tempKey: xxxKey,
+              tempKey: theKey,
             });
             break;
           case 'update':

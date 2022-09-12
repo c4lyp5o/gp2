@@ -43,6 +43,11 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  // khas taska/tadika
+  catatanTastad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
 });
 
 const Fasiliti = mongoose.model('Fasiliti', fasilitiSchema);
