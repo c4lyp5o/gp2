@@ -39,7 +39,8 @@ function UserFormSekolahPemeriksaan() {
   const [statusM, setStatusM] = useState('');
   const [inginMelakukanIntervensiMerokok, setInginMelakukanIntervensiMerokok] =
     useState('');
-  const [jenisR, setJenisR] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
+  // const [jenisR, setJenisR] = useState('');
   const [kebersihanMulutOralHygiene, setKebersihanMulutOralHygiene] =
     useState('');
   const [skorBpeOralHygiene, setSkorBpeOralHygiene] = useState('');
@@ -269,7 +270,7 @@ function UserFormSekolahPemeriksaan() {
       statusM === 'bukan-perokok' ||
       statusM === ''
     ) {
-      setJenisR('');
+      // setJenisR('');
       setInginMelakukanIntervensiMerokok('');
     }
     if (!adaDesidus) {
@@ -368,7 +369,11 @@ function UserFormSekolahPemeriksaan() {
               .separaPenuhBawahPerluDenture
           );
           setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
-          setJenisR(data.personSekolahWithPopulate.pemeriksaanSekolah.jenisR);
+          setMenerimaNasihatRingkas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .menerimaNasihatRingkas
+          );
+          // setJenisR(data.personSekolahWithPopulate.pemeriksaanSekolah.jenisR);
           setInginMelakukanIntervensiMerokok(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .inginMelakukanIntervensiMerokok
@@ -664,7 +669,8 @@ function UserFormSekolahPemeriksaan() {
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
               statusM,
-              jenisR,
+              menerimaNasihatRingkas,
+              // jenisR,
               inginMelakukanIntervensiMerokok,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
@@ -773,7 +779,8 @@ function UserFormSekolahPemeriksaan() {
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
               statusM,
-              jenisR,
+              menerimaNasihatRingkas,
+              // jenisR,
               inginMelakukanIntervensiMerokok,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
@@ -1600,7 +1607,61 @@ function UserFormSekolahPemeriksaan() {
                       <option value='perokok-pasif'>Perokok Pasif</option>
                       <option value='bukan-perokok'>Bukan Perokok</option>
                     </select>
-                    <article
+                    <div className='col-span-2'>
+                      <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
+                        adakah pesakit menerima nasihat ringkas?
+                        <span className='text-user6'>*</span>
+                      </p>
+                      <div className='flex items-center justify-center'>
+                        <input
+                          required
+                          type='radio'
+                          name='menerima-nasihat-ringkas'
+                          id='ya-menerima-nasihat-ringkas'
+                          value='ya-menerima-nasihat-ringkas'
+                          checked={
+                            menerimaNasihatRingkas ===
+                            'ya-menerima-nasihat-ringkas'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setMenerimaNasihatRingkas(e.target.value);
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='ya-menerima-nasihat-ringkas'
+                          className='m-2 text-sm font-m'
+                        >
+                          Ya
+                        </label>
+                        <input
+                          required={statusM == 'perokok-semasa' ? true : false}
+                          type='radio'
+                          name='menerima-nasihat-ringkas'
+                          id='tidak-menerima-nasihat-ringkas'
+                          value='tidak-menerima-nasihat-ringkas'
+                          checked={
+                            menerimaNasihatRingkas ===
+                            'tidak-menerima-nasihat-ringkas'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setMenerimaNasihatRingkas(e.target.value);
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='tidak-menerima-nasihat-ringkas'
+                          className='m-2 text-sm font-m'
+                        >
+                          Tidak
+                        </label>
+                      </div>
+                    </div>
+                    {/* <article
                       className={`${
                         statusM == 'perokok-semasa' ? 'visible' : 'hidden'
                       } grid grid-cols-2 col-span-2 `}
@@ -1624,7 +1685,7 @@ function UserFormSekolahPemeriksaan() {
                         <option value='shisha'>Shisha</option>
                         <option value='lain-lain'>Lain-lain</option>
                       </select>
-                    </article>
+                    </article> */}
                     <div
                       className={`${
                         statusM == 'perokok-semasa' ? 'visible' : 'hidden'
