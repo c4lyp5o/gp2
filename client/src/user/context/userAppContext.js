@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { gql } from '@apollo/client';
 import { ToastContainer, toast } from 'react-toastify';
 
 const storageUserToken = localStorage.getItem('userToken');
@@ -52,7 +51,7 @@ function UserAppProvider({ children }) {
       setTimeout(() => {
         setIsLoginError(false);
       }, 3000);
-      navigate('/');
+      navigate('/pengguna');
     }
   };
 

@@ -790,7 +790,7 @@ export default function Pemeriksaan(props) {
                   <div
                     className={`${
                       !props.adaDesidusPemeriksaanUmum && 'hidden'
-                    } grid grid-cols-2`}
+                    } grid grid-cols-1 sm:grid-cols-2`}
                   >
                     {/* <div className='flex items-center flex-row pl-5 col-span-2'>
                     <span
@@ -1047,6 +1047,11 @@ export default function Pemeriksaan(props) {
                     </div>
                   </div>
                 </div>
+                {props.sumDMFXKekalUmum > 32 && (
+                  <p className='text-user6 font-semibold'>
+                    jumlah DMFX tidak boleh melebihi 32
+                  </p>
+                )}
               </article>
               <article className='border border-userBlack pl-3 p-2 rounded-md'>
                 <div className='grid grid-cols-1'>

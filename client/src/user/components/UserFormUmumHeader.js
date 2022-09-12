@@ -372,7 +372,6 @@ function UserFormUmumHeader() {
     setXAdaGigiDesidusPemeriksaanUmum;
   const [sumDMFXDesidusUmum, setSumDMFXDesidusUmum] = useState(0);
   masterForm.sumDMFXDesidusUmum = sumDMFXDesidusUmum;
-  masterForm.setSumDMFXDesidusUmum = setSumDMFXDesidusUmum;
   const [adaKekalPemeriksaanUmum, setAdaKekalPemeriksaanUmum] = useState(false);
   masterForm.adaKekalPemeriksaanUmum = adaKekalPemeriksaanUmum;
   masterForm.setAdaKekalPemeriksaanUmum = setAdaKekalPemeriksaanUmum;
@@ -396,6 +395,8 @@ function UserFormUmumHeader() {
     useState('');
   masterForm.xAdaGigiKekalPemeriksaanUmum = xAdaGigiKekalPemeriksaanUmum;
   masterForm.setXAdaGigiKekalPemeriksaanUmum = setXAdaGigiKekalPemeriksaanUmum;
+  const [sumDMFXKekalUmum, setSumDMFXKekalUmum] = useState(0);
+  masterForm.sumDMFXKekalUmum = sumDMFXKekalUmum;
   const [
     jumlahFaktorRisikoPemeriksaanUmum,
     setJumlahFaktorRisikoPemeriksaanUmum,
@@ -1143,6 +1144,23 @@ function UserFormUmumHeader() {
     fAdaGigiDesidusPemeriksaanUmum,
     xAdaGigiDesidusPemeriksaanUmum,
     smAdaGigiDesidusPemeriksaanUmum,
+  ]);
+
+  // calculate total DMFEX
+  useEffect(() => {
+    setSumDMFXKekalUmum(
+      parseInt(dAdaGigiKekalPemeriksaanUmum) +
+        parseInt(mAdaGigiKekalPemeriksaanUmum) +
+        parseInt(fAdaGigiKekalPemeriksaanUmum) +
+        parseInt(xAdaGigiKekalPemeriksaanUmum) +
+        parseInt(eAdaGigiKekalPemeriksaanUmum)
+    );
+  }, [
+    dAdaGigiKekalPemeriksaanUmum,
+    mAdaGigiKekalPemeriksaanUmum,
+    fAdaGigiKekalPemeriksaanUmum,
+    xAdaGigiKekalPemeriksaanUmum,
+    eAdaGigiKekalPemeriksaanUmum,
   ]);
 
   useEffect(() => {

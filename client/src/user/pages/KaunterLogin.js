@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -50,12 +51,20 @@ function KaunterLogin() {
                   {loginErrorMessage}
                 </p>
               )}
-              <button
-                type='submit'
-                className='mt-7 capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
-              >
-                log masuk
-              </button>
+              <div className='grid grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
+                <Link
+                  to='/'
+                  className='capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                >
+                  kembali ke halaman utama
+                </Link>
+                <button
+                  type='submit'
+                  className='capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                >
+                  log masuk
+                </button>
+              </div>
             </form>
           </div>
         </div>
