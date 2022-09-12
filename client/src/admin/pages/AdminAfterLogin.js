@@ -14,13 +14,9 @@ import AdminNavbar from '../components/AdminNavbar';
 // paparan utama
 import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
 // klinik
-import KlinikCenter from '../components/klinik/Center';
 // pegawai
-import PegawaiCenter from '../components/pegawai/Center';
 // jp
-import JPCenter from '../components/jp/Center';
 // data for facility
-import FacilityCenter from '../components/DataFacility';
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
@@ -77,7 +73,7 @@ function AdminAfterLogin() {
           <Route index element={<AdminCenterStageLoggedIn />} />
           <Route path='kp' element={<Data FType='kp' />} />
           <Route path='pp' element={<Data FType='peg' />} />
-          <Route path='jp' element={<JPCenter />} />
+          {/* <Route path='jp' element={<JPCenter />} /> */}
           <Route path='taska' element={<Data FType='taska' />} />
           <Route path='tadika' element={<Data FType='tadika' />} />
           <Route path='sr' element={<Data FType='sr' />} />

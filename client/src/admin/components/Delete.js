@@ -1,39 +1,25 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
-import { Ring } from 'react-awesome-spinners';
 import styles from '../Modal.module.css';
 import { RiCloseLine } from 'react-icons/ri';
 
 const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
-  const { getTokenized, toast, main } = useGlobalAdminAppContext();
+  const { toast, deleteData } = useGlobalAdminAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`/api/v1/superadmin/newroute`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'x-api-key': process.env.REACT_APP_API_KEY,
-      },
-      body: JSON.stringify({
-        main: main,
-        token: getTokenized(),
-        FType: FType,
-        Fn: 'delete',
-        Id: id,
-      }),
+    deleteData(FType, id).then((res) => {
+      console.log(res);
+      setShowDeleteModal(false);
+      toast.info(`Data berjaya dipadam`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     });
-    const data = await res.json();
-    console.log(data);
-    toast.info(`Data berjaya dipadam`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setShowDeleteModal(false);
   };
 
   return (

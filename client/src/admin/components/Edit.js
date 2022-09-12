@@ -5,7 +5,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowEditModal, id, FType }) => {
-  const { getTokenized, toast, main } = useGlobalAdminAppContext();
+  const { toast, readOneData, readKpData, updateData } =
+    useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentStatusPerkhidmatan = useRef();
@@ -17,42 +18,18 @@ const Modal = ({ setShowEditModal, id, FType }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getOne = async () => {
-      const response = await fetch(`/api/v1/superadmin/newroute`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          main: main,
-          Fn: 'readOne',
-          FType: FType,
-          Id: id,
-          token: getTokenized(),
-        }),
-      });
-      const data = await response.json();
-      setEditedEntity(data);
-      console.log(data);
-    };
-    const getKlinik = async () => {
-      const response = await fetch(`/api/v1/superadmin/newroute`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          main: main,
-          Fn: 'read',
-          FType: 'kp',
-          token: getTokenized(),
-        }),
-      });
-      const data = await response.json();
-      setKlinik(data);
-    };
-    getOne().then(() => getKlinik().then(() => setLoading(false)));
-  }, [id, FType, getTokenized]);
+    readKpData().then((res) => {
+      console.log(res);
+      setKlinik(res.data);
+    });
+    readOneData(FType, id).then((res) => {
+      console.log(res);
+      setEditedEntity(res.data);
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,33 +65,11 @@ const Modal = ({ setShowEditModal, id, FType }) => {
     //   };
     // }
     console.log(Data);
-    // const res = await axios.post(`/api/v1/superadmin/newroute`, {
-    //   Fn: 'create',
-    //   FType,
-    //   Data,
-    //   token,
-    // });
-    const response = await fetch(`/api/v1/superadmin/newroute`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        main: main,
-        Fn: 'update',
-        FType,
-        Data,
-        Id: id,
-        token: getTokenized(),
-      }),
+    updateData(FType, id, Data).then((res) => {
+      console.log(res);
+      toast.info(`Data berjaya dikemaskini`);
+      setShowEditModal(false);
     });
-    console.log(response);
-    if (response.ok) {
-      toast.success('Berjaya mengemaskini data');
-    } else {
-      toast.error('Gagal mengemaskini data');
-    }
-    setShowEditModal(false);
   };
 
   function Klinik() {

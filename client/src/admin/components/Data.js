@@ -7,15 +7,14 @@ import { FaPlus } from 'react-icons/fa';
 import { Ring } from 'react-awesome-spinners';
 
 export default function Data({ FType }) {
+  // modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState('');
 
-  const { Dictionary, getTokenized, getCurrentUser, main } =
-    useGlobalAdminAppContext();
-
+  // data
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,35 +22,18 @@ export default function Data({ FType }) {
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
 
+  const { Dictionary, getCurrentUser, readData } = useGlobalAdminAppContext();
+
   useEffect(() => {
     setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/v1/superadmin/newroute`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            token: getTokenized(),
-            Fn: 'read',
-            FType: FType,
-            main: main,
-          }),
-        });
-        const json = await response.json();
-        console.log(json);
-        setData(json);
-      } catch (error) {
-        setError(error);
-      }
-    };
     getCurrentUser().then((res) => {
       setDaerah(res.data.daerah);
       setNegeri(res.data.negeri);
       setUser(res.data.nama);
     });
-    fetchData().then(() => {
+    readData(FType).then((res) => {
+      console.log(res.data);
+      setData(res.data);
       setTimeout(() => {
         setLoading(false);
       }, 500);

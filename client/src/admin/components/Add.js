@@ -2,11 +2,11 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import { Ring } from 'react-awesome-spinners';
-import axios from 'axios';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowAddModal, FType, daerah }) => {
-  const { Dictionary, getTokenized, toast, main } = useGlobalAdminAppContext();
+  const { Dictionary, toast, createData, readSekolahData, readKpData } =
+    useGlobalAdminAppContext();
 
   const currentName = useRef();
   const currentStatusPerkhidmatan = useRef();
@@ -52,83 +52,44 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
         risikoSekolahPersis: currentRisiko.current,
       };
     }
-    const token = getTokenized();
-    console.log(Data);
-    const res = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: main,
-      Fn: 'create',
-      FType,
-      Data,
-      token,
+    createData(FType, Data).then((res) => {
+      console.log(res);
+      if (res.statusText === 'OK') {
+        toast.info(`Data berjaya ditambah`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setShowAddModal(false);
+      } else {
+        toast.error(`Data tidak berjaya ditambah`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setShowAddModal(false);
+      }
     });
-    console.log(res);
-    if (res.statusText === 'OK') {
-      toast.info(`Data berjaya ditambah`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setShowAddModal(false);
-    } else {
-      toast.error(`Data tidak berjaya ditambah`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setShowAddModal(false);
-    }
   };
 
   useEffect(() => {
-    const getSR = () => {
-      try {
-        axios.get('https://erkm.calypsocloud.one/data').then((res) => {
-          if (FType === 'sr') {
-            setSekolah(res.data.sekolahRendah);
-            return;
-          }
-          if (FType === 'sm') {
-            setSekolah(res.data.sekolahMenengah);
-            return;
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchKlinik = async () => {
-      try {
-        const response = await fetch(`/api/v1/superadmin/newroute`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            main: main,
-            token: getTokenized(),
-            Fn: 'read',
-            FType: 'kp',
-          }),
-        });
-        const json = await response.json();
-        setKlinik(json);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     if (FType === 'sr' || FType === 'sm') {
-      getSR();
+      readSekolahData(FType).then((res) => {
+        setSekolah(res);
+      });
     }
     if (FType !== 'kp') {
-      fetchKlinik();
+      readKpData().then((res) => {
+        setKlinik(res.data);
+      });
     }
     setTimeout(() => {
       setLoading(false);
