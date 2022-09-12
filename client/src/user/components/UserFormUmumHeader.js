@@ -983,21 +983,6 @@ function UserFormUmumHeader() {
   const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
   masterForm.lmgPromosiUmum = lmgPromosiUmum;
   masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
-  const [kursusSeminarBengkelPromosiUmum, setKursusSeminarBengkelPromosiUmum] =
-    useState(false);
-  masterForm.kursusSeminarBengkelPromosiUmum = kursusSeminarBengkelPromosiUmum;
-  masterForm.setKursusSeminarBengkelPromosiUmum =
-    setKursusSeminarBengkelPromosiUmum;
-  const [mainPerananPromosiUmum, setMainPerananPromosiUmum] = useState(false);
-  masterForm.mainPerananPromosiUmum = mainPerananPromosiUmum;
-  masterForm.setMainPerananPromosiUmum = setMainPerananPromosiUmum;
-  const [pertunjukanBonekaPromosiUmum, setPertunjukanBonekaPromosiUmum] =
-    useState(false);
-  masterForm.pertunjukanBonekaPromosiUmum = pertunjukanBonekaPromosiUmum;
-  masterForm.setPertunjukanBonekaPromosiUmum = setPertunjukanBonekaPromosiUmum;
-  const [berceritaPromosiUmum, setBerceritaPromosiUmum] = useState(false);
-  masterForm.berceritaPromosiUmum = berceritaPromosiUmum;
-  masterForm.setBerceritaPromosiUmum = setBerceritaPromosiUmum;
   const [
     plakGigiNasihatPergigianIndividuPromosiUmum,
     setPlakGigiNasihatPergigianIndividuPromosiUmum,
@@ -1031,13 +1016,17 @@ function UserFormUmumHeader() {
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiUmum =
     setKanserMulutNasihatPergigianIndividuPromosiUmum;
   const [
-    dirujukKaunselingPakarPublicHealthPromosiUmum,
-    setDirujukKaunselingPakarPublicHealthPromosiUmum,
-  ] = useState(false);
-  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
-    dirujukKaunselingPakarPublicHealthPromosiUmum;
-  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
-    setDirujukKaunselingPakarPublicHealthPromosiUmum;
+    melaksanakanAktivitiBeginPromosiUmum,
+    setMelaksanakanAktivitiBeginPromosiUmum,
+  ] = useState('');
+  masterForm.melaksanakanAktivitiBeginPromosiUmum =
+    melaksanakanAktivitiBeginPromosiUmum;
+  masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
+    setMelaksanakanAktivitiBeginPromosiUmum;
+  const [lawatanKeRumahPromosiUmum, setLawatanKeRumahPromosiUmum] =
+    useState('');
+  masterForm.lawatanKeRumahPromosiUmum = lawatanKeRumahPromosiUmum;
+  masterForm.setLawatanKeRumahPromosiUmum = setLawatanKeRumahPromosiUmum;
   const [
     umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
     setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
@@ -1087,13 +1076,13 @@ function UserFormUmumHeader() {
   masterForm.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
     setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
   const [
-    melaksanakanAktivitiBeginPromosiUmum,
-    setMelaksanakanAktivitiBeginPromosiUmum,
-  ] = useState('');
-  masterForm.melaksanakanAktivitiBeginPromosiUmum =
-    melaksanakanAktivitiBeginPromosiUmum;
-  masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
-    setMelaksanakanAktivitiBeginPromosiUmum;
+    dirujukKaunselingPakarPublicHealthPromosiUmum,
+    setDirujukKaunselingPakarPublicHealthPromosiUmum,
+  ] = useState(false);
+  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
+    dirujukKaunselingPakarPublicHealthPromosiUmum;
+  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
+    setDirujukKaunselingPakarPublicHealthPromosiUmum;
   //kotak
   const [statusMUmum, setStatusMUmum] = useState('');
   masterForm.statusMUmum = statusMUmum;

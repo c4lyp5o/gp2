@@ -4,13 +4,15 @@ export default function Promosi(props) {
       <div className='p-2'>
         <div className='grid grid-cols-2'>
           <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
-            <p className='ml-3 text-xl font-semibold'>Promosi</p>
+            <p className='ml-3 text-xl font-semibold'>
+              promosi & pendidikan kesihatan pergigian
+            </p>
           </span>
           <section className='grid grid-cols-1 md:grid-cols-2  gap-2 mt-3 mb-3 w-full col-span-2'>
-            <div className='grid gap-2'>
+            <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  menyertai
+                  menyertai aktiviti
                 </h4>
                 <div className='flex flex-row items-center pl-5'>
                   <p className='text-sm font-m'>Ceramah: </p>
@@ -48,215 +50,212 @@ export default function Promosi(props) {
                 </div>
               </article>
               <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5'>
+                  melaksanakan aktiviti
+                </h4>
+                <div className='flex items-center justify-evenly'>
+                  <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                    BEGIN:
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      type='radio'
+                      name='melaksanakan-aktiviti-begin-promosi-umum'
+                      id='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                      value='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                      checked={
+                        props.melaksanakanAktivitiBeginPromosiUmum ===
+                        'ya-melaksanakan-aktiviti-begin-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMelaksanakanAktivitiBeginPromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      required
+                    />
+                    <label
+                      htmlFor='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      type='radio'
+                      name='melaksanakan-aktiviti-begin-promosi-umum'
+                      id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                      value='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                      checked={
+                        props.melaksanakanAktivitiBeginPromosiUmum ===
+                        'tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMelaksanakanAktivitiBeginPromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </div>
+                <div className='flex items-center justify-evenly'>
+                  <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                    lawatan ke rumah :
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      type='radio'
+                      name='lawatan-ke-rumah-promosi-umum'
+                      id='ya-lawatan-ke-rumah-promosi-umum'
+                      value='ya-lawatan-ke-rumah-promosi-umum'
+                      checked={
+                        props.lawatanKeRumahPromosiUmum ===
+                        'ya-lawatan-ke-rumah-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setLawatanKeRumahPromosiUmum(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      required
+                    />
+                    <label
+                      htmlFor='ya-lawatan-ke-rumah-promosi-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      type='radio'
+                      name='lawatan-ke-rumah-promosi-umum'
+                      id='tidak-lawatan-ke-rumah-promosi-umum'
+                      value='tidak-lawatan-ke-rumah-promosi-umum'
+                      checked={
+                        props.lawatanKeRumahPromosiUmum ===
+                        'tidak-lawatan-ke-rumah-promosi-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setLawatanKeRumahPromosiUmum(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </div>
+              </article>
+              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5'>
+                  menerima aktiviti nasihat pergigian individu
+                </h4>
                 <div className='flex flex-row items-center pl-5 m-1'>
                   <input
                     type='checkbox'
-                    name='kursus-seminar-bengkel-promosi-umum'
-                    id='kursus-seminar-bengkel-promosi-umum'
-                    value='kursus-seminar-bengkel-promosi-umum'
-                    checked={props.kursusSeminarBengkelPromosiUmum}
+                    name='plak-gigi-nasihat-pergigian-individu-promosi-umum'
+                    id='plak-gigi-nasihat-pergigian-individu-promosi-umum'
+                    value='plak-gigi-nasihat-pergigian-individu-promosi-umum'
+                    checked={props.plakGigiNasihatPergigianIndividuPromosiUmum}
                     onChange={() => {
-                      props.setKursusSeminarBengkelPromosiUmum(
-                        !props.kursusSeminarBengkelPromosiUmum
+                      props.setPlakGigiNasihatPergigianIndividuPromosiUmum(
+                        !props.plakGigiNasihatPergigianIndividuPromosiUmum
                       );
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
-                    htmlFor='kursus-seminar-bengkel-promosi-umum'
+                    htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-umum'
                     className='mx-2 text-sm font-m'
                   >
-                    Kursus / Seminar / Bengkel
+                    penyakit pergigian
                   </label>
                 </div>
                 <div className='flex flex-row items-center pl-5 m-1'>
                   <input
                     type='checkbox'
-                    name='main-peranan-promosi-umum'
-                    id='main-peranan-promosi-umum'
-                    value='main-peranan-promosi-umum'
-                    checked={props.mainPerananPromosiUmum}
+                    name='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
+                    id='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
+                    value='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
+                    checked={
+                      props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
+                    }
                     onChange={() => {
-                      props.setMainPerananPromosiUmum(
-                        !props.mainPerananPromosiUmum
+                      props.setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
+                        !props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
                       );
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
-                    htmlFor='main-peranan-promosi-umum'
+                    htmlFor='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
                     className='mx-2 text-sm font-m'
                   >
-                    Main Peranan
+                    Penjagaan Kesihatan Oral
                   </label>
                 </div>
                 <div className='flex flex-row items-center pl-5 m-1'>
                   <input
                     type='checkbox'
-                    name='pertunjukan-boneka-promosi-umum'
-                    id='pertunjukan-boneka-promosi-umum'
-                    value='pertunjukan-boneka-promosi-umum'
-                    checked={props.pertunjukanBonekaPromosiUmum}
+                    name='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
+                    id='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
+                    value='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
+                    checked={
+                      props.dietPemakananNasihatPergigianIndividuPromosiUmum
+                    }
                     onChange={() => {
-                      props.setPertunjukanBonekaPromosiUmum(
-                        !props.pertunjukanBonekaPromosiUmum
+                      props.setDietPemakananNasihatPergigianIndividuPromosiUmum(
+                        !props.dietPemakananNasihatPergigianIndividuPromosiUmum
                       );
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
-                    htmlFor='pertunjukan-boneka-promosi-umum'
+                    htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
                     className='mx-2 text-sm font-m'
                   >
-                    pertunjukan boneka
+                    Diet Pemakanan
                   </label>
                 </div>
                 <div className='flex flex-row items-center pl-5 m-1'>
                   <input
                     type='checkbox'
-                    name='bercerita-promosi-umum'
-                    id='bercerita-promosi-umum'
-                    value='bercerita-promosi-umum'
-                    checked={props.berceritaPromosiUmum}
+                    name='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
+                    id='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
+                    value='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
+                    checked={
+                      props.kanserMulutNasihatPergigianIndividuPromosiUmum
+                    }
                     onChange={() => {
-                      props.setBerceritaPromosiUmum(
-                        !props.berceritaPromosiUmum
+                      props.setKanserMulutNasihatPergigianIndividuPromosiUmum(
+                        !props.kanserMulutNasihatPergigianIndividuPromosiUmum
                       );
                     }}
                     className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                   />
                   <label
-                    htmlFor='bercerita-promosi-umum'
+                    htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
                     className='mx-2 text-sm font-m'
                   >
-                    Bercerita
+                    Kanser Mulut
                   </label>
                 </div>
-                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2'>
-                  <h4 className='flex flex-row pl-5 text-sm font-m'>
-                    nasihat pergigian individu
-                  </h4>
-                  <div className='flex flex-row items-center pl-5 m-1'>
-                    <input
-                      type='checkbox'
-                      name='plak-gigi-nasihat-pergigian-individu-promosi-umum'
-                      id='plak-gigi-nasihat-pergigian-individu-promosi-umum'
-                      value='plak-gigi-nasihat-pergigian-individu-promosi-umum'
-                      checked={
-                        props.plakGigiNasihatPergigianIndividuPromosiUmum
-                      }
-                      onChange={() => {
-                        props.setPlakGigiNasihatPergigianIndividuPromosiUmum(
-                          !props.plakGigiNasihatPergigianIndividuPromosiUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Plak Gigi
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 m-1'>
-                    <input
-                      type='checkbox'
-                      name='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
-                      id='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
-                      value='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
-                      checked={
-                        props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
-                      }
-                      onChange={() => {
-                        props.setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
-                          !props.penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Penjagaan Kesihatan Oral
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 m-1'>
-                    <input
-                      type='checkbox'
-                      name='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
-                      id='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
-                      value='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
-                      checked={
-                        props.dietPemakananNasihatPergigianIndividuPromosiUmum
-                      }
-                      onChange={() => {
-                        props.setDietPemakananNasihatPergigianIndividuPromosiUmum(
-                          !props.dietPemakananNasihatPergigianIndividuPromosiUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Diet Pemakanan
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 m-1'>
-                    <input
-                      type='checkbox'
-                      name='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
-                      id='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
-                      value='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
-                      checked={
-                        props.kanserMulutNasihatPergigianIndividuPromosiUmum
-                      }
-                      onChange={() => {
-                        props.setKanserMulutNasihatPergigianIndividuPromosiUmum(
-                          !props.kanserMulutNasihatPergigianIndividuPromosiUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Kanser Mulut
-                    </label>
-                  </div>
-                </article>
-                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2'>
-                  <h4 className='flex flex-row pl-5 text-sm font-m'>
-                    Kaunseling Pakar Public Health
-                  </h4>
-                  <div className='flex flex-row items-center pl-5 m-1'>
-                    <input
-                      type='checkbox'
-                      name='dirujuk-kaunseling-pakar-public-health-promosi-umum'
-                      id='dirujuk-kaunseling-pakar-public-health-promosi-umum'
-                      value='dirujuk-kaunseling-pakar-public-health-promosi-umum'
-                      checked={
-                        props.dirujukKaunselingPakarPublicHealthPromosiUmum
-                      }
-                      onChange={() => {
-                        props.setDirujukKaunselingPakarPublicHealthPromosiUmum(
-                          !props.dirujukKaunselingPakarPublicHealthPromosiUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='dirujuk-kaunseling-pakar-public-health-promosi-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Dirujuk
-                    </label>
-                  </div>
-                </article>
               </article>
             </div>
             <div className='grid gap-2 auto-rows-min'>
@@ -369,63 +368,31 @@ export default function Promosi(props) {
               </article>
               {/* hijau */}
               <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row pl-5'>
-                  melaksanakan aktiviti begin
+                <h4 className='flex flex-row pl-5 text-sm font-bold'>
+                  khidmat rundingan pakar pergigian kesihatan awam
                 </h4>
-                <div className='flex items-center justify-evenly'>
-                  <div>
-                    <input
-                      type='radio'
-                      name='melaksanakan-aktiviti-begin-promosi-umum'
-                      id='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      value='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      checked={
-                        props.melaksanakanAktivitiBeginPromosiUmum ===
-                        'ya-melaksanakan-aktiviti-begin-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setMelaksanakanAktivitiBeginPromosiUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      required
-                    />
-                    <label
-                      htmlFor='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ya
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type='radio'
-                      name='melaksanakan-aktiviti-begin-promosi-umum'
-                      id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      value='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      checked={
-                        props.melaksanakanAktivitiBeginPromosiUmum ===
-                        'tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setMelaksanakanAktivitiBeginPromosiUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Tidak
-                    </label>
-                  </div>
+                <div className='flex flex-row items-center pl-5 m-1'>
+                  <input
+                    type='checkbox'
+                    name='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                    id='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                    value='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                    checked={
+                      props.dirujukKaunselingPakarPublicHealthPromosiUmum
+                    }
+                    onChange={() => {
+                      props.setDirujukKaunselingPakarPublicHealthPromosiUmum(
+                        !props.dirujukKaunselingPakarPublicHealthPromosiUmum
+                      );
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label
+                    htmlFor='dirujuk-kaunseling-pakar-public-health-promosi-umum'
+                    className='mx-2 text-sm font-m'
+                  >
+                    Dirujuk
+                  </label>
                 </div>
               </article>
             </div>

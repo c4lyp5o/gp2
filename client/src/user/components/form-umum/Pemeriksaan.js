@@ -630,7 +630,7 @@ export default function Pemeriksaan(props) {
                   </label>
                 </div>
               </article>
-              <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              {/* <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   status merokok<span className='text-user6'>*</span>
                 </h4>
@@ -681,7 +681,7 @@ export default function Pemeriksaan(props) {
                     <option value='lain-lain'>Lain-lain</option>
                   </select>
                 </article>
-              </article>
+              </article> */}
             </div>
             <div className='grid gap-2 auto-rows-min row-start-2 lg:row-start-1 col-start-1 lg:col-start-2'>
               <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
