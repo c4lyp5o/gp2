@@ -5963,6 +5963,25 @@ exports.testFunctionPG214 = function (req, res) {
                     ],
                   },
                 },
+                jkbPenan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$baruUlanganKedatanganPendaftaran',
+                              'baru-kedatangan-pendaftaran',
+                            ],
+                          },
+                          { $eq: ['$kumpulanEtnik', 'Penan'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
                 jkbBSwakLain: {
                   $sum: {
                     $cond: [
