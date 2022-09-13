@@ -1247,7 +1247,7 @@ function UserFormSekolahRawatan() {
                       melaksanakan aktiviti
                       <span className='text-user6 text-xl'>*</span>
                     </h4>
-                    <div className='flex items-center justify-center'>
+                    <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                         BEGIN:{' '}
                       </p>
@@ -1304,7 +1304,7 @@ function UserFormSekolahRawatan() {
                         </label>
                       </div>
                     </div>
-                    <div className='flex items-center justify-center'>
+                    <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                         lawatan ke rumah :{' '}
                       </p>
@@ -1368,12 +1368,6 @@ function UserFormSekolahRawatan() {
                     </h4>
                     <div className='grid grid-cols-1'>
                       <div className='flex items-center flex-row pl-5'>
-                        <label
-                          htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                          className='m-2 text-sm font-m'
-                        >
-                          penyakit pergigian
-                        </label>
                         <input
                           type='checkbox'
                           name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1388,14 +1382,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          diet pemakanan
+                          penyakit pergigian
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1410,14 +1404,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penjagaan kesihatan mulut
+                          diet pemakanan
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1432,14 +1426,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          kanser mulut
+                          penjagaan kesihatan mulut
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1454,6 +1448,12 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
+                        <label
+                          htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          kanser mulut
+                        </label>
                       </div>
                     </div>
                   </article>
