@@ -1567,14 +1567,12 @@ function UserFormUmumHeader() {
         //map promosi
         setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
         setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
-        setKursusSeminarBengkelPromosiUmum(
-          data.singlePersonUmum.kursusSeminarBengkelPromosiUmum
+        setMelaksanakanAktivitiBeginPromosiUmum(
+          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
-        setMainPerananPromosiUmum(data.singlePersonUmum.mainPerananPromosiUmum);
-        setPertunjukanBonekaPromosiUmum(
-          data.singlePersonUmum.pertunjukanBonekaPromosiUmum
+        setLawatanKeRumahPromosiUmum(
+          data.singlePersonUmum.lawatanKeRumahPromosiUmum
         );
-        setBerceritaPromosiUmum(data.singlePersonUmum.berceritaPromosiUmum);
         setPlakGigiNasihatPergigianIndividuPromosiUmum(
           data.singlePersonUmum.plakGigiNasihatPergigianIndividuPromosiUmum
         );
@@ -1587,9 +1585,6 @@ function UserFormUmumHeader() {
         );
         setKanserMulutNasihatPergigianIndividuPromosiUmum(
           data.singlePersonUmum.kanserMulutNasihatPergigianIndividuPromosiUmum
-        );
-        setDirujukKaunselingPakarPublicHealthPromosiUmum(
-          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
         );
         setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
           data.singlePersonUmum
@@ -1611,8 +1606,8 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
         );
-        setMelaksanakanAktivitiBeginPromosiUmum(
-          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
+        setDirujukKaunselingPakarPublicHealthPromosiUmum(
+          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
         );
         //map kotak
         setStatusMUmum(data.singlePersonUmum.statusMUmum);
@@ -1797,22 +1792,18 @@ function UserFormUmumHeader() {
           //promosi
           ceramahPromosiUmum,
           lmgPromosiUmum,
-          kursusSeminarBengkelPromosiUmum,
-          mainPerananPromosiUmum,
-          pertunjukanBonekaPromosiUmum,
-          berceritaPromosiUmum,
           plakGigiNasihatPergigianIndividuPromosiUmum,
           penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
           dietPemakananNasihatPergigianIndividuPromosiUmum,
           kanserMulutNasihatPergigianIndividuPromosiUmum,
-          dirujukKaunselingPakarPublicHealthPromosiUmum,
+          melaksanakanAktivitiBeginPromosiUmum,
           umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-          melaksanakanAktivitiBeginPromosiUmum,
+          dirujukKaunselingPakarPublicHealthPromosiUmum,
           //kotak
           statusMUmum,
           jenisRUmum,
