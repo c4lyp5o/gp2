@@ -5,7 +5,7 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowEditModal, id, FType }) => {
-  const { toast, readOneData, readKpData, updateData } =
+  const { Dictionary, toast, readOneData, readKpData, updateData } =
     useGlobalAdminAppContext();
 
   const currentKp = useRef();
@@ -40,7 +40,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
       // nama: currentName.current,
       handler: currentKp.current,
     };
-    if (FType === 'peg') {
+    if (FType === 'pp' || FType === 'jp') {
       Data = {
         // nama: currentName.current,
         gred: currentGred.current,
@@ -48,6 +48,14 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         role: currentRole.current,
       };
     }
+    // if (FType === 'jp') {
+    //   Data = {
+    //     // nama: currentName.current,
+    //     gred: currentGred.current,
+    //     kpSkrg: currentKp.current,
+    //     role: currentRole.current,
+    //   };
+    // }
     if (FType === 'kp') {
       if (currentRole.current === '') {
         currentRole.current = 'klinik';
@@ -358,7 +366,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         <div className={styles.centered}>
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>UBAH PEGAWAI</h5>
+              <h5 className={styles.heading}>UBAH {Dictionary[FType]}</h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -384,14 +392,30 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                       onChange={(e) => (currentName.current = e.target.value)}
                     />
                   </div>
-                  <p>
-                    Nombor MDC{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
+                  {FType === 'pp' && (
+                    <p>
+                      Nombor MDC{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                  )}
+                  {FType === 'jp' && (
+                    <p>
+                      Nombor MDTB{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                  )}
                   <div className='grid gap-1'>
                     <input
                       readOnly={true}
-                      defaultValue={editedEntity.mdcNumber}
+                      defaultValue={
+                        FType === 'pp'
+                          ? editedEntity.mdcNumber
+                          : editedEntity.mdtbNumber
+                      }
                       className='border-2'
                       type='text'
                       name='mdc'
@@ -405,20 +429,35 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                         *
                       </span>
                     </p>
-                    <select
-                      defaultValue={editedEntity.gred}
-                      className='border-2'
-                      // onChange={(e) => (currentGred.current = e.target.value)}
-                    >
-                      <option value=''>Pilih Gred</option>
-                      <option value='jusa'>JUSA</option>
-                      <option value='ug56'>UG56</option>
-                      <option value='ug54'>UG54</option>
-                      <option value='ug52'>UG52</option>
-                      <option value='ug48'>UG48</option>
-                      <option value='ug44'>UG44</option>
-                      <option value='ug41'>UG41</option>
-                    </select>
+                    {FType === 'pp' ? (
+                      <select
+                        defaultValue={editedEntity.gred}
+                        className='border-2'
+                        // onChange={(e) => (currentGred.current = e.target.value)}
+                      >
+                        <option value=''>Pilih Gred</option>
+                        <option value='jusa'>JUSA</option>
+                        <option value='ug56'>UG56</option>
+                        <option value='ug54'>UG54</option>
+                        <option value='ug52'>UG52</option>
+                        <option value='ug48'>UG48</option>
+                        <option value='ug44'>UG44</option>
+                        <option value='ug41'>UG41</option>
+                      </select>
+                    ) : (
+                      <select
+                        defaultValue={editedEntity.gred}
+                        className='border-2'
+                        // onChange={(e) => (currentGred.current = e.target.value)}
+                      >
+                        <option value=''>Pilih Gred</option>
+                        <option value='u40'>U40</option>
+                        <option value='u38'>U38</option>
+                        <option value='u36'>U36</option>
+                        <option value='u32'>U32</option>
+                        <option value='u29'>U29</option>
+                      </select>
+                    )}
                   </div>
                   <div className='grid gap-1'>
                     <p>
@@ -428,13 +467,13 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                       </span>
                     </p>
                     <select
-                      defaultChecked={editedEntity.kpSkrg}
+                      defaultValue={editedEntity.kpSkrg}
                       className='border-2'
                       onChange={(e) => (currentKp.current = e.target.value)}
                     >
                       <option value=''>Pilih Klinik</option>
-                      {klinik.map((k, index) => (
-                        <option value={k.nama}>{k.nama}</option>
+                      {klinik.map((k) => (
+                        <option value={k.kp}>{k.kp}</option>
                       ))}
                     </select>
                   </div>
@@ -474,97 +513,6 @@ const Modal = ({ setShowEditModal, id, FType }) => {
           </div>
         </div>
       </form>
-      // <form onSubmit={handleSubmit}>
-      //   <div
-      //     className={styles.darkBG}
-      //     onClick={() => setShowEditModal(false)}
-      //   />
-      //   <div className={styles.centered}>
-      //     <div className={styles.modalEdit}>
-      //       <div className={styles.modalHeader}>
-      //         <h5 className={styles.heading}>MANAGE PEGAWAI</h5>
-      //       </div>
-      //       <span
-      //         className={styles.closeBtn}
-      //         onClick={() => setShowEditModal(false)}
-      //       >
-      //         <RiCloseLine style={{ marginBottom: '-3px' }} />
-      //       </span>
-      //       <div className={styles.modalContent}>
-      //         <div className='admin-pegawai-handler-container'>
-      //           <div className='admin-pegawai-handler-input'>
-      //             <p>Nama Pegawai: {editedEntity.nama}</p>
-      //             <br />
-      //             <p>
-      //               Gred{' '}
-      //               <span className='font-semibold text-lg text-admin3'>*</span>
-      //             </p>
-      //             <select
-      //               required
-      //               className='border-2'
-      //               onChange={(e) => (currentGred.current = e.target.value)}
-      //             >
-      //               <option value=''>Pilih Gred</option>
-      //               <option value='jusa'>JUSA</option>
-      //               <option value='ug56'>UG56</option>
-      //               <option value='ug54'>UG54</option>
-      //               <option value='ug52'>UG52</option>
-      //               <option value='ug48'>UG48</option>
-      //               <option value='ug44'>UG44</option>
-      //               <option value='ug41'>UG41</option>
-      //             </select>
-      //             <br />
-      //             <p>
-      //               Klinik Bertugas{' '}
-      //               <span className='font-semibold text-lg text-admin3'>*</span>
-      //             </p>
-      //             <select
-      //               required
-      //               className='border-2'
-      //               onChange={(e) => {
-      //                 currentKp.current = e.target.value;
-      //               }}
-      //             >
-      //               <option value=''>Pilih Klinik</option>
-      //               {klinik.map((k, index) => (
-      //                 <option value={k.nama}>{k.nama}</option>
-      //               ))}
-      //             </select>
-      //             <br />
-      //             <p>
-      //               Role{' '}
-      //               <span className='font-semibold text-lg text-admin3'>*</span>
-      //             </p>
-      //             <select
-      //               required
-      //               className='border-2'
-      //               onChange={(e) => {
-      //                 currentRole.current = e.target.value;
-      //               }}
-      //             >
-      //               <option value=''>Pilih Role</option>
-      //               <option>Admin</option>
-      //               <option>Marhaen</option>
-      //             </select>
-      //           </div>
-      //         </div>
-      //       </div>
-      //       <div className={styles.modalActions}>
-      //         <div className={styles.actionsContainer}>
-      //           <button className={styles.deleteBtn} type='submit'>
-      //             UBAH
-      //           </button>
-      //           <span
-      //             className={styles.cancelBtn}
-      //             onClick={() => setShowEditModal(false)}
-      //           >
-      //             Cancel
-      //           </span>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // </form>
     );
   }
 
@@ -578,7 +526,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         <div className={styles.centered}>
           <div className={styles.modalEdit}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>MANAGE </h5>
+              <h5 className={styles.heading}>MANAGE {Dictionary[FType]} </h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -597,12 +545,13 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                   </p>
                   <select
                     required
+                    defaultValue={editedEntity.handler}
                     className='border-2'
                     onChange={(e) => (currentKp.current = e.target.value)}
                   >
                     <option value=''>Pilih Klinik Baru..</option>
                     {klinik.map((k) => (
-                      <option value={k.nama}>{k.nama}</option>
+                      <option value={k.kp}>{k.kp}</option>
                     ))}
                   </select>
                   {FType !== 'sr' && FType !== 'sm' ? null : (
@@ -662,8 +611,8 @@ const Modal = ({ setShowEditModal, id, FType }) => {
   return (
     <>
       {FType === 'kp' && <Klinik />}
-      {FType === 'peg' && <Pegawai />}
-      {FType !== 'peg' && FType !== 'kp' && <Facility />}
+      {(FType === 'pp' || FType === 'jp') && <Pegawai />}
+      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && <Facility />}
     </>
   );
 };

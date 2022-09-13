@@ -30,6 +30,16 @@ function AdminAppProvider({ children }) {
     return encrypted;
   };
 
+  const encryptPassword = (password) => {
+    if (!password) return 'No password provided';
+    const letterToEncrypt = password.length;
+    const encrypted = password.replace(
+      password.substring(0, letterToEncrypt),
+      '*'.repeat(letterToEncrypt)
+    );
+    return encrypted;
+  };
+
   // user
 
   async function getCurrentUser() {
@@ -165,6 +175,7 @@ function AdminAppProvider({ children }) {
         getTokenized,
         pingApdmServer,
         encryptEmail,
+        encryptPassword,
       }}
     >
       {children}

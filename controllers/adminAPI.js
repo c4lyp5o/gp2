@@ -35,7 +35,11 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'create':
             console.log('create for', theType);
-            if (theType !== 'pegawai' && theType !== 'klinik') {
+            if (
+              theType !== 'pegawai' &&
+              theType !== 'klinik' &&
+              theType !== 'juruterapi pergigian'
+            ) {
               Data = {
                 ...Data,
                 jenisFasiliti: theType,
@@ -46,6 +50,15 @@ exports.getData = async (req, res, next) => {
               res.status(200).json(data);
             }
             if (theType === 'pegawai') {
+              Data = {
+                ...Data,
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
+              };
+              const data = await Operator.create(Data);
+              res.status(200).json(data);
+            }
+            if (theType === 'juruterapi pergigian') {
               Data = {
                 ...Data,
                 createdByDaerah: dataGeografik.daerah,
@@ -67,7 +80,11 @@ exports.getData = async (req, res, next) => {
             break;
           case 'read':
             console.log('read for', theType);
-            if (theType !== 'pegawai' && theType !== 'klinik') {
+            if (
+              theType !== 'pegawai' &&
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'klinik'
+            ) {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
                 dataGeografik,
@@ -84,10 +101,11 @@ exports.getData = async (req, res, next) => {
             }
             if (theType === 'juruterapi pergigian') {
               const data = await Operator.find({
-                daerah: dataGeografik.daerah,
-                negeri: dataGeografik.negeri,
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
                 statusPegawai: 'jp',
               });
+              console.log(data);
               return res.status(200).json(data);
             }
             if (theType === 'klinik') {
@@ -123,13 +141,23 @@ exports.getData = async (req, res, next) => {
             break;
           case 'readOne':
             console.log('readOne for', theType);
-            if (theType !== 'pegawai' && theType !== 'klinik') {
+            if (
+              theType !== 'pegawai' &&
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'klinik'
+            ) {
               const data = await Fasiliti.findById({
                 _id: Id,
               });
               res.status(200).json(data);
             }
             if (theType === 'pegawai') {
+              const data = await Operator.findById({
+                _id: Id,
+              });
+              res.status(200).json(data);
+            }
+            if (theType === 'juruterapi pergigian') {
               const data = await Operator.findById({
                 _id: Id,
               });
@@ -144,7 +172,11 @@ exports.getData = async (req, res, next) => {
             break;
           case 'update':
             console.log('update for', theType);
-            if (theType !== 'pegawai' && theType !== 'klinik') {
+            if (
+              theType !== 'pegawai' &&
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'klinik'
+            ) {
               const data = await Fasiliti.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
@@ -153,6 +185,14 @@ exports.getData = async (req, res, next) => {
               res.status(200).json(data);
             }
             if (theType === 'pegawai') {
+              const data = await Operator.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(data);
+            }
+            if (theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
@@ -171,11 +211,19 @@ exports.getData = async (req, res, next) => {
             break;
           case 'delete':
             console.log('delete for', theType);
-            if (theType !== 'pegawai' && theType !== 'klinik') {
+            if (
+              theType !== 'pegawai' &&
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'klinik'
+            ) {
               const data = await Fasiliti.findByIdAndDelete({ _id: Id });
               res.status(200).json(data);
             }
             if (theType === 'pegawai') {
+              const data = await Operator.findByIdAndDelete({ _id: Id });
+              res.status(200).json(data);
+            }
+            if (theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndDelete({ _id: Id });
               res.status(200).json(data);
             }

@@ -80,6 +80,7 @@ function AdminAfterLogin() {
           <Route path='sm' element={<Data FType='sm' />} />
           <Route path='ins' element={<Data FType='ins' />} />
           <Route path='kpb' element={<Data FType='kpb' />} />
+          <Route path='mp' element={<Data FType='mp' />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>

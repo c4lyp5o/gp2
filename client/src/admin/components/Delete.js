@@ -10,15 +10,7 @@ const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
     deleteData(FType, id).then((res) => {
       console.log(res);
       setShowDeleteModal(false);
-      toast.info(`Data berjaya dipadam`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.info(`Data berjaya dipadam`);
     });
   };
 

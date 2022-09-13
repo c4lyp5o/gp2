@@ -20,7 +20,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   const currentKodSekolah = useRef();
   const currentKp = useRef();
   const currentKodFasiliti = useRef();
-  const currentMdcNumber = useRef();
+  const currentRegNumber = useRef();
+  const currentStatusPegawai = useRef();
   const currentGred = useRef();
   const currentRole = useRef('');
   const currentRisiko = useRef();
@@ -43,10 +44,21 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
       handler: currentKp.current,
       statusPerkhidmatan: currentStatusPerkhidmatan.current,
     };
-    if (FType === 'peg') {
+    if (FType === 'pp') {
       Data = {
         nama: currentName.current,
-        mdcNumber: currentMdcNumber.current,
+        statusPegawai: 'pp',
+        mdcNumber: currentRegNumber.current,
+        gred: currentGred.current,
+        kpSkrg: currentKp.current,
+        role: currentRole.current,
+      };
+    }
+    if (FType === 'jp') {
+      Data = {
+        nama: currentName.current,
+        statusPegawai: 'jp',
+        mdtbNumber: currentRegNumber.current,
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
@@ -82,26 +94,10 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     createData(FType, Data).then((res) => {
       console.log(res);
       if (res.statusText === 'OK') {
-        toast.info(`Data berjaya ditambah`, {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.info(`Data berjaya ditambah`);
         setShowAddModal(false);
       } else {
-        toast.error(`Data tidak berjaya ditambah`, {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error(`Data tidak berjaya ditambah`);
         setShowAddModal(false);
       }
     });
@@ -276,7 +272,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
           <div className={styles.centered}>
             <div className={styles.modalAdd}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>TAMBAH PEGAWAI</h5>
+                <h5 className={styles.heading}>TAMBAH {Dictionary[FType]}</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -288,7 +284,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='admin-pegawai-handler-input'>
                     <p>
-                      Nama Pegawai{' '}
+                      Nama {Dictionary[FType]}{' '}
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -303,12 +299,22 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         onChange={(e) => (currentName.current = e.target.value)}
                       />
                     </div>
-                    <p>
-                      Nombor MDC{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
+                    {FType === 'pp' && (
+                      <p>
+                        Nombor MDC{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    )}
+                    {FType === 'jp' && (
+                      <p>
+                        Nombor MDTB{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    )}
                     <div className='grid gap-1'>
                       <input
                         required
@@ -317,7 +323,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         name='mdc'
                         id='mdc'
                         onChange={(e) =>
-                          (currentMdcNumber.current = e.target.value)
+                          (currentRegNumber.current = e.target.value)
                         }
                       />
                     </div>
@@ -328,20 +334,40 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                           *
                         </span>
                       </p>
-                      <select
-                        required
-                        className='border-2'
-                        onChange={(e) => (currentGred.current = e.target.value)}
-                      >
-                        <option value=''>Pilih Gred</option>
-                        <option value='jusa'>JUSA</option>
-                        <option value='ug56'>UG56</option>
-                        <option value='ug54'>UG54</option>
-                        <option value='ug52'>UG52</option>
-                        <option value='ug48'>UG48</option>
-                        <option value='ug44'>UG44</option>
-                        <option value='ug41'>UG41</option>
-                      </select>
+                      {FType === 'pp' && (
+                        <select
+                          required
+                          className='border-2'
+                          onChange={(e) =>
+                            (currentGred.current = e.target.value)
+                          }
+                        >
+                          <option value=''>Pilih Gred</option>
+                          <option value='jusa'>JUSA</option>
+                          <option value='ug56'>UG56</option>
+                          <option value='ug54'>UG54</option>
+                          <option value='ug52'>UG52</option>
+                          <option value='ug48'>UG48</option>
+                          <option value='ug44'>UG44</option>
+                          <option value='ug41'>UG41</option>
+                        </select>
+                      )}
+                      {FType === 'jp' && (
+                        <select
+                          required
+                          className='border-2'
+                          onChange={(e) =>
+                            (currentGred.current = e.target.value)
+                          }
+                        >
+                          <option value=''>Pilih Gred</option>
+                          <option value='u40'>U40</option>
+                          <option value='u38'>U38</option>
+                          <option value='u36'>U36</option>
+                          <option value='u32'>U32</option>
+                          <option value='u29'>U29</option>
+                        </select>
+                      )}
                     </div>
                     <div className='grid gap-1'>
                       <p>
@@ -356,8 +382,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         onChange={(e) => (currentKp.current = e.target.value)}
                       >
                         <option value=''>Pilih Klinik</option>
-                        {klinik.map((k, index) => (
-                          <option value={k.nama}>{k.nama}</option>
+                        {klinik.map((k) => (
+                          <option value={k.kp}>{k.kp}</option>
                         ))}
                       </select>
                     </div>
@@ -624,8 +650,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   return (
     <>
       {FType === 'kp' && <Klinik />}
-      {FType === 'peg' && <Pegawai />}
-      {FType !== 'kp' && FType !== 'peg' && <Facility />}
+      {(FType === 'pp' || FType === 'jp') && <Pegawai />}
+      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && <Facility />}
     </>
   );
 };

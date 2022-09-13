@@ -4,6 +4,7 @@ import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
+import { AiOutlineEye } from 'react-icons/ai';
 import { Ring } from 'react-awesome-spinners';
 
 export default function Data({ FType }) {
@@ -21,13 +22,22 @@ export default function Data({ FType }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const { Dictionary, getCurrentUser, readData, encryptEmail } =
-    useGlobalAdminAppContext();
+  // short circuit
+  const [showKlinik, setShowKlinik] = useState(false);
+  const [showOperators, setShowOperators] = useState(false);
+  const [showFacilities, setShowFacilities] = useState(false);
+
+  const {
+    Dictionary,
+    getCurrentUser,
+    readData,
+    encryptEmail,
+    encryptPassword,
+  } = useGlobalAdminAppContext();
 
   useEffect(() => {
-    setLoading(true);
-    setData([]);
     getCurrentUser().then((res) => {
       setDaerah(res.data.daerah);
       setNegeri(res.data.negeri);
@@ -36,10 +46,25 @@ export default function Data({ FType }) {
     readData(FType).then((res) => {
       console.log(res.data);
       setData(res.data);
+      if (FType === 'jp' || FType === 'pp') {
+        setShowOperators(true);
+      }
+      if (FType === 'kp') {
+        setShowKlinik(true);
+      }
+      if (FType !== 'kp' && FType !== 'jp' && FType !== 'pp') {
+        setShowFacilities(true);
+      }
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 500);
     });
+    return () => {
+      setLoading(true);
+      setShowFacilities(false);
+      setShowOperators(false);
+      setShowKlinik(false);
+    };
   }, [FType]);
 
   function Klinik() {
@@ -75,7 +100,19 @@ export default function Data({ FType }) {
                   {encryptEmail(kp.email)}
                 </td>
                 <td className='border border-slate-700'>{kp.username}</td>
-                <td className='border border-slate-700'>{kp.password}</td>
+                <td className='border border-slate-700'>
+                  <div id={index}>
+                    {showPassword === true
+                      ? kp.password
+                      : encryptPassword(kp.password)}
+                    <button
+                      className='ml-2'
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      <AiOutlineEye />
+                    </button>
+                  </div>
+                </td>
                 <td className='border border-slate-700'>
                   {kp.statusPerkhidmatan === 'active' ? (
                     <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
@@ -210,9 +247,16 @@ export default function Data({ FType }) {
                   <tr>
                     <td className='border border-slate-700'>{index + 1}</td>
                     <td className='border border-slate-700 px-3'>{o.nama}</td>
-                    <td className='border border-slate-700 px-3'>
-                      {o.mdcNumber}
-                    </td>
+                    {FType === 'pp' && (
+                      <th className='border border-slate-600 px-20'>
+                        {o.mdcNumber}
+                      </th>
+                    )}
+                    {FType === 'jp' && (
+                      <th className='border border-slate-600 px-20'>
+                        {o.mdtbNumber}
+                      </th>
+                    )}
                     <td className='border border-slate-700 uppercase'>
                       {o.gred}
                     </td>
@@ -396,9 +440,9 @@ export default function Data({ FType }) {
   if (!loading) {
     return (
       <>
-        {FType === 'kp' && <Klinik />}
-        {(FType === 'pp' || FType === 'jp') && <Pegawai />}
-        {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && <Facility />}
+        {showKlinik && <Klinik />}
+        {showOperators && <Pegawai />}
+        {showFacilities && <Facility />}
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={() => {
