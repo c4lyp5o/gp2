@@ -1882,6 +1882,10 @@ function UserFormUmumHeader() {
                       <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
                     </div>
                     <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>UMUR :</h2>
+                      <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
                       <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
                     </div>
@@ -1924,7 +1928,7 @@ function UserFormUmumHeader() {
           <form onSubmit={handleSubmit}>
             {/* <FasilitiPerkhidmatan {...masterForm} /> */}
             {/* <MaklumatLanjut {...masterForm} /> */}
-            <Pemeriksaan {...masterForm} />
+            <Pemeriksaan {...masterForm} singlePersonUmum={singlePersonUmum} />
             <Rawatan {...masterForm} />
             <Promosi {...masterForm} />
             {/* <Kotak {...masterForm} /> */}

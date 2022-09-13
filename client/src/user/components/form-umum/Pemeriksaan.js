@@ -710,7 +710,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div
                   className={`${
-                    props.umur < 15 && 'hidden'
+                    props.singlePersonUmum.umur < 15 && 'hidden'
                   } flex items-center flex-row pl-5`}
                 >
                   <p className='text-sm font-m'>
@@ -718,7 +718,7 @@ export default function Pemeriksaan(props) {
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required={props.umur < 15 ? false : true}
+                    required={props.singlePersonUmum.umur < 15 ? false : true}
                     name='skor-bpe-pemeriksaan-umum'
                     id='skor-bpe-pemeriksaan-umum'
                     value={props.skorBpeOralHygienePemeriksaanUmum}

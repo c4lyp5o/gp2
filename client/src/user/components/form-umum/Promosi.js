@@ -53,7 +53,7 @@ export default function Promosi(props) {
                 <h4 className='font-bold flex flex-row pl-5'>
                   melaksanakan aktiviti
                 </h4>
-                <div className='flex items-center justify-evenly'>
+                <div className='flex items-center flex-row pl-5'>
                   <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                     BEGIN:
                   </p>
@@ -109,7 +109,7 @@ export default function Promosi(props) {
                     </label>
                   </div>
                 </div>
-                <div className='flex items-center justify-evenly'>
+                <div className='flex items-center flex-row pl-5'>
                   <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                     lawatan ke rumah :
                   </p>
@@ -184,7 +184,7 @@ export default function Promosi(props) {
                     htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-umum'
                     className='mx-2 text-sm font-m'
                   >
-                    penyakit pergigian
+                    Plak Gigi
                   </label>
                 </div>
                 <div className='flex flex-row items-center pl-5 m-1'>

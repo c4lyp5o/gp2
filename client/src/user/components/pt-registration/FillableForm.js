@@ -786,6 +786,7 @@ export default function FillableForm({
                 <option value='kedayan'>Kedayan</option>
                 <option value='iban'>Iban</option>
                 <option value='bidayuh'>Bidayuh</option>
+                <option value='penan'>Penan</option>
                 <option value='bumiputera sarawak lain'>
                   Bumiputera sarawak lain
                 </option>
@@ -807,9 +808,9 @@ export default function FillableForm({
               >
                 <option value=''>Sila pilih..</option>
                 <option value='dalaman'>Dalaman</option>
-                <option value='kp'>Klinik Pergigian</option>
-                <option value='kk'>Klinik Kesihatan</option>
-                <option value='hospital'>Hospital</option>
+                <option value='kp'>Klinik Pergigian Kerajaan</option>
+                <option value='kk'>Klinik Kesihatan Kerajaan</option>
+                <option value='hospital'>Hospital / Institusi Kerajaan</option>
                 <option value='swasta'>Swasta</option>
                 <option value='lain-lain'>Lain-lain</option>
               </select>
