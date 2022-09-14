@@ -106,7 +106,6 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     <div className='grid gap-1'>
                       <label htmlFor='nama'>Nama Klinik</label>
                       <input
-                        required
                         defaultValue={editedEntity.kp}
                         className='border-2'
                         type='text'
@@ -140,7 +139,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                         type='radio'
                         id='role'
                         name='role'
-                        value='KEPP'
+                        value='kepp'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>UTC</label>
@@ -148,7 +147,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                         type='radio'
                         id='role'
                         name='role'
-                        value='UTC'
+                        value='utc'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>RTC</label>
@@ -156,7 +155,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                         type='radio'
                         id='role'
                         name='role'
-                        value='RTC'
+                        value='rtc'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>Visiting</label>
@@ -177,8 +176,8 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                             ? true
                             : false
                         }
-                        type='checkbox'
-                        name='checkbox'
+                        type='radio'
+                        name='status'
                         value='active'
                         onChange={(e) =>
                           (currentStatusPerkhidmatan.current = e.target.value)
@@ -186,13 +185,13 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                       />
                       <label htmlFor='nama'>Tidak Aktif</label>
                       <input
-                        defaultChecked={
+                        checked={
                           editedEntity.statusPerkhidmatan === 'non-active'
                             ? true
                             : false
                         }
-                        type='checkbox'
-                        name='checkbox'
+                        type='radio'
+                        name='status'
                         value='non-active'
                         onChange={(e) =>
                           (currentStatusPerkhidmatan.current = e.target.value)
@@ -218,140 +217,6 @@ const Modal = ({ setShowEditModal, id, FType }) => {
             </div>
           </div>
         </form>
-        {/* <form onSubmit={handleSubmit}>
-          <div
-            className={styles.darkBG}
-            onClick={() => setShowEditModal(false)}
-          />
-          <div className={styles.centered}>
-            <div className={styles.modalAdd}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
-              </div>
-              <span
-                className={styles.closeBtn}
-                onClick={() => setShowEditModal(false)}
-              >
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </span>
-              <div className={styles.modalContent}>
-                <div className='admin-pegawai-handler-container'>
-                  <div className='admin-pegawai-handler-input'>
-                    <p>Nama Klinik Pergigian</p>
-                    <input
-                      className='border-2'
-                      defaultValue={editedEntity.nama}
-                      type='text'
-                      name='Nama'
-                      id='nama'
-                      // onChange={(e) => (currentName.current = e.target.value)}
-                    />
-                    <br />
-                    <p>Role Klinik Pergigian</p>
-                    <div className='items-center'>
-                      <input
-                        defaultChecked={
-                          editedEntity.statusRoleKlinik === 'KEPP'
-                            ? true
-                            : false
-                        }
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='KEPP'
-                        onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      KEPP
-                      <input
-                        defaultChecked={
-                          editedEntity.statusRoleKlinik === 'UTC' ? true : false
-                        }
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='UTC'
-                        onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      UTC
-                      <input
-                        defaultChecked={
-                          editedEntity.statusRoleKlinik === 'RTC' ? true : false
-                        }
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='RTC'
-                        onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      RTC
-                      <input
-                        defaultChecked={
-                          editedEntity.statusRoleKlinik === 'visiting'
-                            ? true
-                            : false
-                        }
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='visiting'
-                        onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      Visiting
-                    </div>
-                    <br />
-                    <p>Status Klinik Pergigian</p>
-                    <div className={styles.modalContent}>
-                      <input
-                        defaultChecked={
-                          editedEntity.statusPerkhidmatan === 'active'
-                            ? true
-                            : false
-                        }
-                        id='statusPerkhidmatan'
-                        name='statusPerkhidmatan'
-                        type='radio'
-                        value='active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
-                      />
-                      Aktif
-                      <br />
-                      <input
-                        defaultChecked={
-                          editedEntity.statusPerkhidmatan === 'non-active'
-                            ? true
-                            : false
-                        }
-                        id='statusPerkhidmatan'
-                        name='statusPerkhidmatan'
-                        type='radio'
-                        value='non-active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
-                      />
-                      Tidak Aktif
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  <button className={styles.deleteBtn} type='submit'>
-                    TAMBAH
-                  </button>
-                  <span
-                    className={styles.cancelBtn}
-                    onClick={() => setShowEditModal(false)}
-                  >
-                    Cancel
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form> */}
       </>
     );
   }
@@ -537,7 +402,15 @@ const Modal = ({ setShowEditModal, id, FType }) => {
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
                 <div className='admin-pegawai-handler-input'>
-                  <p>Nama Fasiliti: {editedEntity.nama} </p>
+                  {FType !== 'kpb' && FType !== 'mp' ? (
+                    <p>
+                      Nama {Dictionary[FType]}: {editedEntity.nama}{' '}
+                    </p>
+                  ) : (
+                    <p>
+                      Nombor Plat {Dictionary[FType]}: {editedEntity.nama}{' '}
+                    </p>
+                  )}
                   <br />
                   <p>
                     Klinik Bertugas{' '}

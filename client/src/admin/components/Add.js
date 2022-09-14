@@ -21,7 +21,6 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   const currentKp = useRef();
   const currentKodFasiliti = useRef();
   const currentRegNumber = useRef();
-  const currentStatusPegawai = useRef();
   const currentGred = useRef();
   const currentRole = useRef('');
   const currentRisiko = useRef();
@@ -105,7 +104,6 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
 
   useEffect(() => {
     pingApdmServer().then((res) => {
-      console.log(res.status);
       if (res.status === 200) {
         statusApdm.current = true;
       } else {
@@ -189,7 +187,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         type='radio'
                         id='role'
                         name='checkbox'
-                        value='KEPP'
+                        value='kepp'
                         onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>UTC</label>
@@ -197,7 +195,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         type='radio'
                         id='role'
                         name='checkbox'
-                        value='UTC'
+                        value='utc'
                         onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>RTC</label>
@@ -205,7 +203,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         type='radio'
                         id='role'
                         name='checkbox'
-                        value='RTC'
+                        value='rtc'
                         onChange={(e) => (currentRole.current = e.target.value)}
                       />
                       <label htmlFor='nama'>Visiting</label>
@@ -213,7 +211,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         type='radio'
                         id='role'
                         name='checkbox'
-                        value='Visiting'
+                        value='visiting'
                         onChange={(e) => (currentRole.current = e.target.value)}
                       />
                     </div>
@@ -221,8 +219,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                     <div className='grid grid-cols-2'>
                       <label htmlFor='nama'>Aktif</label>
                       <input
-                        type='checkbox'
-                        name='checkbox'
+                        type='radio'
+                        name='status'
                         value='active'
                         onChange={(e) =>
                           (currentStatusPerkhidmatan.current = e.target.value)
@@ -230,8 +228,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                       />
                       <label htmlFor='nama'>Tidak Aktif</label>
                       <input
-                        type='checkbox'
-                        name='checkbox'
+                        type='radio'
+                        name='status'
                         value='non-active'
                         onChange={(e) =>
                           (currentStatusPerkhidmatan.current = e.target.value)
@@ -451,15 +449,25 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                   <div className='mb-3'>
                     {(FType === 'sm' || FType === 'sr') &&
                       (statusApdm.current === true ? (
-                        <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                          APDM Aktif
-                        </span>
+                        <>
+                          <div>
+                            <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                              APDM Aktif
+                            </span>
+                          </div>
+                          <div>
+                            <span>
+                              Tarikh data:{' '}
+                              {new Date().toLocaleDateString('en-GB')}
+                            </span>
+                          </div>
+                        </>
                       ) : (
                         <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
                           APDM Tidak Aktif
                         </span>
                       ))}
-                    {FType === 'kpb' ? (
+                    {FType === 'kpb' || FType === 'mp' ? (
                       <div>Nombor plat {Dictionary[FType]}</div>
                     ) : (
                       <div>
@@ -487,7 +495,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                     ) : (
                       <div className='grid gap-1'>
                         <select
-                          className='border-2'
+                          className='border-2 max-w-sm'
                           name='kp'
                           onChange={(e) => {
                             currentName.current = e.target.value;
@@ -497,13 +505,11 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                           }}
                         >
                           <option value=''>Pilih Sekolah</option>
-                          {sekolah
-                            .filter((s) => s.daerah === daerah)
-                            .map((s) => (
-                              <option value={s.nama} id={s.kodSekolah}>
-                                {s.nama}
-                              </option>
-                            ))}
+                          {sekolah.map((s) => (
+                            <option value={s.namaSekolah} id={s.kodSekolah}>
+                              {s.namaSekolah}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     )}

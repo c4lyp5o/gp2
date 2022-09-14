@@ -15,6 +15,7 @@ const Dictionary = {
   sm: 'sekolah-menengah',
   ins: 'institusi',
   kpb: 'kp-bergerak',
+  mp: 'makmal-pergigian',
 };
 
 exports.getData = async (req, res, next) => {
@@ -22,7 +23,8 @@ exports.getData = async (req, res, next) => {
     res.status(200).json({
       message: 'This is the only way. Proceed carefully',
     });
-  } else {
+  }
+  if (req.method === 'POST') {
     const { main } = req.body;
     switch (main) {
       case 'DataCenter':

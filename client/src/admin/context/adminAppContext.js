@@ -129,12 +129,14 @@ function AdminAppProvider({ children }) {
   // erkm
 
   const readSekolahData = async (FType) => {
-    const response = await axios.get('https://erkm.calypsocloud.one/data');
+    const response = await axios.get(
+      'https://erkm.calypsocloud.one/listsekolah'
+    );
     switch (FType) {
       case 'sr':
-        return response.data.sekolahRendah;
+        return response.data[1].sekolahRendah;
       case 'sm':
-        return response.data.sekolahMenengah;
+        return response.data[2].sekolahMenengah;
       default:
         console.log('there was no request');
     }
