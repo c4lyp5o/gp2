@@ -847,7 +847,9 @@ export default function FillableForm({
                 <option value='dalaman'>Dalaman</option>
                 <option value='kp'>Klinik Pergigian Kerajaan</option>
                 <option value='kk'>Klinik Kesihatan Kerajaan</option>
-                <option value='hospital'>Hospital / Institusi Kerajaan</option>
+                <option value='hospital/institusi-kerajaan'>
+                  Hospital / Institusi Kerajaan
+                </option>
                 <option value='swasta'>Swasta</option>
                 <option value='lain-lain'>Lain-lain</option>
               </select>
