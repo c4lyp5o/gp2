@@ -17,6 +17,7 @@ const UmumSchema = new mongoose.Schema(
     ic: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
+    umurBulan: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
     alamat: { type: String, default: '' },
     daerahAlamat: { type: String, default: '' },

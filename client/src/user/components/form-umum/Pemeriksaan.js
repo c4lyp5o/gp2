@@ -519,11 +519,10 @@ export default function Pemeriksaan(props) {
                   Fluoride Varnish
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan<span className='text-user6'>*</span>
+                  Perlu Sapuan
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
-                    required
                     type='radio'
                     name='fv-perlu-sapuan-pemeriksaan-umum'
                     id='ya-fv-perlu-sapuan-pemeriksaan-umum'
@@ -546,7 +545,6 @@ export default function Pemeriksaan(props) {
                     Ya
                   </label>
                   <input
-                    required
                     type='radio'
                     name='fv-perlu-sapuan-pemeriksaan-umum'
                     id='tidak-fv-perlu-sapuan-pemeriksaan-umum'
@@ -575,11 +573,10 @@ export default function Pemeriksaan(props) {
                   Silver Diamine Fluoride
                 </h4>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan<span className='text-user6'>*</span>
+                  Perlu Sapuan
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
-                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     id='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
@@ -604,7 +601,6 @@ export default function Pemeriksaan(props) {
                     Ya
                   </label>
                   <input
-                    required
                     type='radio'
                     name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                     id='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
@@ -710,7 +706,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div
                   className={`${
-                    props.singlePersonUmum.umur < 15 && 'hidden'
+                    props.singlePersonUmum.umur >= 18 && 'hidden'
                   } flex items-center flex-row pl-5`}
                 >
                   <p className='text-sm font-m'>
@@ -718,7 +714,7 @@ export default function Pemeriksaan(props) {
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required={props.singlePersonUmum.umur < 15 ? false : true}
+                    required={props.singlePersonUmum.umur >= 18 ? false : true}
                     name='skor-bpe-pemeriksaan-umum'
                     id='skor-bpe-pemeriksaan-umum'
                     value={props.skorBpeOralHygienePemeriksaanUmum}
@@ -737,13 +733,17 @@ export default function Pemeriksaan(props) {
                     <option value='4'>4</option>
                   </select>
                 </div>
-                <div className='flex items-center flex-row pl-5'>
+                <div
+                  className={`${
+                    props.singlePersonUmum.umur <= 17 && 'hidden'
+                  } flex items-center flex-row pl-5`}
+                >
                   <p className='text-sm font-m'>
                     GIS Skor:
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required
+                    required={props.singlePersonUmum.umur <= 17 ? false : true}
                     name='skor-gis-pemeriksaan-umum'
                     id='skor-gis-pemeriksaan-umum'
                     value={props.skorGisMulutOralHygienePemeriksaanUmum}
@@ -1126,138 +1126,144 @@ export default function Pemeriksaan(props) {
                   </div> */}
                 </div>
               </article>
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  warga emas
-                </h4>
-                <p className='flex items-center justify-center text-sm font-m '>
-                  edentulous:
-                </p>
-                <div className='flex items-center justify-center'>
-                  <input
-                    required
-                    type='radio'
-                    name='edentulous-warga-emas-pemeriksaan-umum'
-                    id='ya-edentulous-warga-emas-pemeriksaan-umum'
-                    value='ya-edentulous-warga-emas-pemeriksaan-umum'
-                    checked={
-                      props.edentulousWargaEmasPemeriksaanUmum ===
-                      'ya-edentulous-warga-emas-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setEdentulousWargaEmasPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='ya-edentulous-warga-emas-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    Ya
-                  </label>
-                  <input
-                    required
-                    type='radio'
-                    name='edentulous-warga-emas-pemeriksaan-umum'
-                    id='tidak-edentulous-warga-emas-pemeriksaan-umum'
-                    value='tidak-edentulous-warga-emas-pemeriksaan-umum'
-                    checked={
-                      props.edentulousWargaEmasPemeriksaanUmum ===
-                      'tidak-edentulous-warga-emas-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setEdentulousWargaEmasPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='tidak-edentulous-warga-emas-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    Tidak
-                  </label>
-                </div>
-                <p className='flex items-center justify-center text-sm font-m '>
-                  mempunyai ≥ 20 gigi:
-                </p>
-                <div className='flex items-center justify-center'>
-                  <input
-                    type='radio'
-                    name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    id='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    value='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    checked={
-                      props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
-                      'ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    ya
-                  </label>
-                  <input
-                    type='radio'
-                    name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    id='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    value='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    checked={
-                      props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
-                      'tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    tidak
-                  </label>
-                </div>
-                <div className='flex flex-row pl-5 items-center col-span-2'>
-                  <p className='text-sm font-m '>bilangan gigi: </p>
-                  <input
-                    min='0'
-                    max='20'
-                    type='number'
-                    name='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    id='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
-                    value={
-                      props.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
-                    }
-                    onChange={(e) => {
-                      props.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-              </article>
+              {props.singlePersonUmum.umur >= 60 && (
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    warga emas
+                  </h4>
+                  <p className='flex items-center justify-center text-sm font-m '>
+                    edentulous:
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      required={
+                        props.singlePersonUmum.umur >= 60 ? false : true
+                      }
+                      type='radio'
+                      name='edentulous-warga-emas-pemeriksaan-umum'
+                      id='ya-edentulous-warga-emas-pemeriksaan-umum'
+                      value='ya-edentulous-warga-emas-pemeriksaan-umum'
+                      checked={
+                        props.edentulousWargaEmasPemeriksaanUmum ===
+                        'ya-edentulous-warga-emas-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setEdentulousWargaEmasPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-edentulous-warga-emas-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      required={
+                        props.singlePersonUmum.umur >= 60 ? false : true
+                      }
+                      type='radio'
+                      name='edentulous-warga-emas-pemeriksaan-umum'
+                      id='tidak-edentulous-warga-emas-pemeriksaan-umum'
+                      value='tidak-edentulous-warga-emas-pemeriksaan-umum'
+                      checked={
+                        props.edentulousWargaEmasPemeriksaanUmum ===
+                        'tidak-edentulous-warga-emas-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setEdentulousWargaEmasPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-edentulous-warga-emas-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                  <p className='flex items-center justify-center text-sm font-m '>
+                    mempunyai ≥ 20 gigi:
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      type='radio'
+                      name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      id='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      value='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      checked={
+                        props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
+                        'ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      ya
+                    </label>
+                    <input
+                      type='radio'
+                      name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      id='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      value='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      checked={
+                        props.mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ===
+                        'tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      tidak
+                    </label>
+                  </div>
+                  <div className='flex flex-row pl-5 items-center col-span-2'>
+                    <p className='text-sm font-m '>bilangan gigi: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      id='bilangan-gigi-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
+                      value={
+                        props.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                </article>
+              )}
             </div>
             <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -1411,192 +1417,198 @@ export default function Pemeriksaan(props) {
                   </label>
                 </div>
               </article>
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-semibold flex flex-row pl-3'>
-                  kes endodontik diperlukan
-                </h4>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    anterior :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={
-                      props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
-                    }
-                    onChange={(e) => {
-                      props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    premolar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={
-                      props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
-                    }
-                    onChange={(e) => {
-                      props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    molar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={
-                      props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
-                    }
-                    onChange={(e) => {
-                      props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    rawatan semula endodontik dari primer :
-                  </label>
-                  <input
-                    type='number'
-                    name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={
-                      props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
-                    }
-                    onChange={(e) => {
-                      props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex items-center justify-center'>
-                  <p className='flex items-center justify-center text-sm font-m mr-3'>
-                    perlu rawatan lain
-                  </p>
-                  <input
-                    type='radio'
-                    name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    checked={
-                      props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
-                      'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    ya
-                  </label>
-                  <input
-                    type='radio'
-                    name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    checked={
-                      props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
-                      'tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        ? true
-                        : false
-                    }
-                    onChange={(e) => {
-                      props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                  <label
-                    htmlFor='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='m-2 text-sm font-m'
-                  >
-                    tidak
-                  </label>
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    cabutan :
-                  </label>
-                  <input
-                    type='number'
-                    name='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={props.cabutanKesEndodontikDiperlukanPemeriksaanUmum}
-                    onChange={(e) => {
-                      props.setCabutanKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    tampalan :
-                  </label>
-                  <input
-                    type='number'
-                    name='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    id='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
-                    value={props.tampalanKesEndodontikDiperlukanPemeriksaanUmum}
-                    onChange={(e) => {
-                      props.setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-              </article>
+              {props.kepp === true ? (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    kes endodontik diperlukan
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      anterior :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      premolar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      molar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      rawatan semula endodontik dari primer :
+                    </label>
+                    <input
+                      type='number'
+                      name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex items-center justify-center'>
+                    <p className='flex items-center justify-center text-sm font-m mr-3'>
+                      perlu rawatan lain
+                    </p>
+                    <input
+                      type='radio'
+                      name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      checked={
+                        props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
+                        'ya-disaring-program-kanser-mulut-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      ya
+                    </label>
+                    <input
+                      type='radio'
+                      name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      checked={
+                        props.rawatanLainKesEndodontikDiperlukanPemeriksaanUmum ===
+                        'tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setRawatanLainKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      tidak
+                    </label>
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      cabutan :
+                    </label>
+                    <input
+                      type='number'
+                      name='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.cabutanKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setCabutanKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      tampalan :
+                    </label>
+                    <input
+                      type='number'
+                      name='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.tampalanKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                </article>
+              ) : null}
             </div>
           </section>
         </div>

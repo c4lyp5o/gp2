@@ -1379,229 +1379,239 @@ export default function Rawatan(props) {
                 </div>
               </article>
               {/* pink */}
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-semibold flex flex-row pl-3'>
-                  rawatan semula di KEPP
-                </h4>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    anterior :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                    id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                    value={props.jumlahAnteriorRawatanSemulaKeppRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    premolar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                    id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                    value={props.jumlahPremolarRawatanSemulaKeppRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahPremolarRawatanSemulaKeppRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    molar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                    id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                    value={props.jumlahMolarRawatanSemulaKeppRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahMolarRawatanSemulaKeppRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-              </article>
+              {props.kepp === true ? (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    rawatan semula di KEPP
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      anterior :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                      id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                      value={props.jumlahAnteriorRawatanSemulaKeppRawatanUmum}
+                      onChange={(e) => {
+                        props.setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      premolar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                      id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                      value={props.jumlahPremolarRawatanSemulaKeppRawatanUmum}
+                      onChange={(e) => {
+                        props.setJumlahPremolarRawatanSemulaKeppRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      molar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                      id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                      value={props.jumlahMolarRawatanSemulaKeppRawatanUmum}
+                      onChange={(e) => {
+                        props.setJumlahMolarRawatanSemulaKeppRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                </article>
+              ) : null}
               {/* pink */}
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-semibold flex flex-row pl-3'>
-                  kes endodontik selesai
-                </h4>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    anterior :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
-                    id='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
-                    value={props.jumlahAnteriorKesEndodontikSelesaiRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahAnteriorKesEndodontikSelesaiRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    premolar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
-                    id='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
-                    value={props.jumlahPremolarKesEndodontikSelesaiRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahPremolarKesEndodontikSelesaiRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    molar :
-                  </label>
-                  <input
-                    type='number'
-                    name='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
-                    id='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
-                    value={props.jumlahMolarKesEndodontikSelesaiRawatanUmum}
-                    onChange={(e) => {
-                      props.setJumlahMolarKesEndodontikSelesaiRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    rawatan semula endodontik dari primer :
-                  </label>
-                  <input
-                    type='number'
-                    name='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
-                    id='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
-                    value={
-                      props.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum
-                    }
-                    onChange={(e) => {
-                      props.setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-              </article>
+              {props.kepp === true ? (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    kes endodontik selesai
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      anterior :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
+                      id='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
+                      value={
+                        props.jumlahAnteriorKesEndodontikSelesaiRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahAnteriorKesEndodontikSelesaiRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      premolar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
+                      id='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
+                      value={
+                        props.jumlahPremolarKesEndodontikSelesaiRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahPremolarKesEndodontikSelesaiRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      molar :
+                    </label>
+                    <input
+                      type='number'
+                      name='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
+                      id='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
+                      value={props.jumlahMolarKesEndodontikSelesaiRawatanUmum}
+                      onChange={(e) => {
+                        props.setJumlahMolarKesEndodontikSelesaiRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      rawatan semula endodontik dari primer :
+                    </label>
+                    <input
+                      type='number'
+                      name='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
+                      id='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
+                      value={
+                        props.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                </article>
+              ) : null}
               {/* pink */}
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-semibold flex flex-row pl-3'>
-                  kes rujuk UPPR
-                </h4>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    memenuhi RDITN kod 3 :
-                  </label>
-                  <input
-                    type='number'
-                    name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                    id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                    value={props.memenuhiRditnKod3KesRujukUpprRawatanUmum}
-                    onChange={(e) => {
-                      props.setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    restorasi pasca endodontik :
-                  </label>
-                  <input
-                    type='number'
-                    name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                    id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                    value={
-                      props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
-                    }
-                    onChange={(e) => {
-                      props.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-3'>
-                  <label
-                    htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                    className='text-sm font-m m-1'
-                  >
-                    komplikasi semasa rawatan KEPP :
-                  </label>
-                  <input
-                    type='number'
-                    name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                    id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                    value={
-                      props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
-                    }
-                    onChange={(e) => {
-                      props.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
-                  />
-                </div>
-              </article>
+              {props.kepp === true ? (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    kes rujuk UPPR
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      memenuhi RDITN kod 3 :
+                    </label>
+                    <input
+                      type='number'
+                      name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                      id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                      value={props.memenuhiRditnKod3KesRujukUpprRawatanUmum}
+                      onChange={(e) => {
+                        props.setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      restorasi pasca endodontik :
+                    </label>
+                    <input
+                      type='number'
+                      name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                      id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                      value={
+                        props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      komplikasi semasa rawatan KEPP :
+                    </label>
+                    <input
+                      type='number'
+                      name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                      id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                      value={
+                        props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
+                      }
+                      onChange={(e) => {
+                        props.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                    />
+                  </div>
+                </article>
+              ) : null}
             </div>
           </section>
         </div>

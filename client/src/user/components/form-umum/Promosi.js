@@ -366,7 +366,6 @@ export default function Promosi(props) {
                   />
                 </div>
               </article>
-              {/* hijau */}
               <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='flex flex-row pl-5 text-sm font-bold'>
                   khidmat rundingan pakar pergigian kesihatan awam

@@ -19,6 +19,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [ic, setIc] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState('');
+  const [umurBulan, setUmurBulan] = useState('');
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
   const [daerahAlamat, setDaerahAlamat] = useState('');
@@ -79,6 +80,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
+  const howOldAreYouMyFriend = (date) => {
+    const today = new Date();
+    const dob = new Date(date);
+    const diff = today.getTime() - dob.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const days_diff = Math.floor((diff % 31556736000) / 86400000);
+    const months = Math.floor(days_diff / 30.4167);
+    const days = Math.floor(days_diff % 30.4167);
+    return { tahun: years, bulan: months };
+  };
+
   const closeModal = () => {
     setShowKemaskini(false);
   };
@@ -99,6 +111,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setIc(data.singlePersonUmum.ic);
         setTarikhLahir(data.singlePersonUmum.tarikhLahir);
         setUmur(data.singlePersonUmum.umur);
+        setUmurBulan(data.singlePersonUmum.umurBulan);
         setJantina(data.singlePersonUmum.jantina);
         setAlamat(data.singlePersonUmum.alamat);
         setDaerahAlamat(data.singlePersonUmum.daerahAlamat);
@@ -191,6 +204,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           ic,
           tarikhLahir,
           umur,
+          umurBulan,
           jantina,
           alamat,
           daerahAlamat,
@@ -401,7 +415,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               <input
                 required
                 value={tarikhLahir}
-                onChange={(e) => setTarikhLahir(e.target.value)}
+                onChange={(e) => {
+                  setTarikhLahir(e.target.value);
+                  setUmur(howOldAreYouMyFriend(e.target.value));
+                }}
                 type='date'
                 name='tarikhLahir'
               />
@@ -411,13 +428,21 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 umur: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
-                required
-                value={umur}
-                onChange={(e) => setUmur(e.target.value)}
+                disabled
                 type='number'
                 name='umur'
+                value={umur}
                 className='outline outline-1 outline-userBlack w-16 text-sm font-m'
               />
+              <p className='mx-3'>tahun</p>
+              <input
+                disabled
+                type='number'
+                name='umur'
+                value={umurBulan}
+                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+              />
+              <p className='mx-3'>bulan</p>
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -608,7 +633,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
             </div>
             {jenisFasiliti === 'kp' && (
               <>
-                <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
+                <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md mx-2'>
                   <div className='flex'>
                     <div className='flex items-center flex-row pl-5'>
                       <input
@@ -757,7 +782,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                     />
                   </div>
                 </article>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md mx-2'>
                   <p className='font-semibold col-span-2'>
                     penyampaian perkhidmatan
                   </p>
@@ -841,7 +866,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </>
             )}
             {jenisFasiliti === 'taska-tadika' && (
-              <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
+              <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md mx-2'>
                 <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <div>
                     <p className='font-semibold'>fasiliti taska / tadika </p>
