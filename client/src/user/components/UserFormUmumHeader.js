@@ -983,21 +983,6 @@ function UserFormUmumHeader() {
   const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
   masterForm.lmgPromosiUmum = lmgPromosiUmum;
   masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
-  const [kursusSeminarBengkelPromosiUmum, setKursusSeminarBengkelPromosiUmum] =
-    useState(false);
-  masterForm.kursusSeminarBengkelPromosiUmum = kursusSeminarBengkelPromosiUmum;
-  masterForm.setKursusSeminarBengkelPromosiUmum =
-    setKursusSeminarBengkelPromosiUmum;
-  const [mainPerananPromosiUmum, setMainPerananPromosiUmum] = useState(false);
-  masterForm.mainPerananPromosiUmum = mainPerananPromosiUmum;
-  masterForm.setMainPerananPromosiUmum = setMainPerananPromosiUmum;
-  const [pertunjukanBonekaPromosiUmum, setPertunjukanBonekaPromosiUmum] =
-    useState(false);
-  masterForm.pertunjukanBonekaPromosiUmum = pertunjukanBonekaPromosiUmum;
-  masterForm.setPertunjukanBonekaPromosiUmum = setPertunjukanBonekaPromosiUmum;
-  const [berceritaPromosiUmum, setBerceritaPromosiUmum] = useState(false);
-  masterForm.berceritaPromosiUmum = berceritaPromosiUmum;
-  masterForm.setBerceritaPromosiUmum = setBerceritaPromosiUmum;
   const [
     plakGigiNasihatPergigianIndividuPromosiUmum,
     setPlakGigiNasihatPergigianIndividuPromosiUmum,
@@ -1031,13 +1016,17 @@ function UserFormUmumHeader() {
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiUmum =
     setKanserMulutNasihatPergigianIndividuPromosiUmum;
   const [
-    dirujukKaunselingPakarPublicHealthPromosiUmum,
-    setDirujukKaunselingPakarPublicHealthPromosiUmum,
-  ] = useState(false);
-  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
-    dirujukKaunselingPakarPublicHealthPromosiUmum;
-  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
-    setDirujukKaunselingPakarPublicHealthPromosiUmum;
+    melaksanakanAktivitiBeginPromosiUmum,
+    setMelaksanakanAktivitiBeginPromosiUmum,
+  ] = useState('');
+  masterForm.melaksanakanAktivitiBeginPromosiUmum =
+    melaksanakanAktivitiBeginPromosiUmum;
+  masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
+    setMelaksanakanAktivitiBeginPromosiUmum;
+  const [lawatanKeRumahPromosiUmum, setLawatanKeRumahPromosiUmum] =
+    useState('');
+  masterForm.lawatanKeRumahPromosiUmum = lawatanKeRumahPromosiUmum;
+  masterForm.setLawatanKeRumahPromosiUmum = setLawatanKeRumahPromosiUmum;
   const [
     umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
     setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
@@ -1087,13 +1076,13 @@ function UserFormUmumHeader() {
   masterForm.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
     setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
   const [
-    melaksanakanAktivitiBeginPromosiUmum,
-    setMelaksanakanAktivitiBeginPromosiUmum,
-  ] = useState('');
-  masterForm.melaksanakanAktivitiBeginPromosiUmum =
-    melaksanakanAktivitiBeginPromosiUmum;
-  masterForm.setMelaksanakanAktivitiBeginPromosiUmum =
-    setMelaksanakanAktivitiBeginPromosiUmum;
+    dirujukKaunselingPakarPublicHealthPromosiUmum,
+    setDirujukKaunselingPakarPublicHealthPromosiUmum,
+  ] = useState(false);
+  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
+    dirujukKaunselingPakarPublicHealthPromosiUmum;
+  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
+    setDirujukKaunselingPakarPublicHealthPromosiUmum;
   //kotak
   const [statusMUmum, setStatusMUmum] = useState('');
   masterForm.statusMUmum = statusMUmum;
@@ -1578,14 +1567,12 @@ function UserFormUmumHeader() {
         //map promosi
         setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
         setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
-        setKursusSeminarBengkelPromosiUmum(
-          data.singlePersonUmum.kursusSeminarBengkelPromosiUmum
+        setMelaksanakanAktivitiBeginPromosiUmum(
+          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
-        setMainPerananPromosiUmum(data.singlePersonUmum.mainPerananPromosiUmum);
-        setPertunjukanBonekaPromosiUmum(
-          data.singlePersonUmum.pertunjukanBonekaPromosiUmum
+        setLawatanKeRumahPromosiUmum(
+          data.singlePersonUmum.lawatanKeRumahPromosiUmum
         );
-        setBerceritaPromosiUmum(data.singlePersonUmum.berceritaPromosiUmum);
         setPlakGigiNasihatPergigianIndividuPromosiUmum(
           data.singlePersonUmum.plakGigiNasihatPergigianIndividuPromosiUmum
         );
@@ -1598,9 +1585,6 @@ function UserFormUmumHeader() {
         );
         setKanserMulutNasihatPergigianIndividuPromosiUmum(
           data.singlePersonUmum.kanserMulutNasihatPergigianIndividuPromosiUmum
-        );
-        setDirujukKaunselingPakarPublicHealthPromosiUmum(
-          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
         );
         setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
           data.singlePersonUmum
@@ -1622,8 +1606,8 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
         );
-        setMelaksanakanAktivitiBeginPromosiUmum(
-          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
+        setDirujukKaunselingPakarPublicHealthPromosiUmum(
+          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
         );
         //map kotak
         setStatusMUmum(data.singlePersonUmum.statusMUmum);
@@ -1808,22 +1792,18 @@ function UserFormUmumHeader() {
           //promosi
           ceramahPromosiUmum,
           lmgPromosiUmum,
-          kursusSeminarBengkelPromosiUmum,
-          mainPerananPromosiUmum,
-          pertunjukanBonekaPromosiUmum,
-          berceritaPromosiUmum,
           plakGigiNasihatPergigianIndividuPromosiUmum,
           penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
           dietPemakananNasihatPergigianIndividuPromosiUmum,
           kanserMulutNasihatPergigianIndividuPromosiUmum,
-          dirujukKaunselingPakarPublicHealthPromosiUmum,
+          melaksanakanAktivitiBeginPromosiUmum,
           umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
           umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-          melaksanakanAktivitiBeginPromosiUmum,
+          dirujukKaunselingPakarPublicHealthPromosiUmum,
           //kotak
           statusMUmum,
           jenisRUmum,
@@ -1902,6 +1882,10 @@ function UserFormUmumHeader() {
                       <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
                     </div>
                     <div className='text-sm flex flex-row '>
+                      <h2 className='font-semibold'>UMUR :</h2>
+                      <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                    </div>
+                    <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
                       <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
                     </div>
@@ -1944,7 +1928,7 @@ function UserFormUmumHeader() {
           <form onSubmit={handleSubmit}>
             {/* <FasilitiPerkhidmatan {...masterForm} /> */}
             {/* <MaklumatLanjut {...masterForm} /> */}
-            <Pemeriksaan {...masterForm} />
+            <Pemeriksaan {...masterForm} singlePersonUmum={singlePersonUmum} />
             <Rawatan {...masterForm} />
             <Promosi {...masterForm} />
             {/* <Kotak {...masterForm} /> */}

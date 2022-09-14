@@ -25,6 +25,7 @@ export default function FillableForm({
   const [ic, setIc] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
+  const [umurBulan, setUmurBulan] = useState(0);
   const [jantina, setJantina] = useState('');
   const [alamat, setAlamat] = useState('');
   const [daerahAlamat, setDaerahAlamat] = useState('');
@@ -85,8 +86,28 @@ export default function FillableForm({
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
-  const howOldAreYouMyFriend = (date) => {
-    return Math.floor((new Date() - new Date(date).getTime()) / 3.15576e10);
+  const howOldAreYouMyFriendtahun = (date) => {
+    const today = new Date();
+    const dob = new Date(date);
+    const diff = today.getTime() - dob.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const days_diff = Math.floor((diff % 31556736000) / 86400000);
+    const months = Math.floor(days_diff / 30.4167);
+    const days = Math.floor(days_diff % 30.4167);
+    const values = `${years} years`;
+    return values;
+  };
+
+  const howOldAreYouMyFriendbulan = (date) => {
+    const today = new Date();
+    const dob = new Date(date);
+    const diff = today.getTime() - dob.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const days_diff = Math.floor((diff % 31556736000) / 86400000);
+    const months = Math.floor(days_diff / 30.4167);
+    const days = Math.floor(days_diff % 30.4167);
+    const values = `${months} months`;
+    return values;
   };
 
   const handleSubmit = async (e) => {
@@ -107,6 +128,7 @@ export default function FillableForm({
               ic,
               tarikhLahir,
               umur,
+              umurBulan,
               jantina,
               alamat,
               daerahAlamat,
@@ -184,6 +206,7 @@ export default function FillableForm({
               ic,
               tarikhLahir,
               umur,
+              umurBulan,
               jantina,
               alamat,
               daerahAlamat,
@@ -258,6 +281,7 @@ export default function FillableForm({
     setIc('');
     setTarikhLahir('');
     setUmur(0);
+    setUmurBulan(0);
     setJantina('');
     setAlamat('');
     setDaerahAlamat('');
@@ -366,6 +390,7 @@ export default function FillableForm({
           setIc(data.singlePersonKaunter.ic);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
           setUmur(data.singlePersonKaunter.umur);
+          setUmurBulan(data.singlePersonKaunter.umurBulan);
           setJantina(data.singlePersonKaunter.jantina);
           setAlamat(data.singlePersonKaunter.alamat);
           setDaerahAlamat(data.singlePersonKaunter.daerahAlamat);
@@ -609,7 +634,10 @@ export default function FillableForm({
                 value={tarikhLahir}
                 onChange={(e) => {
                   setTarikhLahir(e.target.value);
-                  setUmur(parseInt(howOldAreYouMyFriend(e.target.value)));
+                  setUmur(parseInt(howOldAreYouMyFriendtahun(e.target.value)));
+                  setUmurBulan(
+                    parseInt(howOldAreYouMyFriendbulan(e.target.value))
+                  );
                 }}
                 type='date'
                 name='tarikhLahir'
@@ -627,6 +655,15 @@ export default function FillableForm({
                 value={umur}
                 className='outline outline-1 outline-userBlack w-16 text-sm font-m'
               />
+              <p className='mx-3'>tahun</p>
+              <input
+                disabled
+                type='number'
+                name='umur'
+                value={umurBulan}
+                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+              />
+              <p className='mx-3'>bulan</p>
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -786,6 +823,7 @@ export default function FillableForm({
                 <option value='kedayan'>Kedayan</option>
                 <option value='iban'>Iban</option>
                 <option value='bidayuh'>Bidayuh</option>
+                <option value='penan'>Penan</option>
                 <option value='bumiputera sarawak lain'>
                   Bumiputera sarawak lain
                 </option>
@@ -807,9 +845,11 @@ export default function FillableForm({
               >
                 <option value=''>Sila pilih..</option>
                 <option value='dalaman'>Dalaman</option>
-                <option value='kp'>Klinik Pergigian</option>
-                <option value='kk'>Klinik Kesihatan</option>
-                <option value='hospital'>Hospital</option>
+                <option value='kp'>Klinik Pergigian Kerajaan</option>
+                <option value='kk'>Klinik Kesihatan Kerajaan</option>
+                <option value='hospital/institusi-kerajaan'>
+                  Hospital / Institusi Kerajaan
+                </option>
                 <option value='swasta'>Swasta</option>
                 <option value='lain-lain'>Lain-lain</option>
               </select>
