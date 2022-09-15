@@ -11635,7 +11635,8 @@ exports.createCPPC2 = function (req, res) {
   );
 };
 
-exports.createPG101 = function (req, res) {
+exports.createPG101 = function (req, res) { 
+  // PG101A = Outpatient ; PG 101B = Pakar ; PG 101C = Outreach atau Komuniti 
   async.parallel(
     {
       negeri: function (callback) {
@@ -11696,9 +11697,9 @@ exports.createPG101 = function (req, res) {
         let worksheet = workbook.getWorksheet('PG101');
 
         let rowNew = worksheet.getRow(16);
-          rowNew.getCell(1).value = results.tarikh; //A16 - Tarikh
+          rowNew.getCell(1).value = results.tarikh; 
           // for i = 1, i++
-          // rowNew.getCell(2).value = results.nomborSiri; //B16 - No Siri (numberiing utk tahu berapa pt dalam 1 tahun)
+            // rowNew.getCell(2).value = results.nomborSiri; //B16 - No Siri (numberiing utk tahu berapa pt dalam 1 tahun)
           rowNew.getCell(3).value = results.waktuSampai; //C16 Waktu Sampai
           //   // rowNew.getCell(4).value = results.noPendaftaranBaru; //No Pendaftaran Baru
           //   // rowNew.getCell(5).value = results.noPendaftaranUlangan; //No Pendaftaran Ulangan
@@ -11812,6 +11813,178 @@ exports.createPG101 = function (req, res) {
           'public',
           'exports',
           'test-PG101.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG211Latest= function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS211.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG211');
+
+    //PG211A
+        let rowNew = worksheet.getRow(13);
+          rowNew.getCell(3).value = results.kedatanganTahunSemasa; 
+          switch (jantina) {
+            case "lelaki":
+              rowNew.getCell(4).value = results.jantina[0].lelaki;
+            case "perempuan":
+              rowNew.getCell(5).value = results.jantina[0].perempuan;
+            default:
+              return null
+          }
+          switch (kumpulanEtnik) { 
+            case "melayu":
+              rowNew.gelCell(6).value = results.kumpulanEtnik[0];
+            case "cina":
+              rowNew.gelCell(7).value = results.kumpulanEtnik[0];
+            case "india":
+              rowNew.gelCell(8).value = results.kumpulanEtnik[0];
+            case "bajau":
+              rowNew.gelCell(9).value = results.kumpulanEtnik[0];
+            case "dusun":
+              rowNew.gelCell(10).value = results.kumpulanEtnik[0];
+            case "kadazan":
+              rowNew.gelCell(11).value = results.kumpulanEtnik[0];
+            case "murut":
+              rowNew.gelCell(12).value = results.kumpulanEtnik[0];
+            case "bumiputera sabah lain":
+              rowNew.gelCell(13).value = results.kumpulanEtnik[0];
+            case "melanau":
+              rowNew.gelCell(14).value = results.kumpulanEtnik[0];
+            case "kedayan":
+              rowNew.gelCell(15).value = results.kumpulanEtnik[0];
+            case "iban":
+              rowNew.gelCell(16).value = results.kumpulanEtnik[0];
+            case "bidayuh":
+              rowNew.gelCell(17).value = results.kumpulanEtnik[0];
+            case "penan":
+              rowNew.gelCell(18).value = results.kumpulanEtnik[0];
+            case "bumiputera sarawak lain":
+              rowNew.gelCell(19).value = results.kumpulanEtnik[0];
+            case "orang asli semenanjung":
+              rowNew.gelCell(20).value = results.kumpulanEtnik[0];
+            case "lain-lain":
+              rowNew.gelCell(21).value = results.kumpulanEtnik[0];
+            case "bukan warganegara":
+              rowNew.gelCell(22).value = results.kumpulanEtnik[0];
+              default: 
+                return null
+          }
+          switch (kategoriPesakit) {
+            case ("hamil"):
+              rowNew.getCell(23) = results.kategoriPesakit[0];
+            case ("prasekolah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("sekolahrendah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("sekolahmenengah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("oku"):
+              rowNew.getCell(25) = results.kategoriPesakit[0];
+            default:
+              return null
+          }
+          switch (statusPesara) {
+            case ("kerajaan"):
+              rowNew.getCell(26) = results.statusPesara[0];
+            case ("atm"):
+              rownew.getCell(27) = results.statusPesara[0];
+            default:
+              return null
+          }
+          switch (rujukDaripada){
+            case ("dalaman"):
+              rowNew.getCell(28) = results.rujukDaripada[0];
+            case ("kp"):
+              rowNew.getCell(29) = results.rujukDaripada[0];
+            case ("kk"):
+              rowNew.getCell(30) = results.rujukDaripada[0];
+            case ("hospital"):
+              rowNew.getCell(31) = results.rujukDaripada[0];
+            case ("swasta"):
+              rowNew.getCell(32) = results.rujukDaripada[0];
+            case ("lain2"):
+              rowNew.getCell(33) = results.rujukDaripada[0];
+            default:
+              return null
+          }
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG211.xlsx'
         );
 
         // Write the file
