@@ -53,62 +53,66 @@ export default function Promosi(props) {
                 <h4 className='font-bold flex flex-row pl-5'>
                   melaksanakan aktiviti
                 </h4>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-semibold flex items-center justify-center pr-3'>
-                    BEGIN:
-                  </p>
-                  <div className='flex items-center justify-center'>
-                    <input
-                      type='radio'
-                      name='melaksanakan-aktiviti-begin-promosi-umum'
-                      id='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      value='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      checked={
-                        props.melaksanakanAktivitiBeginPromosiUmum ===
-                        'ya-melaksanakan-aktiviti-begin-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setMelaksanakanAktivitiBeginPromosiUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      required
-                    />
-                    <label
-                      htmlFor='ya-melaksanakan-aktiviti-begin-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ya
-                    </label>
-                    <input
-                      type='radio'
-                      name='melaksanakan-aktiviti-begin-promosi-umum'
-                      id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      value='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      checked={
-                        props.melaksanakanAktivitiBeginPromosiUmum ===
-                        'tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setMelaksanakanAktivitiBeginPromosiUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Tidak
-                    </label>
+                {props.singlePersonUmum.umur <= 12 && (
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                      BEGIN:
+                    </p>
+                    <div className='flex items-center justify-center'>
+                      <input
+                        type='radio'
+                        name='melaksanakan-aktiviti-begin-promosi-umum'
+                        id='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                        value='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                        checked={
+                          props.melaksanakanAktivitiBeginPromosiUmum ===
+                          'ya-melaksanakan-aktiviti-begin-promosi-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMelaksanakanAktivitiBeginPromosiUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        required={
+                          props.singlePersonUmum.umur <= 12 ? false : true
+                        }
+                      />
+                      <label
+                        htmlFor='ya-melaksanakan-aktiviti-begin-promosi-umum'
+                        className='m-2 text-sm font-m'
+                      >
+                        Ya
+                      </label>
+                      <input
+                        type='radio'
+                        name='melaksanakan-aktiviti-begin-promosi-umum'
+                        id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                        value='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                        checked={
+                          props.melaksanakanAktivitiBeginPromosiUmum ===
+                          'tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMelaksanakanAktivitiBeginPromosiUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
+                      </label>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className='flex items-center flex-row pl-5'>
                   <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                     lawatan ke rumah :
@@ -129,7 +133,6 @@ export default function Promosi(props) {
                         props.setLawatanKeRumahPromosiUmum(e.target.value);
                       }}
                       className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      required
                     />
                     <label
                       htmlFor='ya-lawatan-ke-rumah-promosi-umum'
@@ -259,113 +262,116 @@ export default function Promosi(props) {
               </article>
             </div>
             <div className='grid gap-2 auto-rows-min'>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row col-span-2'>
-                  bilangan ibu bapa / penjaga diberi anticipatory guidance (AG)
-                </h4>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 15-17: </p>
-                  <input
-                    type='number'
-                    name='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 18-19: </p>
-                  <input
-                    type='number'
-                    name='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 20-29: </p>
-                  <input
-                    type='number'
-                    name='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 30-49: </p>
-                  <input
-                    type='number'
-                    name='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 50-59: </p>
-                  <input
-                    type='number'
-                    name='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-m'>umur 60 ke atas: </p>
-                  <input
-                    type='number'
-                    name='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    id='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
-                    value={
-                      props.umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-                    }
-                    onChange={(e) => {
-                      props.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                  />
-                </div>
-              </article>
+              {props.singlePersonUmum.umur <= 4 && (
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row col-span-2'>
+                    bilangan ibu bapa / penjaga diberi anticipatory guidance
+                    (AG)
+                  </h4>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 15-17: </p>
+                    <input
+                      type='number'
+                      name='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 18-19: </p>
+                    <input
+                      type='number'
+                      name='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 20-29: </p>
+                    <input
+                      type='number'
+                      name='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 30-49: </p>
+                    <input
+                      type='number'
+                      name='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 50-59: </p>
+                    <input
+                      type='number'
+                      name='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>umur 60 ke atas: </p>
+                    <input
+                      type='number'
+                      name='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      id='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
+                      value={
+                        props.umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+                      }
+                      onChange={(e) => {
+                        props.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                </article>
+              )}
               <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='flex flex-row pl-5 text-sm font-bold'>
                   khidmat rundingan pakar pergigian kesihatan awam

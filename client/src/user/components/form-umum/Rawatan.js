@@ -16,12 +16,12 @@ export default function Rawatan(props) {
                   jumlah gigi kekal dibuat FS
                 </p>
                 <div className='flex flex-row items-center pl-5'>
-                  <label
+                  {/* <label
                     htmlFor='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                     className='text-sm font-m'
                   >
                     Baru
-                  </label>
+                  </label> */}
                   <input
                     type='number'
                     name='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
@@ -34,10 +34,10 @@ export default function Rawatan(props) {
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
-                    max='16'
+                    max='32'
                   />
                 </div>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                     className='text-sm font-m'
@@ -58,11 +58,11 @@ export default function Rawatan(props) {
                     min='0'
                     max='16'
                   />
-                </div>
+                </div> */}
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   murid dibuat FS
                 </p>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-dibuat-fs-rawatan-umum'
                     className='text-sm font-m'
@@ -107,7 +107,7 @@ export default function Rawatan(props) {
                     max='16'
                     required
                   />
-                </div>
+                </div> */}
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -117,12 +117,12 @@ export default function Rawatan(props) {
                   jumlah gigi kekal diberi FV
                 </p>
                 <div className='flex flex-row items-center pl-5'>
-                  <label
+                  {/* <label
                     htmlFor='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     className='text-sm font-m'
                   >
                     Baru
-                  </label>
+                  </label> */}
                   <input
                     type='number'
                     name='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
@@ -138,7 +138,7 @@ export default function Rawatan(props) {
                     max='32'
                   />
                 </div>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     className='text-sm font-m'
@@ -159,11 +159,11 @@ export default function Rawatan(props) {
                     min='0'
                     max='32'
                   />
-                </div>
+                </div> */}
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   murid dibuat FV
                 </p>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-dibuat-fv-rawatan-umum'
                     className='text-sm font-m'
@@ -202,7 +202,7 @@ export default function Rawatan(props) {
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   />
-                </div>
+                </div> */}
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -212,12 +212,12 @@ export default function Rawatan(props) {
                   jumlah gigi diberi PRR Jenis 1
                 </p>
                 <div className='flex flex-row items-center pl-5'>
-                  <label
+                  {/* <label
                     htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                     className='text-sm font-m'
                   >
                     Baru
-                  </label>
+                  </label> */}
                   <input
                     type='number'
                     name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
@@ -230,10 +230,10 @@ export default function Rawatan(props) {
                     }}
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                     min='0'
-                    max='16'
+                    max='32'
                   />
                 </div>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                     className='text-sm font-m'
@@ -256,11 +256,11 @@ export default function Rawatan(props) {
                     min='0'
                     max='16'
                   />
-                </div>
+                </div> */}
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   murid diberi PRR Jenis 1
                 </p>
-                <div className='flex flex-row items-center pl-5'>
+                {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
                     className='text-sm font-m'
@@ -305,7 +305,7 @@ export default function Rawatan(props) {
                     max='16'
                     required
                   />
-                </div>
+                </div> */}
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -1004,6 +1004,8 @@ export default function Rawatan(props) {
                   bilangan x-ray yang diambil
                 </h4>
                 <input
+                  min='0'
+                  max='32'
                   type='number'
                   name='bilangan-xray-yang-diambil-rawatan-umum'
                   id='bilangan-xray-yang-diambil-rawatan-umum'
@@ -1027,6 +1029,8 @@ export default function Rawatan(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='12'
                         type='number'
                         name='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1049,6 +1053,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='12'
                         type='number'
                         name='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1071,6 +1077,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='12'
                         type='number'
                         name='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1093,6 +1101,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1120,6 +1130,8 @@ export default function Rawatan(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='8'
                         type='number'
                         name='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1142,6 +1154,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='8'
                         type='number'
                         name='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1164,6 +1178,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1186,6 +1202,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1213,6 +1231,8 @@ export default function Rawatan(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='8'
                         type='number'
                         name='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1235,6 +1255,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='8'
                         type='number'
                         name='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1257,6 +1279,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1279,6 +1303,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                         id='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1306,6 +1332,8 @@ export default function Rawatan(props) {
                     </h4>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                         id='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1328,6 +1356,8 @@ export default function Rawatan(props) {
                     </div>
                     <div className='flex flex-row items-center pl-3'>
                       <input
+                        min='0'
+                        max='20'
                         type='number'
                         name='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                         id='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1361,6 +1391,8 @@ export default function Rawatan(props) {
                         jumlah tampalan sementara :
                       </label>
                       <input
+                        min='0'
+                        max='32'
                         type='number'
                         name='jumlah-tampalan-sementara-jumlah-tampalan-dibuat-rawatan-umum'
                         id='jumlah-tampalan-sementara-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1392,6 +1424,8 @@ export default function Rawatan(props) {
                       anterior :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
                       id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
@@ -1412,6 +1446,8 @@ export default function Rawatan(props) {
                       premolar :
                     </label>
                     <input
+                      min='0'
+                      max='8'
                       type='number'
                       name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
                       id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
@@ -1432,6 +1468,8 @@ export default function Rawatan(props) {
                       molar :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
                       id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
@@ -1460,6 +1498,8 @@ export default function Rawatan(props) {
                       anterior :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
                       id='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
@@ -1482,6 +1522,8 @@ export default function Rawatan(props) {
                       premolar :
                     </label>
                     <input
+                      min='0'
+                      max='8'
                       type='number'
                       name='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
                       id='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
@@ -1504,6 +1546,8 @@ export default function Rawatan(props) {
                       molar :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
                       id='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
@@ -1524,6 +1568,8 @@ export default function Rawatan(props) {
                       rawatan semula endodontik dari primer :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
                       id='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
@@ -1554,6 +1600,8 @@ export default function Rawatan(props) {
                       memenuhi RDITN kod 3 :
                     </label>
                     <input
+                      min='0'
+                      max='10'
                       type='number'
                       name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
                       id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
@@ -1574,6 +1622,8 @@ export default function Rawatan(props) {
                       restorasi pasca endodontik :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
                       id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
@@ -1596,6 +1646,8 @@ export default function Rawatan(props) {
                       komplikasi semasa rawatan KEPP :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
                       id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'

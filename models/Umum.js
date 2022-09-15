@@ -277,61 +277,61 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDibuatFsRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDibuatFsRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahGigiKekalDiberiFVRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDibuatFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDibuatFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
