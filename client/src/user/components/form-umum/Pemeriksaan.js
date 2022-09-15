@@ -429,10 +429,8 @@ export default function Pemeriksaan(props) {
                   </article>
                 </div>
               </article>
-              <article className='grid grid-cols-1 xl:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row pl-5 col-span-1 xl:col-span-2'>
-                  Trauma
-                </h4>
+              <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5'>TSL</h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
                     type='checkbox'
@@ -453,6 +451,9 @@ export default function Pemeriksaan(props) {
                     Tooth Surface Loss
                   </label>
                 </div>
+              </article>
+              <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
                     type='checkbox'
@@ -706,7 +707,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div
                   className={`${
-                    props.singlePersonUmum.umur >= 18 && 'hidden'
+                    props.singlePersonUmum.umur <= 18 && 'hidden'
                   } flex items-center flex-row pl-5`}
                 >
                   <p className='text-sm font-m'>
@@ -714,7 +715,7 @@ export default function Pemeriksaan(props) {
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required={props.singlePersonUmum.umur >= 18 ? false : true}
+                    required={props.singlePersonUmum.umur <= 18 ? false : true}
                     name='skor-bpe-pemeriksaan-umum'
                     id='skor-bpe-pemeriksaan-umum'
                     value={props.skorBpeOralHygienePemeriksaanUmum}
@@ -735,7 +736,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div
                   className={`${
-                    props.singlePersonUmum.umur <= 17 && 'hidden'
+                    props.singlePersonUmum.umur >= 17 && 'hidden'
                   } flex items-center flex-row pl-5`}
                 >
                   <p className='text-sm font-m'>
@@ -743,7 +744,7 @@ export default function Pemeriksaan(props) {
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required={props.singlePersonUmum.umur <= 17 ? false : true}
+                    required={props.singlePersonUmum.umur >= 17 ? false : true}
                     name='skor-gis-pemeriksaan-umum'
                     id='skor-gis-pemeriksaan-umum'
                     value={props.skorGisMulutOralHygienePemeriksaanUmum}
@@ -1430,6 +1431,8 @@ export default function Pemeriksaan(props) {
                       anterior :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1452,6 +1455,8 @@ export default function Pemeriksaan(props) {
                       premolar :
                     </label>
                     <input
+                      min='0'
+                      max='8'
                       type='number'
                       name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1474,6 +1479,8 @@ export default function Pemeriksaan(props) {
                       molar :
                     </label>
                     <input
+                      min='0'
+                      max='12'
                       type='number'
                       name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1496,6 +1503,8 @@ export default function Pemeriksaan(props) {
                       rawatan semula endodontik dari primer :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1571,6 +1580,8 @@ export default function Pemeriksaan(props) {
                       cabutan :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='cabutan-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1593,6 +1604,8 @@ export default function Pemeriksaan(props) {
                       tampalan :
                     </label>
                     <input
+                      min='0'
+                      max='32'
                       type='number'
                       name='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='tampalan-kes-endodontik-diperlukan-pemeriksaan-umum'

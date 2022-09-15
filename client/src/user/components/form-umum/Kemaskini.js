@@ -123,66 +123,58 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setKumpulanEtnik(data.singlePersonUmum.kumpulanEtnik);
         setRujukDaripada(data.singlePersonUmum.rujukDaripada);
         // kepp
-        setKepp(data.singlePersonKaunter.kepp);
-        setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
-        setTarikhRujukanKepp(data.singlePersonKaunter.tarikhRujukanKepp);
-        setTarikhRundinganPertama(
-          data.singlePersonKaunter.tarikhRundinganPertama
-        );
-        setTarikhMulaRawatanKepp(
-          data.singlePersonKaunter.tarikhMulaRawatanKepp
-        );
+        setKepp(data.singlePersonUmum.kepp);
+        setKedatanganKepp(data.singlePersonUmum.kedatanganKepp);
+        setTarikhRujukanKepp(data.singlePersonUmum.tarikhRujukanKepp);
+        setTarikhRundinganPertama(data.singlePersonUmum.tarikhRundinganPertama);
+        setTarikhMulaRawatanKepp(data.singlePersonUmum.tarikhMulaRawatanKepp);
         // penyampaian perkhidmatan
-        setKpBergerak(data.singlePersonKaunter.kpBergerak);
-        setLabelKpBergerak(data.singlePersonKaunter.labelKpBergerak);
+        setKpBergerak(data.singlePersonUmum.kpBergerak);
+        setLabelKpBergerak(data.singlePersonUmum.labelKpBergerak);
         setPasukanPergigianBergerak(
-          data.singlePersonKaunter.pasukanPergigianBergerak
+          data.singlePersonUmum.pasukanPergigianBergerak
         );
         setMakmalPergigianBergerak(
-          data.singlePersonKaunter.makmalPergigianBergerak
+          data.singlePersonUmum.makmalPergigianBergerak
         );
         setLabelMakmalPergigianBergerak(
-          data.singlePersonKaunter.labelMakmalPergigianBergerak
+          data.singlePersonUmum.labelMakmalPergigianBergerak
         );
         // taska / tadika
-        setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
-        setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
-        setKelasToddler(data.singlePersonKaunter.kelasToddler);
+        setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
+        setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
+        setKelasToddler(data.singlePersonUmum.kelasToddler);
         setNamaFasilitiTaskaTadika(
-          data.singlePersonKaunter.namaFasilitiTaskaTadika
+          data.singlePersonUmum.namaFasilitiTaskaTadika
         );
-        setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
-        setEngganTaskaTadika(data.singlePersonKaunter.engganTaskaTadika);
-        setTidakHadirTaskaTadika(
-          data.singlePersonKaunter.tidakHadirTaskaTadika
-        );
-        setPemeriksaanTaskaTadika(
-          data.singlePersonKaunter.pemeriksaanTaskaTadika
-        );
+        setEnrolmenTaskaTadika(data.singlePersonUmum.enrolmenTaskaTadika);
+        setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
+        setTidakHadirTaskaTadika(data.singlePersonUmum.tidakHadirTaskaTadika);
+        setPemeriksaanTaskaTadika(data.singlePersonUmum.pemeriksaanTaskaTadika);
         // ipt / kolej
-        setIptKolej(data.singlePersonKaunter.iptKolej);
-        setIpg(data.singlePersonKaunter.ipg);
-        setKolejKomuniti(data.singlePersonKaunter.kolejKomuniti);
-        setPoliteknik(data.singlePersonKaunter.politeknik);
+        setIptKolej(data.singlePersonUmum.iptKolej);
+        setIpg(data.singlePersonUmum.ipg);
+        setKolejKomuniti(data.singlePersonUmum.kolejKomuniti);
+        setPoliteknik(data.singlePersonUmum.politeknik);
         setInstitutLatihanKerajaan(
-          data.singlePersonKaunter.institutLatihanKerajaan
+          data.singlePersonUmum.institutLatihanKerajaan
         );
-        setGiatmara(data.singlePersonKaunter.giatmara);
-        setIpta(data.singlePersonKaunter.ipta);
-        setIpts(data.singlePersonKaunter.ipts);
-        setEnrolmenIptKolej(data.singlePersonKaunter.enrolmenIptKolej);
+        setGiatmara(data.singlePersonUmum.giatmara);
+        setIpta(data.singlePersonUmum.ipta);
+        setIpts(data.singlePersonUmum.ipts);
+        setEnrolmenIptKolej(data.singlePersonUmum.enrolmenIptKolej);
         // institusi warga emas
-        setInstitusiWargaEmas(data.singlePersonKaunter.institusiWargaEmas);
+        setInstitusiWargaEmas(data.singlePersonUmum.institusiWargaEmas);
         setKerajaanInstitusiWargaEmas(
-          data.singlePersonKaunter.kerajaanInstitusiWargaEmas
+          data.singlePersonUmum.kerajaanInstitusiWargaEmas
         );
         setSwastaInstitusiWargaEmas(
-          data.singlePersonKaunter.swastaInstitusiWargaEmas
+          data.singlePersonUmum.swastaInstitusiWargaEmas
         );
         // institusi OKU
-        setInstitusiOku(data.singlePersonKaunter.institusiOku);
+        setInstitusiOku(data.singlePersonUmum.institusiOku);
         // kampung angkat
-        setKgAngkat(data.singlePersonKaunter.kgAngkat);
+        setKgAngkat(data.singlePersonUmum.kgAngkat);
       } catch (error) {
         console.log(error);
       }
