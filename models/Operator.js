@@ -6,6 +6,15 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
+  mdcNumber: {
+    type: String,
+    // required: true
+  },
+  // jp
+  mdtbNumber: {
+    type: String,
+    // required: true
+  },
   gred: {
     type: String,
     // required: true
@@ -23,6 +32,10 @@ const operatorSchema = new Schema({
     // required: true
   },
   role: {
+    type: String,
+    // required: true
+  },
+  statusPegawai: {
     type: String,
     // required: true
   },

@@ -1,53 +1,18 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
-import { useMutation } from '@apollo/client';
-import { Ring } from 'react-awesome-spinners';
 import styles from '../Modal.module.css';
 import { RiCloseLine } from 'react-icons/ri';
 
-const Modal = ({
-  jenisFacility,
-  setShowDeleteModal,
-  id,
-  deleteCandidate,
-  refetchFacilities,
-  refetchOperators,
-  toast,
-}) => {
-  const { KILLITWITHFIRE } = useGlobalAdminAppContext();
-  const [killItWithFire, { loading }] = useMutation(KILLITWITHFIRE);
+const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
+  const { toast, deleteData } = useGlobalAdminAppContext();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await killItWithFire({
-      variables: {
-        _id: id,
-        jenisFasiliti: jenisFacility,
-      },
-    });
-    setShowDeleteModal(false);
-    if (jenisFacility !== 'pegawai') {
-      await refetchFacilities();
-    }
-    if (jenisFacility === 'pegawai') {
-      await refetchOperators();
-    }
-    toast.info(`Data berjaya dipadam`, {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
+    deleteData(FType, id).then((res) => {
+      console.log(res);
+      setShowDeleteModal(false);
+      toast.info(`Data berjaya dipadam`);
     });
   };
-
-  if (loading) {
-    return (
-      <div>
-        <Ring />
-      </div>
-    );
-  }
 
   return (
     <>

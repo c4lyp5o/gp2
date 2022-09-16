@@ -10,8 +10,11 @@ const authLogin = async (req, res) => {
       .json({ msg: 'Please provide username and password' });
   }
 
-  const user = await UserModel.findOne({ username: username });
-  if (!(user && (await user.comparePassword(password)))) {
+  const user = await UserModel.findOne({
+    username: username,
+    password: password,
+  });
+  if (!user) {
     return res.status(401).json({ msg: 'Invalid credentials' });
   }
 
