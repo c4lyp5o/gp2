@@ -485,13 +485,13 @@ export default function FillableForm({
         <form onSubmit={handleSubmit}>
           <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
           <div className='flex'>
-            <p className='font-semibold text-user6 mt-3 ml-3'>* required</p>
+            <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
             <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
           <div className='grid gap-1'>
-            <div className='flex m-2 ml-auto'>
+            <div className='flex m-2 '>
               <p className='mr-3 font-semibold'>
                 tarikh kedatangan:{' '}
                 <span className='font-semibold text-user6'>*</span>
@@ -507,8 +507,7 @@ export default function FillableForm({
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
-                waktu sampai:{' '}
-                <span className='font-semibold text-user6'>*</span>
+                waktu tiba: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
                 required
@@ -857,7 +856,7 @@ export default function FillableForm({
             {jenisFasiliti === 'kp' && (
               <>
                 <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
-                  <div className='flex'>
+                  <div className='grid'>
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
@@ -1219,7 +1218,11 @@ export default function FillableForm({
                       </label>
                     </div>
                   </div>
-                  <div className=' outline outline-1 outline-userBlack grid grid-rows-3 col-start-2'>
+                  <div
+                    className={`${
+                      engganTaskaTadika || tidakHadirTaskaTadika || 'hidden'
+                    } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
+                  >
                     <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
                       pemeriksaan
                     </h4>

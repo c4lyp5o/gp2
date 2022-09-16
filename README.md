@@ -4,9 +4,15 @@
 
 ---
 
-Docker test deployment status for https://github.com/nocturnalmc/gp2/tree/docker-deploy
+Unstable/Nightly build status for branch https://github.com/nocturnalmc/gp2/tree/unstable-nightly
 
-[![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-jenkins-docker)](https://jenkins.nocturnal.quest/job/gp2-jenkins-docker/)
+## [![Build Status](https://jenkinsdato.nocturnal.quest/buildStatus/icon?job=gp2-unstable)](https://jenkinsdato.nocturnal.quest/job/gp2-unstable/)
+
+---
+
+Staging/Testing build status for branch https://github.com/nocturnalmc/gp2/tree/staging-testing
+
+## [![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-staging)](https://jenkins.nocturnal.quest/job/gp2-staging/)
 
 ---
 

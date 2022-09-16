@@ -12,6 +12,13 @@ export default function Rawatan(props) {
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Fisur Sealan
                 </h4>
+                <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                  <input
+                    type='checkbox'
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label className='mx-2 text-sm font-m'>murid dibuat fs</label>
+                </div>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   jumlah gigi kekal dibuat FS
                 </p>
@@ -59,9 +66,6 @@ export default function Rawatan(props) {
                     max='16'
                   />
                 </div> */}
-                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  murid dibuat FS
-                </p>
                 {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-dibuat-fs-rawatan-umum'
@@ -113,6 +117,13 @@ export default function Rawatan(props) {
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Fluoride Varnish
                 </h4>
+                <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                  <input
+                    type='checkbox'
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label className='mx-2 text-sm font-m'>murid diberi fv</label>
+                </div>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   jumlah gigi kekal diberi FV
                 </p>
@@ -160,9 +171,6 @@ export default function Rawatan(props) {
                     max='32'
                   />
                 </div> */}
-                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  murid dibuat FV
-                </p>
                 {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-dibuat-fv-rawatan-umum'
@@ -208,6 +216,15 @@ export default function Rawatan(props) {
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   PRR Jenis 1
                 </h4>
+                <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                  <input
+                    type='checkbox'
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label className='mx-2 text-sm font-m'>
+                    murid diberi PRR jenis 1
+                  </label>
+                </div>
                 <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                   jumlah gigi diberi PRR Jenis 1
                 </p>
@@ -257,9 +274,6 @@ export default function Rawatan(props) {
                     max='16'
                   />
                 </div> */}
-                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  murid diberi PRR Jenis 1
-                </p>
                 {/* <div className='flex flex-row items-center pl-5'>
                   <label
                     htmlFor='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
