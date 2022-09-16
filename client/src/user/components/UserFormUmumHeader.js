@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -1918,8 +1919,8 @@ function UserFormUmumHeader() {
               </>
             )}
             {isLoading && (
-              <p className='col-span-3 py-[15px] text-xl font-semibold'>
-                Loading...
+              <p className='col-span-3 py-[15px] text-base font-semibold'>
+                <Spinner color='#1f315f' />
               </p>
             )}
           </article>
