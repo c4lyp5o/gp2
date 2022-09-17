@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
@@ -37,6 +37,20 @@ function UserNavbar() {
 
   const [namaKlinik, setNamaKlinik] = useState('');
 
+  let barSisiRef = useRef();
+
+  useEffect(() => {
+    let tutupBarSisi = (e) => {
+      if (!barSisiRef.current.contains(e.target)) {
+        setShowLinks(false);
+      }
+    };
+    document.addEventListener('mousedown', tutupBarSisi);
+    return () => {
+      document.removeEventListener('mousedown', tutupBarSisi);
+    };
+  });
+
   useEffect(() => {
     const fetchIdentity = async () => {
       try {
@@ -71,6 +85,7 @@ function UserNavbar() {
   return (
     <>
       <nav
+        ref={barSisiRef}
         className={`absolute w-60 h-screen bg-user2 text-userWhite text-center top-0 left-0 transition-all overflow-y-auto ${
           showLinks ? 'translate-x-0' : '-translate-x-60'
         }`}
