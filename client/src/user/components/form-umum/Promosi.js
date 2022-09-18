@@ -8,7 +8,7 @@ export default function Promosi(props) {
               promosi & pendidikan kesihatan pergigian
             </p>
           </span>
-          <section className='grid grid-cols-1 md:grid-cols-2  gap-2 mt-3 mb-3 w-full col-span-2'>
+          <section className='grid grid-cols-1 lg:grid-cols-2  gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -49,11 +49,11 @@ export default function Promosi(props) {
                   </select>
                 </div>
               </article>
-              <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row pl-5'>
-                  melaksanakan aktiviti
-                </h4>
-                {props.singlePersonUmum.umur <= 12 && (
+              {props.singlePersonUmum.umur <= 12 ? (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    melaksanakan aktiviti
+                  </h4>
                   <div className='flex items-center flex-row pl-5'>
                     <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                       BEGIN:
@@ -112,62 +112,71 @@ export default function Promosi(props) {
                       </label>
                     </div>
                   </div>
-                )}
-                <div className='flex items-center flex-row pl-5'>
-                  <p className='text-sm font-semibold flex items-center justify-center pr-3'>
-                    lawatan ke rumah :
-                  </p>
-                  <div className='flex items-center justify-center'>
-                    <input
-                      type='radio'
-                      name='lawatan-ke-rumah-promosi-umum'
-                      id='ya-lawatan-ke-rumah-promosi-umum'
-                      value='ya-lawatan-ke-rumah-promosi-umum'
-                      checked={
-                        props.lawatanKeRumahPromosiUmum ===
-                        'ya-lawatan-ke-rumah-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setLawatanKeRumahPromosiUmum(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='ya-lawatan-ke-rumah-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ya
-                    </label>
-                    <input
-                      type='radio'
-                      name='lawatan-ke-rumah-promosi-umum'
-                      id='tidak-lawatan-ke-rumah-promosi-umum'
-                      value='tidak-lawatan-ke-rumah-promosi-umum'
-                      checked={
-                        props.lawatanKeRumahPromosiUmum ===
-                        'tidak-lawatan-ke-rumah-promosi-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setLawatanKeRumahPromosiUmum(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Tidak
-                    </label>
+                </article>
+              ) : props.jenisFasiliti === 'taska-tadika' ||
+                props.jenisFasiliti === 'kp' ||
+                props.jenisFasiliti === 'kk-kd' ||
+                props.jenisFasiliti === 'ipt-kolej' ? null : (
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    melaksanakan aktiviti
+                  </h4>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                      lawatan ke rumah :
+                    </p>
+                    <div className='flex items-center justify-center'>
+                      <input
+                        type='radio'
+                        name='lawatan-ke-rumah-promosi-umum'
+                        id='ya-lawatan-ke-rumah-promosi-umum'
+                        value='ya-lawatan-ke-rumah-promosi-umum'
+                        checked={
+                          props.lawatanKeRumahPromosiUmum ===
+                          'ya-lawatan-ke-rumah-promosi-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setLawatanKeRumahPromosiUmum(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='ya-lawatan-ke-rumah-promosi-umum'
+                        className='m-2 text-sm font-m'
+                      >
+                        Ya
+                      </label>
+                      <input
+                        type='radio'
+                        name='lawatan-ke-rumah-promosi-umum'
+                        id='tidak-lawatan-ke-rumah-promosi-umum'
+                        value='tidak-lawatan-ke-rumah-promosi-umum'
+                        checked={
+                          props.lawatanKeRumahPromosiUmum ===
+                          'tidak-lawatan-ke-rumah-promosi-umum'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setLawatanKeRumahPromosiUmum(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-umum'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
+                      </label>
+                    </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              )}
               <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>
-                  menerima aktiviti nasihat pergigian individu
+                  menerima nasihat kesihatan pergigian individu
                 </h4>
                 <div className='flex flex-row items-center pl-5 m-1'>
                   <input
