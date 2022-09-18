@@ -73,18 +73,18 @@ export default function Data({ FType }) {
         <h1 className='text-3xl font-bold'>
           Senarai Klinik Pergigian Daerah {daerah}
         </h1>
-        <table className='table-auto border-collapse border border-slate-500'>
+        <table className='table-auto border-collapse border border-slate-500 border-wid'>
           <thead>
             <tr>
               <th className='border border-slate-600'>Bil.</th>
               <th className='border border-slate-600'>Kod Fasiliti</th>
               <th className='border border-slate-600'>Nama KP</th>
-              <th className='border border-slate-600'>Role KP</th>
+              <th className='border border-slate-600'>Peranan KP</th>
               <th className='border border-slate-600'>Emel KP</th>
-              <th className='border border-slate-600'>Username KP</th>
-              <th className='border border-slate-600'>Password KP</th>
+              <th className='border border-slate-600'>Nama Pengguna KP</th>
+              <th className='border border-slate-600'>Kata Laluan KP</th>
               <th className='border border-slate-600'>Status KP</th>
-              <th className='border border-slate-600'>Manage</th>
+              <th className='border border-slate-600'>Urus</th>
             </tr>
           </thead>
           <tbody>
@@ -131,7 +131,7 @@ export default function Data({ FType }) {
                     setId(kp._id);
                   }}
                 >
-                  Edit
+                  Ubah
                 </button>
                 <button
                   className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
@@ -142,7 +142,7 @@ export default function Data({ FType }) {
                     setDeleteCandidate(kp.kp);
                   }}
                 >
-                  Delete
+                  Hapus
                 </button>
               </tr>
             ))}
@@ -195,8 +195,8 @@ export default function Data({ FType }) {
                 <th className='border border-slate-600 px-5'>
                   Nama Klinik Pergigian
                 </th>
-                <th className='border border-slate-600 px-4'>Role</th>
-                <th className='border border-slate-600 px-4'>Manage</th>
+                <th className='border border-slate-600 px-4'>Peranan</th>
+                <th className='border border-slate-600 px-4'>Urus</th>
               </tr>
             </thead>
             <select
@@ -206,7 +206,7 @@ export default function Data({ FType }) {
               }}
               className='border-2 absolute top-40 right-5 w-24'
             >
-              <option value=''>Filter..</option>
+              <option value=''>Carian nama..</option>
               {namaKliniks.map((k, index) => (
                 <option key={index} value={k}>
                   {k}
@@ -220,7 +220,7 @@ export default function Data({ FType }) {
               }}
               className='border-2 absolute top-32 right-5 w-24'
             >
-              <option value=''>Filter..</option>
+              <option value=''>Carian nama..</option>
               {namaRoles.map((k, index) => (
                 <option key={index} value={k}>
                   {k}
@@ -228,13 +228,13 @@ export default function Data({ FType }) {
               ))}
             </select>
             <button
-              className='border-2 absolute top-48 right-5 w-24'
+              className='border-2 rounded-md absolute bg-admin4 border-x-admin3 top-48 right-5 w-24'
               onClick={() => {
                 setPilihanRole('');
                 setPilihanKlinik('');
               }}
             >
-              Reset Filter
+              Tetap Semula Carian nama
             </button>
             <tbody>
               {data
@@ -248,12 +248,12 @@ export default function Data({ FType }) {
                     <td className='border border-slate-700'>{index + 1}</td>
                     <td className='border border-slate-700 px-3'>{o.nama}</td>
                     {FType === 'pp' && (
-                      <th className='border border-slate-600 px-20'>
+                      <th className='border border-slate-700 px-20'>
                         {o.mdcNumber}
                       </th>
                     )}
                     {FType === 'jp' && (
-                      <th className='border border-slate-600 px-20'>
+                      <th className='border border-slate-700 px-20'>
                         {o.mdtbNumber}
                       </th>
                     )}
@@ -270,7 +270,7 @@ export default function Data({ FType }) {
                           setId(o._id);
                         }}
                       >
-                        Edit
+                        Ubah
                       </button>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -281,7 +281,7 @@ export default function Data({ FType }) {
                           setDeleteCandidate(o.nama);
                         }}
                       >
-                        Delete
+                        Hapus
                       </button>
                     </td>
                   </tr>
@@ -336,7 +336,7 @@ export default function Data({ FType }) {
                   <th className='border border-slate-600 px-3'>PERSiS</th>
                 </>
               )}
-              <th className='border border-slate-600 px-3'>Manage</th>
+              <th className='border border-slate-600 px-3'>Urus</th>
             </tr>
           </thead>
           <select
@@ -346,7 +346,7 @@ export default function Data({ FType }) {
             }}
             className='border-2 absolute top-40 right-5 w-24'
           >
-            <option value=''>Filter..</option>
+            <option value=''>Carian nama..</option>
             {namaKliniks.map((k, index) => (
               <option key={index} value={k}>
                 {k}
@@ -395,7 +395,7 @@ export default function Data({ FType }) {
                         setId(f._id);
                       }}
                     >
-                      Edit
+                      Ubah
                     </button>
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -406,7 +406,7 @@ export default function Data({ FType }) {
                         setDeleteCandidate(f.nama);
                       }}
                     >
-                      Delete
+                      Hapus
                     </button>
                   </td>
                 </tr>
@@ -419,8 +419,15 @@ export default function Data({ FType }) {
 
   if (loading) {
     return (
-      <div>
-        <Ring />
+      <div className='flex justify-center text-center h-full w-full'>
+        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
+          <div className='flex justify-center mb-2'>
+            <Ring color='#c44058' />
+          </div>
+          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+            Memuat..
+          </span>
+        </div>
       </div>
     );
   }
