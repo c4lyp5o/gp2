@@ -466,7 +466,6 @@ exports.loginUser = async (req, res) => {
 exports.addAdmin = async (req, res) => {
   const Admin = new Superadmin({
     user_name: req.body.user_name,
-    password: req.body.password,
     daerah: req.body.daerah,
     negeri: req.body.negeri,
   });
