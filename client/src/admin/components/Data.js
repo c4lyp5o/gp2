@@ -70,84 +70,114 @@ export default function Data({ FType }) {
   function Klinik() {
     return (
       <div className='flex flex-col items-center gap-5'>
-        <h1 className='text-3xl font-bold'>
+        <h1 className='text-3xl font-bold mt-10 mb-10'>
           Senarai Klinik Pergigian Daerah {daerah}
         </h1>
-        <table className='table-auto border-collapse border border-slate-500 border-wid'>
-          <thead>
-            <tr>
-              <th className='border border-slate-600'>Bil.</th>
-              <th className='border border-slate-600'>Kod Fasiliti</th>
-              <th className='border border-slate-600'>Nama KP</th>
-              <th className='border border-slate-600'>Peranan KP</th>
-              <th className='border border-slate-600'>Emel KP</th>
-              <th className='border border-slate-600'>Nama Pengguna KP</th>
-              <th className='border border-slate-600'>Kata Laluan KP</th>
-              <th className='border border-slate-600'>Status KP</th>
-              <th className='border border-slate-600'>Urus</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((kp, index) => (
-              <tr key={kp._id}>
-                <td className='border border-slate-700'>{index + 1}</td>
-                <td className='border border-slate-700'>{kp.kodFasiliti}</td>
-                <td className='border border-slate-700'>{kp.kp}</td>
-                <td className='border border-slate-700'>
-                  {kp.statusRoleKlinik}
-                </td>
-                <td className='border border-slate-700'>
-                  {encryptEmail(kp.email)}
-                </td>
-                <td className='border border-slate-700'>{kp.username}</td>
-                <td className='border border-slate-700'>
-                  <div id={index}>
-                    {showPassword === true
-                      ? kp.password
-                      : encryptPassword(kp.password)}
-                    <button
-                      className='ml-2'
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      <AiOutlineEye />
-                    </button>
-                  </div>
-                </td>
-                <td className='border border-slate-700'>
-                  {kp.statusPerkhidmatan === 'active' ? (
-                    <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                      Aktif
-                    </span>
-                  ) : (
-                    <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                      Tidak Aktif
-                    </span>
-                  )}
-                </td>
-                <button
-                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                  onClick={() => {
-                    setShowEditModal(true);
-                    setId(kp._id);
-                  }}
-                >
-                  Ubah
-                </button>
-                <button
-                  className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 z-0'
-                  id={kp._id}
-                  onClick={() => {
-                    setShowDeleteModal(true);
-                    setId(kp._id);
-                    setDeleteCandidate(kp.kp);
-                  }}
-                >
-                  Hapus
-                </button>
+        <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+          <table className='table-auto'>
+            <thead className='text-adminWhite bg-admin3'>
+              <tr>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Bil.
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Kod Fasiliti
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Nama KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Peranan KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Emel KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Nama Pengguna KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Kata Laluan KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Status KP
+                </th>
+                <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  Urus
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className='bg-admin4'>
+              {data.map((kp, index) => (
+                <tr key={kp._id}>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {index + 1}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                    {kp.kodFasiliti}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {kp.kp}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {kp.statusRoleKlinik}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                    {encryptEmail(kp.email)}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                    {kp.username}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                    <div id={index}>
+                      {showPassword === true
+                        ? kp.password
+                        : encryptPassword(kp.password)}
+                      <button
+                        className='ml-1'
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <AiOutlineEye />
+                      </button>
+                    </div>
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {kp.statusPerkhidmatan === 'active' ? (
+                      <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                        Aktif
+                      </span>
+                    ) : (
+                      <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        Tidak Aktif
+                      </span>
+                    )}
+                  </td>
+                  <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    <button
+                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
+                      onClick={() => {
+                        setShowEditModal(true);
+                        setId(kp._id);
+                      }}
+                    >
+                      Ubah
+                    </button>
+                    <button
+                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
+                      id={kp._id}
+                      onClick={() => {
+                        setShowDeleteModal(true);
+                        setId(kp._id);
+                        setDeleteCandidate(kp.kp);
+                      }}
+                    >
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
