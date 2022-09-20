@@ -28,7 +28,7 @@ function UserHeaderLoggedIn() {
         setNamaKlinik(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchIdentity();
@@ -42,12 +42,12 @@ function UserHeaderLoggedIn() {
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
     setFasilitiRelief(null);
-    navigate('/');
+    navigate('/pengguna');
   };
 
   const logout = () => {
     catchAxiosErrorAndLogout();
-    navigate('/');
+    navigate('/pengguna');
   };
 
   return (
@@ -77,7 +77,7 @@ function UserHeaderLoggedIn() {
           className='p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
           onClick={logout}
         >
-          LOGOUT
+          LOG KELUAR
         </button>
       </div>
     </div>

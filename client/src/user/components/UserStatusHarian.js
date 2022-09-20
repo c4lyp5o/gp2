@@ -80,7 +80,7 @@ export default function UserStatusHarian() {
                     <div className='grid my-1'>
                       <p className='leading-3 pt-1'>belum selesai</p>
                       <Link
-                        to='/user/umum'
+                        to='/pengguna/landing/umum'
                         className='mt-2 p-1 rounded-md shadow-md bg-user3 transition-all hover:bg-user1 hover:text-userWhite '
                       >
                         KEMASKINI
@@ -124,7 +124,7 @@ export default function UserStatusHarian() {
                     <div className='grid my-1'>
                       <p className='leading-3 pt-1'>selesai</p>
                       <Link
-                        to='/user/umum'
+                        to='/pengguna/landing/umum'
                         className='mt-2 p-1 rounded-md shadow-md bg-user1 transition-all pointer-events-none'
                       >
                         KEMASKINI
@@ -163,7 +163,7 @@ export default function UserStatusHarian() {
                   <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
                     <div className='grid my-1'>
                       <Link
-                        to='/user/umum'
+                        to='/pengguna/landing/umum'
                         className='mt-2 p-1 rounded-md shadow-md bg-user1 transition-all pointer-events-none'
                       >
                         KEMASKINI

@@ -94,7 +94,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .populate('rawatanSekolah')
     .populate('kotakSekolah');
 
-  res.status(200).json({ allPersonSekolahs });
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
 // GET /populate/:personSekolahId

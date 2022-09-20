@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
@@ -8,16 +8,24 @@ import AdminHeader from '../components/AdminHeader';
 import AdminFooter from '../components/AdminFooter';
 
 async function loginUser(credentials) {
-  try {
-    const response = await axios.post('/api/v1/superadmin/login', credentials);
-    return response.data;
-  } catch (error) {
-    const theError = {
-      status: error.response.status,
-      message: error.response.data.message,
-    };
-    return theError;
-  }
+  const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    apiKey: process.env.REACT_APP_API_KEY,
+    username: credentials.username,
+    password: credentials.password,
+    main: 'UserCenter',
+    Fn: 'update',
+  });
+  return response;
+}
+
+async function checkUser(username) {
+  const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    apiKey: process.env.REACT_APP_API_KEY,
+    username,
+    main: 'UserCenter',
+    Fn: 'readOne',
+  });
+  return response;
 }
 
 function userIDBox({ setUserName, showUserIDBox }) {
@@ -66,6 +74,7 @@ export default function AdminLoginForm() {
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [ErrMsg, setErrMsg] = useState('');
   const [showTempPass, setShowTempPass] = useState('');
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -79,9 +88,7 @@ export default function AdminLoginForm() {
       }
       setErrMsg('');
       try {
-        const response = await axios.post('/api/v1/superadmin/', {
-          username,
-        });
+        const response = await checkUser(username);
         setShowTempPass(response.data.tempKey);
       } catch (error) {
         setErrMsg(error.response.data.message);
@@ -91,23 +98,26 @@ export default function AdminLoginForm() {
     }
 
     if (showPasswordBox === true) {
+      setLoggingIn(true);
       if (!password) {
         setErrMsg('Sila masukkan Kata Laluan');
         return;
       }
       setErrMsg('');
-      const key = process.env.REACT_APP_API_KEY;
-      const token = await loginUser({
-        username,
-        password,
-        key,
-      });
-      if (token.status === 401) {
-        setErrMsg(token.message);
-      } else {
-        setToken(token.adminToken);
-        navigate('/admin/landing');
-      }
+      setTimeout(async () => {
+        const token = await loginUser({
+          username,
+          password,
+        });
+        console.log(token);
+        if (token.status === 401) {
+          setErrMsg(token.data.message);
+        } else {
+          setToken(token.data.adminToken);
+          navigate('/admin/landing');
+        }
+        setLoggingIn(false);
+      }, 1000);
     }
   };
 
@@ -118,22 +128,56 @@ export default function AdminLoginForm() {
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
             <h3 className='text-xl font-semibold mt-10'>
-              sila masukkan ID pengguna
+              sila masukkan ID admin
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
               {passwordBox({ setPassword, showPasswordBox, showTempPass })}
-              <p className='mt-5 text-xs text-admin1'>{ErrMsg}</p>
-              <div className='mt-5 text-xs text-admin6 underline'>
-                <a href='#lupa-kata-laluan'>lupa kata laluan</a>
+              <p className='mt-10 mb-5 text-xs text-admin1'>{ErrMsg}</p>
+              <div className='grid grid-cols-2 gap-2 ml-20 mr-20'>
+                <Link
+                  to='/'
+                  className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+                >
+                  kembali ke halaman utama
+                </Link>
+                {loggingIn ? (
+                  <button
+                    type='button'
+                    className='inline-flex items-center text-center justify-center px-4 py-2 bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all ease-in-out duration-150 cursor-not-allowed'
+                    disabled=''
+                  >
+                    <svg
+                      className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                    >
+                      <circle
+                        className='opacity-25'
+                        cx='12'
+                        cy='12'
+                        r='10'
+                        stroke='currentColor'
+                        strokeWidth='4'
+                      ></circle>
+                      <path
+                        className='opacity-75'
+                        fill='currentColor'
+                        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                      ></path>
+                    </svg>
+                    Sedang Log Masuk...
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+                  >
+                    log masuk
+                  </button>
+                )}
               </div>
-              <br />
-              <button
-                type='submit'
-                className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
-              >
-                log masuk
-              </button>
             </form>
           </div>
         </div>

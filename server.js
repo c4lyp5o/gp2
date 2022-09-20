@@ -32,6 +32,7 @@ const genRouter = require('./routes/generateRouter');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
+const { apiKeyVerifier } = require('./middlewares/apiKeyVerifier');
 
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');
@@ -101,7 +102,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/kaunter', authCheck, kaunter);
 
 // admin route
-app.use('/api/v1/superadmin', adminAPI);
+app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);
