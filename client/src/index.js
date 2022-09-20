@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-calendar/dist/Calendar.css';
+import './react-calendar.css';
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import reportWebVitals from './reportWebVitals';
@@ -13,11 +15,11 @@ const client = new ApolloClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

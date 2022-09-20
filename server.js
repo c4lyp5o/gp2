@@ -5,8 +5,12 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const { graphqlHTTP } = require('express-graphql');
+const axios = require('axios');
 
 // IMPORT ROUTER -----------------------------------------------
+// erkm import
+const erkm = require('./routes/erkm');
+
 // user import
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
@@ -14,6 +18,9 @@ const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
 const allQueryRoute = require('./routes/allQueryRoute');
+
+// kaunter
+const kaunter = require('./routes/kaunter');
 
 // admin import
 const adminAPI = require('./routes/adminAPI');
@@ -25,6 +32,7 @@ const genRouter = require('./routes/generateRouter');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
+const { apiKeyVerifier } = require('./middlewares/apiKeyVerifier');
 
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');
@@ -48,6 +56,40 @@ app.use(
   })
 );
 
+// erkm route
+app.use('/erkm', authCheck, erkm);
+// sync erkm every 10 mins
+setInterval(async () => {
+  const UserModel = require('./models/User');
+  try {
+    const erkmUser = await UserModel.findOne({
+      username: process.env.ERKM_SERVER_ID,
+    });
+
+    if (
+      !(
+        erkmUser &&
+        (await erkmUser.comparePassword(process.env.ERKM_SERVER_PASS))
+      )
+    ) {
+      return console.log('Invalid internal erkm credentials');
+    }
+
+    const erkmToken = erkmUser.createJWT();
+
+    await axios.get(`http://localhost:${process.env.PORT}/erkm/sr`, {
+      headers: { Authorization: `Bearer ${erkmToken}` },
+    });
+    await axios.get(`http://localhost:${process.env.PORT}/erkm/sm`, {
+      headers: { Authorization: `Bearer ${erkmToken}` },
+    });
+
+    console.log('Erkm sync done in 10 mins interval');
+  } catch (error) {
+    console.log(error.response.data.msg);
+  }
+}, 600000);
+
 // user route
 app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
@@ -56,8 +98,11 @@ app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
+// kaunter route
+app.use('/api/v1/kaunter', authCheck, kaunter);
+
 // admin route
-app.use('/api/v1/superadmin', adminAPI);
+app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);

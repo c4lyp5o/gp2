@@ -19,15 +19,16 @@ function AdminHeaderLoggedIn({ user, daerah }) {
             program kesihatan pergigian
           </p>
         </div>
-        <div className='grid grid-rows-2 text-2xl font-bold pl-10 text-center'>
-          <h1 className='row-span-2'>admin sistem gi-Ret 2.0</h1>
+        <div className='grid grid-rows-2 text-2xl font-bold text-center'>
+          <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
+          <h1>ADMIN</h1>
         </div>
         <div className='admin-header-logged-in-container'>
           <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
             <div className='m-3 space-y-1 text-right pr-2'>
               <p className='w-96 text-sm leading-3'>
-                <b>User: </b>
-                {user}
+                <b>Pengguna: </b>
+                <span className='uppercase'>{user}</span>
               </p>
               <p className='w-96 text-sm pt-1'>
                 <b>Daerah: </b>
@@ -42,7 +43,7 @@ function AdminHeaderLoggedIn({ user, daerah }) {
                 navigate('/admin');
               }}
             >
-              LOGOUT
+              LOG KELUAR
             </button>
           </div>
         </div>

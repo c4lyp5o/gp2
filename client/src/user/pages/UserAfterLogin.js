@@ -9,8 +9,11 @@ import UserDashboard from '../components/UserDashboard';
 import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
+import UserSekolahList from '../components/UserSenaraiSekolah';
 import UserSekolah from '../components/UserSekolah';
-import UserFormSekolahHeader from '../components/UserFormSekolahHeader';
+import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekolahPemeriksaan';
+import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
+import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
 
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
@@ -33,23 +36,33 @@ function UserAfterLogin() {
       <div className='absolute inset-0 -z-10 bg-user5'></div>
       <UserNavbar />
       <UserHeaderLoggedIn />
-      <div className='absolute inset-10 top-[8rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
+      <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize'>
         <Routes>
           <Route index element={<UserDashboard />} />
 
+          <Route path='status-harian' element={<UserStatusHarian />} />
+
           <Route path='umum' element={<UserUmum />} />
           <Route
-            path='form-umum/:personUmumId'
+            path='umum/form-umum/:personUmumId'
             element={<UserFormUmumHeader />}
           />
 
-          <Route path='sekolah' element={<UserSekolah />} />
+          <Route path='senarai-sekolah' element={<UserSekolahList />} />
+          <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
           <Route
-            path='form-sekolah/:personSekolahId'
-            element={<UserFormSekolahHeader />}
+            path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+            element={<UserFormSekolahPemeriksaan />}
+          />
+          <Route
+            path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
+            element={<UserFormSekolahRawatan />}
+          />
+          <Route
+            path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
+            element={<UserFormSekolahKOTAK />}
           />
 
-          <Route path='status-harian' element={<UserStatusHarian />} />
           <Route path='generate-individu' element={<UserGenerateIndividu />} />
           <Route path='generate-klinik' element={<UserGenerateKlinik />} />
 

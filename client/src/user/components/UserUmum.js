@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserUmum() {
-  const { userToken, dateToday } = useGlobalUserAppContext();
+  const { userToken, Dictionary, dateToday } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
-  const [jenisFasiliti, setJenisFasiliti] = useState('klinik');
+  const [jenisFasiliti, setJenisFasiliti] = useState('kp');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
@@ -41,10 +42,15 @@ function UserUmum() {
 
   return (
     <>
-      <div className='px-10 h-full p-3 overflow-y-auto'>
-        <form className='text-left'>
-          <h2 className='text-xl font-semibold flex flex-row p-2'>CARIAN</h2>
-          <label htmlFor='nama-pesakit' className='flex flex-row p-2'>
+      <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
+        <form className='text-left grid grid-cols-2'>
+          <h2 className='text-xl font-semibold flex flex-row p-2 col-span-2'>
+            CARIAN
+          </h2>
+          <label
+            htmlFor='nama-pesakit'
+            className='flex flex-row p-2 col-span-2'
+          >
             nama pesakit
           </label>
           <input
@@ -55,147 +61,164 @@ function UserUmum() {
             type='text'
             name='nama-pesakit'
             id='nama-pesakit'
-            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 mb-2'
           />
-          <label htmlFor='kad-pengenalan' className='flex flex-row p-2'>
-            tarikh kedatangan
-          </label>
-          <input
-            onChange={(e) => {
-              setTarikhKedatangan(e.target.value);
-            }}
-            value={tarikhKedatangan}
-            type='date'
-            name='tarikh-kedatangan'
-            id='tarikh-kedatangan'
-            className='outline outline-1 outline-user1'
-          />
-          <label className='ml-80 mr-3' htmlFor='jenis-fasiliti'>
-            pilih jenis fasiliti:
-          </label>
-          <select
-            name='jenis-fasiliti'
-            id='jenis-fasiliti'
-            value={jenisFasiliti}
-            onChange={(e) => {
-              setJenisFasiliti(e.target.value);
-            }}
-          >
-            <option value='klinik'>Klinik</option>
-            <option value='kkkd'>KK / KD</option>
-            <option value='tastad'>Taska / Tadika</option>
-            <option value='ipt'>IPTA / IPTS</option>
-            <option value='orang-asli'>Orang asli</option>
-            <option value='ppr'>PPR</option>
-            <option value='iwe'>Institusi warga emas</option>
-            <option value='oku'>Institusi OKU</option>
-            <option value='ngangkat'>Kampung angkat</option>
-            <option value='komlain'>Projek komuniti lain</option>
-            <option value='kelantan'>RTC (Kelantan sahaja)</option>
-          </select>
+          <div className='m-2 col-span-2 lg:col-span-1'>
+            <label htmlFor='kad-pengenalan'>tarikh kedatangan :</label>
+            <input
+              onChange={(e) => {
+                setTarikhKedatangan(e.target.value);
+              }}
+              value={tarikhKedatangan}
+              type='date'
+              name='tarikh-kedatangan'
+              id='tarikh-kedatangan'
+              className='outline outline-1 outline-user1 ml-3'
+            />
+          </div>
+          <div className='m-2 col-span-2 lg:col-span-1'>
+            <label className='' htmlFor='jenis-fasiliti'>
+              pilih jenis fasiliti:
+            </label>
+            <select
+              name='jenis-fasiliti'
+              id='jenis-fasiliti'
+              value={jenisFasiliti}
+              onChange={(e) => {
+                setJenisFasiliti(e.target.value);
+              }}
+              className='ml-3'
+            >
+              <option value='kp'>Klinik Pergigian</option>
+              <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+              <option value='taska-tadika'>Taska / Tadika</option>
+              <option value='ipt-kolej'>IPT / KOLEJ</option>
+              <option value='orang-asli'>Orang asli</option>
+              <option value='ppr'>PPR</option>
+              <option value='institusi-warga-emas'>Institusi warga emas</option>
+              <option value='institusi-oku'>Institusi OKU</option>
+              <option value='kampung-angkat'>Kampung angkat</option>
+              <option value='projek-komuniti-lain'>Projek komuniti lain</option>
+              {/* <option value='rtc-kelantan'>RTC (Kelantan sahaja)</option> */}
+            </select>
+          </div>
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
             SENARAI CARIAN
           </h2>
-          <table className='m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'>
-            <tr className='bg-user3 p-2'>
-              <th className='outline outline-1 outline-userBlack'>BIL</th>
-              <th className='outline outline-1 outline-userBlack w-3/6'>
-                NAMA PESAKIT
-              </th>
-              <th className='outline outline-1 outline-userBlack'>
-                JENIS FASILITI
-              </th>
-              <th className='outline outline-1 outline-userBlack'>
-                KAD PENGENALAN
-              </th>
-              <th className='outline outline-1 outline-userBlack'>
-                TARIKH LAWATAN TERAKHIR
-              </th>
-              <th className='outline outline-1 outline-userBlack'>AKTIFKAN</th>
-            </tr>
-            {!isLoading &&
-              queryResult.map((singlePersonUmum, index) => {
-                return (
-                  <tr>
-                    <td
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack`}
-                    >
-                      {index + 1}
-                    </td>
-                    <td
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack`}
-                    >
-                      {singlePersonUmum.nama}
-                    </td>
-                    <td
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack`}
-                    >
-                      {singlePersonUmum.jenisFasiliti}
-                    </td>
-                    <td
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack`}
-                    >
-                      {singlePersonUmum.ic}
-                    </td>
-                    <td
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack`}
-                    >
-                      {singlePersonUmum.tarikhKedatangan}
-                    </td>
-                    <td
-                      onClick={() => setPilih(singlePersonUmum._id)}
-                      className={`${
-                        pilih === singlePersonUmum._id && 'bg-user4'
-                      } outline outline-1 outline-userBlack hover:cursor-pointer text-user2`}
-                    >
-                      <u>PILIH</u>
-                    </td>
-                  </tr>
-                );
-              })}
-          </table>
-          {isLoading && <p className='text-xl font-semibold'>Loading...</p>}
+          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-userWhite bg-user2'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    BIL
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NAMA PESAKIT
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    JENIS FASILITI
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    KAD PENGENALAN
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    TARIKH LAWATAN TERAKHIR
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    AKTIFKAN
+                  </th>
+                </tr>
+              </thead>
+              {!isLoading &&
+                queryResult.map((singlePersonUmum, index) => {
+                  return (
+                    <tbody className='bg-user4'>
+                      <tr>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {index + 1}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.nama}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {Dictionary[singlePersonUmum.jenisFasiliti]}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.ic}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.tarikhKedatangan}
+                        </td>
+                        <td
+                          onClick={() => setPilih(singlePersonUmum._id)}
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user4'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                        >
+                          <u>PILIH</u>
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
+            </table>
+          </div>
+          {isLoading && (
+            <p className='text-xl font-semibold flex justify-center p-4'>
+              <Spinner color='#1f315f' />
+            </p>
+          )}
         </section>
-        <section className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2'>
+        <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
           {resultPilih.map((singlePersonUmum) => {
             return (
               <>
-                <div className='mb-3'>
+                <div className='lg:mb-3'>
                   <div className='text-l font-bold flex flex-row pl-5 p-2'>
                     <h1>MAKLUMAT AM PESAKIT</h1>
                   </div>
-                  <div className='text-s flex flex-row pl-5'>
+                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>NAMA :</h2>
                     <p className='ml-1'>{singlePersonUmum.nama}</p>
                   </div>
-                  <div className='text-s flex flex-row pl-5'>
+                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>UMUR :</h2>
                     <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
                   </div>
                 </div>
-                <div className='md:pt-10'>
-                  <div className='text-s flex flex-row pl-5'>
+                <div className='lg:pt-10'>
+                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>JANTINA :</h2>
                     <p className='ml-1'>{singlePersonUmum.jantina}</p>
                   </div>
-                  <div className='text-s flex flex-row pl-5'>
+                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>IC/Passport :</h2>
                     <p className='ml-1'>{singlePersonUmum.ic}</p>
                   </div>
                   <Link
-                    to={`/user/form-umum/${singlePersonUmum._id}`}
+                    to={`form-umum/${singlePersonUmum._id}`}
                     className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
                   >
                     masukkan reten

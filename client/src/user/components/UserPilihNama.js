@@ -28,7 +28,7 @@ function UserPilihNama() {
         setNamaFasilitiToken(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchIdentity();
@@ -40,7 +40,7 @@ function UserPilihNama() {
         setListPilihNama(data.operators);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchPilihNama();
@@ -53,7 +53,7 @@ function UserPilihNama() {
       setUsername(pilihanOperator.current.value);
       setDisplayLoginForm(true);
       setDisplayPilihNama(false);
-      navigate('/user');
+      navigate('/pengguna/landing');
     }
     if (checkboxRelief.current.checked === true) {
       localStorage.setItem('username', pilihanOperator.current.value);
@@ -89,12 +89,13 @@ function UserPilihNama() {
           htmlFor='user-pilih-nama-pengguna-relief'
           className='m-5 text-sm hover:cursor-pointer'
         >
-          saya pegawai / staff relief
+          saya pegawai / juruterapi pergigian relief
         </label>
         <input
+          id='user-pilih-nama-pengguna-relief'
           ref={checkboxRelief}
           type='checkbox'
-          className='checked:ring-2 checked:ring-user1 checked:outline-none hover:cursor-pointer'
+          className='w-4 h-4 rounded hover:cursor-pointer'
         />
         <br />
         <br />

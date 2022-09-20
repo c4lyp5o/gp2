@@ -1,0 +1,7 @@
+.react-calendar {
+  width: 80%;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #1f315f;
+}
