@@ -77,7 +77,7 @@ function UserHeaderLoggedIn() {
           className='p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
           onClick={logout}
         >
-          LOGOUT
+          LOG KELUAR
         </button>
       </div>
     </div>

@@ -120,6 +120,10 @@ function UserFormSekolahRawatan() {
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
   ] = useState('');
   const [
+    yaTidakLawatanKeRumahPromosiSekolahRawatan,
+    setYaTidakLawatanKeRumahPromosiSekolahRawatan,
+  ] = useState('');
+  const [
     plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
     setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
   ] = useState(false);
@@ -255,6 +259,7 @@ function UserFormSekolahRawatan() {
             ceramahPromosiSekolahRawatan,
             lmgPromosiSekolahRawatan,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
+            yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
             dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
             penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -1193,10 +1198,12 @@ function UserFormSekolahRawatan() {
               </div>
               <div className='grid gap-2 auto-rows-min'>
                 <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5'>promosi</h4>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    promosi & pendidikan kesihatan pergigian
+                  </h4>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      menyertai
+                      menyertai aktiviti
                     </h4>
                     <div className='grid grid-cols-1 lg:grid-cols-2'>
                       <div className='flex flex-row items-center pl-5'>
@@ -1237,11 +1244,14 @@ function UserFormSekolahRawatan() {
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      melaksanakan aktiviti begin
+                      melaksanakan aktiviti
                       <span className='text-user6 text-xl'>*</span>
                     </h4>
-                    <div className='flex items-center justify-evenly'>
-                      <div>
+                    <div className='flex items-center flex-row pl-5'>
+                      <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                        BEGIN:{' '}
+                      </p>
+                      <div className='flex items-center justify-center'>
                         <input
                           type='radio'
                           name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
@@ -1267,8 +1277,7 @@ function UserFormSekolahRawatan() {
                         >
                           Ya
                         </label>
-                      </div>
-                      <div>
+
                         <input
                           type='radio'
                           name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
@@ -1295,19 +1304,70 @@ function UserFormSekolahRawatan() {
                         </label>
                       </div>
                     </div>
+                    <div className='flex items-center flex-row pl-5'>
+                      <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                        lawatan ke rumah :{' '}
+                      </p>
+                      <div className='flex items-center justify-center'>
+                        <input
+                          type='radio'
+                          name='lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          id='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          value='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          checked={
+                            yaTidakLawatanKeRumahPromosiSekolahRawatan ===
+                            'ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setYaTidakLawatanKeRumahPromosiSekolahRawatan(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          required
+                        />
+                        <label
+                          htmlFor='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          Ya
+                        </label>
+
+                        <input
+                          type='radio'
+                          name='lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          id='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          value='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          checked={
+                            yaTidakLawatanKeRumahPromosiSekolahRawatan ===
+                            'tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setYaTidakLawatanKeRumahPromosiSekolahRawatan(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          Tidak
+                        </label>
+                      </div>
+                    </div>
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      nasihat pergigian individu
+                      menerima aktiviti nasihat pergigian individu
                     </h4>
                     <div className='grid grid-cols-1'>
                       <div className='flex items-center flex-row pl-5'>
-                        <label
-                          htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                          className='m-2 text-sm font-m'
-                        >
-                          plak gigi
-                        </label>
                         <input
                           type='checkbox'
                           name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1322,14 +1382,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          diet pemakanan
+                          penyakit pergigian
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1344,14 +1404,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penjagaan kesihatan mulut
+                          diet pemakanan
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1366,14 +1426,14 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
                         <label
-                          htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          kanser mulut
+                          penjagaan kesihatan mulut
                         </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
                         <input
                           type='checkbox'
                           name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
@@ -1388,6 +1448,12 @@ function UserFormSekolahRawatan() {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
+                        <label
+                          htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          kanser mulut
+                        </label>
                       </div>
                     </div>
                   </article>

@@ -149,7 +149,7 @@ function KaunterNavbar() {
             }}
             className='bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
           >
-            DASHBOARD
+            PAPARAN UTAMA
           </NavLink>
           <NavLink
             to='kp'
