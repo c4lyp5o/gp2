@@ -28,7 +28,7 @@ function AdminHeaderLoggedIn({ user, daerah }) {
             <div className='m-3 space-y-1 text-right pr-2'>
               <p className='w-96 text-sm leading-3'>
                 <b>Pengguna: </b>
-                {user}
+                <span className='uppercase'>{user}</span>
               </p>
               <p className='w-96 text-sm pt-1'>
                 <b>Daerah: </b>
