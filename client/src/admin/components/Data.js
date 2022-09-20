@@ -206,67 +206,84 @@ export default function Data({ FType }) {
     );
     return (
       <div className='flex flex-col items-center gap-5'>
-        <h1 className='text-3xl font-bold'>
+        <h1 className='text-3xl font-bold mt-10 mb-10'>
           Senarai {Dictionary[FType]} {daerah}
         </h1>
-        <div>
-          <table className='table-auto border-collapse border border-slate-500'>
-            <thead>
+        <div className='grid gap-1 absolute top-2 left-5'>
+          <p>carian</p>
+          <select
+            value={pilihanKlinik}
+            onChange={(e) => {
+              setPilihanKlinik(e.target.value);
+            }}
+            className='outline outline-adminBlack outline-1 capitalize w-40'
+          >
+            <option value=''>Klinik..</option>
+            {namaKliniks.map((k, index) => (
+              <option key={index} value={k}>
+                {k}
+              </option>
+            ))}
+          </select>
+          <select
+            value={pilihanRole}
+            onChange={(e) => {
+              setPilihanRole(e.target.value);
+            }}
+            className='outline outline-adminBlack outline-1 capitalize w-40'
+          >
+            <option value=''>Peranan..</option>
+            {namaRoles.map((k, index) => (
+              <option key={index} value={k}>
+                {k}
+              </option>
+            ))}
+          </select>
+          <button
+            className='rounded-md bg-admin3 hover:bg-admin1 border-admin3 text-sm shadow-md p-2 w-40'
+            onClick={() => {
+              setPilihanRole('');
+              setPilihanKlinik('');
+            }}
+          >
+            Tetap Semula
+          </button>
+        </div>
+        <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+          <table className='table-auto'>
+            <thead className='text-adminWhite bg-admin3'>
               <tr>
-                <th className='border border-slate-600 px-3'>Bil.</th>
-                <th className='border border-slate-600 px-20'>Nama</th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Bil.
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Nama
+                </th>
                 {FType === 'pp' && (
-                  <th className='border border-slate-600 px-20'>Nombor MDC</th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nombor MDC
+                  </th>
                 )}
                 {FType === 'jp' && (
-                  <th className='border border-slate-600 px-20'>Nombor MDTB</th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nombor MDTB
+                  </th>
                 )}
-                <th className='border border-slate-600 px-4'>Gred</th>
-                <th className='border border-slate-600 px-5'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Gred
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Nama Klinik Pergigian
                 </th>
-                <th className='border border-slate-600 px-4'>Peranan</th>
-                <th className='border border-slate-600 px-4'>Urus</th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Peranan
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Urus
+                </th>
               </tr>
             </thead>
-            <select
-              value={pilihanKlinik}
-              onChange={(e) => {
-                setPilihanKlinik(e.target.value);
-              }}
-              className='border-2 absolute top-40 right-5 w-24'
-            >
-              <option value=''>Carian nama..</option>
-              {namaKliniks.map((k, index) => (
-                <option key={index} value={k}>
-                  {k}
-                </option>
-              ))}
-            </select>
-            <select
-              value={pilihanRole}
-              onChange={(e) => {
-                setPilihanRole(e.target.value);
-              }}
-              className='border-2 absolute top-32 right-5 w-24'
-            >
-              <option value=''>Carian nama..</option>
-              {namaRoles.map((k, index) => (
-                <option key={index} value={k}>
-                  {k}
-                </option>
-              ))}
-            </select>
-            <button
-              className='border-2 rounded-md absolute bg-admin4 border-x-admin3 top-48 right-5 w-24'
-              onClick={() => {
-                setPilihanRole('');
-                setPilihanKlinik('');
-              }}
-            >
-              Tetap Semula Carian nama
-            </button>
-            <tbody>
+            <tbody className='bg-admin4'>
               {data
                 .filter((os) => {
                   const officersChoice = os.kpSkrg.includes(pilihanKlinik);
@@ -275,24 +292,32 @@ export default function Data({ FType }) {
                 })
                 .map((o, index) => (
                   <tr>
-                    <td className='border border-slate-700'>{index + 1}</td>
-                    <td className='border border-slate-700 px-3'>{o.nama}</td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {index + 1}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {o.nama}
+                    </td>
                     {FType === 'pp' && (
-                      <th className='border border-slate-700 px-20'>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {o.mdcNumber}
-                      </th>
+                      </td>
                     )}
                     {FType === 'jp' && (
-                      <th className='border border-slate-700 px-20'>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {o.mdtbNumber}
-                      </th>
+                      </td>
                     )}
-                    <td className='border border-slate-700 uppercase'>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {o.gred}
                     </td>
-                    <td className='border border-slate-700 px-3'>{o.kpSkrg}</td>
-                    <td className='border border-slate-700'>{o.role}</td>
-                    <td className='border border-slate-700'>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {o.kpSkrg}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {o.role}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                         onClick={() => {
