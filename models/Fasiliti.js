@@ -6,6 +6,11 @@ const fasilitiSchema = new Schema({
     type: String,
     // required: true
   },
+  statusPerkhidmatan: {
+    type: String,
+    // required: true
+    default: 'NOT APPLICABLE',
+  },
   kodSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -26,15 +31,20 @@ const fasilitiSchema = new Schema({
   jenisFasiliti: {
     type: String,
   },
-  keppStatus: {
-    type: Boolean,
-    default: false,
+  statusRoleKlinik: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
   },
   risikoSekolahPersis: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // khas taska/tadika
+  catatanTastad: {
     type: String,
     default: 'NOT APPLICABLE',
   },

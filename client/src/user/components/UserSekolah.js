@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolah() {
-  const { userToken } = useGlobalUserAppContext();
+  const { userToken, navigate } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -332,6 +332,14 @@ function UserSekolah() {
             </>
           )}
           <div className='flex justify-end px-12 '>
+            <button
+              onClick={() => {
+                navigate(-1);
+              }}
+              className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+            >
+              kembali ke senarai sekolah
+            </button>
             <button
               onClick={reloadData}
               className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'

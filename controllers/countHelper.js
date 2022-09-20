@@ -679,8 +679,8 @@ exports.createTOD = function (req, res) {
         rowNew.getCell(13).value = results.theMother[0].jumlahSpC; //Skor Plak C Taska
         rowNew.getCell(14).value = results.theMother[0].jumlahSpE; //Skor Plak E Taska
         rowNew.getCell(15).value = results.dmfxEqualToZero; //Tidak Perlu Rawatan (TPR) Taska
-        rowNew.getCell(16).value = results.theMother[0].jumlahTisuKeras; //Trauma Tisu Lembut Taska
-        rowNew.getCell(17).value = results.theMother[0].jumlahTisuLembut; //Trauma Tisu Keras Taska
+        rowNew.getCell(16).value = results.theMother[0].jumlahTisuLembut; //Trauma Tisu Lembut Taska
+        rowNew.getCell(17).value = results.theMother[0].jumlahTisuKeras; //Trauma Tisu Keras Taska
         rowNew.getCell(19).value = results.theMother[0].jumlahPerluFV; //Bilangan Toddler Baru Perlu FV Taska
         rowNew.getCell(20).value = results.theMother[0].jumlahTelahFVB; //Bilangan Toddler Baru Dibuat FV Taska
         rowNew.getCell(21).value = results.theMother[0].jumlahTelahTampalAntB; //Bilangan Tampalan Anterior baru Taska
@@ -3535,14 +3535,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Pra Sekolah 5 Tahun
         let rowNew = worksheet.getRow(13);
         rowNew.getCell(2).value = results.enrolmen; //Bil Enrolment Pra Sekolah 5 Tahun
-        rowNew.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Pra Sekolah 5 Tahun
-        rowNew.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Pra Sekolah 5 Tahun
-        rowNew.getCell(11).value = results.perokokLelakiIndia; //Perokok Lelaki Indian Pra Sekolah 5 Tahun
-        rowNew.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Pra Sekolah 5 Tahun
-        rowNew.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Pra Sekolah 5 Tahun
-        rowNew.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Pra Sekolah 5 Tahun
-        rowNew.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Pra Sekolah 5 Tahun
-        rowNew.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Pra Sekolah 5 Tahun
+        rowNew.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Pra Sekolah 5 Tahun
+        rowNew.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Pra Sekolah 5 Tahun
+        rowNew.getCell(11).value = results.perokokSemasaLelakiIndia; //Perokok Lelaki Indian Pra Sekolah 5 Tahun
+        rowNew.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Pra Sekolah 5 Tahun
+        rowNew.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Pra Sekolah 5 Tahun
+        rowNew.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Pra Sekolah 5 Tahun
+        rowNew.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Pra Sekolah 5 Tahun
+        rowNew.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Pra Sekolah 5 Tahun
         rowNew.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Pra Sekolah 5 Tahun
         rowNew.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Pra Sekolah 5 Tahun
         rowNew.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Pra Sekolah 5 Tahun
@@ -3559,14 +3559,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Pra Sekolah 6 Tahun
         let rowNew2 = worksheet.getRow(14);
         rowNew2.getCell(2).value = results.enrolmen; //Bil Enrolment Pra Sekolah 6 Tahun
-        rowNew2.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Pra Sekolah 6 Tahun
-        rowNew2.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Pra Sekolah 6 Tahun
-        rowNew2.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Pra Sekolah 6 Tahun
-        rowNew2.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Pra Sekolah 6 Tahun
-        rowNew2.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Pra Sekolah 6 Tahun
-        rowNew2.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Pra Sekolah 6 Tahun
-        rowNew2.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Pra Sekolah 6 Tahun
-        rowNew2.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Pra Sekolah 6 Tahun
+        rowNew2.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Pra Sekolah 6 Tahun
+        rowNew2.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Pra Sekolah 6 Tahun
+        rowNew2.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Pra Sekolah 6 Tahun
+        rowNew2.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Pra Sekolah 6 Tahun
+        rowNew2.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Pra Sekolah 6 Tahun
+        rowNew2.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Pra Sekolah 6 Tahun
+        rowNew2.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Pra Sekolah 6 Tahun
+        rowNew2.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Pra Sekolah 6 Tahun
         rowNew2.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Pra Sekolah 6 Tahun
         rowNew2.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Pra Sekolah 6 Tahun
         rowNew2.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Pra Sekolah 6 Tahun
@@ -3583,14 +3583,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 1 Atau Tingkatan 1
         let rowNew3 = worksheet.getRow(15);
         rowNew3.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 1 Atau Tingkatan 1
-        rowNew3.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 1 Atau Tingkatan 1
+        rowNew3.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 1 Atau Tingkatan 1
         rowNew3.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 1 Atau Tingkatan 1
         rowNew3.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 1 Atau Tingkatan 1
         rowNew3.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 1 Atau Tingkatan 1
@@ -3607,14 +3607,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 2 Atau Tingkatan 2
         let rowNew4 = worksheet.getRow(16);
         rowNew4.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 2 Atau Tingkatan 2
-        rowNew4.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 2 Atau Tingkatan 2
+        rowNew4.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 2 Atau Tingkatan 2
         rowNew4.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 2 Atau Tingkatan 2
         rowNew4.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 2 Atau Tingkatan 2
         rowNew4.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 2 Atau Tingkatan 2
@@ -3631,14 +3631,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 3 Atau Tingkatan 3
         let rowNew5 = worksheet.getRow(17);
         rowNew5.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 3 Atau Tingkatan 3
-        rowNew5.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 3 Atau Tingkatan 3
+        rowNew5.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 3 Atau Tingkatan 3
         rowNew5.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 3 Atau Tingkatan 3
         rowNew5.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 3 Atau Tingkatan 3
         rowNew5.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 3 Atau Tingkatan 3
@@ -3655,14 +3655,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 4 Atau Tingkatan 4
         let rowNew6 = worksheet.getRow(18);
         rowNew6.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 4 Atau Tingkatan 4
-        rowNew6.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 4 Atau Tingkatan 4
+        rowNew6.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 4 Atau Tingkatan 4
         rowNew6.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 4 Atau Tingkatan 4
         rowNew6.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 4 Atau Tingkatan 4
         rowNew6.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 4 Atau Tingkatan 4
@@ -3679,14 +3679,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 5 Atau Tingkatan 5
         let rowNew7 = worksheet.getRow(19);
         rowNew7.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 5 Atau Tingkatan 5
-        rowNew7.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 5 Atau Tingkatan 5
+        rowNew7.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 5 Atau Tingkatan 5
         rowNew7.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 5 Atau Tingkatan 5
         rowNew7.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 5 Atau Tingkatan 5
         rowNew7.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 5 Atau Tingkatan 5
@@ -3703,14 +3703,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Darjah 6 (Sekolah Rendah)
         let rowNew8 = worksheet.getRow(20);
         rowNew8.getCell(2).value = results.enrolmen; //Bil Enrolment Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Darjah 6 (Sekolah Rendah)
-        rowNew8.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Darjah 6 (Sekolah Rendah)
+        rowNew8.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Darjah 6 (Sekolah Rendah)
         rowNew8.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Darjah 6 (Sekolah Rendah)
         rowNew8.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Darjah 6 (Sekolah Rendah)
         rowNew8.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Darjah 6 (Sekolah Rendah)
@@ -3727,14 +3727,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 Peralihan
         let rowNew9 = worksheet.getRow(21);
         rowNew9.getCell(2).value = results.enrolmen; //Bil Enrolment Peralihan
-        rowNew9.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu Peralihan
-        rowNew9.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina Peralihan
-        rowNew9.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian Peralihan
-        rowNew9.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain Peralihan
-        rowNew9.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu Peralihan
-        rowNew9.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina Peralihan
-        rowNew9.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian Peralihan
-        rowNew9.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain Peralihan
+        rowNew9.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu Peralihan
+        rowNew9.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina Peralihan
+        rowNew9.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian Peralihan
+        rowNew9.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain Peralihan
+        rowNew9.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu Peralihan
+        rowNew9.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina Peralihan
+        rowNew9.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian Peralihan
+        rowNew9.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain Peralihan
         rowNew9.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa Peralihan
         rowNew9.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik Peralihan
         rowNew9.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha Peralihan
@@ -3751,14 +3751,14 @@ exports.createPPIM03 = function (req, res) {
         //PPIM03 KKI (SR & SM)
         let rowNew10 = worksheet.getRow(22);
         rowNew10.getCell(2).value = results.enrolmen; //Bil Enrolment KKI (SR & SM)
-        rowNew10.getCell(9).value = results.perokokLelakiMelayu; //Perokok Lelaki Melayu KKI (SR & SM)
-        rowNew10.getCell(10).value = results.perokokLelakiCina; //Perokok Lelaki Cina KKI (SR & SM)
-        rowNew10.getCell(11).value = results.perokokLelakiIndian; //Perokok Lelaki Indian KKI (SR & SM)
-        rowNew10.getCell(12).value = results.perokokLelakiLainLain; //Perokok Lelaki Lain-Lain KKI (SR & SM)
-        rowNew10.getCell(14).value = results.perokokPerempuanMelayu; //Perokok Perempuan Melayu KKI (SR & SM)
-        rowNew10.getCell(15).value = results.perokokPerempuanCina; //Perokok Perempuan Cina KKI (SR & SM)
-        rowNew10.getCell(16).value = results.perokokPerempuanIndian; //Perokok Perempuan Indian KKI (SR & SM)
-        rowNew10.getCell(17).value = results.perokokPerempuanLainLain; //Perokok Perempuan Lain-Lain KKI (SR & SM)
+        rowNew10.getCell(9).value = results.perokokSemasaLelakiMelayu; //Perokok Lelaki Melayu KKI (SR & SM)
+        rowNew10.getCell(10).value = results.perokokSemasaLelakiCina; //Perokok Lelaki Cina KKI (SR & SM)
+        rowNew10.getCell(11).value = results.perokokSemasaLelakiIndian; //Perokok Lelaki Indian KKI (SR & SM)
+        rowNew10.getCell(12).value = results.perokokSemasaLelakiLainLain; //Perokok Lelaki Lain-Lain KKI (SR & SM)
+        rowNew10.getCell(14).value = results.perokokSemasaPerempuanMelayu; //Perokok Perempuan Melayu KKI (SR & SM)
+        rowNew10.getCell(15).value = results.perokokSemasaPerempuanCina; //Perokok Perempuan Cina KKI (SR & SM)
+        rowNew10.getCell(16).value = results.perokokSemasaPerempuanIndia; //Perokok Perempuan Indian KKI (SR & SM)
+        rowNew10.getCell(17).value = results.perokokSemasaPerempuanLainLain; //Perokok Perempuan Lain-Lain KKI (SR & SM)
         rowNew10.getCell(18).value = results.jenisRokokBiasa; //Jenis Rokok Biasa KKI (SR & SM)
         rowNew10.getCell(19).value = results.jenisRokokElektronik; //Jenis Rokok Elektronik KKI (SR & SM)
         rowNew10.getCell(20).value = results.jenisRokokShisha; //Jenis Rokok Shisha KKI (SR & SM)
@@ -10644,6 +10644,7 @@ exports.createPG211 = function (req, res) {
 };
 
 exports.createPG214 = function (req, res) {
+  //updated on 13-09-2022 @ 9.37a.m.
   async.parallel(
     {
       negeri: function (callback) {
@@ -10718,20 +10719,20 @@ exports.createPG214 = function (req, res) {
         rowNew.getCell(12).value = results.jkbKedayan; //L13 Kategori Umur 60 Tahun
         rowNew.getCell(13).value = results.jkbIban; //M13 Kategori Umur 60 Tahun
         rowNew.getCell(14).value = results.jkbBidayuh; //N13 Kategori Umur 60 Tahun
-        rowNew.getCell(15).value = results.jkbBSwakLain; //O13 Kategori Umur 60 Tahun
-        rowNew.getCell(16).value = results.jkbOrangAsli; //P13 Kategori Umur 60 Tahun
-        rowNew.getCell(17).value = results.jkbLain2; //Q13 Kategori Umur 60 Tahun
-        rowNew.getCell(18).value = results.jkbWarganegara; //R13 Kategori Umur 60 Tahun
-        rowNew.getCell(19).value = results.jkbLelaki; //S13 Kategori Umur 60 Tahun
-        rowNew.getCell(20).value = results.jkbPerempuan; //T13 Kategori Umur 60 Tahun
-        rowNew.getCell(21).value = results.edentulous; //U13 Kategori Umur 60 Tahun
-        rowNew.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V13 Kategori Umur 60 Tahun
-        rowNew.getCell(23).value = results.gigiKurangDari20Batang; //W13 Kategori Umur 60 Tahun
-        rowNew.getCell(24).value = results.bilGigi; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O13 Kategori Umur 60 Tahun
+        rowNew.getCell(16).value = results.jkbBSwakLain; //P13 Kategori Umur 60 Tahun
+        rowNew.getCell(17).value = results.jkbOrangAsli; //Q13 Kategori Umur 60 Tahun
+        rowNew.getCell(18).value = results.jkbLain2; //R13 Kategori Umur 60 Tahun
+        rowNew.getCell(19).value = results.jkbWarganegara; //S13 Kategori Umur 60 Tahun
+        rowNew.getCell(20).value = results.jkbLelaki; //T13 Kategori Umur 60 Tahun
+        rowNew.getCell(21).value = results.jkbPerempuan; //U13 Kategori Umur 60 Tahun
+        rowNew.getCell(22).value = results.edentulous; //V13 Kategori Umur 60 Tahun
+        rowNew.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(24).value = results.gigiKurangDari20Batang; //X13 Kategori Umur 60 Tahun
+        rowNew.getCell(25).value = results.bilGigi; //Y13 Kategori Umur 60 Tahun
         rowNew.commit();
 
         //Kategori Umur 61 hingga 64 Tahun
-
         let rowNew2 = worksheet.getRow(14);
         rowNew2.getCell(3).value = results.jkbMelayu; //C14 Kategori Umur 61 hingga 64 Tahun
         rowNew2.getCell(4).value = results.jkbCina; //D14	Kategori Umur 61 hingga 64 Tahun
@@ -10745,20 +10746,20 @@ exports.createPG214 = function (req, res) {
         rowNew2.getCell(12).value = results.jkbKedayan; //L14 Kategori Umur 61 hingga 64 Tahun
         rowNew2.getCell(13).value = results.jkbIban; //M14 Kategori Umur 61 hingga 64 Tahun
         rowNew2.getCell(14).value = results.jkbBidayuh; //N14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(15).value = results.jkbBSwakLain; //O14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(16).value = results.jkbOrangAsli; //P14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(17).value = results.jkbLain2; //Q14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(18).value = results.jkbWarganegara; //R14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(19).value = results.jkbLelaki; //S14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(20).value = results.jkbPerempuan; //T14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(21).value = results.edentulous; //U14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(23).value = results.gigiKurangDari20Batang; //W14 Kategori Umur 61 hingga 64 Tahun
-        rowNew2.getCell(24).value = results.bilGigi; //W14 Kategori Umur 61 hingga 64 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(16).value = results.jkbBSwakLain; //P14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(17).value = results.jkbOrangAsli; //Q14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(18).value = results.jkbLain2; //R14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(19).value = results.jkbWarganegara; //S14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(20).value = results.jkbLelaki; //T14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(21).value = results.jkbPerempuan; //U14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(22).value = results.edentulous; //V14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(24).value = results.gigiKurangDari20Batang; //X14 Kategori Umur 61 hingga 64 Tahun
+        rowNew2.getCell(25).value = results.bilGigi; //Y14 Kategori Umur 61 hingga 64 Tahun
         rowNew2.commit();
 
         //Kategori Umur 65 tahun
-
         let rowNew3 = worksheet.getRow(15);
         rowNew3.getCell(3).value = results.jkbMelayu; //C15 Kategori Umur 65 Tahun
         rowNew3.getCell(4).value = results.jkbCina; //D15	Kategori Umur 65 Tahun
@@ -10772,16 +10773,17 @@ exports.createPG214 = function (req, res) {
         rowNew3.getCell(12).value = results.jkbKedayan; //L15 Kategori Umur 65 Tahun
         rowNew3.getCell(13).value = results.jkbIban; //M15 Kategori Umur 65 Tahun
         rowNew3.getCell(14).value = results.jkbBidayuh; //N15 Kategori Umur 65 Tahun
-        rowNew3.getCell(15).value = results.jkbBSwakLain; //O15 Kategori Umur 65 Tahun
-        rowNew3.getCell(16).value = results.jkbOrangAsli; //P15 Kategori Umur 65 Tahun
-        rowNew3.getCell(17).value = results.jkbLain2; //Q15 Kategori Umur 65 Tahun
-        rowNew3.getCell(18).value = results.jkbWarganegara; //R15 Kategori Umur 65 Tahun
-        rowNew3.getCell(19).value = results.jkbLelaki; //S15 Kategori Umur 65 Tahun
-        rowNew3.getCell(20).value = results.jkbPerempuan; //T15 Kategori Umur 65 Tahun
-        rowNew3.getCell(21).value = results.edentulous; //U15 Kategori Umur 65 Tahun
-        rowNew3.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V15 Kategori Umur 65 Tahun
-        rowNew3.getCell(23).value = results.gigiKurangDari20Batang; //W15 Kategori Umur 65 Tahun
-        rowNew3.getCell(24).value = results.bilGigi; //W15 Kategori Umur 65 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O14 Kategori Umur 65 Tahun
+        rowNew3.getCell(16).value = results.jkbBSwakLain; //P15 Kategori Umur 65 Tahun
+        rowNew3.getCell(17).value = results.jkbOrangAsli; //Q15 Kategori Umur 65 Tahun
+        rowNew3.getCell(18).value = results.jkbLain2; //R15 Kategori Umur 65 Tahun
+        rowNew3.getCell(19).value = results.jkbWarganegara; //S15 Kategori Umur 65 Tahun
+        rowNew3.getCell(20).value = results.jkbLelaki; //T15 Kategori Umur 65 Tahun
+        rowNew3.getCell(21).value = results.jkbPerempuan; //U15 Kategori Umur 65 Tahun
+        rowNew3.getCell(22).value = results.edentulous; //V15 Kategori Umur 65 Tahun
+        rowNew3.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W15 Kategori Umur 65 Tahun
+        rowNew3.getCell(24).value = results.gigiKurangDari20Batang; //X15 Kategori Umur 65 Tahun
+        rowNew3.getCell(25).value = results.bilGigi; //Y15 Kategori Umur 65 Tahun
         rowNew3.commit();
 
         //Kategori Umur 66 hingga 69 Tahun
@@ -10798,20 +10800,20 @@ exports.createPG214 = function (req, res) {
         rowNew4.getCell(12).value = results.jkbKedayan; //L16 Kategori Umur 66 hingga 69 Tahun
         rowNew4.getCell(13).value = results.jkbIban; //M16 Kategori Umur 66 hingga 69 Tahun
         rowNew4.getCell(14).value = results.jkbBidayuh; //N16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(15).value = results.jkbBSwakLain; //O16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(16).value = results.jkbOrangAsli; //P16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(17).value = results.jkbLain2; //Q16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(18).value = results.jkbWarganegara; //R16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(19).value = results.jkbLelaki; //S16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(20).value = results.jkbPerempuan; //T16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(21).value = results.edentulous; //U16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(23).value = results.gigiKurangDari20Batang; //W16 Kategori Umur 66 hingga 69 Tahun
-        rowNew4.getCell(24).value = results.bilGigi; //W16 Kategori Umur 66 hingga 69 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O14 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(16).value = results.jkbBSwakLain; //P16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(17).value = results.jkbOrangAsli; //Q16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(18).value = results.jkbLain2; //R16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(19).value = results.jkbWarganegara; //S16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(20).value = results.jkbLelaki; //T16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(21).value = results.jkbPerempuan; //U16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(22).value = results.edentulous; //V16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(24).value = results.gigiKurangDari20Batang; //X16 Kategori Umur 66 hingga 69 Tahun
+        rowNew4.getCell(25).value = results.bilGigi; //Y16 Kategori Umur 66 hingga 69 Tahun
         rowNew4.commit();
 
         //Kategori Umur 70 hingga 74 Tahun
-
         let rowNew5 = worksheet.getRow(17);
         rowNew5.getCell(3).value = results.jkbMelayu; //C17 Kategori Umur 70 hingga 74 Tahun
         rowNew5.getCell(4).value = results.jkbCina; //D17	Kategori Umur 70 hingga 74 Tahun
@@ -10825,20 +10827,20 @@ exports.createPG214 = function (req, res) {
         rowNew5.getCell(12).value = results.jkbKedayan; //L17 Kategori Umur 70 hingga 74 Tahun
         rowNew5.getCell(13).value = results.jkbIban; //M17 Kategori Umur 70 hingga 74 Tahun
         rowNew5.getCell(14).value = results.jkbBidayuh; //N17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(15).value = results.jkbBSwakLain; //O17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(16).value = results.jkbOrangAsli; //P17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(17).value = results.jkbLain2; //Q17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(18).value = results.jkbWarganegara; //R17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(19).value = results.jkbLelaki; //S17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(20).value = results.jkbPerempuan; //T17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(21).value = results.edentulous; //U17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(23).value = results.gigiKurangDari20Batang; //W17 Kategori Umur 70 hingga 74 Tahun
-        rowNew5.getCell(24).value = results.bilGigi; //W17 Kategori Umur 70 hingga 74 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(16).value = results.jkbBSwakLain; //P17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(17).value = results.jkbOrangAsli; //Q17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(18).value = results.jkbLain2; //R17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(19).value = results.jkbWarganegara; //S17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(20).value = results.jkbLelaki; //T17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(21).value = results.jkbPerempuan; //U17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(22).value = results.edentulous; //V17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(24).value = results.gigiKurangDari20Batang; //X17 Kategori Umur 70 hingga 74 Tahun
+        rowNew5.getCell(25).value = results.bilGigi; //Y17 Kategori Umur 70 hingga 74 Tahun
         rowNew5.commit();
 
         //Kategori Umur 75 tahun atau lebih
-
         let rowNew6 = worksheet.getRow(18);
         rowNew6.getCell(3).value = results.jkbMelayu; //C18 Kategori Umur 75 tahun atau lebih
         rowNew6.getCell(4).value = results.jkbCina; //D18	Kategori Umur 75 tahun atau lebih
@@ -10852,16 +10854,17 @@ exports.createPG214 = function (req, res) {
         rowNew6.getCell(12).value = results.jkbKedayan; //L18 Kategori Umur 75 tahun atau lebih
         rowNew6.getCell(13).value = results.jkbIban; //M18 Kategori Umur 75 tahun atau lebih
         rowNew6.getCell(14).value = results.jkbBidayuh; //N18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(15).value = results.jkbBSwakLain; //O18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(16).value = results.jkbOrangAsli; //P18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(17).value = results.jkbLain2; //Q18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(18).value = results.jkbWarganegara; //R18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(19).value = results.jkbLelaki; //S18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(20).value = results.jkbPerempuan; //T18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(21).value = results.edentulous; //U18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //V18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(23).value = results.gigiKurangDari20Batang; //W18 Kategori Umur 75 tahun atau lebih
-        rowNew6.getCell(24).value = results.bilGigi; //W18 Kategori Umur 75 tahun atau lebih
+        rowNew.getCell(15).value = results.jkbPenan; //O18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(16).value = results.jkbBSwakLain; //P18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(17).value = results.jkbOrangAsli; //Q18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(18).value = results.jkbLain2; //R18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(19).value = results.jkbWarganegara; //S18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(20).value = results.jkbLelaki; //T18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(21).value = results.jkbPerempuan; //U18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(22).value = results.edentulous; //V18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(24).value = results.gigiKurangDari20Batang; //X18 Kategori Umur 75 tahun atau lebih
+        rowNew6.getCell(25).value = results.bilGigi; //Y18 Kategori Umur 75 tahun atau lebih
         rowNew6.commit();
 
         let newfile = path.join(
@@ -11632,7 +11635,8 @@ exports.createCPPC2 = function (req, res) {
   );
 };
 
-exports.createPG101 = function (req, res) {
+exports.createPG101 = function (req, res) { 
+  // PG101A = Outpatient ; PG 101B = Pakar ; PG 101C = Outreach atau Komuniti 
   async.parallel(
     {
       negeri: function (callback) {
@@ -11692,45 +11696,116 @@ exports.createPG101 = function (req, res) {
         await workbook.xlsx.readFile(filename);
         let worksheet = workbook.getWorksheet('PG101');
 
-        let rowNew = worksheet.getRow(11);
-
-        rowNew.getCell(1).value = results.tarikh;
-        rowNew.getCell(2).value = results.nomborSiri; //dapat dari mana?
-        rowNew.getCell(3).value = results.kedatanganEnggan;
-        rowNew.getCell(4).value = results.kedatanganTidakHadir;
-        rowNew.getCell(5).value = results.ic;
-        rowNew.getCell(6).value = results.nama;
-        rowNew.getCell(7).value = results.alamat;
-        rowNew.getCell(8).value = results.umur;
-        rowNew.getCell(9).value = results.waktuSampai;
-        rowNew.getCell(10).value = results.jantina; //Puan.. pakai boolean?
-        rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
-        rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
-        rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
-        rowNew.getCell(14).value = results.kategoriPesakit; //Sek Rendah..pakai boolean?
-        rowNew.getCell(15).value = results.kategoriPesakit; //Sek Men..pakai boolean?
-        rowNew.getCell(16).value = results.kategoriPesakit; //OKU..pakai boolean?
-        rowNew.getCell(17).value = results.kategoriPesakit; //Ibu Mengandung..pakai boolean?
-        rowNew.getCell(18).value = results.kategoriPesakit; //dewasa..pakai boolean?
-        rowNew.getCell(19).value = results.kategoriPesakit; //wargatua..pakai boolean?
-        rowNew.getCell(20).value = results.kumpulanEtnik; //melayu. boolean?
-        rowNew.getCell(21).value = results.kumpulanEtnik; //cina. boolean?
-        rowNew.getCell(22).value = results.kumpulanEtnik; //india. boolean?
-        rowNew.getCell(23).value = results.kumpulanEtnik; //bajau. boolean?
-        rowNew.getCell(24).value = results.kumpulanEtnik; //dusun. boolean?
-        rowNew.getCell(25).value = results.kumpulanEtnik; //kadazan. boolean?
-        rowNew.getCell(26).value = results.kumpulanEtnik; //murut. boolean?
-        rowNew.getCell(27).value = results.kumpulanEtnik; //BMP sabah. boolean?
-        rowNew.getCell(28).value = results.kumpulanEtnik; //melanau. boolean?
-        rowNew.getCell(29).value = results.kumpulanEtnik; //kedayan. boolean?
-        rowNew.getCell(30).value = results.kumpulanEtnik; //iban. boolean?
-        rowNew.getCell(31).value = results.kumpulanEtnik; //bidayuh. boolean?
-        rowNew.getCell(32).value = results.kumpulanEtnik; //BMP sarawak. boolean?
-        rowNew.getCell(33).value = results.kumpulanEtnik; //OA. boolean?
-        rowNew.getCell(34).value = results.kumpulanEtnik; //lain-lain. boolean?
-        rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
-        rowNew.getCell(36).value = results.catatan; //rujukDaripada
-        rowNew.getCell(37).value = results.catatan; //catatan
+        let rowNew = worksheet.getRow(16);
+          rowNew.getCell(1).value = results.tarikh; 
+          // for i = 1, i++
+            // rowNew.getCell(2).value = results.nomborSiri; //B16 - No Siri (numberiing utk tahu berapa pt dalam 1 tahun)
+          rowNew.getCell(3).value = results.waktuSampai; //C16 Waktu Sampai
+          //   // rowNew.getCell(4).value = results.noPendaftaranBaru; //No Pendaftaran Baru
+          //   // rowNew.getCell(5).value = results.noPendaftaranUlangan; //No Pendaftaran Ulangan
+        switch ("pengenalan") {
+          case ("mykad"):
+            rowNew.getCell(6).value = result.pengenalan[0];
+          case ("passport"):
+            rowNew.getCell(6).value = results.pengenalan[0];
+          case ("tentera"):
+            rowNew.getCell(6).value = results.pengenalan[0];
+          case ("polis"):
+            rowNew.getCell(6).value = results.pengenalan[0];
+          case ("sijil-lahir"):
+            rowNew.getCell.value = results.pengenalan[0];
+          default: 
+            return null
+        }
+        rowNew.getCell(6).value = results.ic;          
+        rowNew.getCell(7).value = results.nama;
+        rowNew.getCell(8).value = results.alamat;
+        rowNew.getCell(9).value = results.umur;
+        switch (jantina) {
+          case "lelaki":
+            rowNew.getCell(10).value = results.jantina[0].lelaki;
+          case "perempuan":
+            rowNew.getCell(11).value = results.jantina[0].perempuan;
+          default:
+            return null
+        }
+        switch (kumpulanEtnik) { 
+          case "melayu":
+            rowNew.gelCell(12).value = results.kumpulanEtnik[0];
+          case "cina":
+            rowNew.gelCell(13).value = results.kumpulanEtnik[0];
+          case "india":
+            rowNew.gelCell(14).value = results.kumpulanEtnik[0];
+          case "bajau":
+            rowNew.gelCell(15).value = results.kumpulanEtnik[0];
+          case "dusun":
+            rowNew.gelCell(16).value = results.kumpulanEtnik[0];
+          case "kadazan":
+            rowNew.gelCell(17).value = results.kumpulanEtnik[0];
+          case "murut":
+            rowNew.gelCell(18).value = results.kumpulanEtnik[0];
+          case "bumiputera sabah lain":
+            rowNew.gelCell(19).value = results.kumpulanEtnik[0];
+          case "melanau":
+            rowNew.gelCell(20).value = results.kumpulanEtnik[0];
+          case "kedayan":
+            rowNew.gelCell(21).value = results.kumpulanEtnik[0];
+          case "iban":
+            rowNew.gelCell(22).value = results.kumpulanEtnik[0];
+          case "bidayuh":
+            rowNew.gelCell(23).value = results.kumpulanEtnik[0];
+          case "penan":
+            rowNew.gelCell(24).value = results.kumpulanEtnik[0];
+          case "bumiputera sarawak lain":
+            rowNew.gelCell(25).value = results.kumpulanEtnik[0];
+          case "orang asli semenanjung":
+            rowNew.gelCell(26).value = results.kumpulanEtnik[0];
+          case "lain-lain":
+            rowNew.gelCell(27).value = results.kumpulanEtnik[0];
+          case "bukan warganegara":
+              rowNew.gelCell(28).value = results.kumpulanEtnik[0];
+          default: 
+            return null
+        }
+        switch (kategoriPesakit) {
+          case ("hamil"):
+            rowNew.getCell(29) = results.kategoriPesakit[0];
+          case ("prasekolah"):
+            rowNew.getCell(30) = results.kategoriPesakit[0];
+          case ("sekolahrendah"):
+            rowNew.getCell(30) = results.kategoriPesakit[0];
+          case ("sekolahmenengah"):
+            rowNew.getCell(30) = results.kategoriPesakit[0];
+          case ("oku"):
+            rowNew.getCell(31) = results.kategoriPesakit[0];
+          default:
+            return null
+        }
+        switch (statusPesara) {
+          case ("kerajaan"):
+            rowNew.getCell(32) = results.statusPesara[0];
+          case ("atm"):
+            rownew.getCell(33) = results.statusPesara[0];
+          default:
+            return null
+        }
+        switch (rujukDaripada){
+          case ("dalaman"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          case ("kp"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          case ("kk"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          case ("hospital"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          case ("swasta"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          case ("lain2"):
+            rowNew.getCell(34) = results.rujukDaripada[0];
+          default:
+            return null
+        }
+        rowNew.getCell(35).value = results.catatan; //catatan
 
         let newfile = path.join(
           __dirname,
@@ -11738,6 +11813,178 @@ exports.createPG101 = function (req, res) {
           'public',
           'exports',
           'test-PG101.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG211Latest= function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+      jumlahSRnegeri: function (callback) {
+        Tadika.countDocuments({ kedatanganUlangan: 1 }, callback);
+      },
+      jumlahEnrolmenSR: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusD: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      jumlahSRterlibatMMI: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusM: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      tahun: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusF: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      sekolah: function (callback) {
+        Tadika.countDocuments(
+          { statusGigidesidusX: { $gte: 1 }, kedatanganBaru: 1 },
+          callback
+        );
+      },
+      klinik: function (callback) {
+        Tadika.countDocuments(
+          {
+            statusGigidesidusD: '0',
+            statusGigidesidusM: '0',
+            statusGigidesidusF: '0',
+            statusGigidesidusX: 0,
+            kedatanganBaru: 1,
+          },
+          callback
+        );
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGS211.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG211');
+
+    //PG211A
+        let rowNew = worksheet.getRow(13);
+          rowNew.getCell(3).value = results.kedatanganTahunSemasa; 
+          switch (jantina) {
+            case "lelaki":
+              rowNew.getCell(4).value = results.jantina[0].lelaki;
+            case "perempuan":
+              rowNew.getCell(5).value = results.jantina[0].perempuan;
+            default:
+              return null
+          }
+          switch (kumpulanEtnik) { 
+            case "melayu":
+              rowNew.gelCell(6).value = results.kumpulanEtnik[0];
+            case "cina":
+              rowNew.gelCell(7).value = results.kumpulanEtnik[0];
+            case "india":
+              rowNew.gelCell(8).value = results.kumpulanEtnik[0];
+            case "bajau":
+              rowNew.gelCell(9).value = results.kumpulanEtnik[0];
+            case "dusun":
+              rowNew.gelCell(10).value = results.kumpulanEtnik[0];
+            case "kadazan":
+              rowNew.gelCell(11).value = results.kumpulanEtnik[0];
+            case "murut":
+              rowNew.gelCell(12).value = results.kumpulanEtnik[0];
+            case "bumiputera sabah lain":
+              rowNew.gelCell(13).value = results.kumpulanEtnik[0];
+            case "melanau":
+              rowNew.gelCell(14).value = results.kumpulanEtnik[0];
+            case "kedayan":
+              rowNew.gelCell(15).value = results.kumpulanEtnik[0];
+            case "iban":
+              rowNew.gelCell(16).value = results.kumpulanEtnik[0];
+            case "bidayuh":
+              rowNew.gelCell(17).value = results.kumpulanEtnik[0];
+            case "penan":
+              rowNew.gelCell(18).value = results.kumpulanEtnik[0];
+            case "bumiputera sarawak lain":
+              rowNew.gelCell(19).value = results.kumpulanEtnik[0];
+            case "orang asli semenanjung":
+              rowNew.gelCell(20).value = results.kumpulanEtnik[0];
+            case "lain-lain":
+              rowNew.gelCell(21).value = results.kumpulanEtnik[0];
+            case "bukan warganegara":
+              rowNew.gelCell(22).value = results.kumpulanEtnik[0];
+              default: 
+                return null
+          }
+          switch (kategoriPesakit) {
+            case ("hamil"):
+              rowNew.getCell(23) = results.kategoriPesakit[0];
+            case ("prasekolah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("sekolahrendah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("sekolahmenengah"):
+              rowNew.getCell(24) = results.kategoriPesakit[0];
+            case ("oku"):
+              rowNew.getCell(25) = results.kategoriPesakit[0];
+            default:
+              return null
+          }
+          switch (statusPesara) {
+            case ("kerajaan"):
+              rowNew.getCell(26) = results.statusPesara[0];
+            case ("atm"):
+              rownew.getCell(27) = results.statusPesara[0];
+            default:
+              return null
+          }
+          switch (rujukDaripada){
+            case ("dalaman"):
+              rowNew.getCell(28) = results.rujukDaripada[0];
+            case ("kp"):
+              rowNew.getCell(29) = results.rujukDaripada[0];
+            case ("kk"):
+              rowNew.getCell(30) = results.rujukDaripada[0];
+            case ("hospital"):
+              rowNew.getCell(31) = results.rujukDaripada[0];
+            case ("swasta"):
+              rowNew.getCell(32) = results.rujukDaripada[0];
+            case ("lain2"):
+              rowNew.getCell(33) = results.rujukDaripada[0];
+            default:
+              return null
+          }
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG211.xlsx'
         );
 
         // Write the file

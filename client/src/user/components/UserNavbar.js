@@ -168,7 +168,7 @@ function UserNavbar() {
                   UMUM
                 </NavLink>
                 <NavLink
-                  to='sekolah'
+                  to='senarai-sekolah'
                   onClick={() => {
                     setShowLinks(!showLinks);
                     setShowGenerateSubMenu(false);
