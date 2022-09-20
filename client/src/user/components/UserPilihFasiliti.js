@@ -25,7 +25,7 @@ function UserPilihFasiliti() {
         setListPilihFasiliti(data.fasilitis);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/');
+        navigate('/pengguna');
       }
     };
     fetchPilihFasiliti();
@@ -37,7 +37,7 @@ function UserPilihFasiliti() {
     setFasilitiRelief(pilihanFasiliti.current.value);
     setDisplayLoginForm(true);
     setDisplayPilihFasiliti(false);
-    navigate('/user');
+    navigate('/pengguna/landing');
   };
 
   return (

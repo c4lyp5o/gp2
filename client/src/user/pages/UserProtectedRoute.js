@@ -26,7 +26,7 @@ function UserProtectedRoute({ children }) {
   }, [userToken]);
 
   if (isTokenCorrect === false || !username) {
-    return <Navigate to='/' />;
+    return <Navigate to='/pengguna' />;
   }
   if (isTokenCorrect === true && username) {
     return children;

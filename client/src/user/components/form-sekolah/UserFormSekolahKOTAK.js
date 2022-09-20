@@ -5,14 +5,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahKOTAK() {
-  const {
-    userToken,
-    username,
-    navigate,
-    catchAxiosErrorAndLogout,
-    useParams,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
 
   const { personSekolahId, kotakSekolahId } = useParams();
 
@@ -21,6 +14,10 @@ function UserFormSekolahKOTAK() {
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
   const createdByUsername = username;
+  const [rokokBiasaKotak, setRokokBiasaKotak] = useState(0);
+  const [elektronikVapeKotak, setElektronikVapeKotak] = useState(0);
+  const [shishaKotak, setShishaKotak] = useState(0);
+  const [lainLainKotak, setLainLainKotak] = useState(0);
   const [tarikh1, setTarikh1] = useState('');
   const [adaTiadaQTarikh1, setAdaTiadaQTarikh1] = useState('');
   const [tarikh2, setTarikh2] = useState('');
@@ -53,10 +50,24 @@ function UserFormSekolahKOTAK() {
       setTarikh4('');
       setAdaTiadaQTarikh4('');
     }
-  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3]);
-
-  //reset value
-  // TO DO..
+    if (adaTiadaQTarikh1 === 'tiada-q-tarikh1') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh2 === 'tiada-q-tarikh2') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh3 === 'tiada-q-tarikh3') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+    }
+    if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
+      setTarikhQ('');
+      setStatusSelepas6Bulan('');
+      setRujukGuruKaunseling('');
+    }
+  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3, adaTiadaQTarikh4]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -71,9 +82,40 @@ function UserFormSekolahKOTAK() {
 
         // map to form if kotakSekolahId exist
         if (kotakSekolahId !== 'tambah-kotak') {
+          setRokokBiasaKotak(
+            data.personSekolahWithPopulate.kotakSekolah.rokokBiasaKotak
+          );
+          setElektronikVapeKotak(
+            data.personSekolahWithPopulate.kotakSekolah.elektronikVapeKotak
+          );
+          setShishaKotak(
+            data.personSekolahWithPopulate.kotakSekolah.shishaKotak
+          );
+          setLainLainKotak(
+            data.personSekolahWithPopulate.kotakSekolah.lainLainKotak
+          );
           setTarikh1(data.personSekolahWithPopulate.kotakSekolah.tarikh1);
           setAdaTiadaQTarikh1(
             data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh1
+          );
+          setTarikh2(data.personSekolahWithPopulate.kotakSekolah.tarikh2);
+          setAdaTiadaQTarikh2(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh2
+          );
+          setTarikh3(data.personSekolahWithPopulate.kotakSekolah.tarikh3);
+          setAdaTiadaQTarikh3(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh3
+          );
+          setTarikh4(data.personSekolahWithPopulate.kotakSekolah.tarikh4);
+          setAdaTiadaQTarikh4(
+            data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh4
+          );
+          setRujukGuruKaunseling(
+            data.personSekolahWithPopulate.kotakSekolah.rujukGuruKaunseling
+          );
+          setTarikhQ(data.personSekolahWithPopulate.kotakSekolah.tarikhQ);
+          setStatusSelepas6Bulan(
+            data.personSekolahWithPopulate.kotakSekolah.statusSelepas6Bulan
           );
         }
         setIsLoading(false);
@@ -87,104 +129,104 @@ function UserFormSekolahKOTAK() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (kotakSekolahId === 'tambah-kotak') {
-      try {
-        await axios.post(
-          `/api/v1/sekolah/kotak/${personSekolahId}`,
-          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+      await toast
+        .promise(
+          axios.post(
+            `/api/v1/sekolah/kotak/${personSekolahId}`,
+            {
+              createdByUsername,
+              rokokBiasaKotak,
+              elektronikVapeKotak,
+              shishaKotak,
+              lainLainKotak,
+              tarikh1,
+              adaTiadaQTarikh1,
+              tarikh2,
+              adaTiadaQTarikh2,
+              tarikh3,
+              adaTiadaQTarikh3,
+              tarikh4,
+              adaTiadaQTarikh4,
+              rujukGuruKaunseling,
+              tarikhQ,
+              statusSelepas6Bulan,
+            },
+            {
+              headers: { Authorization: `Bearer ${userToken}` },
+            }
+          ),
           {
-            headers: { Authorization: `Bearer ${userToken}` },
+            pending: 'Menghantar...',
+            success: 'KOTAK pelajar berjaya dihantar',
+            error: 'KOTAK pelajar gagal dihantar',
+          },
+          {
+            autoClose: 2000,
           }
-        );
-        toast.success(`KOTAK pelajar berjaya dihantar`, {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+        )
+        .then(() => {
+          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+            autoClose: 2000,
           });
-        }, 1000);
-        setTimeout(() => {
-          window.opener = null;
-          window.open('', '_self');
-          window.close();
-        }, 5000);
-      } catch (error) {
-        console.log(error);
-        toast.error('Gagal!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 3000);
         });
-      }
     }
     if (kotakSekolahId !== 'tambah-kotak') {
-      try {
-        await axios.patch(
-          `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
-          { createdByUsername, tarikh1, adaTiadaQTarikh1 },
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
+            {
+              createdByUsername,
+              rokokBiasaKotak,
+              elektronikVapeKotak,
+              shishaKotak,
+              lainLainKotak,
+              tarikh1,
+              adaTiadaQTarikh1,
+              tarikh2,
+              adaTiadaQTarikh2,
+              tarikh3,
+              adaTiadaQTarikh3,
+              tarikh4,
+              adaTiadaQTarikh4,
+              rujukGuruKaunseling,
+              tarikhQ,
+              statusSelepas6Bulan,
+            },
+            {
+              headers: { Authorization: `Bearer ${userToken}` },
+            }
+          ),
           {
-            headers: { Authorization: `Bearer ${userToken}` },
+            pending: 'Mengemaskini...',
+            success: 'KOTAK pelajar berjaya dikemaskini',
+            error: 'KOTAK pelajar gagal dikemaskini',
+          },
+          {
+            autoClose: 2000,
           }
-        );
-        toast.success(`KOTAK pelajar berjaya dikemaskini`, {
-          position: 'top-right',
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => {
-          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+        )
+        .then(() => {
+          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+            autoClose: 2000,
           });
-        }, 1000);
-        setTimeout(() => {
-          window.opener = null;
-          window.open('', '_self');
-          window.close();
-        }, 5000);
-      } catch (error) {
-        console.log(error);
-        toast.error('Gagal!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 3000);
         });
-      }
     }
   };
 
   return (
     <>
-      <div className='h-full max-h-min 2xl:h-3/4 p-1 px-10 grid gap-2'>
+      <div className='h-full max-h-min lg:h-3/4 p-1 px-2 md:px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -254,13 +296,88 @@ function UserFormSekolahKOTAK() {
               <p className='ml-3 text-xl font-semibold'>KOTAK</p>
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
+              <article className='grid grid-cols-2 col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold text-base flex flex-row pl-5 col-span-2'>
+                  jenis rokok<span className='text-user6'>*</span>
+                </h4>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='rokok-biasa-kotak'
+                    id='rokok-biasa-kotak'
+                    checked={rokokBiasaKotak}
+                    onChange={() => {
+                      setRokokBiasaKotak(!rokokBiasaKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='rokok-biasa-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    rokok biasa
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='elektronik-vape-kotak'
+                    id='elektronik-vape-kotak'
+                    checked={elektronikVapeKotak}
+                    onChange={() => {
+                      setElektronikVapeKotak(!elektronikVapeKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='elektronik-vape-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    elektronik / vape
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='shisha-kotak'
+                    id='shisha-kotak'
+                    checked={shishaKotak}
+                    onChange={() => {
+                      setShishaKotak(!shishaKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='shisha-kotak' className='m-2 text-sm font-m'>
+                    shisha
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='lain-lain-kotak'
+                    id='lain-lain-kotak'
+                    checked={lainLainKotak}
+                    onChange={() => {
+                      setLainLainKotak(!lainLainKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='lain-lain-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    lain-lain
+                  </label>
+                </div>
+              </article>
               <div className='col-span-2'>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-3'>
                     tarikh intervensi merokok
                   </h4>
-                  <p className='flex items-center justify-center text-m font-m'>
-                    Sesi 1:<span className='text-user6'>*</span>
+                  <p className='flex items-center justify-center text-xs sm:text-m font-m'>
+                    Sesi 1:
+                    <span className='text-user6 text-xl font-semibold'>*</span>
                   </p>
                   <input
                     required
@@ -271,7 +388,7 @@ function UserFormSekolahKOTAK() {
                     onChange={(e) => {
                       setTarikh1(e.target.value);
                     }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                    className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                   />
                   <div className='flex items-center flex-row pl-5'>
                     <input
@@ -290,7 +407,7 @@ function UserFormSekolahKOTAK() {
                     />
                     <label
                       htmlFor='ada-q-tarikh1'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-xs sm:text-sm font-m'
                     >
                       ada quit date
                     </label>
@@ -310,21 +427,23 @@ function UserFormSekolahKOTAK() {
                     />
                     <label
                       htmlFor='tiada-q-tarikh1'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-xs sm:text-sm font-m'
                     >
                       tiada quit date
                     </label>
                   </div>
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 2:
+                      {tarikh2 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <input
-                      required={
-                        adaTiadaQTarikh1 == 'tiada-q-tarikh1' ? true : false
-                      }
                       type='date'
                       name='tarikh2'
                       id='tarikh2'
@@ -332,15 +451,13 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh2(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        required={
-                          adaTiadaQTarikh1 == 'tiada-q-tarikh1' ? true : false
-                        }
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='ada-q-tarikh2'
@@ -355,12 +472,12 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh2'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh2 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh2'
                         id='tiada-q-tarikh2'
@@ -375,15 +492,20 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh2'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
                     </div>
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 3:
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
@@ -395,13 +517,13 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh3(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='ada-q-tarikh3'
@@ -416,12 +538,12 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh3'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh3'
                         id='tiada-q-tarikh3'
@@ -436,15 +558,20 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh3'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
                     </div>
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                    <p className='flex items-center justify-center text-m font-m'>
+                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
                       Sesi 4:
+                      {tarikh3 && (
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      )}
                     </p>
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
@@ -456,13 +583,13 @@ function UserFormSekolahKOTAK() {
                       onChange={(e) => {
                         setTarikh4(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
                     />
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
                     <div className='flex items-center flex-row pl-5'>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='ada-q-tarikh4'
@@ -477,12 +604,12 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='ada-q-tarikh4'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         ada quit date
                       </label>
                       <input
-                        // required={statusM == 'perokokSemasa' ? true : false}
+                        required={tarikh3 ? true : false}
                         type='radio'
                         name='ada-tiada-q-tarikh4'
                         id='tiada-q-tarikh4'
@@ -497,7 +624,7 @@ function UserFormSekolahKOTAK() {
                       />
                       <label
                         htmlFor='tiada-q-tarikh4'
-                        className='m-2 text-sm font-m'
+                        className='m-2 text-xs sm:text-sm font-m'
                       >
                         tiada quit date
                       </label>
@@ -515,7 +642,9 @@ function UserFormSekolahKOTAK() {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required={
+                        adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                      }
                       type='radio'
                       name='rujuk-guru-kaunseling'
                       id='ya-rujuk-guru-kaunseling'
@@ -537,7 +666,9 @@ function UserFormSekolahKOTAK() {
                       Ya
                     </label>
                     <input
-                      // required={statusM == 'perokokSemasa' ? true : false}
+                      required={
+                        adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                      }
                       type='radio'
                       name='rujuk-guru-kaunseling'
                       id='tidak-rujuk-guru-kaunseling'
@@ -565,12 +696,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     tarikh quit date
                   </h4>
@@ -590,12 +716,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  // className={`${
-                  //   statusM == 'perokokSemasa' ? 'visible' : 'hidden'
-                  // } grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md`}
-                >
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     status selepas 6 bulan
                   </h4>

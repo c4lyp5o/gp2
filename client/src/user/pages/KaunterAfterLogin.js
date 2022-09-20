@@ -54,10 +54,10 @@ function KaunterAfterLogin() {
         <Routes>
           <Route index element={<KaunterLanding />} />
           <Route
-            path='klinik'
+            path='kp'
             element={
               <Kaunter
-                jenisFasiliti='klinik'
+                jenisFasiliti='kp'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -65,10 +65,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='kkkd'
+            path='kk-kd'
             element={
               <Kaunter
-                jenisFasiliti='kkkd'
+                jenisFasiliti='kk-kd'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -76,10 +76,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='tastad'
+            path='taska-tadika'
             element={
               <Kaunter
-                jenisFasiliti='tastad'
+                jenisFasiliti='taska-tadika'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -87,10 +87,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='ipt'
+            path='ipt-kolej'
             element={
               <Kaunter
-                jenisFasiliti='ipt'
+                jenisFasiliti='ipt-kolej'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -120,10 +120,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='iwe'
+            path='institusi-warga-emas'
             element={
               <Kaunter
-                jenisFasiliti='iwe'
+                jenisFasiliti='institusi-warga-emas'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -131,10 +131,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='oku'
+            path='institusi-oku'
             element={
               <Kaunter
-                jenisFasiliti='oku'
+                jenisFasiliti='institusi-oku'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -142,10 +142,10 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='ngangkat'
+            path='kampung-angkat'
             element={
               <Kaunter
-                jenisFasiliti='ngangkat'
+                jenisFasiliti='kampung-angkat'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -153,27 +153,27 @@ function KaunterAfterLogin() {
             }
           />
           <Route
-            path='komlain'
+            path='projek-komuniti-lain'
             element={
               <Kaunter
-                jenisFasiliti='komlain'
+                jenisFasiliti='projek-komuniti-lain'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
               />
             }
           />
-          <Route
-            path='kelantan'
+          {/* <Route
+            path='rtc-kelantan'
             element={
               <Kaunter
-                jenisFasiliti='kelantan'
+                jenisFasiliti='rtc-kelantan'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
               />
             }
-          />
+          /> */}
         </Routes>
       </div>
       <KaunterFooter />

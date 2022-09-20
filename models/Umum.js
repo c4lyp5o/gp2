@@ -3,208 +3,702 @@ const mongoose = require('mongoose');
 const UmumSchema = new mongoose.Schema(
   {
     // negeri, daerah, kp, operator are associated with each person
-    createdByNegeri: {
-      type: String,
-      // required: true,
+    createdByNegeri: { type: String, default: '' },
+    createdByDaerah: { type: String, default: '' },
+    createdByKp: { type: String, default: '' },
+    createdByUsername: { type: String, required: true },
+    // kaunter --------------------------------------------------
+    jenisFasiliti: { type: String, required: true },
+    tarikhKedatangan: { type: String, default: '' },
+    waktuSampai: { type: String, default: '' },
+    kedatangan: { type: String, default: '' },
+    nama: { type: String, trim: true, default: '' },
+    jenisIc: { type: String, default: '' },
+    ic: { type: String, default: '' },
+    tarikhLahir: { type: String, default: '' },
+    umur: { type: Number, default: 0 },
+    umurBulan: { type: Number, default: 0 },
+    jantina: { type: String, default: '' },
+    alamat: { type: String, default: '' },
+    daerahAlamat: { type: String, default: '' },
+    negeriAlamat: { type: String, default: '' },
+    poskodAlamat: { type: String, default: '' },
+    kategoriPesakit: { type: String, default: '' },
+    noOku: { type: String, default: '' },
+    statusPesara: { type: String, default: '' },
+    kumpulanEtnik: { type: String, default: '' },
+    rujukDaripada: { type: String, default: '' },
+    // kepp
+    kepp: { type: Boolean, default: false },
+    kedatanganKepp: { type: String, default: '' },
+    tarikhRujukanKepp: { type: String, default: '' },
+    tarikhRundinganPertama: { type: String, default: '' },
+    tarikhMulaRawatanKepp: { type: String, default: '' },
+    // penyampaian perkhidmatan
+    kpBergerak: { type: Boolean, default: false },
+    labelKpBergerak: { type: String, default: '' },
+    pasukanPergigianBergerak: { type: Boolean, default: false },
+    makmalPergigianBergerak: { type: Boolean, default: false },
+    labelMakmalPergigianBergerak: { type: String, default: '' },
+    // taska / tadika
+    fasilitiTaskaTadika: { type: String, default: '' },
+    jenisTaskaTadika: { type: String, default: '' },
+    kelasToddler: { type: Boolean, default: false },
+    namaFasilitiTaskaTadika: { type: String, default: '' },
+    enrolmenTaskaTadika: { type: Boolean, default: false },
+    engganTaskaTadika: { type: Boolean, default: false },
+    tidakHadirTaskaTadika: { type: Boolean, default: false },
+    pemeriksaanTaskaTadika: { type: String, default: '' },
+    // ipt / kolej
+    iptKolej: { type: String, default: '' },
+    ipg: { type: String, default: '' },
+    kolejKomuniti: { type: String, default: '' },
+    politeknik: { type: String, default: '' },
+    institutLatihanKerajaan: { type: String, default: '' },
+    giatmara: { type: String, default: '' },
+    ipta: { type: String, default: '' },
+    ipts: { type: String, default: '' },
+    enrolmenIptKolej: { type: Boolean, default: false },
+    // institusi warga emas
+    institusiWargaEmas: { type: String, default: '' },
+    kerajaanInstitusiWargaEmas: { type: String, default: '' },
+    swastaInstitusiWargaEmas: { type: String, default: '' },
+    // institusi OKU
+    institusiOku: { type: String, default: '' },
+    // kampung angkat
+    kgAngkat: { type: String, default: '' },
+    // end of kaunter -------------------------------------------
+    //pemeriksaan
+    adaCleftLipPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
-    createdByDaerah: {
-      type: String,
-      // required: true,
+    rujukCleftLipPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
-    createdByKp: {
+    yaTidakSediaAdaStatusDenturePemeriksaanUmum: {
       type: String,
-      // required: true,
+      default: '',
     },
-    createdByUsername: {
+    separaPenuhAtasSediaAdaDenturePemeriksaanUmum: {
       type: String,
-      // required: true,
+      default: '',
     },
-    // pendaftaran pg101 --------------------------------------------------
-    tarikhKedatangan: {
+    separaPenuhBawahSediaAdaDenturePemeriksaanUmum: {
       type: String,
-      // required: [true, 'Please provide tarikh kedatangan'],
+      default: '',
     },
-    nama: {
+    yaTidakPerluStatusDenturePemeriksaanUmum: {
       type: String,
-      // required: [true, 'Please provide nama'],
-      trim: true,
+      default: '',
     },
-    jenisIc: {
+    separaPenuhAtasPerluDenturePemeriksaanUmum: {
       type: String,
-      // required: [true, 'Please provide jenis ic'],
-      trim: true,
+      default: '',
     },
-    ic: {
+    separaPenuhBawahPerluDenturePemeriksaanUmum: {
       type: String,
-      // required: [true, 'Please provide IC'],
-      trim: true,
+      default: '',
     },
-    tarikhLahir: {
-      type: String,
-      // required: [true, 'Please provide tarikh lahir'],
+    toothSurfaceLossTraumaPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
-    umur: {
+    // kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // tisuLembutTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // tisuKerasTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    fissureSealantPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    baruJumlahGigiKekalPerluFSRawatanUmum: {
       type: Number,
-      // required: [true, 'Please provide umur'],
+      min: 0,
+      default: 0,
     },
-    jantina: {
-      type: String,
-      // required: [true, 'Please provide jantina'],
-    },
-    alamat: {
-      type: String,
-      // required: [true, 'Please provide alamat'],
-    },
-    waktuSampai: {
-      type: String,
-      // required: [true, 'Please provide waktu sampai'],
-    },
-    kategoriPesakit: {
-      type: String,
-      // required: [true, 'Please provide kategori pesakit'],
-    },
-    kumpulanEtnik: {
-      type: String,
-      // required: [true, 'Please provide kumpulan etnik'],
-    },
-    statusPesara: {
-      type: String,
-      default: 'bukan-pesara',
-    },
-    rujukDaripada: {
-      type: String,
-      // required: [true, 'Please provide rujuk dari'],
-    },
-    // end of pendaftaran pg101 -------------------------------------------
-    //fasiliti perkhidmatan
-    jenisFasiliti: {
+    fvPerluSapuanPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    kepp: {
+    prrJenis1PemeriksaanUmum: {
       type: Boolean,
       default: false,
     },
-    jenisProgramKomuniti: {
+    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    //maklumat lanjut
-    kedatangan: {
+    //kotak masuk sini
+    statusMPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    fasilitiTaskaTadika: {
+    jenisRPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    jenisTaskaTadika: {
+    kebersihanMulutOralHygienePemeriksaanUmum: {
       type: String,
       default: '',
     },
-    kelasToddler: {
+    skorBpeOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    skorGisMulutOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    perluPenskaleranPemeriksaanUmum: {
       type: Boolean,
       default: false,
     },
-    namaFasilitiTaskaTadika: {
-      type: String,
-      default: '',
-    },
-    enrolmenTaskaTadika: {
+    adaDesidusPemeriksaanUmum: {
       type: Boolean,
       default: false,
     },
-    kedatanganTaskaTadika: {
-      type: String,
-      default: '',
+    dAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    engganTaskaTadika: {
+    mAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    fAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    // smAdaGigiDesidusPemeriksaanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    xAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    adaKekalPemeriksaanUmum: {
       type: Boolean,
       default: false,
     },
-    tidakHadirTaskaTadika: {
-      type: Boolean,
-      default: false,
+    dAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    pemeriksaanTaskaTadika: {
+    mAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    fAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    eAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    xAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahFaktorRisikoPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    statusPesara: {
-      //Leong added this
-      //nak tahu pesara kerajaan atau ATM atau tidak - utk generate reten PG211
+    // edentulousWargaEmasPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    // mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    jenisFasilitiPerkhidmatan: {
-      //Leong added this
-      //check-drop down to know the data
+    disaringProgramKanserMulutPemeriksaanUmum: {
+      type: String,
+      default: '',
     },
-    kedatanganSemasa: {
-      //Leong added this
-      //baru atau ulangan
+    dirujukProgramKanserMulutPemeriksaanUmum: {
+      type: String,
+      default: '',
     },
-    ibuMengandung: {
-      //Leong added this
-      //ya atau tidak
+    lesiMulutPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
-    episodMengandung: {
-      //diisi jika patient mengandung
-      //baru atau ulangan;
-      //Contoh: patient A dtg Januari 2022 ; patient A mengandung 8 bulan then kira episod baru
-      //Patient A then bersalin April 2022 ;
-      //patient A dtg klinik june 2022 ; kira dewasa ; kedatangan semasa = ulangan ; episode tiada ; sbb not ibu mengandung
-      //then patient A mengandung kali kedua dan dtg Aug 2022 ; kira ibu mengandung ; episode baru ;
-      // kalau patient A dtg sep 2022 for appt ; kira ibu mengandung ; episode ulangan;
-      //utk reten 207 punya ;
+    tabiatBerisikoTinggiPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
-    kedatanganKEPP: {
-      //Leong added this
-      //baru atau ulangan
+    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    tarikhRujukanKEPP: {
-      //Leong added this
-      // required: [true, 'Please provide umur'],
+    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    tarikhMulaRawatanKEPP: {
-      //Leong added this
+    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    penyampaianPerkhidmatanBergerak: {
-      //Leong added this
+    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    kampungAngkat: {
-      //Leong added this
+    rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: String,
+      default: '',
     },
-    institusiOKU: {
-      //Leong added this
+    cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    institusiWargaEmas: {
-      //Leong added this
+    tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    jenisFasilitiTadika: {
-      //Leong added this
+    //rawatan umum
+    pesakitDibuatFissureSealant: {
+      type: Boolean,
+      default: false,
     },
-    namaFasilitiTadika: {
-      //Leong added this
+    baruJumlahGigiKekalDibuatFSRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    enrolmenTadika: {
-      //Leong added this
+    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    pesakitDibuatFluorideVarnish: {
+      type: Boolean,
+      default: false,
     },
-    baruUlanganKedatanganEnrolmenTadika: {
-      //Leong added this
+    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    pesakitDibuatPRRJenis1: {
+      type: Boolean,
+      default: false,
     },
-    engganKedatanganEnrolmenTadika: {
-      //Leong added this
+    baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    tidakHadirKedatanganEnrolmenTadika: {
-      //Leong added this
+    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    cabutDesidusRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    adaTiadaPemeriksaanEnrolmenTadika: {
-      //Leong added this
+    cabutKekalRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    enrolmenKolejAtauIPG: {
-      //Leong added this
+    komplikasiSelepasCabutanRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
-    jenisInstitusiKolejAtauIPG: {
-      //Leong added this
+    cabutanDisebabkanPeriodontitisRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    yaTidakAbsesPembedahanRawatanUmum: {
+      type: String,
+      default: '',
+    },
+    // baruSemulaAbsesPembedahanRawatanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    cabutanSurgikalPembedahanMulutRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    yaTidakFrakturPembedahanRawatanUmum: {
+      type: String,
+      default: '',
+    },
+    yaTidakPembedahanKecilMulutPembedahanRawatanUmum: {
+      type: String,
+      default: '',
+    },
+    yaTidakTraumaPembedahanRawatanUmum: {
+      type: String,
+      default: '',
+    },
+    kecederaanTulangMukaUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kecederaanGigiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kecederaanTisuLembutUmum: {
+      type: Boolean,
+      default: false,
+    },
+    baruJumlahGigiYangDiberiSdfRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaJumlahGigiYangDiberiSdfRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruJumlahCrownBridgeRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaJumlahCrownBridgeRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruJumlahPostCoreRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaJumlahPostCoreRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruPenuhJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaPenuhJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruSeparaJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaSeparaJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    immediateDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    pembaikanDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    penskaleranRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanLainPeriodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanOrtodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kesPerubatanMulutRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    bilanganXrayYangDiambilRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruInlayOnlayJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaInlayOnlayJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    // jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // jumlahPremolarRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // jumlahMolarRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    jumlahAnteriorKesEndodontikSelesaiRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahPremolarKesEndodontikSelesaiRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahMolarKesEndodontikSelesaiRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    memenuhiRditnKod3KesRujukUpprRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    restorasiPascaEndodontikKesRujukUpprRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    kesSelesaiRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    //promosi
+    ceramahPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    lmgPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    melaksanakanAktivitiBeginPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    lawatanKeRumahPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    plakGigiNasihatPergigianIndividuPromosiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    dietPemakananNasihatPergigianIndividuPromosiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kanserMulutNasihatPergigianIndividuPromosiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    dirujukKaunselingPakarPublicHealthPromosiUmum: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

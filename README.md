@@ -1,5 +1,23 @@
-# Sistem Gi-Ret PSY 2.0
+# Gi-Ret 2.0
+
+### Bismillah.
+
+---
+
+Unstable/Nightly build status for branch https://github.com/nocturnalmc/gp2/tree/unstable-nightly
+
+## [![Build Status](https://jenkinsdato.nocturnal.quest/buildStatus/icon?job=gp2-unstable)](https://jenkinsdato.nocturnal.quest/job/gp2-unstable/)
+
+---
+
+Staging/Testing build status for branch https://github.com/nocturnalmc/gp2/tree/staging-testing
+
+## [![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-staging)](https://jenkins.nocturnal.quest/job/gp2-staging/)
+
+---
 
 An attempt at a mountain.
 
-Gi-Ret PSY 2.0 is designed to replace Gi-Ret PSY 2020. It is designed to be lightweight, easy and intuitive to use. Languages used are HTML, CSS and JavaScript. Written with Reactjs and Tawilwind CSS. Powered with Nodejs and Expressjs. Database is using MongoDB. Project is expected to be completed by October 2022.
+Gi-Ret 2.0 is designed to replace Gi-Ret PSY 2020. It is designed to be lightweight, easy and intuitive to use.
+
+Developed with MERN stack. Project is expected to be launched on January 2023.

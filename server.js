@@ -19,6 +19,9 @@ const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
 const allQueryRoute = require('./routes/allQueryRoute');
 
+// kaunter
+const kaunter = require('./routes/kaunter');
+
 // admin import
 const adminAPI = require('./routes/adminAPI');
 
@@ -29,6 +32,7 @@ const genRouter = require('./routes/generateRouter');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
+const { apiKeyVerifier } = require('./middlewares/apiKeyVerifier');
 
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');
@@ -94,8 +98,11 @@ app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
+// kaunter route
+app.use('/api/v1/kaunter', authCheck, kaunter);
+
 // admin route
-app.use('/api/v1/superadmin', adminAPI);
+app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);
