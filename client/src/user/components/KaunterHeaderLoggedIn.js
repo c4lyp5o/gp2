@@ -12,7 +12,7 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
         className='mt-5 mb-5 p-1 text-user2 bg-kaunter3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-kaunter4 transition-all'
         onClick={logout}
       >
-        LOGOUT
+        LOG KELUAR
       </button>
     </div>
   );

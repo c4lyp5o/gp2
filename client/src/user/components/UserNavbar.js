@@ -99,7 +99,7 @@ function UserNavbar() {
             }}
             className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
           >
-            DASHBOARD
+            PAPARAN UTAMA
           </NavLink>
           <NavLink
             to='status-harian'
@@ -123,7 +123,7 @@ function UserNavbar() {
               } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
               onClick={toggleRetenSubMenu}
             >
-              <span>RETEN</span>
+              <span>PENGISIAN DATA</span>
               <span className='ml-10'>
                 <FaArrowAltCircleUp
                   className={`transition-all ${
@@ -152,7 +152,7 @@ function UserNavbar() {
                 UMUM
               </NavLink>
               <NavLink
-                to='sekolah'
+                to='senarai-sekolah'
                 onClick={() => {
                   setShowLinks(!showLinks);
                   setShowGenerateSubMenu(false);
@@ -174,7 +174,7 @@ function UserNavbar() {
               } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
               onClick={toggleGenerateSubMenu}
             >
-              <span>GENERATE RETEN</span>
+              <span>JANA LAPORAN</span>
               <span className='ml-10'>
                 <FaArrowAltCircleUp
                   className={`transition-all ${
@@ -258,7 +258,7 @@ function UserNavbar() {
                 className='p-1 text-user2 text-xs bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all m-1'
                 onClick={logout}
               >
-                LOGOUT
+                LOG KELUAR
               </button>
             </div>
           </div>

@@ -17,6 +17,7 @@ const UmumSchema = new mongoose.Schema(
     ic: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
+    umurBulan: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
     alamat: { type: String, default: '' },
     daerahAlamat: { type: String, default: '' },
@@ -276,61 +277,61 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDibuatFsRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDibuatFsRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFsRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahGigiKekalDiberiFVRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDibuatFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDibuatFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDibuatFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
@@ -577,22 +578,6 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    kursusSeminarBengkelPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
-    mainPerananPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
-    pertunjukanBonekaPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
-    berceritaPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
     plakGigiNasihatPergigianIndividuPromosiUmum: {
       type: Boolean,
       default: false,
@@ -609,9 +594,13 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    dirujukKaunselingPakarPublicHealthPromosiUmum: {
-      type: Boolean,
-      default: false,
+    melaksanakanAktivitiBeginPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    lawatanKeRumahPromosiUmum: {
+      type: String,
+      default: '',
     },
     umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
       type: Number,
@@ -643,9 +632,9 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    melaksanakanAktivitiBeginPromosiUmum: {
-      type: String,
-      default: '',
+    dirujukKaunselingPakarPublicHealthPromosiUmum: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

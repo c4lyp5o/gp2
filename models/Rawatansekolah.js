@@ -212,6 +212,10 @@ const RawatansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  yaTidakLawatanKeRumahPromosiSekolahRawatan: {
+    type: String,
+    default: '',
+  },
   plakGigiNasihatPergigianIndividuPromosiSekolahRawatan: {
     type: Boolean,
     default: false,
