@@ -1,8 +1,10 @@
-name: Automerge umum kaunter overhaul
+name: Automerge
 on:
-  workflow_run:
-    workflows: [Automerge status harian]
-    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Trigger Automerge
+        required: false
 
 jobs:
   automerge:
