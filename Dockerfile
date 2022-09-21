@@ -15,6 +15,7 @@ RUN npm run build-client
 
 # app run on port 5000
 EXPOSE 5000
+EXPOSE 5001
 
 # run the server
 CMD [ "node", "server.js" ]
