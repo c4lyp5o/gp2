@@ -45,7 +45,7 @@ function AdminNavbar() {
             to='pp'
             onClick={() => setShowLinks(!showLinks)}
           >
-            OPERATOR
+            PEGAWAI PERGIGIAN
           </NavLink>
           <NavLink
             className={({ isActive }) =>

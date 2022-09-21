@@ -12,6 +12,7 @@ const axios = require('axios');
 const erkm = require('./routes/erkm');
 
 // user import
+const authRegister = require('./routes/authRegister');
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
@@ -29,10 +30,10 @@ const adminAPI = require('./routes/adminAPI');
 const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES ------------------------------------------
+const apiKeyVerifier = require('./middlewares/apiKeyVerifier');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
-const { apiKeyVerifier } = require('./middlewares/apiKeyVerifier');
 
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');
@@ -91,7 +92,7 @@ setInterval(async () => {
 }, 600000);
 
 // user route
-app.use('/api/v1/auth', authLogin);
+app.use('/api/v1/auth', apiKeyVerifier, authLogin, authRegister);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
