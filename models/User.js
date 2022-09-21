@@ -10,18 +10,6 @@ const UserSchema = new mongoose.Schema({
     // required: [true, 'Please provide username'],
     unique: true,
   },
-  negeri: {
-    type: String,
-    // required: [true, 'Please provide negeri'],
-  },
-  daerah: {
-    type: String,
-    // required: [true, 'Please provide daerah'],
-  },
-  kp: {
-    type: String,
-    // required: [true, 'Please provide KP'],
-  },
   accountType: {
     type: String,
     // required: [true, 'Please provide account type'],
@@ -43,6 +31,18 @@ const UserSchema = new mongoose.Schema({
     // required: [true, 'Please provide password'],
     minlength: 6,
   },
+  negeri: {
+    type: String,
+    // required: [true, 'Please provide negeri'],
+  },
+  daerah: {
+    type: String,
+    // required: [true, 'Please provide daerah'],
+  },
+  kp: {
+    type: String,
+    // required: [true, 'Please provide KP'],
+  },
   email: {
     type: String,
     // required: [true, 'Please provide email'],
@@ -52,11 +52,9 @@ const UserSchema = new mongoose.Schema({
   // this is klinik
   kodFasiliti: {
     type: String,
-    default: 'NOT APPLICABLE',
   },
   statusPerkhidmatan: {
     type: String,
-    default: 'NOT APPLICABLE',
   },
   statusRoleKlinik: {
     type: String,
@@ -66,7 +64,6 @@ const UserSchema = new mongoose.Schema({
       message:
         '{VALUE} is not supported. Provide only "klinik", "kepp", "utc", "rtc", "visiting"',
     },
-    default: 'klinik',
   },
 });
 
