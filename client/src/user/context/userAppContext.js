@@ -37,6 +37,7 @@ function UserAppProvider({ children }) {
   const loginUser = async ({ username, password }) => {
     try {
       const { data } = await axios.post('/api/v1/auth/login', {
+        apiKey: process.env.REACT_APP_API_KEY,
         username,
         password,
       });
@@ -58,6 +59,7 @@ function UserAppProvider({ children }) {
   const loginKaunter = async ({ username, password }) => {
     try {
       const { data } = await axios.post('/api/v1/auth/kaunter/login', {
+        apiKey: process.env.REACT_APP_API_KEY,
         username,
         password,
       });
