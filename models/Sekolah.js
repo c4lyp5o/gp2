@@ -10,20 +10,15 @@ const SekolahSchema = new mongoose.Schema({
   // supplied by ERKM --------------------------------------------------
   idConcat: {
     type: String,
-    required: [true, 'Please provide ID'],
+    // required: [true, 'Please provide ID'],
   },
-  nama: {
+  daerah: {
     type: String,
-    required: [true, 'Please provide nama'],
-    trim: true,
+    required: [true, 'Please provde daerah'],
   },
-  jantina: {
+  ppd: {
     type: String,
-    required: [true, 'Please provide jantina'],
-  },
-  umur: {
-    type: Number,
-    required: [true, 'Please provide umur'],
+    required: [true, 'Please provide PPD'],
   },
   namaSekolah: {
     type: String,
@@ -33,27 +28,37 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide kod sekolah'],
   },
-  kelas: {
+  tahun: {
     type: String,
-    required: [true, 'Please provide kelas'],
+    required: [true, 'Please provide tahun'],
   },
-  ic: {
+  namaKelas: {
     type: String,
-    required: [true, 'Please provide IC'],
+    required: [true, 'Please provide nama kelas'],
+  },
+  nama: {
+    type: String,
+    required: [true, 'Please provide nama'],
+  },
+  kodJantina: {
+    type: String,
+    required: [true, 'Please provide kod jantina'],
+  },
+  umur: {
+    type: String,
+    required: [true, 'Please provide umur'],
+  },
+  noKp: {
+    type: String,
+    // required: [true, 'Please provide nombor KP'],
   },
   tarikhLahir: {
     type: String,
     required: [true, 'Please provide tarikh lahir'],
   },
-  kumpulanEtnik: {
+  kaum: {
     type: String,
-    required: [true, 'Please provide kumpulanEtnik'],
-  },
-  darjah: {
-    type: Number,
-  },
-  tingkatan: {
-    type: Number,
+    required: [true, 'Please provide kaum'],
   },
   // pemeriksaan -------------------------------------------------------
   pemeriksaanSekolah: {
@@ -72,15 +77,6 @@ const SekolahSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Kotaksekolah',
   },
-  // // pendaftaran -------------------------------------------------------
-  // baruUlanganKedatanganPendaftaran: {
-  //   type: String,
-  //   default: '',
-  // },
-  // tinggiRendahRisikoSekolahPendaftaran: {
-  //   type: String,
-  //   default: '',
-  // },
 });
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);
