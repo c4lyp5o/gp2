@@ -23,66 +23,78 @@ const RawatansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  muridDibuatFs: {
+    type: Boolean,
+    default: false,
+  },
   baruJumlahGigiKekalDibuatFs: {
     type: Number,
     min: 0,
     default: 0,
   },
-  semulaJumlahGigiKekalDibuatFs: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  baruJumlahMuridDibuatFs: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  semulaJumlahMuridDibuatFs: {
-    type: Number,
-    min: 0,
-    default: 0,
+  // semulaJumlahGigiKekalDibuatFs: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // baruJumlahMuridDibuatFs: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // semulaJumlahMuridDibuatFs: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  muridDiberiFv: {
+    type: Boolean,
+    default: false,
   },
   baruJumlahGigiKekalDiberiFv: {
     type: Number,
     min: 0,
     default: 0,
   },
-  semulaJumlahGigiKekalDiberiFv: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  baruJumlahMuridDiberiFv: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  semulaJumlahMuridDiberiFv: {
-    type: Number,
-    min: 0,
-    default: 0,
+  // semulaJumlahGigiKekalDiberiFv: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // baruJumlahMuridDiberiFv: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // semulaJumlahMuridDiberiFv: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  muridDiberiPrrJenis1: {
+    type: Boolean,
+    default: false,
   },
   baruJumlahGigiKekalDiberiPrrJenis1: {
     type: Number,
     min: 0,
     default: 0,
   },
-  semulaJumlahGigiKekalDiberiPrrJenis1: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  baruJumlahMuridDiberiPrrJenis1: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
-  semulaJumlahMuridDiberiPrrJenis1: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
+  // semulaJumlahGigiKekalDiberiPrrJenis1: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // baruJumlahMuridDiberiPrrJenis1: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
+  // semulaJumlahMuridDiberiPrrJenis1: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
   baruJumlahGigiYangDiberiSdf: {
     type: Number,
     min: 0,
