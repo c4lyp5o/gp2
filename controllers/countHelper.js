@@ -11731,39 +11731,39 @@ exports.createPG101 = function (req, res) {
         }
         switch (kumpulanEtnik) { 
           case "melayu":
-            rowNew.gelCell(12).value = results.kumpulanEtnik[0];
+            rowNew.getCell(12).value = results.kumpulanEtnik[0];
           case "cina":
-            rowNew.gelCell(13).value = results.kumpulanEtnik[0];
+            rowNew.getCell(13).value = results.kumpulanEtnik[0];
           case "india":
-            rowNew.gelCell(14).value = results.kumpulanEtnik[0];
+            rowNew.getCell(14).value = results.kumpulanEtnik[0];
           case "bajau":
-            rowNew.gelCell(15).value = results.kumpulanEtnik[0];
+            rowNew.getCell(15).value = results.kumpulanEtnik[0];
           case "dusun":
-            rowNew.gelCell(16).value = results.kumpulanEtnik[0];
+            rowNew.getCell(16).value = results.kumpulanEtnik[0];
           case "kadazan":
-            rowNew.gelCell(17).value = results.kumpulanEtnik[0];
+            rowNew.getCell(17).value = results.kumpulanEtnik[0];
           case "murut":
-            rowNew.gelCell(18).value = results.kumpulanEtnik[0];
+            rowNew.getCell(18).value = results.kumpulanEtnik[0];
           case "bumiputera sabah lain":
-            rowNew.gelCell(19).value = results.kumpulanEtnik[0];
+            rowNew.getCell(19).value = results.kumpulanEtnik[0];
           case "melanau":
-            rowNew.gelCell(20).value = results.kumpulanEtnik[0];
+            rowNew.getCell(20).value = results.kumpulanEtnik[0];
           case "kedayan":
-            rowNew.gelCell(21).value = results.kumpulanEtnik[0];
+            rowNew.getCell(21).value = results.kumpulanEtnik[0];
           case "iban":
-            rowNew.gelCell(22).value = results.kumpulanEtnik[0];
+            rowNew.getCell(22).value = results.kumpulanEtnik[0];
           case "bidayuh":
-            rowNew.gelCell(23).value = results.kumpulanEtnik[0];
+            rowNew.getCell(23).value = results.kumpulanEtnik[0];
           case "penan":
-            rowNew.gelCell(24).value = results.kumpulanEtnik[0];
+            rowNew.getCell(24).value = results.kumpulanEtnik[0];
           case "bumiputera sarawak lain":
-            rowNew.gelCell(25).value = results.kumpulanEtnik[0];
+            rowNew.getCell(25).value = results.kumpulanEtnik[0];
           case "orang asli semenanjung":
-            rowNew.gelCell(26).value = results.kumpulanEtnik[0];
+            rowNew.getCell(26).value = results.kumpulanEtnik[0];
           case "lain-lain":
-            rowNew.gelCell(27).value = results.kumpulanEtnik[0];
+            rowNew.getCell(27).value = results.kumpulanEtnik[0];
           case "bukan warganegara":
-              rowNew.gelCell(28).value = results.kumpulanEtnik[0];
+              rowNew.getCell(28).value = results.kumpulanEtnik[0];
           default: 
             return null
         }
@@ -11898,86 +11898,118 @@ exports.createPG211Latest= function (req, res) {
           switch (jantina) {
             case "lelaki":
               rowNew.getCell(4).value = results.jantina[0].lelaki;
+              break;
             case "perempuan":
-              rowNew.getCell(5).value = results.jantina[0].perempuan;
+              rowNew.getCell(5).value = results.jantina[0].perempuan;      
+              break;
             default:
-              return null
+              console.log('No jantina');
           }
           switch (kumpulanEtnik) { 
             case "melayu":
-              rowNew.gelCell(6).value = results.kumpulanEtnik[0];
+              rowNew.getCell(6).value = results.kumpulanEtnik[0];
+              break;
             case "cina":
-              rowNew.gelCell(7).value = results.kumpulanEtnik[0];
+              rowNew.getCell(7).value = results.kumpulanEtnik[0];
+              break;
             case "india":
-              rowNew.gelCell(8).value = results.kumpulanEtnik[0];
+              rowNew.getCell(8).value = results.kumpulanEtnik[0];
+              break;
             case "bajau":
-              rowNew.gelCell(9).value = results.kumpulanEtnik[0];
+              rowNew.getCell(9).value = results.kumpulanEtnik[0];
+              break;
             case "dusun":
-              rowNew.gelCell(10).value = results.kumpulanEtnik[0];
+              rowNew.getCell(10).value = results.kumpulanEtnik[0];
+              break;
             case "kadazan":
-              rowNew.gelCell(11).value = results.kumpulanEtnik[0];
+              rowNew.getCell(11).value = results.kumpulanEtnik[0];
+              break;
             case "murut":
-              rowNew.gelCell(12).value = results.kumpulanEtnik[0];
+              rowNew.getCell(12).value = results.kumpulanEtnik[0];
+              break;
             case "bumiputera sabah lain":
-              rowNew.gelCell(13).value = results.kumpulanEtnik[0];
+              rowNew.getCell(13).value = results.kumpulanEtnik[0];
+              break;
             case "melanau":
-              rowNew.gelCell(14).value = results.kumpulanEtnik[0];
+              rowNew.getCell(14).value = results.kumpulanEtnik[0];
+              break;
             case "kedayan":
-              rowNew.gelCell(15).value = results.kumpulanEtnik[0];
+              rowNew.getCell(15).value = results.kumpulanEtnik[0];
+              break;
             case "iban":
-              rowNew.gelCell(16).value = results.kumpulanEtnik[0];
+              rowNew.getCell(16).value = results.kumpulanEtnik[0];
+              break;
             case "bidayuh":
-              rowNew.gelCell(17).value = results.kumpulanEtnik[0];
+              rowNew.getCell(17).value = results.kumpulanEtnik[0];
+              break;
             case "penan":
-              rowNew.gelCell(18).value = results.kumpulanEtnik[0];
+              rowNew.getCell(18).value = results.kumpulanEtnik[0];
+              break;
             case "bumiputera sarawak lain":
-              rowNew.gelCell(19).value = results.kumpulanEtnik[0];
+              rowNew.getCell(19).value = results.kumpulanEtnik[0];
+              break;
             case "orang asli semenanjung":
-              rowNew.gelCell(20).value = results.kumpulanEtnik[0];
+              rowNew.getCell(20).value = results.kumpulanEtnik[0];
+              break;
             case "lain-lain":
-              rowNew.gelCell(21).value = results.kumpulanEtnik[0];
+              rowNew.getCell(21).value = results.kumpulanEtnik[0];
+              break;
             case "bukan warganegara":
-              rowNew.gelCell(22).value = results.kumpulanEtnik[0];
-              default: 
-                return null
+              rowNew.getCell(22).value = results.kumpulanEtnik[0];  
+              break; 
+            default:
+              console.log('No kumpulan etnik');      
           }
           switch (kategoriPesakit) {
             case ("hamil"):
               rowNew.getCell(23) = results.kategoriPesakit[0];
+              break;
             case ("prasekolah"):
               rowNew.getCell(24) = results.kategoriPesakit[0];
+              break;
             case ("sekolahrendah"):
               rowNew.getCell(24) = results.kategoriPesakit[0];
+              break;
             case ("sekolahmenengah"):
               rowNew.getCell(24) = results.kategoriPesakit[0];
+              break;
             case ("oku"):
-              rowNew.getCell(25) = results.kategoriPesakit[0];
+              rowNew.getCell(25) = results.kategoriPesakit[0];    
+              break;
             default:
-              return null
+              console.log('No kategori pesakit');            
           }
           switch (statusPesara) {
             case ("kerajaan"):
               rowNew.getCell(26) = results.statusPesara[0];
+              break;
             case ("atm"):
-              rownew.getCell(27) = results.statusPesara[0];
-            default:
-              return null
+              rowNew.getCell(27) = results.statusPesara[0];   
+              break;
+              default:
+                console.log('No status pesara');        
           }
           switch (rujukDaripada){
             case ("dalaman"):
               rowNew.getCell(28) = results.rujukDaripada[0];
+              break;
             case ("kp"):
               rowNew.getCell(29) = results.rujukDaripada[0];
+              break;
             case ("kk"):
               rowNew.getCell(30) = results.rujukDaripada[0];
+              break;
             case ("hospital"):
               rowNew.getCell(31) = results.rujukDaripada[0];
+              break;
             case ("swasta"):
               rowNew.getCell(32) = results.rujukDaripada[0];
+              break;
             case ("lain2"):
-              rowNew.getCell(33) = results.rujukDaripada[0];
+              rowNew.getCell(33) = results.rujukDaripada[0]; 
+              break;
             default:
-              return null
+              console.log('No rujuk daripada');
           }
         let newfile = path.join(
           __dirname,
