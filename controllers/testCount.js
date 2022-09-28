@@ -7503,7 +7503,76 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
       rowNew.getCell(7).value = theData[i].alamat;
       rowNew.getCell(8).value = theData[i].umur;
       rowNew.getCell(9).value = theData[i].waktuSampai;
-      // rowNew.getCell(10).value = results.jantina; //Puan.. pakai boolean?
+      if (theData[i].jantina == 'perempuan') {
+        rowNew.getCell(10).value = '/'; //Puan.. pakai boolean?
+      }
+      if (theData[i].jantina == 'lelaki') {
+        rowNew.getCell(11).value = '/'; //Puan.. pakai boolean?
+      }
+      switch (theData[i].kategoriPesakit) {
+        case 'toddler':
+          rowNew.getCell(12).value = '/';
+          break;
+        case 'prasekolah':
+          rowNew.getCell(13).value = '/';
+          break;
+        case 'sekolahrendah':
+          break;
+        default:
+          console.log('');
+      }
+      switch (theData[i].kumpulanEtnik) {
+        case 'melayu':
+          rowNew.getCell(20).value = '/';
+          break;
+        case 'cina':
+          rowNew.getCell(21).value = '/';
+          break;
+        case 'india':
+          rowNew.getCell(22).value = '/';
+          break;
+        case 'bajau':
+          rowNew.getCell(23).value = '/';
+          break;
+        case 'dusun':
+          rowNew.getCell(24).value = '/';
+          break;
+        case 'kadazan':
+          rowNew.getCell(25).value = '/';
+          break;
+        case 'murut':
+          rowNew.getCell(26).value = '/';
+          break;
+        case 'bumiputera-sabah':
+          rowNew.getCell(27).value = '/';
+          break;
+        case 'melanau':
+          rowNew.getCell(28).value = '/';
+          break;
+        case 'kedayan':
+          rowNew.getCell(29).value = '/';
+          break;
+        case 'iban':
+          rowNew.getCell(30).value = '/';
+          break;
+        case 'bidayuh':
+          rowNew.getCell(31).value = '/';
+          break;
+        case 'bumiputera-sarawak':
+          rowNew.getCell(32).value = '/';
+          break;
+        case 'orang-asli':
+          rowNew.getCell(33).value = '/';
+          break;
+        case 'lain-lain':
+          rowNew.getCell(34).value = '/';
+          break;
+        case 'bukan-warganegara':
+          rowNew.getCell(35).value = '/';
+          break;
+        default:
+          console.log('');
+      }
       // rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
       // rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
       // rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
@@ -7529,8 +7598,8 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
       // rowNew.getCell(33).value = results.kumpulanEtnik; //OA. boolean?
       // rowNew.getCell(34).value = results.kumpulanEtnik; //lain-lain. boolean?
       // rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
-      // rowNew.getCell(36).value = results.catatan; //rujukDaripada
-      // rowNew.getCell(37).value = results.catatan; //catatan
+      rowNew.getCell(36).value = theData[i].rujukDaripada; //rujukDaripada
+      rowNew.getCell(37).value = theData[i].catatan; //catatan
     }
 
     let newfile = path.join(

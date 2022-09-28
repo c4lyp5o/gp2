@@ -33,6 +33,7 @@ const UmumSchema = new mongoose.Schema(
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },

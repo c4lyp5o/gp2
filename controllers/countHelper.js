@@ -8,6 +8,8 @@ const Excel = require('exceljs');
 // const YAData = require('../models/Sekolah'); to put in the future
 // const YAData = require('../models/YA'); to put in the future
 
+// pain
+
 exports.filterbyUmur = function (req, res) {
   async.parallel(
     {
@@ -11832,6 +11834,8 @@ exports.createPG101 = function (req, res) {
   );
 };
 
+// MOAR pain
+
 exports.createPG211Latest= function (req, res) {
   async.parallel(
     {
@@ -12017,6 +12021,369 @@ exports.createPG211Latest= function (req, res) {
           'public',
           'exports',
           'test-PG211.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG206FFR = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG206.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG206');
+
+        //PG206
+        let rowNew1 = worksheet.getRow(17);
+        rowNew1.getCell(2).value = results.kedatanganTahunSemasaBaru; //B17          BAWAH 1 TAHUN
+        rowNew1.getCell(3).value = results.kedatanganTahunSemasaUlangan; //C17          BAWAH 1 TAHUN
+        rowNew1.getCell(4).value = results.dStatusdfx; //D17          BAWAH 1 TAHUN
+        rowNew1.getCell(5).value = results.fStatusdfx; //E17          BAWAH 1 TAHUN
+        rowNew1.getCell(6).value = results.xStatusdfx; //F17          BAWAH 1 TAHUN
+        rowNew1.getCell(8).value = results.dStatusDMFX; //H17          BAWAH 1 TAHUN
+        rowNew1.getCell(9).value = results.mStatusDMFX; //I17          BAWAH 1 TAHUN
+        rowNew1.getCell(10).value = results.fStatusDMFX; //J17          BAWAH 1 TAHUN
+        rowNew1.getCell(11).value = results.xStatusDMFX; //K17          BAWAH 1 TAHUN
+        rowNew1.getCell(13).value = results.mbk; //M17          BAWAH 1 TAHUN
+        rowNew1.getCell(14).value = results.statusBebasKaries; //N17          BAWAH 1 TAHUN
+        rowNew1.getCell(15).value = results.tpr; //O17          BAWAH 1 TAHUN
+        rowNew1.getCell(16).value = results.skorGis0; //P17          BAWAH 1 TAHUN
+        rowNew1.getCell(17).value = results.skorGisNot0; //Q17          BAWAH 1 TAHUN
+        rowNew1.getCell(18).value = results.perluFVMuridB; //R17          BAWAH 1 TAHUN
+        rowNew1.getCell(19).value = results.perluPRR1MuridB; //S17          BAWAH 1 TAHUN
+        rowNew1.getCell(20).value = results.perluPRR1GigiB; //T17          BAWAH 1 TAHUN
+        rowNew1.getCell(21).value = results.perluFSMuridB; //U17          BAWAH 1 TAHUN
+        rowNew1.getCell(22).value = results.perluFSGigiB; //V17          BAWAH 1 TAHUN
+        rowNew1.getCell(23).value = results.perluPenskaleran; //W17          BAWAH 1 TAHUN
+        rowNew1.getCell(24).value = results.telahFVMuridB; //X17          BAWAH 1 TAHUN
+        rowNew1.getCell(25).value = results.telahPRR1MuridB; //Y17          BAWAH 1 TAHUN
+        rowNew1.getCell(26).value = results.telahPRR1GigiB; //Z17          BAWAH 1 TAHUN
+        rowNew1.getCell(27).value = results.telahFSMuridB; //AA17          BAWAH 1 TAHUN
+        rowNew1.getCell(28).value = results.telahFSGigiB; //AB17          BAWAH 1 TAHUN
+        rowNew1.getCell(29).value = results.telahTampalanAntGdB; //AC17          BAWAH 1 TAHUN
+        rowNew1.getCell(30).value = results.telahTampalanAntGdS; //AD17          BAWAH 1 TAHUN
+        rowNew1.getCell(31).value = results.telahTampalanAntGkB; //AE17          BAWAH 1 TAHUN
+        rowNew1.getCell(32).value = results.telahTampalanAntGkS; //AF17          BAWAH 1 TAHUN
+        rowNew1.getCell(33).value = results.telahTampalanPosGdB; //AG17          BAWAH 1 TAHUN
+        rowNew1.getCell(34).value = results.telahTampalanPosGdS; //AH17          BAWAH 1 TAHUN
+        rowNew1.getCell(35).value = results.telahTampalanPosGkB; //AI17          BAWAH 1 TAHUN
+        rowNew1.getCell(36).value = results.telahTampalanPosGkS; //AJ17          BAWAH 1 TAHUN
+        rowNew1.getCell(37).value = results.telahTampalanAmgGdB; //AK17          BAWAH 1 TAHUN
+        rowNew1.getCell(38).value = results.telahTampalanAmgGdS; //AL17          BAWAH 1 TAHUN
+        rowNew1.getCell(39).value = results.telahTampalanAmgGkB; //AM17          BAWAH 1 TAHUN
+        rowNew1.getCell(40).value = results.telahTampalanAmgGkS; //AN17          BAWAH 1 TAHUN
+        rowNew1.getCell(41).value = results.jumlahTampalanBaru; //AO17          BAWAH 1 TAHUN
+        rowNew1.getCell(42).value = results.jumlahTampalanUlangan; //AP17          BAWAH 1 TAHUN
+        rowNew1.getCell(43).value = results.tampalanSementara; //AQ17          BAWAH 1 TAHUN
+        rowNew1.getCell(44).value = results.cabutanGd; //AR17          BAWAH 1 TAHUN
+        rowNew1.getCell(45).value = results.cabutanGk; //AS17          BAWAH 1 TAHUN
+        rowNew1.getCell(46).value = results.telahPenskaleran; //AT17          BAWAH 1 TAHUN
+        rowNew1.getCell(47).value = results.kesSelesai; //AU17          BAWAH 1 TAHUN
+        rowNew1.commit();
+
+        // 19, 21, 23, 25, 27, 29, 31, 33, 35 (semua peringkat umur, pls iterate)
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG206.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG207FFR = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG207.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG206');
+
+        //PG207
+        let rowNew1 = worksheet.getRow(17);
+        rowNew1.getCell(2).value = results.kedatanganTahunSemasaBaru; //B17          BAWAH 1 TAHUN
+        rowNew1.getCell(3).value = results.kedatanganTahunSemasaUlangan; //C17          BAWAH 1 TAHUN
+        rowNew1.getCell(4).value = results.dStatusdfx; //D17          BAWAH 1 TAHUN
+        rowNew1.getCell(5).value = results.fStatusdfx; //E17          BAWAH 1 TAHUN
+        rowNew1.getCell(6).value = results.xStatusdfx; //F17          BAWAH 1 TAHUN
+        rowNew1.getCell(8).value = results.dStatusDMFX; //H17          BAWAH 1 TAHUN
+        rowNew1.getCell(9).value = results.mStatusDMFX; //I17          BAWAH 1 TAHUN
+        rowNew1.getCell(10).value = results.fStatusDMFX; //J17          BAWAH 1 TAHUN
+        rowNew1.getCell(11).value = results.xStatusDMFX; //K17          BAWAH 1 TAHUN
+        rowNew1.getCell(13).value = results.mbk; //M17          BAWAH 1 TAHUN
+        rowNew1.getCell(14).value = results.statusBebasKaries; //N17          BAWAH 1 TAHUN
+        rowNew1.getCell(15).value = results.tpr; //O17          BAWAH 1 TAHUN
+        rowNew1.getCell(16).value = results.skorGis0; //P17          BAWAH 1 TAHUN
+        rowNew1.getCell(17).value = results.skorGisNot0; //Q17          BAWAH 1 TAHUN
+        rowNew1.getCell(18).value = results.perluFVMuridB; //R17          BAWAH 1 TAHUN
+        rowNew1.getCell(19).value = results.perluPRR1MuridB; //S17          BAWAH 1 TAHUN
+        rowNew1.getCell(20).value = results.perluPRR1GigiB; //T17          BAWAH 1 TAHUN
+        rowNew1.getCell(21).value = results.perluFSMuridB; //U17          BAWAH 1 TAHUN
+        rowNew1.getCell(22).value = results.perluFSGigiB; //V17          BAWAH 1 TAHUN
+        rowNew1.getCell(23).value = results.perluPenskaleran; //W17          BAWAH 1 TAHUN
+        rowNew1.getCell(24).value = results.perluEndoAnterior; //X17          BAWAH 1 TAHUN
+        rowNew1.getCell(25).value = results.perluEndoPremolar; //Y17          BAWAH 1 TAHUN
+        rowNew1.getCell(26).value = results.perluEndoMolar; //Z17          BAWAH 1 TAHUN
+        rowNew1.getCell(27).value = results.perluDenturPenuh; //AA17          BAWAH 1 TAHUN
+        rowNew1.getCell(28).value = results.perluDenturSepara; //AB17          BAWAH 1 TAHUN
+        rowNew1.getCell(29).value = results.sapuanFluorida; //AC17          BAWAH 1 TAHUN
+        rowNew1.getCell(30).value = results.telahPRR1MuridB; //AD17          BAWAH 1 TAHUN
+        rowNew1.getCell(31).value = results.telahPRR1GigiB; //AE17          BAWAH 1 TAHUN
+        rowNew1.getCell(32).value = results.telahFSMuridB; //AF17          BAWAH 1 TAHUN
+        rowNew1.getCell(33).value = results.telahFSGigiB; //AG17          BAWAH 1 TAHUN
+        rowNew1.getCell(34).value = results.telahTampalanAntGdB; //AH17          BAWAH 1 TAHUN
+        rowNew1.getCell(35).value = results.telahTampalanAntGdS; //AI17          BAWAH 1 TAHUN
+        rowNew1.getCell(36).value = results.telahTampalanAntGkB; //AJ17          BAWAH 1 TAHUN
+        rowNew1.getCell(37).value = results.telahTampalanAntGkS; //AK17          BAWAH 1 TAHUN
+        rowNew1.getCell(38).value = results.telahTampalanPosGdB; //AL17          BAWAH 1 TAHUN
+        rowNew1.getCell(39).value = results.telahTampalanPosGdS; //AM17          BAWAH 1 TAHUN
+        rowNew1.getCell(40).value = results.telahTampalanPosGkB; //AN17          BAWAH 1 TAHUN
+        rowNew1.getCell(41).value = results.telahTampalanPosGkS; //AO17          BAWAH 1 TAHUN
+        rowNew1.getCell(42).value = results.telahTampalanAmgGdB; //AP17          BAWAH 1 TAHUN
+        rowNew1.getCell(43).value = results.telahTampalanAmgGdS; //AQ17          BAWAH 1 TAHUN
+        rowNew1.getCell(44).value = results.telahTampalanAmgGkB; //AR17          BAWAH 1 TAHUN
+        rowNew1.getCell(45).value = results.telahTampalanAmgGkS; //AS17          BAWAH 1 TAHUN
+        rowNew1.getCell(46).value = results.inlayOnlayBaru; //AT17          BAWAH 1 TAHUN
+        rowNew1.getCell(47).value = results.inlayOnlaySemula; //AU17          BAWAH 1 TAHUN
+        rowNew1.getCell(48).value = results.jumlahTampalanBaru; //AV17          BAWAH 1 TAHUN
+        rowNew1.getCell(49).value = results.jumlahTampalanSemula; //AW17          BAWAH 1 TAHUN
+        rowNew1.getCell(50).value = results.tampalanSementara; //AX17          BAWAH 1 TAHUN
+        rowNew1.getCell(51).value = results.cabutanGd; //AY17          BAWAH 1 TAHUN
+        rowNew1.getCell(52).value = results.cabutanGk; //AZ17          BAWAH 1 TAHUN
+        rowNew1.getCell(53).value = results.komplikasiSelepasCabutan; //BA17          BAWAH 1 TAHUN
+        rowNew1.getCell(54).value = results.penskaleran; //BB17          BAWAH 1 TAHUN
+        rowNew1.getCell(55).value = results.rawatanLain; //BC17          BAWAH 1 TAHUN
+        rowNew1.getCell(56).value = results.telahEndoAnterior; //BD17          BAWAH 1 TAHUN
+        rowNew1.getCell(57).value = results.telahEndoPremolar; //BE17          BAWAH 1 TAHUN
+        rowNew1.getCell(58).value = results.telahEndoMolar; //BF17          BAWAH 1 TAHUN
+        rowNew1.getCell(59).value = results.rawatanOrtho; //BG17          BAWAH 1 TAHUN
+        rowNew1.getCell(60).value = results.kesPerubatanMulut; //BH17          BAWAH 1 TAHUN
+        rowNew1.getCell(61).value = results.abses; //BI17          BAWAH 1 TAHUN
+        rowNew1.getCell(62).value = results.kecederaanTulang; //BJ17          BAWAH 1 TAHUN
+        rowNew1.getCell(63).value = results.kecederaanGigi; //BK17          BAWAH 1 TAHUN
+        rowNew1.getCell(64).value = results.kecederaanTisuLembut; //BL17          BAWAH 1 TAHUN
+        rowNew1.getCell(65).value = results.cabutanSurgical; //BM17          BAWAH 1 TAHUN
+        rowNew1.getCell(66).value = results.pembedahanKecilMulut; //BN17          BAWAH 1 TAHUN
+        rowNew1.getCell(67).value = results.crownBridgeBaru; //BO17          BAWAH 1 TAHUN
+        rowNew1.getCell(68).value = results.crownBridgeSemula; //BP17          BAWAH 1 TAHUN
+        rowNew1.getCell(69).value = results.postCoreBaru; //BQ17          BAWAH 1 TAHUN
+        rowNew1.getCell(70).value = results.postCoreSemula; //BR17          BAWAH 1 TAHUN
+        rowNew1.getCell(71).value = results.prosthodontikPenuhDenturBaru; //BS17          BAWAH 1 TAHUN
+        rowNew1.getCell(72).value = results.prosthodontikPenuhDenturSemula; //BT17          BAWAH 1 TAHUN
+        rowNew1.getCell(73).value = results.bilanganPesakitDenturPenuh; //BU17          BAWAH 1 TAHUN
+        rowNew1.getCell(74).value = results.prosthodontikPenuhDenturBaru; //BV17          BAWAH 1 TAHUN
+        rowNew1.getCell(75).value = results.prosthodontikPenuhDenturSemula; //BW17          BAWAH 1 TAHUN
+        rowNew1.getCell(76).value = results.bilanganPesakitDenturPenuh; //BX17          BAWAH 1 TAHUN
+        rowNew1.getCell(77).value = results.immediateDenture; //BY17          BAWAH 1 TAHUN
+        rowNew1.getCell(78).value = results.pembaikanDenture; //BZ17          BAWAH 1 TAHUN
+        rowNew1.getCell(79).value = results.kesSelesai; //CA17          BAWAH 1 TAHUN
+        rowNew1.getCell(80).value = results.xrayDiambil; //CB17          BAWAH 1 TAHUN
+        rowNew1.getCell(81).value = results.pesakitDisaringOC; //CC17          BAWAH 1 TAHUN
+        rownew1.commit();
+
+        // 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45 (semua peringkat umur, pls iterate)
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG207.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPG214FFR = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PG214.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PG206');
+
+        let rowNew1 = worksheet.getRow(13);
+        rowNew1.getCell(2).value = results.melayu; //B13          60 TAHUN
+        rowNew1.getCell(3).value = results.cina; //C13          60 TAHUN
+        rowNew1.getCell(4).value = results.india; //D13          60 TAHUN
+        rowNew1.getCell(5).value = results.bajau; //E13          60 TAHUN
+        rowNew1.getCell(6).value = results.dusun; //F13          60 TAHUN
+        rowNew1.getCell(7).value = results.kadazan; //G13          60 TAHUN
+        rowNew1.getCell(8).value = results.murut; //H13          60 TAHUN
+        rowNew1.getCell(9).value = results.bumiputeraSabahLain; //I13          60 TAHUN
+        rowNew1.getCell(10).value = results.melanau; //J13          60 TAHUN
+        rowNew1.getCell(11).value = results.kedayan; //M13          60 TAHUN
+        rowNew1.getCell(12).value = results.iban; //N13          60 TAHUN
+        rowNew1.getCell(13).value = results.bidayuh; //O13          60 TAHUN
+        rowNew1.getCell(14).value = results.penan; //P13          60 TAHUN
+        rowNew1.getCell(15).value = results.bumiputeraSarawakLain; //Q13          60 TAHUN
+        rowNew1.getCell(16).value = results.orangAsliSemenanjung; //R13          60 TAHUN
+        rowNew1.getCell(17).value = results.lainLainKaum; //S13          60 TAHUN
+        rowNew1.getCell(18).value = results.bukanWarganegara; //T13          60 TAHUN
+        rowNew1.getCell(19).value = results.lelaki; //U13          60 TAHUN
+        rowNew1.getCell(20).value = results.perempuan; //V13          60 TAHUN
+        rowNew1.getCell(21).value = results.edentulous; //W13          60 TAHUN
+        rowNew1.getCell(22).value = results.gigiSamaAtauLebihDari20Batang; //X13          60 TAHUN
+        rowNew1.getCell(23).value = results.gigiKurangDari20Batang; //Y13          60 TAHUN
+        rowNew1.getCell(24).value = results.bilGigi; //Z13          60 TAHUN
+        rownew1.commit();
+
+        // 14, 15, 16, 17, 18 (semua peringkat umur, pls iterate)
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PG214.xlsx'
+        );
+
+        // Write the file
+        await workbook.xlsx.writeFile(newfile);
+
+        setTimeout(function () {
+          fs.unlinkSync(newfile); // delete this file after 30 seconds
+        }, 30000);
+        setTimeout(function () {
+          return res.download(newfile); // delete this file after 30 seconds
+        }, 3000);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+      }
+    }
+  );
+};
+
+exports.createPGPR201 = function (req, res) {
+  async.parallel(
+    {
+      negeri: function (callback) {
+        Tadika.countDocuments({ kedatanganBaru: 1 }, callback);
+      },
+    },
+    async function (err, results) {
+      console.log(results);
+      try {
+        let filename = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'PGPR201.xlsx'
+        );
+        let workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(filename);
+        let worksheet = workbook.getWorksheet('PGPR 201');
+
+        //Reten PGPR 201 Coding
+        let rowNew1 = worksheet.getRow(14);
+        rowNew1.getCell(2).value = results.anticipatoryGuidance; //B14          BAWAH  1 TAHUN
+        rowNew1.getCell(3).value = results.lawatanKeRumah; //C14          BAWAH  1 TAHUN
+        rowNew1.getCell(4).value = results.nasihatBerkaitanPlakGigi; //D14          BAWAH  1 TAHUN
+        rowNew1.getCell(5).value =
+          results.nasihatBerkaitanPenjagaanKesihatanOral; //E14          BAWAH  1 TAHUN
+        rowNew1.getCell(6).value = results.nasihatBerkaitanDietPemakanan; //F14          BAWAH  1 TAHUN
+        rowNew1.getCell(7).value = results.nasihatBerkaitanKanserMulut; //G14          BAWAH  1 TAHUN
+        rowNew1.getCell(8).value = results.pertunjukanBoneka; //H14          BAWAH  1 TAHUN
+        rowNew1.getCell(9).value = results.nasihatRingkas; //I14          BAWAH  1 TAHUN
+        rowNew1.getCell(10).value = results.intervensiMerokok; //J14          BAWAH  1 TAHUN
+        rowNew1.getCell(11).value = results.s; //M14          BAWAH  1 TAHUN
+        rowNew1.commit();
+
+        // 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 (semua peringkat umur, pls iterate)
+
+        let newfile = path.join(
+          __dirname,
+          '..',
+          'public',
+          'exports',
+          'test-PGPR201.xlsx'
         );
 
         // Write the file
