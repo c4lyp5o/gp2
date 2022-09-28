@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Runningnumber = require('./Runningnumber');
+const dbUmum = require('./Umum');
 
 const UmumSchema = new mongoose.Schema(
   {
@@ -12,8 +14,8 @@ const UmumSchema = new mongoose.Schema(
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: Number, default: 0 },
-    noPendaftaranUlangan: { type: Number, default: 0 },
+    noPendaftaranBaru: { type: String, default: '' },
+    noPendaftaranUlangan: { type: String, default: '' },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -708,5 +710,72 @@ const UmumSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+UmumSchema.pre('save', async function () {
+  // get year number
+  let yearNumber = new Date().getFullYear();
+  // check pt
+  try {
+    // let currentPt = await dbUmum.findOne({
+    //   ic: this.ic,
+    // });
+    // if pt does not exist
+    // if (!currentPt) {
+    this.kedatangan = 'baru-kedatangan';
+    let currentRunningNumber = await Runningnumber.findOne({
+      jenis: 'umum',
+      negeri: this.createdByNegeri,
+      daerah: this.createdByDaerah,
+    });
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        jenis: 'umum',
+        negeri: this.createdByNegeri,
+        daerah: this.createdByDaerah,
+        runningnumber: 1,
+      });
+      const newReg = `${this.createdByDaerah}/${newRunningNumber.runningnumber}/${yearNumber}`;
+      this.noPendaftaranBaru = newReg;
+      console.log('no pendaftaran baru: ', newReg);
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save();
+      const newReg = `${this.createdByDaerah}/${currentRunningNumber.runningnumber}/${yearNumber}`;
+      this.noPendaftaranBaru = newReg;
+      console.log('no pendaftaran ulangan: ', newReg);
+    }
+    // }
+    // if pt exists
+    // if (currentPt) {
+    //   this.kedatangan = 'ulangan-kedatangan';
+    //   let currentRunningNumber = await Runningnumber.findOne({
+    //     jenis: 'umum',
+    //     negeri: this.negeri,
+    //     daerah: this.daerah,
+    //   });
+    //   if (!currentRunningNumber) {
+    //     const newRunningNumber = await Runningnumber.create({
+    //       jenis: 'umum',
+    //       negeri: this.negeri,
+    //       daerah: this.daerah,
+    //       runningnumber: 1,
+    //     });
+    //     const repeatReg = `${this.daerah}${newRunningNumber.runningnumber}/${yearNumber}`;
+    //     this.noPendaftaranUlangan = repeatReg;
+    //     console.log('no pendaftaran baru: ', repeatReg);
+    //   }
+    //   if (currentRunningNumber) {
+    //     currentRunningNumber.runningnumber += 1;
+    //     await currentRunningNumber.save();
+    //     const repeatReg = `${this.daerah}${currentRunningNumber.runningnumber}/${yearNumber}`;
+    //     this.noPendaftaranUlangan = repeatReg;
+    //     console.log('no pendaftaran ulangan: ', repeatReg);
+    //   }
+    // }
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 module.exports = mongoose.model('Umum', UmumSchema);
