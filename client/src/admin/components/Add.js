@@ -4,10 +4,11 @@ import { RiCloseLine } from 'react-icons/ri';
 import { Ring } from 'react-awesome-spinners';
 import styles from '../Modal.module.css';
 
-const Modal = ({ setShowAddModal, FType, daerah }) => {
+const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const {
     Dictionary,
     toast,
+    readData,
     createData,
     readSekolahData,
     readKpData,
@@ -101,6 +102,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
         toast.info(`Data berjaya ditambah`);
         setShowAddModal(false);
         setAddingData(false);
+        setReload(!reload);
       } else {
         toast.error(`Data tidak berjaya ditambah`);
         setShowAddModal(false);
