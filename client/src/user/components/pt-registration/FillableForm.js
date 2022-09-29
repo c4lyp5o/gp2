@@ -21,6 +21,7 @@ export default function FillableForm({
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
+  const [givenNoPendaftaran, setGivenNoPendaftaran] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
@@ -552,7 +553,7 @@ export default function FillableForm({
                 className='outline outline-1 outline-kaunterBlack'
               />
             </div>
-            <div className='flex m-2'>
+            {/* <div className='flex m-2'>
               <div className='flex items-center flex-row '>
                 <p className='font-semibold'>
                   kedatangan <span className='font-semibold text-user6'>*</span>
@@ -595,8 +596,8 @@ export default function FillableForm({
                   ulangan
                 </label>
               </div>
-            </div>
-            <div className='flex m-2'>
+            </div> */}
+            {/* <div className='flex m-2'>
               <p className='mr-3 text-sm font-semibold flex items-center'>
                 no. pendaftaran{' '}
                 <span className='font-semibold text-user6'>*</span>
@@ -622,7 +623,7 @@ export default function FillableForm({
                   className='outline outline-1 outline-userBlack w-16 text-sm font-m'
                 />
               )}
-            </div>
+            </div> */}
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 nama: <span className='font-semibold text-user6'>*</span>

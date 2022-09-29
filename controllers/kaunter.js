@@ -44,6 +44,13 @@ const createPersonKaunter = async (req, res) => {
     process.env.CRYPTO_JS_SECRET
   ).toString();
   req.body.ic = encryptedIc;
+  const icExists = await Umum.findOne({ ic: encryptedIc });
+  if (icExists) {
+    console.log('ic exists');
+  }
+  if (!icExists) {
+    console.log('ic does not exist');
+  }
 
   const singlePersonKaunter = await Umum.create(req.body);
 
