@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -15,35 +16,38 @@ function UserFormSekolahRawatan() {
 
   const createdByUsername = username;
   const [tarikhRawatanSemasa, setTarikhRawatanSemasa] = useState('');
+  const [muridDibuatFs, setMuridDibuatFs] = useState(false);
   const [baruJumlahGigiKekalDibuatFs, setBaruJumlahGigiKekalDibuatFs] =
     useState(0);
-  const [semulaJumlahGigiKekalDibuatFs, setSemulaJumlahGigiKekalDibuatFs] =
-    useState(0);
-  const [baruJumlahMuridDibuatFs, setBaruJumlahMuridDibuatFs] = useState(0);
-  const [semulaJumlahMuridDibuatFs, setSemulaJumlahMuridDibuatFs] = useState(0);
-  const [sumDibuatFs, setSumDibuatFs] = useState(0);
+  // const [semulaJumlahGigiKekalDibuatFs, setSemulaJumlahGigiKekalDibuatFs] =
+  //   useState(0);
+  // const [baruJumlahMuridDibuatFs, setBaruJumlahMuridDibuatFs] = useState(0);
+  // const [semulaJumlahMuridDibuatFs, setSemulaJumlahMuridDibuatFs] = useState(0);
+  // const [sumDibuatFs, setSumDibuatFs] = useState(0);
+  const [muridDiberiFv, setMuridDiberiFv] = useState(false);
   const [baruJumlahGigiKekalDiberiFv, setBaruJumlahGigiKekalDiberiFv] =
     useState(0);
-  const [semulaJumlahGigiKekalDiberiFv, setSemulaJumlahGigiKekalDiberiFv] =
-    useState(0);
-  const [sumDiberiFv, setSumDiberiFv] = useState(0);
-  const [baruJumlahMuridDiberiFv, setBaruJumlahMuridDiberiFv] = useState(0);
-  const [semulaJumlahMuridDiberiFv, setSemulaJumlahMuridDiberiFv] = useState(0);
+  // const [semulaJumlahGigiKekalDiberiFv, setSemulaJumlahGigiKekalDiberiFv] =
+  //   useState(0);
+  // const [sumDiberiFv, setSumDiberiFv] = useState(0);
+  // const [baruJumlahMuridDiberiFv, setBaruJumlahMuridDiberiFv] = useState(0);
+  // const [semulaJumlahMuridDiberiFv, setSemulaJumlahMuridDiberiFv] = useState(0);
+  const [muridDiberiPrrJenis1, setMuridDiberiPrrJenis1] = useState(false);
   const [
     baruJumlahGigiKekalDiberiPrrJenis1,
     setBaruJumlahGigiKekalDiberiPrrJenis1,
   ] = useState(0);
-  const [
-    semulaJumlahGigiKekalDiberiPrrJenis1,
-    setSemulaJumlahGigiKekalDiberiPrrJenis1,
-  ] = useState(0);
-  const [sumDiberiPrr, setSumDiberiPrr] = useState(0);
-  const [baruJumlahMuridDiberiPrrJenis1, setBaruJumlahMuridDiberiPrrJenis1] =
-    useState(0);
-  const [
-    semulaJumlahMuridDiberiPrrJenis1,
-    setSemulaJumlahMuridDiberiPrrJenis1,
-  ] = useState(0);
+  // const [
+  //   semulaJumlahGigiKekalDiberiPrrJenis1,
+  //   setSemulaJumlahGigiKekalDiberiPrrJenis1,
+  // ] = useState(0);
+  // const [sumDiberiPrr, setSumDiberiPrr] = useState(0);
+  // const [baruJumlahMuridDiberiPrrJenis1, setBaruJumlahMuridDiberiPrrJenis1] =
+  //   useState(0);
+  // const [
+  //   semulaJumlahMuridDiberiPrrJenis1,
+  //   setSemulaJumlahMuridDiberiPrrJenis1,
+  // ] = useState(0);
   const [baruJumlahGigiYangDiberiSdf, setBaruJumlahGigiYangDiberiSdf] =
     useState(0);
   const [semulaJumlahGigiYangDiberiSdf, setSemulaJumlahGigiYangDiberiSdf] =
@@ -141,31 +145,31 @@ function UserFormSekolahRawatan() {
   ] = useState(false);
 
   // calculate total dibuat FS
-  useEffect(() => {
-    setSumDibuatFs(
-      parseInt(baruJumlahGigiKekalDibuatFs) +
-        parseInt(semulaJumlahGigiKekalDibuatFs)
-    );
-  }, [baruJumlahGigiKekalDibuatFs, semulaJumlahGigiKekalDibuatFs]);
+  // useEffect(() => {
+  //   setSumDibuatFs(
+  //     parseInt(baruJumlahGigiKekalDibuatFs) +
+  //       parseInt(semulaJumlahGigiKekalDibuatFs)
+  //   );
+  // }, [baruJumlahGigiKekalDibuatFs, semulaJumlahGigiKekalDibuatFs]);
 
   // calculate total diberi FV
-  useEffect(() => {
-    setSumDiberiFv(
-      parseInt(baruJumlahGigiKekalDiberiFv) +
-        parseInt(semulaJumlahGigiKekalDiberiFv)
-    );
-  }, [baruJumlahGigiKekalDiberiFv, semulaJumlahGigiKekalDiberiFv]);
+  // useEffect(() => {
+  //   setSumDiberiFv(
+  //     parseInt(baruJumlahGigiKekalDiberiFv) +
+  //       parseInt(semulaJumlahGigiKekalDiberiFv)
+  //   );
+  // }, [baruJumlahGigiKekalDiberiFv, semulaJumlahGigiKekalDiberiFv]);
 
   // calculate total diberi PRR
-  useEffect(() => {
-    setSumDiberiPrr(
-      parseInt(baruJumlahGigiKekalDiberiPrrJenis1) +
-        parseInt(semulaJumlahGigiKekalDiberiPrrJenis1)
-    );
-  }, [
-    baruJumlahGigiKekalDiberiPrrJenis1,
-    semulaJumlahGigiKekalDiberiPrrJenis1,
-  ]);
+  // useEffect(() => {
+  //   setSumDiberiPrr(
+  //     parseInt(baruJumlahGigiKekalDiberiPrrJenis1) +
+  //       parseInt(semulaJumlahGigiKekalDiberiPrrJenis1)
+  //   );
+  // }, [
+  //   baruJumlahGigiKekalDiberiPrrJenis1,
+  //   semulaJumlahGigiKekalDiberiPrrJenis1,
+  // ]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -187,24 +191,24 @@ function UserFormSekolahRawatan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (sumDibuatFs > 16) {
-      toast.error('Jumlah dibuat FS tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumDiberiFv > 16) {
-      toast.error('Jumlah diberi FV tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumDiberiPrr > 16) {
-      toast.error('Jumlah diberi PRR tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
+    // if (sumDibuatFs > 16) {
+    //   toast.error('Jumlah dibuat FS tidak boleh lebih dari 16', {
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+    // if (sumDiberiFv > 16) {
+    //   toast.error('Jumlah diberi FV tidak boleh lebih dari 16', {
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+    // if (sumDiberiPrr > 16) {
+    //   toast.error('Jumlah diberi PRR tidak boleh lebih dari 16', {
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
     let statusRawatan = '';
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';
@@ -221,17 +225,20 @@ function UserFormSekolahRawatan() {
             statusRawatan,
             tarikhRawatanSemasa,
             baruJumlahGigiKekalDibuatFs,
-            semulaJumlahGigiKekalDibuatFs,
-            baruJumlahMuridDibuatFs,
-            semulaJumlahMuridDibuatFs,
+            muridDibuatFs,
+            // semulaJumlahGigiKekalDibuatFs,
+            // baruJumlahMuridDibuatFs,
+            // semulaJumlahMuridDibuatFs,
+            muridDiberiFv,
             baruJumlahGigiKekalDiberiFv,
-            semulaJumlahGigiKekalDiberiFv,
-            baruJumlahMuridDiberiFv,
-            semulaJumlahMuridDiberiFv,
+            // semulaJumlahGigiKekalDiberiFv,
+            // baruJumlahMuridDiberiFv,
+            // semulaJumlahMuridDiberiFv,
+            muridDiberiPrrJenis1,
             baruJumlahGigiKekalDiberiPrrJenis1,
-            semulaJumlahGigiKekalDiberiPrrJenis1,
-            baruJumlahMuridDiberiPrrJenis1,
-            semulaJumlahMuridDiberiPrrJenis1,
+            // semulaJumlahGigiKekalDiberiPrrJenis1,
+            // baruJumlahMuridDiberiPrrJenis1,
+            // semulaJumlahMuridDiberiPrrJenis1,
             baruJumlahGigiYangDiberiSdf,
             semulaJumlahGigiYangDiberiSdf,
             gdBaruAnteriorSewarnaJumlahTampalanDibuat,
@@ -354,7 +361,7 @@ function UserFormSekolahRawatan() {
           )}
           {isLoading && (
             <p className='col-span-3 py-[19px] text-sm font-semibold'>
-              Loading...
+              <Spinner color='#1f315f' />
             </p>
           )}
         </article>
@@ -366,7 +373,7 @@ function UserFormSekolahRawatan() {
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  tarikh pemeriksaan
+                  tarikh rawatan
                 </h4>
                 <div className='grid grid-cols-2'>
                   <p className='flex items-center justify-center text-m font-m'>
@@ -388,17 +395,33 @@ function UserFormSekolahRawatan() {
               <div className='grid gap-1 auto-rows-min'>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Fisur Sealan
+                    Pengapan Fisur{' '}
+                    <FaInfoCircle title='Fissure Sealant' className='m-2' />
                   </h4>
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    jumlah gigi kekal dibuat FS
-                  </p>
+                  <div className='flex flex-row items-center pl-11 col-span-2'>
+                    <input
+                      type='checkbox'
+                      name='baru-jumlah-murid-dibuat-fs'
+                      id='baru-jumlah-murid-dibuat-fs'
+                      checked={muridDibuatFs}
+                      onChange={() => {
+                        setMuridDibuatFs(!muridDibuatFs);
+                      }}
+                      className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
+                    />
+                    <label
+                      htmlFor='baru-jumlah-murid-dibuat-fs'
+                      className='text-sm font-m'
+                    >
+                      murid dibuat pengapan fisur
+                    </label>
+                  </div>
                   <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                       className='text-sm font-m'
                     >
-                      Baru
+                      Jumlah gigi kekal dibuat pengapan fisur
                     </label>
                     <input
                       type='number'
@@ -414,7 +437,7 @@ function UserFormSekolahRawatan() {
                       required
                     />
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='semula-jumlah-gigi-kekal-dibuat-fs'
                       className='text-sm font-m'
@@ -434,16 +457,13 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
-                  {sumDibuatFs > 16 && (
+                  </div> */}
+                  {/* {sumDibuatFs > 16 && (
                     <p className='col-span-2 text-user6 font-semibold'>
                       jumlah baru & semula FS tidak boleh melebihi 16
                     </p>
-                  )}
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    murid dibuat FS
-                  </p>
-                  <div className='flex flex-row items-center pl-5'>
+                  )} */}
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='baru-jumlah-murid-dibuat-fs'
                       className='text-sm font-m'
@@ -484,21 +504,37 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
+                  </div> */}
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Fluoride Varnish
+                    Sapuan Fluorida{' '}
+                    <FaInfoCircle
+                      title='Fluoride Varnish Application'
+                      className='m-2'
+                    />
                   </h4>
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    jumlah gigi kekal diberi FV
-                  </p>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-11 col-span-2'>
+                    <input
+                      type='checkbox'
+                      name='murid-diberi-fv'
+                      id='murid-diberi-fv'
+                      checked={muridDiberiFv}
+                      onChange={() => {
+                        setMuridDiberiFv(!muridDiberiFv);
+                      }}
+                      className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
+                    />
+                    <label htmlFor='murid-diberi-fv' className='text-sm font-m'>
+                      murid diberi sapuan fluorida
+                    </label>
+                  </div>
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='baru-jumlah-gigi-kekal-diberi-fv'
                       className='text-sm font-m'
                     >
-                      Baru
+                      jumlah gigi kekal diberi sapuan fluorida
                     </label>
                     <input
                       type='number'
@@ -513,8 +549,8 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  </div> */}
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='semula-jumlah-gigi-kekal-diberi-fv'
                       className='text-sm font-m'
@@ -534,13 +570,13 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
-                  {sumDiberiFv > 16 && (
+                  </div> */}
+                  {/* {sumDiberiFv > 16 && (
                     <p className='col-span-2 text-user6 font-semibold'>
                       jumlah baru & semula FV tidak boleh melebihi 16
                     </p>
-                  )}
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  )} */}
+                  {/* <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                     murid diberi FV
                   </p>
                   <div className='flex flex-row items-center pl-5'>
@@ -584,22 +620,31 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
+                  </div> */}
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     PRR Jenis 1
                   </h4>
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    jumlah gigi kekal diberi PRR Jenis 1
-                  </p>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-11 col-span-2'>
+                    <input
+                      type='checkbox'
+                      name='baru-jumlah-murid-diberi-prr-jenis-1'
+                      id='baru-jumlah-murid-diberi-prr-jenis-1'
+                      checked={muridDiberiPrrJenis1}
+                      onChange={() => {
+                        setMuridDiberiPrrJenis1(!muridDiberiPrrJenis1);
+                      }}
+                      className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
+                    />
                     <label
-                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                      htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
                       className='text-sm font-m'
                     >
-                      Baru
+                      murid diberi PRR Jenis 1
                     </label>
+                  </div>
+                  <div className='flex flex-row items-center pl-5'>
                     <input
                       type='number'
                       name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
@@ -613,8 +658,14 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
+                    <label
+                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                      className='text-sm font-m'
+                    >
+                      jumlah gigi kekal perlu PRR jenis 1
+                    </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
                       className='text-sm font-m'
@@ -634,16 +685,13 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
-                  {sumDiberiPrr > 16 && (
+                  </div> */}
+                  {/* {sumDiberiPrr > 16 && (
                     <p className='col-span-2 text-user6 font-semibold'>
                       jumlah baru & semula PRR tidak boleh melebihi 16
                     </p>
-                  )}
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    murid diberi PRR Jenis 1
-                  </p>
-                  <div className='flex flex-row items-center pl-5'>
+                  )} */}
+                  {/* <div className='flex flex-row items-center pl-5'>
                     <label
                       htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
                       className='text-sm font-m'
@@ -684,7 +732,7 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                  </div>
+                  </div> */}
                 </article>
               </div>
               <div className='grid gap-1 auto-rows-min'>
@@ -1304,7 +1352,7 @@ function UserFormSekolahRawatan() {
                         </label>
                       </div>
                     </div>
-                    <div className='flex items-center flex-row pl-5'>
+                    {/* <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-semibold flex items-center justify-center pr-3'>
                         lawatan ke rumah :{' '}
                       </p>
@@ -1360,7 +1408,7 @@ function UserFormSekolahRawatan() {
                           Tidak
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>

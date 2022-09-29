@@ -142,6 +142,13 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // get mdtb data
+
+  const readMdtbData = async () => {
+    const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
+    return response.data;
+  };
+
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('adminToken');
   };
@@ -217,6 +224,7 @@ function AdminAppProvider({ children }) {
         readData,
         readOneData,
         readSekolahData,
+        readMdtbData,
         readKpData,
         updateData,
         deleteData,
