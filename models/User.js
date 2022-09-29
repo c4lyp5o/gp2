@@ -68,47 +68,51 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', async function () {
-  try {
-    const generateRandomString = (length) => {
-      let result = '';
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        );
-      }
-      return result;
-    };
-    // const salt = await bcryptjs.genSalt(10);
-    // this.password = await bcryptjs.hash(this.password, salt);
-    const negeriNum = emailGen[this.negeri].kodNegeri;
-    const daerahNum = emailGen[this.negeri].daerah[this.daerah];
-    const randomString = generateRandomString(6);
-    this.password = randomString;
-    let currentRunningNumber = await Runningnumber.findOne({
-      negeri: this.negeri,
-      daerah: this.daerah,
-    });
-    if (!currentRunningNumber) {
-      const newRunningNumber = await Runningnumber.create({
+  if (this.accountType === 'kpUser') {
+    try {
+      const generateRandomString = (length) => {
+        let result = '';
+        const characters =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
+        }
+        return result;
+      };
+      // const salt = await bcryptjs.genSalt(10);
+      // this.password = await bcryptjs.hash(this.password, salt);
+      const negeriNum = emailGen[this.negeri].kodNegeri;
+      const daerahNum = emailGen[this.negeri].daerah[this.daerah];
+      const randomString = generateRandomString(6);
+      this.password = randomString;
+      let currentRunningNumber = await Runningnumber.findOne({
+        jenis: 'kp',
         negeri: this.negeri,
         daerah: this.daerah,
-        runningnumber: 1,
       });
-      const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber.runningnumber}`;
-      this.username = username;
+      if (!currentRunningNumber) {
+        const newRunningNumber = await Runningnumber.create({
+          jenis: 'kp',
+          negeri: this.negeri,
+          daerah: this.daerah,
+          runningnumber: 1,
+        });
+        const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber.runningnumber}`;
+        this.username = username;
+      }
+      if (currentRunningNumber) {
+        currentRunningNumber.runningnumber += 1;
+        await currentRunningNumber.save();
+        const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${currentRunningNumber.runningnumber}`;
+        this.username = username;
+      }
+      console.log('updateRunningNumber');
+    } catch (err) {
+      console.error(err);
     }
-    if (currentRunningNumber) {
-      currentRunningNumber.runningnumber += 1;
-      await currentRunningNumber.save();
-      const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${currentRunningNumber.runningnumber}`;
-      this.username = username;
-    }
-    console.log('updateRunningNumber');
-  } catch (err) {
-    console.error(err);
   }
 });
 

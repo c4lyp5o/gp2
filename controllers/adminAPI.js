@@ -75,8 +75,23 @@ exports.getData = async (req, res, next) => {
                 daerah: dataGeografik.daerah,
                 negeri: dataGeografik.negeri,
               };
-              const data = await User.create(Data);
-              console.log(Data);
+              const data = await User.create(Data).then(async () => {
+                // creating kaunter user for created klinik
+                let acronym = '';
+                const simplifiedKlinikName = Data.kp.split(' ');
+                for (let i = 0; i < simplifiedKlinikName.length; i++) {
+                  acronym += simplifiedKlinikName[i].charAt(0);
+                }
+                const tempKaunter = await User.create({
+                  username: `kaunter${acronym}`,
+                  negeri: Data.negeri,
+                  daerah: Data.daerah,
+                  kp: Data.kp,
+                  accountType: 'kaunterUser',
+                  password: 'temporary',
+                });
+                console.log('tempKaunter:', tempKaunter);
+              });
               res.status(200).json(data);
             }
             break;
@@ -230,7 +245,20 @@ exports.getData = async (req, res, next) => {
               res.status(200).json(data);
             }
             if (theType === 'klinik') {
-              const data = await User.findByIdAndDelete({ _id: Id });
+              const klinik = await User.findOne({ _id: Id });
+              let acronym = '';
+              const simplifiedKlinikName = klinik.kp.split(' ');
+              for (let i = 0; i < simplifiedKlinikName.length; i++) {
+                acronym += simplifiedKlinikName[i].charAt(0);
+              }
+              // deleting kaunter and klinik
+              const data = await User.findByIdAndDelete({ _id: Id }).then(
+                async () => {
+                  await User.findOneAndDelete({
+                    username: `kaunter${acronym}`,
+                  });
+                }
+              );
               res.status(200).json(data);
             }
             break;

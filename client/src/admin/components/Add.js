@@ -12,6 +12,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
     readSekolahData,
     readKpData,
     pingApdmServer,
+    readMdtbData,
   } = useGlobalAdminAppContext();
 
   const currentName = useRef();
@@ -34,6 +35,8 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   const [sekolah, setSekolah] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingData, setAddingData] = useState(false);
+  // MDTB
+  const [mdtbMembers, setMdtbMembers] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,16 +110,22 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
   };
 
   useEffect(() => {
-    pingApdmServer().then((res) => {
-      if (res.status === 200) {
-        statusApdm.current = true;
-      } else {
-        statusApdm.current = false;
-      }
-    });
     if (FType === 'sr' || FType === 'sm') {
+      pingApdmServer().then((res) => {
+        if (res.status === 200) {
+          statusApdm.current = true;
+        } else {
+          statusApdm.current = false;
+        }
+      });
       readSekolahData(FType).then((res) => {
         setSekolah(res);
+      });
+    }
+    if (FType === 'jp') {
+      readMdtbData().then((res) => {
+        console.log(res.data);
+        setMdtbMembers(res.data);
       });
     }
     if (FType !== 'kp') {
@@ -334,44 +343,66 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                         *
                       </span>
                     </p>
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='border-2'
-                        type='text'
-                        name='Nama'
-                        id='nama'
-                        onChange={(e) => (currentName.current = e.target.value)}
-                      />
-                    </div>
                     {FType === 'pp' && (
-                      <p>
-                        Nombor MDC{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
+                      <div className='grid gap-1'>
+                        <input
+                          required
+                          className='border-2'
+                          type='text'
+                          name='Nama'
+                          id='nama'
+                          onChange={(e) =>
+                            (currentName.current = e.target.value)
+                          }
+                        />
+                      </div>
                     )}
                     {FType === 'jp' && (
-                      <p>
-                        Nombor MDTB{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
+                      <div className='grid gap-1'>
+                        <select className='border-2 max-w-sm'>
+                          {mdtbMembers.map((m) => (
+                            <option value={m.id}>{m.name}</option>
+                          ))}
+                        </select>
+                      </div>
                     )}
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='border-2'
-                        type='text'
-                        name='mdc'
-                        id='mdc'
-                        onChange={(e) =>
-                          (currentRegNumber.current = e.target.value)
-                        }
-                      />
-                    </div>
+                    {FType === 'pp' && (
+                      <>
+                        <p>
+                          Nombor MDC{' '}
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </p>
+                        <div className='grid gap-1'>
+                          <input
+                            required
+                            className='border-2'
+                            type='text'
+                            name='mdc'
+                            id='mdc'
+                            onChange={(e) =>
+                              (currentRegNumber.current = e.target.value)
+                            }
+                          />
+                        </div>
+                      </>
+                    )}
+                    {/* {FType === 'jp' && mdtbMembers && (
+                      <>
+                        <p>
+                          Nombor MDTB{' '}
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </p>
+                        <select className='border-2'>
+                          {mdtbMembers.map((m) => (
+                            <option value={m.id}>{m.name}</option>
+                          ))}
+                        </select>
+                      </>
+                    )} */}
                     <div className='grid gap-1'>
                       <p>
                         Gred{' '}
@@ -504,7 +535,7 @@ const Modal = ({ setShowAddModal, FType, daerah }) => {
                           </div>
                           <div>
                             <span className='text-xs'>
-                              Tarikh data:{' '}
+                              Tarikh kemaskini:{' '}
                               {new Date().toLocaleDateString('en-GB')}
                             </span>
                           </div>
