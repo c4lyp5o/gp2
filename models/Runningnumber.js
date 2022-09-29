@@ -16,6 +16,9 @@ const RunningnumberSchema = new mongoose.Schema({
   daerah: {
     type: String,
   },
+  kp: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('Runningnumber', RunningnumberSchema);
