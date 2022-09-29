@@ -814,14 +814,40 @@ export default function FillableForm({
               <p className='mr-3 font-semibold'>
                 negeri: <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
+              <select
+                required
+                value={negeriAlamat}
+                onChange={(e) => {
+                  setNegeriAlamat(e.target.value);
+                }}
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='johor'>Johor</option>
+                <option value='kedah'>Kedah</option>
+                <option value='kelantan'>Kelantan</option>
+                <option value='melaka'>Melaka</option>
+                <option value='negeri sembilan'>Negeri Sembilan</option>
+                <option value='pahang'>Pahang</option>
+                <option value='perak'>Perak</option>
+                <option value='perlis'>Perlis</option>
+                <option value='pulau pinang'>Pulau Pinang</option>
+                <option value='sabah'>Sabah</option>
+                <option value='sarawak'>Sarawak</option>
+                <option value='selangor'>Selangor</option>
+                <option value='terengganu'>Terengganu</option>
+                <option value='kuala lumpur'>Kuala Lumpur</option>
+                <option value='labuan'>Labuan</option>
+                <option value='putrajaya'>Putrajaya</option>
+              </select>
+              {/* <input
                 required
                 value={negeriAlamat}
                 onChange={(e) => setNegeriAlamat(e.target.value)}
                 type='text'
                 name='negeri-alamat'
                 className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
+              /> */}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>

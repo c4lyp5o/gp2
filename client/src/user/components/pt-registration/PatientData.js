@@ -65,10 +65,13 @@ export default function PatientData({
                       BIL
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
+                      NO. PENDAFTARAN
+                    </th>
+                    <th className='outline outline-1 outline-kaunterBlack'>
                       NAMA
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
-                      PENGENALAN
+                      NO. KAD PENGENALAN
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
                       TARIKH KEDATANGAN
@@ -85,6 +88,15 @@ export default function PatientData({
                           <td className='outline outline-1 outline-kaunterBlack'>
                             {index + 1}
                           </td>
+                          {p.noPendaftaranBaru ? (
+                            <td className='outline outline-1 outline-kaunterBlack text lowercase'>
+                              {p.noPendaftaranBaru}
+                            </td>
+                          ) : (
+                            <td className='outline outline-1 outline-kaunterBlack lowercase'>
+                              {p.noPendaftaranUlangan}
+                            </td>
+                          )}
                           <td className='outline outline-1 outline-kaunterBlack'>
                             {p.nama.toUpperCase()}
                           </td>
