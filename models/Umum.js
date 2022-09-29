@@ -10,12 +10,13 @@ const UmumSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
+    uniqueId: { type: String }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: String, default: '' },
-    noPendaftaranUlangan: { type: String, default: '' },
+    noPendaftaranBaru: { type: Number, default: 0 }, // new
+    noPendaftaranUlangan: { type: Number, default: 0 }, // new
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -35,6 +36,7 @@ const UmumSchema = new mongoose.Schema(
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },
@@ -776,6 +778,25 @@ UmumSchema.pre('save', async function () {
   } catch (err) {
     console.error(err);
   }
+});
+
+UmumSchema.pre01('save', function (next) {
+  let uniqueId = '';
+  const simplifiedKp = this.createdByKp.split(' ');
+  for (let i = 0; i < simplifiedKp.length; i++) {
+    uniqueId += simplifiedKp[i].charAt(0);
+  }
+  uniqueId += '-';
+  const simplifiedName = this.nama.split(' ');
+  for (let i = 0; i < simplifiedName.length; i++) {
+    uniqueId += simplifiedName[i].charAt(0);
+  }
+  uniqueId += '-';
+  const dateOfBirth = this.tarikhLahir.split('-').join('');
+  uniqueId += dateOfBirth;
+  console.log(uniqueId);
+  this.uniqueId = uniqueId;
+  next();
 });
 
 module.exports = mongoose.model('Umum', UmumSchema);
