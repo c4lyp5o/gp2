@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Runningnumber = require('./Runningnumber');
+const dbUmum = require('./Umum');
 
 const UmumSchema = new mongoose.Schema(
   {
@@ -8,12 +10,13 @@ const UmumSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
+    uniqueId: { type: String }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: Number, default: 0 },
-    noPendaftaranUlangan: { type: Number, default: 0 },
+    noPendaftaranBaru: { type: String, default: '' }, // new
+    noPendaftaranUlangan: { type: String, default: '' }, // new
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -33,6 +36,7 @@ const UmumSchema = new mongoose.Schema(
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },
@@ -708,5 +712,100 @@ const UmumSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+UmumSchema.pre('save', async function () {
+  try {
+    if (this.kedatangan === 'baru-kedatangan') {
+      // get year number
+      let yearNumber = new Date().getFullYear();
+      // create acronym
+      let acronym = '';
+      const simplifiedKlinikName = this.createdByKp.split(' ');
+      for (let i = 0; i < simplifiedKlinikName.length; i++) {
+        acronym += simplifiedKlinikName[i].charAt(0);
+      }
+      // check running number
+      let currentRunningNumber = await Runningnumber.findOne({
+        jenis: 'umum',
+        negeri: this.createdByNegeri,
+        daerah: this.createdByDaerah,
+        kp: this.createdByKp,
+      });
+      // if running number does not exist
+      if (!currentRunningNumber) {
+        const newRunningNumber = await Runningnumber.create({
+          jenis: 'umum',
+          negeri: this.createdByNegeri,
+          daerah: this.createdByDaerah,
+          kp: this.createdByKp,
+          runningnumber: 1,
+        });
+        const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
+        this.noPendaftaranBaru = newReg;
+        console.log('no pendaftaran baru: ', newReg);
+      }
+      // if running number exist
+      if (currentRunningNumber) {
+        currentRunningNumber.runningnumber += 1;
+        await currentRunningNumber.save();
+        const newReg = `${this.jenisFasiliti}/${acronym}/${currentRunningNumber.runningnumber}/${yearNumber}`;
+        this.noPendaftaranBaru = newReg;
+        console.log('no pendaftaran ulangan: ', newReg);
+      }
+      // }
+      // if pt exists
+      // if (currentPt) {
+      //   this.kedatangan = 'ulangan-kedatangan';
+      //   let currentRunningNumber = await Runningnumber.findOne({
+      //     jenis: 'umum',
+      //     negeri: this.negeri,
+      //     daerah: this.daerah,
+      //   });
+      //   if (!currentRunningNumber) {
+      //     const newRunningNumber = await Runningnumber.create({
+      //       jenis: 'umum',
+      //       negeri: this.negeri,
+      //       daerah: this.daerah,
+      //       runningnumber: 1,
+      //     });
+      //     const repeatReg = `${this.daerah}${newRunningNumber.runningnumber}/${yearNumber}`;
+      //     this.noPendaftaranUlangan = repeatReg;
+      //     console.log('no pendaftaran baru: ', repeatReg);
+      //   }
+      //   if (currentRunningNumber) {
+      //     currentRunningNumber.runningnumber += 1;
+      //     await currentRunningNumber.save();
+      //     const repeatReg = `${this.daerah}${currentRunningNumber.runningnumber}/${yearNumber}`;
+      //     this.noPendaftaranUlangan = repeatReg;
+      //     console.log('no pendaftaran ulangan: ', repeatReg);
+      //   }
+      // }
+    }
+    if (this.kedatangan === 'ulangan-kedatangan') {
+      console.log('ini pasien lama');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// UmumSchema.pre01('save', function (next) {
+//   let uniqueId = '';
+//   const simplifiedKp = this.createdByKp.split(' ');
+//   for (let i = 0; i < simplifiedKp.length; i++) {
+//     uniqueId += simplifiedKp[i].charAt(0);
+//   }
+//   uniqueId += '-';
+//   const simplifiedName = this.nama.split(' ');
+//   for (let i = 0; i < simplifiedName.length; i++) {
+//     uniqueId += simplifiedName[i].charAt(0);
+//   }
+//   uniqueId += '-';
+//   const dateOfBirth = this.tarikhLahir.split('-').join('');
+//   uniqueId += dateOfBirth;
+//   console.log(uniqueId);
+//   this.uniqueId = uniqueId;
+//   next();
+// });
 
 module.exports = mongoose.model('Umum', UmumSchema);
