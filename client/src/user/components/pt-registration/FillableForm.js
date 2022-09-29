@@ -912,22 +912,6 @@ export default function FillableForm({
                 <div className='flex items-center flex-row pl-5'>
                   <input
                     type='checkbox'
-                    name='oku'
-                    id='oku'
-                    value='oku'
-                    checked={orangKurangUpaya}
-                    onChange={() => {
-                      setOrangKurangUpaya(!orangKurangUpaya);
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                  />
-                  <label htmlFor='oku' className='m-2 text-sm font-m'>
-                    Orang Kurang Upaya (OKU)
-                  </label>
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    type='checkbox'
                     name='bersekolah'
                     id='bersekolah'
                     value='bersekolah'
@@ -939,6 +923,22 @@ export default function FillableForm({
                   />
                   <label htmlFor='bersekolah' className='m-2 text-sm font-m'>
                     Bersekolah
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='oku'
+                    id='oku'
+                    value='oku'
+                    checked={orangKurangUpaya}
+                    onChange={() => {
+                      setOrangKurangUpaya(!orangKurangUpaya);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='oku' className='m-2 text-sm font-m'>
+                    Orang Kurang Upaya (OKU)
                   </label>
                 </div>
               </div>
