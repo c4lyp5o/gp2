@@ -3,7 +3,14 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import styles from '../Modal.module.css';
 import { RiCloseLine } from 'react-icons/ri';
 
-const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
+const Modal = ({
+  FType,
+  setShowDeleteModal,
+  id,
+  deleteCandidate,
+  reload,
+  setReload,
+}) => {
   const { toast, deleteData } = useGlobalAdminAppContext();
   const [deletingData, setDeletingData] = useState(false);
 
@@ -11,9 +18,10 @@ const Modal = ({ FType, setShowDeleteModal, id, deleteCandidate }) => {
     e.preventDefault();
     deleteData(FType, id).then((res) => {
       console.log(res);
+      toast.info(`Data berjaya dipadam`);
       setShowDeleteModal(false);
       setDeletingData(false);
-      toast.info(`Data berjaya dipadam`);
+      setReload(!reload);
     });
   };
 
