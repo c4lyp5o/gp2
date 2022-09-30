@@ -29,6 +29,9 @@ export default function Data({ FType }) {
   const [showOperators, setShowOperators] = useState(false);
   const [showFacilities, setShowFacilities] = useState(false);
 
+  // reloader workaround
+  const [reload, setReload] = useState(false);
+
   const {
     Dictionary,
     getCurrentUser,
@@ -65,7 +68,7 @@ export default function Data({ FType }) {
       setShowOperators(false);
       setShowKlinik(false);
     };
-  }, [FType]);
+  }, [FType, reload]);
 
   function Klinik() {
     return (
@@ -495,6 +498,32 @@ export default function Data({ FType }) {
     );
   }
 
+  function NothingHereBoi() {
+    return (
+      <div className='flex justify-center text-center h-full w-full'>
+        <div className='m-auto rounded-md grid'>
+          <div className='rounded-lg shadow-lg bg-white max-w-sm'>
+            <img
+              className='rounded-t-lg'
+              src='https://www.trendycovers.com/covers/Nothing_Here_facebook_cover_1346610160.jpg'
+              alt=''
+            />
+            <div className='p-6'>
+              <h5 className='text-gray-900 text-xl font-medium mb-2'>
+                Tiada Data
+              </h5>
+              <p className='text-gray-700 text-base mb-4'>
+                Data{' '}
+                {FType === 'kp' ? `Klinik Pergigian` : `${Dictionary[FType]}`}{' '}
+                belum di isi...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className='flex justify-center text-center h-full w-full'>
@@ -503,17 +532,9 @@ export default function Data({ FType }) {
             <Ring color='#c44058' />
           </div>
           <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat..
+            Memuat...
           </span>
         </div>
-      </div>
-    );
-  }
-
-  if (!data) {
-    return (
-      <div>
-        <h1>There is no data</h1>
       </div>
     );
   }
@@ -525,6 +546,7 @@ export default function Data({ FType }) {
   if (!loading) {
     return (
       <>
+        {data.length === 0 && <NothingHereBoi />}
         {showKlinik && <Klinik />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
@@ -545,10 +567,18 @@ export default function Data({ FType }) {
             setShowAddModal={setShowAddModal}
             FType={FType}
             daerah={daerah}
+            setReload={setReload}
+            reload={reload}
           />
         )}
         {showEditModal && (
-          <Edit setShowEditModal={setShowEditModal} FType={FType} id={id} />
+          <Edit
+            setShowEditModal={setShowEditModal}
+            FType={FType}
+            id={id}
+            setReload={setReload}
+            reload={reload}
+          />
         )}
         {showDeleteModal && (
           <Delete
@@ -556,6 +586,8 @@ export default function Data({ FType }) {
             FType={FType}
             deleteCandidate={deleteCandidate}
             id={id}
+            setReload={setReload}
+            reload={reload}
           />
         )}
       </>
