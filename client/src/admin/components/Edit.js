@@ -5,8 +5,15 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
 const Modal = ({ setShowEditModal, id, FType }) => {
-  const { Dictionary, toast, readOneData, readKpData, updateData } =
-    useGlobalAdminAppContext();
+  const {
+    Dictionary,
+    toast,
+    readOneData,
+    readKpData,
+    updateData,
+    reload,
+    setReload,
+  } = useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -81,6 +88,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
       setEditingData(false);
+      setReload(!reload);
     });
   };
 
