@@ -149,6 +149,7 @@ const getSmAndSaveErkm = async (req, res) => {
   res.status(200).json({ msg: 'good, checked SM' });
 };
 
+// GET perlis
 const getAllAndSaveErkmPerlis = async (req, res) => {
   if (req.user.accountType !== 'erkmUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
