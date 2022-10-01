@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -184,7 +185,11 @@ function UserUmum() {
                 })}
             </table>
           </div>
-          {isLoading && <p className='text-xl font-semibold'>Loading...</p>}
+          {isLoading && (
+            <p className='text-xl font-semibold flex justify-center p-4'>
+              <Spinner color='#1f315f' />
+            </p>
+          )}
         </section>
         <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
           {resultPilih.map((singlePersonUmum) => {

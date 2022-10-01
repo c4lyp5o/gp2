@@ -4,7 +4,7 @@
 
 ---
 
-Docker test deployment status for https://github.com/nocturnalmc/gp2/tree/docker-deploy
+Unstable/Nightly build status for branch https://github.com/nocturnalmc/gp2/tree/unstable-nightly
 
 [![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-unstable)](https://jenkins.nocturnal.quest/job/gp2-unstable/)
 

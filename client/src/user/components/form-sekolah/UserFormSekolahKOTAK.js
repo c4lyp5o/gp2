@@ -14,6 +14,10 @@ function UserFormSekolahKOTAK() {
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
   const createdByUsername = username;
+  const [rokokBiasaKotak, setRokokBiasaKotak] = useState(0);
+  const [elektronikVapeKotak, setElektronikVapeKotak] = useState(0);
+  const [shishaKotak, setShishaKotak] = useState(0);
+  const [lainLainKotak, setLainLainKotak] = useState(0);
   const [tarikh1, setTarikh1] = useState('');
   const [adaTiadaQTarikh1, setAdaTiadaQTarikh1] = useState('');
   const [tarikh2, setTarikh2] = useState('');
@@ -78,6 +82,18 @@ function UserFormSekolahKOTAK() {
 
         // map to form if kotakSekolahId exist
         if (kotakSekolahId !== 'tambah-kotak') {
+          setRokokBiasaKotak(
+            data.personSekolahWithPopulate.kotakSekolah.rokokBiasaKotak
+          );
+          setElektronikVapeKotak(
+            data.personSekolahWithPopulate.kotakSekolah.elektronikVapeKotak
+          );
+          setShishaKotak(
+            data.personSekolahWithPopulate.kotakSekolah.shishaKotak
+          );
+          setLainLainKotak(
+            data.personSekolahWithPopulate.kotakSekolah.lainLainKotak
+          );
           setTarikh1(data.personSekolahWithPopulate.kotakSekolah.tarikh1);
           setAdaTiadaQTarikh1(
             data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh1
@@ -119,6 +135,10 @@ function UserFormSekolahKOTAK() {
             `/api/v1/sekolah/kotak/${personSekolahId}`,
             {
               createdByUsername,
+              rokokBiasaKotak,
+              elektronikVapeKotak,
+              shishaKotak,
+              lainLainKotak,
               tarikh1,
               adaTiadaQTarikh1,
               tarikh2,
@@ -162,6 +182,10 @@ function UserFormSekolahKOTAK() {
             `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
             {
               createdByUsername,
+              rokokBiasaKotak,
+              elektronikVapeKotak,
+              shishaKotak,
+              lainLainKotak,
               tarikh1,
               adaTiadaQTarikh1,
               tarikh2,
@@ -202,7 +226,7 @@ function UserFormSekolahKOTAK() {
 
   return (
     <>
-      <div className='h-full max-h-min 2xl:h-3/4 p-1 px-2 md:px-10 grid gap-2'>
+      <div className='h-full max-h-min lg:h-3/4 p-1 px-2 md:px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -272,6 +296,80 @@ function UserFormSekolahKOTAK() {
               <p className='ml-3 text-xl font-semibold'>KOTAK</p>
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
+              <article className='grid grid-cols-2 col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold text-base flex flex-row pl-5 col-span-2'>
+                  jenis rokok<span className='text-user6'>*</span>
+                </h4>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='rokok-biasa-kotak'
+                    id='rokok-biasa-kotak'
+                    checked={rokokBiasaKotak}
+                    onChange={() => {
+                      setRokokBiasaKotak(!rokokBiasaKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='rokok-biasa-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    rokok biasa
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='elektronik-vape-kotak'
+                    id='elektronik-vape-kotak'
+                    checked={elektronikVapeKotak}
+                    onChange={() => {
+                      setElektronikVapeKotak(!elektronikVapeKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='elektronik-vape-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    elektronik / vape
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='shisha-kotak'
+                    id='shisha-kotak'
+                    checked={shishaKotak}
+                    onChange={() => {
+                      setShishaKotak(!shishaKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='shisha-kotak' className='m-2 text-sm font-m'>
+                    shisha
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='lain-lain-kotak'
+                    id='lain-lain-kotak'
+                    checked={lainLainKotak}
+                    onChange={() => {
+                      setLainLainKotak(!lainLainKotak);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='lain-lain-kotak'
+                    className='m-2 text-sm font-m'
+                  >
+                    lain-lain
+                  </label>
+                </div>
+              </article>
               <div className='col-span-2'>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-3'>

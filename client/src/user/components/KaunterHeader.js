@@ -14,7 +14,7 @@ function KaunterHeader() {
       </div>
       <div className='grid grid-rows-2 text-2xl font-bold text-center'>
         <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
-        <h1>KAUNTER</h1>
+        <h1 className='text-xl'>PENDAFTARAN</h1>
       </div>
     </div>
   );

@@ -75,7 +75,7 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  jenisR: {
+  menerimaNasihatRingkas: {
     type: String,
     default: '',
   },
@@ -123,11 +123,11 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  smAdaGigiDesidus: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
+  // smAdaGigiDesidus: {
+  //   type: Number,
+  //   min: 0,
+  //   default: 0,
+  // },
   adaKekal: {
     type: Boolean,
     default: false,

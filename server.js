@@ -12,6 +12,7 @@ const axios = require('axios');
 const erkm = require('./routes/erkm');
 
 // user import
+const authRegister = require('./routes/authRegister');
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
@@ -29,6 +30,7 @@ const adminAPI = require('./routes/adminAPI');
 const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES ------------------------------------------
+const apiKeyVerifier = require('./middlewares/apiKeyVerifier');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
@@ -57,40 +59,39 @@ app.use(
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
-// sync erkm every 10 mins
-setInterval(async () => {
-  const UserModel = require('./models/User');
-  try {
-    const erkmUser = await UserModel.findOne({
-      username: process.env.ERKM_SERVER_ID,
-    });
+// give erkm token every 5 seconds or sync erkm every 10 mins
+// setInterval(async () => {
+//   const UserModel = require('./models/User');
+//   try {
+//     const erkmUser = await UserModel.findOne({
+//       username: process.env.ERKM_SERVER_ID,
+//       password: process.env.ERKM_SERVER_PASS,
+//     });
 
-    if (
-      !(
-        erkmUser &&
-        (await erkmUser.comparePassword(process.env.ERKM_SERVER_PASS))
-      )
-    ) {
-      return console.log('Invalid internal erkm credentials');
-    }
+//     if (!erkmUser) {
+//       return console.log('Invalid internal erkm credentials');
+//     }
 
-    const erkmToken = erkmUser.createJWT();
+//     const erkmToken = erkmUser.createJWT();
 
-    await axios.get(`http://localhost:${process.env.PORT}/erkm/sr`, {
-      headers: { Authorization: `Bearer ${erkmToken}` },
-    });
-    await axios.get(`http://localhost:${process.env.PORT}/erkm/sm`, {
-      headers: { Authorization: `Bearer ${erkmToken}` },
-    });
+//     console.log({ erkmUser, erkmToken });
 
-    console.log('Erkm sync done in 10 mins interval');
-  } catch (error) {
-    console.log(error.response.data.msg);
-  }
-}, 600000);
+//     // await axios.get(`http://localhost:${process.env.PORT}/erkm/sr`, {
+//     //   headers: { Authorization: `Bearer ${erkmToken}` },
+//     // });
+//     // await axios.get(`http://localhost:${process.env.PORT}/erkm/sm`, {
+//     //   headers: { Authorization: `Bearer ${erkmToken}` },
+//     // });
+
+//     // console.log('Erkm sync done in 10 mins interval');
+//   } catch (error) {
+//     console.log(error.response.data.msg);
+//   }
+//   // }, 600000);
+// }, 5000);
 
 // user route
-app.use('/api/v1/auth', authLogin);
+app.use('/api/v1/auth', apiKeyVerifier, authLogin, authRegister);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
@@ -101,7 +102,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/kaunter', authCheck, kaunter);
 
 // admin route
-app.use('/api/v1/superadmin', adminAPI);
+app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);

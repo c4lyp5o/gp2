@@ -38,6 +38,41 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
+  // generate unique id
+  let uniqueId = '';
+  const simplifiedKp = req.body.createdByKp.split(' ');
+  for (let i = 0; i < simplifiedKp.length; i++) {
+    uniqueId += simplifiedKp[i].charAt(0);
+  }
+  uniqueId += '-';
+  const simplifiedName = req.body.nama.split(' ');
+  for (let i = 0; i < simplifiedName.length; i++) {
+    uniqueId += simplifiedName[i].charAt(0);
+  }
+  uniqueId += '-';
+  const dateOfBirth = req.body.tarikhLahir.split('-').join('');
+  uniqueId += dateOfBirth;
+
+  // tagging unique id
+  req.body.uniqueId = uniqueId;
+
+  // find if person already exist using unique id
+  const personExist = await Umum.findOne({
+    uniqueId: uniqueId,
+    jenisFasiliti: req.body.jenisFasiliti,
+  });
+
+  // tagging person according to their status
+  if (personExist) {
+    console.log('telah wujud. tagging ulangan');
+    req.body.kedatangan = 'ulangan-kedatangan';
+    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+  }
+  if (!personExist) {
+    console.log('belum wujud. tagging baru dalam pre');
+    req.body.kedatangan = 'baru-kedatangan';
+  }
+
   // encrypt
   const encryptedIc = cryptoJs.AES.encrypt(
     req.body.ic,

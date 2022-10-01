@@ -19,6 +19,22 @@ const KotakSchema = new mongoose.Schema({
     required: true,
   },
   // kotak --------------------------------------------------
+  rokokBiasaKotak: {
+    type: Boolean,
+    default: false,
+  },
+  elektronikVapeKotak: {
+    type: Boolean,
+    default: false,
+  },
+  shishaKotak: {
+    type: Boolean,
+    default: false,
+  },
+  lainLainKotak: {
+    type: Boolean,
+    default: false,
+  },
   tarikh1: {
     type: String,
     default: '',
