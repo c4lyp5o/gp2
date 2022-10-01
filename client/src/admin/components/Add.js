@@ -240,10 +240,13 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         }
                       />
                     </div>
-                    <p>Peranan Klinik Pergigian</p>
+                    <p className='mt-3 font-semibold'>
+                      Peranan Klinik Pergigian
+                    </p>
                     <div className='grid grid-cols-4 gap-1'>
                       <label htmlFor='nama'>KEPP</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -252,6 +255,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>UTC</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -260,6 +264,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>RTC</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -268,15 +273,33 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>Visiting</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
                         value='visiting'
                         onChange={(e) => (currentRole.current = e.target.value)}
                       />
+                      <div className='col-span-4'>
+                        <label htmlFor='nama' className='m-3'>
+                          Bukan pilihan di atas
+                        </label>
+                        <input
+                          required
+                          type='radio'
+                          id='role'
+                          name='checkbox'
+                          value=''
+                          onChange={(e) =>
+                            (currentRole.current = e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
-                    <p>Status Klinik Pergigian</p>
-                    <div className='grid grid-cols-2'>
+                    <p className='mt-3 font-semibold'>
+                      Status Klinik Pergigian
+                    </p>
+                    <div className='grid grid-cols-2 gap-1'>
                       <label htmlFor='nama'>Aktif</label>
                       <input
                         type='radio'

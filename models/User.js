@@ -7,12 +7,10 @@ const emailGen = require('../lib/emailgen');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    // required: [true, 'Please provide username'],
     unique: true,
   },
   accountType: {
     type: String,
-    // required: [true, 'Please provide account type'],
     enum: {
       values: [
         'kpUser',
@@ -28,25 +26,19 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // required: [true, 'Please provide password'],
     minlength: 6,
   },
   negeri: {
     type: String,
-    // required: [true, 'Please provide negeri'],
   },
   daerah: {
     type: String,
-    // required: [true, 'Please provide daerah'],
   },
   kp: {
     type: String,
-    // required: [true, 'Please provide KP'],
   },
   email: {
     type: String,
-    // required: [true, 'Please provide email'],
-    unique: true,
   },
 
   // this is klinik
