@@ -64,7 +64,7 @@ function LandingPage() {
                     to='/kaunter'
                     className='hidden lg:grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
                   >
-                    Kaunter
+                    Pendaftaran
                   </Link>
                   <Link
                     to='/pengguna'

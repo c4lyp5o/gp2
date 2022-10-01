@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Runningnumber = require('./Runningnumber');
+const dbUmum = require('./Umum');
 
 const UmumSchema = new mongoose.Schema(
   {
@@ -8,10 +10,13 @@ const UmumSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
+    uniqueId: { type: String }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     kedatangan: { type: String, default: '' },
+    noPendaftaranBaru: { type: String, default: '' }, // new
+    noPendaftaranUlangan: { type: String, default: '' }, // new
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -19,15 +24,19 @@ const UmumSchema = new mongoose.Schema(
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
+    kumpulanEtnik: { type: String, default: '' },
     alamat: { type: String, default: '' },
     daerahAlamat: { type: String, default: '' },
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
-    kategoriPesakit: { type: String, default: '' },
+    // kategoriPesakit: { type: String, default: '' },
+    ibuMengandung: { type: Boolean, default: false },
+    orangKurangUpaya: { type: Boolean, default: false },
+    bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
-    kumpulanEtnik: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },
@@ -105,21 +114,39 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
+    // kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // tisuLembutTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // tisuKerasTraumaPemeriksaanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    fissureSealantPemeriksaanUmum: {
       type: Boolean,
       default: false,
     },
-    tisuLembutTraumaPemeriksaanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    tisuKerasTraumaPemeriksaanUmum: {
-      type: Boolean,
-      default: false,
+    baruJumlahGigiKekalPerluFSRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
     fvPerluSapuanPemeriksaanUmum: {
       type: String,
       default: '',
+    },
+    prrJenis1PemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
     yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
       type: String,
@@ -146,6 +173,10 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    perluPenskaleranPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
     adaDesidusPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -165,11 +196,11 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    smAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // smAdaGigiDesidusPemeriksaanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     xAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
@@ -208,14 +239,14 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    edentulousWargaEmasPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
+    // edentulousWargaEmasPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    // mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
     bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
       type: Number,
       min: 0,
@@ -272,6 +303,10 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan umum
+    pesakitDibuatFissureSealant: {
+      type: Boolean,
+      default: false,
+    },
     baruJumlahGigiKekalDibuatFSRawatanUmum: {
       type: Number,
       min: 0,
@@ -292,11 +327,15 @@ const UmumSchema = new mongoose.Schema(
     //   min: 0,
     //   default: 0,
     // },
-    baruJumlahGigiKekalDiberiFVRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+    pesakitDibuatFluorideVarnish: {
+      type: Boolean,
+      default: false,
     },
+    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
     //   type: Number,
     //   min: 0,
@@ -312,6 +351,10 @@ const UmumSchema = new mongoose.Schema(
     //   min: 0,
     //   default: 0,
     // },
+    pesakitDibuatPRRJenis1: {
+      type: Boolean,
+      default: false,
+    },
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
       type: Number,
       min: 0,
@@ -356,10 +399,10 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    baruSemulaAbsesPembedahanRawatanUmum: {
-      type: String,
-      default: '',
-    },
+    // baruSemulaAbsesPembedahanRawatanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
     cabutanSurgikalPembedahanMulutRawatanUmum: {
       type: Number,
       min: 0,
@@ -369,15 +412,23 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    yaTidakTraumaPembedahanRawatanUmum: {
-      type: String,
-      default: '',
-    },
     yaTidakPembedahanKecilMulutPembedahanRawatanUmum: {
       type: String,
       default: '',
     },
-    kesSelesaiRawatanUmum: {
+    yaTidakTraumaPembedahanRawatanUmum: {
+      type: String,
+      default: '',
+    },
+    kecederaanTulangMukaUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kecederaanGigiUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kecederaanTisuLembutUmum: {
       type: Boolean,
       default: false,
     },
@@ -411,12 +462,22 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    penuhJumlahDenturProstodontikRawatanUmum: {
+    baruPenuhJumlahDenturProstodontikRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    sebahagianJumlahDenturProstodontikRawatanUmum: {
+    semulaPenuhJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruSeparaJumlahDenturProstodontikRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaSeparaJumlahDenturProstodontikRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
@@ -436,6 +497,14 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     rawatanLainPeriodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanOrtodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kesPerubatanMulutRawatanUmum: {
       type: Boolean,
       default: false,
     },
@@ -519,21 +588,21 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahPremolarRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahMolarRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // jumlahPremolarRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // jumlahMolarRawatanSemulaKeppRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum: {
       type: Number,
       min: 0,
@@ -569,12 +638,24 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    kesSelesaiRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
     //promosi
     ceramahPromosiUmum: {
       type: String,
       default: '',
     },
     lmgPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    melaksanakanAktivitiBeginPromosiUmum: {
+      type: String,
+      default: '',
+    },
+    lawatanKeRumahPromosiUmum: {
       type: String,
       default: '',
     },
@@ -593,14 +674,6 @@ const UmumSchema = new mongoose.Schema(
     kanserMulutNasihatPergigianIndividuPromosiUmum: {
       type: Boolean,
       default: false,
-    },
-    melaksanakanAktivitiBeginPromosiUmum: {
-      type: String,
-      default: '',
-    },
-    lawatanKeRumahPromosiUmum: {
-      type: String,
-      default: '',
     },
     umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum: {
       type: Number,
@@ -639,5 +712,100 @@ const UmumSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+UmumSchema.pre('save', async function () {
+  try {
+    if (this.kedatangan === 'baru-kedatangan') {
+      // get year number
+      let yearNumber = new Date().getFullYear();
+      // create acronym
+      let acronym = '';
+      const simplifiedKlinikName = this.createdByKp.split(' ');
+      for (let i = 0; i < simplifiedKlinikName.length; i++) {
+        acronym += simplifiedKlinikName[i].charAt(0);
+      }
+      // check running number
+      let currentRunningNumber = await Runningnumber.findOne({
+        jenis: 'umum',
+        negeri: this.createdByNegeri,
+        daerah: this.createdByDaerah,
+        kp: this.createdByKp,
+      });
+      // if running number does not exist
+      if (!currentRunningNumber) {
+        const newRunningNumber = await Runningnumber.create({
+          jenis: 'umum',
+          negeri: this.createdByNegeri,
+          daerah: this.createdByDaerah,
+          kp: this.createdByKp,
+          runningnumber: 1,
+        });
+        const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
+        this.noPendaftaranBaru = newReg;
+        console.log('no pendaftaran baru: ', newReg);
+      }
+      // if running number exist
+      if (currentRunningNumber) {
+        currentRunningNumber.runningnumber += 1;
+        await currentRunningNumber.save();
+        const newReg = `${this.jenisFasiliti}/${acronym}/${currentRunningNumber.runningnumber}/${yearNumber}`;
+        this.noPendaftaranBaru = newReg;
+        console.log('no pendaftaran ulangan: ', newReg);
+      }
+      // }
+      // if pt exists
+      // if (currentPt) {
+      //   this.kedatangan = 'ulangan-kedatangan';
+      //   let currentRunningNumber = await Runningnumber.findOne({
+      //     jenis: 'umum',
+      //     negeri: this.negeri,
+      //     daerah: this.daerah,
+      //   });
+      //   if (!currentRunningNumber) {
+      //     const newRunningNumber = await Runningnumber.create({
+      //       jenis: 'umum',
+      //       negeri: this.negeri,
+      //       daerah: this.daerah,
+      //       runningnumber: 1,
+      //     });
+      //     const repeatReg = `${this.daerah}${newRunningNumber.runningnumber}/${yearNumber}`;
+      //     this.noPendaftaranUlangan = repeatReg;
+      //     console.log('no pendaftaran baru: ', repeatReg);
+      //   }
+      //   if (currentRunningNumber) {
+      //     currentRunningNumber.runningnumber += 1;
+      //     await currentRunningNumber.save();
+      //     const repeatReg = `${this.daerah}${currentRunningNumber.runningnumber}/${yearNumber}`;
+      //     this.noPendaftaranUlangan = repeatReg;
+      //     console.log('no pendaftaran ulangan: ', repeatReg);
+      //   }
+      // }
+    }
+    if (this.kedatangan === 'ulangan-kedatangan') {
+      console.log('ini pasien lama');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// UmumSchema.pre01('save', function (next) {
+//   let uniqueId = '';
+//   const simplifiedKp = this.createdByKp.split(' ');
+//   for (let i = 0; i < simplifiedKp.length; i++) {
+//     uniqueId += simplifiedKp[i].charAt(0);
+//   }
+//   uniqueId += '-';
+//   const simplifiedName = this.nama.split(' ');
+//   for (let i = 0; i < simplifiedName.length; i++) {
+//     uniqueId += simplifiedName[i].charAt(0);
+//   }
+//   uniqueId += '-';
+//   const dateOfBirth = this.tarikhLahir.split('-').join('');
+//   uniqueId += dateOfBirth;
+//   console.log(uniqueId);
+//   this.uniqueId = uniqueId;
+//   next();
+// });
 
 module.exports = mongoose.model('Umum', UmumSchema);

@@ -149,4 +149,70 @@ const getSmAndSaveErkm = async (req, res) => {
   res.status(200).json({ msg: 'good, checked SM' });
 };
 
-module.exports = { getSrAndSaveErkm, getSmAndSaveErkm };
+// GET perlis
+const getAllAndSaveErkmPerlis = async (req, res) => {
+  if (req.user.accountType !== 'erkmUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { data } = await axios.get(
+    'https://erkm.calypsocloud.one/alldatasorted'
+  );
+
+  const objSekolahPerlis = {
+    idConcat: '',
+    daerah: '',
+    ppd: '',
+    namaSekolah: '',
+    kodSekolah: '',
+    tahun: '',
+    namaKelas: '',
+    nama: '',
+    kodJantina: '',
+    umur: '',
+    noKp: '',
+    tarikhLahir: '',
+    kaum: '',
+  };
+
+  let allSekolahPerlis = [];
+
+  data.forEach((sekolahPerlis) => {
+    objSekolahPerlis.daerah = sekolahPerlis.DAERAH;
+    objSekolahPerlis.ppd = sekolahPerlis.PPD;
+
+    sekolahPerlis.SEKOLAH.forEach((SEKOLAH) => {
+      objSekolahPerlis.namaSekolah = SEKOLAH.namaSekolah;
+      objSekolahPerlis.kodSekolah = SEKOLAH.kodSekolah;
+
+      SEKOLAH.semuaTahun.forEach((semuaTahun) => {
+        objSekolahPerlis.tahun = semuaTahun.tahun;
+
+        semuaTahun.kelas.forEach((kelas) => {
+          objSekolahPerlis.namaKelas = kelas.namaKelas;
+
+          kelas.pelajar.forEach((pelajar) => {
+            objSekolahPerlis.nama = pelajar.NAMA;
+            objSekolahPerlis.kodJantina = pelajar.KODJANTINA;
+            objSekolahPerlis.umur = pelajar.UMUR;
+            objSekolahPerlis.noKp = pelajar.NOKP;
+            objSekolahPerlis.tarikhLahir = pelajar.TKHLAHIR;
+            objSekolahPerlis.kaum = pelajar.KAUM;
+
+            allSekolahPerlis.push({ ...objSekolahPerlis });
+          });
+        });
+      });
+    });
+  });
+
+  const createdAllSekolahPerlis = await Sekolah.insertMany(allSekolahPerlis);
+
+  res.status(200).json({ createdAllSekolahPerlis });
+};
+
+module.exports = {
+  getSrAndSaveErkm,
+  getSmAndSaveErkm,
+  getAllAndSaveErkmPerlis,
+};

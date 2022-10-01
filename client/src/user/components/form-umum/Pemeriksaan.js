@@ -6,8 +6,116 @@ export default function Pemeriksaan(props) {
           <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
             <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
           </span>
-          <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-2'>
+          <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
             <div className='grid gap-2 auto-rows-min'>
+              {props.jenisFasiliti === 'taska-tadika' && (
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
+                    kedatangan taska / tadika 1
+                  </h4>
+                  <div className='grid grid-rows-2'>
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='enggan-taska-tadika'
+                        id='enggan-taska-tadika'
+                        value='enggan-taska-tadika'
+                        checked={props.engganTaskaTadika}
+                        onChange={() => {
+                          props.setEngganTaskaTadika(!props.engganTaskaTadika);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='enggan-taska-tadika'
+                        className='m-2 text-sm font-m'
+                      >
+                        enggan
+                      </label>
+                    </div>
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='tidak-hadir-taska-tadika'
+                        id='tidak-hadir-taska-tadika'
+                        value='tidak-hadir-taska-tadika'
+                        checked={props.tidakHadirTaskaTadika}
+                        onChange={() => {
+                          props.setTidakHadirTaskaTadika(
+                            !props.tidakHadirTaskaTadika
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='tidak-hadir-taska-tadika'
+                        className='m-2 text-sm font-m'
+                      >
+                        tidak hadir
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    className={`${
+                      props.engganTaskaTadika ||
+                      props.tidakHadirTaskaTadika ||
+                      'hidden'
+                    } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
+                  >
+                    <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
+                      pemeriksaan
+                    </h4>
+                    <div className='flex items-center flex-row px-2'>
+                      <input
+                        type='radio'
+                        name='pemeriksaan-taska-tadika'
+                        id='ada-pemeriksaan-taska-tadika'
+                        value='ada-pemeriksaan-taska-tadika'
+                        checked={
+                          props.pemeriksaanTaskaTadika ===
+                          'ada-pemeriksaan-taska-tadika'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setPemeriksaanTaskaTadika(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='ada-pemeriksaan-taska-tadika'
+                        className='m-2 text-sm font-m'
+                      >
+                        ada
+                      </label>
+                    </div>
+                    <div className='flex items-center flex-row px-2'>
+                      <input
+                        type='radio'
+                        name='pemeriksaan-taska-tadika'
+                        id='tiada-pemeriksaan-taska-tadika'
+                        value='tiada-pemeriksaan-taska-tadika'
+                        checked={
+                          props.pemeriksaanTaskaTadika ===
+                          'tiada-pemeriksaan-taska-tadika'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setPemeriksaanTaskaTadika(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='tiada-pemeriksaan-taska-tadika'
+                        className='m-2 text-sm font-m'
+                      >
+                        tiada
+                      </label>
+                    </div>
+                  </div>
+                </article>
+              )}
               <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Cleft Lip/Palate
@@ -429,8 +537,13 @@ export default function Pemeriksaan(props) {
                   </article>
                 </div>
               </article>
-              <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold flex flex-row pl-5'>TSL</h4>
+              <article
+                className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'
+                title='Tooth Surface Loss'
+              >
+                <h4 className='font-bold flex flex-row pl-5'>
+                  Kehilangan Permukaan Gigi
+                </h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
                     type='checkbox'
@@ -448,11 +561,11 @@ export default function Pemeriksaan(props) {
                     htmlFor='tooth-surface-loss-pemeriksaan-umum'
                     className='m-2 text-sm font-m'
                   >
-                    Tooth Surface Loss
+                    Kehilangan Permukaan Gigi
                   </label>
                 </div>
               </article>
-              <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+              {/* <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
@@ -514,15 +627,62 @@ export default function Pemeriksaan(props) {
                     Tisu Keras
                   </label>
                 </div>
-              </article>
-              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+              </article> */}
+              <article
+                className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
+                title='Fissure Sealant'
+              >
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  Fluoride Varnish
+                  Pengapan Fisur
                 </h4>
-                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  Perlu Sapuan
-                </p>
-                <div className='flex items-center justify-center'>
+                <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                  <input
+                    type='checkbox'
+                    name='fissure-sealant-pemeriksaan-umum'
+                    id='fissure-sealant-pemeriksaan-umum'
+                    checked={props.fissureSealantPemeriksaanUmum}
+                    onChange={() => {
+                      props.setFissureSealantPemeriksaanUmum(
+                        !props.fissureSealantPemeriksaanUmum
+                      );
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label className='mx-2 text-sm font-m'>
+                    pesakit perlu Pengapan Fisur
+                  </label>
+                </div>
+                <div className='flex flex-row items-center pl-5'>
+                  <p className='flex flex-row text-sm font-m items-center'>
+                    jumlah gigi kekal perlu Pengapan Fisur
+                  </p>
+                  <input
+                    type='number'
+                    name='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
+                    id='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
+                    value={props.baruJumlahGigiKekalPerluFSRawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalPerluFSRawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                  />
+                </div>
+              </article>
+              <article
+                className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
+                title='Fluoride Varnish'
+              >
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  Sapuan Florida
+                </h4>
+                <div className='flex items-center flex-row pl-5'>
+                  <p className='flex  text-sm font-m items-center mr-3'>
+                    Perlu Sapuan
+                  </p>
                   <input
                     type='radio'
                     name='fv-perlu-sapuan-pemeriksaan-umum'
@@ -567,6 +727,47 @@ export default function Pemeriksaan(props) {
                   >
                     Tidak
                   </label>
+                </div>
+              </article>
+              <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  PRR Jenis 1
+                </h4>
+                <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                  <input
+                    type='checkbox'
+                    name='prr-jenis-1-pemeriksaan-umum'
+                    id='prr-jenis-1-pemeriksaan-umum'
+                    checked={props.prrJenis1PemeriksaanUmum}
+                    onChange={() => {
+                      props.setPrrJenis1PemeriksaanUmum(
+                        !props.prrJenis1PemeriksaanUmum
+                      );
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                  />
+                  <label className='mx-2 text-sm font-m'>
+                    murid perlu PRR jenis 1
+                  </label>
+                </div>
+                <div className='flex flex-row items-center pl-5'>
+                  <p className='flex flex-row text-sm font-m '>
+                    jumlah gigi perlu PRR Jenis 1
+                  </p>
+                  <input
+                    type='number'
+                    name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
+                    id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
+                    value={props.baruJumlahGigiKekalPerluPRRJenis1RawatanUmum}
+                    onChange={(e) => {
+                      props.setBaruJumlahGigiKekalPerluPRRJenis1RawatanUmum(
+                        e.target.value
+                      );
+                    }}
+                    className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    min='0'
+                    max='32'
+                  />
                 </div>
               </article>
               <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -707,7 +908,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div
                   className={`${
-                    props.singlePersonUmum.umur <= 18 && 'hidden'
+                    props.singlePersonUmum.umur <= 15 && 'hidden'
                   } flex items-center flex-row pl-5`}
                 >
                   <p className='text-sm font-m'>
@@ -715,7 +916,7 @@ export default function Pemeriksaan(props) {
                     <span className='text-user6'>*</span>
                   </p>
                   <select
-                    required={props.singlePersonUmum.umur <= 18 ? false : true}
+                    required={props.singlePersonUmum.umur <= 15 ? false : true}
                     name='skor-bpe-pemeriksaan-umum'
                     id='skor-bpe-pemeriksaan-umum'
                     value={props.skorBpeOralHygienePemeriksaanUmum}
@@ -761,6 +962,26 @@ export default function Pemeriksaan(props) {
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                   </select>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='perlu-penskaleran-pemeriksaan-umum'
+                    id='perlu-penskaleran-pemeriksaan-umum'
+                    checked={props.perluPenskaleranPemeriksaanUmum}
+                    onChange={() => {
+                      props.setPerluPenskaleranPemeriksaanUmum(
+                        !props.perluPenskaleranPemeriksaanUmum
+                      );
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label
+                    htmlFor='perlu-penskaleran-pemeriksaan-umum'
+                    className='m-2 text-sm font-m'
+                  >
+                    Perlu Penskaleran
+                  </label>
                 </div>
               </article>
               <article className=' border border-userBlack pl-3 p-2 rounded-md'>
@@ -867,7 +1088,7 @@ export default function Pemeriksaan(props) {
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-5'>
+                    {/* <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m uppercase'>SM: </p>
                       <span className='text-user6'>*</span>
                       <input
@@ -885,7 +1106,7 @@ export default function Pemeriksaan(props) {
                         }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
-                    </div>
+                    </div> */}
                     <div className='flex flex-row items-center pl-5'>
                       <p className='text-sm font-m lowercase'>x: </p>
                       <span className='text-user6'>*</span>
@@ -909,8 +1130,8 @@ export default function Pemeriksaan(props) {
                 </div>
                 {props.sumDMFXDesidusUmum > 20 && (
                   <p className='text-user6 font-semibold'>
-                    jumlah <span className='lowercase'>dmfx</span> dan SM tidak
-                    boleh melebihi 20
+                    jumlah <span className='lowercase'>dmfx</span> tidak boleh
+                    melebihi 20
                   </p>
                 )}
               </article>
@@ -1132,7 +1353,7 @@ export default function Pemeriksaan(props) {
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     warga emas
                   </h4>
-                  <p className='flex items-center justify-center text-sm font-m '>
+                  {/* <p className='flex items-center justify-center text-sm font-m '>
                     edentulous:
                   </p>
                   <div className='flex items-center justify-center'>
@@ -1243,10 +1464,15 @@ export default function Pemeriksaan(props) {
                     >
                       tidak
                     </label>
-                  </div>
+                  </div> */}
                   <div className='flex flex-row pl-5 items-center col-span-2'>
-                    <p className='text-sm font-m '>bilangan gigi: </p>
+                    <p className='text-sm font-m '>
+                      bilangan gigi: <span className='text-user6'>*</span>
+                    </p>
                     <input
+                      required={
+                        props.singlePersonUmum.umur >= 60 ? false : true
+                      }
                       min='0'
                       max='32'
                       type='number'
@@ -1265,8 +1491,6 @@ export default function Pemeriksaan(props) {
                   </div>
                 </article>
               )}
-            </div>
-            <div className='grid gap-2 auto-rows-min'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   Program Kanser Mulut
@@ -1324,7 +1548,7 @@ export default function Pemeriksaan(props) {
                     tidak
                   </label>
                 </div>
-                <p className='flex items-center justify-center text-sm font-m '>
+                {/* <p className='flex items-center justify-center text-sm font-m '>
                   dirujuk:
                 </p>
                 <div className='flex items-center justify-center'>
@@ -1376,7 +1600,7 @@ export default function Pemeriksaan(props) {
                   >
                     tidak
                   </label>
-                </div>
+                </div> */}
                 <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                   <input
                     type='checkbox'
@@ -1500,7 +1724,7 @@ export default function Pemeriksaan(props) {
                       htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
                       className='text-sm font-m m-1'
                     >
-                      rawatan semula endodontik dari primer :
+                      rawatan semula endodontik :
                     </label>
                     <input
                       min='0'
@@ -1519,7 +1743,7 @@ export default function Pemeriksaan(props) {
                       className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                     />
                   </div>
-                  <div className='flex items-center justify-center'>
+                  {/* <div className='flex items-center justify-center'>
                     <p className='flex items-center justify-center text-sm font-m mr-3'>
                       perlu rawatan lain
                     </p>
@@ -1619,7 +1843,7 @@ export default function Pemeriksaan(props) {
                       }}
                       className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                     />
-                  </div>
+                  </div> */}
                 </article>
               ) : null}
             </div>

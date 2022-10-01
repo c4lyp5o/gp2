@@ -27,8 +27,8 @@ function AdminHeaderLoggedIn({ user, daerah }) {
           <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
             <div className='m-3 space-y-1 text-right pr-2'>
               <p className='w-96 text-sm leading-3'>
-                <b>User: </b>
-                {user}
+                <b>Pengguna: </b>
+                <span className='uppercase'>{user}</span>
               </p>
               <p className='w-96 text-sm pt-1'>
                 <b>Daerah: </b>
@@ -43,7 +43,7 @@ function AdminHeaderLoggedIn({ user, daerah }) {
                 navigate('/admin');
               }}
             >
-              LOGOUT
+              LOG KELUAR
             </button>
           </div>
         </div>
