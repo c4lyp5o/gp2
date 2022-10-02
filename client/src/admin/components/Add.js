@@ -8,12 +8,12 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const {
     Dictionary,
     toast,
-    readData,
     createData,
     readSekolahData,
     readKpData,
     pingApdmServer,
     readMdtbData,
+    readFasilitiData,
   } = useGlobalAdminAppContext();
 
   const currentName = useRef();
@@ -126,8 +126,13 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     }
     if (FType === 'jp') {
       readMdtbData().then((res) => {
+        setMdtbMembers(res);
+      });
+    }
+    if (FType === 'kp') {
+      readFasilitiData().then((res) => {
         console.log(res.data);
-        setMdtbMembers(res.data);
+        setKlinik(res.data);
       });
     }
     if (FType !== 'kp') {
@@ -208,7 +213,32 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='admin-pegawai-handler-input'>
                     <div className='grid gap-1'>
-                      <label htmlFor='nama'>Nama Klinik</label>
+                      <label htmlFor='nama'>Pilih Klinik</label>
+                      <select
+                        onChange={(e) => {
+                          const selectedKlinik = klinik.find(
+                            (k) => k.kodFasiliti === e.target.value
+                          );
+                          currentName.current = selectedKlinik.nama;
+                          currentKodFasiliti.current =
+                            selectedKlinik.kodFasiliti;
+                        }}
+                        className='border-2 max-w-sm'
+                      >
+                        <option value=''>Pilih Klinik</option>
+                        {klinik
+                          .filter((ak) => {
+                            let upperCased =
+                              daerah[0].toUpperCase() + daerah.substring(1);
+                            return ak.daerah.includes(upperCased);
+                          })
+                          .map((k) => (
+                            <option key={k.bil} value={k.kodFasiliti}>
+                              {k.nama}
+                            </option>
+                          ))}
+                      </select>
+                      {/* <label htmlFor='nama'>Nama Klinik</label>
                       <input
                         required
                         className='border-2'
@@ -227,7 +257,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         onChange={(e) =>
                           (currentKodFasiliti.current = e.target.value)
                         }
-                      />
+                      /> */}
                       <label htmlFor='nama'>Emel</label>
                       <input
                         required
@@ -246,7 +276,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     <div className='grid grid-cols-4 gap-1'>
                       <label htmlFor='nama'>KEPP</label>
                       <input
-                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -255,7 +284,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>UTC</label>
                       <input
-                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -264,7 +292,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>RTC</label>
                       <input
-                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -273,7 +300,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>Visiting</label>
                       <input
-                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -285,7 +311,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                           Bukan pilihan di atas
                         </label>
                         <input
-                          required
                           type='radio'
                           id='role'
                           name='checkbox'
@@ -384,9 +409,24 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     )}
                     {FType === 'jp' && (
                       <div className='grid gap-1'>
-                        <select className='border-2 max-w-sm'>
+                        <select
+                          className='border-2 max-w-sm'
+                          onChange={(e) => {
+                            const selectedJp = mdtbMembers.find(
+                              (m) => m.registrationnumber === e.target.value
+                            );
+                            currentName.current = selectedJp.name;
+                            currentRegNumber.current =
+                              selectedJp.registrationnumber;
+                          }}
+                        >
+                          <option key='no-value' value=''>
+                            Pilih JP...
+                          </option>
                           {mdtbMembers.map((m) => (
-                            <option value={m.id}>{m.name}</option>
+                            <option key={m.number} value={m.registrationnumber}>
+                              {m.name}
+                            </option>
                           ))}
                         </select>
                       </div>

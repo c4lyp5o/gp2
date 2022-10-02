@@ -83,7 +83,7 @@ exports.getData = async (req, res, next) => {
                   acronym += simplifiedKlinikName[i].charAt(0);
                 }
                 const tempKaunter = await User.create({
-                  username: `kaunter${acronym}`,
+                  username: `kaunter${acronym.toLowerCase()}`,
                   negeri: Data.negeri,
                   daerah: Data.daerah,
                   kp: Data.kp,
@@ -246,6 +246,40 @@ exports.getData = async (req, res, next) => {
             }
             if (theType === 'klinik') {
               const klinik = await User.findOne({ _id: Id });
+              const fasilitiUnderKlinik = await Fasiliti.find({
+                handler: klinik.kp,
+              });
+              const operatorUnderKlinik = await Operator.find({
+                kp: klinik.kp,
+              });
+              if (
+                fasilitiUnderKlinik.length > 0 ||
+                operatorUnderKlinik.length > 0
+              ) {
+                let mustDelete = '';
+                if (fasilitiUnderKlinik.length > 0) {
+                  console.log(
+                    'ada fasiliti under klinik:',
+                    fasilitiUnderKlinik
+                  );
+                  for (let q = 0; q < fasilitiUnderKlinik.length; q++) {
+                    mustDelete += fasilitiUnderKlinik[q].nama;
+                    mustDelete += ', ';
+                  }
+                }
+                if (operatorUnderKlinik.length > 0) {
+                  console.log(
+                    'ada operator under klinik:',
+                    operatorUnderKlinik
+                  );
+                  for (let w = 0; w < operatorUnderKlinik.length; w++) {
+                    mustDelete += operatorUnderKlinik[w].nama;
+                    mustDelete += ', ';
+                  }
+                }
+                console.log(mustDelete);
+                return res.status(409).json(mustDelete);
+              }
               let acronym = '';
               const simplifiedKlinikName = klinik.kp.split(' ');
               for (let i = 0; i < simplifiedKlinikName.length; i++) {
@@ -255,7 +289,7 @@ exports.getData = async (req, res, next) => {
               const data = await User.findByIdAndDelete({ _id: Id }).then(
                 async () => {
                   await User.findOneAndDelete({
-                    username: `kaunter${acronym}`,
+                    username: `kaunter${acronym.toLowerCase()}`,
                   });
                 }
               );
@@ -280,8 +314,7 @@ exports.getData = async (req, res, next) => {
               daerah,
               negeri,
             });
-            res.status(200).json(regData);
-            break;
+            return res.status(200).json(regData);
           case 'read':
             console.log('read for user');
             const userData = {
@@ -290,17 +323,15 @@ exports.getData = async (req, res, next) => {
               daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
               negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
             };
-            res.status(200).json(userData);
-            break;
+            return res.status(200).json(userData);
           case 'readOne':
             console.log('readOne for user');
             const tempUser = await Superadmin.findOne({ user_name: username });
             if (!tempUser) {
-              res.status(401).json({
+              return res.status(401).json({
                 status: 'error',
-                message: 'User not found',
+                message: 'Tiada user ini di dalam sistem',
               });
-              return;
             }
             const theKey = simpleCrypto.generateRandomString(20);
             const update = await Superadmin.findByIdAndUpdate(
@@ -310,30 +341,33 @@ exports.getData = async (req, res, next) => {
               },
               { new: true }
             );
+            // const transporter = mailer.createTransport({
+            //   host: process.env.EMAILER_HOST,
+            //   port: process.env.EMAILER_PORT,
+            //   secure: true,
+            //   auth: {
+            //     user: process.env.EMAILER_ACCT,
+            //     pass: process.env.EMAILER_PASS,
+            //   },
+            // });
+            // const verification = await transporter.sendMail({
+            //   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
+            //   to: process.env.SEND_TO,
+            //   subject: 'Kunci Verifikasi',
+            //   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
+            //   html:
+            //     '<p>Kunci verifikasi anda adalah: </p>' +
+            //     theKey +
+            //     '<p>\n\n</p>',
+            // });
             return res.status(200).json({
               status: 'success',
               message: 'Email sent to ' + process.env.SEND_TO,
               tempKey: theKey,
             });
-            break;
           case 'update':
             console.log('update for user');
-            // const crypt = new simpleCrypto(process.env.API_SECRET);
-            // const decipheredText = crypt.decrypt(key);
-            // if (decipheredText !== process.env.API_KEY) {
-            //   return res.status(401).json({
-            //     status: 'error',
-            //     message: 'Invalid API key',
-            //   });
-            // }
             const User = await Superadmin.findOne({ user_name: username });
-            if (!User) {
-              const msg = 'Tiada user ini dalam sistem';
-              return res.status(401).json({
-                status: 'error',
-                message: msg,
-              });
-            }
             if (password !== User.tempKey) {
               const msg = 'Key salah';
               return res.status(401).json({
@@ -356,7 +390,6 @@ exports.getData = async (req, res, next) => {
               message: 'Login berjaya',
               adminToken: genToken,
             });
-            break;
           case 'delete':
             console.log('delete for user');
             break;
