@@ -18,10 +18,20 @@ const Modal = ({
     e.preventDefault();
     deleteData(FType, id).then((res) => {
       console.log(res);
-      toast.info(`Data berjaya dipadam`);
-      setShowDeleteModal(false);
-      setDeletingData(false);
-      setReload(!reload);
+      if (res.status === 200) {
+        toast.info(`Data berjaya dipadam`);
+        setShowDeleteModal(false);
+        setDeletingData(false);
+        setReload(!reload);
+        return;
+      }
+      if (res.response.status === 409) {
+        toast.error(
+          `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+        );
+        setShowDeleteModal(false);
+        setDeletingData(false);
+      }
     });
   };
 

@@ -47,7 +47,6 @@ export default function Data({ FType }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
-      // console.log(res.data);
       setData(res.data);
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
@@ -294,7 +293,7 @@ export default function Data({ FType }) {
                   return officersChoice && officersRole;
                 })
                 .map((o, index) => (
-                  <tr>
+                  <tr key={index + 1}>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
