@@ -29,7 +29,8 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   const allPersonSekolahs = await Sekolah.find({
     namaSekolah: { $in: [...namaSekolahs] },
   });
-  res.status(200).json({ allPersonSekolahs });
+
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
 // not used
