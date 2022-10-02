@@ -245,20 +245,21 @@ exports.getData = async (req, res, next) => {
               res.status(200).json(data);
             }
             if (theType === 'klinik') {
-              const klinik = await User.findOne({ _id: Id });
-              let acronym = '';
-              const simplifiedKlinikName = klinik.kp.split(' ');
-              for (let i = 0; i < simplifiedKlinikName.length; i++) {
-                acronym += simplifiedKlinikName[i].charAt(0);
-              }
+              // const klinik = await User.findOne({ _id: Id });
+              // let acronym = '';
+              // const simplifiedKlinikName = klinik.kp.split(' ');
+              // for (let i = 0; i < simplifiedKlinikName.length; i++) {
+              //   acronym += simplifiedKlinikName[i].charAt(0);
+              // }
               // deleting kaunter and klinik
-              const data = await User.findByIdAndDelete({ _id: Id }).then(
-                async () => {
-                  await User.findOneAndDelete({
-                    username: `kaunter${acronym}`,
-                  });
-                }
-              );
+              const data = await User.findByIdAndDelete({ _id: Id });
+              // .then(
+              //   async () => {
+              //     await User.findOneAndDelete({
+              //       username: `kaunter${acronym}`,
+              //     });
+              //   }
+              // );
               res.status(200).json(data);
             }
             break;

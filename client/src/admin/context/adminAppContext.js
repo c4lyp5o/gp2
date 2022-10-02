@@ -134,8 +134,32 @@ function AdminAppProvider({ children }) {
     );
     switch (FType) {
       case 'sr':
+        const currentSr = await readData(FType);
+        if (currentSr.data.length === 0) {
+          console.log('no sr');
+          return response.data[1].sekolahRendah;
+        }
+        console.log('current sr', currentSr.data);
+        for (let j = 0; j < currentSr.data.length; j++) {
+          const deleteSr = response.data[1].sekolahRendah
+            .map((e) => e.kodSekolah)
+            .indexOf(currentSr.data[j].kodSekolah);
+          response.data[1].sekolahRendah.splice(deleteSr, 1);
+        }
         return response.data[1].sekolahRendah;
       case 'sm':
+        const currentSm = await readData(FType);
+        if (currentSm.data.length === 0) {
+          console.log('no sm');
+          return response.data[2].sekolahMenengah;
+        }
+        console.log('current sm', currentSm.data);
+        for (let j = 0; j < currentSm.data.length; j++) {
+          const deleteSm = response.data[2].sekolahMenengah
+            .map((e) => e.kodSekolah)
+            .indexOf(currentSm.data[j].kodSekolah);
+          response.data[2].sekolahMenengah.splice(deleteSm, 1);
+        }
         return response.data[2].sekolahMenengah;
       default:
         console.log('there was no request');
@@ -146,6 +170,38 @@ function AdminAppProvider({ children }) {
 
   const readMdtbData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
+    const currentJp = await readData('jp');
+    if (currentJp.data.length === 0) {
+      console.log('no jp');
+      return response.data;
+    }
+    console.log('current jp', currentJp.data);
+    for (let j = 0; j < currentJp.data.length; j++) {
+      const deleteJp = response.data
+        .map((e) => e.kodJawatan)
+        .indexOf(currentJp.data[j].kodJawatan);
+      response.data.splice(deleteJp, 1);
+    }
+    return response.data;
+  };
+
+  // read fasiliti data
+
+  const readFasilitiData = async () => {
+    const response = await axios.get('http://localhost:6002/fasiliti');
+    console.log(response.data);
+    const currentFasiliti = await readData('kp');
+    if (currentFasiliti.data.length === 0) {
+      console.log('no fasiliti');
+      return response.data;
+    }
+    console.log('current fasiliti', currentFasiliti.data);
+    for (let j = 0; j < currentFasiliti.data.length; j++) {
+      const deleteFasiliti = response.data
+        .map((e) => e.kodFasiliti)
+        .indexOf(currentFasiliti.data[j].kodFasiliti);
+      response.data.splice(deleteFasiliti, 1);
+    }
     return response.data;
   };
 
@@ -225,6 +281,7 @@ function AdminAppProvider({ children }) {
         readOneData,
         readSekolahData,
         readMdtbData,
+        readFasilitiData,
         readKpData,
         updateData,
         deleteData,

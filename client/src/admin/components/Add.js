@@ -8,12 +8,12 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const {
     Dictionary,
     toast,
-    readData,
     createData,
     readSekolahData,
     readKpData,
     pingApdmServer,
     readMdtbData,
+    readFasilitiData,
   } = useGlobalAdminAppContext();
 
   const currentName = useRef();
@@ -121,6 +121,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
         }
       });
       readSekolahData(FType).then((res) => {
+        // console.log(res);
         setSekolah(res);
       });
     }
@@ -128,6 +129,12 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       readMdtbData().then((res) => {
         console.log(res.data);
         setMdtbMembers(res.data);
+      });
+    }
+    if (FType === 'kp') {
+      readFasilitiData().then((res) => {
+        console.log(res.data);
+        setKlinik(res.data);
       });
     }
     if (FType !== 'kp') {
@@ -208,7 +215,26 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='admin-pegawai-handler-input'>
                     <div className='grid gap-1'>
-                      <label htmlFor='nama'>Nama Klinik</label>
+                      <label htmlFor='nama'>Pilih Klinik</label>
+                      <select
+                        onChange={(e) => {
+                          const selectedKlinik = klinik.find(
+                            (k) => k.kodFasiliti === e.target.value
+                          );
+                          console.log(selectedKlinik);
+                          currentName.current = selectedKlinik.nama;
+                          currentKodFasiliti.current =
+                            selectedKlinik.kodFasiliti;
+                          // currentKodFasiliti.current =
+                          //   e.target.value.kodFasiliti;
+                        }}
+                        className='border-2 max-w-sm'
+                      >
+                        {klinik.map((m) => (
+                          <option value={m.kodFasiliti}>{m.nama}</option>
+                        ))}
+                      </select>
+                      {/* <label htmlFor='nama'>Nama Klinik</label>
                       <input
                         required
                         className='border-2'
@@ -227,7 +253,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         onChange={(e) =>
                           (currentKodFasiliti.current = e.target.value)
                         }
-                      />
+                      /> */}
                       <label htmlFor='nama'>Emel</label>
                       <input
                         required
