@@ -43,7 +43,6 @@ function UserNavbar() {
     let tutupBarSisi = (e) => {
       if (!barSisiRef.current.contains(e.target)) {
         setShowLinks(false);
-        console.log(barSisiRef.current);
       }
     };
     document.addEventListener('mousedown', tutupBarSisi);

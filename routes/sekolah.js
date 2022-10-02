@@ -13,7 +13,9 @@ const {
   updateKotakSekolah,
 } = require('../controllers/sekolah');
 
-router.route('/').get(getAllPersonSekolahsVanilla).post(createPersonSekolah);
+router
+  .route('/')
+  .get(getAllPersonSekolahsVanilla) /*.post(createPersonSekolah)*/;
 // router.route('/:personSekolahId').get(getSinglePersonSekolahVanilla);
 router.route('/populate').get(getAllPersonSekolahsWithPopulate);
 router

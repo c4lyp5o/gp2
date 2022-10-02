@@ -13,6 +13,7 @@ function UserSekolah() {
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [darjah, setDarjah] = useState([]);
   const [tingkatan, setTingkatan] = useState([]);
+  const [tahun, setTahun] = useState([]);
   const [namaKelasDarjah, setNamaKelasDarjah] = useState([]);
   const [namaKelasTingkatan, setNamaKelasTingkatan] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
