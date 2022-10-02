@@ -11,7 +11,7 @@ export default function Pemeriksaan(props) {
               {props.jenisFasiliti === 'taska-tadika' && (
                 <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
-                    kedatangan taska / tadika 1
+                    kedatangan taska / tadika
                   </h4>
                   <div className='grid grid-rows-2'>
                     <div className='flex items-center flex-row pl-5'>

@@ -9,7 +9,7 @@ import UserDashboard from '../components/UserDashboard';
 import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
-import UserSekolahList from '../components/UserSenaraiSekolah';
+import UserSenaraiSekolah from '../components/UserSenaraiSekolah';
 import UserSekolah from '../components/UserSekolah';
 import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekolahPemeriksaan';
 import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
@@ -48,7 +48,7 @@ function UserAfterLogin() {
             element={<UserFormUmumHeader />}
           />
 
-          <Route path='senarai-sekolah' element={<UserSekolahList />} />
+          <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
           <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
           <Route
             path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'

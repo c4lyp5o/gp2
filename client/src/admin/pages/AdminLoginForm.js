@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
+import { ToastContainer } from 'react-toastify';
+
 import AdminHeader from '../components/AdminHeader';
 import AdminFooter from '../components/AdminFooter';
 
@@ -67,7 +69,7 @@ function passwordBox({ setPassword, showPasswordBox, showTempPass }) {
 }
 
 export default function AdminLoginForm() {
-  const { setToken } = useGlobalAdminAppContext();
+  const { setToken, toast } = useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
@@ -91,7 +93,7 @@ export default function AdminLoginForm() {
         const response = await checkUser(username);
         setShowTempPass(response.data.tempKey);
       } catch (error) {
-        setErrMsg(error.response.data.message);
+        toast.error(error.response.data.message);
         return;
       }
       setShowPasswordBox(true);
@@ -105,18 +107,18 @@ export default function AdminLoginForm() {
       }
       setErrMsg('');
       setTimeout(async () => {
-        const token = await loginUser({
-          username,
-          password,
-        });
-        console.log(token);
-        if (token.status === 401) {
-          setErrMsg(token.data.message);
-        } else {
-          setToken(token.data.adminToken);
+        try {
+          const response = await loginUser({
+            username,
+            password,
+          });
+          setToken(response.data.adminToken);
+          setLoggingIn(false);
           navigate('/admin/landing');
+        } catch (error) {
+          toast.error(error.response.data.message);
+          setLoggingIn(false);
         }
-        setLoggingIn(false);
       }, 1000);
     }
   };
@@ -183,6 +185,7 @@ export default function AdminLoginForm() {
         </div>
       </div>
       <AdminFooter />
+      <ToastContainer />
     </>
   );
 }
