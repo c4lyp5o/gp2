@@ -203,10 +203,10 @@ function AdminAppProvider({ children }) {
     }
     console.log('current fasiliti', currentFasiliti.data);
     for (let j = 0; j < currentFasiliti.data.length; j++) {
-      const deleteFasiliti = response.data
+      const deleteFasiliti = response.data.data
         .map((e) => e.kodFasiliti)
         .indexOf(currentFasiliti.data[j].kodFasiliti);
-      response.data.splice(deleteFasiliti, 1);
+      response.data.data.splice(deleteFasiliti, 1);
     }
     return response.data;
   };
