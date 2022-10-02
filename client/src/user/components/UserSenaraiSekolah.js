@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolahList() {
   const { userToken } = useGlobalUserAppContext();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [enrolmen, setEnrolmen] = useState([]);
@@ -15,7 +17,8 @@ function UserSekolahList() {
   useEffect(() => {
     const fetchFasilitiSekolahs = async () => {
       try {
-        const { data } = await axios.get('/api/v1/sekolah/populate', {
+        setIsLoading(true);
+        const { data } = await axios.get('/api/v1/sekolah', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setAllPersonSekolahs(data.allPersonSekolahs);
@@ -49,6 +52,7 @@ function UserSekolahList() {
           setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
           console.log(tempKedatanganBaru);
         });
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -151,6 +155,11 @@ function UserSekolahList() {
             KES SELESAI
           </th> */}
         </div>
+        {isLoading && (
+          <p className='text-xl font-semibold'>
+            <Spinner color='#1f315f' />
+          </p>
+        )}
         <div className='mt-5'>
           <Link
             to='sekolah'
