@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -487,7 +488,11 @@ function UserSekolah() {
                   );
                 })}
           </table>
-          {isLoading && <p className='text-xl font-semibold'>Loading...</p>}
+          {isLoading && (
+            <p className='text-xl font-semibold'>
+              <Spinner color='#1f315f' />
+            </p>
+          )}
         </div>
       </div>
     </>
