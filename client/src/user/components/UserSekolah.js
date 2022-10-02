@@ -11,10 +11,12 @@ function UserSekolah() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [darjah, setDarjah] = useState([]);
-  const [tingkatan, setTingkatan] = useState([]);
-  const [namaKelasDarjah, setNamaKelasDarjah] = useState([]);
-  const [namaKelasTingkatan, setNamaKelasTingkatan] = useState([]);
+  const [tahun, setTahun] = useState([]);
+  const [namaKelas, setNamaKelas] = useState([]);
+  // const [darjah, setDarjah] = useState([]);
+  // const [tingkatan, setTingkatan] = useState([]);
+  // const [namaKelasDarjah, setNamaKelasDarjah] = useState([]);
+  // const [namaKelasTingkatan, setNamaKelasTingkatan] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanDarjah, setPilihanDarjah] = useState('');
   const [pilihanTingkatan, setPilihanTingkatan] = useState('');
@@ -39,52 +41,71 @@ function UserSekolah() {
           },
           ['']
         );
-        const darjah = allPersonSekolahs.reduce(
-          (arrDarjah, singlePersonSekolah) => {
-            if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
-              arrDarjah.push(singlePersonSekolah.darjah);
-            }
-            return arrDarjah.filter((valid) => valid);
-          },
-          ['']
-        );
-        const tingkatan = allPersonSekolahs.reduce(
-          (arrTingkatan, singlePersonSekolah) => {
-            if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
-              arrTingkatan.push(singlePersonSekolah.tingkatan);
-            }
-            return arrTingkatan.filter((valid) => valid);
-          },
-          ['']
-        );
-        const namaKelasDarjah = allPersonSekolahs
-          .filter((person) => person.darjah)
-          .reduce(
-            (arrNamaKelas, singlePersonSekolah) => {
-              if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-                arrNamaKelas.push(singlePersonSekolah.kelas);
-              }
-              return arrNamaKelas.filter((valid) => valid);
-            },
-            ['']
-          );
-        const namaKelasTingkatan = allPersonSekolahs
-          .filter((person) => person.tingkatan)
-          .reduce(
-            (arrNamaKelas, singlePersonSekolah) => {
-              if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-                arrNamaKelas.push(singlePersonSekolah.kelas);
-              }
-              return arrNamaKelas.filter((valid) => valid);
-            },
-            ['']
-          );
+        // const tahun = allPersonSekolahs.reduce(
+        //   (arrTahun, singlePersonSekolah) => {
+        //     if (!arrTahun.includes(singlePersonSekolah.tahun)) {
+        //       arrTahun.push(singlePersonSekolah.tahun);
+        //     }
+        //     return arrTahun.filter((valid) => valid);
+        //   }
+        // );
+        // const namaKelas = allPersonSekolahs.reduce(
+        //   (arrNamaKelas, singlePersonSekolah) => {
+        //     if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
+        //       arrNamaKelas.push(singlePersonSekolah.namaKelas);
+        //     }
+        //     return arrNamaKelas.filter((valid) => valid);
+        //   }
+        // );
+        // const darjah = allPersonSekolahs.reduce(
+        //   (arrDarjah, singlePersonSekolah) => {
+        //     if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
+        //       arrDarjah.push(singlePersonSekolah.darjah);
+        //     }
+        //     return arrDarjah.filter((valid) => valid);
+        //   },
+        //   ['']
+        // );
+        // const tingkatan = allPersonSekolahs.reduce(
+        //   (arrTingkatan, singlePersonSekolah) => {
+        //     if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
+        //       arrTingkatan.push(singlePersonSekolah.tingkatan);
+        //     }
+        //     return arrTingkatan.filter((valid) => valid);
+        //   },
+        //   ['']
+        // );
+        // const namaKelasDarjah = allPersonSekolahs
+        //   .filter((person) => person.darjah)
+        //   .reduce(
+        //     (arrNamaKelas, singlePersonSekolah) => {
+        //       if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+        //         arrNamaKelas.push(singlePersonSekolah.kelas);
+        //       }
+        //       return arrNamaKelas.filter((valid) => valid);
+        //     },
+        //     ['']
+        //   );
+        // const namaKelasTingkatan = allPersonSekolahs
+        //   .filter((person) => person.tingkatan)
+        //   .reduce(
+        //     (arrNamaKelas, singlePersonSekolah) => {
+        //       if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+        //         arrNamaKelas.push(singlePersonSekolah.kelas);
+        //       }
+        //       return arrNamaKelas.filter((valid) => valid);
+        //     },
+        //     ['']
+        //   );
+
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
-        setDarjah(darjah);
-        setTingkatan(tingkatan);
-        setNamaKelasDarjah(namaKelasDarjah);
-        setNamaKelasTingkatan(namaKelasTingkatan);
+        // setTahun(tahun);
+        // setNamaKelas(namaKelas);
+        // setDarjah(darjah);
+        // setTingkatan(tingkatan);
+        // setNamaKelasDarjah(namaKelasDarjah);
+        // setNamaKelasTingkatan(namaKelasTingkatan);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -121,82 +142,82 @@ function UserSekolah() {
     setPilihanKelasDarjah('');
   }, [pilihanKelasTingkatan]);
 
-  const reloadData = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.get('/api/v1/sekolah/populate', {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      const allPersonSekolahs = data.allPersonSekolahs;
-      const namaSekolahs = allPersonSekolahs.reduce(
-        (arrNamaSekolahs, singlePersonSekolah) => {
-          if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-            arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-          }
-          return arrNamaSekolahs.filter((valid) => valid);
-        },
-        ['']
-      );
-      const darjah = allPersonSekolahs.reduce(
-        (arrDarjah, singlePersonSekolah) => {
-          if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
-            arrDarjah.push(singlePersonSekolah.darjah);
-          }
-          return arrDarjah.filter((valid) => valid);
-        },
-        ['']
-      );
-      const tingkatan = allPersonSekolahs.reduce(
-        (arrTingkatan, singlePersonSekolah) => {
-          if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
-            arrTingkatan.push(singlePersonSekolah.tingkatan);
-          }
-          return arrTingkatan.filter((valid) => valid);
-        },
-        ['']
-      );
-      const namaKelasDarjah = allPersonSekolahs
-        .filter((person) => person.darjah)
-        .reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-              arrNamaKelas.push(singlePersonSekolah.kelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
-      const namaKelasTingkatan = allPersonSekolahs
-        .filter((person) => person.tingkatan)
-        .reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-              arrNamaKelas.push(singlePersonSekolah.kelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
-      setAllPersonSekolahs(data.allPersonSekolahs);
-      setNamaSekolahs(namaSekolahs);
-      setDarjah(darjah);
-      setTingkatan(tingkatan);
-      setNamaKelasDarjah(namaKelasDarjah);
-      setNamaKelasTingkatan(namaKelasTingkatan);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const reloadData = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const { data } = await axios.get('/api/v1/sekolah/populate', {
+  //       headers: { Authorization: `Bearer ${userToken}` },
+  //     });
+  //     const allPersonSekolahs = data.allPersonSekolahs;
+  //     const namaSekolahs = allPersonSekolahs.reduce(
+  //       (arrNamaSekolahs, singlePersonSekolah) => {
+  //         if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+  //           arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+  //         }
+  //         return arrNamaSekolahs.filter((valid) => valid);
+  //       },
+  //       ['']
+  //     );
+  //     const darjah = allPersonSekolahs.reduce(
+  //       (arrDarjah, singlePersonSekolah) => {
+  //         if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
+  //           arrDarjah.push(singlePersonSekolah.darjah);
+  //         }
+  //         return arrDarjah.filter((valid) => valid);
+  //       },
+  //       ['']
+  //     );
+  //     const tingkatan = allPersonSekolahs.reduce(
+  //       (arrTingkatan, singlePersonSekolah) => {
+  //         if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
+  //           arrTingkatan.push(singlePersonSekolah.tingkatan);
+  //         }
+  //         return arrTingkatan.filter((valid) => valid);
+  //       },
+  //       ['']
+  //     );
+  //     const namaKelasDarjah = allPersonSekolahs
+  //       .filter((person) => person.darjah)
+  //       .reduce(
+  //         (arrNamaKelas, singlePersonSekolah) => {
+  //           if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+  //             arrNamaKelas.push(singlePersonSekolah.kelas);
+  //           }
+  //           return arrNamaKelas.filter((valid) => valid);
+  //         },
+  //         ['']
+  //       );
+  //     const namaKelasTingkatan = allPersonSekolahs
+  //       .filter((person) => person.tingkatan)
+  //       .reduce(
+  //         (arrNamaKelas, singlePersonSekolah) => {
+  //           if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
+  //             arrNamaKelas.push(singlePersonSekolah.kelas);
+  //           }
+  //           return arrNamaKelas.filter((valid) => valid);
+  //         },
+  //         ['']
+  //       );
+  //     setAllPersonSekolahs(data.allPersonSekolahs);
+  //     setNamaSekolahs(namaSekolahs);
+  //     setDarjah(darjah);
+  //     setTingkatan(tingkatan);
+  //     setNamaKelasDarjah(namaKelasDarjah);
+  //     setNamaKelasTingkatan(namaKelasTingkatan);
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // on tab focus reload data
-  useEffect(() => {
-    window.addEventListener('focus', reloadData);
-    reloadData();
-    return () => {
-      window.removeEventListener('focus', reloadData);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('focus', reloadData);
+  //   reloadData();
+  //   return () => {
+  //     window.removeEventListener('focus', reloadData);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -226,7 +247,7 @@ function UserSekolah() {
               );
             })}
           </select>
-          {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
+          {/* {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
             <>
               <p className='flex flex-row pl-5 lg:pl-12 p-2'>Darjah</p>
               <select
@@ -331,7 +352,7 @@ function UserSekolah() {
                   })}
               </select>
             </>
-          )}
+          )} */}
           <div className='flex justify-end px-12 '>
             <button
               onClick={() => {
@@ -341,12 +362,12 @@ function UserSekolah() {
             >
               kembali ke senarai sekolah
             </button>
-            <button
+            {/* <button
               onClick={reloadData}
               className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
             >
               refresh pelajar
-            </button>
+            </button> */}
           </div>
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -380,12 +401,11 @@ function UserSekolah() {
               pilihanSekolah &&
               allPersonSekolahs
                 .filter(
-                  (person) =>
-                    person.namaSekolah.includes(pilihanSekolah) &&
-                    person.kelas.includes(pilihanTingkatan) &&
-                    person.kelas.includes(pilihanDarjah) &&
-                    person.kelas.includes(pilihanKelasDarjah) &&
-                    person.kelas.includes(pilihanKelasTingkatan)
+                  (person) => person.namaSekolah.includes(pilihanSekolah)
+                  // person.kelas.includes(pilihanTingkatan) &&
+                  // person.kelas.includes(pilihanDarjah) &&
+                  // person.kelas.includes(pilihanKelasDarjah) &&
+                  // person.kelas.includes(pilihanKelasTingkatan)
                 )
                 .map((singlePersonSekolah, index) => {
                   return (

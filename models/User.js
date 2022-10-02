@@ -7,12 +7,10 @@ const emailGen = require('../lib/emailgen');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    // required: [true, 'Please provide username'],
     unique: true,
   },
   accountType: {
     type: String,
-    // required: [true, 'Please provide account type'],
     enum: {
       values: [
         'kpUser',
@@ -28,25 +26,19 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // required: [true, 'Please provide password'],
     minlength: 6,
   },
   negeri: {
     type: String,
-    // required: [true, 'Please provide negeri'],
   },
   daerah: {
     type: String,
-    // required: [true, 'Please provide daerah'],
   },
   kp: {
     type: String,
-    // required: [true, 'Please provide KP'],
   },
   email: {
     type: String,
-    // required: [true, 'Please provide email'],
-    unique: true,
   },
 
   // this is klinik
@@ -86,7 +78,12 @@ UserSchema.pre('save', async function () {
       // this.password = await bcryptjs.hash(this.password, salt);
       const negeriNum = emailGen[this.negeri].kodNegeri;
       const daerahNum = emailGen[this.negeri].daerah[this.daerah];
-      const randomString = generateRandomString(6);
+      let acronym = '';
+      const simplifiedKlinikName = this.kp.split(' ');
+      for (let i = 0; i < simplifiedKlinikName.length; i++) {
+        acronym += simplifiedKlinikName[i].charAt(0);
+      }
+      const randomString = generateRandomString(8);
       this.password = randomString;
       let currentRunningNumber = await Runningnumber.findOne({
         jenis: 'kp',
@@ -100,13 +97,17 @@ UserSchema.pre('save', async function () {
           daerah: this.daerah,
           runningnumber: 1,
         });
-        const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${newRunningNumber.runningnumber}`;
+        const username = `${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+          newRunningNumber.runningnumber
+        }`;
         this.username = username;
       }
       if (currentRunningNumber) {
         currentRunningNumber.runningnumber += 1;
         await currentRunningNumber.save();
-        const username = `${this.kodFasiliti}${negeriNum}${daerahNum}${currentRunningNumber.runningnumber}`;
+        const username = `${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+          currentRunningNumber.runningnumber
+        }`;
         this.username = username;
       }
       console.log('updateRunningNumber');
