@@ -12,6 +12,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     readSekolahData,
     readKpData,
     pingApdmServer,
+    readPegawaiData,
     readMdtbData,
     readFasilitiData,
   } = useGlobalAdminAppContext();
@@ -38,6 +39,8 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const [addingData, setAddingData] = useState(false);
   // MDTB
   const [mdtbMembers, setMdtbMembers] = useState([]);
+  // pp sedia ada
+  const [allPegawai, setAllPegawai] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,6 +125,12 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       });
       readSekolahData(FType).then((res) => {
         setSekolah(res);
+      });
+    }
+    if (FType === 'pp') {
+      readPegawaiData().then((res) => {
+        console.log(res);
+        setAllPegawai(res);
       });
     }
     if (FType === 'jp') {
@@ -395,16 +404,31 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     </p>
                     {FType === 'pp' && (
                       <div className='grid gap-1'>
-                        <input
-                          required
-                          className='border-2'
-                          type='text'
-                          name='Nama'
-                          id='nama'
-                          onChange={(e) =>
-                            (currentName.current = e.target.value)
-                          }
-                        />
+                        <select
+                          className='border-2 max-w-sm'
+                          onChange={(e) => {
+                            const selectedPp = allPegawai.find(
+                              (p) => p.mdcNumber === parseInt(e.target.value)
+                            );
+                            console.log(selectedPp);
+                            currentName.current = selectedPp.nama;
+                            currentRegNumber.current = selectedPp.mdcNumber;
+                            currentGred.current = selectedPp.gred;
+                          }}
+                        >
+                          <option key='no-value' value=''>
+                            Pilih Pegawai...
+                          </option>
+                          {allPegawai.map((p) => (
+                            <option
+                              className='capitalize'
+                              key={p.bil}
+                              value={p.mdcNumber}
+                            >
+                              {p.nama}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     )}
                     {FType === 'jp' && (
@@ -431,7 +455,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         </select>
                       </div>
                     )}
-                    {FType === 'pp' && (
+                    {/* {FType === 'pp' && (
                       <>
                         <p>
                           Nombor MDC{' '}
@@ -452,7 +476,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                           />
                         </div>
                       </>
-                    )}
+                    )} */}
                     {/* {FType === 'jp' && mdtbMembers && (
                       <>
                         <p>
@@ -469,13 +493,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       </>
                     )} */}
                     <div className='grid gap-1'>
-                      <p>
-                        Gred{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      {FType === 'pp' && (
+                      {FType === 'nantilahitu' && (
                         <select
                           required
                           className='border-2'
@@ -494,20 +512,28 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         </select>
                       )}
                       {FType === 'jp' && (
-                        <select
-                          required
-                          className='border-2'
-                          onChange={(e) =>
-                            (currentGred.current = e.target.value)
-                          }
-                        >
-                          <option value=''>Pilih Gred</option>
-                          <option value='u40'>U40</option>
-                          <option value='u38'>U38</option>
-                          <option value='u36'>U36</option>
-                          <option value='u32'>U32</option>
-                          <option value='u29'>U29</option>
-                        </select>
+                        <>
+                          <p>
+                            Gred{' '}
+                            <span className='font-semibold text-lg text-user6'>
+                              *
+                            </span>
+                          </p>
+                          <select
+                            required
+                            className='border-2'
+                            onChange={(e) =>
+                              (currentGred.current = e.target.value)
+                            }
+                          >
+                            <option value=''>Pilih Gred</option>
+                            <option value='u40'>U40</option>
+                            <option value='u38'>U38</option>
+                            <option value='u36'>U36</option>
+                            <option value='u32'>U32</option>
+                            <option value='u29'>U29</option>
+                          </select>
+                        </>
                       )}
                     </div>
                     <div className='grid gap-1'>

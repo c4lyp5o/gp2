@@ -20,7 +20,7 @@ function AdminNavbar() {
         <div className='grid mb-10'>
           <NavLink
             className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-            to='/admin/landing'
+            to='/pentadbir/landing'
             onClick={() => setShowLinks(!showLinks)}
           >
             PAPARAN UTAMA

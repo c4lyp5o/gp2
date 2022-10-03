@@ -14,7 +14,7 @@ function AdminHeader() {
       </div>
       <div className='grid grid-rows-2 text-2xl font-bold text-center'>
         <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
-        <h1>ADMIN</h1>
+        <h1>PENTADBIR</h1>
       </div>
     </div>
   );
