@@ -114,7 +114,7 @@ export default function AdminLoginForm() {
           });
           setToken(response.data.adminToken);
           setLoggingIn(false);
-          navigate('/admin/landing');
+          navigate('/pentadbir/landing');
         } catch (error) {
           toast.error(error.response.data.message);
           setLoggingIn(false);

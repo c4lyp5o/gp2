@@ -4,8 +4,13 @@ function AdminFooter() {
       <span className='text-left ml-1 my-1 text-xs'>hak cipta kkm</span>
       <span className='text-right mr-1 my-1 text-xs'>
         helpdesk:
-        <a href='#'> emel</a> /<a href='#'> phone</a> /
-        <a href='#'> link ke borang pertanyaan</a>
+        <a
+          className='text-admin2 underline'
+          href='https://forms.gle/v9P7w9qweTX86Nxn8'
+        >
+          {' '}
+          borang maklumbalas
+        </a>
       </span>
     </div>
   );

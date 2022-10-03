@@ -58,9 +58,9 @@ function App() {
         <AdminAppProvider>
           <Routes>
             {/* admin */}
-            <Route path='/admin' element={<AdminLoginForm />} />
+            <Route path='/pentadbir' element={<AdminLoginForm />} />
             <Route
-              path='/admin/landing/*'
+              path='/pentadbir/landing/*'
               element={
                 <AdminProtectedRoute>
                   <AdminAfterLogin />
