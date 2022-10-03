@@ -171,6 +171,25 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // read pegawai data
+
+  const readPegawaiData = async () => {
+    const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
+    const currentPegawai = await readData('pp');
+    if (currentPegawai.data.length === 0) {
+      console.log('no pegawai');
+      return response.data;
+    }
+    console.log('current pegawai', currentPegawai.data);
+    for (let j = 0; j < currentPegawai.data.length; j++) {
+      const deletePegawai = response.data
+        .map((e) => e.mdcNumber)
+        .indexOf(currentPegawai.data[j].mdcNumber);
+      response.data.splice(deletePegawai, 1);
+    }
+    return response.data;
+  };
+
   // get mdtb data
 
   const readMdtbData = async () => {
@@ -239,6 +258,7 @@ function AdminAppProvider({ children }) {
         readData,
         readOneData,
         readSekolahData,
+        readPegawaiData,
         readMdtbData,
         readFasilitiData,
         readKpData,
