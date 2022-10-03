@@ -23,6 +23,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
   const currentRisiko = useRef();
   const [editedEntity, setEditedEntity] = useState([]);
   const [klinik, setKlinik] = useState([]);
+  const [statusPerkhidmatan, setStatusPerkhidmatan] = useState('');
   const [loading, setLoading] = useState(true);
   const [editingData, setEditingData] = useState(false);
 
@@ -75,13 +76,12 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         statusPerkhidmatan: currentStatusPerkhidmatan.current,
       };
     }
-    // if (FType === 'sr' || FType === 'sm') {
-    //   Data = {
-    //     ...Data,
-    //     kodSekolah: currentKodSekolah.current,
-    //     risikoSekolahPersis: currentRisiko.current,
-    //   };
-    // }
+    if (FType === 'sr' || FType === 'sm') {
+      Data = {
+        ...Data,
+        risikoSekolahPersis: currentRisiko.current,
+      };
+    }
     console.log(Data);
     updateData(FType, id, Data).then((res) => {
       console.log(res);
@@ -480,6 +480,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                   <select
                     required
                     className='border-2'
+                    value={editedEntity.risikoSekolahPersis}
                     onChange={(e) => (currentRisiko.current = e.target.value)}
                   >
                     <option value=''>Pilih Risiko</option>
@@ -487,6 +488,37 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     <option value='tinggi'>Tinggi</option>
                   </select>
                 )}
+                <p>Status {Dictionary[FType]}</p>
+                <div className='grid grid-cols-2'>
+                  <label htmlFor='nama'>Aktif</label>
+                  <input
+                    required
+                    checked={
+                      editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    id='act-stat'
+                    name='checkbox'
+                    value='active'
+                    onChange={(e) => setStatusPerkhidmatan(e.target.value)}
+                  />
+                  <label htmlFor='nama'>Tidak Aktif</label>
+                  <input
+                    required
+                    checked={
+                      editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    id='act-stat'
+                    name='checkbox'
+                    value='non-active'
+                    onChange={(e) => setStatusPerkhidmatan(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
             <div className={styles.modalActions}>
