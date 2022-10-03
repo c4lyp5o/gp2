@@ -13,15 +13,9 @@ function UserSekolah() {
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahun, setTahun] = useState([]);
   const [namaKelas, setNamaKelas] = useState([]);
-  // const [darjah, setDarjah] = useState([]);
-  // const [tingkatan, setTingkatan] = useState([]);
-  // const [namaKelasDarjah, setNamaKelasDarjah] = useState([]);
-  // const [namaKelasTingkatan, setNamaKelasTingkatan] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanDarjah, setPilihanDarjah] = useState('');
-  const [pilihanTingkatan, setPilihanTingkatan] = useState('');
-  const [pilihanKelasDarjah, setPilihanKelasDarjah] = useState('');
-  const [pilihanKelasTingkatan, setPilihanKelasTingkatan] = useState('');
+  const [pilihanTahun, setPilihanTahun] = useState([]);
+  const [pilihanNamaKelas, setPilihanNamaKelas] = useState([]);
 
   // init fetch allPersonSekolahs
   useEffect(() => {
@@ -41,71 +35,28 @@ function UserSekolah() {
           },
           ['']
         );
-        // const tahun = allPersonSekolahs.reduce(
-        //   (arrTahun, singlePersonSekolah) => {
-        //     if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-        //       arrTahun.push(singlePersonSekolah.tahun);
-        //     }
-        //     return arrTahun.filter((valid) => valid);
-        //   }
-        // );
-        // const namaKelas = allPersonSekolahs.reduce(
-        //   (arrNamaKelas, singlePersonSekolah) => {
-        //     if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-        //       arrNamaKelas.push(singlePersonSekolah.namaKelas);
-        //     }
-        //     return arrNamaKelas.filter((valid) => valid);
-        //   }
-        // );
-        // const darjah = allPersonSekolahs.reduce(
-        //   (arrDarjah, singlePersonSekolah) => {
-        //     if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
-        //       arrDarjah.push(singlePersonSekolah.darjah);
-        //     }
-        //     return arrDarjah.filter((valid) => valid);
-        //   },
-        //   ['']
-        // );
-        // const tingkatan = allPersonSekolahs.reduce(
-        //   (arrTingkatan, singlePersonSekolah) => {
-        //     if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
-        //       arrTingkatan.push(singlePersonSekolah.tingkatan);
-        //     }
-        //     return arrTingkatan.filter((valid) => valid);
-        //   },
-        //   ['']
-        // );
-        // const namaKelasDarjah = allPersonSekolahs
-        //   .filter((person) => person.darjah)
-        //   .reduce(
-        //     (arrNamaKelas, singlePersonSekolah) => {
-        //       if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-        //         arrNamaKelas.push(singlePersonSekolah.kelas);
-        //       }
-        //       return arrNamaKelas.filter((valid) => valid);
-        //     },
-        //     ['']
-        //   );
-        // const namaKelasTingkatan = allPersonSekolahs
-        //   .filter((person) => person.tingkatan)
-        //   .reduce(
-        //     (arrNamaKelas, singlePersonSekolah) => {
-        //       if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-        //         arrNamaKelas.push(singlePersonSekolah.kelas);
-        //       }
-        //       return arrNamaKelas.filter((valid) => valid);
-        //     },
-        //     ['']
-        //   );
-
+        const tahun = allPersonSekolahs.reduce(
+          (arrTahun, singlePersonSekolah) => {
+            if (!arrTahun.includes(singlePersonSekolah.tahun)) {
+              arrTahun.push(singlePersonSekolah.tahun);
+            }
+            return arrTahun.filter((valid) => valid);
+          },
+          ['']
+        );
+        const namaKelas = allPersonSekolahs.reduce(
+          (arrNamaKelas, singlePersonSekolah) => {
+            if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
+              arrNamaKelas.push(singlePersonSekolah.namaKelas);
+            }
+            return arrNamaKelas.filter((valid) => valid);
+          },
+          ['']
+        );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
-        // setTahun(tahun);
-        // setNamaKelas(namaKelas);
-        // setDarjah(darjah);
-        // setTingkatan(tingkatan);
-        // setNamaKelasDarjah(namaKelasDarjah);
-        // setNamaKelasTingkatan(namaKelasTingkatan);
+        setTahun(tahun);
+        setNamaKelas(namaKelas);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -116,108 +67,62 @@ function UserSekolah() {
 
   // reset value
   useEffect(() => {
-    setPilihanDarjah('');
-    setPilihanTingkatan('');
-    setPilihanKelasDarjah('');
-    setPilihanKelasTingkatan('');
+    setPilihanTahun('');
+    setPilihanNamaKelas('');
   }, [pilihanSekolah]);
 
-  useEffect(() => {
-    setPilihanTingkatan('');
-    setPilihanKelasDarjah('');
-    setPilihanKelasTingkatan('');
-  }, [pilihanDarjah]);
-
-  useEffect(() => {
-    setPilihanDarjah('');
-    setPilihanKelasDarjah('');
-    setPilihanKelasTingkatan('');
-  }, [pilihanTingkatan]);
-
-  useEffect(() => {
-    setPilihanKelasTingkatan('');
-  }, [pilihanKelasDarjah]);
-
-  useEffect(() => {
-    setPilihanKelasDarjah('');
-  }, [pilihanKelasTingkatan]);
-
-  // const reloadData = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const { data } = await axios.get('/api/v1/sekolah/populate', {
-  //       headers: { Authorization: `Bearer ${userToken}` },
-  //     });
-  //     const allPersonSekolahs = data.allPersonSekolahs;
-  //     const namaSekolahs = allPersonSekolahs.reduce(
-  //       (arrNamaSekolahs, singlePersonSekolah) => {
-  //         if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-  //           arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-  //         }
-  //         return arrNamaSekolahs.filter((valid) => valid);
-  //       },
-  //       ['']
-  //     );
-  //     const darjah = allPersonSekolahs.reduce(
-  //       (arrDarjah, singlePersonSekolah) => {
-  //         if (!arrDarjah.includes(singlePersonSekolah.darjah)) {
-  //           arrDarjah.push(singlePersonSekolah.darjah);
-  //         }
-  //         return arrDarjah.filter((valid) => valid);
-  //       },
-  //       ['']
-  //     );
-  //     const tingkatan = allPersonSekolahs.reduce(
-  //       (arrTingkatan, singlePersonSekolah) => {
-  //         if (!arrTingkatan.includes(singlePersonSekolah.tingkatan)) {
-  //           arrTingkatan.push(singlePersonSekolah.tingkatan);
-  //         }
-  //         return arrTingkatan.filter((valid) => valid);
-  //       },
-  //       ['']
-  //     );
-  //     const namaKelasDarjah = allPersonSekolahs
-  //       .filter((person) => person.darjah)
-  //       .reduce(
-  //         (arrNamaKelas, singlePersonSekolah) => {
-  //           if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-  //             arrNamaKelas.push(singlePersonSekolah.kelas);
-  //           }
-  //           return arrNamaKelas.filter((valid) => valid);
-  //         },
-  //         ['']
-  //       );
-  //     const namaKelasTingkatan = allPersonSekolahs
-  //       .filter((person) => person.tingkatan)
-  //       .reduce(
-  //         (arrNamaKelas, singlePersonSekolah) => {
-  //           if (!arrNamaKelas.includes(singlePersonSekolah.kelas)) {
-  //             arrNamaKelas.push(singlePersonSekolah.kelas);
-  //           }
-  //           return arrNamaKelas.filter((valid) => valid);
-  //         },
-  //         ['']
-  //       );
-  //     setAllPersonSekolahs(data.allPersonSekolahs);
-  //     setNamaSekolahs(namaSekolahs);
-  //     setDarjah(darjah);
-  //     setTingkatan(tingkatan);
-  //     setNamaKelasDarjah(namaKelasDarjah);
-  //     setNamaKelasTingkatan(namaKelasTingkatan);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const reloadData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get('/api/v1/sekolah/populate', {
+        headers: { Authorization: `Bearer ${userToken}` },
+      });
+      const allPersonSekolahs = data.allPersonSekolahs;
+      const namaSekolahs = allPersonSekolahs.reduce(
+        (arrNamaSekolahs, singlePersonSekolah) => {
+          if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+            arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+          }
+          return arrNamaSekolahs.filter((valid) => valid);
+        },
+        ['']
+      );
+      const tahun = allPersonSekolahs.reduce(
+        (arrTahun, singlePersonSekolah) => {
+          if (!arrTahun.includes(singlePersonSekolah.tahun)) {
+            arrTahun.push(singlePersonSekolah.tahun);
+          }
+          return arrTahun.filter((valid) => valid);
+        },
+        ['']
+      );
+      const namaKelas = allPersonSekolahs.reduce(
+        (arrNamaKelas, singlePersonSekolah) => {
+          if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
+            arrNamaKelas.push(singlePersonSekolah.namaKelas);
+          }
+          return arrNamaKelas.filter((valid) => valid);
+        },
+        ['']
+      );
+      setAllPersonSekolahs(data.allPersonSekolahs);
+      setNamaSekolahs(namaSekolahs);
+      setTahun(tahun);
+      setNamaKelas(namaKelas);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // on tab focus reload data
-  // useEffect(() => {
-  //   window.addEventListener('focus', reloadData);
-  //   reloadData();
-  //   return () => {
-  //     window.removeEventListener('focus', reloadData);
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.addEventListener('focus', reloadData);
+    reloadData();
+    return () => {
+      window.removeEventListener('focus', reloadData);
+    };
+  }, []);
 
   return (
     <>
@@ -247,6 +152,56 @@ function UserSekolah() {
               );
             })}
           </select>
+          {pilihanSekolah && (
+            <>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Tahun</p>
+              <select
+                value={pilihanTahun}
+                onChange={(e) => {
+                  setPilihanTahun(e.target.value);
+                }}
+                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                {tahun.map((singleTahun, index) => {
+                  return (
+                    <option
+                      value={singleTahun}
+                      key={index}
+                      className='capitalize'
+                    >
+                      {singleTahun}
+                    </option>
+                  );
+                })}
+              </select>
+            </>
+          )}
+          {pilihanTahun && (
+            <>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Kelas</p>
+              <select
+                value={pilihanNamaKelas}
+                onChange={(e) => {
+                  setPilihanNamaKelas(e.target.value);
+                }}
+                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                {namaKelas.map((singleNamaKelas, index) => {
+                  return (
+                    <option
+                      value={singleNamaKelas}
+                      key={index}
+                      className='capitalize'
+                    >
+                      {singleNamaKelas}
+                    </option>
+                  );
+                })}
+              </select>
+            </>
+          )}
           {/* {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
             <>
               <p className='flex flex-row pl-5 lg:pl-12 p-2'>Darjah</p>
@@ -401,7 +356,10 @@ function UserSekolah() {
               pilihanSekolah &&
               allPersonSekolahs
                 .filter(
-                  (person) => person.namaSekolah.includes(pilihanSekolah)
+                  (person) =>
+                    person.namaSekolah.includes(pilihanSekolah) &&
+                    person.tahun.includes(pilihanTahun) &&
+                    person.namaKelas.includes(pilihanNamaKelas)
                   // person.kelas.includes(pilihanTingkatan) &&
                   // person.kelas.includes(pilihanDarjah) &&
                   // person.kelas.includes(pilihanKelasDarjah) &&

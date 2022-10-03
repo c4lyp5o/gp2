@@ -5107,6 +5107,313 @@ exports.testFunctionPG211 = function (req, res) {
     }
   );
 };
+exports.testFunctionPPIM04 = function (req, res) {
+  //PPIM 03
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      resultPPIM03: function (callback) {
+        Sekolah.aggregate(
+          [
+            {
+              $match: {
+                $eq: [
+                  '$baruUlanganKedatanganPendaftaran',
+                  'baru-kedatangan-pendaftaran',
+                ],
+                //{ $lt: ['$umur', 1] }, Kena asingkan sama ada darjah atau tingkatan
+              },
+            },
+            {
+              $group: {
+                _id: '$namaSekolah',
+
+                perokokLelakiMelayu: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'melayu'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokLelakiCina: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'cina'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokLelakiIndia: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'india'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                perokokLelakiLainLain: {
+                  // lain-lain di sini
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          ////  kena tapiskan untuk lain2 { $eq: ['$bangsa', 'lainlain'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                perokokPerempuanMelayu: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'melayu'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokPerempuanCina: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'cina'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                perokokPerempuanIndia: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$bangsa', 'india'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                perokokPerempuanLainLain: {
+                  // lain-lain di sini
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          ////  kena tapiskan untuk lain2 { $eq: ['$bangsa', 'lainlain'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                jenisRokokBiasa: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$jenisR', 'rokokB'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                jenisRokokElektronik: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$jenisR', 'elektronik'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                jenisRokokShisha: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$jenisR', 'shisha'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                jenisRokokLainLain: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $eq: ['$jenisR', 'lain2'],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                bekasPerokokLelaki: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'bekasPerokok'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                bekasPerokokPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'bekasPerokok'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                perokokPasifLelaki: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'perokokPasif'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                perokokPasifPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'perokokPasif'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                bukanPerokokLelaki: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'lelaki'] },
+                          { $eq: ['$statusM', 'bukanPerokok'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                bukanPerokokPerempuan: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$jantina:', 'perempuan'] },
+                          { $eq: ['$statusM', 'bukanPerokok'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
 exports.testFunctionPPIM05 = function (req, res) {
   //PPIM 05
   async.parallel(
@@ -5319,6 +5626,186 @@ exports.testFunctionCPPC2 = function (req, res) {
                 },
                 cIstatus: {
                   $sum: ['$classID', 'classIF'],
+                },
+              },
+            },
+          ],
+          callback
+        );
+      },
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+    },
+    async function (err, results) {
+      {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({
+            message: 'Error when getting Data',
+            error: err,
+          });
+        }
+        console.log(results);
+        return res.json(results);
+      }
+    }
+  );
+};
+exports.testFunctionPG206 = function (req, res) {
+  async.parallel(
+    {
+      // break line to add more aggregate. please add this break line if you are using multiple aggregate
+      result206FFR: function (callback) {
+        Sekolah.aggregate(
+          [
+            { $match: {} }, /// match mengikut kategori pesakit
+            {
+              $group: {
+                _id: '$namaSekolah',
+                kedatanganTahunSemasa: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ['$baruUlanganKedatanganPendaftaran', true] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                sapuanFluorida: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $or: [
+                          { $gte: ['$baruJumlahGigiKekalDiberiFv', 1] },
+                          { $gte: ['$semulaJumlahGigiKekalDiberiFv', 1] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                prrJenis1: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $or: [
+                          { $gte: ['$baruUlanganKedatanganPendaftaran', true] },
+                          {
+                            $gte: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 1],
+                          },
+                          { $gte: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                /*
+                muridBaruFS: {         murid baru & ulangan fissue sealan fissure perlu variable untuk rujukan
+                  $sum: {
+                    $cond: [
+                      {
+                        $or: [
+                          { $gte: ['$baruJumlahGigiKekalDiberiPrrJenis1', 1] },
+                          {
+                            $gte: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 1],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },*/
+                gigiBaruFS: { $sum: '$baruJumlahGigiKekalDibuatFs' },
+                gigiUlanganFS: { $sum: '$semulaJumlahGigiKekalDibuatFs' },
+
+                tampalanAntGdBaru: {
+                  $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+                },
+                tampalanAntGdUlangan: {
+                  $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                },
+
+                tampalanAntGkBaru: {
+                  $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                },
+                tampalanAntGkUlangan: {
+                  $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                },
+
+                tampalanPostGdBaru: {
+                  $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                },
+                tampalanPostGdUlangan: {
+                  $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                },
+
+                tampalanPostGkBaru: {
+                  $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+                },
+                tampalanPostGkUlangan: {
+                  $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+                },
+
+                tampalanPostAmgGdBaru: {
+                  $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+                },
+                tampalanPostAmgGdUlangan: {
+                  $sum: '$GdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                },
+
+                tampalanPostAmgGkBaru: {
+                  $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+                },
+                tampalanPostAmgGkUlangan: {
+                  $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+                },
+
+                tampalanSementara: {
+                  $sum: '$jumlahTampalanSementaraPenyataAkhir2',
+                },
+
+                cabutanGd: {
+                  $sum: '$cabutDesidusPenyataAkhir2',
+                },
+
+                cabutanGk: {
+                  $sum: '$cabutKekalPenyataAkhir2',
+                },
+
+                penskaleran: {
+                  $sum: '$penskaleranPenyataAkhir2',
+                },
+                kesSelesai: {
+                  $sum: '$kesSelesaiPenyataAkhir2',
+                },
+
+                rokokSaringNasihat: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $or: [
+                          { $eq: ['$statusM', 'perokokSemasa'] },
+                          { $eq: ['$statusM', 'bekasPerokok'] },
+                          { $eq: ['$statusM', 'perokokPasif'] },
+                          { $eq: ['$statusM', 'bukanPerokok'] },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+                rokokIntervensi: {
+                  $sum: '$kesSelesaiPenyataAkhir2', // Kira berapa tarikh diisi yang telah diisi
                 },
               },
             },

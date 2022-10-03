@@ -285,6 +285,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     <div className='grid grid-cols-4 gap-1'>
                       <label htmlFor='nama'>KEPP</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -293,6 +294,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>UTC</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -301,6 +303,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>RTC</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -309,6 +312,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       />
                       <label htmlFor='nama'>Visiting</label>
                       <input
+                        required
                         type='radio'
                         id='role'
                         name='checkbox'
@@ -320,6 +324,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                           Bukan pilihan di atas
                         </label>
                         <input
+                          required
                           type='radio'
                           id='role'
                           name='checkbox'
@@ -731,7 +736,9 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                   <div className='grid grid-cols-2'>
                     <label htmlFor='nama'>Aktif</label>
                     <input
-                      type='checkbox'
+                      required
+                      type='radio'
+                      id='act-stat'
                       name='checkbox'
                       value='active'
                       onChange={(e) =>
@@ -740,7 +747,9 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     />
                     <label htmlFor='nama'>Tidak Aktif</label>
                     <input
-                      type='checkbox'
+                      required
+                      type='radio'
+                      id='act-stat'
                       name='checkbox'
                       value='non-active'
                       onChange={(e) =>
