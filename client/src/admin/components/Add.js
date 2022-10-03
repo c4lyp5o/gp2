@@ -736,7 +736,9 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                   <div className='grid grid-cols-2'>
                     <label htmlFor='nama'>Aktif</label>
                     <input
-                      type='checkbox'
+                      required
+                      type='radio'
+                      id='act-stat'
                       name='checkbox'
                       value='active'
                       onChange={(e) =>
@@ -745,7 +747,9 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                     />
                     <label htmlFor='nama'>Tidak Aktif</label>
                     <input
-                      type='checkbox'
+                      required
+                      type='radio'
+                      id='act-stat'
                       name='checkbox'
                       value='non-active'
                       onChange={(e) =>

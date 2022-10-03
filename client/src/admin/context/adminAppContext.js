@@ -184,7 +184,7 @@ function AdminAppProvider({ children }) {
     for (let j = 0; j < currentPegawai.data.length; j++) {
       const deletePegawai = response.data
         .map((e) => e.mdcNumber)
-        .indexOf(currentPegawai.data[j].mdcNumber);
+        .indexOf(parseInt(currentPegawai.data[j].mdcNumber));
       response.data.splice(deletePegawai, 1);
     }
     return response.data;
