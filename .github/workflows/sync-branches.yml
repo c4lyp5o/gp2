@@ -5,7 +5,7 @@ on:
       - unstable-nightly
 
 jobs:
-  sync-branch-admin-id-sekolah:
+  sync-branch-nocturnalmc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,7 +22,7 @@ jobs:
           FROM_BRANCH: 'unstable-nightly'
           TO_BRANCH: 'nocturnalmc'
           LABELS: '["automerge"]'
-  sync-branch-admin-overhaul:
+  sync-branch-c4lyp5o:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,7 +39,7 @@ jobs:
           FROM_BRANCH: 'unstable-nightly'
           TO_BRANCH: 'c4lyp5o'
           LABELS: '["automerge"]'
-  sync-branch-erkm-integration:
+  sync-branch-Dvachini:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -56,7 +56,7 @@ jobs:
           FROM_BRANCH: 'unstable-nightly'
           TO_BRANCH: 'Dvachini'
           LABELS: '["automerge"]'
-  sync-branch-generate-debug:
+  sync-branch-hadigit01:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,7 +73,7 @@ jobs:
           FROM_BRANCH: 'unstable-nightly'
           TO_BRANCH: 'hadigit01'
           LABELS: '["automerge"]'
-  sync-branch-landing-selection:
+  sync-branch-Xarrenleong:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
