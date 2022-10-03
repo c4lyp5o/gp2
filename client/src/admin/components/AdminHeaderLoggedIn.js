@@ -21,7 +21,7 @@ function AdminHeaderLoggedIn({ user, daerah }) {
         </div>
         <div className='grid grid-rows-2 text-2xl font-bold text-center'>
           <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
-          <h1>ADMIN</h1>
+          <h1>PENTADBIR</h1>
         </div>
         <div className='admin-header-logged-in-container'>
           <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
@@ -40,7 +40,7 @@ function AdminHeaderLoggedIn({ user, daerah }) {
               className='p-1 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all'
               onClick={() => {
                 catchAxiosErrorAndLogout();
-                navigate('/admin');
+                navigate('/pentadbir');
               }}
             >
               LOG KELUAR
