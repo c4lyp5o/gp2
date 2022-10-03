@@ -104,7 +104,8 @@ exports.getData = async (req, res, next) => {
             ) {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
-                dataGeografik,
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
               });
               return res.status(200).json(data);
             }
