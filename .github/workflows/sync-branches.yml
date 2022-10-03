@@ -5,7 +5,7 @@ on:
       - unstable-nightly
 
 jobs:
-  sync-branch-admin-id-sekolah:
+  sync-branch-nocturnalmc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,9 +20,9 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'admin-id-sekolah'
+          TO_BRANCH: 'nocturnalmc'
           LABELS: '["automerge"]'
-  sync-branch-admin-overhaul:
+  sync-branch-c4lyp5o:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,9 +37,9 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'admin-overhaul'
+          TO_BRANCH: 'c4lyp5o'
           LABELS: '["automerge"]'
-  sync-branch-erkm-integration:
+  sync-branch-Dvachini:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,9 +54,9 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'erkm-integration'
+          TO_BRANCH: 'Dvachini'
           LABELS: '["automerge"]'
-  sync-branch-generate-debug:
+  sync-branch-hadigit01:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -71,9 +71,9 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'generate-debug'
+          TO_BRANCH: 'hadigit01'
           LABELS: '["automerge"]'
-  sync-branch-landing-selection:
+  sync-branch-Xarrenleong:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -88,73 +88,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'landing-selection'
-          LABELS: '["automerge"]'
-  sync-branch-overhaul-sekolah:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Opening pull request
-        id: pull
-        uses: nocturnalmc/sync-branches@v1.5.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'overhaul-sekolah'
-          LABELS: '["automerge"]'
-  sync-branch-responsive:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Opening pull request
-        id: pull
-        uses: nocturnalmc/sync-branches@v1.5.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'responsive'
-          LABELS: '["automerge"]'
-  sync-branch-status-harian:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Opening pull request
-        id: pull
-        uses: nocturnalmc/sync-branches@v1.5.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'status-harian'
-          LABELS: '["automerge"]'
-  sync-branch-umum-kaunter-overhaul:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Opening pull request
-        id: pull
-        uses: nocturnalmc/sync-branches@v1.5.0
-        with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'umum-kaunter-overhaul'
+          TO_BRANCH: 'Xarrenleong'
           LABELS: '["automerge"]'
