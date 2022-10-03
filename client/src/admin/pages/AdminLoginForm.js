@@ -130,7 +130,7 @@ export default function AdminLoginForm() {
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
             <h3 className='text-xl font-semibold mt-10'>
-              sila masukkan ID admin
+              sila masukkan ID pendatbir
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
