@@ -47,15 +47,16 @@ function userIDBox({ setUserName, showUserIDBox }) {
 }
 
 function passwordBox({ setPassword, showPasswordBox, showTempPass }) {
+  console.log(showTempPass);
   if (showPasswordBox === true) {
     return (
       <div>
         <h3 className='text-xl font-semibold mt-10'>
           sila masukkan Key verifikasi
         </h3>
-        <p className='text-admin2 lowercase'>
+        {/* <p className='text-admin2 lowercase'>
           Password sementara (copypaste ke box password): {showTempPass}
-        </p>
+        </p> */}
         <input
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
           type='password'
