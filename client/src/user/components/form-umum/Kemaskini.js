@@ -150,6 +150,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setNoOku(data.singlePersonUmum.noOku);
         setStatusPesara(data.singlePersonUmum.statusPesara);
         setRujukDaripada(data.singlePersonUmum.rujukDaripada);
+        setCatatan(data.singlePersonUmum.catatan);
         // kepp
         setKepp(data.singlePersonUmum.kepp);
         setKedatanganKepp(data.singlePersonUmum.kedatanganKepp);
