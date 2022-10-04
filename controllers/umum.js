@@ -43,11 +43,13 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByKp = req.user.kp;
 
   // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-  req.body.ic = encryptedIc;
+  if (req.body.ic) {
+    const encryptedIc = cryptoJs.AES.encrypt(
+      req.body.ic,
+      process.env.CRYPTO_JS_SECRET
+    ).toString();
+    req.body.ic = encryptedIc;
+  }
 
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
     { _id: personUmumId },
