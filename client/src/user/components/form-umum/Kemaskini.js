@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -14,22 +15,29 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
+  const [givenNoPendaftaran, setGivenNoPendaftaran] = useState('');
+  const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
+  const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
-  const [umur, setUmur] = useState('');
-  const [umurBulan, setUmurBulan] = useState('');
+  const [umur, setUmur] = useState(0);
+  const [umurBulan, setUmurBulan] = useState(0);
   const [jantina, setJantina] = useState('');
+  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [alamat, setAlamat] = useState('');
   const [daerahAlamat, setDaerahAlamat] = useState('');
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
-  const [kategoriPesakit, setKategoriPesakit] = useState('');
+  // const [kategoriPesakit, setKategoriPesakit] = useState('');
+  const [ibuMengandung, setIbuMengandung] = useState(false);
+  const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
+  const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
-  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
+  const [catatan, setCatatan] = useState('');
 
   // kepp
   const [kepp, setKepp] = useState(false);
@@ -53,9 +61,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
-  const [engganTaskaTadika, setEngganTaskaTadika] = useState(false);
-  const [tidakHadirTaskaTadika, setTidakHadirTaskaTadika] = useState(false);
-  const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
+  // const [engganTaskaTadika, setEngganTaskaTadika] = useState(false);
+  // const [tidakHadirTaskaTadika, setTidakHadirTaskaTadika] = useState(false);
+  // const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -80,7 +88,8 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
-  const howOldAreYouMyFriend = (date) => {
+  // kira tahun
+  const howOldAreYouMyFriendtahun = (date) => {
     const today = new Date();
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
@@ -88,7 +97,21 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
     const months = Math.floor(days_diff / 30.4167);
     const days = Math.floor(days_diff % 30.4167);
-    return { tahun: years, bulan: months };
+    const values = `${years} years`;
+    return values;
+  };
+
+  // kira bulan
+  const howOldAreYouMyFriendbulan = (date) => {
+    const today = new Date();
+    const dob = new Date(date);
+    const diff = today.getTime() - dob.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const days_diff = Math.floor((diff % 31556736000) / 86400000);
+    const months = Math.floor(days_diff / 30.4167);
+    const days = Math.floor(days_diff % 30.4167);
+    const values = `${months} months`;
+    return values;
   };
 
   const closeModal = () => {
@@ -106,6 +129,8 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setTarikhKedatangan(data.singlePersonUmum.tarikhKedatangan);
         setWaktuSampai(data.singlePersonUmum.waktuSampai);
         setKedatangan(data.singlePersonUmum.kedatangan);
+        setNoPendaftaranBaru(data.singlePersonUmum.noPendaftaranBaru);
+        setNoPendaftaranUlangan(data.singlePersonUmum.noPendaftaranUlangan);
         setNama(data.singlePersonUmum.nama);
         setJenisIc(data.singlePersonUmum.jenisIc);
         setIc(data.singlePersonUmum.ic);
@@ -113,14 +138,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setUmur(data.singlePersonUmum.umur);
         setUmurBulan(data.singlePersonUmum.umurBulan);
         setJantina(data.singlePersonUmum.jantina);
+        setKumpulanEtnik(data.singlePersonUmum.kumpulanEtnik);
         setAlamat(data.singlePersonUmum.alamat);
         setDaerahAlamat(data.singlePersonUmum.daerahAlamat);
         setNegeriAlamat(data.singlePersonUmum.negeriAlamat);
         setPoskodAlamat(data.singlePersonUmum.poskodAlamat);
-        setKategoriPesakit(data.singlePersonUmum.kategoriPesakit);
+        // setKategoriPesakit(data.singlePersonUmum.kategoriPesakit);
+        setIbuMengandung(data.singlePersonUmum.ibuMengandung);
+        setOrangKurangUpaya(data.singlePersonUmum.orangKurangUpaya);
+        setBersekolah(data.singlePersonUmum.bersekolah);
         setNoOku(data.singlePersonUmum.noOku);
         setStatusPesara(data.singlePersonUmum.statusPesara);
-        setKumpulanEtnik(data.singlePersonUmum.kumpulanEtnik);
         setRujukDaripada(data.singlePersonUmum.rujukDaripada);
         // kepp
         setKepp(data.singlePersonUmum.kepp);
@@ -148,9 +176,13 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           data.singlePersonUmum.namaFasilitiTaskaTadika
         );
         setEnrolmenTaskaTadika(data.singlePersonUmum.enrolmenTaskaTadika);
-        setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
-        setTidakHadirTaskaTadika(data.singlePersonUmum.tidakHadirTaskaTadika);
-        setPemeriksaanTaskaTadika(data.singlePersonUmum.pemeriksaanTaskaTadika);
+        // setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
+        // setTidakHadirTaskaTadika(
+        //   data.singlePersonUmum.tidakHadirTaskaTadika
+        // );
+        // setPemeriksaanTaskaTadika(
+        //   data.singlePersonUmum.pemeriksaanTaskaTadika
+        // );
         // ipt / kolej
         setIptKolej(data.singlePersonUmum.iptKolej);
         setIpg(data.singlePersonUmum.ipg);
@@ -188,25 +220,32 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       await axios.patch(
         `/api/v1/umum/${personUmumId}`,
         {
+          jenisFasiliti,
           tarikhKedatangan,
           waktuSampai,
           kedatangan,
-          nama,
+          noPendaftaranBaru,
+          noPendaftaranUlangan,
+          nama: nama.toLowerCase(),
           jenisIc,
           ic,
           tarikhLahir,
           umur,
           umurBulan,
           jantina,
+          kumpulanEtnik,
           alamat,
           daerahAlamat,
           negeriAlamat,
           poskodAlamat,
-          kategoriPesakit,
+          // kategoriPesakit,
+          ibuMengandung,
+          orangKurangUpaya,
+          bersekolah,
           noOku,
           statusPesara,
-          kumpulanEtnik,
           rujukDaripada,
+          catatan,
           // kepp
           kepp,
           kedatanganKepp,
@@ -225,9 +264,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           kelasToddler,
           namaFasilitiTaskaTadika,
           enrolmenTaskaTadika,
-          engganTaskaTadika,
-          tidakHadirTaskaTadika,
-          pemeriksaanTaskaTadika,
+          // engganTaskaTadika,
+          // tidakHadirTaskaTadika,
+          // pemeriksaanTaskaTadika,
           // ipt / kolej
           iptKolej,
           ipg,
@@ -275,16 +314,14 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           <h1 className='bg-user3 font-semibold text-xl'>kemaskini</h1>
         </div>
         <form onSubmit={handleSubmit}>
-          <div>
-            <p className='font-semibold text-user6 text-left mt-3 ml-3'>
-              * required
-            </p>
+          <div className='flex'>
+            <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
             <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
-          <div className='grid'>
-            <div className='flex m-2 ml-auto'>
+          <div className='grid gap-1'>
+            <div className='flex m-2 '>
               <p className='mr-3 font-semibold'>
                 tarikh kedatangan:{' '}
                 <span className='font-semibold text-user6'>*</span>
@@ -300,8 +337,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
-                waktu sampai:{' '}
-                <span className='font-semibold text-user6'>*</span>
+                waktu tiba: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
                 required
@@ -312,7 +348,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 className='outline outline-1 outline-userBlack'
               />
             </div>
-            <div className='flex m-2'>
+            {/* <div className='flex m-2'>
               <div className='flex items-center flex-row '>
                 <p className='font-semibold'>
                   kedatangan <span className='font-semibold text-user6'>*</span>
@@ -355,18 +391,46 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   ulangan
                 </label>
               </div>
-            </div>
+            </div> */}
+            {/* <div className='flex m-2'>
+              <p className='mr-3 text-sm font-semibold flex items-center'>
+                no. pendaftaran{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              {kedatangan === 'baru-kedatangan' && (
+                // auto generate no pendaftaran
+                <input
+                  disabled
+                  type='number'
+                  name='no-pendaftaran-baru'
+                  id='no-pendaftaran-baru'
+                  value={noPendaftaranBaru}
+                  className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+                />
+              )}
+              {kedatangan === 'ulangan-kedatangan' && (
+                <input
+                  type='number'
+                  name='no-pendaftaran-ulangan'
+                  id='no-pendaftaran-ulangan'
+                  value={noPendaftaranUlangan}
+                  onChange={(e) => setNoPendaftaranUlangan(e.target.value)}
+                  className='outline outline-1 outline-userBlack w-16 text-sm font-m'
+                />
+              )}
+            </div> */}
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 nama: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
                 required
-                value={nama.toLowerCase()}
-                onChange={(e) => setNama(e.target.value)}
                 type='text'
-                name='namaUmum'
-                className='capitalize appearance-none w-7/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                id='nama-umum'
+                name='nama-umum'
+                value={nama}
+                onChange={(e) => setNama(e.target.value)}
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
             <div className='flex m-2'>
@@ -376,11 +440,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </p>
               <select
                 required
-                name='pengenalan'
                 id='pengenalan'
+                name='pengenalan'
                 value={jenisIc}
                 onChange={(e) => setJenisIc(e.target.value)}
-                className='mr-3'
+                className='mr-3 outline outline-1 outline-userBlack'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='mykad-mykid'>MyKad / MyKid</option>
@@ -389,15 +453,32 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 <option value='polis'>Polis</option>
                 <option value='sijil-lahir'>Sijil lahir</option>
               </select>
-              <input
-                required
-                value={ic}
-                onChange={(e) => setIc(e.target.value)}
-                type='text'
-                name='ic'
-                placeholder='123456090987'
-                className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
+              {jenisIc === 'mykad-mykid' && (
+                <input
+                  required
+                  type='text'
+                  name='ic'
+                  pattern='[0-9]+'
+                  title='12 numbers MyKad / MyKid'
+                  minLength={12}
+                  maxLength={12}
+                  value={ic}
+                  onChange={(e) => setIc(e.target.value)}
+                  placeholder='123456090987'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              )}
+              {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
+                <input
+                  required
+                  type='text'
+                  name='ic'
+                  value={ic}
+                  onChange={(e) => setIc(e.target.value)}
+                  placeholder='123456121234'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              )}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -409,10 +490,14 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 value={tarikhLahir}
                 onChange={(e) => {
                   setTarikhLahir(e.target.value);
-                  setUmur(howOldAreYouMyFriend(e.target.value));
+                  setUmur(parseInt(howOldAreYouMyFriendtahun(e.target.value)));
+                  setUmurBulan(
+                    parseInt(howOldAreYouMyFriendbulan(e.target.value))
+                  );
                 }}
                 type='date'
                 name='tarikhLahir'
+                className='outline outline-1 outline-userBlack'
               />
             </div>
             <div className='flex m-2'>
@@ -442,127 +527,15 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </p>
               <select
                 required
-                value={jantina}
                 name='jantina'
                 id='jantina'
+                value={jantina}
                 onChange={(e) => setJantina(e.target.value)}
+                className='outline outline-1 outline-userBlack'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='lelaki'>Lelaki</option>
                 <option value='perempuan'>Perempuan</option>
-              </select>
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                alamat: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={alamat}
-                onChange={(e) => setAlamat(e.target.value)}
-                type='text'
-                name='alamat'
-                className='appearance-none w-10/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                daerah: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={daerahAlamat}
-                onChange={(e) => setDaerahAlamat(e.target.value)}
-                type='text'
-                name='daerah-alamat'
-                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                negeri: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={negeriAlamat}
-                onChange={(e) => setNegeriAlamat(e.target.value)}
-                type='text'
-                name='negeri-alamat'
-                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                poskod: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                type='text'
-                name='poskod-alamat'
-                pattern='[0-9]+'
-                title='5 numbers poskod'
-                minLength={5}
-                maxLength={5}
-                value={poskodAlamat}
-                onChange={(e) => setPoskodAlamat(e.target.value)}
-                placeholder='62519'
-                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                kategori pesakit:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                value={kategoriPesakit}
-                name='kategoriPesakit'
-                id='kategoriPesakit'
-                onChange={(e) => setKategoriPesakit(e.target.value)}
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='toddler'>Toddler (0 - 4) tahun</option>
-                <option value='prasekolah'>Prasekolah (5 - 6) tahun</option>
-                <option value='sekolahrendah'>Sekolah rendah</option>
-                <option value='sekolahmenengah'>Sekolah menengah</option>
-                <option value='oku'>OKU</option>
-                <option value='hamil'>Ibu mengandung</option>
-                <option value='dewasa'>Dewasa</option>
-                <option value='warga-tua'>Warga tua</option>
-              </select>
-            </div>
-            {kategoriPesakit === 'oku' && (
-              <div className='flex m-2'>
-                <p className='mr-3 font-semibold'>
-                  no. OKU: <span className='font-semibold text-user6'>*</span>
-                </p>
-                <input
-                  required
-                  value={noOku}
-                  onChange={(e) => setNoOku(e.target.value)}
-                  type='text'
-                  name='no-oku'
-                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                />
-              </div>
-            )}
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                status pesara:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                name='statusPesara'
-                id='statusPesara'
-                value={statusPesara}
-                onChange={(e) => setStatusPesara(e.target.value)}
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='bukan-pesara'>Bukan pesara</option>
-                <option value='pesara-kerajaan'>Pesara kerajaan</option>
-                <option value='pesara-atm'>Pesara ATM</option>
               </select>
             </div>
             <div className='flex m-2'>
@@ -572,12 +545,13 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </p>
               <select
                 required
-                value={kumpulanEtnik}
                 name='kumpulanEtnik'
                 id='kumpulanEtnik'
+                value={kumpulanEtnik}
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
+                className='outline outline-1 outline-userBlack'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='melayu'>Melayu</option>
@@ -606,13 +580,206 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </select>
             </div>
             <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                alamat: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={alamat}
+                onChange={(e) => setAlamat(e.target.value)}
+                type='text'
+                name='alamat'
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                daerah: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                value={daerahAlamat}
+                onChange={(e) => setDaerahAlamat(e.target.value)}
+                type='text'
+                name='daerah-alamat'
+                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                negeri: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                value={negeriAlamat}
+                onChange={(e) => {
+                  setNegeriAlamat(e.target.value);
+                }}
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='johor'>Johor</option>
+                <option value='kedah'>Kedah</option>
+                <option value='kelantan'>Kelantan</option>
+                <option value='melaka'>Melaka</option>
+                <option value='negeri sembilan'>Negeri Sembilan</option>
+                <option value='pahang'>Pahang</option>
+                <option value='perak'>Perak</option>
+                <option value='perlis'>Perlis</option>
+                <option value='pulau pinang'>Pulau Pinang</option>
+                <option value='sabah'>Sabah</option>
+                <option value='sarawak'>Sarawak</option>
+                <option value='selangor'>Selangor</option>
+                <option value='terengganu'>Terengganu</option>
+                <option value='kuala lumpur'>Kuala Lumpur</option>
+                <option value='labuan'>Labuan</option>
+                <option value='putrajaya'>Putrajaya</option>
+              </select>
+              {/* <input
+                required
+                value={negeriAlamat}
+                onChange={(e) => setNegeriAlamat(e.target.value)}
+                type='text'
+                name='negeri-alamat'
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              /> */}
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                poskod: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <input
+                required
+                type='text'
+                name='poskod-alamat'
+                pattern='[0-9]+'
+                title='5 numbers poskod'
+                minLength={5}
+                maxLength={5}
+                value={poskodAlamat}
+                onChange={(e) => setPoskodAlamat(e.target.value)}
+                placeholder='62519'
+                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
+            {/* <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                kategori pesakit:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                name='kategoriPesakit'
+                id='kategoriPesakit'
+                value={kategoriPesakit}
+                onChange={(e) => setKategoriPesakit(e.target.value)}
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='toddler'>Toddler (0 - 4) tahun</option>
+                <option value='prasekolah'>Prasekolah (5 - 6) tahun</option>
+                <option value='sekolahrendah'>Sekolah rendah</option>
+                <option value='sekolahmenengah'>Sekolah menengah</option>
+                <option value='oku'>OKU</option>
+                <option value='hamil'>Ibu mengandung</option>
+                <option value='dewasa'>Dewasa</option>
+                <option value='warga-tua'>Warga tua</option>
+              </select>
+            </div> */}
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>status pesakit:</p>
+              <div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='hamil'
+                    id='hamil'
+                    value='hamil'
+                    checked={ibuMengandung}
+                    onChange={() => {
+                      setIbuMengandung(!ibuMengandung);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='hamil' className='m-2 text-sm font-m'>
+                    Ibu mengandung
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='bersekolah'
+                    id='bersekolah'
+                    value='bersekolah'
+                    checked={bersekolah}
+                    onChange={() => {
+                      setBersekolah(!bersekolah);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='bersekolah' className='m-2 text-sm font-m'>
+                    Bersekolah
+                  </label>
+                </div>
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    type='checkbox'
+                    name='oku'
+                    id='oku'
+                    value='oku'
+                    checked={orangKurangUpaya}
+                    onChange={() => {
+                      setOrangKurangUpaya(!orangKurangUpaya);
+                    }}
+                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                  />
+                  <label htmlFor='oku' className='m-2 text-sm font-m'>
+                    Orang Kurang Upaya (OKU)
+                  </label>
+                </div>
+              </div>
+            </div>
+            {orangKurangUpaya === true && (
+              <div className='flex m-2'>
+                <p className='mr-3 font-semibold'>
+                  no. OKU: <span className='font-semibold text-user6'>*</span>
+                </p>
+                <input
+                  required
+                  value={noOku}
+                  onChange={(e) => setNoOku(e.target.value)}
+                  type='text'
+                  name='no-oku'
+                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              </div>
+            )}
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                status pesara:{' '}
+                {/* <span className='font-semibold text-user6'>*</span> */}
+              </p>
+              <select
+                // required
+                name='statusPesara'
+                id='statusPesara'
+                value={statusPesara}
+                onChange={(e) => setStatusPesara(e.target.value)}
+                className='outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                {/* <option value='bukan-pesara'>Bukan pesara</option> */}
+                <option value='pesara-kerajaan'>Pesara kerajaan</option>
+                <option value='pesara-atm'>Pesara ATM</option>
+              </select>
+            </div>
+            <div className='flex m-2'>
               <p className='mr-3 font-semibold'>rujuk daripada: </p>
               <select
                 name='rujukDaripada'
                 id='rujukDaripada'
                 value={rujukDaripada}
                 onChange={(e) => setRujukDaripada(e.target.value)}
-                className='mr-3'
+                className='mr-3 outline outline-1 outline-userBlack'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='dalaman'>Dalaman</option>
@@ -625,10 +792,26 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 <option value='lain-lain'>Lain-lain</option>
               </select>
             </div>
+            <div className='flex m-2'>
+              <p className='font-semibold'>catatan </p>
+              <FaInfoCircle
+                className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
+                title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
+              />
+              <p className='font-semibold mr-2'>:</p>
+              <input
+                type='text'
+                name='catatan'
+                id='catatan'
+                value={catatan}
+                onChange={(e) => setCatatan(e.target.value)}
+                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
+            </div>
             {jenisFasiliti === 'kp' && (
               <>
-                <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md mx-2'>
-                  <div className='flex'>
+                <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
+                  <div className='grid'>
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
@@ -776,7 +959,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                     />
                   </div>
                 </article>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md mx-2'>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <p className='font-semibold col-span-2'>
                     penyampaian perkhidmatan
                   </p>
@@ -804,6 +987,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       onChange={(e) => {
                         setLabelKpBergerak(e.target.value);
                       }}
+                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Label</option>
                       <option value='apa??'>Apa?</option>
@@ -851,6 +1035,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       onChange={(e) => {
                         setLabelMakmalPergigianBergerak(e.target.value);
                       }}
+                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Label</option>
                       <option value='apa??'>Apa?</option>
@@ -860,7 +1045,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </>
             )}
             {jenisFasiliti === 'taska-tadika' && (
-              <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md mx-2'>
+              <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
                 <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <div>
                     <p className='font-semibold'>fasiliti taska / tadika </p>
@@ -871,6 +1056,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       onChange={(e) => {
                         setFasilitiTaskaTadika(e.target.value);
                       }}
+                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih</option>
                       <option value='taska'>Taska</option>
@@ -886,6 +1072,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       onChange={(e) => {
                         setJenisTaskaTadika(e.target.value);
                       }}
+                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih jenis taska / tadika</option>
                       <option value='taska'>KEMAS </option>
@@ -921,7 +1108,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   onChange={(e) => {
                     setNamaFasilitiTaskaTadika(e.target.value);
                   }}
-                  className='w-11/12'
+                  className='w-11/12 outline outline-1 outline-userBlack'
                 >
                   <option value=''>Pilih</option>
                   <option value='taska perak'>Taska Perak</option>
@@ -946,7 +1133,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                     className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
                 </div>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                     kedatangan taska / tadika
                   </h4>
@@ -990,7 +1177,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       </label>
                     </div>
                   </div>
-                  <div className=' outline outline-1 outline-userBlack grid grid-rows-3 col-start-2'>
+                  <div
+                    className={`${
+                      engganTaskaTadika || tidakHadirTaskaTadika || 'hidden'
+                    } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
+                  >
                     <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
                       pemeriksaan
                     </h4>
@@ -1043,7 +1234,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       </label>
                     </div>
                   </div>
-                </article>
+                </article> */}
               </div>
             )}
             {jenisFasiliti === 'ipt-kolej' && (

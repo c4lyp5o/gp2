@@ -53,8 +53,8 @@ function UserPilihFasiliti() {
         >
           {listPilihFasiliti.map((singleFasiliti, index) => {
             return (
-              <option key={index} value={`${singleFasiliti.nama}`}>
-                {singleFasiliti.nama}
+              <option key={index} value={`${singleFasiliti.kp}`}>
+                {singleFasiliti.kp}
               </option>
             );
           })}
