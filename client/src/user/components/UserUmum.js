@@ -138,35 +138,35 @@ function UserUmum() {
                       <tr>
                         <td
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {index + 1}
                         </td>
                         <td
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {singlePersonUmum.nama}
                         </td>
                         <td
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {Dictionary[singlePersonUmum.jenisFasiliti]}
                         </td>
                         <td
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {singlePersonUmum.ic}
                         </td>
                         <td
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {singlePersonUmum.tarikhKedatangan}
@@ -174,7 +174,7 @@ function UserUmum() {
                         <td
                           onClick={() => setPilih(singlePersonUmum._id)}
                           className={`${
-                            pilih === singlePersonUmum._id && 'bg-user4'
+                            pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                         >
                           <u>PILIH</u>
