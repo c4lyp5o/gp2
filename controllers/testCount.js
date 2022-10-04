@@ -15687,3 +15687,45 @@ async function mapperPG201A(results, klinik, sekolah) {
   }, 15000);
   return 'it is done';
 }
+exports.whatDoWeHaveHere = async function (req, res) {
+  theData = await Umum.aggregate([
+    {
+      $match: {
+        tarikhKedatangan: {
+          $eq: dateToday,
+          $kp: 'klinik pergigian arau',
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        tarikhKedatangan: '$tarikhKedatangan',
+        nama: '$nama',
+        uniqueId: '$uniqueId',
+        jantina: '$jantina',
+        umur: '$umur',
+        ic: '$ic',
+        alamat: '$alamat',
+        umur: '$umur',
+        waktuSampai: '$waktuSampai',
+        jantina: '$jantina',
+        catatan: '$catatan',
+        kategoriPesakit: '$kategoriPesakit',
+        kumpulanEtnik: '$kumpulanEtnik',
+        rujukDaripada: '$rujukDaripada',
+      },
+    },
+    {
+      $sort: {
+        tarikhKedatangan: 1,
+      },
+    },
+  ]);
+  try {
+    res.status(200).json(theData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
