@@ -83,72 +83,82 @@ export default function UserGenerateKlinik() {
   return (
     <>
       <div className='p-2'>
-        <h1 className='font-bold text-base '>Generate Reten</h1>
+        <h1 className='font-bold text-base '>Penjanaan Laporan</h1>
         <form onSubmit={handleJana}>
-          <div className='grid grid-cols-4 grid-flow-col'>
-            <strong>Reten: </strong>
-            <select
-              required
-              name='jenisReten'
-              id='jenisReten'
-              onChange={(e) => setJenisReten(e.target.value)}
-            >
-              <option value=''>Sila pilih reten</option>
-              <option value='PG101'>PG101</option>
-              <option value='BEGIN'>BEGIN 01/2020</option>
-              <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
-              <option value='CPPC1'>CPPC 1</option>
-              <option value='CPPC2'>CPPC 2</option>
-              <option value='PG201A'>PG201A</option>
-              <option value='MMI1'>BORANG MMI/1</option>
-              <option value='FV'>FV</option>
-              <option value='PG201'>PG201</option>
-              <option value='PG201SMKP'>PG201 SMKP</option>
-              <option value='GIS'>GIS</option>
-              <option value='PERSIS1'>PERSiS-1</option>
-              <option value='PPIM03'>PPIM 03-2020</option>
-              <option value='PPIM04'>PPIM 04</option>
-              <option value='PPIM05'>PPIM 05-2020</option>
-              <option value='PPKPS'>PPKPS</option>
-              <option value='MGH'>MGH</option>
-            </select>
-            <strong>Sekolah: </strong>
-            <select
-              value={pilihanSekolah}
-              onChange={(e) => {
-                setPilihanSekolah(e.target.value);
-              }}
-              className='capitalize outline outline-1 outline-userBlack'
-            >
-              <option value=''>Sila pilih..</option>
-              {namaSekolahs.map((singleNamaSekolah, index) => {
-                return (
-                  <option
-                    value={singleNamaSekolah}
-                    key={index}
-                    className='capitalize'
-                  >
-                    {singleNamaSekolah}
-                  </option>
-                );
-              })}
-            </select>
-            <strong>Daripada</strong>
-            <input
-              type='date'
-              name='startDate'
-              id='startDate'
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-            <strong>Sehingga</strong>
-            <input
-              type='date'
-              name='endDate'
-              id='endDate'
-              onChange={(e) => setEndDate(e.target.value)}
-            />
+          <div className='grid grid-cols-1 lg:grid-cols-4 gap-2'>
+            <div>
+              <strong>Laporan: </strong>
+              <select
+                required
+                name='jenisReten'
+                id='jenisReten'
+                onChange={(e) => setJenisReten(e.target.value)}
+                className='outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih reten</option>
+                <option value='PG101'>PG101</option>
+                <option value='BEGIN'>BEGIN 01/2020</option>
+                <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
+                <option value='CPPC1'>CPPC 1</option>
+                <option value='CPPC2'>CPPC 2</option>
+                <option value='PG201A'>PG201A</option>
+                <option value='MMI1'>BORANG MMI/1</option>
+                <option value='FV'>FV</option>
+                <option value='PG201'>PG201</option>
+                <option value='PG201SMKP'>PG201 SMKP</option>
+                <option value='GIS'>GIS</option>
+                <option value='PERSIS1'>PERSiS-1</option>
+                <option value='PPIM03'>PPIM 03-2020</option>
+                <option value='PPIM04'>PPIM 04</option>
+                <option value='PPIM05'>PPIM 05-2020</option>
+                <option value='PPKPS'>PPKPS</option>
+                <option value='MGH'>MGH</option>
+              </select>
+            </div>
+            <div>
+              <strong>Sekolah: </strong>
+              <select
+                value={pilihanSekolah}
+                onChange={(e) => {
+                  setPilihanSekolah(e.target.value);
+                }}
+                className='capitalize outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                {namaSekolahs.map((singleNamaSekolah, index) => {
+                  return (
+                    <option
+                      value={singleNamaSekolah}
+                      key={index}
+                      className='capitalize'
+                    >
+                      {singleNamaSekolah}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div>
+              <strong>Daripada</strong>
+              <input
+                type='date'
+                name='startDate'
+                id='startDate'
+                onChange={(e) => setStartDate(e.target.value)}
+                className='outline outline-1 outline-userBlack'
+              />
+            </div>
+            <div>
+              <strong>Sehingga</strong>
+              <input
+                type='date'
+                name='endDate'
+                id='endDate'
+                onChange={(e) => setEndDate(e.target.value)}
+                className='outline outline-1 outline-userBlack'
+              />
+            </div>
           </div>
-          <br />
           <div>
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
