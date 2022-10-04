@@ -436,6 +436,7 @@ export default function FillableForm({
           setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          setCatatan(data.singlePersonKaunter.catatan);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
           setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
