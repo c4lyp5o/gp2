@@ -44,7 +44,15 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // khas taska/tadika
-  catatanTastad: {
+  kodTastad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  alamatTastad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  govKe: {
     type: String,
     default: 'NOT APPLICABLE',
   },
