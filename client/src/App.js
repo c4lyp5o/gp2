@@ -24,13 +24,6 @@ import AdminLoginForm from './admin/pages/AdminLoginForm';
 import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
 import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
-// deeproots import ------------------------------------------
-import { DeeprootsProvider } from './deeproots/context/deeprootsAppContext';
-
-import DeeprootsLogin from './deeproots/pages/Login';
-import DeeprootsProtect from './deeproots/pages/Protect';
-import DeeprootsMain from './deeproots/pages/Main';
-
 function App() {
   return (
     <>
@@ -76,20 +69,6 @@ function App() {
             />
           </Routes>
         </AdminAppProvider>
-        <DeeprootsProvider>
-          <Routes>
-            {/* deeproots */}
-            <Route path='/deeproots' element={<DeeprootsLogin />} />
-            <Route
-              path='/deeproots/landing/*'
-              element={
-                <DeeprootsProtect>
-                  <DeeprootsMain />
-                </DeeprootsProtect>
-              }
-            />
-          </Routes>
-        </DeeprootsProvider>
       </BrowserRouter>
     </>
   );
