@@ -230,6 +230,29 @@ function AdminAppProvider({ children }) {
     return response.data;
   };
 
+  // auth
+
+  async function loginUser(credentials) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      username: credentials.username,
+      password: credentials.password,
+      main: 'UserCenter',
+      Fn: 'update',
+    });
+    return response;
+  }
+
+  async function checkUser(username) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      username,
+      main: 'UserCenter',
+      Fn: 'readOne',
+    });
+    return response;
+  }
+
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('adminToken');
   };
@@ -270,6 +293,8 @@ function AdminAppProvider({ children }) {
         pingApdmServer,
         encryptEmail,
         encryptPassword,
+        loginUser,
+        checkUser,
       }}
     >
       {children}
