@@ -356,7 +356,7 @@ exports.getData = async (req, res, next) => {
             console.log('email is:', tempUser.e_mail);
             let useEmail = '';
             if (!tempUser.e_mail) {
-              useEmail = 'inq@calypsocloud.one';
+              useEmail = process.env.SEND_TO;
             }
             if (tempUser.e_mail) {
               useEmail = tempUser.e_mail;
