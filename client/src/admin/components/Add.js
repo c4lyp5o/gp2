@@ -29,7 +29,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const currentRisiko = useRef();
   // taska
   const currentKodTastad = useRef();
-  const currentCatatanTastad = useRef();
+  const currentAlamatTastad = useRef();
   // APDM
   const statusApdm = useRef();
   // data
@@ -89,7 +89,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       Data = {
         ...Data,
         kodSekolah: currentKodTastad.current,
-        catatanTastad: currentCatatanTastad.current,
+        catatanTastad: currentAlamatTastad.current,
       };
     }
     if (FType === 'sr' || FType === 'sm') {
@@ -712,7 +712,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                       </div>
                       <div>
                         <p>
-                          Catatan {Dictionary[FType]}
+                          Alamat {Dictionary[FType]}
                           <span className='font-semibold text-lg text-user6'>
                             *
                           </span>
@@ -726,7 +726,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                           name='catatan'
                           id='catatan'
                           onChange={(e) =>
-                            (currentCatatanTastad.current = e.target.value)
+                            (currentAlamatTastad.current = e.target.value)
                           }
                         />
                       </div>
