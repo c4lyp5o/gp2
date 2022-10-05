@@ -6,6 +6,7 @@ const adminSchema = new Schema({
   daerah: { type: String, required: true },
   negeri: { type: String, required: true },
   tempKey: { type: String, default: '' },
+  e_mail: { type: String, required: true },
 });
 
 const Superadmin = mongoose.model('Superadmin', adminSchema);

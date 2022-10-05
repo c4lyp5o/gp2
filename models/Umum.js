@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Runningnumber = require('./Runningnumber');
-const dbUmum = require('./Umum');
 
 const UmumSchema = new mongoose.Schema(
   {
