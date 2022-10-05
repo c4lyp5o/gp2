@@ -5,6 +5,8 @@ const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
+const Umum = require('../models/Umum');
+const Deeproots = require('../models/Deeproots');
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
@@ -310,10 +312,10 @@ exports.getData = async (req, res, next) => {
           case 'create':
             console.log('create for user');
             const regData = await Superadmin.create({
-              email,
-              nama,
-              daerah,
-              negeri,
+              e_mail: email,
+              user_name: nama,
+              daerah: daerah,
+              negeri: negeri,
             });
             return res.status(200).json(regData);
           case 'read':
@@ -342,30 +344,63 @@ exports.getData = async (req, res, next) => {
               },
               { new: true }
             );
-            // const transporter = mailer.createTransport({
-            //   host: process.env.EMAILER_HOST,
-            //   port: process.env.EMAILER_PORT,
-            //   secure: true,
-            //   auth: {
-            //     user: process.env.EMAILER_ACCT,
-            //     pass: process.env.EMAILER_PASS,
-            //   },
-            // });
-            // const verification = await transporter.sendMail({
-            //   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
-            //   to: process.env.SEND_TO,
-            //   subject: 'Kunci Verifikasi',
-            //   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
-            //   html:
-            //     '<p>Kunci verifikasi anda adalah: </p>' +
-            //     theKey +
-            //     '<p>\n\n</p>',
-            // });
-            return res.status(200).json({
-              status: 'success',
-              message: 'Email sent to ' + process.env.SEND_TO,
-              tempKey: theKey,
+            const transporter = mailer.createTransport({
+              host: process.env.EMAILER_HOST,
+              port: process.env.EMAILER_PORT,
+              secure: true,
+              auth: {
+                user: process.env.EMAILER_ACCT,
+                pass: process.env.EMAILER_PASS,
+              },
             });
+            console.log('email is:', tempUser.e_mail);
+            let useEmail = '';
+            if (!tempUser.e_mail) {
+              useEmail = process.env.SEND_TO;
+            }
+            if (tempUser.e_mail) {
+              useEmail = tempUser.e_mail;
+            }
+            const mailOptions = {
+              from: process.env.EMAILER_ACCT,
+              to: useEmail,
+              subject: 'Kunci Verifikasi',
+              html: `<p>Hi ${tempUser.user_name},</p>
+              <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
+              <br /><p>${tempUser.tempKey}</p><br />
+              <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
+              <p>Terima kasih.</p>`,
+            };
+            transporter.sendMail(mailOptions, (err, info) => {
+              if (err) {
+                console.log(err);
+                return res.status(500).json({
+                  status: 'error',
+                  message: 'Email tidak dapat dihantar',
+                });
+              }
+              console.log('Email sent: ' + info.response);
+              return res.status(200).json({
+                status: 'success',
+                message: 'Email telah dihantar',
+              });
+            });
+            break;
+          // const verification = await transporter.sendMail({
+          //   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
+          //   to: tempUser.e_mail,
+          //   subject: 'Kunci Verifikasi',
+          //   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
+          //   html:
+          //     '<p>Kunci verifikasi anda adalah: </p>' +
+          //     theKey +
+          //     '<p>\n\n</p>',
+          // });
+          // console.log(verification);
+          // return res.status(200).json({
+          //   status: 'success',
+          //   message: 'Email sent to ' + tempUser.e_mail,
+          // });
           case 'update':
             console.log('update for user');
             const User = await Superadmin.findOne({ user_name: username });
@@ -397,6 +432,66 @@ exports.getData = async (req, res, next) => {
           default:
             res.status(200).json({
               message: 'This is the default case for User Center',
+            });
+        }
+        break;
+      case 'Deeproots':
+        var { Fn, username, password, kodFasiliti } = req.body;
+        switch (Fn) {
+          case 'create':
+            console.log('create for deeproots');
+            const createUser = await Deeproots.create({
+              username,
+              password,
+            });
+            return res.status(200).json(createUser);
+            break;
+          case 'read':
+            console.log('read for deeproots');
+            const checkUser = await Deeproots.findOne({ username });
+            if (!checkUser) {
+              return res.status(401).json({
+                status: 'error',
+                message: 'No user found',
+              });
+            }
+            return res.status(200).json({
+              status: 'success',
+              message: 'User exists',
+            });
+            break;
+          case 'readUmumData':
+            console.log('readUmumData for deeproots');
+            const response = await Umum.find();
+            return res.status(200).json(response);
+            break;
+          case 'readSpecificUmumData':
+            console.log('readSpecificUmumData for deeproots');
+            const specificResponse = await Umum.find({
+              CreatedByKp: kodFasiliti,
+            });
+            return res.status(200).json(specificResponse);
+            break;
+          case 'update':
+            console.log('update for deeproots');
+            const tempUser = await Deeproots.findOne({ username });
+            if (password !== tempUser.password) {
+              return res.status(401).json({
+                status: 'error',
+                message: 'Password salah',
+              });
+            }
+            return res.status(200).json({
+              status: 'success',
+              message: 'Login berjaya',
+            });
+            break;
+          case 'delete':
+            console.log('delete for deeproots');
+            break;
+          default:
+            res.status(200).json({
+              message: 'This is the default case for Deeproots',
             });
         }
         break;
