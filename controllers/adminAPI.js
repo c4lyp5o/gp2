@@ -367,7 +367,7 @@ exports.getData = async (req, res, next) => {
               subject: 'Kunci Verifikasi',
               html: `<p>Hi ${tempUser.user_name},</p>
               <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
-              <br /><p>${tempUser.tempKey}</p><br />
+              <br /><p>${theKey}</p><br />
               <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
               <p>Terima kasih.</p>`,
             };
