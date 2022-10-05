@@ -70,7 +70,6 @@ export default function AdminLoginForm() {
       setErrMsg('');
       try {
         const response = await checkUser(username);
-        console.log(response);
         toast.info(
           'Key Verifikasi telah di email ke anda. Sila isi di bawah. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.'
         );

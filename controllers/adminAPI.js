@@ -354,21 +354,53 @@ exports.getData = async (req, res, next) => {
               },
             });
             console.log('email is:', tempUser.e_mail);
-            const verification = await transporter.sendMail({
-              from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
-              to: tempUser.e_mail,
+            let useEmail = '';
+            if (!tempUser.e_mail) {
+              useEmail = 'inq@calypsocloud.one';
+            }
+            if (tempUser.e_mail) {
+              useEmail = tempUser.e_mail;
+            }
+            const mailOptions = {
+              from: process.env.EMAILER_ACCT,
+              to: useEmail,
               subject: 'Kunci Verifikasi',
-              text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
-              html:
-                '<p>Kunci verifikasi anda adalah: </p>' +
-                theKey +
-                '<p>\n\n</p>',
+              html: `<p>Hi ${tempUser.user_name},</p>
+              <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
+              <br /><p>${tempUser.tempKey}</p><br />
+              <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
+              <p>Terima kasih.</p>`,
+            };
+            transporter.sendMail(mailOptions, (err, info) => {
+              if (err) {
+                console.log(err);
+                return res.status(500).json({
+                  status: 'error',
+                  message: 'Email tidak dapat dihantar',
+                });
+              }
+              console.log('Email sent: ' + info.response);
+              return res.status(200).json({
+                status: 'success',
+                message: 'Email telah dihantar',
+              });
             });
-            console.log(verification);
-            return res.status(200).json({
-              status: 'success',
-              message: 'Email sent to ' + tempUser.e_mail,
-            });
+            break;
+          // const verification = await transporter.sendMail({
+          //   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
+          //   to: tempUser.e_mail,
+          //   subject: 'Kunci Verifikasi',
+          //   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
+          //   html:
+          //     '<p>Kunci verifikasi anda adalah: </p>' +
+          //     theKey +
+          //     '<p>\n\n</p>',
+          // });
+          // console.log(verification);
+          // return res.status(200).json({
+          //   status: 'success',
+          //   message: 'Email sent to ' + tempUser.e_mail,
+          // });
           case 'update':
             console.log('update for user');
             const User = await Superadmin.findOne({ user_name: username });
