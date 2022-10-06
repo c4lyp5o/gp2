@@ -8,21 +8,26 @@ function LandingPage() {
   return (
     <>
       {/* header */}
-      <div className='absolute top-0 left-0 right-0 flex items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-center'>
-        <div className='grid grid-rows-[50px_10px_10px] gap-1 text-center'>
-          <img
-            className='w-full h-full'
-            src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
-            alt='missing jata negara'
-          />
-          <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
-            kementerian kesihatan malaysia
-          </p>
-          <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
-            program kesihatan pergigian
-          </p>
+      <div className='absolute top-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 grid-rows-1 items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-evenly'>
+        <div className='grid grid-cols-1 md:grid-cols-2'>
+          <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
+            <img
+              className='w-full h-full'
+              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              alt='missing jata negara'
+            />
+            <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
+              kementerian kesihatan malaysia
+            </p>
+            <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
+              program kesihatan pergigian
+            </p>
+            <h1 className='md:hidden text-lg font-semibold'>
+              sistem gi-Ret 2.0
+            </h1>
+          </div>
         </div>
-        <div className='grid grid-rows-2 text-2xl font-bold text-center'>
+        <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
         </div>
       </div>
