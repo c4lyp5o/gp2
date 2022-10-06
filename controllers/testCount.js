@@ -12,7 +12,7 @@ const Kotak = require('../models/Kotaksekolah');
 
 // aspose
 
-const aspose = require('aspose.cells');
+// const aspose = require('aspose.cells');
 
 exports.testFunction = function (req, res) {
   async.parallel(
@@ -9377,22 +9377,22 @@ async function generatePG201(jenisReten, sekolah, klinik) {
     }
   );
 }
-async function convertToPdf(excelFile, pdfFile) {
-  console.log('converting to pdf');
-  try {
-    var workbook = new aspose.Workbook(excelFile);
-    var saveOptions = aspose.PdfSaveOptions();
-    saveOptions.setOnePagePerSheet(true);
-    workbook.save(pdfFile, saveOptions);
-    setTimeout(() => {
-      fs.unlinkSync(pdfFile); // delete this file after 30 seconds
-      console.log('deleting pdf file');
-    }, 15000);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error });
-  }
-}
+// async function convertToPdf(excelFile, pdfFile) {
+//   console.log('converting to pdf');
+//   try {
+//     var workbook = new aspose.Workbook(excelFile);
+//     var saveOptions = aspose.PdfSaveOptions();
+//     saveOptions.setOnePagePerSheet(true);
+//     workbook.save(pdfFile, saveOptions);
+//     setTimeout(() => {
+//       fs.unlinkSync(pdfFile); // delete this file after 30 seconds
+//       console.log('deleting pdf file');
+//     }, 15000);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error });
+//   }
+// }
 exports.downloader = async function (req, res) {
   console.log('this is testcount', req.query);
   const { jenisReten, sekolah, kp, dateToday, formatFile, pg101date } =

@@ -1,8 +1,16 @@
-# base nodejs v18
-FROM node:18
+# base ubuntu
+# FROM ubuntu:latest
+
+# install nodejs
+# RUN apt-get update && apt-get install -y curl
+# RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+# RUN apt-get install -y nodejs
 
 # install java
-RUN apt-get update && apt-get install -y install openjdk-8-jre
+# RUN apt-get install -y openjdk-8-jre
+
+# base node:18
+FROM node:18
 
 # create app directory
 WORKDIR /usr/src/app
