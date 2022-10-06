@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-const Superadmin = require('../models/Superadmin');
-const Fasiliti = require('../models/Fasiliti');
-const Operator = require('../models/Operator');
+const Superadmin = require('../../models/Superadmin');
+const Fasiliti = require('../../models/Fasiliti');
+const Operator = require('../../models/Operator');
 const async = require('async');
-const CountHelper = require('./countHelper');
+const CountHelper = require('../../controllers/countHelper');
 
 exports.loginPage = (req, res) => {
-  res.render("admin/loginadmin");
+  res.render('admin/loginadmin');
 };
 
 exports.isItOk = async (req, res) => {
@@ -14,8 +14,8 @@ exports.isItOk = async (req, res) => {
   let password = req.body.password;
   const User = await Superadmin.findOne({ user_name: username });
   if (!User) {
-    const msg = "Tiada user ini dalam sistem";
-    res.render("admin/loginadmin", { msg: msg });
+    const msg = 'Tiada user ini dalam sistem';
+    res.render('admin/loginadmin', { msg: msg });
   }
   if (User.password === password) {
     const genToken = jwt.sign(
@@ -26,43 +26,43 @@ exports.isItOk = async (req, res) => {
         negeri: User.negeri,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: '24h' }
     );
-    res.cookie("token", genToken, { httpOnly: true });
+    res.cookie('token', genToken, { httpOnly: true });
     console.log(req.cookies.token);
-    res.redirect("/admin/home");
+    res.redirect('/admin/home');
   } else {
-    const msg = "Username atau Password salah";
-    res.render("admin/loginadmin", { msg: msg });
+    const msg = 'Username atau Password salah';
+    res.render('admin/loginadmin', { msg: msg });
   }
 };
 
 exports.test = (req, res) => {
-  res.render("admin/admin");
+  res.render('admin/admin');
 };
 
 exports.deleteData = (req, res) => {
-  if (req.params.id != "pg") {
+  if (req.params.id != 'pg') {
     Fasiliti.findByIdAndDelete(req.params.id2, function deleteData(err) {
       if (err) {
         return next(err);
       }
-      console.log("Deleted " + req.params.id2);
-      res.redirect("/admin/" + req.params.id);
+      console.log('Deleted ' + req.params.id2);
+      res.redirect('/admin/' + req.params.id);
     });
   } else {
     Operator.findByIdAndDelete(req.params.id2, function deleteData(err) {
       if (err) {
         return next(err);
       }
-      console.log("Deleted " + req.params.id2);
-      res.redirect("/admin/" + req.params.id);
+      console.log('Deleted ' + req.params.id2);
+      res.redirect('/admin/' + req.params.id);
     });
   }
 };
 
 exports.updateData = (req, res) => {
-  if (req.params.id != "pg") {
+  if (req.params.id != 'pg') {
     Fasiliti.findByIdAndUpdate(
       req.params.id2,
       { $set: req.body },
@@ -70,8 +70,8 @@ exports.updateData = (req, res) => {
         if (err) {
           return next(err);
         }
-        console.log("Updated " + req.params.id2);
-        res.redirect("/admin/" + req.params.id);
+        console.log('Updated ' + req.params.id2);
+        res.redirect('/admin/' + req.params.id);
       }
     );
   } else {
@@ -82,8 +82,8 @@ exports.updateData = (req, res) => {
         if (err) {
           return next(err);
         }
-        console.log("Updated " + req.params.id2);
-        res.redirect("/admin/" + req.params.id);
+        console.log('Updated ' + req.params.id2);
+        res.redirect('/admin/' + req.params.id);
       }
     );
   }
@@ -92,18 +92,18 @@ exports.updateData = (req, res) => {
 exports.listTaska = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Taska",
+      jenisFasiliti: 'Taska',
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Taska",
-          fas: "taska",
-          mode: "list",
+          fasiliti: 'Taska',
+          fas: 'taska',
+          mode: 'list',
         });
       }
     }
@@ -114,22 +114,22 @@ exports.addTaska = (req, res) => {
   async.parallel(
     {
       jenisFasiliti: function (callback) {
-        Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }, callback);
       },
       listdaerah: function (callback) {
         Fasiliti.find({
-          daerah: new RegExp(""),
+          daerah: new RegExp(''),
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("daerah", { nama: new RegExp("") }, callback);
+        }).distinct('daerah', { nama: new RegExp('') }, callback);
       },
       listnegeri: function (callback) {
-        Fasiliti.distinct("negeri", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('negeri', { nama: new RegExp('') }, callback);
       },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
@@ -137,9 +137,9 @@ exports.addTaska = (req, res) => {
         return next(err);
       }
       console.log(results.listklinik);
-      res.render("admin/add", {
-        title: "Tambah Taska",
-        fasiliti: "Taska",
+      res.render('admin/add', {
+        title: 'Tambah Taska',
+        fasiliti: 'Taska',
         listfasiliti: results.jenisFasiliti,
         listdaerah: results.listdaerah,
         listnegeri: results.listnegeri,
@@ -150,7 +150,7 @@ exports.addTaska = (req, res) => {
 };
 
 exports.commitData = async (req, res) => {
-  if (req.body.jenisFasiliti == "Taska") {
+  if (req.body.jenisFasiliti == 'Taska') {
     await Fasiliti.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -159,8 +159,8 @@ exports.commitData = async (req, res) => {
       handler: req.body.handler,
     });
     // console.log('done adding taska');
-    res.redirect("/admin/taska");
-  } else if (req.body.jenisFasiliti == "Tadika") {
+    res.redirect('/admin/taska');
+  } else if (req.body.jenisFasiliti == 'Tadika') {
     await Fasiliti.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -169,8 +169,8 @@ exports.commitData = async (req, res) => {
       handler: req.body.handler,
     });
     // console.log('done adding tadika');
-    res.redirect("/admin/tadika");
-  } else if (req.body.jenisFasiliti == "Sekolah Rendah") {
+    res.redirect('/admin/tadika');
+  } else if (req.body.jenisFasiliti == 'Sekolah Rendah') {
     await Fasiliti.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -179,8 +179,8 @@ exports.commitData = async (req, res) => {
       handler: req.body.handler,
     });
     // console.log('done adding sr');
-    res.redirect("/admin/sr");
-  } else if (req.body.jenisFasiliti == "Sekolah Menengah") {
+    res.redirect('/admin/sr');
+  } else if (req.body.jenisFasiliti == 'Sekolah Menengah') {
     await Fasiliti.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -189,8 +189,8 @@ exports.commitData = async (req, res) => {
       handler: req.body.handler,
     });
     // console.log('done adding sm');
-    res.redirect("/admin/sm");
-  } else if (req.body.jenisFasiliti == "Pegawai") {
+    res.redirect('/admin/sm');
+  } else if (req.body.jenisFasiliti == 'Pegawai') {
     await Operator.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -198,8 +198,8 @@ exports.commitData = async (req, res) => {
       kpSkrg: req.body.kpSkrg,
     });
     // console.log('done adding pg');
-    res.redirect("/admin/pg");
-  } else if (req.body.jenisFasiliti == "Klinik") {
+    res.redirect('/admin/pg');
+  } else if (req.body.jenisFasiliti == 'Klinik') {
     await Fasiliti.create({
       nama: req.body.nama,
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
@@ -207,26 +207,26 @@ exports.commitData = async (req, res) => {
       jenisFasiliti: req.body.jenisFasiliti,
     });
     // console.log('done adding kp');
-    res.redirect("/admin/kp");
+    res.redirect('/admin/kp');
   }
-  console.log("done");
+  console.log('done');
 };
 
 exports.listTadika = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Tadika",
+      jenisFasiliti: 'Tadika',
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Tadika",
-          fas: "tadika",
-          mode: "list",
+          fasiliti: 'Tadika',
+          fas: 'tadika',
+          mode: 'list',
         });
       }
     }
@@ -237,22 +237,22 @@ exports.addTadika = (req, res) => {
   async.parallel(
     {
       jenisFasiliti: function (callback) {
-        Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }, callback);
       },
       listdaerah: function (callback) {
         Fasiliti.find({
-          daerah: new RegExp(""),
+          daerah: new RegExp(''),
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("daerah", { nama: new RegExp("") }, callback);
+        }).distinct('daerah', { nama: new RegExp('') }, callback);
       },
       listnegeri: function (callback) {
-        Fasiliti.distinct("negeri", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('negeri', { nama: new RegExp('') }, callback);
       },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
@@ -260,9 +260,9 @@ exports.addTadika = (req, res) => {
         return next(err);
       }
       console.log(results.listklinik);
-      res.render("admin/add", {
-        title: "Tambah Tadika",
-        fasiliti: "Tadika",
+      res.render('admin/add', {
+        title: 'Tambah Tadika',
+        fasiliti: 'Tadika',
         listfasiliti: results.jenisFasiliti,
         listdaerah: results.listdaerah,
         listnegeri: results.listnegeri,
@@ -276,18 +276,18 @@ exports.listKp = (req, res) => {
   //   const daerah = "Kuala Selangor";
   Fasiliti.find(
     {
-      jenisFasiliti: "Klinik",
+      jenisFasiliti: 'Klinik',
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Klinik",
-          fas: "kp",
-          mode: "list",
+          fasiliti: 'Klinik',
+          fas: 'kp',
+          mode: 'list',
         });
       }
     }
@@ -298,17 +298,17 @@ exports.addKp = (req, res) => {
   async.parallel(
     {
       jenisFasiliti: function (callback) {
-        Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }, callback);
       },
       listdaerah: function (callback) {
         Fasiliti.find({
-          daerah: new RegExp(""),
+          daerah: new RegExp(''),
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("daerah", { nama: new RegExp("") }, callback);
+        }).distinct('daerah', { nama: new RegExp('') }, callback);
         // Fasiliti.distinct('daerah', {nama: new RegExp('')}, callback);
       },
       listnegeri: function (callback) {
-        Fasiliti.distinct("negeri", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('negeri', { nama: new RegExp('') }, callback);
       },
       // listklinik: function(callback) {
       //     Fasiliti.find({ jenisFasiliti: "Klinik", daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah })
@@ -320,9 +320,9 @@ exports.addKp = (req, res) => {
         return next(err);
       }
       console.log(results.listklinik);
-      res.render("admin/add", {
-        title: "Tambah Klinik",
-        fasiliti: "Klinik",
+      res.render('admin/add', {
+        title: 'Tambah Klinik',
+        fasiliti: 'Klinik',
         listfasiliti: results.jenisFasiliti,
         listdaerah: results.listdaerah,
         listnegeri: results.listnegeri,
@@ -340,18 +340,18 @@ exports.addKp = (req, res) => {
 exports.listSr = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Sekolah Rendah",
+      jenisFasiliti: 'Sekolah Rendah',
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Sekolah Rendah",
-          fas: "sr",
-          mode: "list",
+          fasiliti: 'Sekolah Rendah',
+          fas: 'sr',
+          mode: 'list',
         });
       }
     }
@@ -362,31 +362,31 @@ exports.addSr = (req, res) => {
   async.parallel(
     {
       jenisFasiliti: function (callback) {
-        Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }, callback);
       },
       listdaerah: function (callback) {
         Fasiliti.find({
-          daerah: new RegExp(""),
+          daerah: new RegExp(''),
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("daerah", { nama: new RegExp("") }, callback);
+        }).distinct('daerah', { nama: new RegExp('') }, callback);
       },
       listnegeri: function (callback) {
-        Fasiliti.distinct("negeri", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('negeri', { nama: new RegExp('') }, callback);
       },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
       if (err) {
         return next(err);
       }
-      res.render("admin/add", {
-        title: "Tambah Sekolah Rendah",
-        fasiliti: "Sekolah Rendah",
+      res.render('admin/add', {
+        title: 'Tambah Sekolah Rendah',
+        fasiliti: 'Sekolah Rendah',
         listfasiliti: results.jenisFasiliti,
         listdaerah: results.listdaerah,
         listnegeri: results.listnegeri,
@@ -399,18 +399,18 @@ exports.addSr = (req, res) => {
 exports.listSm = (req, res) => {
   Fasiliti.find(
     {
-      jenisFasiliti: "Sekolah Menengah",
+      jenisFasiliti: 'Sekolah Menengah',
       daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
     },
     (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Sekolah Menengah",
-          fas: "sm",
-          mode: "list",
+          fasiliti: 'Sekolah Menengah',
+          fas: 'sm',
+          mode: 'list',
         });
       }
     }
@@ -421,22 +421,22 @@ exports.addSm = (req, res) => {
   async.parallel(
     {
       jenisFasiliti: function (callback) {
-        Fasiliti.distinct("jenisFasiliti", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('jenisFasiliti', { nama: new RegExp('') }, callback);
       },
       listdaerah: function (callback) {
         Fasiliti.find({
-          daerah: new RegExp(""),
+          daerah: new RegExp(''),
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("daerah", { nama: new RegExp("") }, callback);
+        }).distinct('daerah', { nama: new RegExp('') }, callback);
       },
       listnegeri: function (callback) {
-        Fasiliti.distinct("negeri", { nama: new RegExp("") }, callback);
+        Fasiliti.distinct('negeri', { nama: new RegExp('') }, callback);
       },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
@@ -444,9 +444,9 @@ exports.addSm = (req, res) => {
         return next(err);
       }
       console.log(results.listklinik);
-      res.render("admin/add", {
-        title: "Tambah Sekolah Menengah",
-        fasiliti: "Sekolah Menengah",
+      res.render('admin/add', {
+        title: 'Tambah Sekolah Menengah',
+        fasiliti: 'Sekolah Menengah',
         listfasiliti: results.jenisFasiliti,
         listdaerah: results.listdaerah,
         listnegeri: results.listnegeri,
@@ -463,11 +463,11 @@ exports.listPg = (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Pegawai",
-          fas: "pg",
-          mode: "list",
+          fasiliti: 'Pegawai',
+          fas: 'pg',
+          mode: 'list',
         });
       }
     }
@@ -490,9 +490,9 @@ exports.addPg = (req, res) => {
       // },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
@@ -500,9 +500,9 @@ exports.addPg = (req, res) => {
         return next(err);
       }
       console.log(results.listklinik);
-      res.render("admin/add", {
-        title: "Tambah Pegawai",
-        fasiliti: "Pegawai",
+      res.render('admin/add', {
+        title: 'Tambah Pegawai',
+        fasiliti: 'Pegawai',
         // listfasiliti: results.jenisFasiliti,
         // listdaerah: results.listdaerah,
         // listnegeri: results.listnegeri,
@@ -514,7 +514,7 @@ exports.addPg = (req, res) => {
 
 exports.searchAll = (req, res) => {
   const search = req.body.search;
-  const regex = new RegExp(search, "i");
+  const regex = new RegExp(search, 'i');
   console.log(regex);
   Fasiliti.find(
     {
@@ -527,7 +527,7 @@ exports.searchAll = (req, res) => {
       } else {
         console.log(data);
         console.log(req.params.id);
-        res.render("admin/list", { data: data, mode: "search" });
+        res.render('admin/list', { data: data, mode: 'search' });
       }
     }
   );
@@ -535,7 +535,7 @@ exports.searchAll = (req, res) => {
 
 exports.searchPg = (req, res) => {
   const search = req.body.search;
-  const regex = new RegExp(search, "i");
+  const regex = new RegExp(search, 'i');
   console.log(regex);
   Operator.find(
     {
@@ -547,10 +547,10 @@ exports.searchPg = (req, res) => {
         console.log(err);
       } else {
         console.log(data);
-        res.render("admin/list", {
+        res.render('admin/list', {
           data: data,
-          fasiliti: "Pegawai",
-          mode: "search",
+          fasiliti: 'Pegawai',
+          mode: 'search',
         });
       }
     }
@@ -559,8 +559,8 @@ exports.searchPg = (req, res) => {
 
 exports.logOut = (req, res) => {
   try {
-    res.clearCookie("token");
-    res.redirect("/admin");
+    res.clearCookie('token');
+    res.redirect('/admin');
   } catch (err) {
     console.log(err);
   }
@@ -569,7 +569,7 @@ exports.logOut = (req, res) => {
 exports.showEntrails = (req, res) => {
   Fasiliti.find({ _id: req.params.id }, (err, data) => {
     console.log(data);
-    res.render("admin/detail", { title: "Entrails", data: data[0] });
+    res.render('admin/detail', { title: 'Entrails', data: data[0] });
   });
 };
 
@@ -589,15 +589,15 @@ exports.updateFac = (req, res) => {
       // },
       listklinik: function (callback) {
         Fasiliti.find({
-          jenisFasiliti: "Klinik",
+          jenisFasiliti: 'Klinik',
           daerah: jwt.verify(req.cookies.token, process.env.JWT_SECRET).daerah,
-        }).distinct("nama", { nama: new RegExp("") }, callback);
+        }).distinct('nama', { nama: new RegExp('') }, callback);
       },
     },
     function (err, results) {
       // console.log(results.listklinik);
-      res.render("admin/update", {
-        title: "Entrails",
+      res.render('admin/update', {
+        title: 'Entrails',
         data: results.fasilitiNow,
         klinik: results.listklinik,
       });
@@ -621,7 +621,7 @@ exports.updateNow = async (req, res) => {
       } else {
         setTimeout(function () {
           Fasiliti.find({ _id: req.params.id }, (err, data) => {
-            res.render("admin/detail", { title: "Entrails", data: data[0] });
+            res.render('admin/detail', { title: 'Entrails', data: data[0] });
           });
         }, 1000);
       }
