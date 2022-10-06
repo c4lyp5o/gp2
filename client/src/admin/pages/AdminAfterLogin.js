@@ -50,7 +50,7 @@ export default function AdminAfterLogin() {
           isLoggedIn: false,
         });
         catchAxiosErrorAndLogout();
-        navigate('/admin');
+        navigate('/pentadbir');
       });
   }, []);
 
