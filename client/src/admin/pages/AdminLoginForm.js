@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -32,9 +31,6 @@ function passwordBox({ setPassword, showPasswordBox }) {
         <h3 className='text-xl font-semibold mt-10'>
           sila masukkan Key verifikasi
         </h3>
-        {/* <p className='text-admin2 lowercase'>
-          Password sementara (copypaste ke box password): {showTempPass}
-        </p> */}
         <input
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
           type='password'
@@ -48,30 +44,22 @@ function passwordBox({ setPassword, showPasswordBox }) {
 }
 
 export default function AdminLoginForm() {
-  const { setToken, toast, loginUser, checkUser } = useGlobalAdminAppContext();
+  const { setToken, toast, loginUser, checkUser, navigate } =
+    useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
-  const [ErrMsg, setErrMsg] = useState('');
-  const [showTempPass, setShowTempPass] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (showPasswordBox === false) {
-      if (!username) {
-        setErrMsg('Sila masukkan ID Pengguna');
-        return;
-      }
-      setErrMsg('');
       try {
         const response = await checkUser(username);
         toast.info(
-          'Key Verifikasi telah di email ke anda. Sila isi di bawah. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.'
+          `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
       } catch (error) {
         toast.error(error.response.data.message);
@@ -82,11 +70,6 @@ export default function AdminLoginForm() {
 
     if (showPasswordBox === true) {
       setLoggingIn(true);
-      if (!password) {
-        setErrMsg('Sila masukkan Kata Laluan');
-        return;
-      }
-      setErrMsg('');
       setTimeout(async () => {
         try {
           const response = await loginUser({
@@ -115,9 +98,8 @@ export default function AdminLoginForm() {
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
-              {passwordBox({ setPassword, showPasswordBox, showTempPass })}
-              <p className='mt-10 mb-5 text-xs text-admin1'>{ErrMsg}</p>
-              <div className='grid grid-cols-2 gap-2 ml-20 mr-20'>
+              {passwordBox({ setPassword, showPasswordBox })}
+              <div className='grid grid-cols-2 gap-2 mt-10 ml-20 mr-20'>
                 <Link
                   to='/'
                   className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'

@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 const async = require('async');
 const Excel = require('exceljs');
+const cryptoJs = require('crypto-js');
 const Sekolah = require('../models/Sekolah');
 const Umum = require('../models/Umum');
 const Pemeriksaan = require('../models/Pemeriksaansekolah');
@@ -7936,11 +7938,15 @@ exports.popAndAgg2 = function (req, res) {
   );
 };
 async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
-  theData = await Umum.aggregate([
+  console.log(klinik);
+  const data = await Umum.aggregate([
     {
       $match: {
         tarikhKedatangan: {
           $eq: dateToday,
+        },
+        createdByKp: {
+          $eq: klinik,
         },
       },
     },
@@ -7948,6 +7954,9 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
       $project: {
         _id: 0,
         tarikhKedatangan: '$tarikhKedatangan',
+        noSiri: '$noSiri',
+        noPendaftaranBaru: '$noPendaftaranBaru',
+        noPendaftaranUlangan: '$noPendaftaranUlangan',
         nama: '$nama',
         jantina: '$jantina',
         umur: '$umur',
@@ -7959,6 +7968,7 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
         kategoriPesakit: '$kategoriPesakit',
         kumpulanEtnik: '$kumpulanEtnik',
         rujukDaripada: '$rujukDaripada',
+        catatan: '$catatan',
       },
     },
     {
@@ -7979,24 +7989,39 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG101');
 
-    for (let i = 0; i < theData.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(11 + i);
-      rowNew.getCell(1).value = theData[i].tarikhKedatangan;
-      rowNew.getCell(2).value = theData[i].nomborSiri; //dapat dari mana?
-      rowNew.getCell(3).value = theData[i].kedatanganEnggan;
-      rowNew.getCell(4).value = theData[i].kedatanganTidakHadir;
-      rowNew.getCell(5).value = theData[i].ic;
-      rowNew.getCell(6).value = theData[i].nama;
-      rowNew.getCell(7).value = theData[i].alamat;
-      rowNew.getCell(8).value = theData[i].umur;
-      rowNew.getCell(9).value = theData[i].waktuSampai;
-      if (theData[i].jantina == 'perempuan') {
+      // change tarikh kedatangan to local
+      const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
+      data[i].tarikhKedatangan = localDate;
+      // change tarikh kedatangan to local
+      rowNew.getCell(1).value = data[i].tarikhKedatangan;
+      rowNew.getCell(2).value = data[i].noSiri;
+      if (data[i].noPendaftaranBaru) {
+        rowNew.getCell(3).value = data[i].noPendaftaranBaru;
+      }
+      if (data[i].noPendaftaranUlangan) {
+        rowNew.getCell(4).value = data[i].noPendaftaranUlangan;
+      }
+      // decrypt ic
+      const decryptedIc = cryptoJs.AES.decrypt(
+        data[i].ic,
+        process.env.CRYPTO_JS_SECRET
+      ).toString(cryptoJs.enc.Utf8);
+      data[i].ic = decryptedIc;
+      // decrypt ic
+      rowNew.getCell(5).value = data[i].ic;
+      rowNew.getCell(6).value = data[i].nama.toUpperCase();
+      rowNew.getCell(7).value = data[i].alamat;
+      rowNew.getCell(8).value = data[i].umur;
+      rowNew.getCell(9).value = data[i].waktuSampai;
+      if (data[i].jantina == 'perempuan') {
         rowNew.getCell(10).value = '/'; //Puan.. pakai boolean?
       }
-      if (theData[i].jantina == 'lelaki') {
+      if (data[i].jantina == 'lelaki') {
         rowNew.getCell(11).value = '/'; //Puan.. pakai boolean?
       }
-      switch (theData[i].kategoriPesakit) {
+      switch (data[i].kategoriPesakit) {
         case 'toddler':
           rowNew.getCell(12).value = '/';
           break;
@@ -8008,7 +8033,7 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
         default:
           console.log('');
       }
-      switch (theData[i].kumpulanEtnik) {
+      switch (data[i].kumpulanEtnik) {
         case 'melayu':
           rowNew.getCell(20).value = '/';
           break;
@@ -8060,33 +8085,8 @@ async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
         default:
           console.log('');
       }
-      // rowNew.getCell(11).value = results.jantina; //Laki.. pakai boolean?
-      // rowNew.getCell(12).value = results.kategoriPesakit; //toddler..pakai boolean?
-      // rowNew.getCell(13).value = results.kategoriPesakit; //pra-sekolah..pakai boolean?
-      // rowNew.getCell(14).value = results.kategoriPesakit; //Sek Rendah..pakai boolean?
-      // rowNew.getCell(15).value = results.kategoriPesakit; //Sek Men..pakai boolean?
-      // rowNew.getCell(16).value = results.kategoriPesakit; //OKU..pakai boolean?
-      // rowNew.getCell(17).value = results.kategoriPesakit; //Ibu Mengandung..pakai boolean?
-      // rowNew.getCell(18).value = results.kategoriPesakit; //dewasa..pakai boolean?
-      // rowNew.getCell(19).value = results.kategoriPesakit; //wargatua..pakai boolean?
-      // rowNew.getCell(20).value = results.kumpulanEtnik; //melayu. boolean?
-      // rowNew.getCell(21).value = results.kumpulanEtnik; //cina. boolean?
-      // rowNew.getCell(22).value = results.kumpulanEtnik; //india. boolean?
-      // rowNew.getCell(23).value = results.kumpulanEtnik; //bajau. boolean?
-      // rowNew.getCell(24).value = results.kumpulanEtnik; //dusun. boolean?
-      // rowNew.getCell(25).value = results.kumpulanEtnik; //kadazan. boolean?
-      // rowNew.getCell(26).value = results.kumpulanEtnik; //murut. boolean?
-      // rowNew.getCell(27).value = results.kumpulanEtnik; //BMP sabah. boolean?
-      // rowNew.getCell(28).value = results.kumpulanEtnik; //melanau. boolean?
-      // rowNew.getCell(29).value = results.kumpulanEtnik; //kedayan. boolean?
-      // rowNew.getCell(30).value = results.kumpulanEtnik; //iban. boolean?
-      // rowNew.getCell(31).value = results.kumpulanEtnik; //bidayuh. boolean?
-      // rowNew.getCell(32).value = results.kumpulanEtnik; //BMP sarawak. boolean?
-      // rowNew.getCell(33).value = results.kumpulanEtnik; //OA. boolean?
-      // rowNew.getCell(34).value = results.kumpulanEtnik; //lain-lain. boolean?
-      // rowNew.getCell(35).value = results.kumpulanEtnik; //Bukan Warganegara. boolean?
-      rowNew.getCell(36).value = theData[i].rujukDaripada; //rujukDaripada
-      rowNew.getCell(37).value = theData[i].catatan; //catatan
+      rowNew.getCell(36).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
+      rowNew.getCell(37).value = data[i].catatan; //catatan
     }
 
     let newfile = path.join(
@@ -15724,6 +15724,26 @@ exports.whatDoWeHaveHere = async function (req, res) {
   ]);
   try {
     res.status(200).json(theData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
+exports.aggregateFunction = async function (req, res) {
+  const { aggregation } = req.body;
+  const data = await Umum.aggregate(aggregation);
+  try {
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error });
+  }
+};
+exports.findFunction = async function (req, res) {
+  const { find } = req.body;
+  const data = await Umum.find(find);
+  try {
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
