@@ -10,6 +10,10 @@ const Pemeriksaan = require('../models/Pemeriksaansekolah');
 const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 
+// aspose
+
+// const aspose = require('aspose.cells');
+
 exports.testFunction = function (req, res) {
   async.parallel(
     {
@@ -7937,13 +7941,13 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-async function generatePG101(jenisReten, sekolah, klinik, dateToday) {
+async function generatePG101(jenisReten, sekolah, klinik, date) {
   console.log(klinik);
   const data = await Umum.aggregate([
     {
       $match: {
         tarikhKedatangan: {
-          $eq: dateToday,
+          $eq: date,
         },
         createdByKp: {
           $eq: klinik,
@@ -9361,7 +9365,7 @@ async function generatePG201(jenisReten, sekolah, klinik) {
         // Write the file
         await workbook.xlsx.writeFile(newfile);
         console.log('writing file');
-        setTimeout(function () {
+        setTimeout(() => {
           fs.unlinkSync(newfile); // delete this file after 30 seconds
           console.log('deleting file');
         }, 15000);
@@ -9373,9 +9377,26 @@ async function generatePG201(jenisReten, sekolah, klinik) {
     }
   );
 }
+// async function convertToPdf(excelFile, pdfFile) {
+//   console.log('converting to pdf');
+//   try {
+//     var workbook = new aspose.Workbook(excelFile);
+//     var saveOptions = aspose.PdfSaveOptions();
+//     saveOptions.setOnePagePerSheet(true);
+//     workbook.save(pdfFile, saveOptions);
+//     setTimeout(() => {
+//       fs.unlinkSync(pdfFile); // delete this file after 30 seconds
+//       console.log('deleting pdf file');
+//     }, 15000);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error });
+//   }
+// }
 exports.downloader = async function (req, res) {
-  console.log(req.query);
-  const { jenisReten, sekolah, kp, dateToday } = req.query;
+  console.log('this is testcount', req.query);
+  const { jenisReten, sekolah, kp, dateToday, formatFile, pg101date } =
+    req.query;
   if (jenisReten === 'PG201A') {
     await generatePG201(jenisReten, sekolah, kp);
     const theResult = () => {
@@ -9395,7 +9416,7 @@ exports.downloader = async function (req, res) {
     }, 3000);
   }
   if (jenisReten == 'PG101') {
-    await generatePG101(jenisReten, sekolah, kp, dateToday);
+    await generatePG101(jenisReten, sekolah, kp, pg101date);
     const theResult = () => {
       let newfile = path.join(
         __dirname,
@@ -9404,9 +9425,29 @@ exports.downloader = async function (req, res) {
         'exports',
         'test-' + kp + '-PG101.xlsx'
       );
-      const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-      res.setHeader('Content-Type', 'application/vnd.ms-excel');
-      return res.status(200).send(file);
+      if (formatFile != 'pdf') {
+        const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+        res.setHeader('Content-Type', 'application/vnd.ms-excel');
+        return res.status(200).send(file);
+      }
+      if (formatFile == 'pdf') {
+        try {
+          let pdfFile = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG101.pdf'
+          );
+          convertToPdf(newfile, pdfFile);
+          const file = fs.readFileSync(path.resolve(process.cwd(), pdfFile));
+          res.setHeader('Content-Type', 'application/pdf');
+          return res.status(200).send(file);
+        } catch (error) {
+          console.log(error);
+          return res.status(500).json({ error });
+        }
+      }
     };
     setTimeout(() => {
       theResult(), console.log('times up');
@@ -15740,8 +15781,15 @@ exports.aggregateFunction = async function (req, res) {
   }
 };
 exports.findFunction = async function (req, res) {
-  const { find } = req.body;
-  const data = await Umum.find(find);
+  if (!req.query) {
+    res.status(400).json({ error: 'no query' });
+  }
+  const { tarikh, kp } = req.query;
+  console.log(req.query);
+  const data = await Umum.find({
+    tarikhKedatangan: tarikh,
+    createdByKp: kp,
+  });
   try {
     res.status(200).json(data);
   } catch (error) {
