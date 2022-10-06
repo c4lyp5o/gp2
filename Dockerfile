@@ -1,6 +1,9 @@
 # base nodejs v18
 FROM node:18
 
+# install java
+RUN apt-get update && apt-get install -y install openjdk-8-jre
+
 # create app directory
 WORKDIR /usr/src/app
 
