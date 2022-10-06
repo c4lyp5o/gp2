@@ -9,6 +9,7 @@ const generateTest = require('../controllers/testCount');
 
 // Routes
 // router.post('/testroute', generateTest.getDetails);
+router.get('/getdataman', generateTest.findFunction);
 router.get('/getdetails', generateTest.whatDoWeHaveHere);
 router.get('/testdownload', generateTest.downloader);
 router.get('/testcount', generateTest.testFunction201A);

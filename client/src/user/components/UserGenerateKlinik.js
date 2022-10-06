@@ -5,6 +5,8 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
   const { userToken, toast, dateToday } = useGlobalUserAppContext();
+  const [pg101dates, setPg101dates] = useState([]);
+  const [pg101date, setPg101date] = useState('');
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -43,12 +45,37 @@ export default function UserGenerateKlinik() {
         console.log(error);
       }
     };
+    const getDatesInPG101 = async () => {
+      let theKp = '';
+      try {
+        await axios
+          .get('/api/v1/identity', {
+            headers: { Authorization: `Bearer ${userToken}` },
+          })
+          .then((res) => {
+            theKp = res.data.kp;
+          });
+        const { data } = await axios.get(
+          `/api/v1/generate/getdataman?tarikh=${dateToday}&kp=${theKp}`,
+          {
+            headers: { Authorization: `Bearer ${userToken}` },
+          }
+        );
+        let uniqueDates = [
+          ...new Set(data && data.map((item) => item.tarikhKedatangan)),
+        ];
+        setPg101dates(uniqueDates);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDatesInPG101();
     fetchSekolah();
   }, []);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${currentKp}-${pilihanSekolah}.xlsx`;
+    link.download = `${jenisReten}-${currentKp}-${pg101date}.${formatFile}`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -63,7 +90,7 @@ export default function UserGenerateKlinik() {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
+          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
           {
             responseType: 'blob',
           }
@@ -97,7 +124,7 @@ export default function UserGenerateKlinik() {
               >
                 <option value=''>Sila pilih reten</option>
                 <option value='PG101'>PG101</option>
-                <option value='BEGIN'>BEGIN 01/2020</option>
+                {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>
                 <option value='CPPC2'>CPPC 2</option>
@@ -112,7 +139,7 @@ export default function UserGenerateKlinik() {
                 <option value='PPIM04'>PPIM 04</option>
                 <option value='PPIM05'>PPIM 05-2020</option>
                 <option value='PPKPS'>PPKPS</option>
-                <option value='MGH'>MGH</option>
+                <option value='MGH'>MGH</option> */}
               </select>
             </div>
             <div>
@@ -139,7 +166,7 @@ export default function UserGenerateKlinik() {
               </select>
             </div>
             <div>
-              <strong>Daripada</strong>
+              {/* <strong>Daripada</strong>
               <input
                 type='date'
                 name='startDate'
@@ -156,7 +183,28 @@ export default function UserGenerateKlinik() {
                 id='endDate'
                 onChange={(e) => setEndDate(e.target.value)}
                 className='outline outline-1 outline-userBlack'
-              />
+              /> */}
+              <label htmlFor='tarikhPg101' className='font-bold'>
+                Sila pilih tarikh
+              </label>
+              <select
+                required
+                name='tarikhPg101'
+                id='tarikhPg101'
+                className='outline outline-1 outline-userBlack w- m-3 text-sm font-m'
+                onChange={(e) => {
+                  setPg101date(e.target.value);
+                }}
+              >
+                <option value=''>Sila pilih tarikh</option>
+                {pg101dates.map((singleDate, index) => {
+                  return (
+                    <option value={singleDate} key={index}>
+                      {singleDate}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           </div>
           <div>
@@ -166,6 +214,7 @@ export default function UserGenerateKlinik() {
             <div className=''>
               <p className='items-center pl-5 font-semibold'>Format : </p>
               <select
+                required
                 name='formatFile'
                 id='formatFile'
                 onChange={(e) => setFormatFile(e.target.value)}
@@ -173,7 +222,7 @@ export default function UserGenerateKlinik() {
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                <option value='pdf'>PDF</option>
+                {/* <option value='pdf'>PDF</option> */}
               </select>
             </div>
             <button
