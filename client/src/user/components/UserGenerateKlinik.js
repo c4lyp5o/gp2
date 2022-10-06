@@ -110,17 +110,22 @@ export default function UserGenerateKlinik() {
   return (
     <>
       <div className='p-2'>
-        <h1 className='font-bold text-base '>Penjanaan Laporan</h1>
+        <h1 className='font-bold text-lg text-user1 '>Penjanaan Laporan</h1>
         <form onSubmit={handleJana}>
-          <div className='grid grid-cols-1 lg:grid-cols-4 gap-2'>
-            <div>
-              <strong>Laporan: </strong>
+          <div className='grid grid-cols-2 lg:grid-cols-4 gap-2'>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='jenisReten'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Laporan:
+              </label>
               <select
                 required
                 name='jenisReten'
                 id='jenisReten'
                 onChange={(e) => setJenisReten(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih reten</option>
                 <option value='PG101'>PG101</option>
@@ -142,14 +147,21 @@ export default function UserGenerateKlinik() {
                 <option value='MGH'>MGH</option> */}
               </select>
             </div>
-            <div>
-              <strong>Sekolah: </strong>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='sekolah'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Sekolah:
+              </label>
               <select
+                name='sekolah'
+                id='sekolah'
                 value={pilihanSekolah}
                 onChange={(e) => {
                   setPilihanSekolah(e.target.value);
                 }}
-                className='capitalize outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih..</option>
                 {namaSekolahs.map((singleNamaSekolah, index) => {
@@ -165,33 +177,46 @@ export default function UserGenerateKlinik() {
                 })}
               </select>
             </div>
-            <div>
-              {/* <strong>Daripada</strong>
+            {/* <div className='px-3 py-1'>
+              <label
+                htmlFor='startDate'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Daripada:
+              </label>
               <input
                 type='date'
                 name='startDate'
                 id='startDate'
                 onChange={(e) => setStartDate(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               />
-            </div>
-            <div>
-              <strong>Sehingga</strong>
+            </div> */}
+            <div className='px-3 py-1'>
+              {/* <label
+                htmlFor='endDate'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Sehingga:
+              </label>
               <input
                 type='date'
                 name='endDate'
                 id='endDate'
                 onChange={(e) => setEndDate(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               /> */}
-              <label htmlFor='tarikhPg101' className='font-bold'>
+              <label
+                htmlFor='tarikhPg101'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
                 Sila pilih tarikh
               </label>
               <select
                 required
                 name='tarikhPg101'
                 id='tarikhPg101'
-                className='outline outline-1 outline-userBlack w- m-3 text-sm font-m'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 onChange={(e) => {
                   setPg101date(e.target.value);
                 }}
@@ -207,18 +232,23 @@ export default function UserGenerateKlinik() {
               </select>
             </div>
           </div>
-          <div>
+          <div className='grid grid-cols-3 lg:grid-cols-5'>
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
             </button> */}
-            <div className=''>
-              <p className='items-center pl-5 font-semibold'>Format : </p>
+            <div className='col-start-2 lg:col-start-3 px-3 py-1'>
+              <label
+                htmlFor='formatFile'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Format:
+              </label>
               <select
                 required
                 name='formatFile'
                 id='formatFile'
                 onChange={(e) => setFormatFile(e.target.value)}
-                className='outline outline-1 outline-userBlack w- m-3 text-sm font-m'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
@@ -226,7 +256,7 @@ export default function UserGenerateKlinik() {
               </select>
             </div>
             <button
-              className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 ml-2 hover:bg-user1 transition-all'
+              className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3'
               type='submit'
             >
               jana
