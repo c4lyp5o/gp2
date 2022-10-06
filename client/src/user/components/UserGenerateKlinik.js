@@ -222,7 +222,7 @@ export default function UserGenerateKlinik() {
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                <option value='pdf'>PDF</option>
+                {/* <option value='pdf'>PDF</option> */}
               </select>
             </div>
             <button

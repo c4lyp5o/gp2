@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/Nocturnalmc/gp2#readme",
   "dependencies": {
-    "aspose.cells": "^22.9.0",
     "async": "^3.2.3",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
