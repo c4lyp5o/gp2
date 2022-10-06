@@ -337,7 +337,7 @@ exports.getData = async (req, res, next) => {
               });
             }
             const theKey = simpleCrypto.generateRandomString(20);
-            const update = await Superadmin.findByIdAndUpdate(
+            await Superadmin.findByIdAndUpdate(
               tempUser._id,
               {
                 tempKey: theKey,
@@ -353,7 +353,6 @@ exports.getData = async (req, res, next) => {
                 pass: process.env.EMAILER_PASS,
               },
             });
-            console.log('email is:', tempUser.e_mail);
             let useEmail = '';
             if (!tempUser.e_mail) {
               useEmail = process.env.SEND_TO;
@@ -379,28 +378,13 @@ exports.getData = async (req, res, next) => {
                   message: 'Email tidak dapat dihantar',
                 });
               }
-              console.log('Email sent: ' + info.response);
               return res.status(200).json({
                 status: 'success',
                 message: 'Email telah dihantar',
+                email: tempUser.e_mail,
               });
             });
             break;
-          // const verification = await transporter.sendMail({
-          //   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
-          //   to: tempUser.e_mail,
-          //   subject: 'Kunci Verifikasi',
-          //   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
-          //   html:
-          //     '<p>Kunci verifikasi anda adalah: </p>' +
-          //     theKey +
-          //     '<p>\n\n</p>',
-          // });
-          // console.log(verification);
-          // return res.status(200).json({
-          //   status: 'success',
-          //   message: 'Email sent to ' + tempUser.e_mail,
-          // });
           case 'update':
             console.log('update for user');
             const User = await Superadmin.findOne({ user_name: username });
