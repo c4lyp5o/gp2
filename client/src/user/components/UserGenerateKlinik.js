@@ -81,6 +81,7 @@ export default function UserGenerateKlinik() {
         axios.get(
           `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
           {
+            headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
           }
         ),
