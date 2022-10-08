@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const moment = require('moment');
 const async = require('async');
+const moment = require('moment');
 const Excel = require('exceljs');
+const jwt = require('jsonwebtoken');
 const cryptoJs = require('crypto-js');
 const Sekolah = require('../models/Sekolah');
 const Umum = require('../models/Umum');
@@ -15781,17 +15782,18 @@ exports.aggregateFunction = async function (req, res) {
   }
 };
 exports.findFunction = async function (req, res) {
-  if (!req.query) {
-    res.status(400).json({ error: 'no query' });
-  }
-  const { tarikh, kp } = req.query;
-  console.log(req.query);
+  const { tarikh } = req.query;
+  const { authorization } = req.headers;
+  const token = authorization.split(' ')[1];
+  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
   const data = await Umum.find({
-    tarikhKedatangan: tarikh,
     createdByKp: kp,
   });
+  let uniqueDates = [
+    ...new Set(data && data.map((item) => item.tarikhKedatangan)),
+  ];
   try {
-    res.status(200).json(data);
+    res.status(200).json(uniqueDates);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });

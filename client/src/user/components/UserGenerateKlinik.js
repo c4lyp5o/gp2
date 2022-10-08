@@ -46,25 +46,14 @@ export default function UserGenerateKlinik() {
       }
     };
     const getDatesInPG101 = async () => {
-      let theKp = '';
       try {
         await axios
-          .get('/api/v1/identity', {
+          .get(`/api/v1/generate/getdataman?tarikh=${dateToday}`, {
             headers: { Authorization: `Bearer ${userToken}` },
           })
           .then((res) => {
-            theKp = res.data.kp;
+            setPg101dates(res.data);
           });
-        const { data } = await axios.get(
-          `/api/v1/generate/getdataman?tarikh=${dateToday}&kp=${theKp}`,
-          {
-            headers: { Authorization: `Bearer ${userToken}` },
-          }
-        );
-        let uniqueDates = [
-          ...new Set(data && data.map((item) => item.tarikhKedatangan)),
-        ];
-        setPg101dates(uniqueDates);
       } catch (error) {
         console.log(error);
       }
