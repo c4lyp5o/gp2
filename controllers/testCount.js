@@ -9498,6 +9498,44 @@ exports.downloader = async function (req, res) {
       theResult(), console.log('times up');
     }, 3000);
   }
+  if (jenisReten == 'PG211') {
+    await generatePG211(kp, daerah, negeri);
+    const theResult = () => {
+      let newfile = path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        'test-' + kp + '-PG211.xlsx'
+      );
+      if (formatFile != 'pdf') {
+        const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+        res.setHeader('Content-Type', 'application/vnd.ms-excel');
+        return res.status(200).send(file);
+      }
+      if (formatFile == 'pdf') {
+        try {
+          let pdfFile = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG211.pdf'
+          );
+          convertToPdf(newfile, pdfFile);
+          const file = fs.readFileSync(path.resolve(process.cwd(), pdfFile));
+          res.setHeader('Content-Type', 'application/pdf');
+          return res.status(200).send(file);
+        } catch (error) {
+          console.log(error);
+          return res.status(500).json({ error });
+        }
+      }
+    };
+    setTimeout(() => {
+      theResult(), console.log('times up');
+    }, 3000);
+  }
   if (jenisReten == 'PGS203') {
     await generatePG203(jenisReten, sekolah, kp, dateToday);
     const theResult = () => {
@@ -15841,5 +15879,953 @@ exports.findFunction = async function (req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
+  }
+};
+const generatePG211 = async (klinik, daerah, negeri) => {
+  let match_stage = [];
+
+  const bage_below_1 = {
+    $match: {
+      umur: {
+        $lt: 1,
+      },
+      umurBulan: {
+        $lt: 13,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_1_4 = {
+    $match: {
+      umur: {
+        $gte: 1,
+        $lte: 4,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_5_6 = {
+    $match: {
+      umur: {
+        $gte: 5,
+        $lte: 6,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_7_9 = {
+    $match: {
+      umur: {
+        $gte: 7,
+        $lte: 9,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_10_12 = {
+    $match: {
+      umur: {
+        $gte: 10,
+        $lte: 12,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_13_14 = {
+    $match: {
+      umur: {
+        $gte: 13,
+        $lte: 14,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_15_17 = {
+    $match: {
+      umur: {
+        $gte: 15,
+        $lte: 17,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_18_19 = {
+    $match: {
+      umur: {
+        $gte: 18,
+        $lte: 19,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_20_29 = {
+    $match: {
+      umur: {
+        $gte: 20,
+        $lte: 29,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_30_39 = {
+    $match: {
+      umur: {
+        $gte: 30,
+        $lte: 39,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_40_49 = {
+    $match: {
+      umur: {
+        $gte: 40,
+        $lte: 49,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_50_59 = {
+    $match: {
+      umur: {
+        $gte: 50,
+        $lte: 59,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_60 = {
+    $match: {
+      umur: {
+        $eq: 60,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_61_64 = {
+    $match: {
+      umur: {
+        $gte: 61,
+        $lte: 64,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_65 = {
+    $match: {
+      umur: {
+        $eq: 65,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_66_69 = {
+    $match: {
+      umur: {
+        $gte: 66,
+        $lte: 69,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_70_74 = {
+    $match: {
+      umur: {
+        $gte: 70,
+        $lte: 74,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_lebih_75 = {
+    $match: {
+      umur: {
+        $gte: 75,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+
+  const uage_below_1 = {
+    $match: {
+      umur: {
+        $lt: 1,
+      },
+      umurBulan: {
+        $lt: 13,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_1_4 = {
+    $match: {
+      umur: {
+        $gte: 1,
+        $lte: 4,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_5_6 = {
+    $match: {
+      umur: {
+        $gte: 5,
+        $lte: 6,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_7_9 = {
+    $match: {
+      umur: {
+        $gte: 7,
+        $lte: 9,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_10_12 = {
+    $match: {
+      umur: {
+        $gte: 10,
+        $lte: 12,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_13_14 = {
+    $match: {
+      umur: {
+        $gte: 13,
+        $lte: 14,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_15_17 = {
+    $match: {
+      umur: {
+        $gte: 15,
+        $lte: 17,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_18_19 = {
+    $match: {
+      umur: {
+        $gte: 18,
+        $lte: 19,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_20_29 = {
+    $match: {
+      umur: {
+        $gte: 20,
+        $lte: 29,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_30_39 = {
+    $match: {
+      umur: {
+        $gte: 30,
+        $lte: 39,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_40_49 = {
+    $match: {
+      umur: {
+        $gte: 40,
+        $lte: 49,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_50_59 = {
+    $match: {
+      umur: {
+        $gte: 50,
+        $lte: 59,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_60 = {
+    $match: {
+      umur: {
+        $eq: 60,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_61_64 = {
+    $match: {
+      umur: {
+        $gte: 61,
+        $lte: 64,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_65 = {
+    $match: {
+      umur: {
+        $eq: 65,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_66_69 = {
+    $match: {
+      umur: {
+        $gte: 66,
+        $lte: 69,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_70_74 = {
+    $match: {
+      umur: {
+        $gte: 70,
+        $lte: 74,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const uage_lebih_75 = {
+    $match: {
+      umur: {
+        $gte: 75,
+      },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+
+  match_stage.push(bage_below_1);
+  match_stage.push(uage_below_1);
+
+  match_stage.push(bage_1_4);
+  match_stage.push(uage_1_4);
+
+  match_stage.push(bage_5_6);
+  match_stage.push(uage_5_6);
+
+  match_stage.push(bage_7_9);
+  match_stage.push(uage_7_9);
+
+  match_stage.push(bage_10_12);
+  match_stage.push(uage_10_12);
+
+  match_stage.push(bage_13_14);
+  match_stage.push(uage_13_14);
+
+  match_stage.push(bage_15_17);
+  match_stage.push(uage_15_17);
+
+  match_stage.push(bage_18_19);
+  match_stage.push(uage_18_19);
+
+  match_stage.push(bage_20_29);
+  match_stage.push(uage_20_29);
+
+  match_stage.push(bage_30_39);
+  match_stage.push(uage_30_39);
+
+  match_stage.push(bage_40_49);
+  match_stage.push(uage_40_49);
+
+  match_stage.push(bage_50_59);
+  match_stage.push(uage_50_59);
+
+  match_stage.push(bage_60);
+  match_stage.push(uage_60);
+
+  match_stage.push(bage_61_64);
+  match_stage.push(uage_61_64);
+
+  match_stage.push(bage_65);
+  match_stage.push(uage_65);
+
+  match_stage.push(bage_66_69);
+  match_stage.push(uage_66_69);
+
+  match_stage.push(bage_70_74);
+  match_stage.push(uage_70_74);
+
+  match_stage.push(bage_lebih_75);
+  match_stage.push(uage_lebih_75);
+
+  const group_stage = {
+    $group: {
+      _id: '$categoryId',
+      count: { $sum: 1 },
+      jumlahLelaki: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'lelaki'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPerempuan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'perempuan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahMelayu: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'melayu'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahCina: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'cina'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIndia: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'india'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBajau: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bajau'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahDusun: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'dusun'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahKadazan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'kadazan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahMurut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'murut'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBMSL: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bumiputera-sabah-lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahMelanau: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'melanau'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahKedayan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'kedayan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIban: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'iban'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBidayuh: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bidayuh'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPenan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'penan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBMSwL: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bumiputera-sarawak-lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahOA: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'orang-asli'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahLainlain: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'lain-lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBukanWarganegara: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bukan-warganegara'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIbuMengandung: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$ibuMengandung', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBersekolah: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$bersekolah', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahOKU: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$orangKurangUpaya', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPesaraKerajaan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusPesara', 'pesara-kerajaan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPesaraATM: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusPesara', 'pesara-atm'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanDalaman: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'dalaman'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanKP: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'kp'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanKK: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'kk'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanHospital: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'hospital'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanSwasta: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'swasta'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahRujukanLainlain: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukDaripada', 'laoin-lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  try {
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG211.xlsx'
+    );
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG211');
+
+    const monthName = moment(new Date()).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    let details = worksheet.getRow(5);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(6);
+    intro1.getCell(2).value = 'PRIMER';
+
+    let intro2 = worksheet.getRow(7);
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(8);
+    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+
+    let intro4 = worksheet.getRow(9);
+    intro4.getCell(2).value = `${negeri.toUpperCase()}`;
+
+    for (let i = 0; i < match_stage.length; i++) {
+      console.log('i is:', i);
+      const pipeline = [match_stage[i], group_stage];
+      const data = await Umum.aggregate(pipeline);
+      console.log('data is:', data);
+      if (data.length > 0) {
+        let rowNew = worksheet.getRow(13 + i);
+        // rowNew.getCell(3).value = data.kedatanganTahunSemasa; //C13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(4).value = data[0].jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(5).value = data[0].jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(6).value = data[0].jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(7).value = data[0].jumlahCina; //G13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(8).value = data[0].jumlahIndia; //H13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(9).value = data[0].jumlahBajau; //I13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(10).value = data[0].jumlahDusun; //J13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(11).value = data[0].jumlahKadazan; //K13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(12).value = data[0].jumlahMurut; //L13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(13).value = data[0].jumlahBMSL; //M13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(14).value = data[0].jumlahMelanau; //N13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(15).value = data[0].jumlahKedayan; //O13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(16).value = data[0].jumlahIban; //P13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(17).value = data[0].jumlahBidayuh; //Q13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(18).value = data[0].jumlahPenan; //R13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(19).value = data[0].jumlahBMSwL; //R13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(20).value = data[0].jumlahOA; //S13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(21).value = data[0].jumlahLainlain; //T13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(22).value = data[0].jumlahBukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(23).value = data[0].jumlahIbuMengandung; //V13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(24).value = data[0].jumlahBersekolah; //W13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(25).value = data[0].jumlahOKU; //X13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(26).value = data[0].jumlahPesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(27).value = data[0].jumlahPesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(28).value = data[0].jumlahRujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(29).value = data[0].jumlahRujukanKP; //AB13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(30).value = data[0].jumlahRujukanKK; //AC13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(31).value = data[0].jumlahRujukanHospital; //AD13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(32).value = data[0].jumlahRujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(33).value = data[0].jumlahRujukanLainlain; //AF13 Kategori bawah 1 Tahun (baru)
+      }
+    }
+
+    let newfile = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'test-' + klinik + '-PG211.xlsx'
+    );
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 30000);
+    return 'it is done';
+  } catch (error) {
+    console.log(error);
   }
 };

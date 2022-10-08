@@ -119,6 +119,7 @@ export default function UserGenerateKlinik() {
               >
                 <option value=''>Sila pilih reten</option>
                 <option value='PG101'>PG101</option>
+                <option value='PG211'>PG211</option>
                 {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>
