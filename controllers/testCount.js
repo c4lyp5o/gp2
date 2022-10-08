@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const moment = require('moment');
 const async = require('async');
+const moment = require('moment');
 const Excel = require('exceljs');
+const jwt = require('jsonwebtoken');
 const cryptoJs = require('crypto-js');
 const Sekolah = require('../models/Sekolah');
 const Umum = require('../models/Umum');
@@ -7941,7 +7942,14 @@ exports.popAndAgg2 = function (req, res) {
     }
   );
 };
-async function generatePG101(jenisReten, sekolah, klinik, date) {
+async function generatePG101(
+  jenisReten,
+  sekolah,
+  klinik,
+  date,
+  daerah,
+  negeri
+) {
   console.log(klinik);
   const data = await Umum.aggregate([
     {
@@ -7969,7 +7977,12 @@ async function generatePG101(jenisReten, sekolah, klinik, date) {
         umur: '$umur',
         waktuSampai: '$waktuSampai',
         jantina: '$jantina',
+        ibuMengandung: '$ibuMengandung',
+        orangKurangUpaya: '$orangKurangUpaya',
+        bersekolah: '$bersekolah',
+        noOku: '$noOku',
         kategoriPesakit: '$kategoriPesakit',
+        statusPesara: '$statusPesara',
         kumpulanEtnik: '$kumpulanEtnik',
         rujukDaripada: '$rujukDaripada',
         catatan: '$catatan',
@@ -7993,19 +8006,40 @@ async function generatePG101(jenisReten, sekolah, klinik, date) {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG101');
 
+    const monthName = moment(date).format('MMMM');
+    const yearNow = moment(date).format('YYYY');
+
+    let details = worksheet.getRow(5);
+    details.getCell(
+      11
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(6);
+    intro1.getCell(2).value = 'Servis: PRIMER';
+
+    let intro2 = worksheet.getRow(7);
+    intro2.getCell(2).value = `Fasiliti: ${klinik.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(8);
+    intro3.getCell(2).value = `Daerah: ${daerah.toUpperCase()}`;
+
+    let intro4 = worksheet.getRow(9);
+    intro4.getCell(2).value = `Negeri: ${negeri.toUpperCase()}`;
+
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(11 + i);
+      let rowNew = worksheet.getRow(16 + i);
       // change tarikh kedatangan to local
       const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
       data[i].tarikhKedatangan = localDate;
       // change tarikh kedatangan to local
       rowNew.getCell(1).value = data[i].tarikhKedatangan;
       rowNew.getCell(2).value = data[i].noSiri;
+      rowNew.getCell(3).value = data[i].waktuSampai;
       if (data[i].noPendaftaranBaru) {
-        rowNew.getCell(3).value = data[i].noPendaftaranBaru;
+        rowNew.getCell(4).value = data[i].noPendaftaranBaru;
       }
       if (data[i].noPendaftaranUlangan) {
-        rowNew.getCell(4).value = data[i].noPendaftaranUlangan;
+        rowNew.getCell(5).value = data[i].noPendaftaranUlangan;
       }
       // decrypt ic
       const decryptedIc = cryptoJs.AES.decrypt(
@@ -8014,83 +8048,92 @@ async function generatePG101(jenisReten, sekolah, klinik, date) {
       ).toString(cryptoJs.enc.Utf8);
       data[i].ic = decryptedIc;
       // decrypt ic
-      rowNew.getCell(5).value = data[i].ic;
-      rowNew.getCell(6).value = data[i].nama.toUpperCase();
-      rowNew.getCell(7).value = data[i].alamat;
-      rowNew.getCell(8).value = data[i].umur;
-      rowNew.getCell(9).value = data[i].waktuSampai;
-      if (data[i].jantina == 'perempuan') {
-        rowNew.getCell(10).value = '/'; //Puan.. pakai boolean?
-      }
+      rowNew.getCell(6).value = data[i].ic;
+      rowNew.getCell(7).value = data[i].nama.toUpperCase();
+      rowNew.getCell(8).value = data[i].alamat;
+      rowNew.getCell(9).value = data[i].umur;
       if (data[i].jantina == 'lelaki') {
-        rowNew.getCell(11).value = '/'; //Puan.. pakai boolean?
+        rowNew.getCell(10).value = '/';
       }
-      switch (data[i].kategoriPesakit) {
-        case 'toddler':
-          rowNew.getCell(12).value = '/';
-          break;
-        case 'prasekolah':
-          rowNew.getCell(13).value = '/';
-          break;
-        case 'sekolahrendah':
-          break;
-        default:
-          console.log('');
+      if (data[i].jantina == 'perempuan') {
+        rowNew.getCell(11).value = '/';
       }
       switch (data[i].kumpulanEtnik) {
         case 'melayu':
-          rowNew.getCell(20).value = '/';
+          rowNew.getCell(12).value = '/';
           break;
         case 'cina':
-          rowNew.getCell(21).value = '/';
+          rowNew.getCell(13).value = '/';
           break;
         case 'india':
-          rowNew.getCell(22).value = '/';
+          rowNew.getCell(14).value = '/';
           break;
         case 'bajau':
-          rowNew.getCell(23).value = '/';
+          rowNew.getCell(15).value = '/';
           break;
         case 'dusun':
-          rowNew.getCell(24).value = '/';
+          rowNew.getCell(16).value = '/';
           break;
         case 'kadazan':
-          rowNew.getCell(25).value = '/';
+          rowNew.getCell(17).value = '/';
           break;
         case 'murut':
-          rowNew.getCell(26).value = '/';
+          rowNew.getCell(18).value = '/';
           break;
         case 'bumiputera-sabah':
-          rowNew.getCell(27).value = '/';
+          rowNew.getCell(19).value = '/';
           break;
         case 'melanau':
-          rowNew.getCell(28).value = '/';
+          rowNew.getCell(20).value = '/';
           break;
         case 'kedayan':
-          rowNew.getCell(29).value = '/';
+          rowNew.getCell(21).value = '/';
           break;
         case 'iban':
-          rowNew.getCell(30).value = '/';
+          rowNew.getCell(22).value = '/';
           break;
         case 'bidayuh':
-          rowNew.getCell(31).value = '/';
+          rowNew.getCell(23).value = '/';
+          break;
+        case 'penan':
+          rowNew.getCell(24).value = '/';
           break;
         case 'bumiputera-sarawak':
-          rowNew.getCell(32).value = '/';
+          rowNew.getCell(25).value = '/';
           break;
         case 'orang-asli':
-          rowNew.getCell(33).value = '/';
+          rowNew.getCell(26).value = '/';
           break;
         case 'lain-lain':
-          rowNew.getCell(34).value = '/';
+          rowNew.getCell(27).value = '/';
           break;
         case 'bukan-warganegara':
-          rowNew.getCell(35).value = '/';
+          rowNew.getCell(28).value = '/';
           break;
         default:
           console.log('');
       }
-      rowNew.getCell(36).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      rowNew.getCell(37).value = data[i].catatan; //catatan
+      if (data[i].ibuMengandung) {
+        rowNew.getCell(29).value = '/';
+      }
+      if (data[i].bersekolah) {
+        rowNew.getCell(30).value = '/';
+      }
+      if (data[i].orangKurangUpaya) {
+        rowNew.getCell(31).value = '/';
+      }
+      switch (data[i].statusPesara) {
+        case 'pesara-kerajaan':
+          rowNew.getCell(32).value = '/';
+          break;
+        case 'pesara-atm':
+          rowNew.getCell(33).value = '/';
+          break;
+        default:
+          console.log('');
+      }
+      rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
+      rowNew.getCell(35).value = data[i].catatan; //catatan
     }
 
     let newfile = path.join(
@@ -9394,9 +9437,11 @@ async function generatePG201(jenisReten, sekolah, klinik) {
 //   }
 // }
 exports.downloader = async function (req, res) {
-  console.log('this is testcount', req.query);
   const { jenisReten, sekolah, kp, dateToday, formatFile, pg101date } =
     req.query;
+  const { authorization } = req.headers;
+  const token = authorization.split(' ')[1];
+  const { daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
   if (jenisReten === 'PG201A') {
     await generatePG201(jenisReten, sekolah, kp);
     const theResult = () => {
@@ -9416,7 +9461,7 @@ exports.downloader = async function (req, res) {
     }, 3000);
   }
   if (jenisReten == 'PG101') {
-    await generatePG101(jenisReten, sekolah, kp, pg101date);
+    await generatePG101(jenisReten, sekolah, kp, pg101date, daerah, negeri);
     const theResult = () => {
       let newfile = path.join(
         __dirname,
@@ -15781,17 +15826,18 @@ exports.aggregateFunction = async function (req, res) {
   }
 };
 exports.findFunction = async function (req, res) {
-  if (!req.query) {
-    res.status(400).json({ error: 'no query' });
-  }
-  const { tarikh, kp } = req.query;
-  console.log(req.query);
+  const { tarikh } = req.query;
+  const { authorization } = req.headers;
+  const token = authorization.split(' ')[1];
+  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
   const data = await Umum.find({
-    tarikhKedatangan: tarikh,
     createdByKp: kp,
   });
+  let uniqueDates = [
+    ...new Set(data && data.map((item) => item.tarikhKedatangan)),
+  ];
   try {
-    res.status(200).json(data);
+    res.status(200).json(uniqueDates);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
