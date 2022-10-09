@@ -48,7 +48,7 @@ export default function UserGenerateKlinik() {
     const getDatesInPG101 = async () => {
       try {
         await axios
-          .get(`/api/v1/generate/getdataman?tarikh=${dateToday}`, {
+          .get(`/api/v1/generate/find?tarikh=${dateToday}`, {
             headers: { Authorization: `Bearer ${userToken}` },
           })
           .then((res) => {
@@ -79,7 +79,8 @@ export default function UserGenerateKlinik() {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
+          // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&pg101date=${pg101date}&formatFile=${formatFile}`,
           {
             headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
