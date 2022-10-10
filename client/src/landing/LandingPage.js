@@ -40,7 +40,7 @@ function LandingPage() {
               <h1>KE SISTEM GI-RET 2.0</h1>
               <p className='mt-3'>SILA PILIH FUNGSI APLIKASI</p>
               <p className='lg:hidden text-sm text-user6 mt-3'>
-                MOBILE HANYA BOLEH MENGGUNAKAN MODUL PENGGUNA SAHAJA
+                MOBILE BOLEH MENGGUNAKAN MODUL PENGGUNA & PENDAFTARAN
               </p>
             </div>
             <div className='grid lg:grid-cols-2 ml-auto mr-auto mt-7 lg:mt-10 h-60'>
@@ -67,7 +67,7 @@ function LandingPage() {
                 >
                   <Link
                     to='/kaunter'
-                    className='hidden lg:grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
+                    className='grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
                   >
                     Pendaftaran
                   </Link>

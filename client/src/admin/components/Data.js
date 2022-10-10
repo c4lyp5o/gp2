@@ -313,7 +313,7 @@ export default function Data({ FType }) {
                           {o.mdtbNumber}
                         </td>
                       )}
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                         {o.gred}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -409,7 +409,10 @@ export default function Data({ FType }) {
                         Kod {Dictionary[FType]}
                       </th>
                       <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                        Catatan {Dictionary[FType]}
+                        Status
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Alamat {Dictionary[FType]}
                       </th>
                     </>
                   )}
@@ -449,11 +452,16 @@ export default function Data({ FType }) {
                       </td>
                       {(FType === 'taska' || FType === 'tadika') && (
                         <>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.kodSekolah}
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                            {f.kodTastad}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.catatanTastad}
+                            {f.statusPerkhidmatan === 'active'
+                              ? 'aktif'
+                              : 'tidak aktif'}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {f.alamatTastad}
                           </td>
                         </>
                       )}
@@ -463,7 +471,9 @@ export default function Data({ FType }) {
                             {f.kodSekolah}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.statusPerkhidmatan}
+                            {f.statusPerkhidmatan === 'active'
+                              ? 'aktif'
+                              : 'tidak aktif'}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.risikoSekolahPersis}
