@@ -1,20 +1,40 @@
 const Umum = require('../models/Umum');
 
-const countPG101 = async (klinik, tarikh) => {
+const countPG101 = async (klinik, tarikhMula, tarikhAkhir) => {
   let match_stage = [];
   let project_stage = [];
   let sort_stage = [];
 
-  const match = {
-    $match: {
-      tarikhKedatangan: {
-        $eq: tarikh,
+  let match = {};
+
+  if (!tarikhAkhir) {
+    console.log('tarikh akhir is null');
+    match = {
+      $match: {
+        tarikhKedatangan: {
+          $eq: tarikhMula,
+        },
+        createdByKp: {
+          $eq: klinik,
+        },
       },
-      createdByKp: {
-        $eq: klinik,
+    };
+  }
+
+  if (tarikhAkhir) {
+    console.log('tarikh akhir is not null');
+    match = {
+      $match: {
+        tarikhKedatangan: {
+          $gte: tarikhMula,
+          $lte: tarikhAkhir,
+        },
+        createdByKp: {
+          $eq: klinik,
+        },
       },
-    },
-  };
+    };
+  }
 
   const project = {
     $project: {
