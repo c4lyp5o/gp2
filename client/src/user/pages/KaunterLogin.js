@@ -27,7 +27,7 @@ function KaunterLogin() {
     <>
       <KaunterHeader />
       <div className='absolute inset-0 -z-10 flex bg-kaunter3 text-center justify-center items-center capitalize'>
-        <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-1 outline-kaunterBlack rounded-md shadow-xl'>
+        <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-1 outline-kaunterBlack rounded-md shadow-xl'>
           <div>
             <h3 className='text-xl font-semibold mt-20'>
               sila masukkan ID pendaftaran
@@ -56,10 +56,10 @@ function KaunterLogin() {
                   {loginErrorMessage}
                 </p>
               )}
-              <div className='grid grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
+              <div className='grid lg:grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
                 <Link
                   to='/'
-                  className='capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                  className='order-last lg:order-first capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
                 >
                   kembali ke halaman utama
                 </Link>
@@ -94,7 +94,7 @@ function KaunterLogin() {
                 ) : (
                   <button
                     type='submit'
-                    className='capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                    className='order-first lg:order-last capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
                   >
                     log masuk
                   </button>
