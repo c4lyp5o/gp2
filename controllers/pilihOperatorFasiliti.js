@@ -21,7 +21,8 @@ const getFasilitiList = async (req, res) => {
     statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
   });
 
-  const fasilitis = fasilitisAll.splice(0, 1);
+  const deleteFasiliti = fasilitisAll.map((f) => f.kp).indexOf(req.user.kp);
+  const fasilitis = fasilitisAll.filter((f, i) => i !== deleteFasiliti);
 
   res.status(200).json({ fasilitis });
 };
