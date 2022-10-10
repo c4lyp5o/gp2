@@ -12,16 +12,9 @@ const UserSchema = new mongoose.Schema({
   accountType: {
     type: String,
     enum: {
-      values: [
-        'kpUser',
-        'kaunterUser',
-        'erkmUser',
-        'daerahUser',
-        'negeriUser',
-        'hqUser',
-      ],
+      values: ['kpUser', 'kaunterUser', 'erkmUser'],
       message:
-        '{VALUE} is not supported. Provide only "kpUser", "kaunterUser", "erkmUser", "daerahUser", "negeriUser", "hqUser"',
+        '{VALUE} is not supported. Provide only "kpUser", "kaunterUser", "erkmUser"',
     },
   },
   password: {
