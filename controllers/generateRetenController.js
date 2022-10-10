@@ -15,7 +15,7 @@ exports.downloader = async function (req, res) {
   const { authorization } = req.headers;
   const token = authorization.split(' ')[1];
   const { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
-  const { jenisReten, formatFile, tarikhMula, tarikhAkhir } = req.query;
+  const { jenisReten, formatFile, tarikhMula, tarikhAkhir, bulan } = req.query;
   const payload = {
     kp,
     daerah,
@@ -23,6 +23,7 @@ exports.downloader = async function (req, res) {
     formatFile,
     tarikhMula,
     tarikhAkhir,
+    bulan,
   };
   switch (jenisReten) {
     case 'PG101':
@@ -65,6 +66,11 @@ exports.downloader = async function (req, res) {
       break;
     case 'PG211':
       const data211 = await makePG211(payload);
+      if (data101 === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
       switch (formatFile) {
         case 'xlsx':
           res.setHeader('Content-Type', 'application/vnd.ms-excel');
@@ -138,6 +144,7 @@ const makePG101 = async (payload) => {
     const { kp, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
     //
     const data = await Helper.countPG101(kp, tarikhMula, tarikhAkhir);
+    //
     if (data.length === 0) {
       return 'No data found';
     }
@@ -311,9 +318,13 @@ const makePG101 = async (payload) => {
 const makePG211 = async (payload) => {
   console.log('PG211');
   try {
-    const { kp, daerah, negeri } = payload;
+    const { kp, daerah, negeri, bulan } = payload;
     //
-    const data = await Helper.countPG211(kp);
+    const data = await Helper.countPG211(kp, bulan);
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
     //
     let filename = path.join(
       __dirname,
