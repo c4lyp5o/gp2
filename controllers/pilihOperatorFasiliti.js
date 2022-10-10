@@ -16,17 +16,14 @@ const getFasilitiList = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // const fasilitis = await Fasiliti.find({
-  //   createdByDaerah: req.user.daerah,
-  //   jenisFasiliti: 'klinik',
-  // });
-
-  const fasilitis = await User.find({
-    daerah: req.user.daerah,
+  const fasilitisAll = await User.find({
+    negeri: req.user.negeri,
     statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
   });
 
-  console.log(fasilitis);
+  const deleteFasiliti = fasilitisAll.map((f) => f.kp).indexOf(req.user.kp);
+  const fasilitis = fasilitisAll.filter((f, i) => i !== deleteFasiliti);
+
   res.status(200).json({ fasilitis });
 };
 
