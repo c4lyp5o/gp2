@@ -15,17 +15,23 @@ exports.downloader = async function (req, res) {
   const { authorization } = req.headers;
   const token = authorization.split(' ')[1];
   const { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
-  const { jenisReten, formatFile, pg101date } = req.query;
+  const { jenisReten, formatFile, tarikhMula, tarikhAkhir } = req.query;
   const payload = {
     kp,
     daerah,
     negeri,
     formatFile,
-    pg101date,
+    tarikhMula,
+    tarikhAkhir,
   };
   switch (jenisReten) {
     case 'PG101':
       const data101 = await makePG101(payload);
+      if (data101 === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
       switch (formatFile) {
         case 'xlsx':
           res.setHeader('Content-Type', 'application/vnd.ms-excel');
@@ -129,9 +135,12 @@ exports.aggFunction = async function (req, res) {
 const makePG101 = async (payload) => {
   console.log('PG101');
   try {
-    const { kp, daerah, negeri, pg101date } = payload;
+    const { kp, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
     //
-    const data = await Helper.countPG101(kp, pg101date);
+    const data = await Helper.countPG101(kp, tarikhMula, tarikhAkhir);
+    if (data.length === 0) {
+      return 'No data found';
+    }
     //
     let filename = path.join(
       __dirname,
@@ -154,16 +163,16 @@ const makePG101 = async (payload) => {
     ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
+    intro1.getCell(2).value = 'Servis: PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+    intro2.getCell(2).value = `Fasiliti: ${kp.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+    intro3.getCell(2).value = `Daerah: ${daerah.toUpperCase()}`;
 
     let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `${negeri.toUpperCase()}`;
+    intro4.getCell(2).value = `Negeri: ${negeri.toUpperCase()}`;
     //
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(16 + i);
