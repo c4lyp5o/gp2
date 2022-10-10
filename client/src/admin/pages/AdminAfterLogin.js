@@ -66,7 +66,7 @@ export default function AdminAfterLogin() {
       />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <AdminNavbar />
-      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5'>
+      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
           <Route index element={<AdminCenterStageLoggedIn />} />
           <Route path='kp' element={<Data FType='kp' />} />
