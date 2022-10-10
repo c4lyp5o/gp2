@@ -52,6 +52,18 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
+  // hq functions
+
+  const getAllNegeriAndDaerah = async () => {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'HqCenter',
+      Fn: 'read',
+      token: getTokenized(),
+    });
+    return response;
+  };
+
   // data
 
   const createData = async (type, data) => {
@@ -230,6 +242,29 @@ function AdminAppProvider({ children }) {
     return response.data;
   };
 
+  // auth
+
+  async function loginUser(credentials) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      username: credentials.username,
+      password: credentials.password,
+      main: 'UserCenter',
+      Fn: 'update',
+    });
+    return response;
+  }
+
+  async function checkUser(username) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      username,
+      main: 'UserCenter',
+      Fn: 'readOne',
+    });
+    return response;
+  }
+
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('adminToken');
   };
@@ -249,11 +284,7 @@ function AdminAppProvider({ children }) {
   return (
     <AdminAppContext.Provider
       value={{
-        token,
-        setToken,
-        getCurrentUser,
-        catchAxiosErrorAndLogout,
-        Dictionary,
+        // superadmin
         createData,
         readData,
         readOneData,
@@ -264,12 +295,23 @@ function AdminAppProvider({ children }) {
         readKpData,
         updateData,
         deleteData,
+        // misc
+        token,
+        setToken,
+        getCurrentUser,
+        catchAxiosErrorAndLogout,
+        Dictionary,
         navigate,
         toast,
         getTokenized,
         pingApdmServer,
         encryptEmail,
         encryptPassword,
+        // auth
+        loginUser,
+        checkUser,
+        // hq
+        getAllNegeriAndDaerah,
       }}
     >
       {children}

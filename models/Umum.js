@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Runningnumber = require('./Runningnumber');
-const dbUmum = require('./Umum');
 
 const UmumSchema = new mongoose.Schema(
   {
@@ -11,6 +10,7 @@ const UmumSchema = new mongoose.Schema(
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
     uniqueId: { type: String }, // new
+    noSiri: { type: Number, default: 1 }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
@@ -715,6 +715,32 @@ const UmumSchema = new mongoose.Schema(
 
 UmumSchema.pre('save', async function () {
   try {
+    // no siri punya hal
+    const currentNoSiri = await Runningnumber.findOne({
+      jenis: 'nosiri',
+      negeri: this.createdByNegeri,
+      daerah: this.createdByDaerah,
+      kp: this.createdByKp,
+    });
+    if (!currentNoSiri) {
+      const newNoSiri = new Runningnumber({
+        jenis: 'nosiri',
+        negeri: this.createdByNegeri,
+        daerah: this.createdByDaerah,
+        kp: this.createdByKp,
+        runningnumber: 1,
+      });
+      await newNoSiri.save();
+      this.noSiri = newNoSiri.runningnumber;
+    }
+    if (currentNoSiri) {
+      currentNoSiri.runningnumber += 1;
+      await currentNoSiri.save();
+      this.noSiri = currentNoSiri.runningnumber;
+    }
+    // no siri punya hal
+
+    // kedatangan baru ulangan punya hal
     if (this.kedatangan === 'baru-kedatangan') {
       // get year number
       let yearNumber = new Date().getFullYear();
@@ -750,62 +776,16 @@ UmumSchema.pre('save', async function () {
         await currentRunningNumber.save();
         const newReg = `${this.jenisFasiliti}/${acronym}/${currentRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
-        console.log('no pendaftaran ulangan: ', newReg);
+        console.log('no pendaftaran baru: ', newReg);
       }
-      // }
-      // if pt exists
-      // if (currentPt) {
-      //   this.kedatangan = 'ulangan-kedatangan';
-      //   let currentRunningNumber = await Runningnumber.findOne({
-      //     jenis: 'umum',
-      //     negeri: this.negeri,
-      //     daerah: this.daerah,
-      //   });
-      //   if (!currentRunningNumber) {
-      //     const newRunningNumber = await Runningnumber.create({
-      //       jenis: 'umum',
-      //       negeri: this.negeri,
-      //       daerah: this.daerah,
-      //       runningnumber: 1,
-      //     });
-      //     const repeatReg = `${this.daerah}${newRunningNumber.runningnumber}/${yearNumber}`;
-      //     this.noPendaftaranUlangan = repeatReg;
-      //     console.log('no pendaftaran baru: ', repeatReg);
-      //   }
-      //   if (currentRunningNumber) {
-      //     currentRunningNumber.runningnumber += 1;
-      //     await currentRunningNumber.save();
-      //     const repeatReg = `${this.daerah}${currentRunningNumber.runningnumber}/${yearNumber}`;
-      //     this.noPendaftaranUlangan = repeatReg;
-      //     console.log('no pendaftaran ulangan: ', repeatReg);
-      //   }
-      // }
     }
     if (this.kedatangan === 'ulangan-kedatangan') {
       console.log('ini pasien lama');
     }
+    // kedatangan baru ulangan punya hal
   } catch (err) {
     console.error(err);
   }
 });
-
-// UmumSchema.pre01('save', function (next) {
-//   let uniqueId = '';
-//   const simplifiedKp = this.createdByKp.split(' ');
-//   for (let i = 0; i < simplifiedKp.length; i++) {
-//     uniqueId += simplifiedKp[i].charAt(0);
-//   }
-//   uniqueId += '-';
-//   const simplifiedName = this.nama.split(' ');
-//   for (let i = 0; i < simplifiedName.length; i++) {
-//     uniqueId += simplifiedName[i].charAt(0);
-//   }
-//   uniqueId += '-';
-//   const dateOfBirth = this.tarikhLahir.split('-').join('');
-//   uniqueId += dateOfBirth;
-//   console.log(uniqueId);
-//   this.uniqueId = uniqueId;
-//   next();
-// });
 
 module.exports = mongoose.model('Umum', UmumSchema);

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -8,27 +7,6 @@ import { ToastContainer } from 'react-toastify';
 
 import AdminHeader from '../components/AdminHeader';
 import AdminFooter from '../components/AdminFooter';
-
-async function loginUser(credentials) {
-  const response = await axios.post(`/api/v1/superadmin/newroute`, {
-    apiKey: process.env.REACT_APP_API_KEY,
-    username: credentials.username,
-    password: credentials.password,
-    main: 'UserCenter',
-    Fn: 'update',
-  });
-  return response;
-}
-
-async function checkUser(username) {
-  const response = await axios.post(`/api/v1/superadmin/newroute`, {
-    apiKey: process.env.REACT_APP_API_KEY,
-    username,
-    main: 'UserCenter',
-    Fn: 'readOne',
-  });
-  return response;
-}
 
 function userIDBox({ setUserName, showUserIDBox }) {
   if (showUserIDBox === true) {
@@ -46,17 +24,13 @@ function userIDBox({ setUserName, showUserIDBox }) {
   }
 }
 
-function passwordBox({ setPassword, showPasswordBox, showTempPass }) {
-  console.log(showTempPass);
+function passwordBox({ setPassword, showPasswordBox }) {
   if (showPasswordBox === true) {
     return (
       <div>
         <h3 className='text-xl font-semibold mt-10'>
           sila masukkan Key verifikasi
         </h3>
-        {/* <p className='text-admin2 lowercase'>
-          Password sementara (copypaste ke box password): {showTempPass}
-        </p> */}
         <input
           className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
           type='password'
@@ -70,29 +44,23 @@ function passwordBox({ setPassword, showPasswordBox, showTempPass }) {
 }
 
 export default function AdminLoginForm() {
-  const { setToken, toast } = useGlobalAdminAppContext();
+  const { setToken, toast, loginUser, checkUser, navigate } =
+    useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
-  const [ErrMsg, setErrMsg] = useState('');
-  const [showTempPass, setShowTempPass] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (showPasswordBox === false) {
-      if (!username) {
-        setErrMsg('Sila masukkan ID Pengguna');
-        return;
-      }
-      setErrMsg('');
       try {
         const response = await checkUser(username);
-        setShowTempPass(response.data.tempKey);
+        toast.info(
+          `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+        );
       } catch (error) {
         toast.error(error.response.data.message);
         return;
@@ -102,11 +70,6 @@ export default function AdminLoginForm() {
 
     if (showPasswordBox === true) {
       setLoggingIn(true);
-      if (!password) {
-        setErrMsg('Sila masukkan Kata Laluan');
-        return;
-      }
-      setErrMsg('');
       setTimeout(async () => {
         try {
           const response = await loginUser({
@@ -131,13 +94,12 @@ export default function AdminLoginForm() {
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
             <h3 className='text-xl font-semibold mt-10'>
-              sila masukkan ID pendatbir
+              sila masukkan ID pentadbir
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
-              {passwordBox({ setPassword, showPasswordBox, showTempPass })}
-              <p className='mt-10 mb-5 text-xs text-admin1'>{ErrMsg}</p>
-              <div className='grid grid-cols-2 gap-2 ml-20 mr-20'>
+              {passwordBox({ setPassword, showPasswordBox })}
+              <div className='grid grid-cols-2 gap-2 mt-10 ml-20 mr-20'>
                 <Link
                   to='/'
                   className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'

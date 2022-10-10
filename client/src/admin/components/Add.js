@@ -89,7 +89,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       Data = {
         ...Data,
         kodSekolah: currentKodTastad.current,
-        catatanTastad: currentAlamatTastad.current,
+        alamatTastad: currentAlamatTastad.current,
       };
     }
     if (FType === 'sr' || FType === 'sm') {

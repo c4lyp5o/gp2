@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 // Controller
-const admincon = require('../controllers/adminController');
-const genretcon = require('../controllers/generateRetenController');
-const countcon = require('../controllers/countHelper');
+const admincon = require('../../controllers/adminController');
+const genretcon = require('../../controllers/generateRetenController');
+const countcon = require('../../controllers/countHelper');
 
 // Routes
 router.get('/', admincon.loginPage);

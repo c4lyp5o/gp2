@@ -5,6 +5,8 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
   const { userToken, toast, dateToday } = useGlobalUserAppContext();
+  const [pg101dates, setPg101dates] = useState([]);
+  const [pg101date, setPg101date] = useState('');
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -43,12 +45,26 @@ export default function UserGenerateKlinik() {
         console.log(error);
       }
     };
+    const getDatesInPG101 = async () => {
+      try {
+        await axios
+          .get(`/api/v1/generate/find?tarikh=${dateToday}`, {
+            headers: { Authorization: `Bearer ${userToken}` },
+          })
+          .then((res) => {
+            setPg101dates(res.data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDatesInPG101();
     fetchSekolah();
   }, []);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${currentKp}-${pilihanSekolah}.xlsx`;
+    link.download = `${jenisReten}-${currentKp}-${pg101date}.${formatFile}`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -63,8 +79,10 @@ export default function UserGenerateKlinik() {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/testdownload?kp=${currentKp}&jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&startDate=${startDate}&endDate=${endDate}`,
+          // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&formatFile=${formatFile}`,
           {
+            headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
           }
         ),
@@ -75,29 +93,35 @@ export default function UserGenerateKlinik() {
         },
         { autoClose: 2000 }
       )
-      .then((theBits) => {
-        saveFile(theBits.data);
+      .then((blob) => {
+        saveFile(blob.data);
       });
   };
 
   return (
     <>
       <div className='p-2'>
-        <h1 className='font-bold text-base '>Penjanaan Laporan</h1>
+        <h1 className='font-bold text-lg text-user1 '>Penjanaan Laporan</h1>
         <form onSubmit={handleJana}>
-          <div className='grid grid-cols-1 lg:grid-cols-4 gap-2'>
-            <div>
-              <strong>Laporan: </strong>
+          <div className='grid grid-cols-2 lg:grid-cols-4 gap-2'>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='jenisReten'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Laporan:
+              </label>
               <select
                 required
                 name='jenisReten'
                 id='jenisReten'
                 onChange={(e) => setJenisReten(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih reten</option>
                 <option value='PG101'>PG101</option>
-                <option value='BEGIN'>BEGIN 01/2020</option>
+                <option value='PG211'>PG211</option>
+                {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>
                 <option value='CPPC2'>CPPC 2</option>
@@ -112,17 +136,24 @@ export default function UserGenerateKlinik() {
                 <option value='PPIM04'>PPIM 04</option>
                 <option value='PPIM05'>PPIM 05-2020</option>
                 <option value='PPKPS'>PPKPS</option>
-                <option value='MGH'>MGH</option>
+                <option value='MGH'>MGH</option> */}
               </select>
             </div>
-            <div>
-              <strong>Sekolah: </strong>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='sekolah'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Sekolah:
+              </label>
               <select
+                name='sekolah'
+                id='sekolah'
                 value={pilihanSekolah}
                 onChange={(e) => {
                   setPilihanSekolah(e.target.value);
                 }}
-                className='capitalize outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih..</option>
                 {namaSekolahs.map((singleNamaSekolah, index) => {
@@ -138,46 +169,87 @@ export default function UserGenerateKlinik() {
                 })}
               </select>
             </div>
-            <div>
-              <strong>Daripada</strong>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='tarikhMula'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Daripada:
+              </label>
               <input
+                required
                 type='date'
-                name='startDate'
-                id='startDate'
+                name='tarikhMula'
+                id='tarikhMula'
                 onChange={(e) => setStartDate(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               />
             </div>
-            <div>
-              <strong>Sehingga</strong>
+            <div className='px-3 py-1'>
+              <label
+                htmlFor='tarikhAkhir'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Sehingga:
+              </label>
               <input
                 type='date'
-                name='endDate'
-                id='endDate'
+                name='tarikhAkhir'
+                id='tarikhAkhir'
                 onChange={(e) => setEndDate(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               />
+              {/* <label
+                htmlFor='tarikhPg101'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Sila pilih tarikh
+              </label>
+              <select
+                required
+                name='tarikhPg101'
+                id='tarikhPg101'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                onChange={(e) => {
+                  setPg101date(e.target.value);
+                }}
+              >
+                <option value=''>Sila pilih tarikh</option>
+                {pg101dates.map((singleDate, index) => {
+                  return (
+                    <option value={singleDate} key={index}>
+                      {singleDate}
+                    </option>
+                  );
+                })}
+              </select> */}
             </div>
           </div>
-          <div>
+          <div className='grid grid-cols-3 lg:grid-cols-5'>
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
             </button> */}
-            <div className=''>
-              <p className='items-center pl-5 font-semibold'>Format : </p>
+            <div className='col-start-2 lg:col-start-3 px-3 py-1'>
+              <label
+                htmlFor='formatFile'
+                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+              >
+                Format:
+              </label>
               <select
+                required
                 name='formatFile'
                 id='formatFile'
                 onChange={(e) => setFormatFile(e.target.value)}
-                className='outline outline-1 outline-userBlack w- m-3 text-sm font-m'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                <option value='pdf'>PDF</option>
+                {/* <option value='pdf'>PDF</option> */}
               </select>
             </div>
             <button
-              className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 ml-2 hover:bg-user1 transition-all'
+              className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3'
               type='submit'
             >
               jana

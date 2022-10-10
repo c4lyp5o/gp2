@@ -11,12 +11,10 @@ import AdminLoginForm from './AdminLoginForm';
 // logged in
 import AdminHeaderLoggedIn from '../components/AdminHeaderLoggedIn';
 import AdminNavbar from '../components/AdminNavbar';
+
 // paparan utama
 import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
-// klinik
-// pegawai
-// jp
-// data for facility
+
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
@@ -27,7 +25,7 @@ import Data from '../components/Data';
 
 import { ToastContainer } from 'react-toastify';
 
-function AdminAfterLogin() {
+export default function AdminAfterLogin() {
   const { navigate, token, getCurrentUser, catchAxiosErrorAndLogout } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({
@@ -52,7 +50,7 @@ function AdminAfterLogin() {
           isLoggedIn: false,
         });
         catchAxiosErrorAndLogout();
-        navigate('/admin');
+        navigate('/pentadbir');
       });
   }, []);
 
@@ -89,5 +87,3 @@ function AdminAfterLogin() {
     </>
   );
 }
-
-export default AdminAfterLogin;
