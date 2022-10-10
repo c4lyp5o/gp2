@@ -4,7 +4,6 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const path = require('path');
-const { graphqlHTTP } = require('express-graphql');
 const axios = require('axios');
 
 // IMPORT ROUTER -----------------------------------------------
@@ -38,24 +37,10 @@ const notFound = require('./middlewares/notFound');
 // DATABASE ----------------------------------------------------
 const connectDB = require('./database/connect');
 
-// GraphQL import
-const graphQlSchema = require('./database/graphql/schema');
-const graphQlResolvers = require('./database/graphql/resolvers');
-
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json());
-
-// GraphQL route
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: graphQlSchema,
-    rootValue: graphQlResolvers,
-    graphiql: true,
-  })
-);
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
