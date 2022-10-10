@@ -5,8 +5,8 @@ const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
-const Umum = require('../models/Umum');
-const Deeproots = require('../models/Deeproots');
+// const Umum = require('../models/Umum');
+// const Deeproots = require('../models/Deeproots');
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
@@ -391,7 +391,7 @@ exports.getData = async (req, res, next) => {
               return res.status(200).json({
                 status: 'success',
                 message: 'Email telah dihantar',
-                email: tempUser.e_mail,
+                email: useEmail,
               });
             });
             break;
