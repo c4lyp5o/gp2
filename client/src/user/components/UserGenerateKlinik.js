@@ -80,7 +80,7 @@ export default function UserGenerateKlinik() {
       .promise(
         axios.get(
           // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=${jenisReten}&pg101date=${pg101date}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&formatFile=${formatFile}`,
           {
             headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
@@ -93,8 +93,8 @@ export default function UserGenerateKlinik() {
         },
         { autoClose: 2000 }
       )
-      .then((theBits) => {
-        saveFile(theBits.data);
+      .then((blob) => {
+        saveFile(blob.data);
       });
   };
 
@@ -169,36 +169,37 @@ export default function UserGenerateKlinik() {
                 })}
               </select>
             </div>
-            {/* <div className='px-3 py-1'>
+            <div className='px-3 py-1'>
               <label
-                htmlFor='startDate'
+                htmlFor='tarikhMula'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
               >
                 Daripada:
               </label>
               <input
+                required
                 type='date'
-                name='startDate'
-                id='startDate'
+                name='tarikhMula'
+                id='tarikhMula'
                 onChange={(e) => setStartDate(e.target.value)}
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               />
-            </div> */}
+            </div>
             <div className='px-3 py-1'>
-              {/* <label
-                htmlFor='endDate'
+              <label
+                htmlFor='tarikhAkhir'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
               >
                 Sehingga:
               </label>
               <input
                 type='date'
-                name='endDate'
-                id='endDate'
+                name='tarikhAkhir'
+                id='tarikhAkhir'
                 onChange={(e) => setEndDate(e.target.value)}
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-              /> */}
-              <label
+              />
+              {/* <label
                 htmlFor='tarikhPg101'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
               >
@@ -221,7 +222,7 @@ export default function UserGenerateKlinik() {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>

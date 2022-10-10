@@ -5,20 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-calendar/dist/Calendar.css';
 import './react-calendar.css';
 import App from './App';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import reportWebVitals from './reportWebVitals';
-
-const client = new ApolloClient({
-  uri: '/graphql',
-  cache: new InMemoryCache(),
-});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
+  <App />
   // </React.StrictMode>
 );
 
