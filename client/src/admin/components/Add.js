@@ -30,6 +30,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   // taska
   const currentKodTastad = useRef();
   const currentAlamatTastad = useRef();
+  const currentGovKe = useRef();
   // APDM
   const statusApdm = useRef();
   // data
@@ -88,8 +89,9 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     if (FType === 'taska' || FType === 'tadika') {
       Data = {
         ...Data,
-        kodSekolah: currentKodTastad.current,
+        kodTastad: currentKodTastad.current,
         alamatTastad: currentAlamatTastad.current,
+        govKe: currentGovKe.current,
       };
     }
     if (FType === 'sr' || FType === 'sm') {

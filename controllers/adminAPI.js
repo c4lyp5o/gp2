@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const simpleCrypto = require('simple-crypto-js').default;
 const mailer = require('nodemailer');
+const moment = require('moment');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
-// const Umum = require('../models/Umum');
-// const Deeproots = require('../models/Deeproots');
+const Umum = require('../models/Umum');
+
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
@@ -334,6 +335,9 @@ exports.getData = async (req, res, next) => {
               username: jwt.verify(token, process.env.JWT_SECRET).username,
               daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
               negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+              e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
+              accountType: jwt.verify(token, process.env.JWT_SECRET)
+                .accountType,
             };
             return res.status(200).json(userData);
             break;
@@ -391,7 +395,7 @@ exports.getData = async (req, res, next) => {
               return res.status(200).json({
                 status: 'success',
                 message: 'Email telah dihantar',
-                email: useEmail,
+                email: tempUser.e_mail,
               });
             });
             break;
@@ -411,6 +415,8 @@ exports.getData = async (req, res, next) => {
                 username: User.user_name,
                 daerah: User.daerah,
                 negeri: User.negeri,
+                e_mail: User.e_mail,
+                accountType: User.accountType,
               },
               process.env.JWT_SECRET,
               { expiresIn: process.env.JWT_LIFETIME }
@@ -430,6 +436,159 @@ exports.getData = async (req, res, next) => {
             });
         }
         break;
+      case 'HqCenter':
+        var { Fn, token } = req.body;
+        switch (Fn) {
+          case 'create':
+            console.log('create for hq');
+            break;
+          case 'read':
+            console.log('read for hq');
+            const accountType = jwt.verify(
+              token,
+              process.env.JWT_SECRET
+            ).accountType;
+            let payload = {};
+            console.log(accountType);
+            if (accountType === 'hqSuperadmin') {
+              payload = {
+                accountType: 'kpUser',
+              };
+            }
+            if (accountType === 'negeriSuperadmin') {
+              payload = {
+                accountType: 'kpUser',
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+              };
+            }
+            if (accountType === 'daerahSuperadmin') {
+              payload = {
+                accountType: 'kpUser',
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+              };
+            }
+            const kpData = await User.find({ ...payload });
+            const ptData = await Umum.find({ ...payload });
+            let data = [];
+            const negeris = [...new Set(kpData.map((item) => item.negeri))];
+            for (n in negeris) {
+              const negeri = negeris[n];
+              const negeriData = kpData.filter(
+                (item) => item.negeri === negeri
+              );
+              const daerah = [
+                ...new Set(negeriData.map((item) => item.daerah)),
+              ];
+              const klinik = [];
+              for (d in daerah) {
+                const daerahData = negeriData.filter(
+                  (item) => item.daerah === daerah[d]
+                );
+                const klinikDiDaerah = {
+                  namaDaerah: daerah[d],
+                  klinik: [],
+                };
+                for (k in daerahData) {
+                  const klinikData = daerahData[k];
+                  klinikDiDaerah.klinik.push({
+                    namaKlinik: klinikData.kp,
+                    kodFasiliti: klinikData.kodFasiliti,
+                    pesakit: [],
+                    pesakitHariIni: [],
+                    pesakitMingguIni: [],
+                    pesakitBulanIni: [],
+                    pesakitBaru: [],
+                    pesakitUlangan: [],
+                  });
+                  const pesakitData = ptData.filter(
+                    (item) => item.createdByKp === klinikData.kp
+                  );
+                  const pesakitHariIni = ptData.filter(
+                    (item) =>
+                      item.createdByKp === klinikData.kp &&
+                      item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+                  );
+                  const pesakitMingguIni = ptData.filter(
+                    (item) =>
+                      item.createdByKp === klinikData.kp &&
+                      moment(item.tarikhKedatangan).isBetween(
+                        moment().startOf('week'),
+                        moment().endOf('week')
+                      )
+                  );
+                  const pesakitBulanIni = ptData.filter(
+                    (item) =>
+                      item.createdByKp === klinikData.kp &&
+                      moment(item.tarikhKedatangan).isBetween(
+                        moment().startOf('month'),
+                        moment().endOf('month')
+                      )
+                  );
+                  const pesakitBaru = ptData.filter(
+                    (item) =>
+                      item.createdByKp === klinikData.kp &&
+                      item.kedatangan === 'baru-kedatangan'
+                  );
+                  const pesakitUlangan = ptData.filter(
+                    (item) =>
+                      item.createdByKp === klinikData.kp &&
+                      item.kedatangan === 'ulangan-kedatangan'
+                  );
+                  klinikDiDaerah.klinik[k].pesakitHariIni =
+                    pesakitHariIni.length;
+                  klinikDiDaerah.klinik[k].pesakitMingguIni =
+                    pesakitMingguIni.length;
+                  klinikDiDaerah.klinik[k].pesakitBulanIni =
+                    pesakitBulanIni.length;
+                  klinikDiDaerah.klinik[k].pesakitBaru = pesakitBaru.length;
+                  klinikDiDaerah.klinik[k].pesakitUlangan =
+                    pesakitUlangan.length;
+                  for (p in pesakitData) {
+                    const pesakit = pesakitData[p];
+                    klinikDiDaerah.klinik[k].pesakit.push({
+                      namaPesakit: pesakit.nama,
+                    });
+                  }
+                }
+                klinikDiDaerah.klinik.sort((a, b) => {
+                  if (a.namaKlinik < b.namaKlinik) {
+                    return -1;
+                  }
+                  if (a.namaKlinik > b.namaKlinik) {
+                    return 1;
+                  }
+                  return 0;
+                });
+                klinik.push(klinikDiDaerah);
+              }
+              klinik.sort((a, b) => {
+                if (a.namaDaerah < b.namaDaerah) {
+                  return -1;
+                }
+                if (a.namaDaerah > b.namaDaerah) {
+                  return 1;
+                }
+                return 0;
+              });
+              data.push({
+                namaNegeri: negeri,
+                daerah: klinik,
+              });
+            }
+            return res.status(200).json(data);
+            break;
+          case 'update':
+            console.log('update for hq');
+            break;
+          case 'delete':
+            console.log('delete for hq');
+            break;
+          default:
+            return res.status(200).json({
+              message: 'This is the default case for Hq Center',
+            });
+        }
       default:
         return res.status(200).json({
           message: 'Provide nothing, get nothing',
