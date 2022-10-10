@@ -103,7 +103,7 @@ export default function PatientData({
         </button>
         <div className='border mt-2'>
           <div className='justify-center items-center'>
-            <div className='mt-2'>
+            <div className='mt-2 overflow-x-auto text-sm lg:text-lg font-medium outline outline-1 outline-userBlack'>
               <table className='m-auto mb-5 w-11/12 outline outline-1 outline-kaunterBlack'>
                 <tbody>
                   <tr className='bg-kaunter3 p-2'>

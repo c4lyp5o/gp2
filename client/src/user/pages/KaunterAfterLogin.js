@@ -48,7 +48,7 @@ function KaunterAfterLogin() {
       <ToastContainer />
       <KaunterHeader />
       <div className='absolute inset-0 -z-10 bg-kaunter3'></div>
-      <KaunterNavbar />
+      <KaunterNavbar namaKlinik={createdByKp} logout={logout} />
       <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-1 outline-kaunterBlack rounded-md shadow-xl capitalize'>
         <Routes>
