@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
-function KaunterNavbar() {
+function KaunterNavbar({ namaKlinik, logout }) {
   const [showLinks, setShowLinks] = useState(false);
   const [showOutreachSubMenu, setShowOutreachSubMenu] = useState(false);
   const [outreachIsOn, setOutreachIsOn] = useState(false);
@@ -55,7 +55,7 @@ function KaunterNavbar() {
             showOutreachSubMenu ? 'translate-x-0' : '-translate-x-[480px]'
           }`}
         >
-          <div className='h-60'></div>
+          <div className='h-80 lg:h-60'></div>
           <div className='grid'>
             <NavLink
               to='orang-asli'
@@ -156,7 +156,20 @@ function KaunterNavbar() {
             showLinks ? 'translate-x-0' : '-translate-x-60'
           }`}
         >
-          <div className='h-28'></div>
+          <div className='lg:h-28'></div>
+          <div className='lg:hidden grid grid-rows-[50px_10px_10px] h-48 gap-1 text-center pt-24'>
+            <img
+              className='w-full h-full'
+              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              alt='missing jata negara'
+            />
+            <p className='uppercase text-[0.65rem]'>
+              kementerian kesihatan malaysia
+            </p>
+            <p className='uppercase text-[0.65rem]'>
+              program kesihatan pergigian
+            </p>
+          </div>
           <div className='grid'>
             <NavLink
               to='/kaunter/daftar'
@@ -236,10 +249,23 @@ function KaunterNavbar() {
                 </span>
               </div>
             </div>
+            <div className='mx-3 lg:hidden capitalize'>
+              <div className='m-3 space-y-1 text-center text-sm'>
+                <p className='font-semibold text-base'>pendaftaran:</p>
+                <p>{namaKlinik}</p>
+              </div>
+              <button
+                type='button'
+                className='p-1 text-user2 bg-kaunter3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-kaunter4 transition-all'
+                onClick={logout}
+              >
+                LOG KELUAR
+              </button>
+            </div>
           </div>
         </nav>
         {/* the toggle button */}
-        <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
+        <div className='absolute w-60 top-0 left-0 flex text-center h-28 lg:justify-center pl-5 lg:pl-0'>
           <button
             className='text-2xl bg-kaunterWhite text-kaunterBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
             onClick={toggleLinks}
