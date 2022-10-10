@@ -1,6 +1,6 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-function AdminHeaderLoggedIn({ user, daerah }) {
+export default function AdminHeaderLoggedIn({ user, daerah }) {
   const { navigate, catchAxiosErrorAndLogout } = useGlobalAdminAppContext();
 
   return (
@@ -51,5 +51,3 @@ function AdminHeaderLoggedIn({ user, daerah }) {
     </div>
   );
 }
-
-export default AdminHeaderLoggedIn;

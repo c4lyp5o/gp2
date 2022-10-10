@@ -33,6 +33,7 @@ export default function AdminAfterLogin() {
     username: '',
     daerah: '',
     negeri: '',
+    accountType: '',
   });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function AdminAfterLogin() {
           username: res.data.username,
           daerah: res.data.daerah,
           negeri: res.data.negeri,
+          accountType: res.data.accountType,
         });
       })
       .catch(() => {
@@ -68,7 +70,15 @@ export default function AdminAfterLogin() {
       <AdminNavbar />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
-          <Route index element={<AdminCenterStageLoggedIn />} />
+          <Route
+            index
+            element={
+              <AdminCenterStageLoggedIn
+                user={loginInfo.username}
+                accountType={loginInfo.accountType}
+              />
+            }
+          />
           <Route path='kp' element={<Data FType='kp' />} />
           <Route path='pp' element={<Data FType='pp' />} />
           <Route path='jp' element={<Data FType='jp' />} />

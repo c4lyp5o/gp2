@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 
-function AdminNavbar() {
+export default function AdminNavbar() {
   const [showLinks, setShowLinks] = useState(false);
 
   const toggleLinks = () => {
@@ -148,5 +148,3 @@ function AdminNavbar() {
     </>
   );
 }
-
-export default AdminNavbar;

@@ -4,12 +4,11 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast, dateToday } = useGlobalUserAppContext();
-  const [pg101dates, setPg101dates] = useState([]);
-  const [pg101date, setPg101date] = useState('');
+  const { userToken, toast } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [month, setMonth] = useState('');
   const [formatFile, setFormatFile] = useState('');
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -45,26 +44,15 @@ export default function UserGenerateKlinik() {
         console.log(error);
       }
     };
-    const getDatesInPG101 = async () => {
-      try {
-        await axios
-          .get(`/api/v1/generate/find?tarikh=${dateToday}`, {
-            headers: { Authorization: `Bearer ${userToken}` },
-          })
-          .then((res) => {
-            setPg101dates(res.data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getDatesInPG101();
     fetchSekolah();
   }, []);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${currentKp}-${pg101date}.${formatFile}`;
+    link.download = `${jenisReten}-${currentKp}-${startDate}-${endDate}.${formatFile}`;
+    if (!endDate) {
+      link.download = `${jenisReten}-${currentKp}-${startDate}.${formatFile}`;
+    }
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -80,7 +68,7 @@ export default function UserGenerateKlinik() {
       .promise(
         axios.get(
           // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
             headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
@@ -139,7 +127,7 @@ export default function UserGenerateKlinik() {
                 <option value='MGH'>MGH</option> */}
               </select>
             </div>
-            <div className='px-3 py-1'>
+            {/* <div className='px-3 py-1'>
               <label
                 htmlFor='sekolah'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
@@ -168,62 +156,75 @@ export default function UserGenerateKlinik() {
                   );
                 })}
               </select>
-            </div>
-            <div className='px-3 py-1'>
-              <label
-                htmlFor='tarikhMula'
-                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-              >
-                Daripada:
-              </label>
-              <input
-                required
-                type='date'
-                name='tarikhMula'
-                id='tarikhMula'
-                onChange={(e) => setStartDate(e.target.value)}
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-              />
-            </div>
-            <div className='px-3 py-1'>
-              <label
-                htmlFor='tarikhAkhir'
-                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-              >
-                Sehingga:
-              </label>
-              <input
-                type='date'
-                name='tarikhAkhir'
-                id='tarikhAkhir'
-                onChange={(e) => setEndDate(e.target.value)}
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-              />
-              {/* <label
-                htmlFor='tarikhPg101'
-                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-              >
-                Sila pilih tarikh
-              </label>
-              <select
-                required
-                name='tarikhPg101'
-                id='tarikhPg101'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                onChange={(e) => {
-                  setPg101date(e.target.value);
-                }}
-              >
-                <option value=''>Sila pilih tarikh</option>
-                {pg101dates.map((singleDate, index) => {
-                  return (
-                    <option value={singleDate} key={index}>
-                      {singleDate}
-                    </option>
-                  );
-                })}
-              </select> */}
-            </div>
+            </div> */}
+            {jenisReten === 'PG101' && (
+              <>
+                <div className='px-3 py-1'>
+                  <label
+                    htmlFor='tarikhMula'
+                    className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                  >
+                    Daripada:
+                  </label>
+                  <input
+                    required
+                    type='date'
+                    name='tarikhMula'
+                    id='tarikhMula'
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  />
+                </div>
+                <div className='px-3 py-1'>
+                  <label
+                    htmlFor='tarikhAkhir'
+                    className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                  >
+                    Sehingga:
+                  </label>
+                  <input
+                    type='date'
+                    name='tarikhAkhir'
+                    id='tarikhAkhir'
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  />
+                </div>
+              </>
+            )}
+            {jenisReten === 'PG211' && (
+              <>
+                <label
+                  htmlFor='bulanpg211'
+                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                >
+                  Sila pilih bulan
+                </label>
+                <select
+                  required
+                  name='bulanpg211'
+                  id='bulanpg211'
+                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  onChange={(e) => {
+                    setMonth(e.target.value);
+                  }}
+                >
+                  <option value=''>Sila pilih bulan</option>
+                  <option value='01-01'>Januari</option>
+                  <option value='02-01'>Februari</option>
+                  <option value='03-01'>Mac</option>
+                  <option value='04-01'>April</option>
+                  <option value='05-01'>Mei</option>
+                  <option value='06-01'>Jun</option>
+                  <option value='07-01'>Julai</option>
+                  <option value='08-01'>Ogos</option>
+                  <option value='09-01'>September</option>
+                  <option value='10-01'>Oktober</option>
+                  <option value='11-01'>November</option>
+                  <option value='12-01'>Disember</option>
+                </select>
+              </>
+            )}
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>

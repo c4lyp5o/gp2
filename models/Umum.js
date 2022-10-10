@@ -10,7 +10,7 @@ const UmumSchema = new mongoose.Schema(
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
     uniqueId: { type: String }, // new
-    noSiri: { type: Number, default: 1 }, // new
+    noSiri: { type: Number }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
@@ -715,35 +715,38 @@ const UmumSchema = new mongoose.Schema(
 
 UmumSchema.pre('save', async function () {
   try {
+    const yearNumber = new Date().getFullYear();
     // no siri punya hal
-    const currentNoSiri = await Runningnumber.findOne({
-      jenis: 'nosiri',
-      negeri: this.createdByNegeri,
-      daerah: this.createdByDaerah,
-      kp: this.createdByKp,
-    });
-    if (!currentNoSiri) {
-      const newNoSiri = new Runningnumber({
+    if (this.jenisFasiliti === 'kp') {
+      const currentNoSiri = await Runningnumber.findOne({
         jenis: 'nosiri',
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
+        tahun: yearNumber,
         kp: this.createdByKp,
-        runningnumber: 1,
       });
-      await newNoSiri.save();
-      this.noSiri = newNoSiri.runningnumber;
-    }
-    if (currentNoSiri) {
-      currentNoSiri.runningnumber += 1;
-      await currentNoSiri.save();
-      this.noSiri = currentNoSiri.runningnumber;
+      if (!currentNoSiri) {
+        const newNoSiri = new Runningnumber({
+          jenis: 'nosiri',
+          negeri: this.createdByNegeri,
+          daerah: this.createdByDaerah,
+          tahun: yearNumber,
+          kp: this.createdByKp,
+          runningnumber: 1,
+        });
+        await newNoSiri.save();
+        this.noSiri = newNoSiri.runningnumber;
+      }
+      if (currentNoSiri) {
+        currentNoSiri.runningnumber += 1;
+        await currentNoSiri.save();
+        this.noSiri = currentNoSiri.runningnumber;
+      }
     }
     // no siri punya hal
 
     // kedatangan baru ulangan punya hal
     if (this.kedatangan === 'baru-kedatangan') {
-      // get year number
-      let yearNumber = new Date().getFullYear();
       // create acronym
       let acronym = '';
       const simplifiedKlinikName = this.createdByKp.split(' ');
@@ -752,17 +755,19 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: 'umum',
+        jenis: this.jenisFasiliti,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
+        tahun: yearNumber,
         kp: this.createdByKp,
       });
       // if running number does not exist
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
-          jenis: 'umum',
+          jenis: this.jenisFasiliti,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
+          tahun: yearNumber,
           kp: this.createdByKp,
           runningnumber: 1,
         });

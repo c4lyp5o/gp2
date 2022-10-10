@@ -1,4 +1,4 @@
-function AdminHeader() {
+export default function AdminHeader() {
   return (
     <div className='absolute top-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 grid-rows-1 items-center h-28 bg-admin2 text-adminWhite font-sans capitalize justify-center'>
       <div className='hidden lg:grid grid-cols-2'>
@@ -25,5 +25,3 @@ function AdminHeader() {
     </div>
   );
 }
-
-export default AdminHeader;
