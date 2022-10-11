@@ -218,6 +218,7 @@ function UserUmum() {
                     <p className='ml-1'>{singlePersonUmum.ic}</p>
                   </div>
                   <Link
+                    target='_blank'
                     to={`form-umum/${singlePersonUmum._id}`}
                     className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
                   >
