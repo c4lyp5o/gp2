@@ -1,9 +1,64 @@
 import { useState, useEffect } from 'react';
 import { Ring } from 'react-awesome-spinners';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import perlis from '../assets/flags/perlis.png';
+import kedah from '../assets/flags/kedah.png';
+import pulauPinang from '../assets/flags/penang.png';
+import perak from '../assets/flags/perak.png';
+import selangor from '../assets/flags/selangor.png';
+import negeriSembilan from '../assets/flags/negeri_sembilan.png';
+import melaka from '../assets/flags/malacca.png';
+import johor from '../assets/flags/johor.png';
+import pahang from '../assets/flags/pahang.png';
+import terengganu from '../assets/flags/terengganu.png';
+import kelantan from '../assets/flags/kelantan.png';
+import sabah from '../assets/flags/sabah.png';
+import sarawak from '../assets/flags/sarawak.png';
+import labuan from '../assets/flags/labuan.png';
+import putrajaya from '../assets/flags/putrajaya.png';
+import kualaLumpur from '../assets/flags/kuala_lumpur.png';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const FlagsDictionary = {
+  perlis: perlis,
+  kedah: kedah,
+  'pulau pinang': pulauPinang,
+  perak: perak,
+  selangor: selangor,
+  'negeri sembilan': negeriSembilan,
+  melaka: melaka,
+  johor: johor,
+  pahang: pahang,
+  terengganu: terengganu,
+  kelantan: kelantan,
+  sabah: sabah,
+  sarawak: sarawak,
+  labuan: labuan,
+  putrajaya: putrajaya,
+  'kuala lumpur': kualaLumpur,
+};
 
 export default function AdminCenterStageLoggedIn() {
   const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
@@ -13,6 +68,7 @@ export default function AdminCenterStageLoggedIn() {
   useEffect(() => {
     getAllNegeriAndDaerah()
       .then((res) => {
+        console.log(res.data);
         setData(res.data);
         setIsLoading(false);
       })
@@ -20,6 +76,39 @@ export default function AdminCenterStageLoggedIn() {
         toast.error(err.response.data.message);
       });
   }, []);
+
+  // const options = {
+  //   responsive: true,
+  //   scales: {
+  //     y: {
+  //       min: 0,
+  //       suggestedMax: 50,
+  //     },
+  //   },
+  //   plugins: {
+  //     legend: {
+  //       position: 'top',
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: `Kedatangan Pesakit ke ${data.kp}`,
+  //     },
+  //   },
+  // };
+  // const labels = data.kedatanganPt.map((item) => {
+  //   return item.tarikh;
+  // });
+  // const chartData = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: `Jumlah Pesakit`,
+  //       data: data.kedatanganPt.map((i) => i.kedatangan),
+  //       borderColor: 'rgb(255, 99, 132)',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  //     },
+  //   ],
+  // };
 
   if (loading) {
     return (
@@ -38,69 +127,36 @@ export default function AdminCenterStageLoggedIn() {
 
   return (
     <>
-      <div className='h-full p-5 overflow-y-auto'>
-        <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
-          {data.map((item) => {
-            return (
-              <div className='max-w-sm rounded overflow-hidden shadow-lg'>
-                <img
-                  className='w-full'
-                  src={perlis}
-                  alt='Sunset in the mountains'
-                />
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2'>
-                    {item.namaNegeri}
+      {data.map((item) => {
+        return (
+          <div className='lg:flex mb-4 m-10 rounded mx-auto'>
+            <div className='w-full lg:w-1/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
+              <img
+                className='w-full'
+                alt={item.namaNegeri}
+                src={FlagsDictionary[item.namaNegeri]}
+              />
+              {item.daerah.map((item2) => {
+                return (
+                  <div className='px-6 py-4 h-full'>
+                    <div className='mb-2 underline'>{item2.namaDaerah}</div>
+                    {item2.klinik.map((item3) => {
+                      return (
+                        <a href={`./landing/klinik?id=${item3.kodFasiliti}`}>
+                          <p className='text-user4'>{item3.namaKlinik}</p>
+                        </a>
+                      );
+                    })}
                   </div>
-                  {item.daerah.map((item2) => {
-                    return (
-                      <>
-                        <p className='text-gray-700 text-base'>
-                          Daerah: {item2.namaDaerah}
-                        </p>
-                        {item2.klinik.map((item3) => {
-                          return (
-                            <div className='mt-3'>
-                              <a
-                                href={`./landing/klinik?id=${item3.kodFasiliti}`}
-                              >
-                                <p className='text-gray-700 text-base'>
-                                  Klinik: {item3.namaKlinik}
-                                </p>
-                              </a>
-                              <p className='text-xs underline'>
-                                {item3.namaKlinik}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit: {item3.pesakit.length}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit Baru: {item3.pesakitBaru}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit Ulangan: {item3.pesakitUlangan}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit Hari Ini: {item3.pesakitHariIni}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit Minggu Ini:{' '}
-                                {item3.pesakitMingguIni}
-                              </p>
-                              <p className='text-xs'>
-                                Jumlah Pesakit Bulan Ini:{' '}
-                                {item3.pesakitBulanIni}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+      <div className='lg:flex mb-4 m-10 rounded mx-auto'>
+        <div className='w-full lg:w-1/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
+          {/* <Line data={chartData} options={options} /> */}
         </div>
       </div>
     </>
