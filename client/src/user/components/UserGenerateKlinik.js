@@ -193,7 +193,7 @@ export default function UserGenerateKlinik() {
               </>
             )}
             {jenisReten === 'PG211' && (
-              <>
+              <div className='px-3 py-1'>
                 <label
                   htmlFor='bulanpg211'
                   className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
@@ -223,7 +223,7 @@ export default function UserGenerateKlinik() {
                   <option value='11-01'>November</option>
                   <option value='12-01'>Disember</option>
                 </select>
-              </>
+              </div>
             )}
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>
