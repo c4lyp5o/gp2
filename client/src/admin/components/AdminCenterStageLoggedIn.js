@@ -60,55 +60,73 @@ const FlagsDictionary = {
   'kuala lumpur': kualaLumpur,
 };
 
+function MainChart({ data }) {
+  const options = {
+    responsive: true,
+    scales: {
+      y: {
+        min: 0,
+        suggestedMax: 50,
+      },
+    },
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: `Kedatangan Pesakit di Negeri ${data.namaNegeri.toUpperCase()}`,
+      },
+    },
+  };
+  const labels = data.kedatanganPt.map((item) => {
+    return item.tarikh;
+  });
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: `Jumlah Pesakit`,
+        data: data.kedatanganPt.map((i) => i.kedatangan),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+
+  return (
+    <div className='chart-container'>
+      <Line data={chartData} options={options} />
+    </div>
+  );
+}
+
 export default function AdminCenterStageLoggedIn() {
-  const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
+  const { toast, getAllNegeriAndDaerah, getCurrentUser } =
+    useGlobalAdminAppContext();
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
+  const [adminLevel, setAdminLevel] = useState(null);
 
   useEffect(() => {
-    getAllNegeriAndDaerah()
+    getCurrentUser()
       .then((res) => {
-        console.log(res.data);
-        setData(res.data);
-        setIsLoading(false);
+        setAdminLevel(res.data.accountType);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
       });
+    getAllNegeriAndDaerah()
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   }, []);
-
-  // const options = {
-  //   responsive: true,
-  //   scales: {
-  //     y: {
-  //       min: 0,
-  //       suggestedMax: 50,
-  //     },
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       position: 'top',
-  //     },
-  //     title: {
-  //       display: true,
-  //       text: `Kedatangan Pesakit ke ${data.kp}`,
-  //     },
-  //   },
-  // };
-  // const labels = data.kedatanganPt.map((item) => {
-  //   return item.tarikh;
-  // });
-  // const chartData = {
-  //   labels,
-  //   datasets: [
-  //     {
-  //       label: `Jumlah Pesakit`,
-  //       data: data.kedatanganPt.map((i) => i.kedatangan),
-  //       borderColor: 'rgb(255, 99, 132)',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  //     },
-  //   ],
-  // };
 
   if (loading) {
     return (
@@ -154,11 +172,17 @@ export default function AdminCenterStageLoggedIn() {
           </div>
         );
       })}
-      <div className='lg:flex mb-4 m-10 rounded mx-auto'>
-        <div className='w-full lg:w-1/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
-          {/* <Line data={chartData} options={options} /> */}
-        </div>
-      </div>
+      {data.map((item) => {
+        return (
+          <div className='lg:flex mb-4 m-10 rounded mx-auto'>
+            <div className='w-full lg:w-2/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
+              {data.length > 0 && adminLevel !== 'daerahSuperadmin' && (
+                <MainChart data={item} />
+              )}
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 }
