@@ -54,13 +54,23 @@ function AdminAppProvider({ children }) {
 
   // hq functions
 
-  const getAllNegeriAndDaerah = async (accountType) => {
+  const getAllNegeriAndDaerah = async () => {
     let response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'HqCenter',
       Fn: 'read',
-      accountType: accountType,
       token: getTokenized(),
+    });
+    return response;
+  };
+
+  const getKlinikData = async (id) => {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'HqCenter',
+      Fn: 'readOne',
+      token: getTokenized(),
+      id,
     });
     return response;
   };
@@ -313,6 +323,7 @@ function AdminAppProvider({ children }) {
         checkUser,
         // hq
         getAllNegeriAndDaerah,
+        getKlinikData,
       }}
     >
       {children}
