@@ -448,27 +448,40 @@ exports.getData = async (req, res, next) => {
               token,
               process.env.JWT_SECRET
             ).accountType;
-            let payload = {};
+            let kpSelectionPayload = {};
+            let ptSelectionPayload = {};
             if (accountType === 'hqSuperadmin') {
-              payload = {
+              kpSelectionPayload = {
                 accountType: 'kpUser',
+              };
+              ptSelectionPayload = {
+                jenisFasiliti: 'kp',
               };
             }
             if (accountType === 'negeriSuperadmin') {
-              payload = {
+              kpSelectionPayload = {
                 accountType: 'kpUser',
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+              };
+              ptSelectionPayload = {
+                jenisFasiliti: 'kp',
                 negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
               };
             }
             if (accountType === 'daerahSuperadmin') {
-              payload = {
+              kpSelectionPayload = {
                 accountType: 'kpUser',
                 negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
                 daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
               };
+              ptSelectionPayload = {
+                jenisFasiliti: 'kp',
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+              };
             }
-            const kpData = await User.find({ ...payload });
-            const ptData = await Umum.find({ ...payload });
+            const kpData = await User.find({ ...kpSelectionPayload });
+            const ptData = await Umum.find({ ...ptSelectionPayload });
             let data = [];
             const negeris = [...new Set(kpData.map((item) => item.negeri))];
             for (n in negeris) {
@@ -486,6 +499,24 @@ exports.getData = async (req, res, next) => {
                 );
                 const klinikDiDaerah = {
                   namaDaerah: daerah[d],
+                  jumlahPesakit: ptData.filter(
+                    (item) => item.createdByDaerah === daerah[d]
+                  ).length,
+                  pesakitHariIni: ptData.filter(
+                    (item) =>
+                      item.createdByDaerah === daerah[d] &&
+                      moment(item.tarikhKedatangan).isSame(moment(), 'day')
+                  ).length,
+                  pesakitMingguIni: ptData.filter(
+                    (item) =>
+                      item.createdByDaerah === daerah[d] &&
+                      moment(item.tarikhKedatangan).isSame(moment(), 'week')
+                  ).length,
+                  pesakitBulanIni: ptData.filter(
+                    (item) =>
+                      item.createdByDaerah === daerah[d] &&
+                      moment(item.tarikhKedatangan).isSame(moment(), 'month')
+                  ).length,
                   klinik: [],
                 };
                 for (k in daerahData) {
@@ -493,7 +524,8 @@ exports.getData = async (req, res, next) => {
                   klinikDiDaerah.klinik.push({
                     namaKlinik: klinikData.kp,
                     kodFasiliti: klinikData.kodFasiliti,
-                    pesakit: [],
+                    // pesakit: [],
+                    jumlahPesakit: [],
                     pesakitHariIni: [],
                     pesakitMingguIni: [],
                     pesakitBulanIni: [],
@@ -534,6 +566,7 @@ exports.getData = async (req, res, next) => {
                       item.createdByKp === klinikData.kp &&
                       item.kedatangan === 'ulangan-kedatangan'
                   );
+                  klinikDiDaerah.klinik[k].jumlahPesakit = pesakitData.length;
                   klinikDiDaerah.klinik[k].pesakitHariIni =
                     pesakitHariIni.length;
                   klinikDiDaerah.klinik[k].pesakitMingguIni =
@@ -543,12 +576,12 @@ exports.getData = async (req, res, next) => {
                   klinikDiDaerah.klinik[k].pesakitBaru = pesakitBaru.length;
                   klinikDiDaerah.klinik[k].pesakitUlangan =
                     pesakitUlangan.length;
-                  for (p in pesakitData) {
-                    const pesakit = pesakitData[p];
-                    klinikDiDaerah.klinik[k].pesakit.push({
-                      namaPesakit: pesakit.nama,
-                    });
-                  }
+                  // for (p in pesakitData) {
+                  //   const pesakit = pesakitData[p];
+                  //   klinikDiDaerah.klinik[k].pesakit.push({
+                  //     namaPesakit: pesakit.nama,
+                  //   });
+                  // }
                 }
                 klinikDiDaerah.klinik.sort((a, b) => {
                   if (a.namaKlinik < b.namaKlinik) {
@@ -572,11 +605,28 @@ exports.getData = async (req, res, next) => {
               });
               data.push({
                 namaNegeri: negeri,
+                // jumlahPesakit: ptData.filter(
+                //   (item) => item.createdByNegeri === negeri
+                // ).length,
+                // pesakitHariIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByNegeri === negeri &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'day')
+                // ).length,
+                // pesakitMingguIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByNegeri === negeri &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'week')
+                // ).length,
+                // pesakitBulanIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByNegeri === negeri &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'month')
+                // ).length,
                 daerah: klinik,
               });
             }
             return res.status(200).json(data);
-            break;
           case 'readOne':
             console.log('readOne for hq');
             const { id } = req.body;
@@ -589,6 +639,26 @@ exports.getData = async (req, res, next) => {
             const jumlahPt = klinikPtData.length;
             const ptHariIni = klinikPtData.filter(
               (item) => item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+            );
+            const pt2HariLepas = klinikPtData.filter(
+              (item) =>
+                item.tarikhKedatangan ===
+                moment().subtract(2, 'days').format('YYYY-MM-DD')
+            );
+            const pt3HariLepas = klinikPtData.filter(
+              (item) =>
+                item.tarikhKedatangan ===
+                moment().subtract(3, 'days').format('YYYY-MM-DD')
+            );
+            const pt4HariLepas = klinikPtData.filter(
+              (item) =>
+                item.tarikhKedatangan ===
+                moment().subtract(4, 'days').format('YYYY-MM-DD')
+            );
+            const pt5HariLepas = klinikPtData.filter(
+              (item) =>
+                item.tarikhKedatangan ===
+                moment().subtract(5, 'days').format('YYYY-MM-DD')
             );
             const ptMingguIni = klinikPtData.filter((item) =>
               moment(item.tarikhKedatangan).isBetween(
@@ -616,9 +686,30 @@ exports.getData = async (req, res, next) => {
               ptBulanIni: ptBulanIni.length,
               ptBaru: ptBaru.length,
               ptUlangan: ptUlangan.length,
+              kedatanganPt: [
+                {
+                  kedatangan: ptHariIni.length,
+                  tarikh: moment().format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt2HariLepas.length,
+                  tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt3HariLepas.length,
+                  tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt4HariLepas.length,
+                  tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt5HariLepas.length,
+                  tarikh: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+                },
+              ],
             };
             return res.status(200).json(klinikData);
-            break;
           case 'update':
             console.log('update for hq');
             break;
