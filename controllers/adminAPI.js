@@ -449,7 +449,6 @@ exports.getData = async (req, res, next) => {
               process.env.JWT_SECRET
             ).accountType;
             let payload = {};
-            console.log(accountType);
             if (accountType === 'hqSuperadmin') {
               payload = {
                 accountType: 'kpUser',
@@ -577,6 +576,48 @@ exports.getData = async (req, res, next) => {
               });
             }
             return res.status(200).json(data);
+            break;
+          case 'readOne':
+            console.log('readOne for hq');
+            const { id } = req.body;
+            let klinikData = await User.find({
+              kodFasiliti: id,
+            });
+            const klinikPtData = await Umum.find({
+              createdByKp: klinikData[0].kp,
+            });
+            const jumlahPt = klinikPtData.length;
+            const ptHariIni = klinikPtData.filter(
+              (item) => item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+            );
+            const ptMingguIni = klinikPtData.filter((item) =>
+              moment(item.tarikhKedatangan).isBetween(
+                moment().startOf('week'),
+                moment().endOf('week')
+              )
+            );
+            const ptBulanIni = klinikPtData.filter((item) =>
+              moment(item.tarikhKedatangan).isBetween(
+                moment().startOf('month'),
+                moment().endOf('month')
+              )
+            );
+            const ptBaru = klinikPtData.filter(
+              (item) => item.kedatangan === 'baru-kedatangan'
+            );
+            const ptUlangan = klinikPtData.filter(
+              (item) => item.kedatangan === 'ulangan-kedatangan'
+            );
+            klinikData = {
+              ...klinikData[0]._doc,
+              jumlahPt,
+              ptHariIni: ptHariIni.length,
+              ptMingguIni: ptMingguIni.length,
+              ptBulanIni: ptBulanIni.length,
+              ptBaru: ptBaru.length,
+              ptUlangan: ptUlangan.length,
+            };
+            return res.status(200).json(klinikData);
             break;
           case 'update':
             console.log('update for hq');

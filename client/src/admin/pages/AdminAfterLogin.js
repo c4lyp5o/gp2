@@ -15,6 +15,9 @@ import AdminNavbar from '../components/AdminNavbar';
 // paparan utama
 import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
 
+// klinik details
+import Klinik from '../components/Klinik';
+
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
@@ -89,6 +92,7 @@ export default function AdminAfterLogin() {
           <Route path='ins' element={<Data FType='ins' />} />
           <Route path='kpb' element={<Data FType='kpb' />} />
           <Route path='mp' element={<Data FType='mp' />} />
+          <Route path='klinik' element={<Klinik />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
