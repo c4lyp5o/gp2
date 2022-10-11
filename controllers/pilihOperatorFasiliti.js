@@ -1,5 +1,4 @@
 const Operator = require('../models/Operator');
-// const Fasiliti = require('../models/Fasiliti');
 const User = require('../models/User');
 
 const getOperatorList = async (req, res) => {

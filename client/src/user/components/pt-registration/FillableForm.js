@@ -16,6 +16,7 @@ export default function FillableForm({
     useGlobalUserAppContext();
 
   const [editLoading, setIsEditLoading] = useState(false);
+  const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
 
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -400,6 +401,13 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
+  // reset namaFasilitiTaskaTadika when change fasilitiTaskaTadika
+  useEffect(() => {
+    if (!editId) {
+      setNamaFasilitiTaskaTadika('');
+    }
+  }, [fasilitiTaskaTadika]);
+
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
     if (editId) {
@@ -506,6 +514,26 @@ export default function FillableForm({
       fetchSinglePersonKaunter();
     }
   }, [editId]);
+
+  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  useEffect(() => {
+    if (jenisFasiliti === 'taska-tadika') {
+      const fetchTaskaTadika = async () => {
+        try {
+          const { data } = await axios.get(
+            `/api/v1/query/kaunter/taska-tadika`,
+            {
+              headers: { Authorization: `Bearer ${kaunterToken}` },
+            }
+          );
+          setTaskaTadikaAll(data.taskaTadikaAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
 
   if (editLoading) {
     return (
@@ -1269,7 +1297,6 @@ export default function FillableForm({
                       <option value='tadika'>Tadika</option>
                     </select>
                   </div>
-                  {/* buang className ni nnti */}
                   <div className='overflow-x-auto'>
                     <select
                       name='jenis-taska-tadika'
@@ -1281,10 +1308,10 @@ export default function FillableForm({
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih jenis taska / tadika</option>
-                      <option value='taska'>KEMAS </option>
-                      <option value='tadika'>Perpaduan </option>
-                      <option value='taska'>Lain-lain</option>
-                      <option value='tadika'>Swasta</option>
+                      <option value='kemas'>KEMAS </option>
+                      <option value='perpaduan'>Perpaduan </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='swasta'>Swasta</option>
                     </select>
                     <br />
                     <input
@@ -1317,8 +1344,11 @@ export default function FillableForm({
                   className='w-11/12 outline outline-1 outline-userBlack'
                 >
                   <option value=''>Pilih</option>
-                  <option value='taska perak'>Taska Perak</option>
-                  <option value='tadika emas'>Tadika Emas</option>
+                  {taskaTadikaAll
+                    .filter((tt) => tt.jenisFasiliti === fasilitiTaskaTadika)
+                    .map((tt) => {
+                      return <option value={tt.kodTastad}>{tt.nama}</option>;
+                    })}
                 </select>
                 <div className='flex items-center flex-row pl-5 '>
                   <label
