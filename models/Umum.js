@@ -55,9 +55,9 @@ const UmumSchema = new mongoose.Schema(
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
     enrolmenTaskaTadika: { type: Boolean, default: false },
-    engganTaskaTadika: { type: Boolean, default: false },
-    tidakHadirTaskaTadika: { type: Boolean, default: false },
-    pemeriksaanTaskaTadika: { type: String, default: '' },
+    // engganTaskaTadika: { type: Boolean, default: false },
+    // tidakHadirTaskaTadika: { type: Boolean, default: false },
+    // pemeriksaanTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },

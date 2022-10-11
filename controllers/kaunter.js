@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Fasiliti = require('../models/Fasiliti');
 const cryptoJs = require('crypto-js');
 
 // GET /:personKaunterId
@@ -175,10 +176,27 @@ const queryPersonKaunter = async (req, res) => {
   res.status(200).json({ kaunterResultQuery });
 };
 
+// query /taska-tadika
+const getTaskaTadikaList = async (req, res) => {
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const taskaTadikaAll = await Fasiliti.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    handler: req.user.kp,
+    jenisFasiliti: ['taska', 'tadika'],
+  });
+
+  res.status(200).json({ taskaTadikaAll });
+};
+
 module.exports = {
   getSinglePersonKaunter,
   createPersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
   queryPersonKaunter,
+  getTaskaTadikaList,
 };

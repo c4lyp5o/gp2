@@ -10,6 +10,8 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   const { personUmumId } = useParams();
 
+  const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+
   // core
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
@@ -215,13 +217,29 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     fetchSinglePersonUmum();
   }, [showKemaskini]);
 
+  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  useEffect(() => {
+    if (jenisFasiliti === 'taska-tadika') {
+      const fetchTaskaTadika = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/umum/taska-tadika`, {
+            headers: { Authorization: `Bearer ${userToken}` },
+          });
+          setTaskaTadikaAll(data.taskaTadikaAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.patch(
         `/api/v1/umum/${personUmumId}`,
         {
-          jenisFasiliti,
           tarikhKedatangan,
           waktuSampai,
           kedatangan,
@@ -1064,7 +1082,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       <option value='tadika'>Tadika</option>
                     </select>
                   </div>
-                  {/* buang className ni nnti */}
                   <div className='overflow-x-auto'>
                     <select
                       name='jenis-taska-tadika'
@@ -1076,10 +1093,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih jenis taska / tadika</option>
-                      <option value='taska'>KEMAS </option>
-                      <option value='tadika'>Perpaduan </option>
-                      <option value='taska'>Lain-lain</option>
-                      <option value='tadika'>Swasta</option>
+                      <option value='kemas'>KEMAS </option>
+                      <option value='perpaduan'>Perpaduan </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='swasta'>Swasta</option>
                     </select>
                     <br />
                     <input
@@ -1112,8 +1129,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   className='w-11/12 outline outline-1 outline-userBlack'
                 >
                   <option value=''>Pilih</option>
-                  <option value='taska perak'>Taska Perak</option>
-                  <option value='tadika emas'>Tadika Emas</option>
+                  {taskaTadikaAll
+                    .filter((tt) => tt.jenisFasiliti === fasilitiTaskaTadika)
+                    .map((tt) => {
+                      return <option value={tt.kodTastad}>{tt.nama}</option>;
+                    })}
                 </select>
                 <div className='flex items-center flex-row pl-5 '>
                   <label
