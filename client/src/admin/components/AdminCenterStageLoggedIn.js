@@ -5,7 +5,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import perlis from '../assets/flags/perlis.png';
 
-export default function AdminCenterStageLoggedIn({ user, accountType }) {
+export default function AdminCenterStageLoggedIn() {
   const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -61,26 +61,33 @@ export default function AdminCenterStageLoggedIn({ user, accountType }) {
                         {item2.klinik.map((item3) => {
                           return (
                             <div className='mt-3'>
-                              <p className='text-xs  underline'>
+                              <a
+                                href={`./landing/klinik?id=${item3.kodFasiliti}`}
+                              >
+                                <p className='text-gray-700 text-base'>
+                                  Klinik: {item3.namaKlinik}
+                                </p>
+                              </a>
+                              <p className='text-xs underline'>
                                 {item3.namaKlinik}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit: {item3.pesakit.length}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit Baru: {item3.pesakitBaru}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit Ulangan: {item3.pesakitUlangan}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit Hari Ini: {item3.pesakitHariIni}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit Minggu Ini:{' '}
                                 {item3.pesakitMingguIni}
                               </p>
-                              <p className='text-xs '>
+                              <p className='text-xs'>
                                 Jumlah Pesakit Bulan Ini:{' '}
                                 {item3.pesakitBulanIni}
                               </p>
