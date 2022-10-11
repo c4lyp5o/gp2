@@ -2,16 +2,71 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Ring } from 'react-awesome-spinners';
 import axios from 'axios';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 function DataKlinik({ data }) {
+  const options = {
+    responsive: true,
+    scales: {
+      y: {
+        min: 0,
+        suggestedMax: 50,
+      },
+    },
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: `Kedatangan Pesakit ke ${data.kp}`,
+      },
+    },
+  };
+  const labels = data.kedatanganPt.map((item) => {
+    return item.tarikh;
+  });
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: `Jumlah Pesakit`,
+        data: data.kedatanganPt.map((i) => i.kedatangan),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+
   return (
-    <div className='justify-center items-center text-xl font-semibold mt-10'>
-      <div className='max-w-sm rounded overflow-hidden shadow-lg'>
+    <div className='justify-center items-center mt-10'>
+      <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
-          <div className='font-bold mb-2'>{data.kp}</div>
-          <p className='text-gray-700'>Daerah: {data.daerah}</p>
+          <div className='font-bold text-xl mb-2 underline'>{data.kp}</div>
+          <Line data={chartData} options={options} />
+          <p className='underline'>Statistik</p>
           <p className='text-xs'>
             Jumlah Pesakit sehingga {new Date().toLocaleDateString()}:{' '}
             {data.jumlahPt}
@@ -32,11 +87,11 @@ function DataKlinik({ data }) {
 function JanaReten({ data }) {
   const { toast, dateToday } = useGlobalAdminAppContext();
 
-  const saveFile = (blob, e) => {
+  const saveFile = (blob, reten) => {
     const link = document.createElement('a');
-    link.download = `${e}-${data.kp}.xlsx`;
+    link.download = `${reten}-${data.kp}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', () => {
       setTimeout(() => {
         URL.revokeObjectURL(link.href);
       }, 100);
@@ -44,11 +99,11 @@ function JanaReten({ data }) {
     link.click();
   };
 
-  const handleJana = async (e) => {
+  const handleJana = async (reten) => {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${e}&tarikhMula=2022-01-01&tarikhAkhir=${dateToday}&bulan=${dateToday}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateToday}&bulan=${dateToday}&formatFile=xlsx`,
           {
             headers: {
               klinikid: `${data.kp}`,
@@ -66,13 +121,13 @@ function JanaReten({ data }) {
         { autoClose: 2000 }
       )
       .then((blob) => {
-        saveFile(blob.data, e);
+        saveFile(blob.data, reten);
       });
   };
 
   return (
-    <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
-      <div className='max-w-sm rounded overflow-hidden shadow-lg'>
+    <div className='justify-center items-center mt-10'>
+      <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
           <div className='font-bold text-xl mb-2 underline'>Pusat Kawalan</div>
           <div>Jana Reten</div>
@@ -102,7 +157,7 @@ function JanaReten({ data }) {
 
 export default function Klinik() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id'); // "1234"
+  const id = searchParams.get('id');
   const { toast, getKlinikData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
@@ -136,8 +191,8 @@ export default function Klinik() {
 
   return (
     <>
-      <div className='h-full p-5 overflow-y-auto'>
-        <div className='grid grid-cols-2'>
+      <div className='h-full w-full p-5 overflow-y-auto'>
+        <div className='grid grid-cols-2 gap-2'>
           <DataKlinik data={data} />
           <JanaReten data={data} />
         </div>
