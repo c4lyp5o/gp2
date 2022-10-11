@@ -324,7 +324,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   return (
     <>
-      <div className='absolute inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-2 lg:inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <div className='sticky top-0'>
           <FaWindowClose
             onClick={closeModal}
@@ -335,7 +335,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         <form onSubmit={handleSubmit}>
           <div className='flex'>
             <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
-            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
+            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto '>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
