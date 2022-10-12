@@ -60,7 +60,15 @@ const FlagsDictionary = {
   'kuala lumpur': kualaLumpur,
 };
 
-function MainChart({ data }) {
+function MainChart({ data, adminLevel }) {
+  const currentTitle = (data, adminLevel) => {
+    if (adminLevel !== 'daerahSuperadmin') {
+      return `Kedatangan Pesakit di Negeri ${data.namaNegeri.toUpperCase()}`;
+    }
+    if (adminLevel === 'daerahSuperadmin') {
+      return `Kedatangan Pesakit di Daerah ${data.daerah[0].namaDaerah.toUpperCase()}`;
+    }
+  };
   const options = {
     responsive: true,
     scales: {
@@ -75,7 +83,7 @@ function MainChart({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit di Negeri ${data.namaNegeri.toUpperCase()}`,
+        text: currentTitle(data, adminLevel),
       },
     },
   };
@@ -176,8 +184,8 @@ export default function AdminCenterStageLoggedIn() {
         return (
           <div className='lg:flex mb-4 m-10 rounded mx-auto'>
             <div className='w-full lg:w-2/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
-              {data.length > 0 && adminLevel !== 'daerahSuperadmin' && (
-                <MainChart data={item} />
+              {data.length > 0 && (
+                <MainChart data={item} adminLevel={adminLevel} />
               )}
             </div>
           </div>

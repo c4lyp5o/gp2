@@ -85,7 +85,7 @@ function DataKlinik({ data }) {
 }
 
 function JanaReten({ data }) {
-  const { toast, dateToday } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -100,10 +100,11 @@ function JanaReten({ data }) {
   };
 
   const handleJana = async (reten) => {
+    const dateInISO = new Date().toISOString();
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateToday}&bulan=${dateToday}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateInISO}&bulan=${dateInISO}&formatFile=xlsx`,
           {
             headers: {
               klinikid: `${data.kp}`,
