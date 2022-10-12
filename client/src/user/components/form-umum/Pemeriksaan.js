@@ -652,7 +652,7 @@ export default function Pemeriksaan(props) {
                     pesakit perlu Pengapan Fisur
                   </label>
                 </div>
-                <div className='flex flex-row items-center pl-5'>
+                <div className='flex flex-row items-center pl-5 col-span-2'>
                   <p className='flex flex-row text-sm font-m items-center'>
                     jumlah gigi kekal perlu Pengapan Fisur
                   </p>
@@ -750,7 +750,7 @@ export default function Pemeriksaan(props) {
                     murid perlu PRR jenis 1
                   </label>
                 </div>
-                <div className='flex flex-row items-center pl-5'>
+                <div className='flex flex-row items-center pl-5 col-span-2'>
                   <p className='flex flex-row text-sm font-m '>
                     jumlah gigi perlu PRR Jenis 1
                   </p>
