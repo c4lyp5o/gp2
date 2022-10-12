@@ -64,7 +64,7 @@ export default function FillableForm({
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
+  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
@@ -170,7 +170,7 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              jenisTaskaTadika,
+              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
@@ -254,7 +254,7 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              jenisTaskaTadika,
+              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
@@ -335,7 +335,7 @@ export default function FillableForm({
     setLabelMakmalPergigianBergerak('');
     // taska / tadika
     setFasilitiTaskaTadika('');
-    setJenisTaskaTadika('');
+    // setJenisTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
     setEnrolmenTaskaTadika(false);
@@ -469,7 +469,7 @@ export default function FillableForm({
           );
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
-          setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
+          // setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
           setNamaFasilitiTaskaTadika(
             data.singlePersonKaunter.namaFasilitiTaskaTadika
@@ -1298,7 +1298,7 @@ export default function FillableForm({
                     </select>
                   </div>
                   <div className='overflow-x-auto'>
-                    <select
+                    {/* <select
                       name='jenis-taska-tadika'
                       id='jenis-taska-tadika'
                       value={jenisTaskaTadika}
@@ -1313,7 +1313,7 @@ export default function FillableForm({
                       <option value='lain-lain'>Lain-lain</option>
                       <option value='swasta'>Swasta</option>
                     </select>
-                    <br />
+                    <br /> */}
                     <input
                       type='checkbox'
                       id='kelas-toddler'
