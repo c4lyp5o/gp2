@@ -5,6 +5,7 @@ const {
   getSinglePersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
+  getPersonFromCache,
 } = require('../controllers/kaunter');
 
 router.route('/').post(createPersonKaunter);
@@ -13,5 +14,6 @@ router
   .get(getSinglePersonKaunter)
   .patch(updatePersonKaunter)
   .delete(deletePersonKaunter);
+router.route('/check').post(getPersonFromCache);
 
 module.exports = router;

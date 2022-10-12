@@ -1,6 +1,38 @@
 const Umum = require('../models/Umum');
 const Fasiliti = require('../models/Fasiliti');
+const LRU = require('lru-cache');
 const cryptoJs = require('crypto-js');
+
+const options = {
+  max: 500,
+
+  // for use with tracking overall storage size
+  maxSize: 5000,
+  sizeCalculation: (value, key) => {
+    return 1;
+  },
+
+  // for use when you need to clean up something when objects
+  // are evicted from the cache
+  dispose: (value, key) => {
+    freeFromMemoryOrWhatever(value);
+  },
+
+  // how long to live in ms
+  ttl: 1000 * 60 * 60 * 24 * 7,
+
+  // return stale items before removing from cache?
+  allowStale: false,
+
+  updateAgeOnGet: false,
+  updateAgeOnHas: false,
+
+  // async method to use for cache.fetch(), for
+  // stale-while-revalidate type of behavior
+  fetchMethod: async (key, staleValue, { options, signal }) => {},
+};
+
+const cache = new LRU(options);
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {
@@ -70,7 +102,7 @@ const createPersonKaunter = async (req, res) => {
     req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
   }
   if (!personExist) {
-    console.log('belum wujud. tagging baru dalam pre');
+    console.log('belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
 
@@ -79,6 +111,12 @@ const createPersonKaunter = async (req, res) => {
     req.body.ic,
     process.env.CRYPTO_JS_SECRET
   ).toString();
+
+  // send to cache before encrypting
+  console.log('sending to cache');
+  cache.set(req.body.ic, req.body);
+
+  // replace ic with encrypted ic
   req.body.ic = encryptedIc;
 
   const singlePersonKaunter = await Umum.create(req.body);
@@ -192,6 +230,16 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
+// get from cache if ic is same
+const getPersonFromCache = async (req, res) => {
+  const { ic } = req.body;
+  const person = await cache.get(ic.toString());
+  if (person) {
+    return res.status(200).json({ person });
+  }
+  res.status(404).json({ msg: 'No person found' });
+};
+
 module.exports = {
   getSinglePersonKaunter,
   createPersonKaunter,
@@ -199,4 +247,5 @@ module.exports = {
   deletePersonKaunter,
   queryPersonKaunter,
   getTaskaTadikaList,
+  getPersonFromCache,
 };
