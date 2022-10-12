@@ -8,12 +8,11 @@ import KaunterHeader from '../components/KaunterHeader';
 import KaunterFooter from '../components/KaunterFooter';
 
 function KaunterLogin() {
-  const { loginErrorMessage, isLoginError, loginKaunter } =
+  const { loginErrorMessage, isLoginError, loginKaunter, loggingInKaunter } =
     useGlobalUserAppContext();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const hilang = () => {
@@ -22,10 +21,8 @@ function KaunterLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoggingIn(!loggingIn);
     setTimeout(() => {
       loginKaunter({ username, password });
-      setLoggingIn(!loggingIn);
     }, 1000);
   };
 
@@ -96,7 +93,7 @@ function KaunterLogin() {
                 >
                   kembali ke halaman utama
                 </Link>
-                {loggingIn ? (
+                {loggingInKaunter ? (
                   <button
                     type='button'
                     class='inline-flex items-center text-center justify-center px-4 py-2 capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all ease-in-out duration-150 cursor-not-allowed'

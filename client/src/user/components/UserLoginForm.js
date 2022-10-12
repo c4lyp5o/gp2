@@ -7,12 +7,11 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 import UserForgotPassword from './UserForgotPassword';
 
 function UserLoginForm() {
-  const { loginErrorMessage, isLoginError, loginUser } =
+  const { loginErrorMessage, isLoginError, loginUser, loggingInUser } =
     useGlobalUserAppContext();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -23,10 +22,8 @@ function UserLoginForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoggingIn(!loggingIn);
     setTimeout(() => {
       loginUser({ username, password });
-      setLoggingIn(!loggingIn);
     }, 1000);
   };
 
@@ -101,7 +98,7 @@ function UserLoginForm() {
           >
             kembali ke halaman utama
           </Link>
-          {loggingIn ? (
+          {loggingInUser ? (
             <button
               type='button'
               className='inline-flex items-center text-center justify-center px-4 py-2 order-first lg:order-last capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all ease-in-out duration-150 cursor-not-allowed'
