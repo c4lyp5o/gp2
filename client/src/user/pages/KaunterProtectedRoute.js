@@ -25,7 +25,7 @@ function KaunterProtectedRoute({ children }) {
   }, [kaunterToken]);
 
   if (isTokenCorrect === false) {
-    return <Navigate to='/kaunter' />;
+    return <Navigate to='/pendaftaran' />;
   }
   if (isTokenCorrect === true) {
     return children;

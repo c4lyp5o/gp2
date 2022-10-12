@@ -65,7 +65,7 @@ function UserAppProvider({ children }) {
       });
       localStorage.setItem('kaunterToken', data.kaunterToken);
       setKaunterToken(data.kaunterToken);
-      navigate('/kaunter/daftar');
+      navigate('/pendaftaran/daftar');
     } catch (error) {
       catchAxiosErrorAndLogout();
       setLoginErrorMessage(error.response.data.msg);
@@ -73,7 +73,7 @@ function UserAppProvider({ children }) {
       setTimeout(() => {
         setIsLoginError(false);
       }, 3000);
-      navigate('/kaunter');
+      navigate('/pendaftaran');
     }
   };
 
