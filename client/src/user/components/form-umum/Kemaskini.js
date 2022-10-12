@@ -59,7 +59,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
+  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
@@ -173,7 +173,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         );
         // taska / tadika
         setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
-        setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
+        // setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
         setKelasToddler(data.singlePersonUmum.kelasToddler);
         setNamaFasilitiTaskaTadika(
           data.singlePersonUmum.namaFasilitiTaskaTadika
@@ -279,7 +279,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           labelMakmalPergigianBergerak,
           // taska / tadika
           fasilitiTaskaTadika,
-          jenisTaskaTadika,
+          // jenisTaskaTadika,
           kelasToddler,
           namaFasilitiTaskaTadika,
           enrolmenTaskaTadika,
@@ -1083,7 +1083,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                     </select>
                   </div>
                   <div className='overflow-x-auto'>
-                    <select
+                    {/* <select
                       name='jenis-taska-tadika'
                       id='jenis-taska-tadika'
                       value={jenisTaskaTadika}
@@ -1098,7 +1098,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       <option value='lain-lain'>Lain-lain</option>
                       <option value='swasta'>Swasta</option>
                     </select>
-                    <br />
+                    <br /> */}
                     <input
                       type='checkbox'
                       id='kelas-toddler'
