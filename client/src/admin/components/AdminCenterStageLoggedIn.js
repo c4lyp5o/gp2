@@ -161,7 +161,7 @@ export default function AdminCenterStageLoggedIn() {
                     {item2.klinik.map((item3) => {
                       return (
                         <a href={`./landing/klinik?id=${item3.kodFasiliti}`}>
-                          <p className='text-user4'>{item3.namaKlinik}</p>
+                          <p className='text-user1'>{item3.namaKlinik}</p>
                         </a>
                       );
                     })}

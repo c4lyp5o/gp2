@@ -82,6 +82,7 @@ export default function AdminAfterLogin() {
               />
             }
           />
+          <Route path='klinik' element={<Klinik />} />
           <Route path='kp' element={<Data FType='kp' />} />
           <Route path='pp' element={<Data FType='pp' />} />
           <Route path='jp' element={<Data FType='jp' />} />
@@ -92,7 +93,6 @@ export default function AdminAfterLogin() {
           <Route path='ins' element={<Data FType='ins' />} />
           <Route path='kpb' element={<Data FType='kpb' />} />
           <Route path='mp' element={<Data FType='mp' />} />
-          <Route path='klinik' element={<Klinik />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
