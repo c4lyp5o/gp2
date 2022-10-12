@@ -12,7 +12,6 @@ const Helper = require('../controllers/countHelper');
 
 // gateway
 exports.downloader = async function (req, res) {
-  console.log(req.headers);
   const { authorization, klinikid, klinikdaerah, kliniknegeri } = req.headers;
   //
   let kp, daerah, negeri;
@@ -78,7 +77,7 @@ exports.downloader = async function (req, res) {
       break;
     case 'PG211':
       const data211 = await makePG211(payload);
-      if (data101 === 'No data found') {
+      if (data211 === 'No data found') {
         return res.status(404).json({
           message: 'No data found',
         });
@@ -89,24 +88,22 @@ exports.downloader = async function (req, res) {
           res.status(200).send(data211);
           break;
         case 'pdf':
-          let excel101 = path.join(
+          let excel211 = path.join(
             __dirname,
             '..',
             'public',
             'exports',
-            'test-' + kp + '-PG101.xlsx'
+            'test-' + kp + '-PG211.xlsx'
           );
-          let pdf101 = path.join(
+          let pdf211 = path.join(
             __dirname,
             '..',
             'public',
             'exports',
-            'test-' + kp + '-PG101.pdf'
+            'test-' + kp + '-PG211.pdf'
           );
-          convertToPdf(newfile, freshPdf);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
-          );
+          convertToPdf(excel211, pdf211);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf211));
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
           break;
