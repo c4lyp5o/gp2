@@ -38,6 +38,9 @@ const countPG101 = async (klinik, tarikhMula, tarikhAkhir) => {
         createdByKp: {
           $eq: klinik,
         },
+        jenisFasiliti: {
+          $eq: 'kp',
+        },
       },
     };
   }

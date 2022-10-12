@@ -452,6 +452,7 @@ exports.getData = async (req, res, next) => {
             let kpSelectionPayload = {};
             let ptSelectionPayload = {};
             if (accountType === 'hqSuperadmin') {
+              console.log('superadmin query');
               kpSelectionPayload = {
                 accountType: 'kpUser',
               };
@@ -490,6 +491,53 @@ exports.getData = async (req, res, next) => {
               const negeriData = kpData.filter(
                 (item) => item.negeri === negeri
               );
+              let kedatangan = [];
+              if (accountType !== 'daerahSuperadmin') {
+                const negeriPtData = ptData.filter(
+                  (item) => item.createdByNegeri === negeri
+                );
+                kedatangan = [
+                  {
+                    kedatangan: negeriPtData.filter(
+                      (item) =>
+                        item.tarikhKedatangan ===
+                        moment().subtract(4, 'days').format('YYYY-MM-DD')
+                    ).length,
+                    tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+                  },
+                  {
+                    kedatangan: negeriPtData.filter(
+                      (item) =>
+                        item.tarikhKedatangan ===
+                        moment().subtract(3, 'days').format('YYYY-MM-DD')
+                    ).length,
+                    tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+                  },
+                  {
+                    kedatangan: negeriPtData.filter(
+                      (item) =>
+                        item.tarikhKedatangan ===
+                        moment().subtract(2, 'days').format('YYYY-MM-DD')
+                    ).length,
+                    tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+                  },
+                  {
+                    kedatangan: negeriPtData.filter(
+                      (item) =>
+                        item.tarikhKedatangan ===
+                        moment().subtract(1, 'days').format('YYYY-MM-DD')
+                    ).length,
+                    tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                  },
+                  {
+                    kedatangan: negeriPtData.filter(
+                      (item) =>
+                        item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+                    ).length,
+                    tarikh: moment().format('YYYY-MM-DD'),
+                  },
+                ];
+              }
               const daerah = [
                 ...new Set(negeriData.map((item) => item.daerah)),
               ];
@@ -498,6 +546,53 @@ exports.getData = async (req, res, next) => {
                 const daerahData = negeriData.filter(
                   (item) => item.daerah === daerah[d]
                 );
+                if (accountType === 'daerahSuperadmin') {
+                  const daerahPtData = ptData.filter(
+                    (item) => item.createdByDaerah === daerah[d]
+                  );
+                  kedatangan = [
+                    {
+                      kedatangan: daerahPtData.filter(
+                        (item) =>
+                          item.tarikhKedatangan ===
+                          moment().format('YYYY-MM-DD')
+                      ).length,
+                      tarikh: moment().format('YYYY-MM-DD'),
+                    },
+                    {
+                      kedatangan: daerahPtData.filter(
+                        (item) =>
+                          item.tarikhKedatangan ===
+                          moment().subtract(1, 'days').format('YYYY-MM-DD')
+                      ).length,
+                      tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                    },
+                    {
+                      kedatangan: daerahPtData.filter(
+                        (item) =>
+                          item.tarikhKedatangan ===
+                          moment().subtract(2, 'days').format('YYYY-MM-DD')
+                      ).length,
+                      tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+                    },
+                    {
+                      kedatangan: daerahPtData.filter(
+                        (item) =>
+                          item.tarikhKedatangan ===
+                          moment().subtract(3, 'days').format('YYYY-MM-DD')
+                      ).length,
+                      tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+                    },
+                    {
+                      kedatangan: daerahPtData.filter(
+                        (item) =>
+                          item.tarikhKedatangan ===
+                          moment().subtract(4, 'days').format('YYYY-MM-DD')
+                      ).length,
+                      tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+                    },
+                  ];
+                }
                 const klinikDiDaerah = {
                   namaDaerah: daerah[d],
                   jumlahPesakit: ptData.filter(
@@ -606,65 +701,9 @@ exports.getData = async (req, res, next) => {
               });
               data.push({
                 namaNegeri: negeri,
+                kedatanganPt: kedatangan,
                 daerah: klinik,
               });
-              if (accountType !== 'daerahSuperadmin') {
-                data = [
-                  {
-                    ...data[0],
-                    kedatanganPt: [
-                      {
-                        kedatangan: ptData.filter(
-                          (item) =>
-                            item.tarikhKedatangan ===
-                            moment().format('YYYY-MM-DD')
-                        ).length,
-                        tarikh: moment().format('YYYY-MM-DD'),
-                      },
-                      {
-                        kedatangan: ptData.filter(
-                          (item) =>
-                            item.tarikhKedatangan ===
-                            moment().subtract(1, 'days').format('YYYY-MM-DD')
-                        ).length,
-                        tarikh: moment()
-                          .subtract(1, 'days')
-                          .format('YYYY-MM-DD'),
-                      },
-                      {
-                        kedatangan: ptData.filter(
-                          (item) =>
-                            item.tarikhKedatangan ===
-                            moment().subtract(2, 'days').format('YYYY-MM-DD')
-                        ).length,
-                        tarikh: moment()
-                          .subtract(2, 'days')
-                          .format('YYYY-MM-DD'),
-                      },
-                      {
-                        kedatangan: ptData.filter(
-                          (item) =>
-                            item.tarikhKedatangan ===
-                            moment().subtract(3, 'days').format('YYYY-MM-DD')
-                        ).length,
-                        tarikh: moment()
-                          .subtract(3, 'days')
-                          .format('YYYY-MM-DD'),
-                      },
-                      {
-                        kedatangan: ptData.filter(
-                          (item) =>
-                            item.tarikhKedatangan ===
-                            moment().subtract(4, 'days').format('YYYY-MM-DD')
-                        ).length,
-                        tarikh: moment()
-                          .subtract(4, 'days')
-                          .format('YYYY-MM-DD'),
-                      },
-                    ],
-                  },
-                ];
-              }
             }
             return res.status(200).json(data);
           case 'readOne':
@@ -728,24 +767,24 @@ exports.getData = async (req, res, next) => {
               ptUlangan: ptUlangan.length,
               kedatanganPt: [
                 {
-                  kedatangan: ptHariIni.length,
-                  tarikh: moment().format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: pt2HariLepas.length,
-                  tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: pt3HariLepas.length,
-                  tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: pt4HariLepas.length,
+                  kedatangan: pt5HariLepas.length,
                   tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
                 },
                 {
-                  kedatangan: pt5HariLepas.length,
-                  tarikh: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+                  kedatangan: pt4HariLepas.length,
+                  tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt3HariLepas.length,
+                  tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: pt2HariLepas.length,
+                  tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                },
+                {
+                  kedatangan: ptHariIni.length,
+                  tarikh: moment().format('YYYY-MM-DD'),
                 },
               ],
             };
