@@ -2019,8 +2019,8 @@ function UserFormUmumHeader() {
                       <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
                     </div>
                     <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>KATEGORI PESAKIT :</h2>
-                      <p className='ml-1'>{singlePersonUmum.kategoriPesakit}</p>
+                      <h2 className='font-semibold'>KEDATANGAN :</h2>
+                      <p className='ml-1'>{singlePersonUmum.kedatangan}</p>
                     </div>
                   </div>
                 )}

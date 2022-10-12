@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -12,8 +13,13 @@ function UserLoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+  const hilang = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,24 +38,51 @@ function UserLoginForm() {
     <>
       <h3 className='text-xl font-semibold mt-10'>sila masukkan kata laluan</h3>
       <form onSubmit={handleSubmit}>
-        <input
-          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
-          type='text'
-          placeholder='ID Pengguna'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl'
-          type='password'
-          placeholder='Kata Laluan'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br />
+        <div className='grid grid-rows-2 gap-2 justify-center items-center'>
+          <div className='relative'>
+            <input
+              className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
+              type='text'
+              placeholder='ID Pengguna'
+              id='username'
+              name='username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <label
+              htmlFor='username'
+              className='absolute left-3 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+            >
+              ID Pengguna
+            </label>
+          </div>
+          <div className='relative'>
+            <input
+              className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Kata Laluan'
+              value={password}
+              id='password'
+              name='password'
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label
+              htmlFor='password'
+              className='absolute left-3 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+            >
+              Kata Laluan
+            </label>
+            <div className='absolute top-7 right-3 text-xl text-user3'>
+              {showPassword ? (
+                <AiFillEye onClick={hilang} />
+              ) : (
+                <AiFillEyeInvisible onClick={hilang} />
+              )}
+            </div>
+          </div>
+        </div>
         {isLoginError && (
           <p className='max-w-max mx-auto mt-5 text-sm text-user6'>
             {loginErrorMessage}
