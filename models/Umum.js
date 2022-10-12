@@ -51,7 +51,7 @@ const UmumSchema = new mongoose.Schema(
     labelMakmalPergigianBergerak: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
-    jenisTaskaTadika: { type: String, default: '' },
+    // jenisTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
     enrolmenTaskaTadika: { type: Boolean, default: false },
