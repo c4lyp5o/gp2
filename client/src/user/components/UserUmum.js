@@ -73,7 +73,7 @@ function UserUmum() {
               type='date'
               name='tarikh-kedatangan'
               id='tarikh-kedatangan'
-              className='outline outline-1 outline-user1 ml-3'
+              className='outline outline-1 outline-user1 ml-3 rounded-md p-1'
             />
           </div>
           <div className='m-2 col-span-2 lg:col-span-1'>
@@ -87,7 +87,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='ml-3'
+              className='ml-3 border border-adminBlack rounded-md p-1'
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>

@@ -1,5 +1,6 @@
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
+import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -101,7 +102,7 @@ export default function PatientData({
         >
           Jana Laporan PG101
         </button>
-        <div className='border mt-2'>
+        <div className=' mt-2'>
           <div className='justify-center items-center'>
             <div className='mt-2 overflow-x-auto text-sm lg:text-lg font-medium outline outline-1 outline-userBlack'>
               <table className='m-auto mb-5 w-11/12 outline outline-1 outline-kaunterBlack'>
@@ -135,12 +136,20 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           {p.noPendaftaranBaru ? (
-                            <td className='outline outline-1 outline-kaunterBlack text lowercase'>
+                            <td className='outline outline-1 outline-kaunterBlack lowercase'>
                               {p.noPendaftaranBaru}
+                              <BsFilePerson
+                                className='text-user7 text-2xl inline-table mx-2 pb-1'
+                                title='baru'
+                              />
                             </td>
                           ) : (
                             <td className='outline outline-1 outline-kaunterBlack lowercase'>
                               {p.noPendaftaranUlangan}
+                              <BsFillFilePersonFill
+                                className='text-user9 text-2xl inline-table mx-2 pb-1'
+                                title='ulangan'
+                              />
                             </td>
                           )}
                           <td className='outline outline-1 outline-kaunterBlack'>
