@@ -124,7 +124,6 @@ export default function FillableForm({
   const checkIc = async (ic) => {
     setCheckingIc(true);
     try {
-      console.log('sending ic to kaunter')
       const response = await axios.post(
         '/api/v1/kaunter/check',
         {
@@ -134,42 +133,39 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
-      console.log(response);
-      if (response.statusText === 'OK') {
-        toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
-        const {
-          nama,
-          tarikhLahir,
-          umur,
-          umurBulan,
-          jantina,
-          kumpulanEtnik,
-          alamat,
-          daerahAlamat,
-          negeriAlamat,
-          poskodAlamat,
-          ibuMengandung,
-          orangKurangUpaya,
-          bersekolah,
-          noOku,
-          statusPesara,
-        } = response.data.person;
-        setNama(nama);
-        setTarikhLahir(tarikhLahir);
-        setUmur(umur);
-        setUmurBulan(umurBulan);
-        setJantina(jantina);
-        setKumpulanEtnik(kumpulanEtnik);
-        setAlamat(alamat);
-        setDaerahAlamat(daerahAlamat);
-        setNegeriAlamat(negeriAlamat);
-        setPoskodAlamat(poskodAlamat);
-        setIbuMengandung(ibuMengandung);
-        setOrangKurangUpaya(orangKurangUpaya);
-        setBersekolah(bersekolah);
-        setNoOku(noOku);
-        setStatusPesara(statusPesara);
-      }
+      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      const {
+        nama,
+        tarikhLahir,
+        umur,
+        umurBulan,
+        jantina,
+        kumpulanEtnik,
+        alamat,
+        daerahAlamat,
+        negeriAlamat,
+        poskodAlamat,
+        ibuMengandung,
+        orangKurangUpaya,
+        bersekolah,
+        noOku,
+        statusPesara,
+      } = response.data.person;
+      setNama(nama);
+      setTarikhLahir(tarikhLahir);
+      setUmur(umur);
+      setUmurBulan(umurBulan);
+      setJantina(jantina);
+      setKumpulanEtnik(kumpulanEtnik);
+      setAlamat(alamat);
+      setDaerahAlamat(daerahAlamat);
+      setNegeriAlamat(negeriAlamat);
+      setPoskodAlamat(poskodAlamat);
+      setIbuMengandung(ibuMengandung);
+      setOrangKurangUpaya(orangKurangUpaya);
+      setBersekolah(bersekolah);
+      setNoOku(noOku);
+      setStatusPesara(statusPesara);
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
     }
