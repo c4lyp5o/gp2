@@ -807,6 +807,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='12'
                         />
                         <label
                           htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -827,6 +829,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='12'
                         />
                         <label
                           htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -847,6 +851,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='12'
                         />
                         <label
                           htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -867,6 +873,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='20'
                         />
                         <label
                           htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -892,6 +900,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='8'
                         />
                         <label
                           htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -912,6 +922,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='8'
                         />
                         <label
                           htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -932,6 +944,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='8'
                         />
                         <label
                           htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -952,6 +966,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='20'
                         />
                         <label
                           htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -977,6 +993,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='8'
                         />
                         <label
                           htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -997,6 +1015,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='8'
                         />
                         <label
                           htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1017,6 +1037,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='20'
                         />
                         <label
                           htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1037,6 +1059,8 @@ function UserFormSekolahRawatan() {
                             );
                           }}
                           className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                          min='0'
+                          max='20'
                         />
                         <label
                           htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1109,6 +1133,8 @@ function UserFormSekolahRawatan() {
                         );
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      min='0'
+                      max='20'
                     />
                   </div>
                 </article>

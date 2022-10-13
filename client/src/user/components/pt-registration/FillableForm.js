@@ -15,18 +15,19 @@ export default function FillableForm({
   const { kaunterToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
 
+  const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
+  const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
 
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
-  const [givenNoPendaftaran, setGivenNoPendaftaran] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
-  const [ic, setIc] = useState('');
+  const [ic, setIc] = useState(0);
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
@@ -63,7 +64,7 @@ export default function FillableForm({
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
+  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
@@ -120,6 +121,57 @@ export default function FillableForm({
     return values;
   };
 
+  const checkIc = async (ic) => {
+    setCheckingIc(true);
+    try {
+      const response = await axios.post(
+        '/api/v1/kaunter/check',
+        {
+          ic,
+        },
+        {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        }
+      );
+      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      const {
+        nama,
+        tarikhLahir,
+        umur,
+        umurBulan,
+        jantina,
+        kumpulanEtnik,
+        alamat,
+        daerahAlamat,
+        negeriAlamat,
+        poskodAlamat,
+        ibuMengandung,
+        orangKurangUpaya,
+        bersekolah,
+        noOku,
+        statusPesara,
+      } = response.data.person;
+      setNama(nama);
+      setTarikhLahir(tarikhLahir);
+      setUmur(umur);
+      setUmurBulan(umurBulan);
+      setJantina(jantina);
+      setKumpulanEtnik(kumpulanEtnik);
+      setAlamat(alamat);
+      setDaerahAlamat(daerahAlamat);
+      setNegeriAlamat(negeriAlamat);
+      setPoskodAlamat(poskodAlamat);
+      setIbuMengandung(ibuMengandung);
+      setOrangKurangUpaya(orangKurangUpaya);
+      setBersekolah(bersekolah);
+      setNoOku(noOku);
+      setStatusPesara(statusPesara);
+    } catch (error) {
+      toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+    }
+    setCheckingIc(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!editId) {
@@ -169,7 +221,7 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              jenisTaskaTadika,
+              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
@@ -253,7 +305,7 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              jenisTaskaTadika,
+              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
@@ -334,7 +386,7 @@ export default function FillableForm({
     setLabelMakmalPergigianBergerak('');
     // taska / tadika
     setFasilitiTaskaTadika('');
-    setJenisTaskaTadika('');
+    // setJenisTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
     setEnrolmenTaskaTadika(false);
@@ -400,6 +452,13 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
+  // reset namaFasilitiTaskaTadika when change fasilitiTaskaTadika
+  useEffect(() => {
+    if (!editId) {
+      setNamaFasilitiTaskaTadika('');
+    }
+  }, [fasilitiTaskaTadika]);
+
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
     if (editId) {
@@ -461,7 +520,7 @@ export default function FillableForm({
           );
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
-          setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
+          // setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
           setNamaFasilitiTaskaTadika(
             data.singlePersonKaunter.namaFasilitiTaskaTadika
@@ -506,6 +565,26 @@ export default function FillableForm({
       fetchSinglePersonKaunter();
     }
   }, [editId]);
+
+  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  useEffect(() => {
+    if (jenisFasiliti === 'taska-tadika') {
+      const fetchTaskaTadika = async () => {
+        try {
+          const { data } = await axios.get(
+            `/api/v1/query/kaunter/taska-tadika`,
+            {
+              headers: { Authorization: `Bearer ${kaunterToken}` },
+            }
+          );
+          setTaskaTadikaAll(data.taskaTadikaAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
 
   if (editLoading) {
     return (
@@ -553,6 +632,59 @@ export default function FillableForm({
                 name='waktuSampai'
                 className='outline outline-1 outline-kaunterBlack'
               />
+            </div>
+            <div className='flex m-2'>
+              <p className='mr-3 font-semibold'>
+                jenis pengenalan{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <select
+                required
+                id='pengenalan'
+                name='pengenalan'
+                value={jenisIc}
+                onChange={(e) => setJenisIc(e.target.value)}
+                className='mr-3 outline outline-1 outline-userBlack'
+              >
+                <option value=''>Sila pilih..</option>
+                <option value='mykad-mykid'>MyKad / MyKid</option>
+                <option value='passport'>Passport</option>
+                <option value='tentera'>Tentera</option>
+                <option value='polis'>Polis</option>
+                <option value='sijil-lahir'>Sijil lahir</option>
+              </select>
+              {jenisIc === 'mykad-mykid' && (
+                <input
+                  required
+                  type='text'
+                  name='ic'
+                  pattern='[0-9]+'
+                  title='12 numbers MyKad / MyKid'
+                  minLength={12}
+                  maxLength={12}
+                  value={ic}
+                  onChange={(e) => {
+                    setIc(e.target.value);
+                    if (e.target.value.length === 12) {
+                      console.log('ic length 12. calling check ic');
+                      checkIc(e.target.value);
+                    }
+                  }}
+                  placeholder='123456090987'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              )}
+              {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
+                <input
+                  required
+                  type='text'
+                  name='ic'
+                  value={ic}
+                  onChange={(e) => setIc(e.target.value)}
+                  placeholder='123456121234'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                />
+              )}
             </div>
             {/* <div className='flex m-2'>
               <div className='flex items-center flex-row '>
@@ -638,53 +770,6 @@ export default function FillableForm({
                 onChange={(e) => setNama(e.target.value)}
                 className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
               />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                jenis pengenalan{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                id='pengenalan'
-                name='pengenalan'
-                value={jenisIc}
-                onChange={(e) => setJenisIc(e.target.value)}
-                className='mr-3 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='mykad-mykid'>MyKad / MyKid</option>
-                <option value='passport'>Passport</option>
-                <option value='tentera'>Tentera</option>
-                <option value='polis'>Polis</option>
-                <option value='sijil-lahir'>Sijil lahir</option>
-              </select>
-              {jenisIc === 'mykad-mykid' && (
-                <input
-                  required
-                  type='text'
-                  name='ic'
-                  pattern='[0-9]+'
-                  title='12 numbers MyKad / MyKid'
-                  minLength={12}
-                  maxLength={12}
-                  value={ic}
-                  onChange={(e) => setIc(e.target.value)}
-                  placeholder='123456090987'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                />
-              )}
-              {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
-                <input
-                  required
-                  type='text'
-                  name='ic'
-                  value={ic}
-                  onChange={(e) => setIc(e.target.value)}
-                  placeholder='123456121234'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                />
-              )}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -1269,9 +1354,8 @@ export default function FillableForm({
                       <option value='tadika'>Tadika</option>
                     </select>
                   </div>
-                  {/* buang className ni nnti */}
                   <div className='overflow-x-auto'>
-                    <select
+                    {/* <select
                       name='jenis-taska-tadika'
                       id='jenis-taska-tadika'
                       value={jenisTaskaTadika}
@@ -1281,12 +1365,12 @@ export default function FillableForm({
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih jenis taska / tadika</option>
-                      <option value='taska'>KEMAS </option>
-                      <option value='tadika'>Perpaduan </option>
-                      <option value='taska'>Lain-lain</option>
-                      <option value='tadika'>Swasta</option>
+                      <option value='kemas'>KEMAS </option>
+                      <option value='perpaduan'>Perpaduan </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='swasta'>Swasta</option>
                     </select>
-                    <br />
+                    <br /> */}
                     <input
                       type='checkbox'
                       id='kelas-toddler'
@@ -1317,8 +1401,11 @@ export default function FillableForm({
                   className='w-11/12 outline outline-1 outline-userBlack'
                 >
                   <option value=''>Pilih</option>
-                  <option value='taska perak'>Taska Perak</option>
-                  <option value='tadika emas'>Tadika Emas</option>
+                  {taskaTadikaAll
+                    .filter((tt) => tt.jenisFasiliti === fasilitiTaskaTadika)
+                    .map((tt) => {
+                      return <option value={tt.kodTastad}>{tt.nama}</option>;
+                    })}
                 </select>
                 <div className='flex items-center flex-row pl-5 '>
                   <label

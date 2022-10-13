@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -7,19 +8,21 @@ import KaunterHeader from '../components/KaunterHeader';
 import KaunterFooter from '../components/KaunterFooter';
 
 function KaunterLogin() {
-  const { loginErrorMessage, isLoginError, loginKaunter } =
+  const { loginErrorMessage, isLoginError, loginKaunter, loggingInKaunter } =
     useGlobalUserAppContext();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const hilang = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoggingIn(!loggingIn);
     setTimeout(() => {
       loginKaunter({ username, password });
-      setLoggingIn(!loggingIn);
     }, 1000);
   };
 
@@ -27,43 +30,70 @@ function KaunterLogin() {
     <>
       <KaunterHeader />
       <div className='absolute inset-0 -z-10 flex bg-kaunter3 text-center justify-center items-center capitalize'>
-        <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-1 outline-kaunterBlack rounded-md shadow-xl'>
+        <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-1 outline-kaunterBlack rounded-md shadow-xl'>
           <div>
             <h3 className='text-xl font-semibold mt-20'>
               sila masukkan ID pendaftaran
             </h3>
             <form onSubmit={handleSubmit}>
-              <input
-                className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-xl'
-                type='text'
-                placeholder='ID Pendaftaran'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-              <br />
-              <input
-                className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-xl'
-                type='password'
-                placeholder='Kata Laluan'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <br />
+              <div className='grid grid-rows-2 gap-2 justify-center items-center'>
+                <div className='relative'>
+                  <input
+                    className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                    type='text'
+                    placeholder='ID Pendaftaran'
+                    id='username-pendaftaran'
+                    name='username-pendaftaran'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                  <label
+                    htmlFor='username-pendaftaran'
+                    className='absolute left-3 bottom-8 text-xs text-kaunter2 bg-userWhite peer-placeholder-shown:text-kaunter2 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                  >
+                    ID Pendaftaran
+                  </label>
+                </div>
+                <div className='relative'>
+                  <input
+                    className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder='Kata Laluan'
+                    id='password-pendaftaran'
+                    name='password-pendaftaran'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <label
+                    htmlFor='password-pendaftaran'
+                    className='absolute left-3 bottom-8 text-xs text-kaunter2 bg-userWhite peer-placeholder-shown:text-kaunter2 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                  >
+                    Kata Laluan
+                  </label>
+                  <div className='absolute top-7 right-3 text-xl text-kaunter2'>
+                    {showPassword ? (
+                      <AiFillEye onClick={hilang} />
+                    ) : (
+                      <AiFillEyeInvisible onClick={hilang} />
+                    )}
+                  </div>
+                </div>
+              </div>
               {isLoginError && (
                 <p className='max-w-max mx-auto mt-5 text-sm text-kaunter6'>
                   {loginErrorMessage}
                 </p>
               )}
-              <div className='grid grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
+              <div className='grid lg:grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
                 <Link
                   to='/'
-                  className='capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                  className='order-last lg:order-first capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
                 >
                   kembali ke halaman utama
                 </Link>
-                {loggingIn ? (
+                {loggingInKaunter ? (
                   <button
                     type='button'
                     class='inline-flex items-center text-center justify-center px-4 py-2 capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all ease-in-out duration-150 cursor-not-allowed'
@@ -94,7 +124,7 @@ function KaunterLogin() {
                 ) : (
                   <button
                     type='submit'
-                    className='capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                    className='order-first lg:order-last capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
                   >
                     log masuk
                   </button>

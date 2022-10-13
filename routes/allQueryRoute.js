@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { queryPersonKaunter } = require('../controllers/kaunter');
-const { queryPersonUmum } = require('../controllers/umum');
-const { queryPersonSekolah } = require('../controllers/sekolah');
+const kaunter = require('../controllers/kaunter');
+const umum = require('../controllers/umum');
+const sekolah = require('../controllers/sekolah');
 
-router.route('/kaunter').get(queryPersonKaunter);
-router.route('/umum').get(queryPersonUmum);
-router.route('/sekolah').get(queryPersonSekolah);
+router.route('/kaunter').get(kaunter.queryPersonKaunter);
+router.route('/kaunter/taska-tadika').get(kaunter.getTaskaTadikaList);
+router.route('/umum').get(umum.queryPersonUmum);
+router.route('/umum/taska-tadika').get(umum.getTaskaTadikaList);
+router.route('/sekolah').get(sekolah.queryPersonSekolah);
 
 module.exports = router;

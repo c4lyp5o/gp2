@@ -32,9 +32,13 @@ function UserAppProvider({ children }) {
   const [displayPilihNama, setDisplayPilihNama] = useState(false);
   const [displayPilihFasiliti, setDisplayPilihFasiliti] = useState(false);
 
+  const [loggingInUser, setLoggingInUser] = useState(false);
+  const [loggingInKaunter, setLoggingInKaunter] = useState(false);
+
   const navigate = useNavigate();
 
   const loginUser = async ({ username, password }) => {
+    setLoggingInUser(true);
     try {
       const { data } = await axios.post('/api/v1/auth/login', {
         apiKey: process.env.REACT_APP_API_KEY,
@@ -54,9 +58,11 @@ function UserAppProvider({ children }) {
       }, 3000);
       navigate('/pengguna');
     }
+    setLoggingInUser(false);
   };
 
   const loginKaunter = async ({ username, password }) => {
+    setLoggingInKaunter(true);
     try {
       const { data } = await axios.post('/api/v1/auth/kaunter/login', {
         apiKey: process.env.REACT_APP_API_KEY,
@@ -75,6 +81,7 @@ function UserAppProvider({ children }) {
       }, 3000);
       navigate('/kaunter');
     }
+    setLoggingInKaunter(false);
   };
 
   const catchAxiosErrorAndLogout = () => {
@@ -128,6 +135,10 @@ function UserAppProvider({ children }) {
         dateToday,
         ToastContainer,
         toast,
+        loggingInUser,
+        setLoggingInUser,
+        loggingInKaunter,
+        setLoggingInKaunter,
       }}
     >
       {children}

@@ -10,6 +10,8 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   const { personUmumId } = useParams();
 
+  const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+
   // core
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
@@ -57,7 +59,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
+  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
@@ -171,7 +173,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         );
         // taska / tadika
         setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
-        setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
+        // setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
         setKelasToddler(data.singlePersonUmum.kelasToddler);
         setNamaFasilitiTaskaTadika(
           data.singlePersonUmum.namaFasilitiTaskaTadika
@@ -215,13 +217,29 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     fetchSinglePersonUmum();
   }, [showKemaskini]);
 
+  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  useEffect(() => {
+    if (jenisFasiliti === 'taska-tadika') {
+      const fetchTaskaTadika = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/umum/taska-tadika`, {
+            headers: { Authorization: `Bearer ${userToken}` },
+          });
+          setTaskaTadikaAll(data.taskaTadikaAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.patch(
         `/api/v1/umum/${personUmumId}`,
         {
-          jenisFasiliti,
           tarikhKedatangan,
           waktuSampai,
           kedatangan,
@@ -261,7 +279,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           labelMakmalPergigianBergerak,
           // taska / tadika
           fasilitiTaskaTadika,
-          jenisTaskaTadika,
+          // jenisTaskaTadika,
           kelasToddler,
           namaFasilitiTaskaTadika,
           enrolmenTaskaTadika,
@@ -306,7 +324,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   return (
     <>
-      <div className='absolute inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-2 lg:inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <div className='sticky top-0'>
           <FaWindowClose
             onClick={closeModal}
@@ -317,7 +335,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         <form onSubmit={handleSubmit}>
           <div className='flex'>
             <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
-            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
+            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto '>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
@@ -1064,9 +1082,8 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       <option value='tadika'>Tadika</option>
                     </select>
                   </div>
-                  {/* buang className ni nnti */}
                   <div className='overflow-x-auto'>
-                    <select
+                    {/* <select
                       name='jenis-taska-tadika'
                       id='jenis-taska-tadika'
                       value={jenisTaskaTadika}
@@ -1076,12 +1093,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                     >
                       <option value=''>Pilih jenis taska / tadika</option>
-                      <option value='taska'>KEMAS </option>
-                      <option value='tadika'>Perpaduan </option>
-                      <option value='taska'>Lain-lain</option>
-                      <option value='tadika'>Swasta</option>
+                      <option value='kemas'>KEMAS </option>
+                      <option value='perpaduan'>Perpaduan </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='swasta'>Swasta</option>
                     </select>
-                    <br />
+                    <br /> */}
                     <input
                       type='checkbox'
                       id='kelas-toddler'
@@ -1112,8 +1129,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   className='w-11/12 outline outline-1 outline-userBlack'
                 >
                   <option value=''>Pilih</option>
-                  <option value='taska perak'>Taska Perak</option>
-                  <option value='tadika emas'>Tadika Emas</option>
+                  {taskaTadikaAll
+                    .filter((tt) => tt.jenisFasiliti === fasilitiTaskaTadika)
+                    .map((tt) => {
+                      return <option value={tt.kodTastad}>{tt.nama}</option>;
+                    })}
                 </select>
                 <div className='flex items-center flex-row pl-5 '>
                   <label

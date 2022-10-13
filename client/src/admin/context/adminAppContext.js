@@ -64,6 +64,17 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  const getKlinikData = async (id) => {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'HqCenter',
+      Fn: 'readOne',
+      token: getTokenized(),
+      id,
+    });
+    return response;
+  };
+
   // data
 
   const createData = async (type, data) => {
@@ -312,6 +323,7 @@ function AdminAppProvider({ children }) {
         checkUser,
         // hq
         getAllNegeriAndDaerah,
+        getKlinikData,
       }}
     >
       {children}

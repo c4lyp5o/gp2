@@ -6,6 +6,14 @@ const adminSchema = new Schema({
   daerah: { type: String, required: true },
   negeri: { type: String, required: true },
   e_mail: { type: String },
+  accountType: {
+    type: String,
+    enum: {
+      values: ['daerahSuperadmin', 'negeriSuperadmin', 'hqSuperadmin'],
+      message:
+        '{VALUE} is not supported. Provide only "daerahSuperadmin", "negeriSuperadmin", "hqSuperadmin"',
+    },
+  },
   tempKey: { type: String, default: '' },
 });
 
