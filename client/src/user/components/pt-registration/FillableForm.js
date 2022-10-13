@@ -124,6 +124,7 @@ export default function FillableForm({
   const checkIc = async (ic) => {
     setCheckingIc(true);
     try {
+      console.log('sending ic to kaunter')
       const response = await axios.post(
         '/api/v1/kaunter/check',
         {
@@ -133,6 +134,7 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
+      console.log(response);
       if (response.statusText === 'OK') {
         toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
         const {
