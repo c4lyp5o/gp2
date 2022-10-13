@@ -232,15 +232,11 @@ const getTaskaTadikaList = async (req, res) => {
 
 // get from cache if ic is same
 const getPersonFromCache = async (req, res) => {
-  console.log('inside kaunter controller getPersonFromCache');
   const { ic } = req.body;
-  console.log('getting from cache. got ic: ', ic);
   const person = await cache.get(ic.toString());
   if (person) {
-    console.log('ada personnya');
     return res.status(200).json({ person });
   }
-  console.log('tiada personnya');
   res.status(404).json({ msg: 'No person found' });
 };
 
