@@ -32,7 +32,7 @@ function KaunterAfterLogin() {
         setCreatedByNegeri(data.negeri);
       } catch (error) {
         catchAxiosErrorAndLogout();
-        navigate('/kaunter');
+        navigate('/pendaftaran');
       }
     };
     fetchIdentity();
@@ -40,7 +40,7 @@ function KaunterAfterLogin() {
 
   const logout = () => {
     catchAxiosErrorAndLogout();
-    navigate('/kaunter');
+    navigate('/pendaftaran');
   };
 
   return (
