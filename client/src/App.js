@@ -32,10 +32,10 @@ function App() {
           <Routes>
             {/* landing page selection */}
             <Route path='/' element={<LandingPage />} />
-            {/* kaunter */}
-            <Route path='/kaunter' element={<KaunterLogin />} />
+            {/* pendaftaran */}
+            <Route path='/pendaftaran' element={<KaunterLogin />} />
             <Route
-              path='/kaunter/daftar/*'
+              path='/pendaftaran/daftar/*'
               element={
                 <KaunterProtectedRoute>
                   <KaunterAfterLogin />
