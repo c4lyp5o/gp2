@@ -66,7 +66,7 @@ function LandingPage() {
                   }`}
                 >
                   <Link
-                    to='/kaunter'
+                    to='/pendaftaran'
                     className='grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
                   >
                     Pendaftaran
