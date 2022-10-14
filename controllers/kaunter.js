@@ -1,28 +1,20 @@
 const Umum = require('../models/Umum');
 const Fasiliti = require('../models/Fasiliti');
+const logger = require('../logs/logger');
 const LRU = require('lru-cache');
 const cryptoJs = require('crypto-js');
 
 const options = {
-  max: 500,
-
+  max: 5000,
   // for use with tracking overall storage size
-  maxSize: 5000,
+  maxSize: 50000,
   sizeCalculation: (value, key) => {
     return 1;
   },
-
-  // how long to live in ms
-  ttl: 1000 * 60 * 60 * 24 * 7,
-
-  // return stale items before removing from cache?
+  ttl: 1000 * 60 * 60 * 24 * 30, // 30 days
   allowStale: false,
-
   updateAgeOnGet: false,
   updateAgeOnHas: false,
-
-  // async method to use for cache.fetch(), for
-  // stale-while-revalidate type of behavior
   fetchMethod: async (key, staleValue, { options, signal }) => {},
 };
 
@@ -30,6 +22,7 @@ const cache = new LRU(options);
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {
+  logger.info(`${req.method} ${req.url} getSinglePersonKaunter called`);
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -56,6 +49,7 @@ const getSinglePersonKaunter = async (req, res) => {
 
 // POST /
 const createPersonKaunter = async (req, res) => {
+  logger.info(`${req.method} ${req.url} createPersonKaunter called`);
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -82,6 +76,7 @@ const createPersonKaunter = async (req, res) => {
 
   // tagging unique id
   req.body.uniqueId = uniqueId;
+  logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
 
   // find if person already exist using unique id
   const personExist = await Umum.findOne({
@@ -91,11 +86,53 @@ const createPersonKaunter = async (req, res) => {
 
   // tagging person according to their status
   if (personExist) {
-    console.log('telah wujud. tagging ulangan');
-    req.body.kedatangan = 'ulangan-kedatangan';
-    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+    logger.info(
+      `${req.method} ${req.url} unique id yang sama telah wujud. check ic sama atau tidak`
+    );
+    console.log('unique id yang sama telah wujud. check ic sama atau tidak');
+    const decryptedIc = cryptoJs.AES.decrypt(
+      personExist.ic,
+      process.env.CRYPTO_JS_SECRET
+    ).toString(cryptoJs.enc.Utf8);
+    console.log('ic', decryptedIc);
+    if (decryptedIc === req.body.ic) {
+      logger.info(`${req.method} ${req.url} ic sama. tagging ulangan`);
+      console.log('ic sama. tagging ulangan');
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+    }
+    if (decryptedIc !== req.body.ic) {
+      logger.info(`${req.method} ${req.url} ic tidak sama`);
+      console.log('ic tidak sama');
+      const last4digitIc = req.body.ic.slice(-4);
+      console.log('last4digitIc', last4digitIc);
+      uniqueId += '-' + last4digitIc;
+      logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
+      console.log('uniqueId', uniqueId);
+      // check person with new unique id
+      const personExistWithNewUniqueId = await Umum.findOne({
+        uniqueId: uniqueId,
+        jenisFasiliti: req.body.jenisFasiliti,
+      });
+      if (personExistWithNewUniqueId) {
+        logger.info(
+          `${req.method} ${req.url} unique id yang sama telah wujud. tagging ulangan`
+        );
+        console.log('unique id baru yang sama telah wujud. tagging ulangan');
+        req.body.kedatangan = 'ulangan-kedatangan';
+        req.body.noPendaftaranUlangan =
+          personExistWithNewUniqueId.noPendaftaranBaru;
+      }
+      if (!personExistWithNewUniqueId) {
+        console.log('unique id baru yang sama tidak wujud. tagging baru');
+        req.body.uniqueId = uniqueId;
+        req.body.kedatangan = 'baru-kedatangan';
+      }
+    }
   }
+
   if (!personExist) {
+    logger.info(`${req.method} ${req.url} unique id tidak wujud. tagging baru`);
     console.log('belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
@@ -107,7 +144,7 @@ const createPersonKaunter = async (req, res) => {
   ).toString();
 
   // send to cache before encrypting
-  console.log('sending to cache');
+  logger.info(`${req.method} ${req.url} sending to cache`);
   cache.set(req.body.ic, req.body);
 
   // replace ic with encrypted ic
@@ -120,6 +157,7 @@ const createPersonKaunter = async (req, res) => {
 
 // PATCH /:personKaunterId
 const updatePersonKaunter = async (req, res) => {
+  logger.info(`${req.method} ${req.url} updatePersonKaunter called`);
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
