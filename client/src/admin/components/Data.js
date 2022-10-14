@@ -7,6 +7,8 @@ import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 import { Ring } from 'react-awesome-spinners';
 
+import nothinghere from '../assets/nothinghere.png';
+
 export default function Data({ FType }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
@@ -520,8 +522,8 @@ export default function Data({ FType }) {
           <div className='rounded-lg shadow-lg bg-white max-w-sm'>
             <img
               className='rounded-t-lg'
-              src='https://www.trendycovers.com/covers/Nothing_Here_facebook_cover_1346610160.jpg'
-              alt=''
+              src={nothinghere}
+              alt='There is nothing here'
             />
             <div className='p-6'>
               <h5 className='text-gray-900 text-xl font-medium mb-2'>
