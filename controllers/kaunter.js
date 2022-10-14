@@ -12,12 +12,6 @@ const options = {
     return 1;
   },
 
-  // for use when you need to clean up something when objects
-  // are evicted from the cache
-  dispose: (value, key) => {
-    freeFromMemoryOrWhatever(value);
-  },
-
   // how long to live in ms
   ttl: 1000 * 60 * 60 * 24 * 7,
 
