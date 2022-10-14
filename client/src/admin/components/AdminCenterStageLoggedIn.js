@@ -127,13 +127,11 @@ export default function AdminCenterStageLoggedIn() {
     getAllNegeriAndDaerah()
       .then((res) => {
         setData(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
       });
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
   }, []);
 
   if (loading) {
@@ -155,10 +153,10 @@ export default function AdminCenterStageLoggedIn() {
     <>
       {data.map((item) => {
         return (
-          <div className='lg:flex mb-4 m-10 rounded mx-auto'>
-            <div className='w-full lg:w-1/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
+          <div className='lg:flex mb-4 m-10 rounded mx-auto justify-center'>
+            <div className='w-1/6 rounded overflow-hidden shadow-lg m-2 justify-center flex flex-col'>
               <img
-                className='w-full'
+                className='w-1/2 mx-auto'
                 alt={item.namaNegeri}
                 src={FlagsDictionary[item.namaNegeri]}
               />
@@ -182,8 +180,8 @@ export default function AdminCenterStageLoggedIn() {
       })}
       {data.map((item) => {
         return (
-          <div className='lg:flex mb-4 m-10 rounded mx-auto'>
-            <div className='w-full lg:w-2/3 rounded overflow-hidden shadow-lg m-10 relative flex flex-col'>
+          <div className='lg:flex mb-4 m-10 rounded mx-auto justify-center'>
+            <div className='w-1/2 rounded overflow-hidden shadow-lg relative flex flex-col'>
               {data.length > 0 && (
                 <MainChart data={item} adminLevel={adminLevel} />
               )}
