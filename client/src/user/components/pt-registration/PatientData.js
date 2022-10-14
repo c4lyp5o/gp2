@@ -69,11 +69,11 @@ export default function PatientData({
   if (!showForm && !editForm) {
     return (
       <>
-        <div className='flex'>
-          <p className='font-semibold text-user6 mt-3 ml-3'>
+        <div className='grid grid-cols-1 lg:grid-cols-2'>
+          <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
             Fasiliti: {Dictionary[jenisFasiliti]}
           </p>
-          <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
+          <p className='font-semibold text-user6 lg:mt-2 mr-3 lg:ml-auto'>
             Tarikh: {dateToday}
           </p>
         </div>
@@ -90,14 +90,14 @@ export default function PatientData({
         </div>
         <button
           type='button'
-          className='px-6 py-2.5 mr-3 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={(e) => setShowForm(true)}
         >
-          Daftar Pesakit Baru
+          Daftar Pesakit
         </button>
         <button
           type='button'
-          className='px-6 py-2.5 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={handleJana}
         >
           Jana Laporan PG101
@@ -108,19 +108,19 @@ export default function PatientData({
               <table className='m-auto mb-5 w-11/12 outline outline-1 outline-kaunterBlack'>
                 <tbody>
                   <tr className='bg-kaunter3 p-2'>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='outline outline-1 outline-kaunterBlack px-2'>
                       BIL
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='outline outline-1 outline-kaunterBlack whitespace-nowrap px-2'>
                       NO. PENDAFTARAN
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='outline outline-1 outline-kaunterBlack px-2'>
                       NAMA
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='outline outline-1 outline-kaunterBlack px-2'>
                       NO. KAD PENGENALAN
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='outline outline-1 outline-kaunterBlack px-2'>
                       TARIKH KEDATANGAN
                     </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
@@ -136,7 +136,7 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           {p.noPendaftaranBaru ? (
-                            <td className='outline outline-1 outline-kaunterBlack lowercase'>
+                            <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
                               {p.noPendaftaranBaru}
                               <BsFilePerson
                                 className='text-user7 text-2xl inline-table mx-2 pb-1'
@@ -144,7 +144,7 @@ export default function PatientData({
                               />
                             </td>
                           ) : (
-                            <td className='outline outline-1 outline-kaunterBlack lowercase'>
+                            <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
                               {p.noPendaftaranUlangan}
                               <BsFillFilePersonFill
                                 className='text-user9 text-2xl inline-table mx-2 pb-1'
@@ -161,7 +161,7 @@ export default function PatientData({
                           <td className='outline outline-1 outline-kaunterBlack'>
                             {p.tarikhKedatangan}
                           </td>
-                          <td className='outline outline-1 outline-kaunterBlack'>
+                          <td className='outline outline-1 outline-kaunterBlack px-2'>
                             <button
                               className='px-6 py-2.5 my-1 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {

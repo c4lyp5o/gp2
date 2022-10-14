@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -197,7 +198,21 @@ function UserUmum() {
               <>
                 <div className='lg:mb-3'>
                   <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                    <h1>MAKLUMAT AM PESAKIT</h1>
+                    <h1>
+                      MAKLUMAT AM PESAKIT{' '}
+                      {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
+                        <span className='text-user7 inline-flex' title='Baru'>
+                          <BsFilePerson />
+                        </span>
+                      ) : (
+                        <span
+                          className='text-user9 inline-flex'
+                          title='Ulangan'
+                        >
+                          <BsFillFilePersonFill />
+                        </span>
+                      )}
+                    </h1>
                   </div>
                   <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>NAMA :</h2>
