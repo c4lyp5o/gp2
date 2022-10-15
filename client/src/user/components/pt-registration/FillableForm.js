@@ -599,9 +599,11 @@ export default function FillableForm({
       <>
         <form onSubmit={handleSubmit}>
           <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
-          <div className='flex'>
-            <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
-            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto'>
+          <div className='grid grid-cols-1 lg:grid-cols-2'>
+            <p className='font-semibold text-user6 mt-3 ml-3 mr-auto'>
+              * mandatori
+            </p>
+            <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
@@ -617,7 +619,7 @@ export default function FillableForm({
                 onChange={(e) => setTarikhKedatangan(e.target.value)}
                 type='date'
                 name='tarikhKedatangan'
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
@@ -630,29 +632,31 @@ export default function FillableForm({
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
-                className='outline outline-1 outline-kaunterBlack'
+                className='appearance-none w-24 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                jenis pengenalan{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                id='pengenalan'
-                name='pengenalan'
-                value={jenisIc}
-                onChange={(e) => setJenisIc(e.target.value)}
-                className='mr-3 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='mykad-mykid'>MyKad / MyKid</option>
-                <option value='passport'>Passport</option>
-                <option value='tentera'>Tentera</option>
-                <option value='polis'>Polis</option>
-                <option value='sijil-lahir'>Sijil lahir</option>
-              </select>
+            <div className='flex m-2 flex-col md:flex-row'>
+              <div className='flex flex-row'>
+                <p className='mr-3 font-semibold flex text-center items-center'>
+                  jenis pengenalan:{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <select
+                  required
+                  id='pengenalan'
+                  name='pengenalan'
+                  value={jenisIc}
+                  onChange={(e) => setJenisIc(e.target.value)}
+                  className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
+                >
+                  <option value=''>Sila pilih..</option>
+                  <option value='mykad-mykid'>MyKad / MyKid</option>
+                  <option value='passport'>Passport</option>
+                  <option value='tentera'>Tentera</option>
+                  <option value='polis'>Polis</option>
+                  <option value='sijil-lahir'>Sijil lahir</option>
+                </select>
+              </div>
               {jenisIc === 'mykad-mykid' && (
                 <input
                   required
@@ -671,7 +675,7 @@ export default function FillableForm({
                     }
                   }}
                   placeholder='123456090987'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                 />
               )}
               {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
@@ -682,7 +686,7 @@ export default function FillableForm({
                   value={ic}
                   onChange={(e) => setIc(e.target.value)}
                   placeholder='123456121234'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                 />
               )}
             </div>
@@ -758,7 +762,7 @@ export default function FillableForm({
               )}
             </div> */}
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-2 font-semibold flex flex-row items-center'>
                 nama: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -768,11 +772,11 @@ export default function FillableForm({
                 name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex flex-row items-center'>
                 tarikh lahir:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
@@ -788,32 +792,50 @@ export default function FillableForm({
                 }}
                 type='date'
                 name='tarikhLahir'
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 umur: <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
-                disabled
-                type='number'
-                name='umur'
-                value={umur}
-                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-              />
-              <p className='mx-3'>tahun</p>
-              <input
-                disabled
-                type='number'
-                name='umur'
-                value={umurBulan}
-                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-              />
-              <p className='mx-3'>bulan</p>
+              <div className='relative'>
+                <input
+                  disabled
+                  placeholder='tahun'
+                  type='number'
+                  name='umur'
+                  id='umur'
+                  value={umur}
+                  className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
+                />
+                <label
+                  htmlFor='umur'
+                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                >
+                  Tahun
+                </label>
+              </div>
+              <div className='relative'>
+                <input
+                  disabled
+                  placeholder='bulan'
+                  type='number'
+                  name='umurBulan'
+                  id='umurBulan'
+                  value={umurBulan}
+                  className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                />
+                <label
+                  htmlFor='umurBulan'
+                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                >
+                  Bulan
+                </label>
+              </div>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center'>
                 jantina: <span className='font-semibold text-user6'>*</span>
               </p>
               <select
@@ -822,7 +844,7 @@ export default function FillableForm({
                 id='jantina'
                 value={jantina}
                 onChange={(e) => setJantina(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase m-1'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='lelaki'>Lelaki</option>
@@ -830,7 +852,7 @@ export default function FillableForm({
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 kumpulan etnik:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
@@ -842,7 +864,7 @@ export default function FillableForm({
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='melayu'>Melayu</option>
@@ -871,7 +893,7 @@ export default function FillableForm({
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold whitespace-nowrap'>
                 alamat: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -880,11 +902,11 @@ export default function FillableForm({
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 daerah: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -893,11 +915,11 @@ export default function FillableForm({
                 onChange={(e) => setDaerahAlamat(e.target.value)}
                 type='text'
                 name='daerah-alamat'
-                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 negeri: <span className='font-semibold text-user6'>*</span>
               </p>
               <select
@@ -906,7 +928,7 @@ export default function FillableForm({
                 onChange={(e) => {
                   setNegeriAlamat(e.target.value);
                 }}
-                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='johor'>Johor</option>
@@ -932,11 +954,11 @@ export default function FillableForm({
                 onChange={(e) => setNegeriAlamat(e.target.value)}
                 type='text'
                 name='negeri-alamat'
-                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               /> */}
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 poskod: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -950,7 +972,7 @@ export default function FillableForm({
                 value={poskodAlamat}
                 onChange={(e) => setPoskodAlamat(e.target.value)}
                 placeholder='62519'
-                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             {/* <div className='flex m-2'>
@@ -976,8 +998,10 @@ export default function FillableForm({
                 <option value='warga-tua'>Warga tua</option>
               </select>
             </div> */}
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>status pesakit:</p>
+            <div className='flex m-2 flex-col md:flex-row'>
+              <p className='mr-3 font-semibold flex flex-row'>
+                status pesakit:
+              </p>
               <div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
@@ -1040,7 +1064,7 @@ export default function FillableForm({
                   onChange={(e) => setNoOku(e.target.value)}
                   type='text'
                   name='no-oku'
-                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                 />
               </div>
             )}
@@ -1055,7 +1079,7 @@ export default function FillableForm({
                 id='statusPesara'
                 value={statusPesara}
                 onChange={(e) => setStatusPesara(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {/* <option value='bukan-pesara'>Bukan pesara</option> */}
@@ -1070,7 +1094,7 @@ export default function FillableForm({
                 id='rujukDaripada'
                 value={rujukDaripada}
                 onChange={(e) => setRujukDaripada(e.target.value)}
-                className='mr-3 outline outline-1 outline-userBlack'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='dalaman'>Dalaman</option>
@@ -1096,7 +1120,7 @@ export default function FillableForm({
                 id='catatan'
                 value={catatan}
                 onChange={(e) => setCatatan(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             {jenisFasiliti === 'kp' && (
