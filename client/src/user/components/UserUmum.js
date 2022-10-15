@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -73,7 +74,7 @@ function UserUmum() {
               type='date'
               name='tarikh-kedatangan'
               id='tarikh-kedatangan'
-              className='outline outline-1 outline-user1 ml-3'
+              className='outline outline-1 outline-user1 ml-3 rounded-md p-1'
             />
           </div>
           <div className='m-2 col-span-2 lg:col-span-1'>
@@ -87,7 +88,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='ml-3'
+              className='ml-3 border border-adminBlack rounded-md p-1'
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
@@ -197,7 +198,21 @@ function UserUmum() {
               <>
                 <div className='lg:mb-3'>
                   <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                    <h1>MAKLUMAT AM PESAKIT</h1>
+                    <h1>
+                      MAKLUMAT AM PESAKIT{' '}
+                      {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
+                        <span className='text-user7 inline-flex' title='Baru'>
+                          <BsFilePerson />
+                        </span>
+                      ) : (
+                        <span
+                          className='text-user9 inline-flex'
+                          title='Ulangan'
+                        >
+                          <BsFillFilePersonFill />
+                        </span>
+                      )}
+                    </h1>
                   </div>
                   <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>NAMA :</h2>
