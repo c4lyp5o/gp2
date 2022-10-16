@@ -14,7 +14,7 @@ const Helper = require('../controllers/countHelper');
 exports.downloader = async function (req, res) {
   const { authorization, klinikid, klinikdaerah, kliniknegeri } = req.headers;
   //
-  let kp, daerah, negeri;
+  let kp, daerah, negeri, username;
   if (!authorization) {
     kp = klinikid;
     daerah = klinikdaerah;
@@ -25,12 +25,14 @@ exports.downloader = async function (req, res) {
     kp = jwt.verify(token, process.env.JWT_SECRET).kp;
     daerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
     negeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
+    username = jwt.verify(token, process.env.JWT_SECRET).username;
   }
   const { jenisReten, formatFile, tarikhMula, tarikhAkhir, bulan } = req.query;
   const payload = {
     kp,
     daerah,
     negeri,
+    username,
     formatFile,
     tarikhMula,
     tarikhAkhir,
@@ -64,10 +66,8 @@ exports.downloader = async function (req, res) {
             'exports',
             'test-' + kp + '-PG101.pdf'
           );
-          convertToPdf(newfile, freshPdf);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
-          );
+          convertToPdf(excel101, pdf101);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf101));
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
           break;
@@ -112,7 +112,7 @@ exports.downloader = async function (req, res) {
       }
       break;
     case 'PG206':
-      const data206 = await makePG206and207(payload);
+      const data206 = await makePG206(payload);
       if (data206 === 'No data found') {
         return res.status(404).json({
           message: 'No data found',
@@ -138,10 +138,44 @@ exports.downloader = async function (req, res) {
             'exports',
             'test-' + kp + '-PG206.pdf'
           );
-          convertToPdf(newfile, freshPdf);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
+          convertToPdf(excel206, pdf206);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf206));
+          res.setHeader('Content-Type', 'application/pdf');
+          res.status(200).send(pdfFile);
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'PG207':
+      const data207 = await makePG207(payload);
+      if (data207 === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
+      switch (formatFile) {
+        case 'xlsx':
+          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.status(200).send(data207);
+          break;
+        case 'pdf':
+          let excel207 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG207.xlsx'
           );
+          let pdf207 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG207.pdf'
+          );
+          convertToPdf(excel207, pdf207);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf207));
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
           break;
@@ -176,10 +210,8 @@ exports.downloader = async function (req, res) {
             'exports',
             'test-' + kp + '-PG201.pdf'
           );
-          convertToPdf(newfile, freshPdf);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
-          );
+          convertToPdf(excel201, pdf201);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf201));
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
           break;
@@ -188,7 +220,7 @@ exports.downloader = async function (req, res) {
       }
       break;
     case 'PGS203':
-      const data203 = await makePG203(payload);
+      const data203 = await makePGS203(payload);
       if (data203 === 'No data found') {
         return res.status(404).json({
           message: 'No data found',
@@ -214,10 +246,8 @@ exports.downloader = async function (req, res) {
             'exports',
             'test-' + kp + '-PG203.pdf'
           );
-          convertToPdf(newfile, freshPdf);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
-          );
+          convertToPdf(excel203, pdf203);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf203));
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
           break;
@@ -252,9 +282,9 @@ exports.downloader = async function (req, res) {
             'exports',
             'test-' + kp + '-PGPR201.pdf'
           );
-          convertToPdf(newfile, freshPdf);
+          convertToPdf(excelPR201, pdfPR201);
           const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), freshPdf)
+            path.resolve(process.cwd(), pdfPR201)
           );
           res.setHeader('Content-Type', 'application/pdf');
           res.status(200).send(pdfFile);
@@ -264,6 +294,9 @@ exports.downloader = async function (req, res) {
       }
       break;
     default:
+      res.status(404).json({
+        message: 'No reten type provided',
+      });
       break;
   }
 };
@@ -578,12 +611,12 @@ const makePG211 = async (payload) => {
     res.status(500).json({ message: err.message });
   }
 };
-const makePG206and207 = async (payload) => {
+const makePG206 = async (payload) => {
   console.log('PG206 or PG207');
   try {
     const { kp, daerah, negeri, tarikhMula, tarikhAkhir, pegawai } = payload;
     //
-    const data = await Helper.countPG101(kp, tarikhMula, tarikhAkhir, pegawai);
+    const data = await Helper.countPG206(kp, tarikhMula, tarikhAkhir, pegawai);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -622,62 +655,34 @@ const makePG206and207 = async (payload) => {
     intro4.getCell(2).value = `Negeri: ${negeri.toUpperCase()}`;
     //
     let rowNew1 = worksheet.getRow(17);
-    rowNew1.getCell(3).value = data.kedatanganTahunSemasa; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(4).value = data.sapuanFluorida; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(5).value = data.prrJenis1; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(6).value = data.muridBaruFS; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(7).value = data.muridSemulaFS; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(8).value = data.gigiBaruFS; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(9).value = data.gigiSemulaFS; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(10).value = data.tampalanAntGdBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(11).value = data.tampalanAntGdSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(12).value = data.tampalanAntGkBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(13).value = data.tampalanAntGkSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(14).value = data.tampalanPostGdBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(15).value = data.tampalanPostGdSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(16).value = data.tampalanPostGkBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(17).value = data.tampalanPostGkSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(18).value = data.tampalanPostAmgGdBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(19).value = data.tampalanPostAmgGdSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(20).value = data.tampalanPostAmgGkBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(21).value = data.tampalanPostAmgGkSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(22).value = data.inlayOnlayBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(23).value = data.inlayOnlaySemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(24).value = data.jumlahTampalanBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(25).value = data.jumlahTampalanSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(26).value = data.tampalanSementara; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(27).value = data.cabutanGd; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(28).value = data.cabutanGk; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(29).value = data.komplikasiSelepasCabutan; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(30).value = data.penskaleran; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(31).value = data.rawatanPerioLain; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(32).value = data.rawatanEndo; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(33).value = data.rawatanOrtho; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(34).value = data.kesPerubatan; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(35).value = data.absesBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(36).value = data.AbsesSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(37).value = data.cabutanSurgical; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(38).value = data.fraktur; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(39).value = data.trauma; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(40).value = data.pembedahanKecilMulut; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(41).value = data.crownBridgeBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(42).value = data.crownBridgeSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(43).value = data.postCoreBaru; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(44).value = data.postCoreSemula; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(45).value = data.prosthodontikPenuhDentur; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(46).value = data.prosthodontikPenuhPesakit; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(47).value = data.prosthodontikSebahagianDentur; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(48).value = data.prosthodontikSebahagianPesakit; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(49).value = data.immediateDenture; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(50).value = data.pembaikanDenture; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(51).value = data.kesSelesai; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(52).value = data.xrayDiambil; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(53).value = data.pesakitDisaringOC; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(54).value = data.pesakitdirujukLesiMulut; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(55).value = data.pesakitDirujukTabiat; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(56).value = data.rokokSaringNasihat; //C17          Bawah 1 tahun Baru
-    rowNew1.getCell(57).value = data.rokokIntervensi; //C17          Bawah 1 tahun Baru
-    rowNew1.commit();
+    rowNew1.getCell(3).value = data.kedatanganTahunSemasa; //C16      Bawah 1 tahun baru
+    rowNew1.getCell(4).value = data.sapuanFluorida; //D16      Bawah 1 tahun baru
+    rowNew1.getCell(5).value = data.prrJenis1; //E16      Bawah 1 tahun baru
+    rowNew1.getCell(6).value = data.muridBaruFS; //F16      Bawah 1 tahun baru
+    rowNew1.getCell(7).value = data.muridUlanganFS; //G16      Bawah 1 tahun baru
+    rowNew1.getCell(8).value = data.gigiBaruFS; //H16      Bawah 1 tahun baru
+    rowNew1.getCell(9).value = data.gigiUlanganFS; //I16      Bawah 1 tahun baru
+    rowNew1.getCell(10).value = data.tampalanAntGdBaru; //J16      Bawah 1 tahun baru
+    rowNew1.getCell(11).value = data.tampalanAntGdUlangan; //K16      Bawah 1 tahun baru
+    rowNew1.getCell(12).value = data.tampalanAntGkBaru; //L16      Bawah 1 tahun baru
+    rowNew1.getCell(13).value = data.tampalanAntGkUlangan; //M16      Bawah 1 tahun baru
+    rowNew1.getCell(14).value = data.tampalanPostGdBaru; //N16      Bawah 1 tahun baru
+    rowNew1.getCell(15).value = data.tampalanPostGdUlangan; //O16      Bawah 1 tahun baru
+    rowNew1.getCell(16).value = data.tampalanPostGkBaru; //P16      Bawah 1 tahun baru
+    rowNew1.getCell(17).value = data.tampalanPostGkUlangan; //Q16      Bawah 1 tahun baru
+    rowNew1.getCell(18).value = data.tampalanPostAmgGdBaru; //R16      Bawah 1 tahun baru
+    rowNew1.getCell(19).value = data.tampalanPostAmgGdUlangan; //S16      Bawah 1 tahun baru
+    rowNew1.getCell(20).value = data.tampalanPostAmgGkBaru; //T16      Bawah 1 tahun baru
+    rowNew1.getCell(21).value = data.tampalanPostAmgGkUlangan; //U16      Bawah 1 tahun baru
+    rowNew1.getCell(22).value = data.jumlahTampalanBaru; //V16      Bawah 1 tahun baru
+    rowNew1.getCell(23).value = data.jumlahTampalanUlangan; //W16      Bawah 1 tahun baru
+    rowNew1.getCell(24).value = data.tampalanSementara; //X16      Bawah 1 tahun baru
+    rowNew1.getCell(25).value = data.cabutanGd; //Y16      Bawah 1 tahun baru
+    rowNew1.getCell(26).value = data.cabutanGk; //Z16      Bawah 1 tahun baru
+    rowNew1.getCell(27).value = data.penskaleran; //AA16      Bawah 1 tahun baru
+    rowNew1.getCell(28).value = data.kesSelesai; //AB16      Bawah 1 tahun baru
+    rowNew1.getCell(29).value = data.rokokSaringNasihat; //AC16      Bawah 1 tahun baru
+    rowNew1.getCell(30).value = data.rokokIntervensi; //AD16      Bawah 1 tahun baru
 
     let newfile = path.join(
       __dirname,
@@ -685,6 +690,181 @@ const makePG206and207 = async (payload) => {
       'public',
       'exports',
       'test-' + kp + '-PG101.xlsx'
+    );
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 30000);
+    // read file for returning
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    // return file
+    return file;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+const makePG207 = async (payload) => {
+  console.log('PG207');
+  try {
+    let kp = 'Klinik Pergigian Arau';
+    let daerah = 'arau';
+    let negeri = 'perlis';
+    let tarikhMula = '01/01/2021';
+    let tarikhAkhir = '31/12/2021';
+    let pegawai = 'dr. faizatul hawa binti mohd zuki';
+    // let { kp, daerah, negeri, tarikhMula, tarikhAkhir, pegawai } = payload;
+    //
+    const data = await Helper.countPG207(kp, tarikhMula, tarikhAkhir, pegawai);
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG207.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG207');
+
+    const monthName = moment(new Date()).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    let details = worksheet.getRow(6);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(7);
+    intro1.getCell(2).value = 'PRIMER';
+
+    let intro2 = worksheet.getRow(8);
+    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(9);
+    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+    //
+    let j = 0;
+    for (let i = 0; i < data[0].length; i++) {
+      j += 2;
+      let row = worksheet.getRow(16 + j);
+      if (data[0][i][0]) {
+        row.getCell(2).value = data[0][i][0].kedatanganTahunSemasaBaru;
+        row.getCell(3).value = data[0][i][0].kedatanganTahunSemasaUlangan;
+        // pemeriksaan
+        row.getCell(4).value = data[0][i][0].jumlahd;
+        row.getCell(5).value = data[0][i][0].jumlahf;
+        row.getCell(6).value = data[0][i][0].jumlahx;
+        row.getCell(7).value = data[0][i][0].jumlahdfx;
+        row.getCell(8).value = data[0][i][0].jumlahD;
+        row.getCell(9).value = data[0][i][0].jumlahM;
+        row.getCell(10).value = data[0][i][0].jumlahF;
+        row.getCell(11).value = data[0][i][0].jumlahX;
+        row.getCell(12).value = data[0][i][0].jumlahDMFX;
+        row.getCell(13).value = data[0][i][0].jumlahMBK;
+        row.getCell(14).value = data[0][i][0].statusBebasKaries;
+        row.getCell(15).value = data[0][i][0].TPR;
+        row.getCell(16).value = data[0][i][0].skorBPEZero;
+        row.getCell(17).value = data[0][i][0].skorBPEMoreThanZero;
+        row.getCell(18).value = data[0][i][0].perluSapuanFluorida;
+        row.getCell(19).value = data[0][i][0].perluJumlahPesakitPrrJenis1;
+        row.getCell(20).value = data[0][i][0].perluJumlahGigiPrrJenis1;
+        row.getCell(21).value = data[0][i][0].perluJumlahPesakitFS;
+        row.getCell(22).value = data[0][i][0].perluJumlahGigiFS;
+        row.getCell(23).value = data[0][i][0].perluPenskaleran;
+        row.getCell(24).value = data[0][i][0].perluEndoAnterior;
+        row.getCell(25).value = data[0][i][0].perluEndoPremolar;
+        row.getCell(26).value = data[0][i][0].perluEndoMolar;
+        row.getCell(27).value = data[0][i][0].jumlahPerluDenturPenuh;
+        row.getCell(28).value = data[0][i][0].jumlahPerluDenturSepara;
+      }
+      if (i === 11) {
+        j += 2;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      j += 2;
+      let row = worksheet.getRow(16 + j);
+      if (data[1][i][0]) {
+        // rawatan
+        row.getCell(29).value = data[1][i][0].sapuanFluorida;
+        row.getCell(30).value = data[1][i][0].prrJenis1;
+        row.getCell(31).value = data[1][i][0].muridBaruFS;
+        row.getCell(32).value = data[1][i][0].muridSemulaFS;
+        row.getCell(33).value = data[1][i][0].gigiBaruFS;
+        row.getCell(34).value = data[1][i][0].gigiSemulaFS;
+        row.getCell(35).value = data[1][i][0].tampalanAntGdBaru;
+        row.getCell(36).value = data[1][i][0].tampalanAntGdSemula;
+        row.getCell(37).value = data[1][i][0].tampalanAntGkBaru;
+        row.getCell(38).value = data[1][i][0].tampalanAntGkSemula;
+        row.getCell(39).value = data[1][i][0].tampalanPostGdBaru;
+        row.getCell(40).value = data[1][i][0].tampalanPostGdSemula;
+        row.getCell(41).value = data[1][i][0].tampalanPostGkBaru;
+        row.getCell(42).value = data[1][i][0].tampalanPostGkSemula;
+        row.getCell(43).value = data[1][i][0].tampalanPostAmgGdBaru;
+        row.getCell(44).value = data[1][i][0].tampalanPostAmgGdSemula;
+        row.getCell(45).value = data[1][i][0].tampalanPostAmgGkBaru;
+        row.getCell(46).value = data[1][i][0].tampalanPostAmgGkSemula;
+        row.getCell(47).value = data[1][i][0].inlayOnlayBaru;
+        row.getCell(48).value = data[1][i][0].inlayOnlaySemula;
+        row.getCell(49).value = data[1][i][0].jumlahTampalanBaru;
+        row.getCell(50).value = data[1][i][0].jumlahTampalanSemula;
+        row.getCell(51).value = data[1][i][0].tampalanSementara;
+        row.getCell(52).value = data[1][i][0].cabutanGd;
+        row.getCell(53).value = data[1][i][0].cabutanGk;
+        row.getCell(54).value = data[1][i][0].komplikasiSelepasCabutan;
+        row.getCell(55).value = data[1][i][0].penskaleran;
+        row.getCell(56).value = data[1][i][0].rawatanPerioLain;
+        row.getCell(57).value = data[1][i][0].rawatanEndo;
+        row.getCell(58).value = data[1][i][0].rawatanOrtho;
+        row.getCell(59).value = data[1][i][0].kesPerubatan;
+        row.getCell(60).value = data[1][i][0].absesBaru;
+        row.getCell(61).value = data[1][i][0].absesSemula;
+        row.getCell(62).value = data[1][i][0].cabutanSurgical;
+        row.getCell(63).value = data[1][i][0].fraktur;
+        row.getCell(64).value = data[1][i][0].trauma;
+        row.getCell(65).value = data[1][i][0].pembedahanKecilMulut;
+        row.getCell(66).value = data[1][i][0].crownBridgeBaru;
+        row.getCell(67).value = data[1][i][0].crownBridgeSemula;
+        row.getCell(68).value = data[1][i][0].postCoreBaru;
+        row.getCell(69).value = data[1][i][0].postCoreSemula;
+        row.getCell(70).value = data[1][i][0].prosthodontikPenuhDentur;
+        row.getCell(71).value = data[1][i][0].prosthodontikPenuhPesakit;
+        row.getCell(72).value = data[1][i][0].prosthodontikSebahagianDentur;
+        row.getCell(73).value = data[1][i][0].prosthodontikSebahagianPesakit;
+        row.getCell(74).value = data[1][i][0].immediateDenture;
+        row.getCell(75).value = data[1][i][0].pembaikanDenture;
+        row.getCell(76).value = data[1][i][0].kesSelesai;
+        row.getCell(77).value = data[1][i][0].xrayDiambil;
+        row.getCell(78).value = data[1][i][0].immediateDenture;
+        row.getCell(79).value = data[1][i][0].pembaikanDenture;
+        row.getCell(80).value = data[1][i][0].kesSelesai;
+        row.getCell(81).value = data[1][i][0].xrayDiambil;
+        row.getCell(82).value = data[1][i][0].pesakitDisaringOC;
+      }
+      if (i === 11) {
+        j += 2;
+      }
+    }
+
+    let newfile = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'test-' + kp + '-PG207.xlsx'
     );
 
     // Write the file
@@ -1013,7 +1193,7 @@ const makePGS203 = async (payload) => {
         //Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         let rowNew = worksheet.getRow(20);
         rowNew.getCell(3).value =
-          results.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 1)
+          data.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew.getCell(4).value =
           data.dataPemeriksaan[0].jumlahKedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew.getCell(5).value = data.dataPemeriksaan[0].jumlahd; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
@@ -1249,4 +1429,15 @@ const makePGPR201 = async (payload) => {
     console.log(err);
     res.status(500).json({ message: err.message });
   }
+};
+
+// debug
+exports.debug = async (req, res) => {
+  let kp = 'Klinik Pergigian Arau';
+  let tarikhMula = '2021-01-01';
+  let tarikhAkhir = '2021-01-31';
+  let pegawai = 'dr. faizatul hawa binti mohd zuki';
+  const data = await Helper.countPG207(kp, tarikhMula, tarikhAkhir, pegawai);
+  console.log(data[1][2][0]);
+  res.status(200).json(data);
 };

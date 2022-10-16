@@ -110,21 +110,6 @@ UserSchema.pre('save', async function () {
   }
 });
 
-UserSchema.methods.updateRunningNumber = async function () {
-  try {
-    const currentRunningNumber = await Runningnumber.findOne({
-      jenis: this.kodFasiliti,
-      negeri: this.negeri,
-      daerah: this.daerah,
-    });
-    currentRunningNumber.runningNumber += 1;
-    await currentRunningNumber.save();
-    console.log('updateRunningNumber');
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
     {
