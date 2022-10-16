@@ -1096,7 +1096,7 @@ const countPG211 = async (klinik, bulan) => {
 
   return data;
 };
-const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
+const countPG206 = async (klinik, tarikhMula, tarikhAkhir, juruterapi) => {
   let match_stage = [];
   let group_stage = [];
   let project_stage = [];
@@ -1107,7 +1107,7 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
         {
           $eq: ['$baruUlanganKedatanganPendaftaran', 'baru-kedatangan'],
         },
-        { $le: ['$umur', 1] },
+        { $lte: ['$umur', 1] },
       ],
     },
   };
@@ -1116,14 +1116,10 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
     $group: {
       _id: '$nama',
       kedatanganTahunSemasa: {
-        //how to gorek data? by row? or by column?
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$baruUlanganKedatanganPendaftaran',
-                'baru-kedatangan-pendaftaran',
-              ],
+              $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
             },
             1,
             0,
@@ -1131,23 +1127,12 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
         },
       },
       sapuanFluorida: {
-        //fvMuridB
         $sum: {
           $cond: [
             {
-              $and: [
-                {
-                  $eq: [
-                    '$baruUlanganKedatanganPendaftaran',
-                    'baru-kedatangan-pendaftaran',
-                  ],
-                },
-                {
-                  $or: [
-                    { $gt: ['$baruJumlahGigiKekalDiberiFv', 0] },
-                    { $gt: ['$semulaJumlahGigiKekalDiberiFv', 0] },
-                  ],
-                },
+              $or: [
+                { $gte: ['$baruJumlahGigiKekalDiberiFv', 1] },
+                { $gte: ['$semulaJumlahGigiKekalDiberiFv', 1] },
               ],
             },
             1,
@@ -1156,27 +1141,15 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
         },
       },
       prrJenis1: {
-        //prrJ1MuridB
         $sum: {
           $cond: [
             {
-              $and: [
+              $or: [
+                { $gte: ['$kedatangan', 'baru-kedatangan'] },
                 {
-                  $eq: [
-                    '$baruUlanganKedatanganPendaftaran',
-                    'baru-kedatangan-pendaftaran',
-                  ],
+                  $gte: ['$semulaJumlahGigiKekalDiberiPrrJenis1RawatanUmum', 1],
                 },
-                {
-                  $or: [
-                    {
-                      $gt: ['$baruJumlahGigiKekalDiberiPrrJenis1', 0],
-                    },
-                    {
-                      $gt: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 0],
-                    },
-                  ],
-                },
+                { $gte: ['$baruJumlahGigiKekalDiberiPrrJenis1RawatanUmum', 0] },
               ],
             },
             1,
@@ -1184,241 +1157,102 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
           ],
         },
       },
-      muridBaruFS: {
-        //FSmuridBaru (Problem to be solve)
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                //{ $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
-                //to add button to know patient's previous FS status on that year ;
-                //kalau pt pernah buat FS on the same year ; then kira ulangan.
-                { $gte: ['$baruJumlahGigiKekalDibuatFs', 1] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      muridSemulaFS: {
-        //FSmuridSemula (Problem to be solve)
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                //{ $eq: ['$baruUlanganKedatanganPendaftaran','ulangan-kedatangan-pendaftaran']},
-                //to add button to know patient's previous FS status on that year ;
-                //kalau pt pernah buat FS on the same year ; then kira ulangan.
-                { $gte: ['$semulaJumlahGigiKekalDibuatFs', 1] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      gigiBaruFS: { $sum: ['$baruJumlahGigiKekalDibuatFs'] },
-      gigiSemulaFS: { $sum: ['$semulaJumlahGigiKekalDibuatFs'] },
+      /*
+                muridBaruFS: {         murid baru & ulangan fissue sealan fissure perlu variable untuk rujukan
+                  $sum: {
+                    $cond: [
+                      {
+                        $or: [
+                          { $gte: ['$baruJumlahGigiKekalDiberiPrrJenis1', 1] },
+                          {
+                            $gte: ['$semulaJumlahGigiKekalDiberiPrrJenis1', 1],
+                          },
+                        ],
+                      },
+                      1,
+                      0,
+                    ],
+                  },
+                },*/
+      gigiBaruFS: { $sum: '$baruJumlahGigiKekalDibuatFsRawatanUmum' },
+      gigiUlanganFS: { $sum: '$semulaJumlahGigiKekalDibuatFsRawatanUmum' },
       tampalanAntGdBaru: {
-        $sum: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat'],
+        $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanAntGdSemula: {
-        $sum: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat'],
+      tampalanAntGdUlangan: {
+        $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
       tampalanAntGkBaru: {
-        $sum: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat'],
+        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanAntGkSemula: {
-        $sum: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat'],
+      tampalanAntGkUlangan: {
+        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
+
       tampalanPostGdBaru: {
-        $sum: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat'],
+        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanPostGdSemula: {
-        $sum: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat'],
+      tampalanPostGdUlangan: {
+        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
+
       tampalanPostGkBaru: {
-        $sum: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat'],
+        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanPostGkSemula: {
-        $sum: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat'],
+      tampalanPostGkUlangan: {
+        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
+
       tampalanPostAmgGdBaru: {
-        $sum: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat'],
+        $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanPostAmgGdSemula: {
-        $sum: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat'],
+      tampalanPostAmgGdUlangan: {
+        $sum: '$GdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
+
       tampalanPostAmgGkBaru: {
-        $sum: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat'],
+        $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      tampalanPostAmgGkSemula: {
-        $sum: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat'],
+      tampalanPostAmgGkUlangan: {
+        $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      //inlayOnlayBaru: { $sum: ['$baruInlayOnlayJumlahTampalanDibuatRawatanUmum']},     //data sudah dpt dari form umum
-      //inlayOnlaySemula: { $sum: ['$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum']}, //data sudah dpt dari form umum
+
       tampalanSementara: {
-        $sum: ['$jumlahTampalanSementaraPenyataAkhir2'],
+        $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
       },
-      cabutanGd: { $sum: ['$cabutDesidusPenyataAkhir2'] },
-      cabutanGk: { $sum: ['$cabutKekalPenyataAkhir2'] },
-      //komplikasiSelepasCabutan :{ $sum:['$komplikasiSelepasCabutanRawatanUmum']}   //data sudah dpt dari form umum
-      penskaleran: { $sum: ['$penskaleranPenyataAkhir2'] },
-      //rawatanPerioLain: { $sum:['$rawatanLainPeriodontikRawatanUmum']},            //data sudah dpt dari form umum
-      rawatanEndo: {
-        $sum: ['$pulpotomiPenyataAkhir2', '$endodontikPenyataAkhir2'],
+
+      cabutanGd: {
+        $sum: '$cabutDesidusRawatanUmum',
       },
-      //rawatanOrtho: {$sum:['$rawatanOrtho']},                     //data nanty gorek dari form umum
-      //kesPerubatan:{$sum:['$kesPerubatanMulutPenyata??']},        //data nanty gorek dari form umum
-      absesBaru: {
-        //data sini campur sekolah form & umum form. blh ke?
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: [
-                    '$baruUlanganKedatanganPendaftaran',
-                    'baru-kedatangan-pendaftaran',
-                  ],
-                },
-                { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
-                {
-                  $eq: ['$baruSemulaAbsesPembedahanRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
+
+      cabutanGk: {
+        $sum: '$cabutKekalRawatanUmum',
       },
-      absesSemula: {
-        //data sini campur sekolah form & umum form. blh ke?
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: [
-                    '$baruUlanganKedatanganPendaftaran',
-                    'baru-kedatangan-pendaftaran',
-                  ],
-                },
-                { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
-                {
-                  $eq: ['$baruSemulaAbsesPembedahanRawatanUmum', false],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      cabutanSurgical: {
-        $sum: ['$cabutanSurgikalPembedahanMulutRawatanUmum'],
-      }, //data dari form umum
-      fraktur: {
-        $sum: {
-          $cond: [
-            { $eq: ['$yaTidakFrakturPembedahanRawatanUmum', true] },
-            1,
-            0,
-          ],
-        },
-      },
-      trauma: {
-        $sum: {
-          $cond: [{ $eq: ['$yaTidakTraumaPembedahanRawatanUmum', true] }, 1, 0],
-        },
-      },
-      pembedahanKecilMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      crownBridgeBaru: {
-        $sum: ['$baruJumlahCrownBridgeRawatanUmum'],
-      },
-      crownBridgeSemula: {
-        $sum: ['$semulaJumlahCrownBridgeRawatanUmum'],
-      },
-      postCoreBaru: { $sum: ['$baruJumlahPostCoreRawatanUmum'] },
-      postCoreSemula: { sum: ['$semulaJumlahPostCoreRawatanUmum'] },
-      prosthodontikPenuhDentur: {
-        $sum: ['$penuhJumlahDenturProstodontikRawatanUmum'],
-      },
-      //prosthodontikPenuhPesakit:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']}, // cari jalan lagi
-      prosthodontikSebahagianDentur: {
-        $sum: ['$sebahagianJumlahDenturProstodontikRawatanUmum'],
-      },
-      //prosthodontikSebahagianPesakit:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']}, //cari jalan lagi
-      immediateDenture: {
-        $sum: ['$immediateDenturProstodontikRawatanUmum'],
-      },
-      pembaikanDenture: {
-        $sum: ['$pembaikanDenturProstodontikRawatanUmum'],
+
+      penskaleran: {
+        $sum: '$penskaleranRawatanUmum',
       },
       kesSelesai: {
-        $sum: {
-          $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
-        },
-      },
-      xrayDiambil: { $sum: ['$bilanganXrayYangDiambilRawatanUmum'] },
-      pesakitDisaringOC: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$disaringProgramKanserMulutPemeriksaanUmum', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      pesakitdirujukLesiMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$dirujukProgramKanserMulutPemeriksaanUmum', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      pesakitDirujukTabiat: {
-        $sum: {
-          $cond: [
-            { $eq: ['$tabiatBerisikoTinggiPemeriksaanUmum', true] },
-            1,
-            0,
-          ],
-        },
+        $sum: '$kesSelesaiRawatanUmum',
       },
       rokokSaringNasihat: {
         $sum: {
           $cond: [
             {
               $or: [
-                { $eq: ['jenisRUmum', 'perokokSemasa'] },
-                { $eq: ['jenisRUmum', 'bekasPerokok'] },
-                { $eq: ['jenisRUmum', 'perokokPasif'] },
-                { $eq: ['jenisRUmum', 'bukanPerokok'] },
+                { $eq: ['$statusM', 'perokokSemasa'] },
+                { $eq: ['$statusM', 'bekasPerokok'] },
+                { $eq: ['$statusM', 'perokokPasif'] },
+                { $eq: ['$statusM', 'bukanPerokok'] },
               ],
             },
             1,
             0,
           ],
         },
+      },
+      rokokIntervensi: {
+        $sum: '$kesSelesaiPenyataAkhir2', // Kira berapa tarikh diisi yang telah diisi
       },
     },
   };
@@ -1482,6 +1316,932 @@ const countPG206and207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
   const data = await Umum.aggregate(pipeline);
 
   return data;
+};
+const countPG207 = async (klinik, tarikhMula, tarikhAkhir, pegawai) => {
+  let match_stage_pemeriksaan = [];
+
+  const match_pemeriksaan_below1year = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $lt: 1 },
+      umurBulan: { $lt: 13 },
+    },
+  };
+  const match_pemeriksaan_1to4years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 1, $lte: 4 },
+    },
+  };
+  const match_pemeriksaan_5to6years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 5, $lte: 6 },
+    },
+  };
+  const match_pemeriksaan_7to9years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 7, $lte: 9 },
+    },
+  };
+  const match_pemeriksaan_10to12years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 10, $lte: 12 },
+    },
+  };
+  const match_pemeriksaan_13to14years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 13, $lte: 14 },
+    },
+  };
+  const match_pemeriksaan_15to17years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 15, $lte: 17 },
+    },
+  };
+  const match_pemeriksaan_18to19years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 18, $lte: 19 },
+    },
+  };
+  const match_pemeriksaan_20to29years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 20, $lte: 29 },
+    },
+  };
+  const match_pemeriksaan_30to49years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 30, $lte: 49 },
+    },
+  };
+  const match_pemeriksaan_50to59years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 50, $lte: 59 },
+    },
+  };
+  const match_pemeriksaan_60yearsandup = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      umur: { $gte: 60 },
+    },
+  };
+  const match_pemeriksaan_ibumengandung = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      ibuMengandung: true,
+    },
+  };
+  const match_pemeriksaan_oku = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      oku: true,
+    },
+  };
+  const match_pemeriksaan_bukanWarganegara = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      kedatangan: 'baru-kedatangan',
+      bukanWarganegara: true,
+    },
+  };
+
+  match_stage_pemeriksaan.push(match_pemeriksaan_below1year);
+  match_stage_pemeriksaan.push(match_pemeriksaan_1to4years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_5to6years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_7to9years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_10to12years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_13to14years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_15to17years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_18to19years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_20to29years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_30to49years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_50to59years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_60yearsandup);
+  match_stage_pemeriksaan.push(match_pemeriksaan_ibumengandung);
+  match_stage_pemeriksaan.push(match_pemeriksaan_oku);
+  match_stage_pemeriksaan.push(match_pemeriksaan_bukanWarganegara);
+
+  const group_pemeriksaan = {
+    $group: {
+      _id: '$createdByKp',
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: {
+        $sum: {
+          $cond: [
+            {
+              $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: {
+          $cond: [
+            {
+              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      // perlu rawatan
+      jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+      jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+      jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+      jumlahdfx: {
+        $sum: {
+          $add: [
+            '$dAdaGigiDesidusPemeriksaanUmum',
+            '$fAdaGigiDesidusPemeriksaanUmum',
+            '$xAdaGigiDesidusPemeriksaanUmum',
+          ],
+        },
+      },
+      jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
+      jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
+      jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
+      jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
+      jumlahDMFX: {
+        $sum: {
+          $add: [
+            '$dAdaGigiKekalPemeriksaanUmum',
+            '$mAdaGigiKekalPemeriksaanUmum',
+            '$fAdaGigiKekalPemeriksaanUmum',
+            '$xAdaGigiKekalPemeriksaanUmum',
+          ],
+        },
+      },
+      jumlahMBK: {
+        //MBK
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      statusBebasKaries: {
+        //DMFX=0
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      TPR: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $gte: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $gte: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $gte: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                { $gte: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorBPEZero: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] }, 1, 0],
+        },
+      },
+      skorBPEMoreThanZero: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                { $gt: ['$skorBpeOralHygienePemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      perluSapuanFluorida: {
+        $sum: {
+          $eq: [
+            '$fvPerluSapuanPemeriksaanUmum',
+            'ya-fv-perlu-sapuan-pemeriksaan-umum',
+          ],
+        },
+      },
+      perluJumlahPesakitPrrJenis1: {
+        $sum: {
+          $eq: ['$prrJenis1PemeriksaanUmum', true],
+        },
+      },
+      perluJumlahGigiPrrJenis1: {
+        $sum: '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+      },
+      perluJumlahPesakitFS: {
+        $sum: {
+          $eq: ['$fissureSealantPemeriksaanUmum', true],
+        },
+      },
+      perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+      perluPenskaleran: {
+        $sum: {
+          $eq: ['$perluPenskaleranPemeriksaanUmum', true],
+        },
+      },
+      perluEndoAnterior: {
+        $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+      },
+      perluEndoPremolar: {
+        $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+      },
+      perluEndoMolar: {
+        $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+      },
+      jumlahPerluDenturPenuh: {
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                {
+                  $eq: [
+                    '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+                    'penuh-atas-perlu-denture-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $eq: [
+                    '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+                    'penuh-bawah-perlu-denture-pemeriksaan-umum',
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahPerluDenturSepara: {
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                {
+                  $eq: [
+                    '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+                    'separa-atas-perlu-denture-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $eq: [
+                    '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+                    'separa-bawah-perlu-denture-pemeriksaan-umum',
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  const project_pemeriksaan = {
+    $project: {
+      _id: 1,
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
+      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
+      sapuanFluorida: '$sapuanFluorida',
+      jumlahd: '$jumlahd',
+      jumlahf: '$jumlahf',
+      jumlahx: '$jumlahx',
+      jumlahdfx: '$jumlahdfx',
+      jumlahD: '$jumlahD',
+      jumlahF: '$jumlahF',
+      jumlahM: '$jumlahM',
+      jumlahX: '$jumlahX',
+      jumlahDMFX: '$jumlahDMFX',
+      jumlahMBK: '$jumlahMBK',
+      statusBebasKaries: '$statusBebasKaries',
+      TPR: '$TPR',
+      skorBPEZero: '$skorBPEZero',
+      skorBPEMoreThanZero: '$skorBPEMoreThanZero',
+      perluSapuanFluorida: '$perluSapuanFluorida',
+      perluJumlahPesakitPrrJenis1: '$perluJumlahPesakitPrrJenis1',
+      perluJumlahGigiPrrJenis1: '$perluJumlahGigiPrrJenis1',
+      perluJumlahPesakitFS: '$perluJumlahPesakitFS',
+      perluJumlahGigiFS: '$perluJumlahGigiFS',
+      perluPenskaleran: '$perluPenskaleran',
+      perluEndoAnterior: '$perluEndoAnterior',
+      perluEndoPremolar: '$perluEndoPremolar',
+      perluEndoMolar: '$perluEndoMolar',
+      jumlahPerluDenturPenuh: '$jumlahPerluDenturPenuh',
+      jumlahPerluDenturSepara: '$jumlahPerluDenturSepara',
+    },
+  };
+
+  let match_stage = [];
+
+  const match_below1year = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $lt: 1 },
+      umurBulan: { $lt: 13 },
+    },
+  };
+  const match_1to4years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 1, $lte: 4 },
+    },
+  };
+  const match_5to6years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 5, $lte: 6 },
+    },
+  };
+  const match_7to9years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 7, $lte: 9 },
+    },
+  };
+  const match_10to12years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 10, $lte: 12 },
+    },
+  };
+  const match_13to14years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 13, $lte: 14 },
+    },
+  };
+  const match_15to17years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 15, $lte: 17 },
+    },
+  };
+  const match_18to19years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 18, $lte: 19 },
+    },
+  };
+  const match_20to29years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 20, $lte: 29 },
+    },
+  };
+  const match_30to49years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 30, $lte: 49 },
+    },
+  };
+  const match_40to49years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 40, $lte: 49 },
+    },
+  };
+  const match_50to59years = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 50, $lte: 59 },
+    },
+  };
+  const match_60yearsandup = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      umur: { $gte: 60 },
+    },
+  };
+  const match_ibumengandung = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      ibuMengandung: true,
+    },
+  };
+  const match_oku = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      oku: true,
+    },
+  };
+  const match_bukanWarganegara = {
+    $match: {
+      createdByKp: klinik,
+      // createdByUsername: pegawai,
+      // tarikhKedatangan: tarikhMula,
+      bukanWarganegara: true,
+    },
+  };
+
+  match_stage.push(match_below1year);
+  match_stage.push(match_1to4years);
+  match_stage.push(match_5to6years);
+  match_stage.push(match_7to9years);
+  match_stage.push(match_10to12years);
+  match_stage.push(match_13to14years);
+  match_stage.push(match_15to17years);
+  match_stage.push(match_18to19years);
+  match_stage.push(match_20to29years);
+  match_stage.push(match_30to49years);
+  match_stage.push(match_50to59years);
+  match_stage.push(match_60yearsandup);
+  match_stage.push(match_ibumengandung);
+  match_stage.push(match_oku);
+  match_stage.push(match_bukanWarganegara);
+
+  const group = {
+    $group: {
+      _id: '$createdByKp',
+      // dibuat rawatan
+      sapuanFluorida: {
+        //fvMuridB
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $eq: ['$kedatangan', 'baru-kedatangan'],
+                },
+                {
+                  $or: [
+                    { $gt: ['$baruJumlahGigiKekalDiberiFVRawatanUmum', 0] },
+                    { $gt: ['$semulaJumlahGigiKekalDiberiFVRawatanUmum', 0] },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      prrJenis1: {
+        //prrJ1MuridB
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $eq: ['$kedatangan', 'baru-kedatangan'],
+                },
+                {
+                  $or: [
+                    {
+                      $gt: [
+                        '$baruJumlahGigiKekalDiberiPrrJenis1RawatanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $gt: [
+                        '$semulaJumlahGigiKekalDiberiPrrJenis1RawatanUmum',
+                        0,
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      muridBaruFS: {
+        //FSmuridBaru (Problem to be solve)
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                //{ $eq: ['$baruUlanganKedatanganPendaftaran','baru-kedatangan-pendaftaran']},
+                //to add button to know patient's previous FS status on that year ;
+                //kalau pt pernah buat FS on the same year ; then kira ulangan.
+                { $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      muridSemulaFS: {
+        //FSmuridSemula (Problem to be solve)
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                //{ $eq: ['$baruUlanganKedatanganPendaftaran','ulangan-kedatangan-pendaftaran']},
+                //to add button to know patient's previous FS status on that year ;
+                //kalau pt pernah buat FS on the same year ; then kira ulangan.
+                { $gte: ['$semulaJumlahGigiKekalDibuatFSRawatanUmum', 1] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      gigiBaruFS: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+      gigiSemulaFS: { $sum: '$semulaJumlahGigiKekalDibuatFSRawatanUmum' },
+      tampalanAntGdBaru: {
+        $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGdSemula: {
+        $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGkBaru: {
+        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGkSemula: {
+        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGdBaru: {
+        $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGdSemula: {
+        $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGkBaru: {
+        $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGkSemula: {
+        $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGdBaru: {
+        $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGdSemula: {
+        $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGkBaru: {
+        $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGkSemula: {
+        $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      inlayOnlayBaru: {
+        $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
+      }, //data sudah dpt dari form umum
+      inlayOnlaySemula: {
+        $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
+      }, //data sudah dpt dari form umum
+      tampalanSementara: {
+        $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+      },
+      cabutanGd: { $sum: '$cabutDesidusPenyataAkhir2' },
+      cabutanGk: { $sum: '$cabutKekalPenyataAkhir2' },
+      //komplikasiSelepasCabutan :{ $sum:['$komplikasiSelepasCabutanRawatanUmum']}   //data sudah dpt dari form umum
+      //rawatanPerioLain: { $sum:['$rawatanLainPeriodontikRawatanUmum']},            //data sudah dpt dari form umum
+      //rawatanOrtho: {$sum:['$rawatanOrtho']},                     //data nanty gorek dari form umum
+      //kesPerubatan:{$sum:['$kesPerubatanMulutPenyata??']},        //data nanty gorek dari form umum
+      absesBaru: {
+        //data sini campur sekolah form & umum form. blh ke?
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $eq: ['$kedatangan', 'baru-kedatangan'],
+                },
+                { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
+                // {
+                //   $eq: ['$baruSemulaAbsesPembedahanRawatanUmum', true],
+                // },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      absesSemula: {
+        //data sini campur sekolah form & umum form. blh ke?
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $eq: ['$kedatangan', 'ulangan-kedatangan'],
+                },
+                { $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true] },
+                // {
+                //   $eq: ['$baruSemulaAbsesPembedahanRawatanUmum', false],
+                // },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      cabutanSurgical: {
+        $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
+      }, //data dari form umum
+      fraktur: {
+        $sum: {
+          $cond: [
+            { $eq: ['$yaTidakFrakturPembedahanRawatanUmum', true] },
+            1,
+            0,
+          ],
+        },
+      },
+      trauma: {
+        $sum: {
+          $cond: [{ $eq: ['$yaTidakTraumaPembedahanRawatanUmum', true] }, 1, 0],
+        },
+      },
+      pembedahanKecilMulut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      crownBridgeBaru: {
+        $sum: '$baruJumlahCrownBridgeRawatanUmum',
+      },
+      crownBridgeSemula: {
+        $sum: '$semulaJumlahCrownBridgeRawatanUmum',
+      },
+      postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
+      postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
+      prosthodontikPenuhDentur: {
+        $sum: '$penuhJumlahDenturProstodontikRawatanUmum',
+      },
+      //prosthodontikPenuhPesakit:{$sum:['$penuhJumlahDenturProstodontikRawatanUmum']}, // cari jalan lagi
+      prosthodontikSebahagianDentur: {
+        $sum: '$sebahagianJumlahDenturProstodontikRawatanUmum',
+      },
+      //prosthodontikSebahagianPesakit:{$sum:['$sebahagianJumlahDenturProstodontikRawatanUmum']}, //cari jalan lagi
+      immediateDenture: {
+        $sum: '$immediateDenturProstodontikRawatanUmum',
+      },
+      pembaikanDenture: {
+        $sum: '$pembaikanDenturProstodontikRawatanUmum',
+      },
+      kesSelesai: {
+        $sum: {
+          $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+        },
+      },
+      xrayDiambil: { $sum: '$bilanganXrayYangDiambilRawatanUmum' },
+      pesakitDisaringOC: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$disaringProgramKanserMulutPemeriksaanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      pesakitdirujukLesiMulut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$dirujukProgramKanserMulutPemeriksaanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      pesakitDirujukTabiat: {
+        $sum: {
+          $cond: [
+            { $eq: ['$tabiatBerisikoTinggiPemeriksaanUmum', true] },
+            1,
+            0,
+          ],
+        },
+      },
+      rokokSaringNasihat: {
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                { $eq: ['$jenisRPemeriksaanUmum', 'perokokSemasa'] },
+                { $eq: ['$jenisRPemeriksaanUmum', 'bekasPerokok'] },
+                { $eq: ['$jenisRPemeriksaanUmum', 'perokokPasif'] },
+                { $eq: ['$jenisRPemeriksaanUmum', 'bukanPerokok'] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  const project = {
+    $project: {
+      _id: 1,
+      // rawatan
+      prrJenis1: '$prrJenis1',
+      muridBaruFS: '$muridBaruFS',
+      muridSemulaFS: '$muridSemulaFS',
+      gigiBaruFS: '$gigiBaruFS',
+      gigiSemulaFS: '$gigiSemulaFS',
+      tampalanAntGdBaru: '$tampalanAntGdBaru',
+      tampalanAntGdSemula: '$tampalanAntGdSemula',
+      tampalanAntGkBaru: '$tampalanAntGkBaru',
+      tampalanAntGkSemula: '$tampalanAntGkSemula',
+      tampalanPostGdBaru: '$tampalanPostGdBaru',
+      tampalanPostGdSemula: '$tampalanPostGdSemula',
+      tampalanPostGkBaru: '$tampalanPostGkBaru',
+      tampalanPostGkSemula: '$tampalanPostGkSemula',
+      tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
+      tampalanPostAmgGdSemula: '$tampalanPostAmgGdSemula',
+      tampalanPostAmgGkBaru: '$tampalanPostAmgGkBaru',
+      tampalanPostAmgGkSemula: '$tampalanPostAmgGkSemula',
+      tampalanSementara: '$tampalanSementara',
+      cabutanGd: '$cabutanGd',
+      cabutanGk: '$cabutanGk',
+      penskaleran: '$penskaleran',
+      rawatanEndo: '$rawatanEndo',
+      absesBaru: '$absesBaru',
+      absesSemula: '$absesSemula',
+      cabutanSurgical: '$cabutanSurgical',
+      fraktur: '$fraktur',
+      trauma: '$trauma',
+      pembedahanKecilMulut: '$pembedahanKecilMulut',
+      crownBridgeBaru: '$crownBridgeBaru',
+      crownBridgeSemula: '$crownBridgeSemula',
+      postCoreBaru: '$postCoreBaru',
+      postCoreSemula: '$postCoreSemula',
+      prosthodontikPenuhDentur: '$prosthodontikPenuhDentur',
+      prosthodontikSebahagianDentur: '$prosthodontikSebahagianDentur',
+      immediateDenture: '$immediateDenture',
+      pembaikanDenture: '$pembaikanDenture',
+      kesSelesai: '$kesSelesai',
+      xrayDiambil: '$xrayDiambil',
+      pesakitDisaringOC: '$pesakitDisaringOC',
+      pesakitdirujukLesiMulut: '$pesakitdirujukLesiMulut',
+      pesakitDirujukTabiat: '$pesakitDirujukTabiat',
+      rokokSaringNasihat: '$rokokSaringNasihat',
+    },
+  };
+
+  try {
+    let dataPemeriksaan = [];
+    let dataRawatan = [];
+    let bigData = [];
+
+    for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
+      const pipeline_pemeriksaan = [
+        match_stage_pemeriksaan[i],
+        group_pemeriksaan,
+        project_pemeriksaan,
+      ];
+      const queryPemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
+      dataPemeriksaan.push(queryPemeriksaan);
+    }
+
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group, project];
+      const query = await Umum.aggregate(pipeline);
+      dataRawatan.push(query);
+    }
+
+    bigData.push(dataPemeriksaan);
+    bigData.push(dataRawatan);
+
+    return bigData;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const countPG201 = async (klinik, sekolah) => {
   const data = async.parallel(
@@ -4680,7 +5440,8 @@ const countPGPR201 = async () => {
 module.exports = {
   countPG101,
   countPG211,
-  countPG206and207,
+  countPG206,
+  countPG207,
   countPG201,
   countPGS203,
   countPGPR201,
