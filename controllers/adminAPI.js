@@ -7,6 +7,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const emailgen = require('../lib/emailgen');
 
 const Dictionary = {
   kp: 'klinik',
@@ -85,8 +86,11 @@ exports.getData = async (req, res, next) => {
                 for (let i = 0; i < simplifiedKlinikName.length; i++) {
                   acronym += simplifiedKlinikName[i].charAt(0);
                 }
+                const negeriNum = emailGen[dataGeografik.negeri].kodNegeri;
+                const daerahNum =
+                  emailGen[dataGeografik.negeri].daerah[dataGeografik.daerah];
                 const tempKaunter = await User.create({
-                  username: `kaunter${acronym.toLowerCase()}`,
+                  username: `kaunter${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
                   negeri: Data.negeri,
                   daerah: Data.daerah,
                   kp: Data.kp,
