@@ -27,7 +27,7 @@ import UserFooter from '../components/UserFooter';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserAfterLogin() {
-  const { ToastContainer } = useGlobalUserAppContext();
+  const { reliefUserToken, ToastContainer } = useGlobalUserAppContext();
 
   return (
     <>
@@ -63,8 +63,15 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
-          <Route path='generate-individu' element={<UserGenerateIndividu />} />
-          <Route path='generate-klinik' element={<UserGenerateKlinik />} />
+          {reliefUserToken ? null : (
+            <>
+              <Route
+                path='generate-individu'
+                element={<UserGenerateIndividu />}
+              />
+              <Route path='generate-klinik' element={<UserGenerateKlinik />} />
+            </>
+          )}
 
           {/* <Route path='carian' element={<UserCarian />} /> */}
 

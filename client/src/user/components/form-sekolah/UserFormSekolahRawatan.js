@@ -6,7 +6,8 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahRawatan() {
-  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, username, useParams, toast } =
+    useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -178,7 +179,13 @@ function UserFormSekolahRawatan() {
         setIsLoading(true);
         const { data } = await axios.get(
           `/api/v1/sekolah/populate/${personSekolahId}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         );
         setSinglePersonSekolah(data.personSekolahWithPopulate);
         setIsLoading(false);
@@ -273,7 +280,11 @@ function UserFormSekolahRawatan() {
             kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
           },
           {
-            headers: { Authorization: `Bearer ${userToken}` },
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
           }
         ),
         {

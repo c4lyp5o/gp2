@@ -2,7 +2,7 @@ const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 const authLogin = async (req, res) => {
-  const { username, password, pilihanFasiliti } = req.body;
+  const { username, password, pilihanFasiliti, pilihanDaerah } = req.body;
 
   let user = '';
 
@@ -15,26 +15,23 @@ const authLogin = async (req, res) => {
 
     const oldUserToken = authHeader.split(' ')[1];
 
-    try {
-      const oldUserTokenVerified = jwt.verify(
-        oldUserToken,
-        process.env.JWT_SECRET
-      );
-      user = await UserModel.findOne({
-        username: oldUserTokenVerified.username,
-      });
-      console.log(user);
+    const oldUserTokenVerified = jwt.verify(
+      oldUserToken,
+      process.env.JWT_SECRET
+    );
+    user = await UserModel.findOne({
+      username: oldUserTokenVerified.username,
+    });
 
-      user.kp = pilihanFasiliti;
+    // replacing...
+    user.kp = pilihanFasiliti;
+    user.daerah = pilihanDaerah;
 
-      console.log(user);
-    } catch (error) {
-      return res.status(401).json({ msg: 'Unauthorized' });
-    }
+    const reliefUserToken = user.createJWT();
 
     user = '';
 
-    return res.status(200).json({ msg: 'ok' });
+    return res.status(200).json({ reliefUserToken });
   }
 
   if (!username || !password) {

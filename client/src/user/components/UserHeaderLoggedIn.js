@@ -8,6 +8,7 @@ function UserHeaderLoggedIn() {
     userToken,
     username,
     setUsername,
+    setReliefUserToken,
     fasilitiRelief,
     setFasilitiRelief,
     setDisplayLoginForm,
@@ -39,8 +40,11 @@ function UserHeaderLoggedIn() {
     setDisplayPilihNama(true);
     setDisplayPilihFasiliti(false);
     localStorage.removeItem('username');
+    localStorage.removeItem('userinfo');
+    localStorage.removeItem('reliefUserToken');
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
+    setReliefUserToken(null);
     setFasilitiRelief(null);
     navigate('/pengguna');
   };
