@@ -2783,7 +2783,7 @@ const countPG207 = async (klinik, bulan, pegawai) => {
     console.log(error);
   }
 };
-const countPG201 = async (klinik, sekolah) => {
+const countPG201s = async (klinik, sekolah) => {
   const data = async.parallel(
     {
       dataPemeriksaan: function (callback) {
@@ -3834,6 +3834,7 @@ const countPG201 = async (klinik, sekolah) => {
   );
   return data;
 };
+const countPG201 = async (klinik, sekolah) => {};
 const countPGS203 = async () => {
   const data = async.parallel(
     {
