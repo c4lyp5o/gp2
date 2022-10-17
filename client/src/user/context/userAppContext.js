@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
+const storageUserinfo = localStorage.getItem('userinfo');
 const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const storageKaunterToken = localStorage.getItem('kaunterToken');
@@ -21,6 +22,7 @@ const UserAppContext = React.createContext();
 function UserAppProvider({ children }) {
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
+  const [userinfo, setUserinfo] = useState(storageUserinfo);
   const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
 
   const [kaunterToken, setKaunterToken] = useState(storageKaunterToken);
@@ -87,10 +89,12 @@ function UserAppProvider({ children }) {
   const catchAxiosErrorAndLogout = () => {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
+    localStorage.removeItem('userinfo');
     localStorage.removeItem('fasilitiRelief');
     localStorage.removeItem('kaunterToken');
     setUserToken(null);
     setUsername(null);
+    setUserinfo(null);
     setFasilitiRelief(null);
     setKaunterToken(null);
   };
@@ -115,6 +119,8 @@ function UserAppProvider({ children }) {
         userToken,
         username,
         setUsername,
+        userinfo,
+        setUserinfo,
         fasilitiRelief,
         setFasilitiRelief,
         kaunterToken,

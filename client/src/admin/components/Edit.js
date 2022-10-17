@@ -4,16 +4,9 @@ import { Ring } from 'react-awesome-spinners';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
-const Modal = ({ setShowEditModal, id, FType }) => {
-  const {
-    Dictionary,
-    toast,
-    readOneData,
-    readKpData,
-    updateData,
-    reload,
-    setReload,
-  } = useGlobalAdminAppContext();
+const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
+  const { Dictionary, toast, readOneData, readKpData, updateData } =
+    useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -58,14 +51,6 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         role: currentRole.current,
       };
     }
-    // if (FType === 'jp') {
-    //   Data = {
-    //     // nama: currentName.current,
-    //     gred: currentGred.current,
-    //     kpSkrg: currentKp.current,
-    //     role: currentRole.current,
-    //   };
-    // }
     if (FType === 'kp') {
       if (currentRole.current === '') {
         currentRole.current = 'klinik';
