@@ -51,12 +51,10 @@ function UserPilihNama() {
     if (checkboxRelief.current.checked === false) {
       localStorage.setItem('username', pilihanOperator.current.value);
       setUsername(pilihanOperator.current.value);
-      // new
       const userinfo = listPilihNama.find(
         (operator) => operator.nama === pilihanOperator.current.value
       );
       localStorage.setItem('userinfo', JSON.stringify(userinfo));
-      // new
       setDisplayLoginForm(true);
       setDisplayPilihNama(false);
       navigate('/pengguna/landing');
@@ -64,6 +62,10 @@ function UserPilihNama() {
     if (checkboxRelief.current.checked === true) {
       localStorage.setItem('username', pilihanOperator.current.value);
       setUsername(pilihanOperator.current.value);
+      const userinfo = listPilihNama.find(
+        (operator) => operator.nama === pilihanOperator.current.value
+      );
+      localStorage.setItem('userinfo', JSON.stringify(userinfo));
       setDisplayPilihNama(false);
       setDisplayPilihFasiliti(true);
     }
