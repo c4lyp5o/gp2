@@ -16,6 +16,7 @@ import Promosi from './form-umum/Promosi';
 function UserFormUmumHeader() {
   const {
     userToken,
+    reliefUserToken,
     username,
     navigate,
     catchAxiosErrorAndLogout,
@@ -1232,7 +1233,11 @@ function UserFormUmumHeader() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         });
         setSinglePersonUmum(data.singlePersonUmum);
         //map fasiliti perkhidmatan
@@ -1948,7 +1953,13 @@ function UserFormUmumHeader() {
             tarikhQUmum,
             statusSelepas6BulanUmum,
           },
-          { headers: { Authorization: `Bearer ${userToken}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         ),
         {
           pending: 'Menghantar...',
