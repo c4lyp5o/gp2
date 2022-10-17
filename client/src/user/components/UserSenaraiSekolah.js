@@ -6,7 +6,7 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolahList() {
-  const { userToken } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -19,7 +19,11 @@ function UserSekolahList() {
       try {
         setIsLoading(true);
         const { data } = await axios.get('/api/v1/sekolah', {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         });
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(data.fasilitiSekolahs);

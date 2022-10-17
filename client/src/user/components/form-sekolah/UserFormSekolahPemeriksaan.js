@@ -6,7 +6,8 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahPemeriksaan() {
-  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, username, useParams, toast } =
+    useGlobalUserAppContext();
 
   const { personSekolahId, pemeriksaanSekolahId } = useParams();
 
@@ -307,7 +308,13 @@ function UserFormSekolahPemeriksaan() {
         setIsLoading(true);
         const { data } = await axios.get(
           `/api/v1/sekolah/populate/${personSekolahId}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         );
         setSinglePersonSekolah(data.personSekolahWithPopulate);
 
@@ -732,7 +739,11 @@ function UserFormSekolahPemeriksaan() {
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
             },
             {
-              headers: { Authorization: `Bearer ${userToken}` },
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
             }
           ),
           {
@@ -843,7 +854,11 @@ function UserFormSekolahPemeriksaan() {
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
             },
             {
-              headers: { Authorization: `Bearer ${userToken}` },
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
             }
           ),
           {

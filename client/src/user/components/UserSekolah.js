@@ -6,7 +6,7 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolah() {
-  const { userToken, navigate } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, navigate } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -23,7 +23,11 @@ function UserSekolah() {
       try {
         setIsLoading(true);
         const { data } = await axios.get('/api/v1/sekolah/populate', {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         });
         const allPersonSekolahs = data.allPersonSekolahs;
         const namaSekolahs = allPersonSekolahs.reduce(
@@ -75,7 +79,11 @@ function UserSekolah() {
     try {
       setIsLoading(true);
       const { data } = await axios.get('/api/v1/sekolah/populate', {
-        headers: { Authorization: `Bearer ${userToken}` },
+        headers: {
+          Authorization: `Bearer ${
+            reliefUserToken ? reliefUserToken : userToken
+          }`,
+        },
       });
       const allPersonSekolahs = data.allPersonSekolahs;
       const namaSekolahs = allPersonSekolahs.reduce(
