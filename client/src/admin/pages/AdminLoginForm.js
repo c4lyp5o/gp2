@@ -8,6 +8,8 @@ import { ToastContainer } from 'react-toastify';
 import AdminHeader from '../components/AdminHeader';
 import AdminFooter from '../components/AdminFooter';
 
+import CountdownTimer from '../context/countdownTimer';
+
 function userIDBox({ setUserName, showUserIDBox }) {
   if (showUserIDBox === true) {
     return (
@@ -25,6 +27,9 @@ function userIDBox({ setUserName, showUserIDBox }) {
 }
 
 function passwordBox({ setPassword, showPasswordBox }) {
+  const fiveMinutes = 5 * 60 * 1000;
+  const nowMinutes = new Date().getTime();
+  const realCountdown = nowMinutes + fiveMinutes;
   if (showPasswordBox === true) {
     return (
       <div>
@@ -38,6 +43,9 @@ function passwordBox({ setPassword, showPasswordBox }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <div className='mt-2'>
+          <CountdownTimer deadline={realCountdown} />
+        </div>
       </div>
     );
   }
@@ -61,6 +69,14 @@ export default function AdminLoginForm() {
         toast.info(
           `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
+        setTimeout(() => {
+          toast.error(
+            'Masa untuk login telah habis. Sila masukkan ID semula untuk login!'
+          );
+          setUserName('');
+          setShowPasswordBox(false);
+          navigate('/pentadbir');
+        }, 1000 * 60 * 5);
       } catch (error) {
         toast.error(error.response.data.message);
         return;
