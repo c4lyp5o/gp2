@@ -9,6 +9,7 @@ function UserNavbar() {
   const {
     userToken,
     reliefUserToken,
+    setReliefUserToken,
     username,
     setUsername,
     fasilitiRelief,
@@ -80,6 +81,7 @@ function UserNavbar() {
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
     setStatus(null);
+    setReliefUserToken(null);
     setFasilitiRelief(null);
     navigate('/pengguna');
   };
