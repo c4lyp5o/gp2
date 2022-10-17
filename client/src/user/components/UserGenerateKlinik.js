@@ -13,7 +13,7 @@ export default function UserGenerateKlinik() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [currentKp, setCurrentKp] = useState('');
+  const [kp, setKp] = useState('');
 
   useEffect(() => {
     const fetchSekolah = async () => {
@@ -21,13 +21,6 @@ export default function UserGenerateKlinik() {
         const { data } = await axios.get('/api/v1/sekolah/populate', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
-        axios
-          .get('/api/v1/identity', {
-            headers: { Authorization: `Bearer ${userToken}` },
-          })
-          .then((res) => {
-            setCurrentKp(res.data.kp);
-          });
         const allPersonSekolahs = data.allPersonSekolahs;
         const namaSekolahs = allPersonSekolahs.reduce(
           (arrNamaSekolahs, singlePersonSekolah) => {
@@ -44,14 +37,23 @@ export default function UserGenerateKlinik() {
         console.log(error);
       }
     };
+    const fetchKp = async () => {
+      try {
+        const kpData = JSON.parse(localStorage.getItem('userinfo'));
+        setKp(kpData.kpSkrg);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchSekolah();
+    fetchKp();
   }, []);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${currentKp}-${startDate}-${endDate}.${formatFile}`;
+    link.download = `${jenisReten}-${kp}-${startDate}-${endDate}.${formatFile}`;
     if (!endDate) {
-      link.download = `${jenisReten}-${currentKp}-${startDate}.${formatFile}`;
+      link.download = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
     }
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
@@ -77,7 +79,7 @@ export default function UserGenerateKlinik() {
         {
           pending: 'Menghasilkan reten...',
           success: 'Reten berjaya dihasilkan',
-          error: 'Reten tidak berjaya dihasilkan',
+          error: 'Tiada data untuk tarikh yang dipilih',
         },
         { autoClose: 2000 }
       )
