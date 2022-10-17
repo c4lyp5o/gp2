@@ -6,6 +6,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function UserPilihFasiliti() {
   const {
     userToken,
+    setReliefUserToken,
     setFasilitiRelief,
     setDisplayLoginForm,
     setDisplayPilihFasiliti,
@@ -15,6 +16,7 @@ function UserPilihFasiliti() {
 
   const [listPilihFasiliti, setListPilihFasiliti] = useState([]);
   const pilihanFasiliti = useRef(null);
+  const [pilihanDaerah, setPilihanDaerah] = useState([]);
 
   useEffect(() => {
     const fetchPilihFasiliti = async () => {
@@ -31,13 +33,30 @@ function UserPilihFasiliti() {
     fetchPilihFasiliti();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('fasilitiRelief', pilihanFasiliti.current.value);
-    setFasilitiRelief(pilihanFasiliti.current.value);
-    setDisplayLoginForm(true);
-    setDisplayPilihFasiliti(false);
-    navigate('/pengguna/landing');
+    try {
+      const { data } = await axios.post(
+        '/api/v1/auth/login',
+        {
+          apiKey: process.env.REACT_APP_API_KEY,
+          pilihanFasiliti: pilihanFasiliti.current.value,
+          pilihanDaerah,
+        },
+        {
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
+      );
+      localStorage.setItem('reliefUserToken', data.reliefUserToken);
+      setReliefUserToken(data.reliefUserToken);
+      localStorage.setItem('fasilitiRelief', pilihanFasiliti.current.value);
+      setFasilitiRelief(pilihanFasiliti.current.value);
+      setDisplayLoginForm(true);
+      setDisplayPilihFasiliti(false);
+      navigate('/pengguna/landing');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,6 +67,15 @@ function UserPilihFasiliti() {
       <form onSubmit={handleSubmit}>
         <select
           ref={pilihanFasiliti}
+          onChange={(e) => {
+            const indexFasiliti = listPilihFasiliti
+              .map((f) => f.kp)
+              .indexOf(pilihanFasiliti.current.value);
+            const arrFasilitis = listPilihFasiliti.filter(
+              (f, i) => i === indexFasiliti
+            );
+            setPilihanDaerah(arrFasilitis[0].daerah);
+          }}
           className='mt-12 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
           required
         >
