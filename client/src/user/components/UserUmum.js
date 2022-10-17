@@ -7,7 +7,8 @@ import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserUmum() {
-  const { userToken, Dictionary, dateToday } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, Dictionary, dateToday } =
+    useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
@@ -23,7 +24,13 @@ function UserUmum() {
         setIsLoading(true);
         const { data } = await axios.get(
           `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${tarikhKedatangan}&jenisFasiliti=${jenisFasiliti}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         );
         setQueryResult(data.umumResultQuery);
         setIsLoading(false);

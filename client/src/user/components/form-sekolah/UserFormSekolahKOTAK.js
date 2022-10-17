@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahKOTAK() {
-  const { userToken, username, useParams, toast } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, username, useParams, toast } =
+    useGlobalUserAppContext();
 
   const { personSekolahId, kotakSekolahId } = useParams();
 
@@ -76,7 +77,13 @@ function UserFormSekolahKOTAK() {
         setIsLoading(true);
         const { data } = await axios.get(
           `/api/v1/sekolah/populate/${personSekolahId}`,
-          { headers: { Authorization: `Bearer ${userToken}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         );
         setSinglePersonSekolah(data.personSekolahWithPopulate);
 
@@ -152,7 +159,11 @@ function UserFormSekolahKOTAK() {
               statusSelepas6Bulan,
             },
             {
-              headers: { Authorization: `Bearer ${userToken}` },
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
             }
           ),
           {
@@ -199,7 +210,11 @@ function UserFormSekolahKOTAK() {
               statusSelepas6Bulan,
             },
             {
-              headers: { Authorization: `Bearer ${userToken}` },
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
             }
           ),
           {

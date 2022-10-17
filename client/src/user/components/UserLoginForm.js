@@ -85,13 +85,13 @@ function UserLoginForm() {
             {loginErrorMessage}
           </p>
         )}
-        <p
+        {/* <p
           className='max-w-max mx-auto mt-5 mb-3 text-xs text-user6 underline hover:cursor-pointer'
           onClick={() => setIsForgotPassword(true)}
         >
           lupa kata laluan
-        </p>
-        <div className='grid lg:grid-cols-2 gap-2 mt-5 ml-20 mr-20'>
+        </p> */}
+        <div className='grid lg:grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
           <Link
             to='/'
             className='order-last lg:order-first capitalize bg-user6 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
