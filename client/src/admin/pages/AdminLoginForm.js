@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -13,36 +14,63 @@ import CountdownTimer from '../context/countdownTimer';
 function userIDBox({ setUserName, showUserIDBox }) {
   if (showUserIDBox === true) {
     return (
-      <div>
-        <input
-          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
-          type='text'
-          placeholder='ID Pengguna'
-          onChange={(e) => setUserName(e.target.value)}
-          required
-        />
+      <div className='flex justify-center items-center'>
+        <div className='relative'>
+          <input
+            className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer'
+            type='text'
+            placeholder='ID Pengguna'
+            name='usernameAdmin'
+            id='usernameAdmin'
+            onChange={(e) => setUserName(e.target.value)}
+            required
+          />
+          <label
+            htmlFor='usernameAdmin'
+            className='absolute left-3 bottom-8 text-xs text-admin1 bg-userWhite peer-placeholder-shown:text-admin4 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+          >
+            ID Pengguna
+          </label>
+        </div>
       </div>
     );
   }
 }
 
-function passwordBox({ setPassword, showPasswordBox }) {
+function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
   const fiveMinutes = 5 * 60 * 1000;
   const nowMinutes = new Date().getTime();
   const realCountdown = nowMinutes + fiveMinutes;
   if (showPasswordBox === true) {
     return (
-      <div>
-        <h3 className='text-xl font-semibold mt-10'>
+      <div className='flex flex-col justify-center items-center'>
+        <h3 className='text-xl font-semibold mt-5'>
           sila masukkan Key verifikasi
         </h3>
-        <input
-          className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md shadow-xl'
-          type='password'
-          placeholder='Kata Laluan'
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className='relative'>
+          <input
+            className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer'
+            type={showPassword ? 'text' : 'password'}
+            name='passwordAdmin'
+            id='passwordAdmin'
+            placeholder='Kata Laluan'
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <label
+            htmlFor='passwordAdmin'
+            className='absolute left-3 bottom-8 text-xs text-admin1 bg-userWhite peer-placeholder-shown:text-admin1 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+          >
+            Kata Laluan
+          </label>
+          <div className='absolute top-7 right-3 text-xl text-admin1'>
+            {showPassword ? (
+              <AiFillEye onClick={hilang} />
+            ) : (
+              <AiFillEyeInvisible onClick={hilang} />
+            )}
+          </div>
+        </div>
         <div className='mt-2'>
           <CountdownTimer deadline={realCountdown} />
         </div>
@@ -58,8 +86,13 @@ export default function AdminLoginForm() {
   const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [kicker, setKicker] = useState(null);
+
+  const hilang = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -117,8 +150,13 @@ export default function AdminLoginForm() {
             </h3>
             <form onSubmit={handleSubmit}>
               {userIDBox({ setUserName, showUserIDBox })}
-              {passwordBox({ setPassword, showPasswordBox })}
-              <div className='grid grid-cols-2 gap-2 mt-10 ml-20 mr-20'>
+              {passwordBox({
+                setPassword,
+                showPasswordBox,
+                showPassword,
+                hilang,
+              })}
+              <div className='grid grid-cols-2 gap-2 mt-5 ml-20 mr-20'>
                 <Link
                   to='/'
                   className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
