@@ -59,6 +59,7 @@ export default function AdminLoginForm() {
   const [password, setPassword] = useState();
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
+  const [kicker, setKicker] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ export default function AdminLoginForm() {
         toast.info(
           `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
-        setTimeout(() => {
+        const numkicker = setTimeout(() => {
           toast.error(
             'Masa untuk login telah habis. Sila masukkan ID semula untuk login!'
           );
@@ -77,6 +78,7 @@ export default function AdminLoginForm() {
           setShowPasswordBox(false);
           navigate('/pentadbir');
         }, 1000 * 60 * 5);
+        setKicker(numkicker);
       } catch (error) {
         toast.error(error.response.data.message);
         return;
@@ -94,6 +96,7 @@ export default function AdminLoginForm() {
           });
           setToken(response.data.adminToken);
           setLoggingIn(false);
+          clearTimeout(kicker);
           navigate('/pentadbir/landing');
         } catch (error) {
           toast.error(error.response.data.message);
