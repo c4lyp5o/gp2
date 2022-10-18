@@ -153,8 +153,8 @@ export default function AdminCenterStageLoggedIn() {
     <>
       {data.map((item) => {
         return (
-          <div className='lg:flex mb-4 m-10 rounded mx-auto justify-center'>
-            <div className='w-1/6 rounded overflow-hidden shadow-lg m-2 justify-center flex flex-col'>
+          <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+            <div className='w-1/6 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
                 className='w-1/2 mx-auto'
                 alt={item.namaNegeri}
