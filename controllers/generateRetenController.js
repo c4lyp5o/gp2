@@ -1001,7 +1001,7 @@ const makePG207 = async (payload) => {
 const makePG201 = async (payload) => {
   console.log('PG201');
   try {
-    const { kp, sekolah } = payload;
+    const { kp, daerah, negeri, bulan, sekolah } = payload;
     //
     const data = await Helper.countPG201(kp, sekolah);
     //
@@ -1020,7 +1020,7 @@ const makePG201 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG201');
 
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(5);
