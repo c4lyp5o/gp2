@@ -7,7 +7,6 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
-const emailgen = require('../lib/emailgen');
 
 const Dictionary = {
   kp: 'klinik',
@@ -357,19 +356,19 @@ exports.getData = async (req, res, next) => {
               });
             }
             const key = simpleCrypto.generateRandomString(20);
-            const invalidateKey = simpleCrypto.generateRandomString(64);
+            // const invalidateKey = simpleCrypto.generateRandomString(64);
             await Superadmin.findByIdAndUpdate(
               tempUser._id,
               { tempKey: key },
               { new: true }
             );
-            setTimeout(() => {
-              Superadmin.findByIdAndUpdate(
-                tempUser._id,
-                { tempKey: invalidateKey },
-                { new: true }
-              );
-            }, 1000 * 60 * 5);
+            // setTimeout(() => {
+            //   Superadmin.findByIdAndUpdate(
+            //     tempUser._id,
+            //     { tempKey: invalidateKey },
+            //     { new: true }
+            //   );
+            // }, 1000 * 60 * 5);
             const transporter = mailer.createTransport({
               host: process.env.EMAILER_HOST,
               port: process.env.EMAILER_PORT,
