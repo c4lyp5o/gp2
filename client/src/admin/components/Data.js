@@ -458,9 +458,15 @@ export default function Data({ FType }) {
                             {f.kodTastad}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.statusPerkhidmatan === 'active'
-                              ? 'aktif'
-                              : 'tidak aktif'}
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.alamatTastad}
@@ -473,9 +479,15 @@ export default function Data({ FType }) {
                             {f.kodSekolah}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.statusPerkhidmatan === 'active'
-                              ? 'aktif'
-                              : 'tidak aktif'}
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.risikoSekolahPersis}
