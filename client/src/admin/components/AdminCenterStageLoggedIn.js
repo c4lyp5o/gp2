@@ -154,7 +154,7 @@ export default function AdminCenterStageLoggedIn() {
       {data.map((item) => {
         return (
           <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
-            <div className='w-1/6 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
+            <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
                 className='w-1/2 mx-auto'
                 alt={item.namaNegeri}
@@ -167,7 +167,9 @@ export default function AdminCenterStageLoggedIn() {
                     {item2.klinik.map((item3) => {
                       return (
                         <a href={`./landing/klinik?id=${item3.kodFasiliti}`}>
-                          <p className='text-user1'>{item3.namaKlinik}</p>
+                          <p className='text-user1 hover:bg-admin4 hover:rounded-md hover:text-adminWhite'>
+                            {item3.namaKlinik}
+                          </p>
                         </a>
                       );
                     })}
@@ -180,7 +182,7 @@ export default function AdminCenterStageLoggedIn() {
       })}
       {data.map((item) => {
         return (
-          <div className='lg:flex mb-4 m-10 rounded mx-auto justify-center'>
+          <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
             <div className='w-1/2 rounded overflow-hidden shadow-lg relative flex flex-col'>
               {data.length > 0 && (
                 <MainChart data={item} adminLevel={adminLevel} />
