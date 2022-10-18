@@ -7,6 +7,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const emailGen = require('../lib/emailgen');
 
 const Dictionary = {
   kp: 'klinik',
