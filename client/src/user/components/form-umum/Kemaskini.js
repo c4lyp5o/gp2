@@ -817,12 +817,18 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
                 title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
               />
-              <p className='font-semibold mr-2'>:</p>
+              <p className='font-semibold mr-2'>
+                :
+                {statusPesara !== '' && (
+                  <span className='font-semibold text-user6'>*</span>
+                )}
+              </p>
               <input
                 type='text'
                 name='catatan'
                 id='catatan'
                 value={catatan}
+                required={statusPesara !== '' ? true : false}
                 onChange={(e) => setCatatan(e.target.value)}
                 className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />

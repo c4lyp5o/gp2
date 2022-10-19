@@ -9,14 +9,14 @@ const UmumSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     // kaunter --------------------------------------------------
-    uniqueId: { type: String }, // new
-    noSiri: { type: Number }, // new
+    uniqueId: { type: String },
+    noSiri: { type: Number },
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: String, default: '' }, // new
-    noPendaftaranUlangan: { type: String, default: '' }, // new
+    noPendaftaranBaru: { type: String, default: '' },
+    noPendaftaranUlangan: { type: String, default: '' },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
