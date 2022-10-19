@@ -123,6 +123,12 @@ function UserUmum() {
                     BIL
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NO. SIRI
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    NO. PENDAFTARAN
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     NAMA PESAKIT
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -156,7 +162,31 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.nama}
+                          {singlePersonUmum.noSiri}
+                        </td>
+                        {singlePersonUmum.noPendaftaranBaru ? (
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.noPendaftaranBaru}
+                          </td>
+                        ) : (
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.noPendaftaranUlangan}
+                          </td>
+                        )}
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.nama.toUpperCase()}
                         </td>
                         <td
                           className={`${
@@ -170,7 +200,7 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.ic}
+                          {singlePersonUmum.ic.toUpperCase()}
                         </td>
                         <td
                           className={`${
