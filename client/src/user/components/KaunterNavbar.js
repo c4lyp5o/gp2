@@ -51,7 +51,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
       <div ref={barSisiRef}>
         {/* nav stack for outreach submenu */}
         <nav
-          className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-60 transition-all ${
+          className={`absolute w-60 h-full bg-kaunter1 text-kaunterWhite text-center top-0 left-60 transition-all overflow-y-auto ${
             showOutreachSubMenu ? 'translate-x-0' : '-translate-x-[480px]'
           }`}
         >
@@ -152,7 +152,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
         </nav>
         {/* main nav stack */}
         <nav
-          className={`absolute w-60 h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-0 transition-all ${
+          className={`absolute w-60 max-h-screen h-screen bg-kaunter1 text-kaunterWhite text-center top-0 left-0 transition-all overflow-y-auto ${
             showLinks ? 'translate-x-0' : '-translate-x-60'
           }`}
         >
@@ -172,7 +172,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
           </div>
           <div className='grid'>
             <NavLink
-              to='/kaunter/daftar'
+              to='/pendaftaran/daftar'
               onClick={() => {
                 outreachOff();
               }}

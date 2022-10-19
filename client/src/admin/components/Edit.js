@@ -4,16 +4,9 @@ import { Ring } from 'react-awesome-spinners';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
-const Modal = ({ setShowEditModal, id, FType }) => {
-  const {
-    Dictionary,
-    toast,
-    readOneData,
-    readKpData,
-    updateData,
-    reload,
-    setReload,
-  } = useGlobalAdminAppContext();
+const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
+  const { Dictionary, toast, readOneData, readKpData, updateData } =
+    useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -58,14 +51,6 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         role: currentRole.current,
       };
     }
-    // if (FType === 'jp') {
-    //   Data = {
-    //     // nama: currentName.current,
-    //     gred: currentGred.current,
-    //     kpSkrg: currentKp.current,
-    //     role: currentRole.current,
-    //   };
-    // }
     if (FType === 'kp') {
       if (currentRole.current === '') {
         currentRole.current = 'klinik';
@@ -73,13 +58,14 @@ const Modal = ({ setShowEditModal, id, FType }) => {
       Data = {
         // nama: currentName.current,
         statusRoleKlinik: currentRole.current,
-        statusPerkhidmatan: currentStatusPerkhidmatan.current,
+        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
     if (FType === 'sr' || FType === 'sm') {
       Data = {
         ...Data,
         risikoSekolahPersis: currentRisiko.current,
+        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
     console.log(Data);
@@ -148,7 +134,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
           <div className={styles.centered}>
             <div className={styles.modalAdd}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
+                <h5 className={styles.heading}>UBAH KLINIK PERGIGIAN</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -162,6 +148,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     <div className='grid gap-1'>
                       <label htmlFor='nama'>Nama Klinik</label>
                       <input
+                        readOnly={true}
                         defaultValue={editedEntity.kp}
                         className='border-2'
                         type='text'
@@ -190,56 +177,85 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                     </div>
                     <p>Role Klinik Pergigian</p>
                     <div className='grid grid-cols-4 gap-1'>
-                      <label htmlFor='nama'>KEPP</label>
+                      <label htmlFor='role'>KEPP</label>
                       <input
+                        checked={editedEntity.role === 'kepp'}
                         type='radio'
                         id='role'
                         name='role'
                         value='kepp'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
-                      <label htmlFor='nama'>UTC</label>
+                      <label htmlFor='role'>UTC</label>
                       <input
+                        checked={editedEntity.role === 'utc'}
                         type='radio'
                         id='role'
                         name='role'
                         value='utc'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
-                      <label htmlFor='nama'>RTC</label>
+                      <label htmlFor='role'>RTC</label>
                       <input
+                        checked={editedEntity.role === 'rtc'}
                         type='radio'
                         id='role'
                         name='role'
                         value='rtc'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
-                      <label htmlFor='nama'>Visiting</label>
+                      <label htmlFor='role'>Visiting</label>
                       <input
+                        checked={editedEntity.role === 'visiting'}
                         type='radio'
                         id='role'
                         name='role'
                         value='visiting'
                         // onChange={(e) => (currentRole.current = e.target.value)}
                       />
+                      <div className='col-span-4'>
+                        <label htmlFor='role' className='m-3'>
+                          Klinik Pergigian
+                        </label>
+                        <input
+                          required
+                          checked={
+                            editedEntity.statusRoleKlinik === 'klinik'
+                              ? true
+                              : false
+                          }
+                          type='radio'
+                          id='role'
+                          name='role'
+                          value=''
+                          // onChange={(e) =>
+                          //   (currentRole.current = e.target.value)
+                          // }
+                        />
+                      </div>
                     </div>
                     <p>Status Klinik Pergigian</p>
                     <div className='grid grid-cols-2'>
-                      <label htmlFor='nama'>Aktif</label>
+                      <label htmlFor='statusAktif'>Aktif</label>
                       <input
-                        defaultChecked={
+                        checked={
                           editedEntity.statusPerkhidmatan === 'active'
                             ? true
                             : false
                         }
                         type='radio'
-                        name='status'
+                        name='statusAktif'
                         value='active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          setEditedEntity({
+                            ...editedEntity,
+                            statusPerkhidmatan: e.target.value,
+                          });
+                          setStatusPerkhidmatan(e.target.value);
+                          console.log('act');
+                        }}
                       />
-                      <label htmlFor='nama'>Tidak Aktif</label>
+                      <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
                       <input
                         checked={
                           editedEntity.statusPerkhidmatan === 'non-active'
@@ -247,11 +263,16 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                             : false
                         }
                         type='radio'
-                        name='status'
+                        name='statusTidakAktif'
                         value='non-active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          setEditedEntity({
+                            ...editedEntity,
+                            statusPerkhidmatan: e.target.value,
+                          });
+                          setStatusPerkhidmatan(e.target.value);
+                          console.log('non');
+                        }}
                       />
                     </div>
                   </div>
@@ -433,7 +454,7 @@ const Modal = ({ setShowEditModal, id, FType }) => {
         <div className={styles.centered}>
           <div className={styles.modalEdit}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>MANAGE {Dictionary[FType]} </h5>
+              <h5 className={styles.heading}>UBAH {Dictionary[FType]} </h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -490,33 +511,43 @@ const Modal = ({ setShowEditModal, id, FType }) => {
                 )}
                 <p>Status {Dictionary[FType]}</p>
                 <div className='grid grid-cols-2'>
-                  <label htmlFor='nama'>Aktif</label>
+                  <label htmlFor='statusAktif'>Aktif</label>
                   <input
-                    required
                     checked={
                       editedEntity.statusPerkhidmatan === 'active'
                         ? true
                         : false
                     }
                     type='radio'
-                    id='act-stat'
-                    name='checkbox'
+                    name='statusAktif'
                     value='active'
-                    onChange={(e) => setStatusPerkhidmatan(e.target.value)}
+                    onChange={(e) => {
+                      setEditedEntity({
+                        ...editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                      setStatusPerkhidmatan(e.target.value);
+                      console.log('act');
+                    }}
                   />
-                  <label htmlFor='nama'>Tidak Aktif</label>
+                  <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
                   <input
-                    required
                     checked={
                       editedEntity.statusPerkhidmatan === 'non-active'
                         ? true
                         : false
                     }
                     type='radio'
-                    id='act-stat'
-                    name='checkbox'
+                    name='statusTidakAktif'
                     value='non-active'
-                    onChange={(e) => setStatusPerkhidmatan(e.target.value)}
+                    onChange={(e) => {
+                      setEditedEntity({
+                        ...editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                      setStatusPerkhidmatan(e.target.value);
+                      console.log('non');
+                    }}
                   />
                 </div>
               </div>

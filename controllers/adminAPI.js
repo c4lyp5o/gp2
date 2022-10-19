@@ -7,6 +7,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const emailGen = require('../lib/emailgen');
 
 const Dictionary = {
   kp: 'klinik',
@@ -85,8 +86,11 @@ exports.getData = async (req, res, next) => {
                 for (let i = 0; i < simplifiedKlinikName.length; i++) {
                   acronym += simplifiedKlinikName[i].charAt(0);
                 }
+                const negeriNum = emailGen[dataGeografik.negeri].kodNegeri;
+                const daerahNum =
+                  emailGen[dataGeografik.negeri].daerah[dataGeografik.daerah];
                 const tempKaunter = await User.create({
-                  username: `kaunter${acronym.toLowerCase()}`,
+                  username: `kaunter${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
                   negeri: Data.negeri,
                   daerah: Data.daerah,
                   kp: Data.kp,
@@ -320,11 +324,13 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'create':
             console.log('create for user');
+            const { user_name, daerah, negeri, e_mail, accountType } = req.body;
             const regData = await Superadmin.create({
               user_name: user_name,
               daerah: daerah,
               negeri: negeri,
               e_mail: e_mail,
+              accountType: accountType,
             });
             return res.status(200).json(regData);
             break;
@@ -350,14 +356,20 @@ exports.getData = async (req, res, next) => {
                 message: 'Tiada user ini di dalam sistem',
               });
             }
-            const theKey = simpleCrypto.generateRandomString(20);
+            const key = simpleCrypto.generateRandomString(20);
+            // const invalidateKey = simpleCrypto.generateRandomString(64);
             await Superadmin.findByIdAndUpdate(
               tempUser._id,
-              {
-                tempKey: theKey,
-              },
+              { tempKey: key },
               { new: true }
             );
+            // setTimeout(() => {
+            //   Superadmin.findByIdAndUpdate(
+            //     tempUser._id,
+            //     { tempKey: invalidateKey },
+            //     { new: true }
+            //   );
+            // }, 1000 * 60 * 5);
             const transporter = mailer.createTransport({
               host: process.env.EMAILER_HOST,
               port: process.env.EMAILER_PORT,
@@ -380,7 +392,7 @@ exports.getData = async (req, res, next) => {
               subject: 'Kunci Verifikasi',
               html: `<p>Hi ${tempUser.user_name},</p>
               <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
-              <br /><p>${theKey}</p><br />
+              <br /><p>${key}</p><br />
               <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
               <p>Terima kasih.</p>`,
             };
@@ -818,72 +830,6 @@ exports.getCipher = async (req, res) => {
   });
 };
 
-// const verification = await transporter.sendMail({
-//   from: `"Key Master" <${process.env.EMAILER_ACCT}>`,
-//   to: tempUser.e_mail,
-//   subject: 'Kunci Verifikasi',
-//   text: 'Kunci verifikasi anda adalah: ' + theKey + '\n\n',
-//   html:
-//     '<p>Kunci verifikasi anda adalah: </p>' +
-//     theKey +
-//     '<p>\n\n</p>',
-// });
-// console.log(verification);
-// return res.status(200).json({
-//   status: 'success',
-//   message: 'Email sent to ' + tempUser.e_mail,
-// });
-// exports.addAdmin = async (req, res) => {
-//   const Admin = new Superadmin({
-//     user_name: req.body.user_name,
-//     daerah: req.body.daerah,
-//     negeri: req.body.negeri,
-//   });
-//   Admin.save((err, data) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.status(200).json({
-//         status: 'success',
-//         data: data,
-//         message: 'Admin berjaya ditambah',
-//       });
-//     }
-//   });
-// };
-// exports.helloUser = async (req, res) => {
-//   const { username } = req.body;
-//   const User = await Superadmin.findOne({ user_name: username });
-//   if (req.method === 'POST') {
-//     if (!User) {
-//       res.status(401).json({
-//         status: 'error',
-//         message: 'User not found',
-//       });
-//       return;
-//     }
-//     // await sendVerificationEmail(process.env.SEND_TO, User._id).catch((err) => {
-//     //   console.log(err);
-//     // });
-//     const xxxKey = await sendVerificationEmail(
-//       process.env.SEND_TO,
-//       User._id
-//     ).catch((err) => {
-//       console.log(err);
-//     });
-//     return res.status(200).json({
-//       status: 'success',
-//       message: 'Email sent to ' + process.env.SEND_TO,
-//       tempKey: xxxKey,
-//     });
-//   }
-//   if (req.method === 'GET') {
-//     return res.status(200).json({
-//       Status: 'Success',
-//       Message: 'This is the modified server response',
-//     });
-//   }
-// };
 // async function sendVerificationEmail(email, userId) {
 //   let theKey = simpleCrypto.generateRandomString(20);
 //   const update = await Superadmin.findByIdAndUpdate(
@@ -913,114 +859,3 @@ exports.getCipher = async (req, res) => {
 //   // console.log('your key: ' + theKey);
 //   return theKey;
 // }
-// exports.loginUser = async (req, res) => {
-//   // console.log(req.body);
-//   const { username, password, key } = req.body;
-//   const crypt = new simpleCrypto(process.env.API_SECRET);
-//   const decipheredText = crypt.decrypt(key);
-//   if (decipheredText !== process.env.API_KEY) {
-//     return res.status(401).json({
-//       status: 'error',
-//       message: 'Invalid API key',
-//     });
-//   }
-//   const User = await Superadmin.findOne({ user_name: username });
-//   if (!User) {
-//     const msg = 'Tiada user ini dalam sistem';
-//     return res.status(401).json({
-//       status: 'error',
-//       message: msg,
-//     });
-//   }
-//   if (password !== User.tempKey) {
-//     const msg = 'Key salah';
-//     return res.status(401).json({
-//       status: 'error',
-//       message: msg,
-//     });
-//   }
-//   const genToken = jwt.sign(
-//     {
-//       userId: User._id,
-//       username: User.user_name,
-//       daerah: User.daerah,
-//       negeri: User.negeri,
-//     },
-//     process.env.JWT_SECRET,
-//     { expiresIn: '24h' }
-//   );
-//   return res.status(200).json({
-//     status: 'success',
-//     message: 'Login berjaya',
-//     adminToken: genToken,
-//   });
-// };
-// exports.getCurrentUser = async (req, res) => {
-//   const data = {
-//     userId: jwt.verify(req.body.token, process.env.JWT_SECRET).userId,
-//     username: jwt.verify(req.body.token, process.env.JWT_SECRET).username,
-//     daerah: jwt.verify(req.body.token, process.env.JWT_SECRET).daerah,
-//     negeri: jwt.verify(req.body.token, process.env.JWT_SECRET).negeri,
-//   };
-//   res.status(200).json(data);
-// };
-// case 'Deeproots':
-//   var { Fn, username, password, kodFasiliti } = req.body;
-//   switch (Fn) {
-//     case 'create':
-//       console.log('create for deeproots');
-//       const createUser = await Deeproots.create({
-//         username,
-//         password,
-//       });
-//       return res.status(200).json(createUser);
-//       break;
-//     case 'read':
-//       console.log('read for deeproots');
-//       const checkUser = await Deeproots.findOne({ username });
-//       if (!checkUser) {
-//         return res.status(401).json({
-//           status: 'error',
-//           message: 'No user found',
-//         });
-//       }
-//       return res.status(200).json({
-//         status: 'success',
-//         message: 'User exists',
-//       });
-//       break;
-//     case 'readUmumData':
-//       console.log('readUmumData for deeproots');
-//       const response = await Umum.find();
-//       return res.status(200).json(response);
-//       break;
-//     case 'readSpecificUmumData':
-//       console.log('readSpecificUmumData for deeproots');
-//       const specificResponse = await Umum.find({
-//         CreatedByKp: kodFasiliti,
-//       });
-//       return res.status(200).json(specificResponse);
-//       break;
-//     case 'update':
-//       console.log('update for deeproots');
-//       const tempUser = await Deeproots.findOne({ username });
-//       if (password !== tempUser.password) {
-//         return res.status(401).json({
-//           status: 'error',
-//           message: 'Password salah',
-//         });
-//       }
-//       return res.status(200).json({
-//         status: 'success',
-//         message: 'Login berjaya',
-//       });
-//       break;
-//     case 'delete':
-//       console.log('delete for deeproots');
-//       break;
-//     default:
-//       res.status(200).json({
-//         message: 'This is the default case for Deeproots',
-//       });
-//   }
-//   break;

@@ -8,6 +8,8 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function UserNavbar() {
   const {
     userToken,
+    reliefUserToken,
+    setReliefUserToken,
     username,
     setUsername,
     fasilitiRelief,
@@ -19,6 +21,7 @@ function UserNavbar() {
     catchAxiosErrorAndLogout,
   } = useGlobalUserAppContext();
 
+  const [status, setStatus] = useState('pengguna');
   const [showLinks, setShowLinks] = useState(false);
   const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
   const [showGenerateSubMenu, setShowGenerateSubMenu] = useState(false);
@@ -57,6 +60,8 @@ function UserNavbar() {
         const { data } = await axios.get('/api/v1/identity', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
+        const userData = JSON.parse(localStorage.getItem('userinfo'));
+        setStatus(userData.role);
         setNamaKlinik(data.kp);
       } catch (error) {
         catchAxiosErrorAndLogout();
@@ -71,8 +76,12 @@ function UserNavbar() {
     setDisplayPilihNama(true);
     setDisplayPilihFasiliti(false);
     localStorage.removeItem('username');
+    localStorage.removeItem('userinfo');
+    localStorage.removeItem('reliefUserToken');
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
+    setStatus(null);
+    setReliefUserToken(null);
     setFasilitiRelief(null);
     navigate('/pengguna');
   };
@@ -182,57 +191,62 @@ function UserNavbar() {
                 </NavLink>
               </div>
             </div>
-            <div>
-              <div
-                className={`${
-                  showGenerateSubMenu ? 'bg-user3' : 'bg-user4'
-                } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
-                onClick={toggleGenerateSubMenu}
-              >
-                <span>JANA LAPORAN</span>
-                <span className='ml-10'>
-                  <FaArrowAltCircleUp
-                    className={`transition-all ${
-                      showGenerateSubMenu && 'rotate-180'
+            {status === 'admin' &&
+              (reliefUserToken ? null : (
+                <div>
+                  <div
+                    className={`${
+                      showGenerateSubMenu ? 'bg-user3' : 'bg-user4'
+                    } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+                    onClick={toggleGenerateSubMenu}
+                  >
+                    <span>JANA LAPORAN</span>
+                    <span className='ml-10'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showGenerateSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showGenerateSubMenu
+                        ? 'max-h-96'
+                        : 'max-h-0 overflow-hidden'
                     }`}
-                  />
-                </span>
-              </div>
-              <div
-                className={`grid transition-all ${
-                  showGenerateSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
-                }`}
-              >
-                <NavLink
-                  to='generate-individu'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowRetenSubMenu(false);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  INDIVIDU
-                </NavLink>
-                <NavLink
-                  to='generate-klinik'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowRetenSubMenu(false);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  KLINIK
-                </NavLink>
-              </div>
-            </div>
+                  >
+                    <NavLink
+                      to='generate-individu'
+                      onClick={() => {
+                        setShowLinks(!showLinks);
+                        setShowRetenSubMenu(false);
+                      }}
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                          : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      }
+                    >
+                      INDIVIDU
+                    </NavLink>
+                    <NavLink
+                      to='generate-klinik'
+                      onClick={() => {
+                        setShowLinks(!showLinks);
+                        setShowRetenSubMenu(false);
+                      }}
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                          : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      }
+                    >
+                      KLINIK
+                    </NavLink>
+                  </div>
+                </div>
+              ))}
             <NavLink
               to='carian'
               onClick={() => {

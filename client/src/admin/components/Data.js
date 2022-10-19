@@ -7,6 +7,8 @@ import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 import { Ring } from 'react-awesome-spinners';
 
+import nothinghere from '../assets/nothinghere.png';
+
 export default function Data({ FType }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
@@ -456,9 +458,15 @@ export default function Data({ FType }) {
                             {f.kodTastad}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.statusPerkhidmatan === 'active'
-                              ? 'aktif'
-                              : 'tidak aktif'}
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.alamatTastad}
@@ -471,9 +479,15 @@ export default function Data({ FType }) {
                             {f.kodSekolah}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {f.statusPerkhidmatan === 'active'
-                              ? 'aktif'
-                              : 'tidak aktif'}
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.risikoSekolahPersis}
@@ -520,8 +534,8 @@ export default function Data({ FType }) {
           <div className='rounded-lg shadow-lg bg-white max-w-sm'>
             <img
               className='rounded-t-lg'
-              src='https://www.trendycovers.com/covers/Nothing_Here_facebook_cover_1346610160.jpg'
-              alt=''
+              src={nothinghere}
+              alt='There is nothing here'
             />
             <div className='p-6'>
               <h5 className='text-gray-900 text-xl font-medium mb-2'>

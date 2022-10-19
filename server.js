@@ -1,6 +1,7 @@
 // CORE --------------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
+const logger = require('./logs/logger');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -105,14 +106,18 @@ app.use(notFound);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
+  logger.info('Starting server...');
   try {
     await connectDB(process.env.MONGO_URI);
+    logger.info('Connected to database');
     console.log('Connected to Giret Database!');
     app.listen(
       port,
-      console.log(`Server is listening at port: ${port}. Lessgo!`)
+      console.log(`Server is listening at port: ${port}. Lessgo!`),
+      logger.info(`Server is listening at port: ${port}. Lessgo!`)
     );
   } catch (error) {
+    logger.error(error.message);
     console.log('Could not Connect to Giret Database!');
     console.log(error);
   }
