@@ -257,7 +257,10 @@ function UserUmum() {
                   </div>
                   <div className='text-xs lg:text-sm flex flex-row pl-5'>
                     <h2 className='font-semibold'>UMUR :</h2>
-                    <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                    <p className='ml-1'>
+                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
+                      bulan
+                    </p>
                   </div>
                 </div>
                 <div className='lg:pt-10'>
