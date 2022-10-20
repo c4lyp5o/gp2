@@ -1986,7 +1986,7 @@ function UserFormUmumHeader() {
     <>
       <div className='h-full p-1 grid'>
         <div className='p-2'>
-          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
+          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-2'>
             {!isLoading && (
               <div>
                 <div className='text-l font-bold flex flex-row pl-5 p-2'>
@@ -2023,7 +2023,10 @@ function UserFormUmumHeader() {
                     </div>
                     <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>UMUR :</h2>
-                      <p className='ml-1'>{singlePersonUmum.umur} tahun</p>
+                      <p className='ml-1'>
+                        {singlePersonUmum.umur} tahun{' '}
+                        {singlePersonUmum.umurBulan} bulan
+                      </p>
                     </div>
                     <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
@@ -2053,6 +2056,15 @@ function UserFormUmumHeader() {
                   <div className='text-s flex flex-row pl-5'>
                     <h2 className='font-semibold text-xs'>IC/Passport :</h2>
                     <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
+                  </div>
+                </div>
+                <div className='lg:pt-11'>
+                  <div className='text-s flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>UMUR :</h2>
+                    <p className='ml-1 text-xs'>
+                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
+                      bulan
+                    </p>
                   </div>
                 </div>
               </>
