@@ -632,7 +632,7 @@ export default function FillableForm({
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
-                className='appearance-none w-24 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2 flex-col md:flex-row'>
