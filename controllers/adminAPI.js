@@ -134,33 +134,13 @@ exports.getData = async (req, res, next) => {
               return res.status(200).json(data);
             }
             if (theType === 'klinik') {
-              let data = [];
-              const kp = await User.find({
+              const data = await User.find({
                 negeri: dataGeografik.negeri,
                 daerah: dataGeografik.daerah,
-                statusRoleKlinik: 'klinik',
+                statusRoleKlinik: {
+                  $in: ['kp', 'kepp', 'utc', 'rtc', 'visiting'],
+                },
               });
-              const kepp = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
-                statusRoleKlinik: 'kepp',
-              });
-              const utc = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
-                statusRoleKlinik: 'utc',
-              });
-              const rtc = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
-                statusRoleKlinik: 'rtc',
-              });
-              const visiting = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
-                statusRoleKlinik: 'visiting',
-              });
-              data = [...kp, ...kepp, ...utc, ...rtc, ...visiting];
               return res.status(200).json(data);
             }
             break;

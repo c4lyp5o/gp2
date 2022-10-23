@@ -6,6 +6,10 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
+  e_mail: {
+    type: String,
+    // required: true
+  },
   mdcNumber: {
     type: String,
     // required: true
@@ -36,6 +40,10 @@ const operatorSchema = new Schema({
     // required: true
   },
   statusPegawai: {
+    type: String,
+    // required: true
+  },
+  tempKey: {
     type: String,
     // required: true
   },
