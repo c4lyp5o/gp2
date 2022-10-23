@@ -22,7 +22,6 @@ function UserUmum() {
   const [resultPilih, setResultPilih] = useState([]);
   const [operasiHapus, setOperasiHapus] = useState(false);
   const [modalHapus, setModalHapus] = useState(false);
-  const [modalHapusPerson, setModalHapusPerson] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
 
