@@ -123,6 +123,9 @@ export default function PatientData({
                     <th className='outline outline-1 outline-kaunterBlack px-2'>
                       TARIKH KEDATANGAN
                     </th>
+                    <th className='outline outline-1 outline-kaunterBlack px-2'>
+                      STATUS PENGISIAN RETEN
+                    </th>
                     <th className='outline outline-1 outline-kaunterBlack'>
                       KEMASKINI
                     </th>
@@ -161,12 +164,14 @@ export default function PatientData({
                           <td className='outline outline-1 outline-kaunterBlack'>
                             {p.tarikhKedatangan}
                           </td>
+                          <td className='outline outline-1 outline-kaunterBlack'>
+                            {p.statusReten}
+                          </td>
                           <td className='outline outline-1 outline-kaunterBlack px-2'>
                             <button
                               className='px-6 py-2.5 my-1 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
-                                // setEditForm(true);
                                 setShowForm(true);
                               }}
                             >

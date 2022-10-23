@@ -34,6 +34,7 @@ function UserFormUmumHeader() {
   // creating masterForm object to be used by the form
   const masterForm = {};
   masterForm.createdByUsername = username;
+  const [statusReten, setStatusReten] = useState('');
   //fasiliti perkhidmatan
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   masterForm.jenisFasiliti = jenisFasiliti;
@@ -1240,6 +1241,7 @@ function UserFormUmumHeader() {
           },
         });
         setSinglePersonUmum(data.singlePersonUmum);
+        setStatusReten(data.singlePersonUmum.statusReten);
         //map fasiliti perkhidmatan
         setJenisFasiliti(data.singlePersonUmum.jenisFasiliti);
         setKepp(data.singlePersonUmum.kepp);
@@ -1762,6 +1764,7 @@ function UserFormUmumHeader() {
           `/api/v1/umum/${personUmumId}`,
           {
             createdByUsername: masterForm.createdByUsername,
+            statusReten: 'telah diisi',
             // fasiliti perkhidmatan
             jenisFasiliti,
             kepp,
@@ -2076,54 +2079,73 @@ function UserFormUmumHeader() {
             )}
           </article>
         </div>
-        <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
-          <form onSubmit={handleSubmit}>
-            {/* <FasilitiPerkhidmatan {...masterForm} /> */}
-            {/* <MaklumatLanjut {...masterForm} /> */}
-            {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
-              <Pemeriksaan
-                {...masterForm}
-                singlePersonUmum={singlePersonUmum}
-              />
-            )}
-            <Rawatan {...masterForm} />
-            <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
-            {/* <Kotak {...masterForm} /> */}
-            <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-              <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
-                <span
-                  onClick={() => {
-                    window.opener = null;
-                    window.open('', '_self');
-                    window.close();
-                  }}
-                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                >
-                  tutup
-                </span>
-                <input
-                  type='reset'
-                  value='reset'
-                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+        {statusReten === 'belum diisi' && (
+          <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
+            <form onSubmit={handleSubmit}>
+              {/* <FasilitiPerkhidmatan {...masterForm} /> */}
+              {/* <MaklumatLanjut {...masterForm} /> */}
+              {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
+                <Pemeriksaan
+                  {...masterForm}
+                  singlePersonUmum={singlePersonUmum}
                 />
-                <button
-                  type='submit'
-                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                >
-                  hantar
-                </button>
+              )}
+              <Rawatan {...masterForm} />
+              <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
+              {/* <Kotak {...masterForm} /> */}
+              <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
+                <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                  <span
+                    onClick={() => {
+                      window.opener = null;
+                      window.open('', '_self');
+                      window.close();
+                    }}
+                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                  >
+                    tutup
+                  </span>
+                  <input
+                    type='reset'
+                    value='reset'
+                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                  />
+                  <button
+                    type='submit'
+                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                  >
+                    hantar
+                  </button>
+                </div>
               </div>
+            </form>
+          </div>
+        )}
+        {statusReten === 'telah diisi' && (
+          <>
+            <div>
+              reten telah diisi
+              <span
+                onClick={() => {
+                  window.opener = null;
+                  window.open('', '_self');
+                  window.close();
+                }}
+                className='flex bg-user3 p-2 w-1/12 m-auto capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+              >
+                tutup
+              </span>
             </div>
-          </form>
-        </div>
+          </>
+        )}
+        {showKemaskini && (
+          <Kemaskini
+            showKemaskini={showKemaskini}
+            setShowKemaskini={setShowKemasKini}
+            toast={toast}
+          />
+        )}
       </div>
-      {showKemaskini && (
-        <Kemaskini
-          showKemaskini={showKemaskini}
-          setShowKemaskini={setShowKemasKini}
-          toast={toast}
-        />
-      )}
     </>
   );
 }
