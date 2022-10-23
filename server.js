@@ -29,6 +29,9 @@ const adminAPI = require('./routes/adminAPI');
 // generate import
 const genRouter = require('./routes/generateRouter');
 
+// otp import
+const getotp = require('./routes/getotp');
+
 // IMPORT MIDDLEWARES ------------------------------------------
 const apiKeyVerifier = require('./middlewares/apiKeyVerifier');
 const authCheck = require('./middlewares/authCheck');
@@ -92,6 +95,9 @@ app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);
+
+// get otp route
+app.use('/api/v1/getotp', getotp);
 
 // for use in deployment
 app.get('*', (req, res) => {
