@@ -65,6 +65,19 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
+// DELETE /:id
+const deletePersonUmum = async (req, res) => {
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const deletedSinglePersonUmum = await Umum.findOneAndDelete({
+    _id: personUmumId,
+  });
+
+  res.status(200).json({ deletedSinglePersonUmum });
+};
+
 // query route
 const queryPersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -123,6 +136,7 @@ const getTaskaTadikaList = async (req, res) => {
 module.exports = {
   getSinglePersonUmum,
   updatePersonUmum,
+  deletePersonUmum,
   queryPersonUmum,
   getTaskaTadikaList,
 };
