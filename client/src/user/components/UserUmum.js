@@ -18,6 +18,8 @@ function UserUmum() {
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
 
+  const [reloadState, setReloadState] = useState(false);
+
   useEffect(() => {
     const query = async () => {
       try {
@@ -39,7 +41,7 @@ function UserUmum() {
       }
     };
     query();
-  }, [nama, tarikhKedatangan, jenisFasiliti]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, reloadState]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -47,6 +49,15 @@ function UserUmum() {
     });
     setResultPilih(resultFilter);
   }, [pilih]);
+
+  // on tab focus reload data
+  useEffect(() => {
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
+    return () => {
+      window.removeEventListener('focus', setReloadState);
+    };
+  }, []);
 
   return (
     <>
@@ -141,6 +152,9 @@ function UserUmum() {
                     TARIKH LAWATAN TERAKHIR
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    STATUS PENGISIAN RETEN
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
                 </tr>
@@ -208,6 +222,13 @@ function UserUmum() {
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {singlePersonUmum.tarikhKedatangan}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.statusReten}
                         </td>
                         <td
                           onClick={() => setPilih(singlePersonUmum._id)}
