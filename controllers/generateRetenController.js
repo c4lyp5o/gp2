@@ -1549,9 +1549,11 @@ const makePGPR201 = async (payload) => {
 // debug
 exports.debug = async (req, res) => {
   let kp = 'Klinik Pergigian Arau';
-  let tarikhMula = '2021-01-01';
-  let tarikhAkhir = '2021-01-31';
-  let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await Helper.countPG207(kp, tarikhMula, tarikhAkhir, pegawai);
+  let bulan = '2022-10-01';
+  let sekolah = 'RBA0012';
+  // let tarikhMula = '2021-01-01';
+  // let tarikhAkhir = '2021-01-31';
+  // let pegawai = 'dr. faizatul hawa binti mohd zuki';
+  const data = await Helper.countPG201(kp, bulan, sekolah);
   res.status(200).json(data);
 };

@@ -6,10 +6,13 @@ import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
+import DeleteModal from './UserUmumDeleteModal';
+
 function UserUmum() {
-  const { userToken, reliefUserToken, Dictionary, dateToday } =
+  const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
 
+  const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -17,6 +20,8 @@ function UserUmum() {
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
+  const [operasiHapus, setOperasiHapus] = useState(false);
+  const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -34,6 +39,8 @@ function UserUmum() {
             },
           }
         );
+        const userData = JSON.parse(localStorage.getItem('userinfo'));
+        setStatus(userData.role);
         setQueryResult(data.umumResultQuery);
         setIsLoading(false);
       } catch (error) {
@@ -58,6 +65,29 @@ function UserUmum() {
       window.removeEventListener('focus', setReloadState);
     };
   }, []);
+
+  const handleDelete = async (singlePerson) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      try {
+        await axios.delete(`/api/v1/umum/${singlePerson}`, {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setModalHapus(false);
+        toast.success('Data berjaya dihapus');
+        setReloadState(!reloadState);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -157,6 +187,11 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
+                  {status === 'admin' ? (
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      HAPUS
+                    </th>
+                  ) : null}
                 </tr>
               </thead>
               {!isLoading &&
@@ -231,13 +266,29 @@ function UserUmum() {
                           {singlePersonUmum.statusReten}
                         </td>
                         <td
-                          onClick={() => setPilih(singlePersonUmum._id)}
+                          onClick={() => {
+                            setOperasiHapus(false);
+                            setPilih(singlePersonUmum._id);
+                          }}
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                         >
                           <u>PILIH</u>
                         </td>
+                        {status === 'admin' ? (
+                          <td
+                            onClick={() => {
+                              setOperasiHapus(true);
+                              setPilih(singlePersonUmum._id);
+                            }}
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                          >
+                            <u>HAPUS</u>
+                          </td>
+                        ) : null}
                       </tr>
                     </tbody>
                   );
@@ -293,14 +344,33 @@ function UserUmum() {
                     <h2 className='font-semibold'>IC/Passport :</h2>
                     <p className='ml-1'>{singlePersonUmum.ic}</p>
                   </div>
-                  <Link
-                    target='_blank'
-                    to={`form-umum/${singlePersonUmum._id}`}
-                    className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    masukkan reten
-                  </Link>
+                  {operasiHapus ? (
+                    <button
+                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      onClick={() => {
+                        setModalHapus(true);
+                      }}
+                    >
+                      hapus pesakit?
+                    </button>
+                  ) : (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      masukkan reten
+                    </Link>
+                  )}
                 </div>
+                {modalHapus ? (
+                  <DeleteModal
+                    handleDelete={handleDelete}
+                    setModalHapus={setModalHapus}
+                    id={singlePersonUmum._id}
+                    nama={singlePersonUmum.nama}
+                  />
+                ) : null}
               </>
             );
           })}

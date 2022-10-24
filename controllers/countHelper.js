@@ -2,6 +2,9 @@ const async = require('async');
 const moment = require('moment');
 const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
+const Pemeriksaan = require('../models/Pemeriksaansekolah');
+const Rawatan = require('../models/Rawatansekolah');
+const Kotak = require('../models/Kotaksekolah');
 
 const countPG101 = async (klinik, tarikhMula, tarikhAkhir) => {
   let match_stage = [];
@@ -2773,56 +2776,36 @@ const countPG207 = async (klinik, bulan, pegawai) => {
   }
 };
 const countPG201 = async (klinik, bulan, sekolah) => {
+  console.log(klinik, bulan, sekolah);
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       umur: { $eq: 5 },
     },
   };
   const match_6tahun = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       umur: { $eq: 6 },
     },
   };
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       oku: true,
     },
   };
   const match_pratad_oap = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       umur: { $gte: 5, $lte: 6 },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      kumpulanEtnik: [{ $or: ['orang-asli', 'penan'] }],
     },
   };
   // year selector
+  console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
     console.log('RC/RB');
@@ -2832,113 +2815,63 @@ const countPG201 = async (klinik, bulan, sekolah) => {
     console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
+  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[0],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_grade2 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[1],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_grade3 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[2],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_grade4 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[3],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_grade5 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[4],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_grade6p = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: pilihanTahun[5],
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     },
   };
   const match_oap_tahun1 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: 'D1',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      kumpulanEtnik: [{ $or: ['orang-asli', 'penan'] }],
     },
   };
   const match_oap_tahun6 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: 'D6',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      kumpulanEtnik: [{ $or: ['orang-asli', 'penan'] }],
     },
   };
   const match_oap_tingkatan4 = {
     $match: {
       kodSekolah: sekolah,
-      createdByKp: klinik,
       tahun: 'T4',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      kumpulanEtnik: [{ $or: ['orang-asli', 'penan'] }],
     },
   };
 
