@@ -18,8 +18,14 @@ export default function PatientData({
   jenisFasiliti,
   kp,
 }) {
-  const { Dictionary, dateToday, kaunterToken, toast } =
-    useGlobalUserAppContext();
+  const {
+    kaunterToken,
+    Dictionary,
+    dateToday,
+    formatTime,
+    noPendaftaranSplitter,
+    toast,
+  } = useGlobalUserAppContext();
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
@@ -167,22 +173,22 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {p.waktuSampai}
+                            {formatTime(p.waktuSampai)}
                           </td>
                           {p.noPendaftaranBaru ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                              {p.noPendaftaranBaru}
+                              {noPendaftaranSplitter(p.noPendaftaranBaru)}
                               <BsFilePerson
                                 className='text-user7 text-2xl inline-table mx-2 pb-1'
-                                title='baru'
+                                title='Baru'
                               />
                             </td>
                           ) : (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                              {p.noPendaftaranUlangan}
+                              {noPendaftaranSplitter(p.noPendaftaranUlangan)}
                               <BsFillFilePersonFill
                                 className='text-user9 text-2xl inline-table mx-2 pb-1'
-                                title='ulangan'
+                                title='Ulangan'
                               />
                             </td>
                           )}
