@@ -18,6 +18,23 @@ const mm = String(rawToday.getMonth() + 1).padStart(2, '0');
 const yyyy = rawToday.getFullYear();
 const dateToday = yyyy + '-' + mm + '-' + dd;
 
+// format 24 hour time to 12 hour
+function formatTime(timeString) {
+  const [hourString, minute] = timeString.split(':');
+  const hour = +hourString % 24;
+  return (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM');
+}
+
+// split no pendaftaran, return last two array
+function noPendaftaranSplitter(noPendaftaran) {
+  const arrSplitted = noPendaftaran.split('/');
+  const newArrSplitted =
+    arrSplitted[arrSplitted.length - 2] +
+    '/' +
+    arrSplitted[arrSplitted.length - 1];
+  return newArrSplitted;
+}
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -146,6 +163,8 @@ function UserAppProvider({ children }) {
         Dictionary,
         useParams,
         dateToday,
+        formatTime,
+        noPendaftaranSplitter,
         ToastContainer,
         toast,
         loggingInUser,
