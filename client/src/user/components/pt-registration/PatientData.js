@@ -33,6 +33,29 @@ export default function PatientData({
     link.click();
   };
 
+  const formatMelayu = (date) => {
+    const months = {
+      1: 'Januari',
+      2: 'Februari',
+      3: 'Mac',
+      4: 'April',
+      5: 'Mei',
+      6: 'Jun',
+      7: 'Julai',
+      8: 'Ogos',
+      9: 'September',
+      10: 'Oktober',
+      11: 'November',
+      12: 'Disember',
+    };
+    const dateObj = new Date(date);
+    const month = months[dateObj.getMonth() + 1];
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    const output = day + ' ' + month + ' ' + year;
+    return output;
+  };
+
   const handleJana = async (e) => {
     e.preventDefault();
     await toast
@@ -74,7 +97,7 @@ export default function PatientData({
             Fasiliti: {Dictionary[jenisFasiliti]}
           </p>
           <p className='font-semibold text-user6 lg:mt-2 mr-3 lg:ml-auto'>
-            Tarikh: {dateToday}
+            Tarikh: {formatMelayu(dateToday)}
           </p>
         </div>
         <div className='flex justify-center'>

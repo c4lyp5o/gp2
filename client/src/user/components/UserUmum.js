@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import { moment } from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -24,6 +25,9 @@ function UserUmum() {
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
+
+  // fix date input format using moment
+  const moment = require('moment');
 
   useEffect(() => {
     const query = async () => {
@@ -256,7 +260,9 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.tarikhKedatangan}
+                          {moment(singlePersonUmum.tarikhKedatangan).format(
+                            'DD/MM/YYYY'
+                          )}
                         </td>
                         <td
                           className={`${
