@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEdit, FaInfoCircle } from 'react-icons/fa';
 import { Spinner } from 'react-awesome-spinners';
+import { moment } from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -1229,6 +1230,9 @@ function UserFormUmumHeader() {
     eAdaGigiKekalPemeriksaanUmum,
   ]);
 
+  // fix date input format using moment
+  const moment = require('moment');
+
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
@@ -2022,7 +2026,11 @@ function UserFormUmumHeader() {
                     </div>
                     <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                      <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
+                      <p className='ml-1'>
+                        {moment(singlePersonUmum.tarikhLahir).format(
+                          'DD/MM/YYYY'
+                        )}
+                      </p>
                     </div>
                     <div className='text-sm flex flex-row '>
                       <h2 className='font-semibold'>UMUR :</h2>
