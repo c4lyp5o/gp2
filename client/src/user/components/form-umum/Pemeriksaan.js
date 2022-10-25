@@ -1,3 +1,5 @@
+import { FaInfoCircle } from 'react-icons/fa';
+
 export default function Pemeriksaan(props) {
   return (
     <>
@@ -901,10 +903,15 @@ export default function Pemeriksaan(props) {
                     className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                   >
                     <option value=''></option>
+                    <option value='tiada'>-</option>
                     <option value='A'>A</option>
                     <option value='C'>C</option>
                     <option value='E'>E</option>
                   </select>
+                  <FaInfoCircle
+                    title='Tanda (-) jika tidak berkenaan'
+                    className='text-lg m-1'
+                  />
                 </div>
                 <div
                   className={`${
@@ -928,12 +935,17 @@ export default function Pemeriksaan(props) {
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
+                    <option value='tiada'>-</option>
                     <option value='0'>0</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                     <option value='4'>4</option>
                   </select>
+                  <FaInfoCircle
+                    title='Tanda (-) jika tidak berkenaan'
+                    className='text-lg m-1'
+                  />
                 </div>
                 <div
                   className={`${
@@ -957,11 +969,16 @@ export default function Pemeriksaan(props) {
                     className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                   >
                     <option value=''></option>
+                    <option value='tiada'>-</option>
                     <option value='0'>0</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                   </select>
+                  <FaInfoCircle
+                    title='Tanda (-) jika tidak berkenaan'
+                    className='text-lg m-1'
+                  />
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
