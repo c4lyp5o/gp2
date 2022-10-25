@@ -6,8 +6,11 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function PatientData({
   data,
+  setData,
   loading,
+  setIsLoading,
   error,
+  setIsError,
   philter,
   setPhilter,
   showForm,
@@ -86,6 +89,22 @@ export default function PatientData({
       });
   };
 
+  const reloadData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(
+        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+        { headers: { Authorization: `Bearer ${kaunterToken}` } }
+      );
+      setData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
   if (loading)
     return (
       <div className='mt-20'>
@@ -131,8 +150,22 @@ export default function PatientData({
         >
           Jana Laporan PG101
         </button>
-        <div className=' mt-2'>
+        <div className='mt-2'>
           <div className='justify-center items-center'>
+            <p className='text-xs text-user9 lowercase'>
+              * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
+              pengguna
+              <i className='mr-1'>
+                <b> 'admin'</b>
+              </i>
+              di klinik
+            </p>
+            <button
+              onClick={reloadData}
+              className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+            >
+              Kemaskini senarai pesakit
+            </button>
             <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
               <table className='table-auto'>
                 <thead className='text-userWhite bg-kaunter2'>

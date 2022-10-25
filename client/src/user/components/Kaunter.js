@@ -49,8 +49,11 @@ function Kaunter({
       <div className='px-2 lg:px-10 h-full p-3 overflow-y-auto'>
         <PatientData
           data={data}
+          setData={setData}
           loading={loading}
+          setIsLoading={setIsLoading}
           error={error}
+          setIsError={setIsError}
           philter={philter}
           setPhilter={setPhilter}
           showForm={showForm}
