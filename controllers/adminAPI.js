@@ -137,9 +137,7 @@ exports.getData = async (req, res, next) => {
               const data = await User.find({
                 negeri: dataGeografik.negeri,
                 daerah: dataGeografik.daerah,
-                statusRoleKlinik: {
-                  $in: ['kp', 'kepp', 'utc', 'rtc', 'visiting'],
-                },
+                statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
               });
               return res.status(200).json(data);
             }
