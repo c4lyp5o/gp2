@@ -6,8 +6,11 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function PatientData({
   data,
+  setData,
   loading,
+  setIsLoading,
   error,
+  setIsError,
   philter,
   setPhilter,
   showForm,
@@ -18,8 +21,14 @@ export default function PatientData({
   jenisFasiliti,
   kp,
 }) {
-  const { Dictionary, dateToday, kaunterToken, toast } =
-    useGlobalUserAppContext();
+  const {
+    kaunterToken,
+    Dictionary,
+    dateToday,
+    formatTime,
+    noPendaftaranSplitter,
+    toast,
+  } = useGlobalUserAppContext();
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
@@ -80,6 +89,22 @@ export default function PatientData({
       });
   };
 
+  const reloadData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(
+        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+        { headers: { Authorization: `Bearer ${kaunterToken}` } }
+      );
+      setData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
   if (loading)
     return (
       <div className='mt-20'>
@@ -125,74 +150,96 @@ export default function PatientData({
         >
           Jana Laporan PG101
         </button>
-        <div className=' mt-2'>
+        <div className='mt-2'>
           <div className='justify-center items-center'>
-            <div className='mt-2 overflow-x-auto text-sm lg:text-lg font-medium outline outline-1 outline-userBlack'>
-              <table className='m-auto mb-5 w-11/12 outline outline-1 outline-kaunterBlack'>
-                <tbody>
-                  <tr className='bg-kaunter3 p-2'>
-                    <th className='outline outline-1 outline-kaunterBlack px-2'>
+            <p className='text-xs text-user9 lowercase'>
+              * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
+              pengguna
+              <i className='mr-1'>
+                <b> 'admin'</b>
+              </i>
+              di klinik
+            </p>
+            <button
+              onClick={reloadData}
+              className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+            >
+              Kemaskini senarai pesakit
+            </button>
+            <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+              <table className='table-auto'>
+                <thead className='text-userWhite bg-kaunter2'>
+                  <tr>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       BIL
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack whitespace-nowrap px-2'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      MASA DAFTAR
+                    </th>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       NO. PENDAFTARAN
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack px-2'>
-                      NAMA
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      NAMA PESAKIT
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack px-2'>
-                      NO. KAD PENGENALAN
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      NO. PENGENALAN DIRI
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack px-2'>
-                      TARIKH KEDATANGAN
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      STATUS PESAKIT
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack px-2'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       STATUS PENGISIAN RETEN
                     </th>
-                    <th className='outline outline-1 outline-kaunterBlack'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       KEMASKINI
                     </th>
                   </tr>
-                  {data.kaunterResultQuery
-                    .filter((pt) => pt.nama.includes(philter))
-                    .map((p, index) => (
-                      <>
+                </thead>
+                {data.kaunterResultQuery
+                  .filter((pt) => pt.nama.includes(philter))
+                  .map((p, index) => (
+                    <>
+                      <tbody className='bg-kaunter3'>
                         <tr>
-                          <td className='outline outline-1 outline-kaunterBlack'>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {index + 1}
                           </td>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                            {formatTime(p.waktuSampai)}
+                          </td>
                           {p.noPendaftaranBaru ? (
-                            <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
-                              {p.noPendaftaranBaru}
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                              {noPendaftaranSplitter(p.noPendaftaranBaru)}
                               <BsFilePerson
                                 className='text-user7 text-2xl inline-table mx-2 pb-1'
-                                title='baru'
+                                title='Baru'
                               />
                             </td>
                           ) : (
-                            <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
-                              {p.noPendaftaranUlangan}
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                              {noPendaftaranSplitter(p.noPendaftaranUlangan)}
                               <BsFillFilePersonFill
                                 className='text-user9 text-2xl inline-table mx-2 pb-1'
-                                title='ulangan'
+                                title='Ulangan'
                               />
                             </td>
                           )}
-                          <td className='outline outline-1 outline-kaunterBlack'>
-                            {p.nama.toUpperCase()}
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            {p.nama}
                           </td>
-                          <td className='outline outline-1 outline-kaunterBlack'>
-                            {p.ic.toUpperCase()}
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            {p.ic}
                           </td>
-                          <td className='outline outline-1 outline-kaunterBlack'>
-                            {p.tarikhKedatangan}
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                            {Dictionary[p.jenisFasiliti]}
                           </td>
-                          <td className='outline outline-1 outline-kaunterBlack'>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
                           </td>
-                          <td className='outline outline-1 outline-kaunterBlack px-2'>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             <button
-                              className='px-6 py-2.5 my-1 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                              className='px-6 py-2.5 my-1 bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
                                 setShowForm(true);
@@ -202,9 +249,9 @@ export default function PatientData({
                             </button>
                           </td>
                         </tr>
-                      </>
-                    ))}
-                </tbody>
+                      </tbody>
+                    </>
+                  ))}
               </table>
             </div>
           </div>

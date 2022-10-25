@@ -30,7 +30,7 @@ function KaunterLogin() {
     <>
       <KaunterHeader />
       <div className='absolute inset-0 -z-10 flex bg-kaunter3 text-center justify-center items-center capitalize'>
-        <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-none rounded-md shadow-xl'>
+        <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-kaunterWhite outline outline-1 outline-kaunterBlack rounded-md shadow-xl'>
           <div>
             <h3 className='text-xl font-semibold mt-20'>
               sila masukkan ID pendaftaran
