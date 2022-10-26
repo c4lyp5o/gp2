@@ -6,7 +6,7 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
-  e_mail: {
+  email: {
     type: String,
     // required: true
   },

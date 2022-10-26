@@ -7,18 +7,23 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
   const { toast } = useGlobalUserAppContext();
   const [adminId, setAdminId] = useState('');
+  const [adminEmail, setAdminEmail] = useState('');
   const [otpQuestion, setOtpQuestion] = useState(false);
   const [otpInput, setOtpInput] = useState('');
 
   const handleOtpRequest = async () => {
+    await toast.promise(
+      axios.get(`/api/v1/getotp?id=${adminId}`),
+      {
+        pending: `Menghantar OTP ke e-mel ${adminEmail}`,
+        success: `OTP telah dihantar ke e-mel ${adminEmail}`,
+        error: `OTP gagal dihantar`,
+      },
+      {
+        autoClose: 5000,
+      }
+    );
     setOtpQuestion(true);
-    try {
-      console.log('id', adminId);
-      await axios.get(`/api/v1/getotp?id=${adminId}`);
-      toast.success('OTP telah dihantar ke emel anda');
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleOtpVerify = async () => {
@@ -59,6 +64,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
     const userData = JSON.parse(localStorage.getItem('userinfo'));
     if (userData) {
       setAdminId(userData._id);
+      setAdminEmail(userData.email);
     }
   }, []);
 
@@ -80,7 +86,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
               <div className='mt-5'>
                 Sila <span className='lowercase'>masukkan</span> OTP{' '}
                 <span className='lowercase'>
-                  yang telah dihantar ke e-mel anda
+                  yang telah dihantar ke e-mel {adminEmail}
                 </span>
                 <div className='mt-5'>
                   <label htmlFor='otp' className='mr-3'>

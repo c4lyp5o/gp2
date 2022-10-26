@@ -73,20 +73,25 @@ function UserUmum() {
       return;
     }
     if (modalHapus) {
-      try {
-        await axios.delete(`/api/v1/umum/${singlePerson}`, {
+      await toast.promise(
+        axios.delete(`/api/v1/umum/${singlePerson}`, {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
-        });
-        setModalHapus(false);
-        toast.success('Data berjaya dihapus');
-        setReloadState(!reloadState);
-      } catch (error) {
-        console.log(error);
-      }
+        }),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
     }
   };
 
