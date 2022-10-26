@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-import DeleteModal from './UserUmumDeleteModal';
+import UserUmumDeleteModal from './UserUmumDeleteModal';
 
 function UserUmum() {
   const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
@@ -367,7 +367,7 @@ function UserUmum() {
                   )}
                 </div>
                 {modalHapus ? (
-                  <DeleteModal
+                  <UserUmumDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}
