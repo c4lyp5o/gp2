@@ -10,8 +10,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function DaftarPesakit({ createdByKp, createdByDaerah }) {
-  const { Dictionary, dateToday, kaunterToken, toast } =
-    useGlobalUserAppContext();
+  const {
+    kaunterToken,
+    Dictionary,
+    dateToday,
+    formatTime,
+    noPendaftaranSplitter,
+    statusPesakit,
+    toast,
+  } = useGlobalUserAppContext();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -56,35 +63,6 @@ export default function DaftarPesakit({ createdByKp, createdByDaerah }) {
     };
     fetchPersonUmum();
   }, []);
-
-  function statusPesakit(p) {
-    let status = '';
-    if (p.umur < 5) {
-      status = 'TOD';
-    }
-    if (p.umur > 4) {
-      status = 'UMUM';
-    }
-    if (p.umur > 59) {
-      status = 'WE';
-    }
-    if (p.bersekolah === true) {
-      status = 'SEK';
-    }
-    if (p.ibuMengandung === true) {
-      status += '/';
-      status += 'IM';
-    }
-    if (p.oku === true) {
-      status += '/';
-      status += 'OKU';
-    }
-    if (p.statusPesara) {
-      status += '/';
-      status += 'PES';
-    }
-    return status;
-  }
 
   if (loading)
     return (
