@@ -1,8 +1,10 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useEffect, useRef, useState } from 'react';
-import { Ring } from 'react-awesome-spinners';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
+
+import LoadingScreen from './Loading';
+import Confirmation from './Confirmation';
 
 const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
   const { Dictionary, toast, readOneData, readKpData, updateData } =
@@ -35,7 +37,6 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setEditingData(true);
     let Data = {};
     Data = {
@@ -112,21 +113,22 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     );
   }
 
-  function SubmitButtton() {
+  function SubmitButtton({ confirm }) {
     return (
       <button
-        type='submit'
+        type='button'
+        onClick={confirm(handleSubmit)}
         className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
       >
-        Ubah Data
+        Tambah Data
       </button>
     );
   }
 
-  function Klinik() {
+  function Klinik({ confirm }) {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div
             className={styles.darkBG}
             onClick={() => setShowEditModal(false)}
@@ -280,7 +282,11 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
-                  {editingData ? <BusyButton /> : <SubmitButtton />}
+                  {editingData ? (
+                    <BusyButton />
+                  ) : (
+                    <SubmitButtton confirm={confirm} />
+                  )}
                   <span
                     className={styles.cancelBtn}
                     onClick={() => setShowEditModal(false)}
@@ -296,9 +302,9 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     );
   }
 
-  function Pegawai() {
+  function Pegawai({ confirm }) {
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <div
           className={styles.darkBG}
           onClick={() => setShowEditModal(false)}
@@ -430,7 +436,11 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
           </div>
           <div className={styles.modalActions}>
             <div className={styles.actionsContainer}>
-              {editingData ? <BusyButton /> : <SubmitButtton />}
+              {editingData ? (
+                <BusyButton />
+              ) : (
+                <SubmitButtton confirm={confirm} />
+              )}
               <span
                 className={styles.cancelBtn}
                 onClick={() => setShowEditModal(false)}
@@ -444,9 +454,9 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     );
   }
 
-  function Facility() {
+  function Facility({ confirm }) {
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <div
           className={styles.darkBG}
           onClick={() => setShowEditModal(false)}
@@ -554,7 +564,11 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                {editingData ? <BusyButton /> : <SubmitButtton />}
+                {editingData ? (
+                  <BusyButton />
+                ) : (
+                  <SubmitButtton confirm={confirm} />
+                )}
                 <span
                   className={styles.cancelBtn}
                   onClick={() => setShowEditModal(false)}
@@ -570,30 +584,26 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
   }
 
   if (loading) {
-    return (
-      <>
-        <div className={styles.darkBG} />
-        <div className={styles.modalContent}>
-          <div className={styles.centered}>
-            <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-              <div className='flex justify-center mb-2'>
-                <Ring color='#c44058' />
-              </div>
-              <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                Memuat..
-              </span>
-            </div>
-          </div>
-        </div>
-      </>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <>
-      {FType === 'kp' && <Klinik />}
-      {(FType === 'pp' || FType === 'jp') && <Pegawai />}
-      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && <Facility />}
+      {FType === 'kp' && (
+        <Confirmation callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Klinik confirm={confirm} />}
+        </Confirmation>
+      )}
+      {(FType === 'pp' || FType === 'jp') && (
+        <Confirmation callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Pegawai confirm={confirm} />}
+        </Confirmation>
+      )}
+      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && (
+        <Confirmation callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Facility confirm={confirm} />}
+        </Confirmation>
+      )}
     </>
   );
 };
