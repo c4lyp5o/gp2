@@ -6,6 +6,7 @@ import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
+import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterFooter from '../components/KaunterFooter';
 
 import { useState } from 'react';
@@ -50,7 +51,7 @@ function KaunterAfterLogin() {
       <div className='absolute inset-0 -z-10 bg-kaunter3'></div>
       <KaunterNavbar namaKlinik={createdByKp} logout={logout} />
       <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
-      <div className='absolute inset-2 lg:inset-10 top-[7.5rem] lg:top-[8rem] bottom-[2rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-none rounded-md shadow-xl capitalize'>
+      <div className='absolute inset-2 lg:inset-10 top-[7.5rem] lg:top-[8rem] bottom-[2rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-none rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden'>
         <Routes>
           <Route index element={<KaunterLanding />} />
           <Route
@@ -160,6 +161,16 @@ function KaunterAfterLogin() {
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='registry'
+            element={
+              <KaunterDaftarPesakit
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
