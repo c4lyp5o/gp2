@@ -260,7 +260,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
                   : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
               }
             >
-              DAFTAR PESAKIT
+              SENARAI DAFTAR PESAKIT
             </NavLink>
             <div className='mx-3 lg:hidden capitalize'>
               <div className='m-3 space-y-1 text-center text-sm'>

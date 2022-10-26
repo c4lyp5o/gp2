@@ -31,7 +31,7 @@ const saveTempKey = async (req, res) => {
   // send email
   const mailOptions = {
     from: process.env.EMAILER_ACCT,
-    to: operator.e_mail,
+    to: operator.email,
     subject: 'Kunci Verifikasi',
     html: `<p>Hi ${operator.nama},</p>
               <p>Anda telah memohon untuk menghapus data pesakit. Key verifikasi anda adalah:</p>
@@ -51,7 +51,7 @@ const saveTempKey = async (req, res) => {
     return res.status(200).json({
       status: 'success',
       message: 'Email telah dihantar',
-      email: operator.e_mail,
+      email: operator.email,
     });
   });
 };
