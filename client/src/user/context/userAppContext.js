@@ -35,6 +35,36 @@ function noPendaftaranSplitter(noPendaftaran) {
   return newArrSplitted;
 }
 
+// set status pesakit base on umur
+function statusPesakit(p) {
+  let status = '';
+  if (p.umur < 5) {
+    status = 'TOD';
+  }
+  if (p.umur > 4) {
+    status = 'UMUM';
+  }
+  if (p.umur > 59) {
+    status = 'WE';
+  }
+  if (p.bersekolah === true) {
+    status = 'SEK';
+  }
+  if (p.ibuMengandung === true) {
+    status += '/';
+    status += 'IM';
+  }
+  if (p.oku === true) {
+    status += '/';
+    status += 'OKU';
+  }
+  if (p.statusPesara) {
+    status += '/';
+    status += 'PES';
+  }
+  return status;
+}
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -165,6 +195,7 @@ function UserAppProvider({ children }) {
         dateToday,
         formatTime,
         noPendaftaranSplitter,
+        statusPesakit,
         ToastContainer,
         toast,
         loggingInUser,

@@ -51,7 +51,7 @@ function KaunterAfterLogin() {
       <div className='absolute inset-0 -z-10 bg-kaunter3'></div>
       <KaunterNavbar namaKlinik={createdByKp} logout={logout} />
       <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
-      <div className='absolute inset-2 lg:inset-10 top-[7.5rem] lg:top-[8rem] bottom-[2rem] -z-10 bg-kaunterWhite text-center justify-center items-center outline outline-none rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden'>
+      <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden'>
         <Routes>
           <Route index element={<KaunterLanding />} />
           <Route
