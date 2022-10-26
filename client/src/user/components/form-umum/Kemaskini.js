@@ -334,7 +334,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
             kemaskini
           </h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='p-3'>
           <div className='flex'>
             <p className='font-semibold text-user3 mt-3 ml-3'>
               <span className='text-user9 text-xl'>*</span>mandatori
@@ -1775,7 +1775,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           </button>
         </form>
       </div>
-      <div className='absolute inset-0 bg-user1 z-10 opacity-75'></div>
+      <div
+        onClick={closeModal}
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+      />
     </>
   );
 }
