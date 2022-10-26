@@ -1,19 +1,25 @@
-import React, { useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken, getTokenized } from './Tokenizer';
+import styles from '../Modal.module.css';
+import { RiCloseLine } from 'react-icons/ri';
 
-const AdminAppContext = React.createContext();
+const AdminAppContext = createContext();
 
 function AdminAppProvider({ children }) {
   const { token, setToken } = useToken();
   const navigate = useNavigate();
 
+  // ping apdm
+
   async function pingApdmServer() {
     const response = await axios.get(`https://erkm.calypsocloud.one/`);
     return response;
   }
+
+  // crypter
 
   const encryptEmail = (email) => {
     if (!email) return 'No email provided';
