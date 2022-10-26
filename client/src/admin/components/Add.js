@@ -1,8 +1,10 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
-import { Ring } from 'react-awesome-spinners';
 import styles from '../Modal.module.css';
+
+import LoadingScreen from './Loading';
+import Confirmation from './Confirmation';
 
 const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const {
@@ -44,7 +46,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const [allPegawai, setAllPegawai] = useState([]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setAddingData(true);
     let Data = {};
     Data = {
@@ -105,14 +106,12 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       console.log(res);
       if (res.statusText === 'OK') {
         toast.info(`Data berjaya ditambah`);
-        setShowAddModal(false);
-        setAddingData(false);
         setReload(!reload);
       } else {
         toast.error(`Data tidak berjaya ditambah`);
-        setShowAddModal(false);
-        setAddingData(false);
       }
+      setShowAddModal(false);
+      setAddingData(false);
     });
   };
 
@@ -161,25 +160,25 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
       <>
         <button
           type='button'
-          class='inline-flex items-center text-center justify-center px-4 py-2 bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all ease-in-out duration-150 cursor-not-allowed'
+          className='inline-flex items-center text-center justify-center px-4 py-2 bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all ease-in-out duration-150 cursor-not-allowed'
           disabled=''
         >
           <svg
-            class='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
             viewBox='0 0 24 24'
           >
             <circle
-              class='opacity-25'
+              className='opacity-25'
               cx='12'
               cy='12'
               r='10'
               stroke='currentColor'
-              stroke-width='4'
+              strokeWidth='4'
             ></circle>
             <path
-              class='opacity-75'
+              className='opacity-75'
               fill='currentColor'
               d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
             ></path>
@@ -190,10 +189,11 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     );
   }
 
-  function SubmitButtton() {
+  function SubmitButtton({ confirm }) {
     return (
       <button
-        type='submit'
+        type='button'
+        onClick={confirm(handleSubmit)}
         className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
       >
         Tambah Data
@@ -201,10 +201,10 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     );
   }
 
-  function Klinik() {
+  function Klinik({ confirm }) {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div
             className={styles.darkBG}
             onClick={() => setShowAddModal(false)}
@@ -365,7 +365,11 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
-                  {addingData ? <BusyButton /> : <SubmitButtton />}
+                  {addingData ? (
+                    <BusyButton />
+                  ) : (
+                    <SubmitButtton confirm={confirm} />
+                  )}
                   <span
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
@@ -381,10 +385,10 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     );
   }
 
-  function Pegawai() {
+  function Pegawai({ confirm }) {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div
             className={styles.darkBG}
             onClick={() => setShowAddModal(false)}
@@ -585,7 +589,11 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
-                  {addingData ? <BusyButton /> : <SubmitButtton />}
+                  {addingData ? (
+                    <BusyButton />
+                  ) : (
+                    <SubmitButtton confirm={confirm} />
+                  )}
                   <span
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
@@ -601,10 +609,10 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     );
   }
 
-  function Facility() {
+  function Facility({ confirm }) {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div
             className={styles.darkBG}
             onClick={() => setShowAddModal(false)}
@@ -804,7 +812,11 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
-                  {addingData ? <BusyButton /> : <SubmitButtton />}
+                  {addingData ? (
+                    <BusyButton />
+                  ) : (
+                    <SubmitButtton confirm={confirm} />
+                  )}
                   <span
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
@@ -821,32 +833,26 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   }
 
   if (loading) {
-    return (
-      <>
-        <div className={styles.darkBG} />
-        <div className={styles.modalContent}>
-          <div className={styles.centered}>
-            <div className='flex justify-center text-center h-full w-full'>
-              <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-                <div className='flex justify-center mb-2'>
-                  <Ring color='#c44058' />
-                </div>
-                <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                  Memuat..
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <>
-      {FType === 'kp' && <Klinik />}
-      {(FType === 'pp' || FType === 'jp') && <Pegawai />}
-      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && <Facility />}
+      {FType === 'kp' && (
+        <Confirmation callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <Klinik confirm={confirm} />}
+        </Confirmation>
+      )}
+      {(FType === 'pp' || FType === 'jp') && (
+        <Confirmation callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <Pegawai confirm={confirm} />}
+        </Confirmation>
+      )}
+      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && (
+        <Confirmation callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <Facility confirm={confirm} />}
+        </Confirmation>
+      )}
     </>
   );
 };
