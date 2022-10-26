@@ -84,6 +84,9 @@ app.use('/api/v1/auth', apiKeyVerifier, authLogin, authRegister);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
+// --- get otp for umum deletion
+app.use('/api/v1/getotp', getotp);
+// ---
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
@@ -95,9 +98,6 @@ app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);
-
-// get otp route
-app.use('/api/v1/getotp', getotp);
 
 // for use in deployment
 app.get('*', (req, res) => {

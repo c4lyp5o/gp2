@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEdit, FaInfoCircle } from 'react-icons/fa';
 import { Spinner } from 'react-awesome-spinners';
-import { moment } from 'moment';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -1229,9 +1229,6 @@ function UserFormUmumHeader() {
     xAdaGigiKekalPemeriksaanUmum,
     eAdaGigiKekalPemeriksaanUmum,
   ]);
-
-  // fix date input format using moment
-  const moment = require('moment');
 
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
-import { moment } from 'moment';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-import DeleteModal from './UserUmumDeleteModal';
+import UserUmumDeleteModal from './UserUmumDeleteModal';
 
 function UserUmum() {
   const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
@@ -25,9 +25,6 @@ function UserUmum() {
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
-
-  // fix date input format using moment
-  const moment = require('moment');
 
   useEffect(() => {
     const query = async () => {
@@ -61,6 +58,12 @@ function UserUmum() {
     setResultPilih(resultFilter);
   }, [pilih]);
 
+  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti
+  useEffect(() => {
+    setPilih('');
+    setResultPilih([]);
+  }, [nama, tarikhKedatangan, jenisFasiliti]);
+
   // on tab focus reload data
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
@@ -76,20 +79,27 @@ function UserUmum() {
       return;
     }
     if (modalHapus) {
-      try {
-        await axios.delete(`/api/v1/umum/${singlePerson}`, {
+      await toast.promise(
+        axios.delete(`/api/v1/umum/${singlePerson}`, {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
-        });
-        setModalHapus(false);
-        toast.success('Data berjaya dihapus');
-        setReloadState(!reloadState);
-      } catch (error) {
-        console.log(error);
-      }
+        }),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+      setPilih('');
+      setResultPilih([]);
     }
   };
 
@@ -352,7 +362,7 @@ function UserUmum() {
                   </div>
                   {operasiHapus ? (
                     <button
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 capitalize bg-user9 hover:bg-user1 hover:text-userWhite transition-all'
                       onClick={() => {
                         setModalHapus(true);
                       }}
@@ -370,7 +380,7 @@ function UserUmum() {
                   )}
                 </div>
                 {modalHapus ? (
-                  <DeleteModal
+                  <UserUmumDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}
