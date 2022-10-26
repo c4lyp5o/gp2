@@ -58,6 +58,12 @@ function UserUmum() {
     setResultPilih(resultFilter);
   }, [pilih]);
 
+  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti
+  useEffect(() => {
+    setPilih('');
+    setResultPilih([]);
+  }, [nama, tarikhKedatangan, jenisFasiliti]);
+
   // on tab focus reload data
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
@@ -92,6 +98,8 @@ function UserUmum() {
       );
       setModalHapus(false);
       setReloadState(!reloadState);
+      setPilih('');
+      setResultPilih([]);
     }
   };
 
@@ -354,7 +362,7 @@ function UserUmum() {
                   </div>
                   {operasiHapus ? (
                     <button
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 capitalize bg-user9 hover:bg-user1 hover:text-userWhite transition-all'
                       onClick={() => {
                         setModalHapus(true);
                       }}

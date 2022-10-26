@@ -78,8 +78,8 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
         <h5 className='bg-user9 text-userWhite font-semibold text-xl'>AWAS!</h5>
         <div className='mt-5 p-1'>
           <span className='font-semibold'>
-            Anda YAKIN <span className='lowercase'>untuk menghapus</span> {nama}
-            ?
+            anda YAKIN <span className='lowercase'>untuk menghapus</span>{' '}
+            <span className='uppercase'>{nama}</span>?
           </span>
           {otpQuestion && (
             <>
