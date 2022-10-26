@@ -27,6 +27,7 @@ export default function PatientData({
     dateToday,
     formatTime,
     noPendaftaranSplitter,
+    statusPesakit,
     toast,
   } = useGlobalUserAppContext();
 
@@ -179,7 +180,7 @@ export default function PatientData({
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       NO. PENDAFTARAN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md'>
                       NAMA PESAKIT
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -232,7 +233,7 @@ export default function PatientData({
                             {p.ic}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {Dictionary[p.jenisFasiliti]}
+                            {statusPesakit(p)}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
