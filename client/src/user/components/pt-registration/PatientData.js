@@ -139,14 +139,14 @@ export default function PatientData({
         </div>
         <button
           type='button'
-          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={(e) => setShowForm(true)}
         >
           Daftar Pesakit
         </button>
         <button
           type='button'
-          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={handleJana}
         >
           Jana Laporan PG101
@@ -163,7 +163,7 @@ export default function PatientData({
             </p>
             <button
               onClick={reloadData}
-              className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
             >
               Kemaskini senarai pesakit
             </button>
@@ -174,22 +174,22 @@ export default function PatientData({
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       BIL
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       MASA DAFTAR
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       NO. PENDAFTARAN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                       NAMA PESAKIT
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       NO. PENGENALAN DIRI
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       STATUS PESAKIT
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       STATUS PENGISIAN RETEN
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -240,7 +240,7 @@ export default function PatientData({
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             <button
-                              className='px-6 py-2.5 my-1 bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                              className='px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
                                 setShowForm(true);
