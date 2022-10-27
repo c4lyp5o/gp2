@@ -10,9 +10,10 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 export default function FillableForm({
   showForm,
   setShowForm,
-  jenisFasiliti,
   editId,
   setEditId,
+  jenisFasiliti,
+  kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
@@ -181,7 +182,6 @@ export default function FillableForm({
 
   // submission
   const handleSubmit = async (e) => {
-    setAddingData(true);
     if (!editId) {
       await toast
         .promise(
@@ -652,7 +652,13 @@ export default function FillableForm({
 
   if (showForm) {
     return (
-      <Confirmation callbackFunction={handleSubmit} data={confirmData}>
+      <Confirmation
+        callbackFunction={handleSubmit}
+        lookBusyGuys={setAddingData}
+        data={confirmData}
+        isEdit={editId}
+        klinik={kp}
+      >
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
