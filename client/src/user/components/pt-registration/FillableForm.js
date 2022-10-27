@@ -3,21 +3,28 @@ import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import { FaInfoCircle } from 'react-icons/fa';
 
+import Confirmation from './Confirmation';
+
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function FillableForm({
   showForm,
   setShowForm,
-  jenisFasiliti,
   editId,
   setEditId,
+  jenisFasiliti,
+  kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, toast } =
     useGlobalUserAppContext();
 
   const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
+  const [addingData, setAddingData] = useState(false);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+
+  // for confirmation modal
+  const [confirmData, setConfirmData] = useState({});
 
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -121,6 +128,7 @@ export default function FillableForm({
     return values;
   };
 
+  // check ic
   const checkIc = async (ic) => {
     setCheckingIc(true);
     try {
@@ -172,8 +180,8 @@ export default function FillableForm({
     setCheckingIc(false);
   };
 
+  // submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
     if (!editId) {
       await toast
         .promise(
@@ -258,6 +266,7 @@ export default function FillableForm({
         )
         .then(() => {
           setShowForm(false);
+          setAddingData(false);
         });
     }
     if (editId) {
@@ -342,9 +351,56 @@ export default function FillableForm({
         )
         .then(() => {
           setShowForm(false);
+          setAddingData(false);
         });
     }
   };
+
+  // buttans
+  function BusyButton() {
+    return (
+      <>
+        <button
+          type='button'
+          className='inline-flex items-center text-center justify-center m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
+          disabled=''
+        >
+          <svg
+            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+          >
+            <circle
+              className='opacity-25'
+              cx='12'
+              cy='12'
+              r='10'
+              stroke='currentColor'
+              strokeWidth='4'
+            ></circle>
+            <path
+              className='opacity-75'
+              fill='currentColor'
+              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+            ></path>
+          </svg>
+          Menambah Data...
+        </button>
+      </>
+    );
+  }
+
+  function SubmitButtton() {
+    return (
+      <button
+        type='submit'
+        className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+      >
+        Tambah Data
+      </button>
+    );
+  }
 
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
@@ -596,101 +652,114 @@ export default function FillableForm({
 
   if (showForm) {
     return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
-          <div className='grid grid-cols-1 lg:grid-cols-2'>
-            <p className='font-semibold text-user6 mt-3 ml-3 mr-auto'>
-              * mandatori
-            </p>
-            <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
-              Fasiliti: {Dictionary[jenisFasiliti]}
-            </p>
-          </div>
-          <div className='grid gap-1'>
-            <div className='flex m-2 '>
-              <p className='mr-3 font-semibold'>
-                tarikh kedatangan:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={tarikhKedatangan}
-                onChange={(e) => setTarikhKedatangan(e.target.value)}
-                type='date'
-                name='tarikhKedatangan'
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                waktu tiba: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={waktuSampai}
-                onChange={(e) => setWaktuSampai(e.target.value)}
-                type='time'
-                name='waktuSampai'
-                className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2 flex-col md:flex-row'>
-              <div className='flex flex-row'>
-                <p className='mr-3 font-semibold flex text-center items-center'>
-                  jenis pengenalan:{' '}
-                  <span className='font-semibold text-user6'>*</span>
+      <Confirmation
+        callbackFunction={handleSubmit}
+        lookBusyGuys={setAddingData}
+        data={confirmData}
+        isEdit={editId}
+        klinik={kp}
+      >
+        {(confirm) => (
+          <>
+            <form onSubmit={confirm(handleSubmit)}>
+              <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
+              <div className='grid grid-cols-1 lg:grid-cols-2'>
+                <p className='font-semibold text-user6 mt-3 ml-3 mr-auto'>
+                  * mandatori
                 </p>
-                <select
-                  required
-                  id='pengenalan'
-                  name='pengenalan'
-                  value={jenisIc}
-                  onChange={(e) => setJenisIc(e.target.value)}
-                  className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
-                >
-                  <option value=''>Sila pilih..</option>
-                  <option value='mykad-mykid'>MyKad / MyKid</option>
-                  <option value='passport'>Passport</option>
-                  <option value='tentera'>Tentera</option>
-                  <option value='polis'>Polis</option>
-                  <option value='sijil-lahir'>Sijil lahir</option>
-                </select>
+                <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
+                  Fasiliti: {Dictionary[jenisFasiliti]}
+                </p>
               </div>
-              {jenisIc === 'mykad-mykid' && (
-                <input
-                  required
-                  type='text'
-                  name='ic'
-                  pattern='[0-9]+'
-                  title='12 numbers MyKad / MyKid'
-                  minLength={12}
-                  maxLength={12}
-                  value={ic}
-                  onChange={(e) => {
-                    setIc(e.target.value);
-                    if (e.target.value.length === 12) {
-                      console.log('ic length 12. calling check ic');
-                      checkIc(e.target.value);
-                    }
-                  }}
-                  placeholder='123456090987'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                />
-              )}
-              {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
-                <input
-                  required
-                  type='text'
-                  name='ic'
-                  value={ic}
-                  onChange={(e) => setIc(e.target.value)}
-                  placeholder='123456121234'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                />
-              )}
-            </div>
-            {/* <div className='flex m-2'>
+              <div className='grid gap-1'>
+                <div className='flex m-2 '>
+                  <p className='mr-3 font-semibold'>
+                    tarikh kedatangan:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    value={tarikhKedatangan}
+                    onChange={(e) => setTarikhKedatangan(e.target.value)}
+                    type='date'
+                    name='tarikhKedatangan'
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold'>
+                    waktu tiba:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    value={waktuSampai}
+                    onChange={(e) => setWaktuSampai(e.target.value)}
+                    type='time'
+                    name='waktuSampai'
+                    className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                <div className='flex m-2 flex-col md:flex-row'>
+                  <div className='flex flex-row'>
+                    <p className='mr-3 font-semibold flex text-center items-center'>
+                      jenis pengenalan:{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    <select
+                      required
+                      id='pengenalan'
+                      name='pengenalan'
+                      value={jenisIc}
+                      onChange={(e) => setJenisIc(e.target.value)}
+                      className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='mykad-mykid'>MyKad / MyKid</option>
+                      <option value='passport'>Passport</option>
+                      <option value='tentera'>Tentera</option>
+                      <option value='polis'>Polis</option>
+                      <option value='sijil-lahir'>Sijil lahir</option>
+                    </select>
+                  </div>
+                  {jenisIc === 'mykad-mykid' && (
+                    <input
+                      required
+                      type='text'
+                      name='ic'
+                      pattern='[0-9]+'
+                      title='12 numbers MyKad / MyKid'
+                      minLength={12}
+                      maxLength={12}
+                      value={ic}
+                      onChange={(e) => {
+                        setIc(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          ic: e.target.value,
+                        });
+                        if (e.target.value.length === 12) {
+                          console.log('ic length 12. calling check ic');
+                          checkIc(e.target.value);
+                        }
+                      }}
+                      placeholder='123456090987'
+                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                    />
+                  )}
+                  {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
+                    <input
+                      required
+                      type='text'
+                      name='ic'
+                      value={ic}
+                      onChange={(e) => setIc(e.target.value)}
+                      placeholder='123456121234'
+                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                    />
+                  )}
+                </div>
+                {/* <div className='flex m-2'>
               <div className='flex items-center flex-row '>
                 <p className='font-semibold'>
                   kedatangan <span className='font-semibold text-user6'>*</span>
@@ -734,7 +803,7 @@ export default function FillableForm({
                 </label>
               </div>
             </div> */}
-            {/* <div className='flex m-2'>
+                {/* <div className='flex m-2'>
               <p className='mr-3 text-sm font-semibold flex items-center'>
                 no. pendaftaran{' '}
                 <span className='font-semibold text-user6'>*</span>
@@ -761,194 +830,229 @@ export default function FillableForm({
                 />
               )}
             </div> */}
-            <div className='flex m-2'>
-              <p className='mr-2 font-semibold flex flex-row items-center'>
-                nama: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                type='text'
-                id='nama-umum'
-                name='nama-umum'
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex flex-row items-center'>
-                tarikh lahir:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={tarikhLahir}
-                onChange={(e) => {
-                  setTarikhLahir(e.target.value);
-                  setUmur(parseInt(howOldAreYouMyFriendtahun(e.target.value)));
-                  setUmurBulan(
-                    parseInt(howOldAreYouMyFriendbulan(e.target.value))
-                  );
-                }}
-                type='date'
-                name='tarikhLahir'
-                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                umur: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <div className='relative'>
-                <input
-                  disabled
-                  placeholder='tahun'
-                  type='number'
-                  name='umur'
-                  id='umur'
-                  value={umur}
-                  className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
-                />
-                <label
-                  htmlFor='umur'
-                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                >
-                  Tahun
-                </label>
-              </div>
-              <div className='relative'>
-                <input
-                  disabled
-                  placeholder='bulan'
-                  type='number'
-                  name='umurBulan'
-                  id='umurBulan'
-                  value={umurBulan}
-                  className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
-                />
-                <label
-                  htmlFor='umurBulan'
-                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                >
-                  Bulan
-                </label>
-              </div>
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex items-center'>
-                jantina: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                name='jantina'
-                id='jantina'
-                value={jantina}
-                onChange={(e) => setJantina(e.target.value)}
-                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase m-1'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='lelaki'>Lelaki</option>
-                <option value='perempuan'>Perempuan</option>
-              </select>
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
-                kumpulan etnik:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                name='kumpulanEtnik'
-                id='kumpulanEtnik'
-                value={kumpulanEtnik}
-                onChange={(e) => {
-                  setKumpulanEtnik(e.target.value);
-                }}
-                className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='melayu'>Melayu</option>
-                <option value='cina'>Cina</option>
-                <option value='india'>India</option>
-                <option value='bajau'>Bajau</option>
-                <option value='dusun'>Dusun</option>
-                <option value='kadazan'>Kadazan</option>
-                <option value='murut'>Murut</option>
-                <option value='bumiputera sabah lain'>
-                  Bumiputera sabah lain
-                </option>
-                <option value='melanau'>Melanau</option>
-                <option value='kedayan'>Kedayan</option>
-                <option value='iban'>Iban</option>
-                <option value='bidayuh'>Bidayuh</option>
-                <option value='penan'>Penan</option>
-                <option value='bumiputera sarawak lain'>
-                  Bumiputera sarawak lain
-                </option>
-                <option value='orang asli semenanjung'>
-                  Orang asli semenanjung
-                </option>
-                <option value='lain-lain'>Lain-lain</option>
-                <option value='bukan warganegara'>Bukan warganegara</option>
-              </select>
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold whitespace-nowrap'>
-                alamat: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={alamat}
-                onChange={(e) => setAlamat(e.target.value)}
-                type='text'
-                name='alamat'
-                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
-                daerah: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                value={daerahAlamat}
-                onChange={(e) => setDaerahAlamat(e.target.value)}
-                type='text'
-                name='daerah-alamat'
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
-                negeri: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                value={negeriAlamat}
-                onChange={(e) => {
-                  setNegeriAlamat(e.target.value);
-                }}
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='johor'>Johor</option>
-                <option value='kedah'>Kedah</option>
-                <option value='kelantan'>Kelantan</option>
-                <option value='melaka'>Melaka</option>
-                <option value='negeri sembilan'>Negeri Sembilan</option>
-                <option value='pahang'>Pahang</option>
-                <option value='perak'>Perak</option>
-                <option value='perlis'>Perlis</option>
-                <option value='pulau pinang'>Pulau Pinang</option>
-                <option value='sabah'>Sabah</option>
-                <option value='sarawak'>Sarawak</option>
-                <option value='selangor'>Selangor</option>
-                <option value='terengganu'>Terengganu</option>
-                <option value='kuala lumpur'>Kuala Lumpur</option>
-                <option value='labuan'>Labuan</option>
-                <option value='putrajaya'>Putrajaya</option>
-              </select>
-              {/* <input
+                <div className='flex m-2'>
+                  <p className='mr-2 font-semibold flex flex-row items-center'>
+                    nama: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    type='text'
+                    id='nama-umum'
+                    name='nama-umum'
+                    value={nama}
+                    onChange={(e) => {
+                      setNama(e.target.value);
+                      setConfirmData({ ...confirmData, nama: e.target.value });
+                    }}
+                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                  />
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex flex-row items-center'>
+                    tarikh lahir:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    value={tarikhLahir}
+                    onChange={(e) => {
+                      setTarikhLahir(e.target.value);
+                      setUmur(
+                        parseInt(howOldAreYouMyFriendtahun(e.target.value))
+                      );
+                      setUmurBulan(
+                        parseInt(howOldAreYouMyFriendbulan(e.target.value))
+                      );
+                      setConfirmData({
+                        ...confirmData,
+                        tarikhLahir: e.target.value,
+                      });
+                    }}
+                    type='date'
+                    name='tarikhLahir'
+                    className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                  />
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold'>
+                    umur: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <div className='relative'>
+                    <input
+                      disabled
+                      placeholder='tahun'
+                      type='number'
+                      name='umur'
+                      id='umur'
+                      value={umur}
+                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
+                    />
+                    <label
+                      htmlFor='umur'
+                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                    >
+                      Tahun
+                    </label>
+                  </div>
+                  <div className='relative'>
+                    <input
+                      disabled
+                      placeholder='bulan'
+                      type='number'
+                      name='umurBulan'
+                      id='umurBulan'
+                      value={umurBulan}
+                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                    />
+                    <label
+                      htmlFor='umurBulan'
+                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                    >
+                      Bulan
+                    </label>
+                  </div>
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex items-center'>
+                    jantina: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    name='jantina'
+                    id='jantina'
+                    value={jantina}
+                    onChange={(e) => {
+                      setJantina(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        jantina: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase m-1'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    <option value='lelaki'>Lelaki</option>
+                    <option value='perempuan'>Perempuan</option>
+                  </select>
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                    kumpulan etnik:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    name='kumpulanEtnik'
+                    id='kumpulanEtnik'
+                    value={kumpulanEtnik}
+                    onChange={(e) => {
+                      setKumpulanEtnik(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        kumpulanEtnik: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    <option value='melayu'>Melayu</option>
+                    <option value='cina'>Cina</option>
+                    <option value='india'>India</option>
+                    <option value='bajau'>Bajau</option>
+                    <option value='dusun'>Dusun</option>
+                    <option value='kadazan'>Kadazan</option>
+                    <option value='murut'>Murut</option>
+                    <option value='bumiputera sabah lain'>
+                      Bumiputera sabah lain
+                    </option>
+                    <option value='melanau'>Melanau</option>
+                    <option value='kedayan'>Kedayan</option>
+                    <option value='iban'>Iban</option>
+                    <option value='bidayuh'>Bidayuh</option>
+                    <option value='penan'>Penan</option>
+                    <option value='bumiputera sarawak lain'>
+                      Bumiputera sarawak lain
+                    </option>
+                    <option value='orang asli semenanjung'>
+                      Orang asli semenanjung
+                    </option>
+                    <option value='lain-lain'>Lain-lain</option>
+                    <option value='bukan warganegara'>Bukan warganegara</option>
+                  </select>
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold whitespace-nowrap'>
+                    alamat: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    value={alamat}
+                    onChange={(e) => {
+                      setAlamat(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        alamat: e.target.value,
+                      });
+                    }}
+                    type='text'
+                    name='alamat'
+                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                    daerah: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    value={daerahAlamat}
+                    onChange={(e) => {
+                      setDaerahAlamat(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        daerahAlamat: e.target.value,
+                      });
+                    }}
+                    type='text'
+                    name='daerah-alamat'
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                    negeri: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    value={negeriAlamat}
+                    onChange={(e) => {
+                      setNegeriAlamat(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        negeriAlamat: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    <option value='johor'>Johor</option>
+                    <option value='kedah'>Kedah</option>
+                    <option value='kelantan'>Kelantan</option>
+                    <option value='melaka'>Melaka</option>
+                    <option value='negeri sembilan'>Negeri Sembilan</option>
+                    <option value='pahang'>Pahang</option>
+                    <option value='perak'>Perak</option>
+                    <option value='perlis'>Perlis</option>
+                    <option value='pulau pinang'>Pulau Pinang</option>
+                    <option value='sabah'>Sabah</option>
+                    <option value='sarawak'>Sarawak</option>
+                    <option value='selangor'>Selangor</option>
+                    <option value='terengganu'>Terengganu</option>
+                    <option value='kuala lumpur'>Kuala Lumpur</option>
+                    <option value='labuan'>Labuan</option>
+                    <option value='putrajaya'>Putrajaya</option>
+                  </select>
+                  {/* <input
                 required
                 value={negeriAlamat}
                 onChange={(e) => setNegeriAlamat(e.target.value)}
@@ -956,26 +1060,32 @@ export default function FillableForm({
                 name='negeri-alamat'
                 className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
               /> */}
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
-                poskod: <span className='font-semibold text-user6'>*</span>
-              </p>
-              <input
-                required
-                type='text'
-                name='poskod-alamat'
-                pattern='[0-9]+'
-                title='5 numbers poskod'
-                minLength={5}
-                maxLength={5}
-                value={poskodAlamat}
-                onChange={(e) => setPoskodAlamat(e.target.value)}
-                placeholder='62519'
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            {/* <div className='flex m-2'>
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                    poskod: <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    type='text'
+                    name='poskod-alamat'
+                    pattern='[0-9]+'
+                    title='5 numbers poskod'
+                    minLength={5}
+                    maxLength={5}
+                    value={poskodAlamat}
+                    onChange={(e) => {
+                      setPoskodAlamat(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        poskodAlamat: e.target.value,
+                      });
+                    }}
+                    placeholder='62519'
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                {/* <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 kategori pesakit:{' '}
                 <span className='font-semibold text-user6'>*</span>
@@ -998,394 +1108,436 @@ export default function FillableForm({
                 <option value='warga-tua'>Warga tua</option>
               </select>
             </div> */}
-            <div className='flex m-2 flex-col md:flex-row'>
-              <p className='mr-3 font-semibold flex flex-row'>
-                status pesakit:
-              </p>
-              <div>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    type='checkbox'
-                    name='hamil'
-                    id='hamil'
-                    value='hamil'
-                    checked={ibuMengandung}
-                    onChange={() => {
-                      setIbuMengandung(!ibuMengandung);
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                  />
-                  <label htmlFor='hamil' className='m-2 text-sm font-m'>
-                    Ibu mengandung
-                  </label>
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    type='checkbox'
-                    name='bersekolah'
-                    id='bersekolah'
-                    value='bersekolah'
-                    checked={bersekolah}
-                    onChange={() => {
-                      setBersekolah(!bersekolah);
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                  />
-                  <label htmlFor='bersekolah' className='m-2 text-sm font-m'>
-                    Bersekolah
-                  </label>
-                </div>
-                <div className='flex items-center flex-row pl-5'>
-                  <input
-                    type='checkbox'
-                    name='oku'
-                    id='oku'
-                    value='oku'
-                    checked={orangKurangUpaya}
-                    onChange={() => {
-                      setOrangKurangUpaya(!orangKurangUpaya);
-                    }}
-                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                  />
-                  <label htmlFor='oku' className='m-2 text-sm font-m'>
-                    Orang Kurang Upaya (OKU)
-                  </label>
-                </div>
-              </div>
-            </div>
-            {orangKurangUpaya === true && (
-              <div className='flex m-2'>
-                <p className='mr-3 font-semibold'>
-                  no. OKU: <span className='font-semibold text-user6'>*</span>
-                </p>
-                <input
-                  required
-                  value={noOku}
-                  onChange={(e) => setNoOku(e.target.value)}
-                  type='text'
-                  name='no-oku'
-                  className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                />
-              </div>
-            )}
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                status pesara:{' '}
-                {/* <span className='font-semibold text-user6'>*</span> */}
-              </p>
-              <select
-                // required
-                name='statusPesara'
-                id='statusPesara'
-                value={statusPesara}
-                onChange={(e) => setStatusPesara(e.target.value)}
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              >
-                <option value=''>Sila pilih..</option>
-                {/* <option value='bukan-pesara'>Bukan pesara</option> */}
-                <option value='pesara-kerajaan'>Pesara kerajaan</option>
-                <option value='pesara-atm'>Pesara ATM</option>
-              </select>
-            </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>rujuk daripada: </p>
-              <select
-                name='rujukDaripada'
-                id='rujukDaripada'
-                value={rujukDaripada}
-                onChange={(e) => setRujukDaripada(e.target.value)}
-                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='dalaman'>Dalaman</option>
-                <option value='kp'>Klinik Pergigian Kerajaan</option>
-                <option value='kk'>Klinik Kesihatan Kerajaan</option>
-                <option value='hospital/institusi-kerajaan'>
-                  Hospital / Institusi Kerajaan
-                </option>
-                <option value='swasta'>Swasta</option>
-                <option value='lain-lain'>Lain-lain</option>
-              </select>
-            </div>
-            <div className='flex m-2'>
-              <p className='font-semibold'>catatan </p>
-              <FaInfoCircle
-                className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
-                title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
-              />
-              <p className='font-semibold mr-2'>
-                :
-                {statusPesara !== '' && (
-                  <span className='font-semibold text-user6'>*</span>
-                )}
-              </p>
-              <input
-                type='text'
-                name='catatan'
-                id='catatan'
-                value={catatan}
-                required={statusPesara !== '' ? true : false}
-                onChange={(e) => setCatatan(e.target.value)}
-                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              />
-            </div>
-            {jenisFasiliti === 'kp' && (
-              <>
-                <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
-                  <div className='grid'>
+                <div className='flex m-2 flex-col md:flex-row'>
+                  <p className='mr-3 font-semibold flex flex-row'>
+                    status pesakit:
+                  </p>
+                  <div>
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
-                        id='kepp'
-                        name='kepp'
-                        checked={kepp}
+                        name='hamil'
+                        id='hamil'
+                        value='hamil'
+                        checked={ibuMengandung}
                         onChange={() => {
-                          setKepp(!kepp);
+                          setIbuMengandung(!ibuMengandung);
+                          setConfirmData({
+                            ...confirmData,
+                            ibuMengandung: !ibuMengandung,
+                          });
                         }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
-                      <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                        KEPP
+                      <label htmlFor='hamil' className='m-2 text-sm font-m'>
+                        Ibu mengandung
                       </label>
                     </div>
-                    {kepp && (
-                      <>
-                        <div className='flex items-center flex-row pl-5 '>
-                          <p className='font-semibold'>
-                            kedatangan KEPP{' '}
-                            <span className='font-semibold text-user6'>*</span>
-                          </p>
-                        </div>
-                        <div className='flex items-center flex-row pl-5 '>
-                          <input
-                            required
-                            type='radio'
-                            name='kedatangan-kepp'
-                            id='baru-kedatangan-kepp'
-                            value='baru-kedatangan-kepp'
-                            checked={
-                              kedatanganKepp === 'baru-kedatangan-kepp'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setKedatanganKepp(e.target.value);
-                            }}
-                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='baru-kedatangan-kepp'
-                            className='m-2 text-sm font-m'
-                          >
-                            baru
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5 '>
-                          <input
-                            required
-                            type='radio'
-                            name='kedatangan-kepp'
-                            id='ulangan-kedatangan-kepp'
-                            value='ulangan-kedatangan-kepp'
-                            checked={
-                              kedatanganKepp === 'ulangan-kedatangan-kepp'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setKedatanganKepp(e.target.value);
-                            }}
-                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ulangan-kedatangan-kepp'
-                            className='m-2 text-sm font-m'
-                          >
-                            ulangan
-                          </label>
-                        </div>
-                      </>
-                    )}
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='bersekolah'
+                        id='bersekolah'
+                        value='bersekolah'
+                        checked={bersekolah}
+                        onChange={() => {
+                          setBersekolah(!bersekolah);
+                          setConfirmData({
+                            ...confirmData,
+                            bersekolah: !bersekolah,
+                          });
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='bersekolah'
+                        className='m-2 text-sm font-m'
+                      >
+                        Bersekolah
+                      </label>
+                    </div>
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='oku'
+                        id='oku'
+                        value='oku'
+                        checked={orangKurangUpaya}
+                        onChange={() => {
+                          setOrangKurangUpaya(!orangKurangUpaya);
+                          setConfirmData({
+                            ...confirmData,
+                            orangKurangUpaya: !orangKurangUpaya,
+                          });
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label htmlFor='oku' className='m-2 text-sm font-m'>
+                        Orang Kurang Upaya (OKU)
+                      </label>
+                    </div>
                   </div>
-                  <div
-                    className={`${
-                      kedatanganKepp === 'baru-kedatangan-kepp'
-                        ? 'visible'
-                        : 'hidden'
-                    } flex items-center flex-row pl-5`}
-                  >
-                    <label
-                      htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
-                    >
-                      tarikh rujukan
-                    </label>
+                </div>
+                {orangKurangUpaya === true && (
+                  <div className='flex m-2'>
+                    <p className='mr-3 font-semibold'>
+                      no. OKU:{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
                     <input
-                      type='date'
-                      name='tarikh-rujukan-kepp'
-                      id='tarikh-rujukan-kepp'
-                      value={tarikhRujukanKepp}
-                      onChange={(e) => {
-                        setTarikhRujukanKepp(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                      required
+                      value={noOku}
+                      onChange={(e) => setNoOku(e.target.value)}
+                      type='text'
+                      name='no-oku'
+                      className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     />
                   </div>
-                  <div
-                    className={`${
-                      kedatanganKepp === 'ulangan-kedatangan-kepp'
-                        ? 'visible'
-                        : 'hidden'
-                    } flex items-center flex-row pl-5`}
-                  >
-                    <label
-                      htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
-                    >
-                      tarikh perundingan pertama
-                    </label>
-                    <input
-                      type='date'
-                      name='tarikh-rujukan-kepp'
-                      id='tarikh-rujukan-kepp'
-                      value={tarikhRundinganPertama}
-                      onChange={(e) => {
-                        setTarikhRundinganPertama(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
-                  </div>
-                  <div
-                    className={`${
-                      kedatanganKepp === 'ulangan-kedatangan-kepp'
-                        ? 'visible'
-                        : 'hidden'
-                    } flex items-center flex-row pl-5`}
-                  >
-                    <label
-                      htmlFor='tarikh-mula-rawatan'
-                      className='m-2 text-sm font-m'
-                    >
-                      tarikh mula rawatan
-                    </label>
-                    <input
-                      type='date'
-                      name='tarikh-mula-rawatan-kepp'
-                      id='tarikh-mula-rawatan-kepp'
-                      value={tarikhMulaRawatanKepp}
-                      onChange={(e) => {
-                        setTarikhMulaRawatanKepp(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
-                  </div>
-                </article>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <p className='font-semibold col-span-2'>
-                    penyampaian perkhidmatan
+                )}
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold'>
+                    status pesara:{' '}
+                    {/* <span className='font-semibold text-user6'>*</span> */}
                   </p>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='checkbox'
-                      id='kp-bergerak-maklumat-lanjut-umum'
-                      name='kp-bergerak-maklumat-lanjut-umum'
-                      checked={kpBergerak ? true : false}
-                      onChange={() => {
-                        setKpBergerak(!kpBergerak);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='kp-bergerak-maklumat-lanjut-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      KP bergerak
-                    </label>
-                    <select
-                      name='label-kp-bergerak-maklumat-lanjut-umum'
-                      id='label-kp-bergerak-maklumat-lanjut-umum'
-                      value={labelKpBergerak}
-                      onChange={(e) => {
-                        setLabelKpBergerak(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    >
-                      <option value=''>Label</option>
-                      <option value='apa??'>Apa?</option>
-                    </select>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='checkbox'
-                      id='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                      name='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                      checked={pasukanPergigianBergerak ? true : false}
-                      onChange={() => {
-                        setPasukanPergigianBergerak(!pasukanPergigianBergerak);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      pasukan pergigian bergerak
-                    </label>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='checkbox'
-                      id='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                      name='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                      checked={makmalPergigianBergerak ? true : false}
-                      onChange={() => {
-                        setMakmalPergigianBergerak(!makmalPergigianBergerak);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      makmal pergigian bergerak
-                    </label>
-                    <select
-                      name='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                      id='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                      value={labelMakmalPergigianBergerak}
-                      onChange={(e) => {
-                        setLabelMakmalPergigianBergerak(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    >
-                      <option value=''>Label</option>
-                      <option value='apa??'>Apa?</option>
-                    </select>
-                  </div>
-                </article>
-              </>
-            )}
-            {jenisFasiliti === 'taska-tadika' && (
-              <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <div>
-                    <p className='font-semibold'>fasiliti taska / tadika </p>
-                    <select
-                      name='fasiliti-taska-tadika'
-                      id='fasiliti-taska-tadika'
-                      value={fasilitiTaskaTadika}
-                      onChange={(e) => {
-                        setFasilitiTaskaTadika(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    >
-                      <option value=''>Pilih</option>
-                      <option value='taska'>Taska</option>
-                      <option value='tadika'>Tadika</option>
-                    </select>
-                  </div>
-                  <div className='overflow-x-auto'>
-                    {/* <select
+                  <select
+                    // required
+                    name='statusPesara'
+                    id='statusPesara'
+                    value={statusPesara}
+                    onChange={(e) => {
+                      setStatusPesara(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        statusPesara: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    {/* <option value='bukan-pesara'>Bukan pesara</option> */}
+                    <option value='pesara-kerajaan'>Pesara kerajaan</option>
+                    <option value='pesara-atm'>Pesara ATM</option>
+                  </select>
+                </div>
+                <div className='flex m-2'>
+                  <p className='mr-3 font-semibold'>rujuk daripada: </p>
+                  <select
+                    name='rujukDaripada'
+                    id='rujukDaripada'
+                    value={rujukDaripada}
+                    onChange={(e) => {
+                      setRujukDaripada(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        rujukDaripada: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    <option value='dalaman'>Dalaman</option>
+                    <option value='kp'>Klinik Pergigian Kerajaan</option>
+                    <option value='kk'>Klinik Kesihatan Kerajaan</option>
+                    <option value='hospital/institusi-kerajaan'>
+                      Hospital / Institusi Kerajaan
+                    </option>
+                    <option value='swasta'>Swasta</option>
+                    <option value='lain-lain'>Lain-lain</option>
+                  </select>
+                </div>
+                <div className='flex m-2'>
+                  <p className='font-semibold'>catatan </p>
+                  <FaInfoCircle
+                    className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
+                    title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
+                  />
+                  <p className='font-semibold mr-2'>
+                    :
+                    {statusPesara !== '' && (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
+                  </p>
+                  <input
+                    type='text'
+                    name='catatan'
+                    id='catatan'
+                    value={catatan}
+                    required={statusPesara !== '' ? true : false}
+                    onChange={(e) => {
+                      setCatatan(e.target.value);
+                      setConfirmData({
+                        ...confirmData,
+                        catatan: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                  />
+                </div>
+                {jenisFasiliti === 'kp' && (
+                  <>
+                    <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
+                      <div className='grid'>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            id='kepp'
+                            name='kepp'
+                            checked={kepp}
+                            onChange={() => {
+                              setKepp(!kepp);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label htmlFor='kepp' className='ml-2 text-sm font-m'>
+                            KEPP
+                          </label>
+                        </div>
+                        {kepp && (
+                          <>
+                            <div className='flex items-center flex-row pl-5 '>
+                              <p className='font-semibold'>
+                                kedatangan KEPP{' '}
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
+                              </p>
+                            </div>
+                            <div className='flex items-center flex-row pl-5 '>
+                              <input
+                                required
+                                type='radio'
+                                name='kedatangan-kepp'
+                                id='baru-kedatangan-kepp'
+                                value='baru-kedatangan-kepp'
+                                checked={
+                                  kedatanganKepp === 'baru-kedatangan-kepp'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setKedatanganKepp(e.target.value);
+                                }}
+                                className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='baru-kedatangan-kepp'
+                                className='m-2 text-sm font-m'
+                              >
+                                baru
+                              </label>
+                            </div>
+                            <div className='flex items-center flex-row pl-5 '>
+                              <input
+                                required
+                                type='radio'
+                                name='kedatangan-kepp'
+                                id='ulangan-kedatangan-kepp'
+                                value='ulangan-kedatangan-kepp'
+                                checked={
+                                  kedatanganKepp === 'ulangan-kedatangan-kepp'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setKedatanganKepp(e.target.value);
+                                }}
+                                className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ulangan-kedatangan-kepp'
+                                className='m-2 text-sm font-m'
+                              >
+                                ulangan
+                              </label>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      <div
+                        className={`${
+                          kedatanganKepp === 'baru-kedatangan-kepp'
+                            ? 'visible'
+                            : 'hidden'
+                        } flex items-center flex-row pl-5`}
+                      >
+                        <label
+                          htmlFor='tarikh-rujukan'
+                          className='m-2 text-sm font-m'
+                        >
+                          tarikh rujukan
+                        </label>
+                        <input
+                          type='date'
+                          name='tarikh-rujukan-kepp'
+                          id='tarikh-rujukan-kepp'
+                          value={tarikhRujukanKepp}
+                          onChange={(e) => {
+                            setTarikhRujukanKepp(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        />
+                      </div>
+                      <div
+                        className={`${
+                          kedatanganKepp === 'ulangan-kedatangan-kepp'
+                            ? 'visible'
+                            : 'hidden'
+                        } flex items-center flex-row pl-5`}
+                      >
+                        <label
+                          htmlFor='tarikh-rujukan'
+                          className='m-2 text-sm font-m'
+                        >
+                          tarikh perundingan pertama
+                        </label>
+                        <input
+                          type='date'
+                          name='tarikh-rujukan-kepp'
+                          id='tarikh-rujukan-kepp'
+                          value={tarikhRundinganPertama}
+                          onChange={(e) => {
+                            setTarikhRundinganPertama(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        />
+                      </div>
+                      <div
+                        className={`${
+                          kedatanganKepp === 'ulangan-kedatangan-kepp'
+                            ? 'visible'
+                            : 'hidden'
+                        } flex items-center flex-row pl-5`}
+                      >
+                        <label
+                          htmlFor='tarikh-mula-rawatan'
+                          className='m-2 text-sm font-m'
+                        >
+                          tarikh mula rawatan
+                        </label>
+                        <input
+                          type='date'
+                          name='tarikh-mula-rawatan-kepp'
+                          id='tarikh-mula-rawatan-kepp'
+                          value={tarikhMulaRawatanKepp}
+                          onChange={(e) => {
+                            setTarikhMulaRawatanKepp(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        />
+                      </div>
+                    </article>
+                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <p className='font-semibold col-span-2'>
+                        penyampaian perkhidmatan
+                      </p>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='checkbox'
+                          id='kp-bergerak-maklumat-lanjut-umum'
+                          name='kp-bergerak-maklumat-lanjut-umum'
+                          checked={kpBergerak ? true : false}
+                          onChange={() => {
+                            setKpBergerak(!kpBergerak);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='kp-bergerak-maklumat-lanjut-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          KP bergerak
+                        </label>
+                        <select
+                          name='label-kp-bergerak-maklumat-lanjut-umum'
+                          id='label-kp-bergerak-maklumat-lanjut-umum'
+                          value={labelKpBergerak}
+                          onChange={(e) => {
+                            setLabelKpBergerak(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        >
+                          <option value=''>Label</option>
+                          <option value='apa??'>Apa?</option>
+                        </select>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='checkbox'
+                          id='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
+                          name='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
+                          checked={pasukanPergigianBergerak ? true : false}
+                          onChange={() => {
+                            setPasukanPergigianBergerak(
+                              !pasukanPergigianBergerak
+                            );
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          pasukan pergigian bergerak
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='checkbox'
+                          id='makmal-pergigian-bergerak-maklumat-lanjut-umum'
+                          name='makmal-pergigian-bergerak-maklumat-lanjut-umum'
+                          checked={makmalPergigianBergerak ? true : false}
+                          onChange={() => {
+                            setMakmalPergigianBergerak(
+                              !makmalPergigianBergerak
+                            );
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='makmal-pergigian-bergerak-maklumat-lanjut-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          makmal pergigian bergerak
+                        </label>
+                        <select
+                          name='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
+                          id='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
+                          value={labelMakmalPergigianBergerak}
+                          onChange={(e) => {
+                            setLabelMakmalPergigianBergerak(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        >
+                          <option value=''>Label</option>
+                          <option value='apa??'>Apa?</option>
+                        </select>
+                      </div>
+                    </article>
+                  </>
+                )}
+                {jenisFasiliti === 'taska-tadika' && (
+                  <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
+                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <div>
+                        <p className='font-semibold'>
+                          fasiliti taska / tadika{' '}
+                        </p>
+                        <select
+                          name='fasiliti-taska-tadika'
+                          id='fasiliti-taska-tadika'
+                          value={fasilitiTaskaTadika}
+                          onChange={(e) => {
+                            setFasilitiTaskaTadika(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                        >
+                          <option value=''>Pilih</option>
+                          <option value='taska'>Taska</option>
+                          <option value='tadika'>Tadika</option>
+                        </select>
+                      </div>
+                      <div className='overflow-x-auto'>
+                        {/* <select
                       name='jenis-taska-tadika'
                       id='jenis-taska-tadika'
                       value={jenisTaskaTadika}
@@ -1401,62 +1553,66 @@ export default function FillableForm({
                       <option value='swasta'>Swasta</option>
                     </select>
                     <br /> */}
-                    <input
-                      type='checkbox'
-                      id='kelas-toddler'
-                      name='kelas-toddler'
-                      value='kelas-toddler'
-                      checked={kelasToddler}
-                      onChange={() => {
-                        setKelasToddler(!kelasToddler);
+                        <input
+                          type='checkbox'
+                          id='kelas-toddler'
+                          name='kelas-toddler'
+                          value='kelas-toddler'
+                          checked={kelasToddler}
+                          onChange={() => {
+                            setKelasToddler(!kelasToddler);
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='kelas-toddler'
+                          className='ml-2 text-sm font-m'
+                        >
+                          Kelas toddler
+                        </label>
+                      </div>
+                    </article>
+                    <p className='font-semibold'>nama fasiliti</p>
+                    <select
+                      name='nama-fasiliti-taska-tadika'
+                      id='nama-fasiliti-taska-tadika'
+                      value={namaFasilitiTaskaTadika}
+                      onChange={(e) => {
+                        setNamaFasilitiTaskaTadika(e.target.value);
                       }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='kelas-toddler'
-                      className='ml-2 text-sm font-m'
+                      className='w-11/12 outline outline-1 outline-userBlack'
                     >
-                      Kelas toddler
-                    </label>
-                  </div>
-                </article>
-                <p className='font-semibold'>nama fasiliti</p>
-                <select
-                  name='nama-fasiliti-taska-tadika'
-                  id='nama-fasiliti-taska-tadika'
-                  value={namaFasilitiTaskaTadika}
-                  onChange={(e) => {
-                    setNamaFasilitiTaskaTadika(e.target.value);
-                  }}
-                  className='w-11/12 outline outline-1 outline-userBlack'
-                >
-                  <option value=''>Pilih</option>
-                  {taskaTadikaAll
-                    .filter((tt) => tt.jenisFasiliti === fasilitiTaskaTadika)
-                    .map((tt) => {
-                      return <option value={tt.kodTastad}>{tt.nama}</option>;
-                    })}
-                </select>
-                <div className='flex items-center flex-row pl-5 '>
-                  <label
-                    htmlFor='enrolmen-taska-tadika'
-                    className='m-2 text-sm font-m'
-                  >
-                    enrolmen
-                  </label>
-                  <input
-                    type='checkbox'
-                    id='enrolmen-taska-tadika'
-                    name='enrolmen-taska-tadika'
-                    value='enrolmen-taska-tadika'
-                    checked={enrolmenTaskaTadika}
-                    onChange={() => {
-                      setEnrolmenTaskaTadika(!enrolmenTaskaTadika);
-                    }}
-                    className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                  />
-                </div>
-                {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <option value=''>Pilih</option>
+                      {taskaTadikaAll
+                        .filter(
+                          (tt) => tt.jenisFasiliti === fasilitiTaskaTadika
+                        )
+                        .map((tt) => {
+                          return (
+                            <option value={tt.kodTastad}>{tt.nama}</option>
+                          );
+                        })}
+                    </select>
+                    <div className='flex items-center flex-row pl-5 '>
+                      <label
+                        htmlFor='enrolmen-taska-tadika'
+                        className='m-2 text-sm font-m'
+                      >
+                        enrolmen
+                      </label>
+                      <input
+                        type='checkbox'
+                        id='enrolmen-taska-tadika'
+                        name='enrolmen-taska-tadika'
+                        value='enrolmen-taska-tadika'
+                        checked={enrolmenTaskaTadika}
+                        onChange={() => {
+                          setEnrolmenTaskaTadika(!enrolmenTaskaTadika);
+                        }}
+                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                    </div>
+                    {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                     kedatangan taska / tadika
                   </h4>
@@ -1558,499 +1714,506 @@ export default function FillableForm({
                     </div>
                   </div>
                 </article> */}
+                  </div>
+                )}
+                {jenisFasiliti === 'ipt-kolej' && (
+                  <div className='row-span-3'>
+                    <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
+                      <div>
+                        <p className='font-semibold'>
+                          institusi pengajian tinggi / kolej
+                        </p>
+                      </div>
+                      <div className='grid'>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='ipg-institusi-pengajian-tinggi-kolej'
+                            value='ipg-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'ipg-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ipg-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            IPG
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                            value='kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            kolej komuniti
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='politeknik-institusi-pengajian-tinggi-kolej'
+                            value='politeknik-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'politeknik-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='politeknik-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            politeknik
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                            value='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            institut latihan kerajaan
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='giatmara-institusi-pengajian-tinggi-kolej'
+                            value='giatmara-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'giatmara-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='giatmara-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            giatmara
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='ipta-institusi-pengajian-tinggi-kolej'
+                            value='ipta-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'ipta-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ipta-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            IPTA
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <input
+                            type='radio'
+                            name='institusi-pengajian-tinggi-kolej'
+                            id='ipts-institusi-pengajian-tinggi-kolej'
+                            value='ipts-institusi-pengajian-tinggi-kolej'
+                            checked={
+                              iptKolej ===
+                              'ipts-institusi-pengajian-tinggi-kolej'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setIptKolej(e.target.value);
+                            }}
+                            className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ipts-institusi-pengajian-tinggi-kolej'
+                            className='m-2 text-sm font-m'
+                          >
+                            IPTS
+                          </label>
+                        </div>
+                      </div>
+                      <div className='grid justify-start'>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='ipg-institusi-pengajian-tinggi-kolej'
+                            id='ipg-institusi-pengajian-tinggi-kolej'
+                            value={ipg}
+                            onChange={(e) => {
+                              setIpg(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                            id='kolej-komuniti-institusi-pengajian-tinggi-kolej'
+                            value={kolejKomuniti}
+                            onChange={(e) => {
+                              setKolejKomuniti(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='politeknik-institusi-pengajian-tinggi-kolej'
+                            id='politeknik-institusi-pengajian-tinggi-kolej'
+                            value={politeknik}
+                            onChange={(e) => {
+                              setPoliteknik(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                            id='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
+                            value={institutLatihanKerajaan}
+                            onChange={(e) => {
+                              setInstitutLatihanKerajaan(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='giatmara-institusi-pengajian-tinggi-kolej'
+                            id='giatmara-institusi-pengajian-tinggi-kolej'
+                            value={giatmara}
+                            onChange={(e) => {
+                              setGiatmara(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='ipta-institusi-pengajian-tinggi-kolej'
+                            id='ipta-institusi-pengajian-tinggi-kolej'
+                            value={ipta}
+                            onChange={(e) => {
+                              setIpta(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                        <div className='flex items-center flex-row pl-5 '>
+                          <select
+                            name='ipts-institusi-pengajian-tinggi-kolej'
+                            id='ipts-institusi-pengajian-tinggi-kolej'
+                            value={ipts}
+                            onChange={(e) => {
+                              setIpts(e.target.value);
+                            }}
+                            className='ml-5'
+                          >
+                            <option value=''>Label</option>
+                            <option value='apa??'>Apa?</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <label
+                          htmlFor='enrolmen-institusi-pengajian-tinggi-kolej'
+                          className='m-2 text-sm font-m'
+                        >
+                          enrolmen
+                        </label>
+                        <input
+                          type='checkbox'
+                          id='enrolmen-institusi-pengajian-tinggi-kolej'
+                          name='enrolmen-institusi-pengajian-tinggi-kolej'
+                          value='enrolmen-institusi-pengajian-tinggi-kolej'
+                          checked={enrolmenIptKolej}
+                          onChange={() => {
+                            setEnrolmenIptKolej(!enrolmenIptKolej);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                      </div>
+                    </article>
+                  </div>
+                )}
+                {jenisFasiliti === 'insitusi-warga-emas' && (
+                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div>
+                      <p className='font-semibold'>institusi warga emas</p>
+                    </div>
+                    <div className='grid'>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='institusi-warga-emas'
+                          id='kerajaan-institusi-warga-emas'
+                          value='kerajaan-institusi-warga-emas'
+                          checked={
+                            institusiWargaEmas ===
+                            'kerajaan-institusi-warga-emas'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setInstitusiWargaEmas(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='kerajaan-institusi-warga-emas'
+                          className='m-2 text-sm font-m'
+                        >
+                          kerajaan
+                        </label>
+                        <select
+                          name='kerajaan-institusi-warga-emas'
+                          id='kerajaan-institusi-warga-emas'
+                          value={kerajaanInstitusiWargaEmas}
+                          onChange={(e) => {
+                            setKerajaanInstitusiWargaEmas(e.target.value);
+                          }}
+                          className='ml-3'
+                        >
+                          <option value=''>Label</option>
+                          <option value='apa??'>Apa?</option>
+                        </select>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='institusi-warga-emas'
+                          id='swasta-institusi-warga-emas'
+                          value='swasta-institusi-warga-emas'
+                          checked={
+                            institusiWargaEmas === 'swasta-institusi-warga-emas'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setInstitusiWargaEmas(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='swasta-institusi-warga-emas'
+                          className='m-2 text-sm font-m'
+                        >
+                          swasta
+                        </label>
+                        <select
+                          name='swasta-institusi-warga-emas'
+                          id='swasta-institusi-warga-emas'
+                          value={swastaInstitusiWargaEmas}
+                          onChange={(e) => {
+                            setSwastaInstitusiWargaEmas(e.target.value);
+                          }}
+                          className='ml-5'
+                        >
+                          <option value=''>Label</option>
+                          <option value='apa??'>Apa?</option>
+                        </select>
+                      </div>
+                    </div>
+                  </article>
+                )}
+                {jenisFasiliti === 'institusi-oku' && (
+                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div>
+                      <p className='font-semibold'>institusi OKU</p>
+                    </div>
+                    <div className='grid'>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='institusi-oku'
+                          id='pdk-institusi-oku'
+                          value='pdk-institusi-oku'
+                          checked={
+                            institusiOku === 'pdk-institusi-oku' ? true : false
+                          }
+                          onChange={(e) => {
+                            setInstitusiOku(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='pdk-institusi-oku'
+                          className='m-2 text-sm font-m'
+                        >
+                          PDK
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='institusi-oku'
+                          id='non-pdk-institusi-oku'
+                          value='non-pdk-institusi-oku'
+                          checked={
+                            institusiOku === 'non-pdk-institusi-oku'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setInstitusiOku(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='non-pdk-institusi-oku'
+                          className='m-2 text-sm font-m'
+                        >
+                          non - PDK
+                        </label>
+                      </div>
+                    </div>
+                  </article>
+                )}
+                {jenisFasiliti === 'kampung-angkat' && (
+                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div>
+                      <p className='font-semibold'>KG angkat</p>
+                    </div>
+                    <div className='grid'>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='kg-angkat'
+                          id='komuniti-kg-angkat'
+                          value='komuniti-kg-angkat'
+                          checked={
+                            kgAngkat === 'komuniti-kg-angkat' ? true : false
+                          }
+                          onChange={(e) => {
+                            setKgAngkat(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='komuniti-kg-angkat'
+                          className='m-2 text-sm font-m'
+                        >
+                          komuniti
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5 '>
+                        <input
+                          type='radio'
+                          name='kg-angkat'
+                          id='lawatan-ke-rumah-kg-angkat'
+                          value='lawatan-ke-rumah-kg-angkat'
+                          checked={
+                            kgAngkat === 'lawatan-ke-rumah-kg-angkat'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setKgAngkat(e.target.value);
+                          }}
+                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='lawatan-ke-rumah-kg-angkat'
+                          className='m-2 text-sm font-m'
+                        >
+                          lawatan ke rumah
+                        </label>
+                      </div>
+                    </div>
+                  </article>
+                )}
               </div>
-            )}
-            {jenisFasiliti === 'ipt-kolej' && (
-              <div className='row-span-3'>
-                <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
-                  <div>
-                    <p className='font-semibold'>
-                      institusi pengajian tinggi / kolej
-                    </p>
-                  </div>
-                  <div className='grid'>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='ipg-institusi-pengajian-tinggi-kolej'
-                        value='ipg-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej === 'ipg-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ipg-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        IPG
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                        value='kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej ===
-                          'kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        kolej komuniti
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='politeknik-institusi-pengajian-tinggi-kolej'
-                        value='politeknik-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej ===
-                          'politeknik-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='politeknik-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        politeknik
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                        value='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej ===
-                          'institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        institut latihan kerajaan
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='giatmara-institusi-pengajian-tinggi-kolej'
-                        value='giatmara-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej ===
-                          'giatmara-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='giatmara-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        giatmara
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='ipta-institusi-pengajian-tinggi-kolej'
-                        value='ipta-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej === 'ipta-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ipta-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        IPTA
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <input
-                        type='radio'
-                        name='institusi-pengajian-tinggi-kolej'
-                        id='ipts-institusi-pengajian-tinggi-kolej'
-                        value='ipts-institusi-pengajian-tinggi-kolej'
-                        checked={
-                          iptKolej === 'ipts-institusi-pengajian-tinggi-kolej'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setIptKolej(e.target.value);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ipts-institusi-pengajian-tinggi-kolej'
-                        className='m-2 text-sm font-m'
-                      >
-                        IPTS
-                      </label>
-                    </div>
-                  </div>
-                  <div className='grid justify-start'>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='ipg-institusi-pengajian-tinggi-kolej'
-                        id='ipg-institusi-pengajian-tinggi-kolej'
-                        value={ipg}
-                        onChange={(e) => {
-                          setIpg(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                        id='kolej-komuniti-institusi-pengajian-tinggi-kolej'
-                        value={kolejKomuniti}
-                        onChange={(e) => {
-                          setKolejKomuniti(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='politeknik-institusi-pengajian-tinggi-kolej'
-                        id='politeknik-institusi-pengajian-tinggi-kolej'
-                        value={politeknik}
-                        onChange={(e) => {
-                          setPoliteknik(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                        id='institut-latihan-kerajaan-institusi-pengajian-tinggi-kolej'
-                        value={institutLatihanKerajaan}
-                        onChange={(e) => {
-                          setInstitutLatihanKerajaan(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='giatmara-institusi-pengajian-tinggi-kolej'
-                        id='giatmara-institusi-pengajian-tinggi-kolej'
-                        value={giatmara}
-                        onChange={(e) => {
-                          setGiatmara(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='ipta-institusi-pengajian-tinggi-kolej'
-                        id='ipta-institusi-pengajian-tinggi-kolej'
-                        value={ipta}
-                        onChange={(e) => {
-                          setIpta(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                    <div className='flex items-center flex-row pl-5 '>
-                      <select
-                        name='ipts-institusi-pengajian-tinggi-kolej'
-                        id='ipts-institusi-pengajian-tinggi-kolej'
-                        value={ipts}
-                        onChange={(e) => {
-                          setIpts(e.target.value);
-                        }}
-                        className='ml-5'
-                      >
-                        <option value=''>Label</option>
-                        <option value='apa??'>Apa?</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <label
-                      htmlFor='enrolmen-institusi-pengajian-tinggi-kolej'
-                      className='m-2 text-sm font-m'
-                    >
-                      enrolmen
-                    </label>
-                    <input
-                      type='checkbox'
-                      id='enrolmen-institusi-pengajian-tinggi-kolej'
-                      name='enrolmen-institusi-pengajian-tinggi-kolej'
-                      value='enrolmen-institusi-pengajian-tinggi-kolej'
-                      checked={enrolmenIptKolej}
-                      onChange={() => {
-                        setEnrolmenIptKolej(!enrolmenIptKolej);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                  </div>
-                </article>
-              </div>
-            )}
-            {jenisFasiliti === 'insitusi-warga-emas' && (
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div>
-                  <p className='font-semibold'>institusi warga emas</p>
-                </div>
-                <div className='grid'>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='institusi-warga-emas'
-                      id='kerajaan-institusi-warga-emas'
-                      value='kerajaan-institusi-warga-emas'
-                      checked={
-                        institusiWargaEmas === 'kerajaan-institusi-warga-emas'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        setInstitusiWargaEmas(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='kerajaan-institusi-warga-emas'
-                      className='m-2 text-sm font-m'
-                    >
-                      kerajaan
-                    </label>
-                    <select
-                      name='kerajaan-institusi-warga-emas'
-                      id='kerajaan-institusi-warga-emas'
-                      value={kerajaanInstitusiWargaEmas}
-                      onChange={(e) => {
-                        setKerajaanInstitusiWargaEmas(e.target.value);
-                      }}
-                      className='ml-3'
-                    >
-                      <option value=''>Label</option>
-                      <option value='apa??'>Apa?</option>
-                    </select>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='institusi-warga-emas'
-                      id='swasta-institusi-warga-emas'
-                      value='swasta-institusi-warga-emas'
-                      checked={
-                        institusiWargaEmas === 'swasta-institusi-warga-emas'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        setInstitusiWargaEmas(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='swasta-institusi-warga-emas'
-                      className='m-2 text-sm font-m'
-                    >
-                      swasta
-                    </label>
-                    <select
-                      name='swasta-institusi-warga-emas'
-                      id='swasta-institusi-warga-emas'
-                      value={swastaInstitusiWargaEmas}
-                      onChange={(e) => {
-                        setSwastaInstitusiWargaEmas(e.target.value);
-                      }}
-                      className='ml-5'
-                    >
-                      <option value=''>Label</option>
-                      <option value='apa??'>Apa?</option>
-                    </select>
-                  </div>
-                </div>
-              </article>
-            )}
-            {jenisFasiliti === 'institusi-oku' && (
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div>
-                  <p className='font-semibold'>institusi OKU</p>
-                </div>
-                <div className='grid'>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='institusi-oku'
-                      id='pdk-institusi-oku'
-                      value='pdk-institusi-oku'
-                      checked={
-                        institusiOku === 'pdk-institusi-oku' ? true : false
-                      }
-                      onChange={(e) => {
-                        setInstitusiOku(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='pdk-institusi-oku'
-                      className='m-2 text-sm font-m'
-                    >
-                      PDK
-                    </label>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='institusi-oku'
-                      id='non-pdk-institusi-oku'
-                      value='non-pdk-institusi-oku'
-                      checked={
-                        institusiOku === 'non-pdk-institusi-oku' ? true : false
-                      }
-                      onChange={(e) => {
-                        setInstitusiOku(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='non-pdk-institusi-oku'
-                      className='m-2 text-sm font-m'
-                    >
-                      non - PDK
-                    </label>
-                  </div>
-                </div>
-              </article>
-            )}
-            {jenisFasiliti === 'kampung-angkat' && (
-              <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div>
-                  <p className='font-semibold'>KG angkat</p>
-                </div>
-                <div className='grid'>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='kg-angkat'
-                      id='komuniti-kg-angkat'
-                      value='komuniti-kg-angkat'
-                      checked={kgAngkat === 'komuniti-kg-angkat' ? true : false}
-                      onChange={(e) => {
-                        setKgAngkat(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='komuniti-kg-angkat'
-                      className='m-2 text-sm font-m'
-                    >
-                      komuniti
-                    </label>
-                  </div>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      type='radio'
-                      name='kg-angkat'
-                      id='lawatan-ke-rumah-kg-angkat'
-                      value='lawatan-ke-rumah-kg-angkat'
-                      checked={
-                        kgAngkat === 'lawatan-ke-rumah-kg-angkat' ? true : false
-                      }
-                      onChange={(e) => {
-                        setKgAngkat(e.target.value);
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='lawatan-ke-rumah-kg-angkat'
-                      className='m-2 text-sm font-m'
-                    >
-                      lawatan ke rumah
-                    </label>
-                  </div>
-                </div>
-              </article>
-            )}
-          </div>
-          <span
-            onClick={() => setShowForm(false)}
-            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-          >
-            kembali
-          </span>
-          <button
-            type='submit'
-            className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-          >
-            daftar
-          </button>
-        </form>
-      </>
+              <span
+                onClick={() => setShowForm(false)}
+                className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+              >
+                kembali
+              </span>
+              {addingData ? <BusyButton /> : <SubmitButtton />}
+            </form>
+          </>
+        )}
+      </Confirmation>
     );
   }
 }

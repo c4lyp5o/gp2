@@ -5,6 +5,8 @@ import styles from '../Modal.module.css';
 
 import LoadingScreen from './Loading';
 import Confirmation from './Confirmation';
+import BusyButton from './BusyButton';
+import SubmitButtton from './SubmitButton';
 
 const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
   const { Dictionary, toast, readOneData, readKpData, updateData } =
@@ -12,6 +14,7 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
 
   const currentKp = useRef();
   const currentName = useRef();
+  const currentEmail = useRef();
   const currentStatusPerkhidmatan = useRef();
   const currentGred = useRef();
   const currentRole = useRef();
@@ -47,6 +50,7 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     if (FType === 'pp' || FType === 'jp') {
       Data = {
         // nama: currentName.current,
+        email: currentEmail.current,
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
@@ -79,56 +83,10 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     });
   };
 
-  function BusyButton() {
-    return (
-      <>
-        <button
-          type='button'
-          class='inline-flex items-center text-center justify-center px-4 py-2 bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all ease-in-out duration-150 cursor-not-allowed'
-          disabled=''
-        >
-          <svg
-            class='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-          >
-            <circle
-              class='opacity-25'
-              cx='12'
-              cy='12'
-              r='10'
-              stroke='currentColor'
-              stroke-width='4'
-            ></circle>
-            <path
-              class='opacity-75'
-              fill='currentColor'
-              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-            ></path>
-          </svg>
-          Mengubah Data...
-        </button>
-      </>
-    );
-  }
-
-  function SubmitButtton({ confirm }) {
-    return (
-      <button
-        type='button'
-        onClick={confirm(handleSubmit)}
-        className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
-      >
-        Tambah Data
-      </button>
-    );
-  }
-
   function Klinik({ confirm }) {
     return (
       <>
-        <form>
+        <form onSubmit={confirm(handleSubmit)}>
           <div
             className={styles.darkBG}
             onClick={() => setShowEditModal(false)}
@@ -283,9 +241,9 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
                   {editingData ? (
-                    <BusyButton />
+                    <BusyButton func='edit' />
                   ) : (
-                    <SubmitButtton confirm={confirm} />
+                    <SubmitButtton func='edit' />
                   )}
                   <span
                     className={styles.cancelBtn}
@@ -304,7 +262,7 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
 
   function Pegawai({ confirm }) {
     return (
-      <form>
+      <form onSubmit={confirm(handleSubmit)}>
         <div
           className={styles.darkBG}
           onClick={() => setShowEditModal(false)}
@@ -361,6 +319,21 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
                     type='text'
                     name='mdc'
                     id='mdc'
+                  />
+                </div>
+                <p>
+                  Emel{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <div className='grid gap-1'>
+                  <input
+                    required
+                    defaultValue={editedEntity.email}
+                    className='border-2'
+                    type='text'
+                    name='email'
+                    id='email'
+                    onChange={(e) => (currentEmail.current = e.target.value)}
                   />
                 </div>
                 <div className='grid gap-1'>
@@ -437,9 +410,9 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
           <div className={styles.modalActions}>
             <div className={styles.actionsContainer}>
               {editingData ? (
-                <BusyButton />
+                <BusyButton func='edit' />
               ) : (
-                <SubmitButtton confirm={confirm} />
+                <SubmitButtton func='edit' />
               )}
               <span
                 className={styles.cancelBtn}
@@ -456,7 +429,7 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
 
   function Facility({ confirm }) {
     return (
-      <form>
+      <form onSubmit={confirm(handleSubmit)}>
         <div
           className={styles.darkBG}
           onClick={() => setShowEditModal(false)}
@@ -565,9 +538,9 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
                 {editingData ? (
-                  <BusyButton />
+                  <BusyButton func='edit' />
                 ) : (
-                  <SubmitButtton confirm={confirm} />
+                  <SubmitButtton func='edit' />
                 )}
                 <span
                   className={styles.cancelBtn}

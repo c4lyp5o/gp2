@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
 
@@ -14,16 +14,11 @@ import Rawatan from './form-umum/Rawatan';
 import Promosi from './form-umum/Promosi';
 // import Kotak from './form-umum/Kotak';
 
+import Confirmation from './UserFormUmumConfirmation';
+
 function UserFormUmumHeader() {
-  const {
-    userToken,
-    reliefUserToken,
-    username,
-    navigate,
-    catchAxiosErrorAndLogout,
-    useParams,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, username, useParams, toast } =
+    useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
@@ -1758,7 +1753,6 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     await toast
       .promise(
         axios.patch(
@@ -1987,171 +1981,182 @@ function UserFormUmumHeader() {
   };
 
   return (
-    <>
-      <div className='h-full p-1 grid'>
-        <div className='p-2'>
-          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-2'>
-            {!isLoading && (
-              <div>
-                <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                  <h1>MAKLUMAT AM PESAKIT</h1>
-                  <FaInfoCircle
-                    className='hover:cursor-pointer m-1 text-lg'
-                    onMouseEnter={() => setIsShown(true)}
-                    onMouseLeave={() => setIsShown(false)}
-                  />
-                  <button
-                    onClick={kemaskini}
-                    className='float-left px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-md text-xs font-medium'
-                  >
-                    kemaskini
-                  </button>
-                </div>
-                {isShown && (
-                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
-                    <div className='flex flex-row text-sm'>
-                      <h2 className='font-semibold'>NAMA :</h2>
-                      <p className='ml-1'>{singlePersonUmum.nama}</p>
+    <Confirmation callbackFunction={handleSubmit} data={masterForm}>
+      {(confirm) => (
+        <>
+          <div className='h-full p-1 grid'>
+            <div className='p-2'>
+              <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-2'>
+                {!isLoading && (
+                  <div>
+                    <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                      <h1>MAKLUMAT AM PESAKIT</h1>
+                      <FaInfoCircle
+                        className='hover:cursor-pointer m-1 text-lg'
+                        onMouseEnter={() => setIsShown(true)}
+                        onMouseLeave={() => setIsShown(false)}
+                      />
+                      <button
+                        onClick={kemaskini}
+                        className='float-left px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-md text-xs font-medium'
+                      >
+                        kemaskini
+                      </button>
                     </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>IC/PASSPORT :</h2>
-                      <p className='ml-1'>{singlePersonUmum.ic}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>JANTINA :</h2>
-                      <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                      <p className='ml-1'>
-                        {moment(singlePersonUmum.tarikhLahir).format(
-                          'DD/MM/YYYY'
-                        )}
-                      </p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>UMUR :</h2>
-                      <p className='ml-1'>
-                        {singlePersonUmum.umur} tahun{' '}
-                        {singlePersonUmum.umurBulan} bulan
-                      </p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
-                      <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>KEDATANGAN :</h2>
-                      <p className='ml-1'>{singlePersonUmum.kedatangan}</p>
+                    {isShown && (
+                      <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
+                        <div className='flex flex-row text-sm'>
+                          <h2 className='font-semibold'>NAMA :</h2>
+                          <p className='ml-1'>{singlePersonUmum.nama}</p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>IC/PASSPORT :</h2>
+                          <p className='ml-1'>{singlePersonUmum.ic}</p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>JANTINA :</h2>
+                          <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>TARIKH LAHIR :</h2>
+                          <p className='ml-1'>
+                            {moment(singlePersonUmum.tarikhLahir).format(
+                              'DD/MM/YYYY'
+                            )}
+                          </p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>UMUR :</h2>
+                          <p className='ml-1'>
+                            {singlePersonUmum.umur} tahun{' '}
+                            {singlePersonUmum.umurBulan} bulan
+                          </p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                          <p className='ml-1'>
+                            {singlePersonUmum.kumpulanEtnik}
+                          </p>
+                        </div>
+                        <div className='text-sm flex flex-row '>
+                          <h2 className='font-semibold'>KEDATANGAN :</h2>
+                          <p className='ml-1'>{singlePersonUmum.kedatangan}</p>
+                        </div>
+                      </div>
+                    )}
+                    <div className='text-s flex flex-row pl-5'>
+                      <h2 className='font-semibold text-xs'>NAMA :</h2>
+                      <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
                     </div>
                   </div>
                 )}
-                <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold text-xs'>NAMA :</h2>
-                  <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
-                </div>
+                {!isLoading && (
+                  <>
+                    <div className='md:pt-11'>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>JANTINA :</h2>
+                        <p className='ml-1 text-xs'>
+                          {singlePersonUmum.jantina}
+                        </p>
+                      </div>
+                    </div>
+                    <div className='lg:pt-11'>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>IC/Passport :</h2>
+                        <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
+                      </div>
+                    </div>
+                    <div className='lg:pt-11'>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>UMUR :</h2>
+                        <p className='ml-1 text-xs'>
+                          {singlePersonUmum.umur} tahun{' '}
+                          {singlePersonUmum.umurBulan} bulan
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {isLoading && (
+                  <p className='col-span-3 py-[15px] text-base font-semibold'>
+                    <Spinner color='#1f315f' />
+                  </p>
+                )}
+              </article>
+            </div>
+            {statusReten === 'belum diisi' && (
+              <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
+                <form onSubmit={confirm(handleSubmit)}>
+                  {/* <FasilitiPerkhidmatan {...masterForm} /> */}
+                  {/* <MaklumatLanjut {...masterForm} /> */}
+                  {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
+                    <Pemeriksaan
+                      {...masterForm}
+                      singlePersonUmum={singlePersonUmum}
+                    />
+                  )}
+                  <Rawatan {...masterForm} />
+                  <Promosi
+                    {...masterForm}
+                    singlePersonUmum={singlePersonUmum}
+                  />
+                  {/* <Kotak {...masterForm} /> */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
+                    <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                      <span
+                        onClick={() => {
+                          window.opener = null;
+                          window.open('', '_self');
+                          window.close();
+                        }}
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                      >
+                        tutup
+                      </span>
+                      <input
+                        type='reset'
+                        value='reset'
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                      />
+                      <button
+                        type='submit'
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      >
+                        hantar
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
             )}
-            {!isLoading && (
+            {statusReten === 'telah diisi' && (
               <>
-                <div className='md:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>JANTINA :</h2>
-                    <p className='ml-1 text-xs'>{singlePersonUmum.jantina}</p>
-                  </div>
-                </div>
-                <div className='lg:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>IC/Passport :</h2>
-                    <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
-                  </div>
-                </div>
-                <div className='lg:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>UMUR :</h2>
-                    <p className='ml-1 text-xs'>
-                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
-                      bulan
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
-            {isLoading && (
-              <p className='col-span-3 py-[15px] text-base font-semibold'>
-                <Spinner color='#1f315f' />
-              </p>
-            )}
-          </article>
-        </div>
-        {statusReten === 'belum diisi' && (
-          <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
-            <form onSubmit={handleSubmit}>
-              {/* <FasilitiPerkhidmatan {...masterForm} /> */}
-              {/* <MaklumatLanjut {...masterForm} /> */}
-              {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
-                <Pemeriksaan
-                  {...masterForm}
-                  singlePersonUmum={singlePersonUmum}
-                />
-              )}
-              <Rawatan {...masterForm} />
-              <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
-              {/* <Kotak {...masterForm} /> */}
-              <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-                <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                <div>
+                  reten telah diisi
                   <span
                     onClick={() => {
                       window.opener = null;
                       window.open('', '_self');
                       window.close();
                     }}
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    className='flex bg-user3 p-2 w-1/12 m-auto capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
                   >
                     tutup
                   </span>
-                  <input
-                    type='reset'
-                    value='reset'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  />
-                  <button
-                    type='submit'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    hantar
-                  </button>
                 </div>
-              </div>
-            </form>
+              </>
+            )}
+            {showKemaskini && (
+              <Kemaskini
+                showKemaskini={showKemaskini}
+                setShowKemaskini={setShowKemasKini}
+                toast={toast}
+              />
+            )}
           </div>
-        )}
-        {statusReten === 'telah diisi' && (
-          <>
-            <div>
-              reten telah diisi
-              <span
-                onClick={() => {
-                  window.opener = null;
-                  window.open('', '_self');
-                  window.close();
-                }}
-                className='flex bg-user3 p-2 w-1/12 m-auto capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-              >
-                tutup
-              </span>
-            </div>
-          </>
-        )}
-        {showKemaskini && (
-          <Kemaskini
-            showKemaskini={showKemaskini}
-            setShowKemaskini={setShowKemasKini}
-            toast={toast}
-          />
-        )}
-      </div>
-    </>
+        </>
+      )}
+    </Confirmation>
   );
 }
 
