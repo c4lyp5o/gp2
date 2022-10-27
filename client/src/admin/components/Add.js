@@ -35,6 +35,11 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
   const currentKodTastad = useRef();
   const currentAlamatTastad = useRef();
   const currentGovKe = useRef();
+  // event
+  const currentTarikh = useRef();
+  const currentMasaMula = useRef();
+  const currentMasaTamat = useRef();
+  const currentTempat = useRef();
   // APDM
   const statusApdm = useRef();
   // data
@@ -89,6 +94,15 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
         statusRoleKlinik: currentRole.current,
         statusPerkhidmatan: currentStatusPerkhidmatan.current,
         kodFasiliti: currentKodFasiliti.current,
+      };
+    }
+    if (FType === 'event') {
+      Data = {
+        createdByKp: currentKp.current,
+        tarikh: currentTarikh.current,
+        masaMula: currentMasaMula.current,
+        masaTamat: currentMasaTamat.current,
+        tempat: currentTempat.current,
       };
     }
     if (FType === 'taska' || FType === 'tadika') {
@@ -807,6 +821,153 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     );
   }
 
+  function Event({ confirm }) {
+    return (
+      <>
+        <form onSubmit={confirm(handleSubmit)}>
+          <div
+            className={styles.darkBG}
+            onClick={() => setShowAddModal(false)}
+          />
+          <div className={styles.centered}>
+            <div className={styles.modalAdd}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>Tambah Event</h5>
+              </div>
+              <span
+                className={styles.closeBtn}
+                onClick={() => setShowAddModal(false)}
+              >
+                <RiCloseLine style={{ marginBottom: '-3px' }} />
+              </span>
+              <div className={styles.modalContent}>
+                <div className='admin-pegawai-handler-container'>
+                  <div className='mb-3'>
+                    <p>
+                      Nama Event
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) => (currentName.current = e.target.value)}
+                      />
+                    </div>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) => (currentKp.current = e.target.value)}
+                      >
+                        <option value=''>Pilih Klinik</option>
+                        {klinik.map((k) => (
+                          <option className='capitalize' value={k.kp}>
+                            {k.kp}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <p>
+                      Tarikh{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='date'
+                        name='tarikh'
+                        id='tarikh'
+                        onChange={(e) =>
+                          (currentTarikh.current = e.target.value)
+                        }
+                      />
+                      <p>
+                        Masa{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid gap-1'>
+                        <input
+                          required
+                          className='border-2'
+                          type='time'
+                          name='masamula'
+                          id='masamula'
+                          onChange={(e) =>
+                            (currentMasaMula.current = e.target.value)
+                          }
+                        />
+                        <input
+                          required
+                          className='border-2'
+                          type='time'
+                          name='masatamat'
+                          id='masatamat'
+                          onChange={(e) =>
+                            (currentMasaTamat.current = e.target.value)
+                          }
+                        />
+                      </div>
+                      <p>
+                        Tempat
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid gap-1'>
+                        <input
+                          required
+                          className='border-2'
+                          type='text'
+                          name='nama'
+                          id='nama'
+                          onChange={(e) =>
+                            (currentTempat.current = e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.modalActions}>
+                  <div className={styles.actionsContainer}>
+                    {addingData ? (
+                      <BusyButton func='add' />
+                    ) : (
+                      <SubmitButtton func='add' />
+                    )}
+                    <span
+                      className={styles.cancelBtn}
+                      onClick={() => setShowAddModal(false)}
+                    >
+                      Cancel
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -823,9 +984,14 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
           {(confirm) => <Pegawai confirm={confirm} />}
         </Confirmation>
       )}
-      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && (
+      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && FType !== 'event' && (
         <Confirmation callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Facility confirm={confirm} />}
+        </Confirmation>
+      )}
+      {FType === 'event' && (
+        <Confirmation callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <Event confirm={confirm} />}
         </Confirmation>
       )}
     </>

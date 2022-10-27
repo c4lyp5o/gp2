@@ -93,6 +93,7 @@ export default function AdminAfterLogin() {
           <Route path='ins' element={<Data FType='ins' />} />
           <Route path='kpb' element={<Data FType='kpb' />} />
           <Route path='mp' element={<Data FType='mp' />} />
+          <Route path='event' element={<Data FType='event' />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>

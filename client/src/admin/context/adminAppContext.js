@@ -302,16 +302,18 @@ function AdminAppProvider({ children }) {
     <AdminAppContext.Provider
       value={{
         // superadmin
+        // main data
         createData,
         readData,
         readOneData,
+        updateData,
+        deleteData,
+        // misc data
         readSekolahData,
         readPegawaiData,
         readMdtbData,
         readFasilitiData,
         readKpData,
-        updateData,
-        deleteData,
         // misc
         token,
         setToken,

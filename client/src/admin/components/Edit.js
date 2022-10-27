@@ -25,6 +25,12 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
   const [loading, setLoading] = useState(true);
   const [editingData, setEditingData] = useState(false);
 
+  // event
+  const currentTarikh = useRef();
+  const currentMasaMula = useRef();
+  const currentMasaTamat = useRef();
+  const currentTempat = useRef();
+
   useEffect(() => {
     readKpData().then((res) => {
       console.log(res);
@@ -54,6 +60,16 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
+      };
+    }
+    if (FType === 'event') {
+      Data = {
+        // nama: currentName.current,
+        createdByKp: currentKp.current,
+        tarikh: currentTarikh.current,
+        masaMula: currentMasaMula.current,
+        masaTamat: currentMasaTamat.current,
+        tempat: currentTempat.current,
       };
     }
     if (FType === 'kp') {
@@ -556,6 +572,159 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     );
   }
 
+  function Event({ confirm }) {
+    return (
+      <>
+        <form onSubmit={confirm(handleSubmit)}>
+          <div
+            className={styles.darkBG}
+            onClick={() => setShowEditModal(false)}
+          />
+          <div className={styles.centered}>
+            <div className={styles.modalAdd}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>Tambah Event</h5>
+              </div>
+              <span
+                className={styles.closeBtn}
+                onClick={() => setShowEditModal(false)}
+              >
+                <RiCloseLine style={{ marginBottom: '-3px' }} />
+              </span>
+              <div className={styles.modalContent}>
+                <div className='admin-pegawai-handler-container'>
+                  <div className='mb-3'>
+                    <p>
+                      Nama Event
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        value={editedEntity.nama}
+                        onChange={(e) => (currentName.current = e.target.value)}
+                      />
+                    </div>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2'
+                        value={editedEntity.createdByKp}
+                        onChange={(e) => (currentKp.current = e.target.value)}
+                      >
+                        <option value=''>Pilih Klinik</option>
+                        {klinik.map((k) => (
+                          <option className='capitalize' value={k.kp}>
+                            {k.kp}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <p>
+                      Tarikh{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='date'
+                        name='tarikh'
+                        id='tarikh'
+                        value={editedEntity.tarikh}
+                        onChange={(e) =>
+                          (currentTarikh.current = e.target.value)
+                        }
+                      />
+                      <p>
+                        Masa{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid gap-1'>
+                        <input
+                          required
+                          className='border-2'
+                          type='time'
+                          name='masamula'
+                          id='masamula'
+                          value={editedEntity.masaMula}
+                          onChange={(e) =>
+                            (currentMasaMula.current = e.target.value)
+                          }
+                        />
+                        <input
+                          required
+                          className='border-2'
+                          type='time'
+                          name='masatamat'
+                          id='masatamat'
+                          value={editedEntity.masaTamat}
+                          onChange={(e) =>
+                            (currentMasaTamat.current = e.target.value)
+                          }
+                        />
+                      </div>
+                      <p>
+                        Tempat
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid gap-1'>
+                        <input
+                          required
+                          className='border-2'
+                          type='text'
+                          name='nama'
+                          id='nama'
+                          value={editedEntity.tempat}
+                          onChange={(e) =>
+                            (currentTempat.current = e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.modalActions}>
+                  <div className={styles.actionsContainer}>
+                    {editingData ? (
+                      <BusyButton func='add' />
+                    ) : (
+                      <SubmitButtton func='add' />
+                    )}
+                    <span
+                      className={styles.cancelBtn}
+                      onClick={() => setShowEditModal(false)}
+                    >
+                      Cancel
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </>
+    );
+  }
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -572,11 +741,20 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
           {(confirm) => <Pegawai confirm={confirm} />}
         </Confirmation>
       )}
-      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && (
+      {FType === 'event' && (
         <Confirmation callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Facility confirm={confirm} />}
+          {(confirm) => <Event confirm={confirm} />}
         </Confirmation>
       )}
+      {FType !== 'pp' &&
+        FType !== 'kp' &&
+        FType !== 'jp' &&
+        FType !==
+          'event'(
+            <Confirmation callbackFunction={handleSubmit} func='edit'>
+              {(confirm) => <Facility confirm={confirm} />}
+            </Confirmation>
+          )}
     </>
   );
 };

@@ -7,6 +7,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const Event = require('../models/Event');
 const emailGen = require('../lib/emailgen');
 
 const Dictionary = {
@@ -20,6 +21,7 @@ const Dictionary = {
   ins: 'institusi',
   kpb: 'kp-bergerak',
   mp: 'makmal-pergigian',
+  event: 'event',
 };
 
 exports.getData = async (req, res, next) => {
@@ -44,7 +46,8 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'klinik' &&
-              theType !== 'juruterapi pergigian'
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'event'
             ) {
               Data = {
                 ...Data,
@@ -55,16 +58,11 @@ exports.getData = async (req, res, next) => {
               const data = await Fasiliti.create(Data);
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              Data = {
-                ...Data,
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
-              };
-              const data = await Operator.create(Data);
-              return res.status(200).json(data);
-            }
-            if (theType === 'juruterapi pergigian') {
+            if (
+              theType === 'pegawai' ||
+              theType === 'juruterapi pergigian' ||
+              theType === 'event'
+            ) {
               Data = {
                 ...Data,
                 createdByDaerah: dataGeografik.daerah,
@@ -116,6 +114,13 @@ exports.getData = async (req, res, next) => {
               });
               return res.status(200).json(data);
             }
+            if (theType === 'event') {
+              const data = await Event.find({
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
+              });
+              return res.status(200).json(data);
+            }
             if (theType === 'pegawai') {
               const data = await Operator.find({
                 createdByDaerah: dataGeografik.daerah,
@@ -147,20 +152,21 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findById({
                 _id: Id,
               });
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findById({
+            if (theType === 'event') {
+              const data = await Event.findById({
                 _id: Id,
               });
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findById({
                 _id: Id,
               });
@@ -178,7 +184,8 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findByIdAndUpdate(
                 { _id: Id },
@@ -187,15 +194,15 @@ exports.getData = async (req, res, next) => {
               );
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findByIdAndUpdate(
+            if (theType === 'event') {
+              const data = await Event.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
                 { new: true }
               );
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
@@ -217,16 +224,17 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findByIdAndDelete({ _id: Id });
+            if (theType === 'event') {
+              const data = await Event.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }

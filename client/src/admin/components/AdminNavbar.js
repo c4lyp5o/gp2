@@ -135,6 +135,17 @@ export default function AdminNavbar() {
           >
             MAKMAL PERGIGIAN
           </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+            }
+            to='event'
+            onClick={() => setShowLinks(!showLinks)}
+          >
+            EVENT
+          </NavLink>
         </div>
       </nav>
       <div className='absolute w-60 top-0 left-0 flex text-center justify-center h-28'>
