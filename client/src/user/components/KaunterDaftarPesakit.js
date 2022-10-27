@@ -9,16 +9,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-export default function DaftarPesakit({ createdByKp, createdByDaerah }) {
-  const {
-    kaunterToken,
-    Dictionary,
-    dateToday,
-    formatTime,
-    noPendaftaranSplitter,
-    statusPesakit,
-    toast,
-  } = useGlobalUserAppContext();
+export default function DaftarPesakit() {
+  const { kaunterToken, statusPesakit, formatTime, noPendaftaranSplitter } =
+    useGlobalUserAppContext();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -89,96 +82,87 @@ export default function DaftarPesakit({ createdByKp, createdByDaerah }) {
         </div>
         <div className='m-3 xl:w-96'>
           <label htmlFor='pilihanTarikh'>Pilihan Tarikh </label>
-          {/* <input
-            required
-            value={pilihanTarikh}
-            onChange={(e) => {
-              console.log(e.target.value);
-              setPilihanTarikh(e.target.value);
-            }}
-            type='date'
-            name='tarikhKedatangan'
-            className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-          /> */}
           <CustomDatePicker />
         </div>
       </div>
       <div>
         <div className='justify-center items-center'>
-          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-            <table className='m-auto mb-5 w-full outline outline-1 outline-kaunterBlack'>
-              <tbody>
-                <tr className='bg-kaunter3 p-2'>
-                  <th className='outline outline-1 outline-kaunterBlack px-2'>
+          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-userWhite bg-kaunter2'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack whitespace-nowrap px-2'>
-                    MASA PENDAFTARAN
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    MASA DAFTAR
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack whitespace-nowrap px-2'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     NO. PENDAFTARAN
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack px-2'>
-                    NAMA
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md'>
+                    NAMA PESAKIT
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack px-2'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     NO. PENGENALAN DIRI
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack px-2'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     STATUS PESAKIT
                   </th>
-                  <th className='outline outline-1 outline-kaunterBlack px-2'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     STATUS PENGISIAN RETEN
                   </th>
                 </tr>
-                {data.kaunterResultQuery
-                  .filter((item) => {
-                    if (pilihanTarikh === '') return item;
-                    if (item.tarikhKedatangan === pilihanTarikh) return item;
-                  })
-                  .filter((pt) => pt.nama.includes(philter))
-                  .map((p, index) => (
-                    <>
+              </thead>
+              {data.kaunterResultQuery
+                .filter((item) => {
+                  if (pilihanTarikh === '') return item;
+                  if (item.tarikhKedatangan === pilihanTarikh) return item;
+                })
+                .filter((pt) => pt.nama.includes(philter))
+                .map((p, index) => (
+                  <>
+                    <tbody className='bg-kaunter3'>
                       <tr>
-                        <td className='outline outline-1 outline-kaunterBlack'>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='outline outline-1 outline-kaunterBlack'>
-                          {moment(p.waktuSampai, 'HH:mm').format('h:mm A')}
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          {formatTime(p.waktuSampai)}
                         </td>
                         {p.noPendaftaranBaru ? (
-                          <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
-                            {p.noPendaftaranBaru}
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            {noPendaftaranSplitter(p.noPendaftaranBaru)}
                             <BsFilePerson
                               className='text-user7 text-2xl inline-table mx-2 pb-1'
-                              title='baru'
+                              title='Baru'
                             />
                           </td>
                         ) : (
-                          <td className='outline outline-1 outline-kaunterBlack lowercase whitespace-nowrap'>
-                            {p.noPendaftaranUlangan}
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            {noPendaftaranSplitter(p.noPendaftaranUlangan)}
                             <BsFillFilePersonFill
                               className='text-user9 text-2xl inline-table mx-2 pb-1'
-                              title='ulangan'
+                              title='Ulangan'
                             />
                           </td>
                         )}
-                        <td className='outline outline-1 outline-kaunterBlack'>
-                          {p.nama.toUpperCase()}
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                          {p.nama}
                         </td>
-                        <td className='outline outline-1 outline-kaunterBlack'>
-                          {p.ic.toUpperCase()}
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                          {p.ic}
                         </td>
-                        <td className='outline outline-1 outline-kaunterBlack'>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {statusPesakit(p)}
                         </td>
-                        <td className='outline outline-1 outline-kaunterBlack'>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {p.statusReten}
                         </td>
                       </tr>
-                    </>
-                  ))}
-              </tbody>
+                    </tbody>
+                  </>
+                ))}
             </table>
           </div>
         </div>

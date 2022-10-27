@@ -214,7 +214,7 @@ const queryPersonKaunter = async (req, res) => {
 
   const {
     user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    query: { nama, tarikhKedatangan, jenisFasiliti, uniqueId },
   } = req;
 
   const queryObject = {};
@@ -230,6 +230,10 @@ const queryPersonKaunter = async (req, res) => {
 
   if (jenisFasiliti) {
     queryObject.jenisFasiliti = jenisFasiliti;
+  }
+
+  if (uniqueId) {
+    queryObject.uniqueId = uniqueId;
   }
 
   const kaunterResultQuery = await Umum.find(queryObject);
