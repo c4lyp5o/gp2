@@ -16,7 +16,6 @@ export default function PatientData({
   showForm,
   setShowForm,
   editForm,
-  setEditForm,
   setEditId,
   jenisFasiliti,
   kp,
@@ -140,7 +139,7 @@ export default function PatientData({
         <button
           type='button'
           className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-          onClick={(e) => setShowForm(true)}
+          onClick={() => setShowForm(true)}
         >
           Daftar Pesakit
         </button>
