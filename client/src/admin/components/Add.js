@@ -98,6 +98,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     }
     if (FType === 'event') {
       Data = {
+        nama: currentName.current,
         createdByKp: currentKp.current,
         tarikh: currentTarikh.current,
         masaMula: currentMasaMula.current,

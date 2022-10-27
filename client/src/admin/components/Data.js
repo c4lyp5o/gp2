@@ -1,5 +1,6 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
+import moment from 'moment';
 import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
@@ -41,6 +42,7 @@ export default function Data({ FType }) {
     readData,
     encryptEmail,
     encryptPassword,
+    formatTime,
   } = useGlobalAdminAppContext();
 
   useEffect(() => {
@@ -50,6 +52,7 @@ export default function Data({ FType }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
+      console.log(res.data);
       setData(res.data);
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
@@ -606,10 +609,14 @@ export default function Data({ FType }) {
                         {index + 1}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {f.nama}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {f.createdByKp}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {f.tarikh}, {f.masa}
+                        {f.tarikh}, {formatTime(f.masaMula)} -{' '}
+                        {formatTime(f.masaTamat)}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button

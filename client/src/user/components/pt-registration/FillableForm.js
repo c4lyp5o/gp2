@@ -102,6 +102,10 @@ export default function FillableForm({
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
+  // events
+  const [events, setEvents] = useState([]);
+  const [pilihanEvent, setPilihanEvent] = useState('');
+
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
     const today = new Date();
@@ -215,6 +219,7 @@ export default function FillableForm({
               statusPesara,
               rujukDaripada,
               catatan,
+              jenisProjekKomuniti: pilihanEvent.toLowerCase(),
               // kepp
               kepp,
               kedatanganKepp,
@@ -622,6 +627,23 @@ export default function FillableForm({
     }
   }, [editId]);
 
+  // fetch events if jenis fasiliti === projek-komuniti-lain
+  useEffect(() => {
+    if (jenisFasiliti === 'projek-komuniti-lain') {
+      const fetchEvents = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setEvents(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchEvents();
+    }
+  }, [jenisFasiliti]);
+
   // fetch taska/tadika if jenis fasiliti taska-tadika only
   useEffect(() => {
     if (jenisFasiliti === 'taska-tadika') {
@@ -670,6 +692,29 @@ export default function FillableForm({
                 <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
                   Fasiliti: {Dictionary[jenisFasiliti]}
                 </p>
+                {jenisFasiliti === 'projek-komuniti-lain' && (
+                  <div className='grid gap-1 lg:mt-3 lg:ml-auto'>
+                    <p>carian</p>
+                    <select
+                      value={pilihanEvent}
+                      onChange={(e) => {
+                        setConfirmData({
+                          ...confirmData,
+                          pilihanEvent: e.target.value,
+                        });
+                        setPilihanEvent(e.target.value);
+                      }}
+                      className='outline outline-adminBlack outline-1 capitalize w-40'
+                    >
+                      <option value=''>Event..</option>
+                      {events.projekKomuniti.map((k, index) => (
+                        <option key={index} value={k.nama}>
+                          {k.nama}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
               <div className='grid gap-1'>
                 <div className='flex m-2 '>

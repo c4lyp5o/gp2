@@ -58,11 +58,16 @@ exports.getData = async (req, res, next) => {
               const data = await Fasiliti.create(Data);
               return res.status(200).json(data);
             }
-            if (
-              theType === 'pegawai' ||
-              theType === 'juruterapi pergigian' ||
-              theType === 'event'
-            ) {
+            if (theType === 'event') {
+              Data = {
+                ...Data,
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
+              };
+              const data = await Event.create(Data);
+              return res.status(200).json(data);
+            }
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               Data = {
                 ...Data,
                 createdByDaerah: dataGeografik.daerah,
@@ -105,7 +110,8 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
