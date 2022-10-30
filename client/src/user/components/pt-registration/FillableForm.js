@@ -102,6 +102,10 @@ export default function FillableForm({
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
+  // events
+  const [events, setEvents] = useState([]);
+  const [pilihanEvent, setPilihanEvent] = useState('');
+
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
     const today = new Date();
@@ -215,6 +219,7 @@ export default function FillableForm({
               statusPesara,
               rujukDaripada,
               catatan,
+              namaProjekKomuniti: pilihanEvent.toLowerCase(),
               // kepp
               kepp,
               kedatanganKepp,
@@ -622,6 +627,23 @@ export default function FillableForm({
     }
   }, [editId]);
 
+  // fetch events if jenis fasiliti === projek-komuniti-lain
+  useEffect(() => {
+    if (jenisFasiliti === 'projek-komuniti-lain') {
+      const fetchEvents = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setEvents(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchEvents();
+    }
+  }, [jenisFasiliti]);
+
   // fetch taska/tadika if jenis fasiliti taska-tadika only
   useEffect(() => {
     if (jenisFasiliti === 'taska-tadika') {
@@ -650,6 +672,26 @@ export default function FillableForm({
     );
   }
 
+  if (
+    showForm &&
+    jenisFasiliti === 'projek-komuniti-lain' &&
+    events.projekKomuniti.length === 0
+  ) {
+    return (
+      <div>
+        <h1 className='bg-kaunter3 font-bold text-2xl'>
+          tiada event yang sedang aktif
+        </h1>
+        <button
+          onClick={() => setShowForm(false)}
+          className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+        >
+          kembali
+        </button>
+      </div>
+    );
+  }
+
   if (showForm) {
     return (
       <Confirmation
@@ -671,6 +713,31 @@ export default function FillableForm({
                   Fasiliti: {Dictionary[jenisFasiliti]}
                 </p>
               </div>
+              {jenisFasiliti === 'projek-komuniti-lain' && (
+                <div className='justify-center'>
+                  <label htmlFor='event'>Event</label>
+                  <select
+                    required
+                    name='event'
+                    value={pilihanEvent}
+                    onChange={(e) => {
+                      setConfirmData({
+                        ...confirmData,
+                        pilihanEvent: e.target.value,
+                      });
+                      setPilihanEvent(e.target.value);
+                    }}
+                    className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    {events.projekKomuniti.map((k, index) => (
+                      <option key={index} value={k.nama}>
+                        {k.nama}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
                   <p className='mr-3 font-semibold'>

@@ -14,6 +14,8 @@ import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
+import Loading from './Loading';
+
 import perlis from '../assets/flags/perlis.png';
 import kedah from '../assets/flags/kedah.png';
 import pulauPinang from '../assets/flags/penang.png';
@@ -60,12 +62,12 @@ const FlagsDictionary = {
   'kuala lumpur': kualaLumpur,
 };
 
-function MainChart({ data, adminLevel }) {
-  const currentTitle = (data, adminLevel) => {
-    if (adminLevel !== 'daerahSuperadmin') {
+function MainChart({ data, accountType }) {
+  const currentTitle = (data, accountType) => {
+    if (accountType !== 'daerahSuperadmin') {
       return `Kedatangan Pesakit di Negeri ${data.namaNegeri.toUpperCase()}`;
     }
-    if (adminLevel === 'daerahSuperadmin') {
+    if (accountType === 'daerahSuperadmin') {
       return `Kedatangan Pesakit di Daerah ${data.daerah[0].namaDaerah.toUpperCase()}`;
     }
   };
@@ -83,7 +85,7 @@ function MainChart({ data, adminLevel }) {
       },
       title: {
         display: true,
-        text: currentTitle(data, adminLevel),
+        text: currentTitle(data, accountType),
       },
     },
   };
@@ -109,21 +111,12 @@ function MainChart({ data, adminLevel }) {
   );
 }
 
-export default function AdminCenterStageLoggedIn() {
-  const { toast, getAllNegeriAndDaerah, getCurrentUser } =
-    useGlobalAdminAppContext();
+export default function AdminCenterStageLoggedIn({ accountType }) {
+  const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
-  const [adminLevel, setAdminLevel] = useState(null);
 
   useEffect(() => {
-    getCurrentUser()
-      .then((res) => {
-        setAdminLevel(res.data.accountType);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
     getAllNegeriAndDaerah()
       .then((res) => {
         setData(res.data);
@@ -135,15 +128,14 @@ export default function AdminCenterStageLoggedIn() {
   }, []);
 
   if (loading) {
+    return <Loading />;
+  }
+
+  if (accountType === 'kpSuperadmin') {
     return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-          <div className='flex justify-center mb-2'>
-            <Ring color='#c44058' />
-          </div>
-          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat...
-          </span>
+      <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+        <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
+          <h1>Sila tambah event di bar sisi</h1>
         </div>
       </div>
     );
@@ -185,7 +177,7 @@ export default function AdminCenterStageLoggedIn() {
           <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
             <div className='w-1/2 rounded overflow-hidden shadow-lg relative flex flex-col'>
               {data.length > 0 && (
-                <MainChart data={item} adminLevel={adminLevel} />
+                <MainChart data={item} accountType={accountType} />
               )}
             </div>
           </div>

@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
 const LRU = require('lru-cache');
@@ -45,6 +46,22 @@ const getSinglePersonKaunter = async (req, res) => {
   singlePersonKaunter.ic = decryptedIc;
 
   res.status(201).json({ singlePersonKaunter });
+};
+
+// GET
+const getProjekKomuniti = async (req, res) => {
+  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const projekKomuniti = await Event.find({
+    createdByKp: req.user.kp,
+    createdByDaerah: req.user.daerah,
+    createdByNegeri: req.user.negeri,
+  });
+
+  res.status(200).json({ projekKomuniti });
 };
 
 // POST /
@@ -282,6 +299,7 @@ module.exports = {
   updatePersonKaunter,
   deletePersonKaunter,
   queryPersonKaunter,
+  getProjekKomuniti,
   getTaskaTadikaList,
   getPersonFromCache,
 };

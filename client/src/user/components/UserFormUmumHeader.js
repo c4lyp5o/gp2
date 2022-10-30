@@ -2040,7 +2040,11 @@ function UserFormUmumHeader() {
                         </div>
                         <div className='text-sm flex flex-row '>
                           <h2 className='font-semibold'>KEDATANGAN :</h2>
-                          <p className='ml-1'>{singlePersonUmum.kedatangan}</p>
+                          <p className='ml-1'>
+                            {singlePersonUmum.kedatangan === 'baru-kedatangan'
+                              ? 'Baru'
+                              : 'Ulangan'}
+                          </p>
                         </div>
                       </div>
                     )}
