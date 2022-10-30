@@ -8,7 +8,7 @@ import Confirmation from './Confirmation';
 import BusyButton from './BusyButton';
 import SubmitButtton from './SubmitButton';
 
-const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
+const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const {
     Dictionary,
     toast,
@@ -99,7 +99,7 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
     if (FType === 'event') {
       Data = {
         nama: currentName.current,
-        createdByKp: currentKp.current,
+        createdByKp: kp,
         tarikh: currentTarikh.current,
         masaMula: currentMasaMula.current,
         masaTamat: currentMasaTamat.current,
@@ -859,26 +859,6 @@ const Modal = ({ setShowAddModal, FType, daerah, reload, setReload }) => {
                         id='nama'
                         onChange={(e) => (currentName.current = e.target.value)}
                       />
-                    </div>
-                    <p>
-                      Klinik Bertugas{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <select
-                        required
-                        className='border-2'
-                        onChange={(e) => (currentKp.current = e.target.value)}
-                      >
-                        <option value=''>Pilih Klinik</option>
-                        {klinik.map((k) => (
-                          <option className='capitalize' value={k.kp}>
-                            {k.kp}
-                          </option>
-                        ))}
-                      </select>
                     </div>
                     <p>
                       Tarikh{' '}
