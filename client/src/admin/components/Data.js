@@ -11,7 +11,7 @@ import Loading from './Loading';
 
 import nothinghere from '../assets/nothinghere.png';
 
-export default function Data({ FType }) {
+export default function Data({ FType, kp }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -542,41 +542,10 @@ export default function Data({ FType }) {
   }
 
   function Event() {
-    const [pilihanKlinik, setPilihanKlinik] = useState('');
-
-    const namaKliniks = data.reduce(
-      (arrNamaKliniks, singleFasilitis) => {
-        if (!arrNamaKliniks.includes(singleFasilitis.handler)) {
-          arrNamaKliniks.push(singleFasilitis.handler);
-        }
-        return arrNamaKliniks.filter((valid) => valid);
-      },
-      ['']
-    );
-
     if (data.length > 0) {
       return (
         <div className='flex flex-col items-center gap-5'>
-          <h1 className='text-3xl font-bold mt-10 mb-10'>
-            Senarai Event Daerah {daerah}
-          </h1>
-          <div className='grid gap-1 absolute top-5 left-5'>
-            <p>carian</p>
-            <select
-              value={pilihanKlinik}
-              onChange={(e) => {
-                setPilihanKlinik(e.target.value);
-              }}
-              className='outline outline-adminBlack outline-1 capitalize w-40'
-            >
-              <option value=''>Klinik..</option>
-              {namaKliniks.map((k, index) => (
-                <option key={index} value={k}>
-                  {k}
-                </option>
-              ))}
-            </select>
-          </div>
+          <h1 className='text-3xl font-bold mt-10 mb-10'>Senarai Event {kp}</h1>
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>
@@ -599,50 +568,46 @@ export default function Data({ FType }) {
                 </tr>
               </thead>
               <tbody className='bg-admin4'>
-                {data
-                  .filter((fs) => {
-                    return fs.createdByKp.includes(pilihanKlinik);
-                  })
-                  .map((f, index) => (
-                    <tr key={f._id}>
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {index + 1}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {f.nama}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {f.createdByKp}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {f.tarikh}, {formatTime(f.masaMula)} -{' '}
-                        {formatTime(f.masaTamat)}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <button
-                          className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                          id={f._id}
-                          onClick={() => {
-                            setShowEditModal(true);
-                            setId(f._id);
-                          }}
-                        >
-                          Ubah
-                        </button>
-                        <button
-                          className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                          id={f._id}
-                          onClick={() => {
-                            setShowDeleteModal(true);
-                            setId(f._id);
-                            setDeleteCandidate(f.nama);
-                          }}
-                        >
-                          Hapus
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                {data.map((f, index) => (
+                  <tr key={f._id}>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {index + 1}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.nama}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.createdByKp}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {moment(f.tarikh).format('DD/MM/YYYY')},{' '}
+                      {formatTime(f.masaMula)} - {formatTime(f.masaTamat)}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowEditModal(true);
+                          setId(f._id);
+                        }}
+                      >
+                        Ubah
+                      </button>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowDeleteModal(true);
+                          setId(f._id);
+                          setDeleteCandidate(f.nama);
+                        }}
+                      >
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

@@ -219,7 +219,7 @@ export default function FillableForm({
               statusPesara,
               rujukDaripada,
               catatan,
-              jenisProjekKomuniti: pilihanEvent.toLowerCase(),
+              namaProjekKomuniti: pilihanEvent.toLowerCase(),
               // kepp
               kepp,
               kedatanganKepp,
@@ -672,6 +672,26 @@ export default function FillableForm({
     );
   }
 
+  if (
+    showForm &&
+    jenisFasiliti === 'projek-komuniti-lain' &&
+    events.projekKomuniti.length === 0
+  ) {
+    return (
+      <div>
+        <h1 className='bg-kaunter3 font-bold text-2xl'>
+          tiada event yang sedang aktif
+        </h1>
+        <button
+          onClick={() => setShowForm(false)}
+          className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+        >
+          kembali
+        </button>
+      </div>
+    );
+  }
+
   if (showForm) {
     return (
       <Confirmation
@@ -692,30 +712,32 @@ export default function FillableForm({
                 <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
                   Fasiliti: {Dictionary[jenisFasiliti]}
                 </p>
-                {jenisFasiliti === 'projek-komuniti-lain' && (
-                  <div className='grid gap-1 lg:mt-3 lg:ml-auto'>
-                    <p>carian</p>
-                    <select
-                      value={pilihanEvent}
-                      onChange={(e) => {
-                        setConfirmData({
-                          ...confirmData,
-                          pilihanEvent: e.target.value,
-                        });
-                        setPilihanEvent(e.target.value);
-                      }}
-                      className='outline outline-adminBlack outline-1 capitalize w-40'
-                    >
-                      <option value=''>Event..</option>
-                      {events.projekKomuniti.map((k, index) => (
-                        <option key={index} value={k.nama}>
-                          {k.nama}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
               </div>
+              {jenisFasiliti === 'projek-komuniti-lain' && (
+                <div className='justify-center'>
+                  <label htmlFor='event'>Event</label>
+                  <select
+                    required
+                    name='event'
+                    value={pilihanEvent}
+                    onChange={(e) => {
+                      setConfirmData({
+                        ...confirmData,
+                        pilihanEvent: e.target.value,
+                      });
+                      setPilihanEvent(e.target.value);
+                    }}
+                    className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                  >
+                    <option value=''>Sila pilih..</option>
+                    {events.projekKomuniti.map((k, index) => (
+                      <option key={index} value={k.nama}>
+                        {k.nama}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
                   <p className='mr-3 font-semibold'>
