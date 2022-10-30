@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
+import { FaWindowClose } from 'react-icons/fa';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -82,71 +83,78 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
       {children(show)}
       {open && (
         <>
-          <div className={styles.darkBG} onClick={hide} />
-          <div className={styles.centered}>
-            <div className={styles.modalAdd}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>PERHATIAN</h5>
-              </div>
-              <button className={styles.closeBtn} onClick={hide}>
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </button>
-              <div className={styles.modalContent}>
-                {isEdit ? (
-                  <p>Anda YAKIN untuk mengemaskini data?</p>
-                ) : (
-                  <p>Anda YAKIN untuk menambah data?</p>
-                )}
-                <div className='mt-3'>
-                  <p>Nama: {data.nama}</p>
-                  <p>No. Pengenalan Diri: {data.ic}</p>
-                  <p>
-                    Tarikh Lahir:{' '}
-                    {moment(data.tarikhLahir).format('DD/MM/YYYY')}
-                  </p>
-                  <p>Jantina: {data.jantina}</p>
-                  <p>Kumpulan Etnik: {data.kumpulanEtnik}</p>
-                  <p>
-                    Alamat: {data.alamat}, {data.daerahAlamat},{' '}
-                    {data.poskodAlamat}, {data.negeriAlamat}
-                  </p>
-                  <p>Ibu Mengandung: {data.ibuMengandung ? 'Ya' : 'Tidak'}</p>
-                  <p>Bersekolah: {data.bersekolah ? 'Ya' : 'Tidak'}</p>
-                  <p>OKU: {data.oku ? 'Ya' : 'Tidak'}</p>
-                  {data.statusPesara ? (
-                    <p>Pesara: {data.statusPesara}</p>
-                  ) : null}
-                  {data.rujukDaripada ? (
-                    <p>Rujuk Daripada: {data.rujukDaripada}</p>
-                  ) : null}
-                  {data.catatan ? <p>Catatan: {data.catatan}</p> : null}
-                  {data.pilihanEvent ? <p>Event: {data.pilihanEvent}</p> : null}
-                </div>
-              </div>
-              {duplicate && !isEdit ? (
-                <div className={styles.modalContent}>
-                  <div className='border border-black'>
-                    <p className='text-bold text-kaunter1 text-xl'>AWAS!</p>{' '}
-                    <span>
-                      Pesakit yang sama telah didaftarkan pada hari ini pada{' '}
-                      {formatTime(duplicateData[0].waktuSampai)}
-                    </span>{' '}
-                    <p className='text-bold text-kaunter1 text-xl'>AWAS!</p>
-                  </div>
-                </div>
-              ) : null}
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  <button className={styles.deleteBtn} onClick={confirm}>
-                    YA
-                  </button>
-                  <button className={styles.cancelBtn} onClick={hide}>
-                    Tidak
-                  </button>
-                </div>
+          <div className='absolute inset-x-14 inset-y-20 lg:inset-x-1/3 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+            <FaWindowClose
+              onClick={hide}
+              className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+            />
+            <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
+              PERHATIAN
+            </h5>
+            <div className='mt-5 p-1'>
+              {isEdit ? (
+                <p className='font-semibold'>
+                  Anda YAKIN{' '}
+                  <span className='lowercase'>untuk mengemaskini data</span>?
+                </p>
+              ) : (
+                <p className='font-semibold'>
+                  Anda YAKIN{' '}
+                  <span className='lowercase'>untuk menambah data?</span>
+                </p>
+              )}
+              <div className='grid grid-cols-1 mt-3'>
+                <p>Nama: {data.nama}</p>
+                <p>No. Pengenalan Diri: {data.ic}</p>
+                <p>
+                  Tarikh Lahir: {moment(data.tarikhLahir).format('DD/MM/YYYY')}
+                </p>
+                <p>Jantina: {data.jantina}</p>
+                <p>Kumpulan Etnik: {data.kumpulanEtnik}</p>
+                <p>
+                  Alamat: {data.alamat}, {data.daerahAlamat},{' '}
+                  {data.poskodAlamat}, {data.negeriAlamat}
+                </p>
+                <p>Ibu Mengandung: {data.ibuMengandung ? 'Ya' : 'Tidak'}</p>
+                <p>Bersekolah: {data.bersekolah ? 'Ya' : 'Tidak'}</p>
+                <p>OKU: {data.oku ? 'Ya' : 'Tidak'}</p>
+                {data.statusPesara ? <p>Pesara: {data.statusPesara}</p> : null}
+                {data.rujukDaripada ? (
+                  <p>Rujuk Daripada: {data.rujukDaripada}</p>
+                ) : null}
+                {data.catatan ? <p>Catatan: {data.catatan}</p> : null}
+                {data.pilihanEvent ? <p>Event: {data.pilihanEvent}</p> : null}
               </div>
             </div>
+            {duplicate && !isEdit ? (
+              <div className='border border-black m-3 p-3'>
+                <p className='text-bold text-kaunter1 text-xl'>AWAS!</p>
+                <span>Pesakit </span>
+                <span className='lowercase'>
+                  yang sama telah didaftarkan pada hari ini pada{' '}
+                  {formatTime(duplicateData[0].waktuSampai)}
+                </span>{' '}
+              </div>
+            ) : null}
+            <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
+              <button
+                className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
+                onClick={confirm}
+              >
+                YA
+              </button>
+              <button
+                className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
+                onClick={hide}
+              >
+                Tidak
+              </button>
+            </div>
           </div>
+          <div
+            onClick={hide}
+            className='absolute inset-0 bg-user1 z-10 opacity-75'
+          />
         </>
       )}
     </>
