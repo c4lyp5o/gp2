@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const simpleCrypto = require('simple-crypto-js').default;
+const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
@@ -33,6 +34,7 @@ exports.getData = async (req, res, next) => {
     });
   }
   if (req.method === 'POST') {
+    let tempSecret;
     const { main, Fn, token } = req.body;
     switch (main) {
       case 'DataCenter':
@@ -901,7 +903,6 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'TotpManager':
-        let tempSecret;
         switch (Fn) {
           case 'create':
             console.log('create for totp');
@@ -933,10 +934,10 @@ exports.getData = async (req, res, next) => {
               backupCodes: backupCodes,
               hashedBackupCodes: hashedBackupCodes,
             };
-            console.log(qrCode);
             return res.status(200).json({
               msg: 'success',
-              otp_auth_url,
+              qrcode: qrCode,
+              url: tempSecret.otp_auth_url,
             });
             break;
           case 'read':
@@ -964,6 +965,7 @@ exports.getData = async (req, res, next) => {
             break;
           case 'update':
             const { initialTotpCode } = req.body;
+            console.log(tempSecret);
             const initialVerification = speakeasy.totp.verify({
               secret: tempSecret.base32,
               encoding: 'base32',

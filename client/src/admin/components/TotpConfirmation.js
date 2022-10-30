@@ -5,7 +5,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import styles from '../Modal.module.css';
 
-const TotpModal = ({ children }) => {
+const TotpModal = ({ children, image }) => {
   const { generateSecret, verifyInitialSecret } = useGlobalAdminAppContext();
   const [qrCode, setQrCode] = useState('');
   const [open, setOpen] = useState(false);
@@ -33,16 +33,16 @@ const TotpModal = ({ children }) => {
   };
 
   const confirm = () => {
-    console.log('checking totp');
+    console.log('checking totp', totp);
     verifyInitialSecret(totp).then((res) => {
       console.log(res);
-      if (res.status === 200) {
-        console.log('confirm');
-        callback.run();
-        hide();
-      } else {
-        console.log('error');
-      }
+      // if (res.status === 200) {
+      //   console.log('confirm');
+      //   callback.run();
+      //   hide();
+      // } else {
+      //   console.log('error');
+      // }
     });
   };
 
@@ -67,7 +67,7 @@ const TotpModal = ({ children }) => {
                 </p>
               </div>
               <div>
-                <img src={qrCode} alt='QRCode' />
+                <img src={image} alt='QRCode' />
               </div>
               <div>
                 <input id={totp} type='text' placeholder='Kod TOTP' />

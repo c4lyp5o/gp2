@@ -1,7 +1,4 @@
 import { useState, useLayoutEffect, useId } from 'react';
-import speakeasy from 'speakeasy';
-import QRCode from 'qrcode';
-import CryptoJS from 'crypto-js';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -9,13 +6,26 @@ import Loading from './Loading';
 import TotpConfirmation from './TotpConfirmation';
 
 export default function Settings() {
-  const { getCurrentUser, saveCurrentUser } = useGlobalAdminAppContext();
+  const { getCurrentUser, saveCurrentUser, generateSecret } =
+    useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
   const [loading, setLoading] = useState(true);
+  const [totpImage, setTotpImage] = useState('');
   const [totpConfirmation, setTotpConfirmation] = useState(false);
+  const [totpSecret, setTotpSecret] = useState({});
+  const [backupCodes, setBackupCodes] = useState([]);
+  const [hashedBackupCodes, setHashedBackupCodes] = useState([]);
   const nama = useId();
   const email = useId();
   const totp = useId();
+
+  const generateTotpSecret = async () => {
+    const bc = [];
+    const hbc = [];
+    const secret = await generateSecret({ name: 'Gi-Ret 2.0' });
+    console.log(secret);
+    return secret;
+  };
 
   const enableTotp = () => {
     setLoginInfo({
@@ -38,6 +48,10 @@ export default function Settings() {
   };
 
   useLayoutEffect(() => {
+    generateTotpSecret().then((res) => {
+      console.log(res.data);
+      setTotpImage(res.data.qrcode);
+    });
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
       setLoading(false);
@@ -49,7 +63,7 @@ export default function Settings() {
   }
 
   return (
-    <TotpConfirmation callbackFunction={enableTotp}>
+    <TotpConfirmation callbackFunction={enableTotp} image={totpImage}>
       {(confirm) => (
         <div>
           <form onSubmit={handleSubmit}>
