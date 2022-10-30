@@ -1,15 +1,17 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useState, useEffect } from 'react';
+import moment from 'moment';
 import Add from './Add';
 import Edit from './Edit';
 import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
-import { Ring } from 'react-awesome-spinners';
+
+import Loading from './Loading';
 
 import nothinghere from '../assets/nothinghere.png';
 
-export default function Data({ FType }) {
+export default function Data({ FType, kp }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -29,6 +31,7 @@ export default function Data({ FType }) {
   const [showKlinik, setShowKlinik] = useState(false);
   const [showOperators, setShowOperators] = useState(false);
   const [showFacilities, setShowFacilities] = useState(false);
+  const [showEvent, setShowEvent] = useState(false);
 
   // reloader workaround
   const [reload, setReload] = useState(false);
@@ -39,6 +42,7 @@ export default function Data({ FType }) {
     readData,
     encryptEmail,
     encryptPassword,
+    formatTime,
   } = useGlobalAdminAppContext();
 
   useEffect(() => {
@@ -48,6 +52,7 @@ export default function Data({ FType }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
+      console.log(res.data);
       setData(res.data);
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
@@ -55,7 +60,15 @@ export default function Data({ FType }) {
       if (FType === 'kp') {
         setShowKlinik(true);
       }
-      if (FType !== 'kp' && FType !== 'jp' && FType !== 'pp') {
+      if (FType === 'event') {
+        setShowEvent(true);
+      }
+      if (
+        FType !== 'kp' &&
+        FType !== 'jp' &&
+        FType !== 'pp' &&
+        FType !== 'event'
+      ) {
         setShowFacilities(true);
       }
       setTimeout(() => {
@@ -67,6 +80,7 @@ export default function Data({ FType }) {
       setShowFacilities(false);
       setShowOperators(false);
       setShowKlinik(false);
+      setShowEvent(false);
     };
   }, [FType, reload]);
 
@@ -527,6 +541,81 @@ export default function Data({ FType }) {
     }
   }
 
+  function Event() {
+    if (data.length > 0) {
+      return (
+        <div className='flex flex-col items-center gap-5'>
+          <h1 className='text-3xl font-bold mt-10 mb-10'>Senarai Event {kp}</h1>
+          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-adminWhite bg-admin3'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Bil.
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nama Event
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nama Klinik Yang Bertugas
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Tarikh dan Masa
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Urus
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='bg-admin4'>
+                {data.map((f, index) => (
+                  <tr key={f._id}>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {index + 1}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.nama}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.createdByKp}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {moment(f.tarikh).format('DD/MM/YYYY')},{' '}
+                      {formatTime(f.masaMula)} - {formatTime(f.masaTamat)}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowEditModal(true);
+                          setId(f._id);
+                        }}
+                      >
+                        Ubah
+                      </button>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowDeleteModal(true);
+                          setId(f._id);
+                          setDeleteCandidate(f.nama);
+                        }}
+                      >
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+  }
+
   function NothingHereBoi() {
     return (
       <div className='flex justify-center text-center h-full w-full'>
@@ -554,18 +643,7 @@ export default function Data({ FType }) {
   }
 
   if (loading) {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-          <div className='flex justify-center mb-2'>
-            <Ring color='#c44058' />
-          </div>
-          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat...
-          </span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!loading) {
@@ -575,6 +653,7 @@ export default function Data({ FType }) {
         {showKlinik && <Klinik />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
+        {showEvent && <Event />}
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={() => {

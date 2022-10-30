@@ -100,6 +100,13 @@ export default function AdminLoginForm() {
     if (showPasswordBox === false) {
       try {
         const response = await checkUser(username);
+        // if kp superadmin
+        if (response.data.accountType === 'kpSuperadmin') {
+          toast.info(`Sila isi password`);
+          setShowPasswordBox(true);
+          return;
+        }
+        // if kp superadmin
         toast.info(
           `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );

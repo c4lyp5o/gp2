@@ -1,6 +1,12 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-export default function AdminHeaderLoggedIn({ user, daerah }) {
+export default function AdminHeaderLoggedIn({
+  isLoggedIn,
+  daerah,
+  kp,
+  user,
+  accountType,
+}) {
   const { navigate, catchAxiosErrorAndLogout } = useGlobalAdminAppContext();
 
   return (
@@ -23,30 +29,39 @@ export default function AdminHeaderLoggedIn({ user, daerah }) {
           <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
           <h1>PENTADBIR</h1>
         </div>
-        <div className='admin-header-logged-in-container'>
-          <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
-            <div className='m-3 space-y-1 text-right pr-2'>
-              <p className='w-96 text-sm leading-3'>
-                <b>Pengguna: </b>
-                <span className='uppercase'>{user}</span>
-              </p>
-              <p className='w-96 text-sm pt-1'>
-                <b>Daerah: </b>
-                {daerah}
-              </p>
+        {isLoggedIn === true ? (
+          <div className='admin-header-logged-in-container'>
+            <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
+              <div className='m-3 space-y-1 text-right pr-2'>
+                <p className='w-96 text-sm leading-3'>
+                  <b>Pengguna: </b>
+                  <span className='uppercase'>{user}</span>
+                </p>
+                {accountType !== 'kpSuperadmin' ? (
+                  <p className='w-96 text-sm pt-1'>
+                    <b>Daerah: </b>
+                    {daerah}
+                  </p>
+                ) : (
+                  <p className='w-96 text-sm pt-1'>
+                    <b>KP: </b>
+                    {kp}
+                  </p>
+                )}
+              </div>
+              <button
+                type='button'
+                className='p-1 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all'
+                onClick={() => {
+                  catchAxiosErrorAndLogout();
+                  navigate('/pentadbir');
+                }}
+              >
+                LOG KELUAR
+              </button>
             </div>
-            <button
-              type='button'
-              className='p-1 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all'
-              onClick={() => {
-                catchAxiosErrorAndLogout();
-                navigate('/pentadbir');
-              }}
-            >
-              LOG KELUAR
-            </button>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

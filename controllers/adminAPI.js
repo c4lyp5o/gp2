@@ -7,6 +7,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const Event = require('../models/Event');
 const emailGen = require('../lib/emailgen');
 
 const Dictionary = {
@@ -20,6 +21,7 @@ const Dictionary = {
   ins: 'institusi',
   kpb: 'kp-bergerak',
   mp: 'makmal-pergigian',
+  event: 'event',
 };
 
 exports.getData = async (req, res, next) => {
@@ -44,7 +46,8 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'klinik' &&
-              theType !== 'juruterapi pergigian'
+              theType !== 'juruterapi pergigian' &&
+              theType !== 'event'
             ) {
               Data = {
                 ...Data,
@@ -55,16 +58,16 @@ exports.getData = async (req, res, next) => {
               const data = await Fasiliti.create(Data);
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
+            if (theType === 'event') {
               Data = {
                 ...Data,
                 createdByDaerah: dataGeografik.daerah,
                 createdByNegeri: dataGeografik.negeri,
               };
-              const data = await Operator.create(Data);
+              const data = await Event.create(Data);
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               Data = {
                 ...Data,
                 createdByDaerah: dataGeografik.daerah,
@@ -107,10 +110,18 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
+                createdByDaerah: dataGeografik.daerah,
+                createdByNegeri: dataGeografik.negeri,
+              });
+              return res.status(200).json(data);
+            }
+            if (theType === 'event') {
+              const data = await Event.find({
                 createdByDaerah: dataGeografik.daerah,
                 createdByNegeri: dataGeografik.negeri,
               });
@@ -147,20 +158,21 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findById({
                 _id: Id,
               });
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findById({
+            if (theType === 'event') {
+              const data = await Event.findById({
                 _id: Id,
               });
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findById({
                 _id: Id,
               });
@@ -178,7 +190,8 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findByIdAndUpdate(
                 { _id: Id },
@@ -187,15 +200,15 @@ exports.getData = async (req, res, next) => {
               );
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findByIdAndUpdate(
+            if (theType === 'event') {
+              const data = await Event.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
                 { new: true }
               );
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
@@ -217,16 +230,17 @@ exports.getData = async (req, res, next) => {
             if (
               theType !== 'pegawai' &&
               theType !== 'juruterapi pergigian' &&
-              theType !== 'klinik'
+              theType !== 'klinik' &&
+              theType !== 'event'
             ) {
               const data = await Fasiliti.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }
-            if (theType === 'pegawai') {
-              const data = await Operator.findByIdAndDelete({ _id: Id });
+            if (theType === 'event') {
+              const data = await Event.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }
-            if (theType === 'juruterapi pergigian') {
+            if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               const data = await Operator.findByIdAndDelete({ _id: Id });
               return res.status(200).json(data);
             }
@@ -279,6 +293,20 @@ exports.getData = async (req, res, next) => {
                   });
                 }
               );
+              // deleting events
+              const events = await Event.find({
+                createdByKp: data.kp,
+                createdByDaerah: data.daerah,
+                createdByNegeri: data.negeri,
+              }).then(async () => {
+                if (events.length > 0) {
+                  for (let i = 0; i < events.length; i++) {
+                    await Event.findOneAndDelete({
+                      nama: events[i].nama,
+                    });
+                  }
+                }
+              });
               return res.status(200).json(data);
             }
             break;
@@ -289,16 +317,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'UserCenter':
-        var {
-          Fn,
-          username,
-          password,
-          user_name,
-          daerah,
-          negeri,
-          e_mail,
-          token,
-        } = req.body;
+        var { Fn, username, password, token } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for user');
@@ -314,26 +333,57 @@ exports.getData = async (req, res, next) => {
             break;
           case 'read':
             console.log('read for user');
-            const userData = {
-              userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-              username: jwt.verify(token, process.env.JWT_SECRET).username,
-              daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-              negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-              e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
-              accountType: jwt.verify(token, process.env.JWT_SECRET)
-                .accountType,
-            };
+            let userData;
+            if (
+              jwt.verify(token, process.env.JWT_SECRET).accountType !==
+              'kpSuperadmin'
+            ) {
+              userData = {
+                userId: jwt.verify(token, process.env.JWT_SECRET).userId,
+                username: jwt.verify(token, process.env.JWT_SECRET).username,
+                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
+                accountType: jwt.verify(token, process.env.JWT_SECRET)
+                  .accountType,
+              };
+            }
+            if (
+              jwt.verify(token, process.env.JWT_SECRET).accountType ===
+              'kpSuperadmin'
+            ) {
+              userData = {
+                userId: jwt.verify(token, process.env.JWT_SECRET).userId,
+                username: jwt.verify(token, process.env.JWT_SECRET).username,
+                kp: jwt.verify(token, process.env.JWT_SECRET).kp,
+                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                accountType: jwt.verify(token, process.env.JWT_SECRET)
+                  .accountType,
+              };
+            }
             return res.status(200).json(userData);
             break;
           case 'readOne':
             console.log('readOne for user');
             const tempUser = await Superadmin.findOne({ user_name: username });
+            // if no superadmin
             if (!tempUser) {
-              return res.status(401).json({
-                status: 'error',
-                message: 'Tiada user ini di dalam sistem',
+              // check kp user
+              const tempKpUser = await User.findOne({ username: username });
+              if (!tempKpUser) {
+                return res.status(401).json({
+                  status: 'error',
+                  message: 'Tiada user ini di dalam sistem',
+                });
+              }
+              return res.status(200).json({
+                status: 'success',
+                message: 'Sila isi password',
+                accountType: 'kpSuperadmin',
               });
             }
+            // if yes superadmin
             const key = simpleCrypto.generateRandomString(20);
             // const invalidateKey = simpleCrypto.generateRandomString(64);
             await Superadmin.findByIdAndUpdate(
@@ -391,8 +441,40 @@ exports.getData = async (req, res, next) => {
             break;
           case 'update':
             console.log('update for user');
-            const User = await Superadmin.findOne({ user_name: username });
-            if (password !== User.tempKey) {
+            const adminUser = await Superadmin.findOne({ user_name: username });
+            // if kp
+            if (!adminUser) {
+              console.log('kp user');
+              const kpUser = await User.findOne({ username: username });
+              if (password !== kpUser.password) {
+                const msg = 'Key salah';
+                return res.status(401).json({
+                  status: 'error',
+                  message: msg,
+                });
+              }
+              console.log(kpUser);
+              const genToken = jwt.sign(
+                {
+                  userId: kpUser._id,
+                  username: kpUser.username,
+                  kp: kpUser.kp,
+                  daerah: kpUser.daerah,
+                  negeri: kpUser.negeri,
+                  email: kpUser.email,
+                  accountType: 'kpSuperadmin',
+                },
+                process.env.JWT_SECRET,
+                { expiresIn: process.env.JWT_LIFETIME }
+              );
+              return res.status(200).json({
+                status: 'success',
+                message: 'Login berjaya',
+                adminToken: genToken,
+              });
+            }
+            // if kp
+            if (password !== adminUser.tempKey) {
               const msg = 'Key salah';
               return res.status(401).json({
                 status: 'error',
@@ -401,12 +483,12 @@ exports.getData = async (req, res, next) => {
             }
             const genToken = jwt.sign(
               {
-                userId: User._id,
-                username: User.user_name,
-                daerah: User.daerah,
-                negeri: User.negeri,
-                e_mail: User.e_mail,
-                accountType: User.accountType,
+                userId: adminUser._id,
+                username: adminUser.user_name,
+                daerah: adminUser.daerah,
+                negeri: adminUser.negeri,
+                e_mail: adminUser.e_mail,
+                accountType: adminUser.accountType,
               },
               process.env.JWT_SECRET,
               { expiresIn: process.env.JWT_LIFETIME }
