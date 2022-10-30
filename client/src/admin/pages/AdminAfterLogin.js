@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import AdminLoginForm from './AdminLoginForm';
 
 // logged in
-import AdminHeaderLoggedIn from '../components/AdminHeaderLoggedIn';
+import AdminHeader from '../components/AdminHeaderLoggedIn';
 import AdminNavbar from '../components/AdminNavbar';
 
 // paparan utama
@@ -29,22 +29,17 @@ import Data from '../components/Data';
 import { ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
-  const { navigate, token, getCurrentUser, catchAxiosErrorAndLogout } =
+  const { navigate, getCurrentUser, catchAxiosErrorAndLogout } =
     useGlobalAdminAppContext();
-  const [loginInfo, setLoginInfo] = useState({
-    isLoggedIn: false,
-    username: '',
-    daerah: '',
-    negeri: '',
-    accountType: '',
-  });
+  const [loginInfo, setLoginInfo] = useState({});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getCurrentUser()
       .then((res) => {
         setLoginInfo({
           isLoggedIn: true,
           username: res.data.username,
+          kp: res.data.kp,
           daerah: res.data.daerah,
           negeri: res.data.negeri,
           accountType: res.data.accountType,
@@ -57,20 +52,20 @@ export default function AdminAfterLogin() {
         catchAxiosErrorAndLogout();
         navigate('/pentadbir');
       });
+    return () => setLoginInfo({});
   }, []);
-
-  if (!token) {
-    return <AdminLoginForm />;
-  }
 
   return (
     <>
-      <AdminHeaderLoggedIn
+      <AdminHeader
+        isLoggedIn={loginInfo.isLoggedIn}
         daerah={loginInfo.daerah}
+        kp={loginInfo.kp}
         user={loginInfo.username}
+        accountType={loginInfo.accountType}
       />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
-      <AdminNavbar />
+      <AdminNavbar accountType={loginInfo.accountType} />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
           <Route
@@ -93,6 +88,10 @@ export default function AdminAfterLogin() {
           <Route path='ins' element={<Data FType='ins' />} />
           <Route path='kpb' element={<Data FType='kpb' />} />
           <Route path='mp' element={<Data FType='mp' />} />
+          <Route
+            path='event'
+            element={<Data FType='event' kp={loginInfo.kp} />}
+          />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>

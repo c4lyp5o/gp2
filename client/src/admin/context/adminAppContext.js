@@ -286,6 +286,13 @@ function AdminAppProvider({ children }) {
     localStorage.removeItem('adminToken');
   };
 
+  // format 24 hour time to 12 hour
+  function formatTime(timeString) {
+    const [hourString, minute] = timeString.split(':');
+    const hour = +hourString % 24;
+    return (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM');
+  }
+
   const Dictionary = {
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
@@ -296,22 +303,25 @@ function AdminAppProvider({ children }) {
     ins: 'Institusi',
     kpb: 'KP Bergerak',
     mp: 'Makmal Pergigian',
+    event: 'Event',
   };
 
   return (
     <AdminAppContext.Provider
       value={{
         // superadmin
+        // main data
         createData,
         readData,
         readOneData,
+        updateData,
+        deleteData,
+        // misc data
         readSekolahData,
         readPegawaiData,
         readMdtbData,
         readFasilitiData,
         readKpData,
-        updateData,
-        deleteData,
         // misc
         token,
         setToken,
@@ -324,6 +334,7 @@ function AdminAppProvider({ children }) {
         pingApdmServer,
         encryptEmail,
         encryptPassword,
+        formatTime,
         // auth
         loginUser,
         checkUser,

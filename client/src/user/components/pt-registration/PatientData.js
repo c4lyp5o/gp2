@@ -191,6 +191,11 @@ export default function PatientData({
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       STATUS PENGISIAN RETEN
                     </th>
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                        NAMA PROJEK
+                      </th>
+                    ) : null}
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       KEMASKINI
                     </th>
@@ -237,6 +242,11 @@ export default function PatientData({
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
                           </td>
+                          {jenisFasiliti === 'projek-komuniti-lain' ? (
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                              {p.namaProjekKomuniti}
+                            </td>
+                          ) : null}
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             <button
                               className='px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
