@@ -123,7 +123,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     }
     createData(FType, Data).then((res) => {
       console.log(res);
-      if (res.statusText === 'OK') {
+      if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
       } else {
