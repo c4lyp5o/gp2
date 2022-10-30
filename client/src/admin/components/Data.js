@@ -670,6 +670,7 @@ export default function Data({ FType, kp }) {
           <Add
             setShowAddModal={setShowAddModal}
             FType={FType}
+            kp={kp}
             daerah={daerah}
             setReload={setReload}
             reload={reload}
@@ -679,6 +680,7 @@ export default function Data({ FType, kp }) {
           <Edit
             setShowEditModal={setShowEditModal}
             FType={FType}
+            kp={kp}
             id={id}
             setReload={setReload}
             reload={reload}
