@@ -317,7 +317,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'UserCenter':
-        var { Fn, username, password, token } = req.body;
+        var { Fn, username, password, token, data } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for user');
@@ -499,6 +499,15 @@ exports.getData = async (req, res, next) => {
               adminToken: genToken,
             });
             break;
+          case 'updateOne':
+            console.log('updateOne for user');
+            const id = jwt.verify(token, process.env.JWT_SECRET).userId;
+            const updateAdminUser = await Superadmin.findByIdAndUpdate(
+              id,
+              { username: data.username, e_mail: data.email, totp: data.totp },
+              { new: true }
+            );
+            return res.status(200).json(updateAdminUser);
           case 'delete':
             console.log('delete for user');
             break;

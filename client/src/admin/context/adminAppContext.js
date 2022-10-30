@@ -58,6 +58,17 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
+  async function saveCurrentUser(data) {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'UserCenter',
+      Fn: 'update',
+      token: getTokenized(),
+      data: data,
+    });
+    return response;
+  }
+
   // hq functions
 
   const getAllNegeriAndDaerah = async () => {
@@ -326,6 +337,7 @@ function AdminAppProvider({ children }) {
         token,
         setToken,
         getCurrentUser,
+        saveCurrentUser,
         catchAxiosErrorAndLogout,
         Dictionary,
         navigate,

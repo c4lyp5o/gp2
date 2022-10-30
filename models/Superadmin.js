@@ -21,6 +21,7 @@ const adminSchema = new Schema({
     },
   },
   tempKey: { type: String, default: '' },
+  totp: { type: Boolean, default: false },
 });
 
 const Superadmin = mongoose.model('Superadmin', adminSchema);

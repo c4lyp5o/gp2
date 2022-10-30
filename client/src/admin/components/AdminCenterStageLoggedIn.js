@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Ring } from 'react-awesome-spinners';
 import {
   Chart as ChartJS,
   CategoryScale,
