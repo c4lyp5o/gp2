@@ -70,7 +70,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
 
   return (
     <>
-      <div className='absolute inset-10 lg:inset-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-10 inset-y-14 inset-x-14 lg:inset-20 lg:inset-y-1/4 lg:inset-x-1/4 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <FaWindowClose
           onClick={() => setModalHapus(false)}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
