@@ -283,7 +283,8 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
-// get from cache if ic is same
+// check from cache if ic is same
+// POST /check
 const getPersonFromCache = async (req, res) => {
   const { ic } = req.body;
   const person = await cache.get(ic.toString());

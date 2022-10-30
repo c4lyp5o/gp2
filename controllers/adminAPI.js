@@ -93,7 +93,7 @@ exports.getData = async (req, res, next) => {
                 const daerahNum =
                   emailGen[dataGeografik.negeri].daerah[dataGeografik.daerah];
                 const tempKaunter = await User.create({
-                  username: `kaunter${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
+                  username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
                   negeri: Data.negeri,
                   daerah: Data.daerah,
                   kp: Data.kp,
