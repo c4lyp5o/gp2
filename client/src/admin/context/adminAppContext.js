@@ -62,7 +62,7 @@ function AdminAppProvider({ children }) {
     let response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
-      Fn: 'update',
+      Fn: 'updateOne',
       token: getTokenized(),
       data: data,
     });

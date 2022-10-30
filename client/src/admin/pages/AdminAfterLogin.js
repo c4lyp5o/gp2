@@ -39,7 +39,6 @@ export default function AdminAfterLogin() {
   useLayoutEffect(() => {
     getCurrentUser()
       .then((res) => {
-        console.log(res.data);
         setLoginInfo({
           isLoggedIn: true,
           id: res.data.userId,
@@ -48,6 +47,7 @@ export default function AdminAfterLogin() {
           daerah: res.data.daerah,
           negeri: res.data.negeri,
           accountType: res.data.accountType,
+          totp: res.data.totp,
         });
       })
       .catch(() => {

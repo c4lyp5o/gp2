@@ -1,11 +1,20 @@
 import { useState, useLayoutEffect, useId } from 'react';
+import speakeasy from 'speakeasy';
+import QRCode from 'qrcode';
+import CryptoJS from 'crypto-js';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+
+import Loading from './Loading';
 
 export default function Settings() {
   const { getCurrentUser, saveCurrentUser } = useGlobalAdminAppContext();
 
   const [loginInfo, setLoginInfo] = useState({});
+  const [qrimage, setQrimage] = useState('');
+  const [totpSecret, setTotpSecret] = useState('');
+  const [validCode, setValidCode] = useState('');
+  const [loading, setLoading] = useState(true);
   const nama = useId();
   const email = useId();
   const totp = useId();
@@ -18,13 +27,21 @@ export default function Settings() {
       totp: e.target[totp].value,
     };
     console.log(data);
+    saveCurrentUser(data).then((res) => {
+      console.log(res);
+    });
   };
 
   useLayoutEffect(() => {
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
+      setLoading(false);
     });
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -69,7 +86,7 @@ export default function Settings() {
           TOTP
         </label>
         <input
-          checked={loginInfo.totp === 'true'}
+          checked={loginInfo.totp === true}
           type='radio'
           name='totpActive'
           id={totp}
@@ -80,7 +97,7 @@ export default function Settings() {
         Tidak aktif
         <input
           type='radio'
-          checked={loginInfo.totp === 'false'}
+          checked={loginInfo.totp === false}
           name='totpInactive'
           id={totp}
           className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'

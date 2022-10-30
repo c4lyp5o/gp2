@@ -111,10 +111,10 @@ export default function Data({ FType, kp }) {
                     Emel KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Nama Pengguna KP
+                    Akaun Pengguna KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Kata Laluan KP
+                    Akaun Pendaftaran KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Status KP
@@ -143,13 +143,25 @@ export default function Data({ FType, kp }) {
                       {encryptEmail(kp.email)}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
-                      {kp.username}
-                    </td>
-                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.username}</div>
                       <div id={index}>
                         {showPassword === true
                           ? kp.password
                           : encryptPassword(kp.password)}
+                        <button
+                          className='ml-1'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          <AiOutlineEye />
+                        </button>
+                      </div>
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.kaunterUsername}</div>
+                      <div id={index}>
+                        {showPassword === true
+                          ? kp.kaunterPassword
+                          : encryptPassword(kp.kaunterPassword)}
                         <button
                           className='ml-1'
                           onClick={() => setShowPassword(!showPassword)}

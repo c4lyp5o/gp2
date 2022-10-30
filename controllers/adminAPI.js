@@ -150,6 +150,23 @@ exports.getData = async (req, res, next) => {
                 daerah: dataGeografik.daerah,
                 statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
               });
+              const kaunterAcct = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                accountType: 'kaunterUser',
+              });
+              for (const i in data) {
+                for (const j in kaunterAcct) {
+                  if (data[i].kp === kaunterAcct[j].kp) {
+                    data[i] = {
+                      ...data[i]._doc,
+                      kaunterUsername: kaunterAcct[j].username,
+                      kaunterPassword: kaunterAcct[j].password,
+                    };
+                  }
+                }
+              }
+              console.log(data);
               return res.status(200).json(data);
             }
             break;
@@ -346,6 +363,7 @@ exports.getData = async (req, res, next) => {
                 e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
                 accountType: jwt.verify(token, process.env.JWT_SECRET)
                   .accountType,
+                totp: jwt.verify(token, process.env.JWT_SECRET).totp,
               };
             }
             if (
@@ -489,6 +507,7 @@ exports.getData = async (req, res, next) => {
                 negeri: adminUser.negeri,
                 e_mail: adminUser.e_mail,
                 accountType: adminUser.accountType,
+                totp: adminUser.totp,
               },
               process.env.JWT_SECRET,
               { expiresIn: process.env.JWT_LIFETIME }
@@ -498,7 +517,6 @@ exports.getData = async (req, res, next) => {
               message: 'Login berjaya',
               adminToken: genToken,
             });
-            break;
           case 'updateOne':
             console.log('updateOne for user');
             const id = jwt.verify(token, process.env.JWT_SECRET).userId;
