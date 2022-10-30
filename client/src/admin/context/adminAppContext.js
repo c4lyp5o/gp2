@@ -1,10 +1,8 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken, getTokenized } from './Tokenizer';
-import styles from '../Modal.module.css';
-import { RiCloseLine } from 'react-icons/ri';
 
 const AdminAppContext = createContext();
 
@@ -65,6 +63,29 @@ function AdminAppProvider({ children }) {
       Fn: 'updateOne',
       token: getTokenized(),
       data: data,
+    });
+    return response;
+  }
+
+  // totp
+
+  function generateSecret() {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'create',
+      token: getTokenized(),
+    });
+    return response;
+  }
+
+  function verifyInitialSecret(secret) {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'update',
+      token: getTokenized(),
+      initialTotpCode: secret,
     });
     return response;
   }
@@ -350,6 +371,8 @@ function AdminAppProvider({ children }) {
         // auth
         loginUser,
         checkUser,
+        generateSecret,
+        verifyInitialSecret,
         // hq
         getAllNegeriAndDaerah,
         getKlinikData,

@@ -13,7 +13,7 @@ import AdminHeader from '../components/AdminHeader';
 import AdminNavbar from '../components/AdminNavbar';
 
 // paparan utama
-import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
+import AdminCenterStage from '../components/AdminCenterStage';
 
 // klinik details
 import Klinik from '../components/Klinik';
@@ -76,7 +76,7 @@ export default function AdminAfterLogin() {
           <Route
             index
             element={
-              <AdminCenterStageLoggedIn
+              <AdminCenterStage
                 user={loginInfo.username}
                 accountType={loginInfo.accountType}
               />

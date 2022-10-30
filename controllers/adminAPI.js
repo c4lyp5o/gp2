@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const simpleCrypto = require('simple-crypto-js').default;
 const mailer = require('nodemailer');
 const moment = require('moment');
+const speakeasy = require('speakeasy');
+const QRCode = require('qrcode');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -31,10 +33,10 @@ exports.getData = async (req, res, next) => {
     });
   }
   if (req.method === 'POST') {
-    const { main } = req.body;
+    const { main, Fn, token } = req.body;
     switch (main) {
       case 'DataCenter':
-        var { Fn, FType, Data, token, Id } = req.body;
+        var { FType, Data, Id } = req.body;
         const theType = Dictionary[FType];
         const dataGeografik = {
           daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
@@ -334,7 +336,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'UserCenter':
-        var { Fn, username, password, token, data } = req.body;
+        var { username, password, data } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for user');
@@ -536,7 +538,6 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'HqCenter':
-        var { Fn, token } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for hq');
@@ -895,10 +896,108 @@ exports.getData = async (req, res, next) => {
             console.log('delete for hq');
             break;
           default:
-            return res.status(200).json({
-              message: 'This is the default case for Hq Center',
-            });
+            console.log('default for hq');
+            break;
         }
+        break;
+      case 'TotpManager':
+        let tempSecret;
+        switch (Fn) {
+          case 'create':
+            console.log('create for totp');
+            let backupCodes = [];
+            let hashedBackupCodes = [];
+            const secret = speakeasy.generateSecret({
+              name: 'Gi-Ret 2.0 TOTP',
+            });
+            for (let i = 0; i < 10; i++) {
+              const randomCode = (Math.random() * 10000000000).toFixed();
+              const encrypted = CryptoJS.AES.encrypt(
+                randomCode,
+                secret.base32
+              ).toString();
+              backupCodes.push(randomCode);
+              hashedBackupCodes.push(encrypted);
+            }
+            const url = speakeasy.otpauthURL({
+              secret: secret.base32,
+              label: 'Gi-Ret 2.0 TOTP',
+              issuer: 'Gi-Ret 2.0',
+            });
+            const qrCode = await QRCode.toDataURL(url);
+            tempSecret = {
+              ascii: secret.ascii,
+              hex: secret.hex,
+              base32: secret.base32,
+              otp_auth_url: url,
+              backupCodes: backupCodes,
+              hashedBackupCodes: hashedBackupCodes,
+            };
+            console.log(qrCode);
+            return res.status(200).json({
+              msg: 'success',
+              otp_auth_url,
+            });
+            break;
+          case 'read':
+            console.log('read for totp');
+            const { totpCode } = req.body;
+            const admin = await Superadmin.findById(
+              jwt.verify(token, process.env.JWT_SECRET).userId
+            );
+            const verified = speakeasy.totp.verify({
+              secret: admin.base32,
+              encoding: 'base32',
+              token: totpCode,
+            });
+            if (verified) {
+              return res.status(200).json({
+                msg: 'success',
+                verified,
+              });
+            } else {
+              return res.status(400).json({
+                msg: 'kod salah',
+                verified,
+              });
+            }
+            break;
+          case 'update':
+            const { initialTotpCode } = req.body;
+            const initialVerification = speakeasy.totp.verify({
+              secret: tempSecret.base32,
+              encoding: 'base32',
+              token: initialTotpCode,
+            });
+            if (initialVerification) {
+              const initialAdmin = await Superadmin.findByIdAndUpdate(
+                jwt.verify(token, process.env.JWT_SECRET).userId,
+                {
+                  base32: tempSecret.base32,
+                  backupCodes: tempSecret.backupCodes,
+                  hashedBackupCodes: tempSecret.hashedBackupCodes,
+                },
+                { new: true }
+              );
+              return res.status(200).json({
+                msg: 'success',
+                verified,
+              });
+            } else {
+              return res.status(400).json({
+                msg: 'kod salah',
+                verified,
+              });
+            }
+            break;
+          case 'delete':
+            console.log('delete for totp');
+            break;
+          default:
+            console.log('default for totp');
+            break;
+        }
+        break;
       default:
         return res.status(200).json({
           message: 'Provide nothing, get nothing',

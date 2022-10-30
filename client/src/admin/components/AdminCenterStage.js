@@ -110,7 +110,7 @@ function MainChart({ data, accountType }) {
   );
 }
 
-export default function AdminCenterStageLoggedIn({ accountType }) {
+export default function AdminCenterStage({ accountType }) {
   const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);

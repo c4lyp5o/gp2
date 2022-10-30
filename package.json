@@ -38,7 +38,9 @@
     "moment": "^2.29.4",
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.5",
-    "simple-crypto-js": "^3.0.1"
+    "qrcode": "^1.5.1",
+    "simple-crypto-js": "^3.0.1",
+    "speakeasy": "^2.0.0"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",
