@@ -8,7 +8,7 @@ import Confirmation from './Confirmation';
 import BusyButton from './BusyButton';
 import SubmitButtton from './SubmitButton';
 
-const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
+const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const { Dictionary, toast, readOneData, readKpData, updateData } =
     useGlobalAdminAppContext();
 
@@ -65,7 +65,7 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
     if (FType === 'event') {
       Data = {
         // nama: currentName.current,
-        createdByKp: currentKp.current,
+        createdByKp: kp,
         tarikh: currentTarikh.current,
         masaMula: currentMasaMula.current,
         masaTamat: currentMasaTamat.current,
@@ -612,27 +612,6 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
                       />
                     </div>
                     <p>
-                      Klinik Bertugas{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <select
-                        required
-                        className='border-2'
-                        value={editedEntity.createdByKp}
-                        onChange={(e) => (currentKp.current = e.target.value)}
-                      >
-                        <option value=''>Pilih Klinik</option>
-                        {klinik.map((k) => (
-                          <option className='capitalize' value={k.kp}>
-                            {k.kp}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <p>
                       Tarikh{' '}
                       <span className='font-semibold text-lg text-user6'>
                         *
@@ -746,15 +725,11 @@ const Modal = ({ setShowEditModal, id, FType, reload, setReload }) => {
           {(confirm) => <Event confirm={confirm} />}
         </Confirmation>
       )}
-      {FType !== 'pp' &&
-        FType !== 'kp' &&
-        FType !== 'jp' &&
-        FType !==
-          'event'(
-            <Confirmation callbackFunction={handleSubmit} func='edit'>
-              {(confirm) => <Facility confirm={confirm} />}
-            </Confirmation>
-          )}
+      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && FType !== 'event' && (
+        <Confirmation callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Facility confirm={confirm} />}
+        </Confirmation>
+      )}
     </>
   );
 };
