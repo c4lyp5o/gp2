@@ -120,6 +120,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                     <p>Rujuk Daripada: {data.rujukDaripada}</p>
                   ) : null}
                   {data.catatan ? <p>Catatan: {data.catatan}</p> : null}
+                  {data.pilihanEvent ? <p>Event: {data.pilihanEvent}</p> : null}
                 </div>
               </div>
               {duplicate && !isEdit ? (
