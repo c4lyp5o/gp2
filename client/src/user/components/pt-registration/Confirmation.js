@@ -3,13 +3,15 @@ import { RiCloseLine } from 'react-icons/ri';
 import { FaWindowClose } from 'react-icons/fa';
 import axios from 'axios';
 import moment from 'moment';
+import format from 'date-fns/format';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import styles from '../../../admin/Modal.module.css';
 
 const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
-  const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
+  const { kaunterToken, dateToday, formatTime, dateInputFormatter } =
+    useGlobalUserAppContext();
 
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
@@ -47,7 +49,8 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
       uniqueId += simplifiedName[i].charAt(0);
     }
     uniqueId += '-';
-    const dateOfBirth = data.tarikhLahir.split('-').join('');
+    const DOB = dateInputFormatter(data.tarikhLahir);
+    const dateOfBirth = DOB.split('/').join('');
     uniqueId += dateOfBirth;
     return uniqueId;
   };
