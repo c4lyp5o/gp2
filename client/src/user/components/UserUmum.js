@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -16,7 +19,7 @@ function UserUmum() {
   const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
   const [jenisFasiliti, setJenisFasiliti] = useState('kp');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
@@ -31,7 +34,9 @@ function UserUmum() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${tarikhKedatangan}&jenisFasiliti=${jenisFasiliti}`,
+          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
+            tarikhKedatangan
+          ).format('YYYY-MM-DD')}&jenisFasiliti=${jenisFasiliti}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -63,6 +68,24 @@ function UserUmum() {
     setPilih('');
     setResultPilih([]);
   }, [nama, tarikhKedatangan, jenisFasiliti]);
+
+  const TarikhKedatangan = () => {
+    return (
+      <DatePicker
+        showPopperArrow={false}
+        dateFormat='dd/MM/yyyy'
+        selected={tarikhKedatangan}
+        onChange={(tarikhKedatangan) => {
+          setTarikhKedatangan(tarikhKedatangan);
+        }}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+      />
+    );
+  };
 
   // on tab focus reload data
   useEffect(() => {
@@ -126,9 +149,15 @@ function UserUmum() {
             id='nama-pesakit'
             className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 mb-2'
           />
-          <div className='m-2 col-span-2 lg:col-span-1'>
-            <label htmlFor='kad-pengenalan'>tarikh kedatangan :</label>
-            <input
+          <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
+            <label
+              htmlFor='kad-pengenalan'
+              className='whitespace-nowrap flex items-center'
+            >
+              tarikh kedatangan :
+            </label>
+            <TarikhKedatangan />
+            {/* <input
               onChange={(e) => {
                 setTarikhKedatangan(e.target.value);
               }}
@@ -136,11 +165,14 @@ function UserUmum() {
               type='date'
               name='tarikh-kedatangan'
               id='tarikh-kedatangan'
-              className='outline outline-1 outline-user1 ml-3 rounded-md p-1'
-            />
+              className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+            /> */}
           </div>
-          <div className='m-2 col-span-2 lg:col-span-1'>
-            <label className='' htmlFor='jenis-fasiliti'>
+          <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
+            <label
+              className='whitespace-nowrap flex items-center'
+              htmlFor='jenis-fasiliti'
+            >
               pilih jenis fasiliti:
             </label>
             <select
@@ -150,7 +182,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='ml-3 border border-adminBlack rounded-md p-1'
+              className='ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
