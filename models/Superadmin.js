@@ -21,6 +21,14 @@ const adminSchema = new Schema({
     },
   },
   tempKey: { type: String, default: '' },
+  // totp
+  totp: { type: Boolean, default: false },
+  ascii: { type: String, default: '' },
+  hex: { type: String, default: '' },
+  base32: { type: String, default: '' },
+  otpauth_url: { type: String, default: '' },
+  backup_codes: { type: Array, default: [] },
+  hashed_backup_codes: { type: Array, default: [] },
 });
 
 const Superadmin = mongoose.model('Superadmin', adminSchema);
