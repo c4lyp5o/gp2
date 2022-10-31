@@ -104,6 +104,7 @@ export default function FillableForm({
 
   // events
   const [events, setEvents] = useState([]);
+  const [jenisEvent, setJenisEvent] = useState('');
   const [pilihanEvent, setPilihanEvent] = useState('');
 
   // kira tahun
@@ -361,6 +362,9 @@ export default function FillableForm({
               institusiOku,
               // kampung angkat
               kgAngkat,
+              // event based
+              jenisEvent,
+              namaEvent: pilihanEvent,
             },
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           ),
@@ -653,6 +657,7 @@ export default function FillableForm({
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
           setEvents(data);
+          console.log(data);
         } catch (error) {
           console.log(error);
         }
@@ -732,27 +737,59 @@ export default function FillableForm({
               </div>
               {jenisFasiliti === 'projek-komuniti-lain' && (
                 <div className='justify-center'>
-                  <label htmlFor='event'>Event</label>
+                  <label htmlFor='event'>Jenis Event</label>
                   <select
                     required
                     name='event'
-                    value={pilihanEvent}
+                    value={jenisEvent}
                     onChange={(e) => {
                       setConfirmData({
                         ...confirmData,
-                        pilihanEvent: e.target.value,
+                        jenisEvent: e.target.value,
                       });
-                      setPilihanEvent(e.target.value);
+                      setJenisEvent(e.target.value);
                     }}
                     className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                   >
                     <option value=''>Sila pilih..</option>
-                    {events.projekKomuniti.map((k, index) => (
-                      <option key={index} value={k.nama}>
-                        {k.nama}
-                      </option>
-                    ))}
+                    <option value='projek-komuniti'>Projek Komuniti</option>
+                    <option value='utc'>UTC</option>
+                    <option value='rtc'>RTC</option>
+                    <option value='ppkps'>PPKPS</option>
+                    <option value='kgangkat'>Kampung Angkat</option>
+                    <option value='ppr'>PPR</option>
+                    <option value='we-oku'>
+                      Institusi Warga Emas dan Institusi Orang Kurang Upaya
+                    </option>
+                    <option value='oap'>Program Orang Asli dan Penan</option>
                   </select>
+                  {jenisEvent ? (
+                    <>
+                      <label htmlFor='event'>Nama Event</label>
+                      <select
+                        required
+                        name='event'
+                        value={pilihanEvent}
+                        onChange={(e) => {
+                          setConfirmData({
+                            ...confirmData,
+                            pilihanEvent: e.target.value,
+                          });
+                          setPilihanEvent(e.target.value);
+                        }}
+                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                      >
+                        <option value=''>Sila pilih..</option>
+                        {events.projekKomuniti
+                          .filter((event) => event.jenisEvent === jenisEvent)
+                          .map((k, index) => (
+                            <option key={index} value={k.nama}>
+                              {k.nama}
+                            </option>
+                          ))}
+                      </select>
+                    </>
+                  ) : null}
                 </div>
               )}
               <div className='grid gap-1'>

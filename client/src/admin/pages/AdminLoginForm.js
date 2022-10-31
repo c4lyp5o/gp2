@@ -100,7 +100,6 @@ export default function AdminLoginForm() {
     if (showPasswordBox === false) {
       try {
         const response = await checkUser(username);
-        console.log(response);
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
           toast.info(`Sila isi password`);

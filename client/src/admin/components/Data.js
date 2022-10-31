@@ -566,6 +566,9 @@ export default function Data({ FType, kp }) {
                     Bil.
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Jenis Event
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Nama Event
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -573,6 +576,9 @@ export default function Data({ FType, kp }) {
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tarikh dan Masa
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Mod Penyampaian Perkhidmatan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Urus
@@ -586,6 +592,9 @@ export default function Data({ FType, kp }) {
                       {index + 1}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {Dictionary[f.jenisEvent]}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.nama}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -594,6 +603,11 @@ export default function Data({ FType, kp }) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {moment(f.tarikh).format('DD/MM/YYYY')},{' '}
                       {formatTime(f.masaMula)} - {formatTime(f.masaTamat)}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.modPenyampaianPerkhidmatan === 'ppb'
+                        ? 'Pasukan Pergigian Bergerak'
+                        : 'Klinik Pergigian Bergerak'}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button

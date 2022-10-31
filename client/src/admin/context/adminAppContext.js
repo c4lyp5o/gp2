@@ -349,6 +349,14 @@ function AdminAppProvider({ children }) {
     kpb: 'KP Bergerak',
     mp: 'Makmal Pergigian',
     event: 'Event',
+    'projek-komuniti': 'Projek Komuniti',
+    utc: 'UTC',
+    rtc: 'RTC',
+    ppkps: 'PPKPS',
+    kgangkat: 'Kampung Angkat',
+    ppr: 'PPR',
+    'we-oku': 'Institusi Warga Emas dan Institusi Orang Kurang Upaya',
+    oap: 'Program Orang Asli dan Penan',
   };
 
   return (
