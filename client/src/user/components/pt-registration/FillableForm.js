@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import { FaInfoCircle } from 'react-icons/fa';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Confirmation from './Confirmation';
 
@@ -15,7 +19,7 @@ export default function FillableForm({
   jenisFasiliti,
   kp,
 }) {
-  const { kaunterToken, Dictionary, dateToday, toast } =
+  const { kaunterToken, Dictionary, dateToday, toast, dateInputFormatter } =
     useGlobalUserAppContext();
 
   const [checkingIc, setCheckingIc] = useState(false);
@@ -27,7 +31,7 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // core
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -35,7 +39,7 @@ export default function FillableForm({
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState(0);
-  const [tarikhLahir, setTarikhLahir] = useState('');
+  const [tarikhLahir, setTarikhLahir] = useState(new Date());
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
   const [jantina, setJantina] = useState('');
@@ -106,6 +110,56 @@ export default function FillableForm({
   const [events, setEvents] = useState([]);
   const [jenisEvent, setJenisEvent] = useState('');
   const [pilihanEvent, setPilihanEvent] = useState('');
+
+  const TarikhKedatangan = () => {
+    return (
+      <DatePicker
+        showPopperArrow={false}
+        dateFormat='dd/MM/yyyy'
+        selected={tarikhKedatangan}
+        onChange={(tarikhKedatangan) => {
+          const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+          setTarikhKedatangan(tempDate);
+        }}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row'
+      />
+    );
+  };
+
+  const TarikhLahir = () => {
+    return (
+      <DatePicker
+        showPopperArrow={false}
+        required
+        dateFormat='dd/MM/yyyy'
+        selected={tarikhLahir}
+        onChange={(tarikhLahir) => {
+          const tempDate1 = moment(tarikhKedatangan).format('YYYY-MM-DD');
+          const tahun = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
+          const bulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
+          const confirm = {
+            ...confirmData,
+            tarikhLahir: tempDate1,
+          };
+          setTarikhLahir(tempDate1);
+          setUmur(tahun);
+          setUmurBulan(bulan);
+          setConfirmData(confirm);
+          console.log(tempDate1);
+        }}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        placeholderText='dd/mm/yyyy'
+        className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row'
+      />
+    );
+  };
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
@@ -431,13 +485,13 @@ export default function FillableForm({
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
     setWaktuSampai('');
-    setKedatangan('');
+    setKedatangan(new Date());
     setNoPendaftaranBaru('');
     setNoPendaftaranUlangan('');
     setNama('');
     setJenisIc('');
     setIc('');
-    setTarikhLahir('');
+    setTarikhLahir(new Date());
     setUmur(0);
     setUmurBulan(0);
     setJantina('');
@@ -794,18 +848,19 @@ export default function FillableForm({
               )}
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
-                  <p className='mr-3 font-semibold'>
+                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
                     tarikh kedatangan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
+                  <TarikhKedatangan />
+                  {/* <input
                     required
                     value={tarikhKedatangan}
-                    onChange={(e) => setTarikhKedatangan(e.target.value)}
-                    type='date'
+                    // onChange={(e) => setTarikhKedatangan(e.target.value)}
+                    type='number'
                     name='tarikhKedatangan'
                     className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  /> */}
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-3 font-semibold'>
@@ -969,11 +1024,12 @@ export default function FillableForm({
                   />
                 </div>
                 <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex flex-row items-center'>
+                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
                     tarikh lahir:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
+                  <TarikhLahir />
+                  {/* <input
                     required
                     value={tarikhLahir}
                     onChange={(e) => {
@@ -992,7 +1048,7 @@ export default function FillableForm({
                     type='date'
                     name='tarikhLahir'
                     className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  />
+                  /> */}
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-3 font-semibold'>
