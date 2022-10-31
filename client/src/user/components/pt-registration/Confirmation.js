@@ -82,7 +82,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute inset-x-14 inset-y-20 lg:inset-x-1/3 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-14 inset-y-20 lg:inset-x-1/3 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={hide}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -135,7 +135,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                 </span>{' '}
               </div>
             ) : null}
-            <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
+            <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
               <button
                 className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
                 onClick={confirm}
