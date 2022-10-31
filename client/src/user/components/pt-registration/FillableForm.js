@@ -31,7 +31,7 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // core
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date());
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -111,15 +111,24 @@ export default function FillableForm({
   const [jenisEvent, setJenisEvent] = useState('');
   const [pilihanEvent, setPilihanEvent] = useState('');
 
+  // datepicker issues
+  const [tarikhKedatanganDatePicker, setTarikhKedatanganDatePicker] = useState(
+    new Date()
+  );
+  const [tarikhLahirDatePicker, setTarikhLahirDatePicker] = useState(
+    new Date()
+  );
+
   const TarikhKedatangan = () => {
     return (
       <DatePicker
         showPopperArrow={false}
         dateFormat='dd/MM/yyyy'
-        selected={tarikhKedatangan}
+        selected={tarikhKedatanganDatePicker}
         onChange={(tarikhKedatangan) => {
           const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
           setTarikhKedatangan(tempDate);
+          setTarikhKedatanganDatePicker(tarikhKedatangan);
         }}
         peekNextMonth
         showMonthDropdown
@@ -136,20 +145,20 @@ export default function FillableForm({
         showPopperArrow={false}
         required
         dateFormat='dd/MM/yyyy'
-        selected={tarikhLahir}
+        selected={tarikhLahirDatePicker}
         onChange={(tarikhLahir) => {
-          const tempDate1 = moment(tarikhKedatangan).format('YYYY-MM-DD');
-          const tahun = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
-          const bulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
+          const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+          const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+          const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
           const confirm = {
             ...confirmData,
-            tarikhLahir: tempDate1,
+            tarikhLahir: tempDate,
           };
-          setTarikhLahir(tempDate1);
+          setTarikhLahirDatePicker(tarikhLahir);
+          setTarikhLahir(tempDate);
           setUmur(tahun);
           setUmurBulan(bulan);
           setConfirmData(confirm);
-          console.log(tempDate1);
         }}
         peekNextMonth
         showMonthDropdown
@@ -168,8 +177,6 @@ export default function FillableForm({
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const months = Math.floor(days_diff / 30.4167);
-    const days = Math.floor(days_diff % 30.4167);
     const values = `${years} years`;
     return values;
   };
@@ -179,10 +186,8 @@ export default function FillableForm({
     const today = new Date();
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
-    const years = Math.floor(diff / 31556736000);
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
     const months = Math.floor(days_diff / 30.4167);
-    const days = Math.floor(days_diff % 30.4167);
     const values = `${months} months`;
     return values;
   };
