@@ -25,6 +25,7 @@ export default function DaftarPesakit() {
   const CustomDatePicker = () => {
     return (
       <DatePicker
+        dateFormat='dd/MM/yyyy'
         selected={date}
         onChange={(date) => {
           const tempDate = moment(date).format('YYYY-MM-DD');
@@ -35,6 +36,7 @@ export default function DaftarPesakit() {
         showMonthDropdown
         showYearDropdown
         dropdownMode='select'
+        className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
       />
     );
   };
@@ -69,19 +71,29 @@ export default function DaftarPesakit() {
   return (
     <>
       <div className='flex justify-center'>
-        <div className='m-3 xl:w-96'>
-          <label htmlFor='pilihanNama'>Pilihan Nama </label>
+        <div className='m-3 xl:w-96 flex flex-row'>
+          <label
+            htmlFor='pilihanNama'
+            className='whitespace-nowrap flex items-center'
+          >
+            Pilihan Nama :{' '}
+          </label>
           <input
             type='search'
             name='pilihanNama'
-            className='outline outline-1 outline-userBlack rounded-md p-3'
+            className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase ml-2'
             id='pilihanNama'
             placeholder='Cari pesakit...'
             onChange={(e) => setPhilter(e.target.value.toLowerCase())}
           />
         </div>
-        <div className='m-3 xl:w-96'>
-          <label htmlFor='pilihanTarikh'>Pilihan Tarikh </label>
+        <div className='m-3 xl:w-96 flex flex-row'>
+          <label
+            htmlFor='pilihanTarikh'
+            className='whitespace-nowrap flex items-center'
+          >
+            Pilihan Tarikh :{' '}
+          </label>
           <CustomDatePicker />
         </div>
       </div>

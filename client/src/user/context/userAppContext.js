@@ -65,6 +65,17 @@ function statusPesakit(p) {
   return status;
 }
 
+// convert Date to yyyy-mm-dd
+// function dateInputFormatter(date) {
+//   const ddd = Date.parse(date);
+//   const newDate = new Date(ddd);
+//   const y = newDate.getFullYear();
+//   const m = newDate.getMonth() + 1;
+//   const d = newDate.getDate();
+//   const newDateFormatted = y + '-' + m + '-' + d;
+//   return newDateFormatted;
+// }
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -196,6 +207,7 @@ function UserAppProvider({ children }) {
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
+        // dateInputFormatter,
         ToastContainer,
         toast,
         loggingInUser,
