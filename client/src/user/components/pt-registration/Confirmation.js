@@ -1,22 +1,17 @@
 import { useState } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
 import { FaWindowClose } from 'react-icons/fa';
 import axios from 'axios';
 import moment from 'moment';
-import format from 'date-fns/format';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import styles from '../../../admin/Modal.module.css';
-
 const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
-  const { kaunterToken, dateToday, formatTime, dateInputFormatter } =
-    useGlobalUserAppContext();
+  const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
 
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
   const [duplicate, setDuplicate] = useState(false);
-  const [duplicateData, setDuplicateData] = useState([]);
+  const [duplicateData, setDuplicateData] = useState(null);
 
   const checkDuplicate = async () => {
     const uniqueId = createUniqueId(data, klinik);
@@ -26,11 +21,12 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
         { headers: { Authorization: `Bearer ${kaunterToken}` } }
       );
       if (res.data.kaunterResultQuery.length > 0) {
+        const lastIndex = res.data.kaunterResultQuery.length - 1;
         setDuplicate(true);
-        setDuplicateData(res.data.kaunterResultQuery);
+        setDuplicateData(res.data.kaunterResultQuery[lastIndex]);
       } else {
         setDuplicate(false);
-        setDuplicateData([]);
+        setDuplicateData({});
       }
     } catch (error) {
       console.log(error);
@@ -49,8 +45,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
       uniqueId += simplifiedName[i].charAt(0);
     }
     uniqueId += '-';
-    const DOB = dateInputFormatter(data.tarikhLahir);
-    const dateOfBirth = DOB.split('/').join('');
+    const dateOfBirth = data.tarikhLahir.split('-').join('');
     uniqueId += dateOfBirth;
     return uniqueId;
   };
@@ -136,7 +131,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                 <span>Pesakit </span>
                 <span className='lowercase'>
                   yang sama telah didaftarkan pada hari ini pada{' '}
-                  {formatTime(duplicateData[0].waktuSampai)}
+                  {formatTime(duplicateData.waktuSampai)}
                 </span>{' '}
               </div>
             ) : null}
