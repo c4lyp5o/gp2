@@ -64,6 +64,7 @@ function AdminAppProvider({ children }) {
       token: getTokenized(),
       data: data,
     });
+    localStorage.setItem('adminToken', response.data.adminToken);
     return response;
   }
 
@@ -79,13 +80,25 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
-  function verifyInitialSecret(secret) {
+  function verifyInitialSecret(secret, token) {
     let response = axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'update',
       token: getTokenized(),
       initialTotpCode: secret,
+      initialTotpToken: token,
+    });
+    return response;
+  }
+
+  function verifySecret(secret) {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'update',
+      token: getTokenized(),
+      totpCode: secret,
     });
     return response;
   }
@@ -373,6 +386,7 @@ function AdminAppProvider({ children }) {
         checkUser,
         generateSecret,
         verifyInitialSecret,
+        verifySecret,
         // hq
         getAllNegeriAndDaerah,
         getKlinikData,

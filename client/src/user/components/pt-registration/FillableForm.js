@@ -178,6 +178,23 @@ export default function FillableForm({
       setBersekolah(bersekolah);
       setNoOku(noOku);
       setStatusPesara(statusPesara);
+      setConfirmData({
+        nama,
+        tarikhLahir,
+        umur,
+        umurBulan,
+        jantina,
+        kumpulanEtnik,
+        alamat,
+        daerahAlamat,
+        negeriAlamat,
+        poskodAlamat,
+        ibuMengandung,
+        orangKurangUpaya,
+        bersekolah,
+        noOku,
+        statusPesara,
+      });
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
     }

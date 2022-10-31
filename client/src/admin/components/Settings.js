@@ -11,19 +11,12 @@ export default function Settings() {
   const [loginInfo, setLoginInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const [totpImage, setTotpImage] = useState('');
-  const [totpConfirmation, setTotpConfirmation] = useState(false);
-  const [totpSecret, setTotpSecret] = useState({});
-  const [backupCodes, setBackupCodes] = useState([]);
-  const [hashedBackupCodes, setHashedBackupCodes] = useState([]);
   const nama = useId();
   const email = useId();
   const totp = useId();
 
   const generateTotpSecret = async () => {
-    const bc = [];
-    const hbc = [];
-    const secret = await generateSecret({ name: 'Gi-Ret 2.0' });
-    console.log(secret);
+    const secret = await generateSecret();
     return secret;
   };
 
@@ -39,9 +32,8 @@ export default function Settings() {
     const data = {
       nama: e.target[nama].value,
       email: e.target[email].value,
-      totp: e.target[totp].value,
+      totp: loginInfo.totp,
     };
-    console.log(data);
     saveCurrentUser(data).then((res) => {
       console.log(res);
     });
@@ -49,8 +41,8 @@ export default function Settings() {
 
   useLayoutEffect(() => {
     generateTotpSecret().then((res) => {
-      console.log(res.data);
       setTotpImage(res.data.qrcode);
+      localStorage.setItem('totpToken', res.data.totpToken);
     });
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
@@ -67,7 +59,6 @@ export default function Settings() {
       {(confirm) => (
         <div>
           <form onSubmit={handleSubmit}>
-            <p>hi im settings</p>
             <label
               htmlFor={nama}
               className='block text-sm font-medium text-gray-700'
@@ -107,24 +98,22 @@ export default function Settings() {
               TOTP
             </label>
             <input
-              checked={loginInfo.totp === true}
+              checked={loginInfo.totp === false}
               type='radio'
               name='totpActive'
               id={totp}
+              value={false}
               className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-              value={true}
-              onChange={(e) =>
-                setLoginInfo({ ...loginInfo, totp: e.target.value })
-              }
+              onChange={(e) => setLoginInfo({ ...loginInfo, totp: false })}
             />
             Tidak aktif
             <input
               type='radio'
-              checked={loginInfo.totp === false}
+              checked={loginInfo.totp === true}
               name='totpInactive'
               id={totp}
+              value={true}
               className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-              value={false}
               onChange={confirm(enableTotp)}
             />
             Diaktifkan

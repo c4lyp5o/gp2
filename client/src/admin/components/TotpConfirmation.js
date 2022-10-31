@@ -1,23 +1,19 @@
-import { useState, useId, useEffect } from 'react';
+import { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import styles from '../Modal.module.css';
 
-const TotpModal = ({ children, image }) => {
-  const { generateSecret, verifyInitialSecret } = useGlobalAdminAppContext();
-  const [qrCode, setQrCode] = useState('');
+const TotpModal = ({ children, image, id }) => {
+  const { verifyInitialSecret } = useGlobalAdminAppContext();
+  const [totp, setTotp] = useState('');
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
-  const totp = useId();
 
   const show = (callback) => (event) => {
     event.preventDefault();
     setOpen(true);
-    const secret = generateSecret();
-    console.log(secret);
-    setQrCode(secret.otp_auth_url);
     event = {
       ...event,
       target: { ...event.target, value: event.target.value },
@@ -32,17 +28,17 @@ const TotpModal = ({ children, image }) => {
     setOpen(false);
   };
 
-  const confirm = () => {
-    console.log('checking totp', totp);
-    verifyInitialSecret(totp).then((res) => {
+  const confirm = (e) => {
+    const totpToken = localStorage.getItem('totpToken');
+    verifyInitialSecret(totp, totpToken).then((res) => {
       console.log(res);
-      // if (res.status === 200) {
-      //   console.log('confirm');
-      //   callback.run();
-      //   hide();
-      // } else {
-      //   console.log('error');
-      // }
+      if (res.status === 200) {
+        console.log('confirm');
+        callback.run();
+        hide();
+      } else {
+        console.log('error');
+      }
     });
   };
 
@@ -53,7 +49,7 @@ const TotpModal = ({ children, image }) => {
         <>
           <div className={styles.darkBG} onClick={hide} />
           <div className={styles.centered}>
-            <div className={styles.modal}>
+            <div className={styles.modalEdit}>
               <div className={styles.modalHeader}>
                 <h5 className={styles.heading}>AWAS!</h5>
               </div>
@@ -66,11 +62,17 @@ const TotpModal = ({ children, image }) => {
                   Authenticator) dan isi kod TOTP yang sedang dipaparkan
                 </p>
               </div>
-              <div>
-                <img src={image} alt='QRCode' />
-              </div>
-              <div>
-                <input id={totp} type='text' placeholder='Kod TOTP' />
+              <div className={styles.modalContent}>
+                <div className={styles.imagesCentered}>
+                  <img src={image} alt='QRCode' />
+                </div>
+                <div className='mt-6'>
+                  <input
+                    type='text'
+                    placeholder='Kod TOTP'
+                    onChange={(e) => setTotp(e.target.value)}
+                  />
+                </div>
               </div>
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
