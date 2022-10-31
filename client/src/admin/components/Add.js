@@ -36,6 +36,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const currentAlamatTastad = useRef();
   const currentGovKe = useRef();
   // event
+  const currentJenisEvent = useRef();
+  const currentModPenyampaian = useRef();
   const currentTarikh = useRef();
   const currentMasaMula = useRef();
   const currentMasaTamat = useRef();
@@ -100,6 +102,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       Data = {
         nama: currentName.current,
         createdByKp: kp,
+        jenisEvent: currentJenisEvent.current,
+        modPenyampaianPerkhidmatan: currentModPenyampaian.current,
         tarikh: currentTarikh.current,
         masaMula: currentMasaMula.current,
         masaTamat: currentMasaTamat.current,
@@ -831,7 +835,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
             onClick={() => setShowAddModal(false)}
           />
           <div className={styles.centered}>
-            <div className={styles.modalAdd}>
+            <div className={styles.modalEvent}>
               <div className={styles.modalHeader}>
                 <h5 className={styles.heading}>Tambah Event</h5>
               </div>
@@ -844,6 +848,60 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
               <div className={styles.modalContent}>
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
+                    <p>
+                      Jenis Event
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) =>
+                          (currentJenisEvent.current = e.target.value)
+                        }
+                        name='jenisEvent'
+                        id='jenisEvent'
+                      >
+                        <option value=''>Pilih Jenis Event</option>
+                        <option value='projek-komuniti'>Projek Komuniti</option>
+                        <option value='utc'>UTC</option>
+                        <option value='rtc'>RTC</option>
+                        <option value='ppkps'>PPKPS</option>
+                        <option value='kgangkat'>Kampung Angkat</option>
+                        <option value='ppr'>PPR</option>
+                        <option value='we-oku'>
+                          Institusi Warga Emas dan Institusi Orang Kurang Upaya
+                        </option>
+                        <option value='oap'>
+                          Program Orang Asli dan Penan
+                        </option>
+                      </select>
+                    </div>
+                    <p className='mt-3 font-semibold'>
+                      Mod Penyampaian Perkhidmatan
+                    </p>
+                    <div className='grid grid-cols-2 gap-1'>
+                      <label htmlFor='modPpb'>PPB</label>
+                      <input
+                        type='radio'
+                        name='mod'
+                        value='ppb'
+                        onChange={(e) =>
+                          (currentModPenyampaian.current = e.target.value)
+                        }
+                      />
+                      <label htmlFor='modKpb'>KPB</label>
+                      <input
+                        type='radio'
+                        name='mod'
+                        value='kpb'
+                        onChange={(e) =>
+                          (currentModPenyampaian.current = e.target.value)
+                        }
+                      />
+                    </div>
                     <p>
                       Nama Event
                       <span className='font-semibold text-lg text-user6'>

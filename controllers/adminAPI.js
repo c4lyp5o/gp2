@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 const simpleCrypto = require('simple-crypto-js').default;
+const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
 const moment = require('moment');
+const LRU = require('lru-cache');
+const speakeasy = require('speakeasy');
+const QRCode = require('qrcode');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -9,6 +13,20 @@ const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const emailGen = require('../lib/emailgen');
+
+const options = {
+  max: 5000,
+  // for use with tracking overall storage size
+  maxSize: 50000,
+  sizeCalculation: (value, key) => {
+    return 1;
+  },
+  ttl: 1000 * 60 * 60 * 24 * 30, // 30 days
+  allowStale: false,
+  updateAgeOnGet: false,
+  updateAgeOnHas: false,
+  fetchMethod: async (key, staleValue, { options, signal }) => {},
+};
 
 const Dictionary = {
   kp: 'klinik',
@@ -24,6 +42,8 @@ const Dictionary = {
   event: 'event',
 };
 
+const totpCache = new LRU(options);
+
 exports.getData = async (req, res, next) => {
   if (req.method === 'GET') {
     return res.status(200).json({
@@ -31,10 +51,10 @@ exports.getData = async (req, res, next) => {
     });
   }
   if (req.method === 'POST') {
-    const { main } = req.body;
+    const { main, Fn, token } = req.body;
     switch (main) {
       case 'DataCenter':
-        var { Fn, FType, Data, token, Id } = req.body;
+        var { FType, Data, Id } = req.body;
         const theType = Dictionary[FType];
         const dataGeografik = {
           daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
@@ -150,6 +170,22 @@ exports.getData = async (req, res, next) => {
                 daerah: dataGeografik.daerah,
                 statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
               });
+              const kaunterAcct = await User.find({
+                negeri: dataGeografik.negeri,
+                daerah: dataGeografik.daerah,
+                accountType: 'kaunterUser',
+              });
+              for (const i in data) {
+                for (const j in kaunterAcct) {
+                  if (data[i].kp === kaunterAcct[j].kp) {
+                    data[i] = {
+                      ...data[i]._doc,
+                      kaunterUsername: kaunterAcct[j].username,
+                      kaunterPassword: kaunterAcct[j].password,
+                    };
+                  }
+                }
+              }
               return res.status(200).json(data);
             }
             break;
@@ -317,7 +353,7 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'UserCenter':
-        var { Fn, username, password, token } = req.body;
+        var { username, password, data } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for user');
@@ -346,6 +382,7 @@ exports.getData = async (req, res, next) => {
                 e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
                 accountType: jwt.verify(token, process.env.JWT_SECRET)
                   .accountType,
+                totp: jwt.verify(token, process.env.JWT_SECRET).totp,
               };
             }
             if (
@@ -384,6 +421,15 @@ exports.getData = async (req, res, next) => {
               });
             }
             // if yes superadmin
+            // check if using totp
+            if (tempUser.totp) {
+              return res.status(200).json({
+                status: 'success',
+                message: 'Sila isi TOTP dari aplikasi yang anda gunakan',
+                totp: true,
+              });
+            }
+            // if not using totp
             const key = simpleCrypto.generateRandomString(20);
             // const invalidateKey = simpleCrypto.generateRandomString(64);
             await Superadmin.findByIdAndUpdate(
@@ -474,6 +520,42 @@ exports.getData = async (req, res, next) => {
               });
             }
             // if kp
+            // check if using totp or not
+            if (adminUser.totp) {
+              console.log('totp');
+              const verified = speakeasy.totp.verify({
+                secret: adminUser.hex,
+                encoding: 'hex',
+                token: password,
+                window: 1,
+              });
+              if (!verified) {
+                const msg = 'Key salah';
+                return res.status(401).json({
+                  status: 'error',
+                  message: msg,
+                });
+              }
+              const genToken = jwt.sign(
+                {
+                  userId: adminUser._id,
+                  username: adminUser.user_name,
+                  daerah: adminUser.daerah,
+                  negeri: adminUser.negeri,
+                  e_mail: adminUser.e_mail,
+                  accountType: adminUser.accountType,
+                  totp: adminUser.totp,
+                },
+                process.env.JWT_SECRET,
+                { expiresIn: process.env.JWT_LIFETIME }
+              );
+              return res.status(200).json({
+                status: 'success',
+                message: 'Login berjaya',
+                adminToken: genToken,
+              });
+            }
+            // using tempKey
             if (password !== adminUser.tempKey) {
               const msg = 'Key salah';
               return res.status(401).json({
@@ -489,6 +571,7 @@ exports.getData = async (req, res, next) => {
                 negeri: adminUser.negeri,
                 e_mail: adminUser.e_mail,
                 accountType: adminUser.accountType,
+                totp: adminUser.totp,
               },
               process.env.JWT_SECRET,
               { expiresIn: process.env.JWT_LIFETIME }
@@ -498,7 +581,32 @@ exports.getData = async (req, res, next) => {
               message: 'Login berjaya',
               adminToken: genToken,
             });
-            break;
+          case 'updateOne':
+            console.log('updateOne for user');
+            const id = jwt.verify(token, process.env.JWT_SECRET).userId;
+            const updateAdminUser = await Superadmin.findByIdAndUpdate(
+              id,
+              { username: data.username, e_mail: data.email, totp: data.totp },
+              { new: true }
+            );
+            const newToken = jwt.sign(
+              {
+                userId: updateAdminUser._id,
+                username: updateAdminUser.user_name,
+                daerah: updateAdminUser.daerah,
+                negeri: updateAdminUser.negeri,
+                e_mail: updateAdminUser.e_mail,
+                accountType: updateAdminUser.accountType,
+                totp: updateAdminUser.totp,
+              },
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_LIFETIME }
+            );
+            return res.status(200).json({
+              status: 'success',
+              message: 'Update berjaya',
+              adminToken: newToken,
+            });
           case 'delete':
             console.log('delete for user');
             break;
@@ -509,7 +617,6 @@ exports.getData = async (req, res, next) => {
         }
         break;
       case 'HqCenter':
-        var { Fn, token } = req.body;
         switch (Fn) {
           case 'create':
             console.log('create for hq');
@@ -868,10 +975,128 @@ exports.getData = async (req, res, next) => {
             console.log('delete for hq');
             break;
           default:
-            return res.status(200).json({
-              message: 'This is the default case for Hq Center',
-            });
+            console.log('default for hq');
+            break;
         }
+        break;
+      case 'TotpManager':
+        const userToken = req.body.token;
+        switch (Fn) {
+          case 'create':
+            console.log('create for totp');
+            const { id } = jwt.verify(userToken, process.env.JWT_SECRET);
+            let backupCodes = [];
+            let hashedBackupCodes = [];
+            const secret = speakeasy.generateSecret({
+              name: 'Gi-Ret 2.0 TOTP',
+            });
+            for (let i = 0; i < 10; i++) {
+              const randomCode = (Math.random() * 10000000000).toFixed();
+              const encrypted = CryptoJS.AES.encrypt(
+                randomCode,
+                secret.base32
+              ).toString();
+              backupCodes.push(randomCode);
+              hashedBackupCodes.push(encrypted);
+            }
+            const qrCode = await QRCode.toDataURL(secret.otpauth_url);
+            let tempSecret = {
+              ascii: secret.ascii,
+              hex: secret.hex,
+              base32: secret.base32,
+              otp_auth_url: secret.otpauth_url,
+              backupCodes: backupCodes,
+              hashedBackupCodes: hashedBackupCodes,
+            };
+            totpCache.set(id, JSON.stringify(tempSecret));
+            const totpToken = jwt.sign(
+              {
+                userId: id,
+                tempSecret,
+              },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: '1h',
+              }
+            );
+            return res.status(200).json({
+              msg: 'success',
+              qrcode: qrCode,
+              url: tempSecret.otp_auth_url,
+              totpToken,
+            });
+            break;
+          case 'read':
+            console.log('read for totp');
+            const { totpCode } = req.body;
+            const admin = await Superadmin.findById(
+              jwt.verify(token, process.env.JWT_SECRET).userId
+            );
+            const verified = speakeasy.totp.verify({
+              secret: admin.base32,
+              encoding: 'base32',
+              token: totpCode,
+            });
+            if (verified) {
+              return res.status(200).json({
+                msg: 'success',
+                verified,
+              });
+            } else {
+              return res.status(400).json({
+                msg: 'TOTP salah',
+                verified,
+              });
+            }
+            break;
+          case 'update':
+            const { initialTotpCode, initialTotpToken } = req.body;
+            const initialSecret = jwt.verify(
+              initialTotpToken,
+              process.env.JWT_SECRET
+            );
+            const initialVerification = speakeasy.totp.verify({
+              secret: initialSecret.tempSecret.hex,
+              encoding: 'hex',
+              token: initialTotpCode,
+              window: 1,
+            });
+            if (initialVerification) {
+              console.log('initial verification success');
+              const initialAdmin = await Superadmin.findByIdAndUpdate(
+                jwt.verify(token, process.env.JWT_SECRET).userId,
+                {
+                  ascii: initialSecret.tempSecret.ascii,
+                  hex: initialSecret.tempSecret.hex,
+                  base32: initialSecret.tempSecret.base32,
+                  otpauth_url: initialSecret.tempSecret.otp_auth_url,
+                  backup_codes: initialSecret.tempSecret.backupCodes,
+                  hashed_backup_codes:
+                    initialSecret.tempSecret.hashedBackupCodes,
+                },
+                { new: true }
+              );
+              return res.status(200).json({
+                msg: 'success',
+                initialVerification,
+                initialAdmin,
+              });
+            } else {
+              console.log('initial verification failed');
+              return res.status(400).json({
+                msg: 'failed',
+                initialVerification,
+              });
+            }
+            break;
+          case 'delete':
+            console.log('delete for totp');
+            break;
+          default:
+            console.log('default for totp');
+            break;
+        }
+        break;
       default:
         return res.status(200).json({
           message: 'Provide nothing, get nothing',

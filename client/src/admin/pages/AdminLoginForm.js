@@ -107,6 +107,15 @@ export default function AdminLoginForm() {
           return;
         }
         // if kp superadmin
+        // if using TOTP
+        if (
+          response.data.accountType !== 'kpSuperadmin' &&
+          response.data.totp
+        ) {
+          toast.info(`Sila isi TOTP dari aplikasi yang anda gunakan`);
+          setShowPasswordBox(true);
+          return;
+        }
         toast.info(
           `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
