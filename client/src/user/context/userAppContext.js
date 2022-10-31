@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { format } from 'date-fns';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
@@ -66,15 +67,15 @@ function statusPesakit(p) {
 }
 
 // convert Date to yyyy-mm-dd
-// function dateInputFormatter(date) {
-//   const ddd = Date.parse(date);
-//   const newDate = new Date(ddd);
-//   const y = newDate.getFullYear();
-//   const m = newDate.getMonth() + 1;
-//   const d = newDate.getDate();
-//   const newDateFormatted = y + '-' + m + '-' + d;
-//   return newDateFormatted;
-// }
+function dateInputFormatter(date) {
+  const ddd = Date.parse(date);
+  const newDate = new Date(ddd);
+  const y = newDate.getFullYear();
+  const m = newDate.getMonth() + 1;
+  const d = newDate.getDate();
+  const newDateFormatted = y + '-' + m + '-' + d;
+  return newDateFormatted;
+}
 
 const UserAppContext = React.createContext();
 
@@ -207,7 +208,7 @@ function UserAppProvider({ children }) {
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
-        // dateInputFormatter,
+        dateInputFormatter,
         ToastContainer,
         toast,
         loggingInUser,
