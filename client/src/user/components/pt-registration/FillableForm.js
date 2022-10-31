@@ -31,7 +31,9 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // core
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date());
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(
+    moment(new Date()).format('YYYY-MM-DD')
+  );
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -39,7 +41,7 @@ export default function FillableForm({
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState(0);
-  const [tarikhLahir, setTarikhLahir] = useState(new Date());
+  const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
   const [jantina, setJantina] = useState('');
@@ -150,15 +152,14 @@ export default function FillableForm({
           const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
           const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
           const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-          const confirm = {
-            ...confirmData,
-            tarikhLahir: tempDate,
-          };
           setTarikhLahirDatePicker(tarikhLahir);
           setTarikhLahir(tempDate);
           setUmur(tahun);
           setUmurBulan(bulan);
-          setConfirmData(confirm);
+          setConfirmData({
+            ...confirmData,
+            tarikhLahir: tempDate,
+          });
         }}
         peekNextMonth
         showMonthDropdown
@@ -225,6 +226,7 @@ export default function FillableForm({
       } = response.data.person;
       setNama(nama);
       setTarikhLahir(tarikhLahir);
+      setIc(ic);
       setUmur(umur);
       setUmurBulan(umurBulan);
       setJantina(jantina);
@@ -241,6 +243,7 @@ export default function FillableForm({
       setConfirmData({
         nama,
         tarikhLahir,
+        ic,
         umur,
         umurBulan,
         jantina,
@@ -920,7 +923,6 @@ export default function FillableForm({
                           ic: e.target.value,
                         });
                         if (e.target.value.length === 12) {
-                          console.log('ic length 12. calling check ic');
                           checkIc(e.target.value);
                         }
                       }}
