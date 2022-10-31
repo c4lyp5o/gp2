@@ -42,12 +42,14 @@ export default function Settings() {
   useLayoutEffect(() => {
     generateTotpSecret().then((res) => {
       setTotpImage(res.data.qrcode);
-      localStorage.setItem('totpToken', res.data.totpToken);
     });
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
       setLoading(false);
     });
+    return () => {
+      localStorage.removeItem('totpToken');
+    };
   }, []);
 
   if (loading) {

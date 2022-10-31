@@ -6,7 +6,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import styles from '../Modal.module.css';
 
 const TotpModal = ({ children, image, id }) => {
-  const { verifyInitialSecret } = useGlobalAdminAppContext();
+  const { toast, verifyInitialSecret } = useGlobalAdminAppContext();
   const [totp, setTotp] = useState('');
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
@@ -29,14 +29,13 @@ const TotpModal = ({ children, image, id }) => {
   };
 
   const confirm = (e) => {
-    const totpToken = localStorage.getItem('totpToken');
-    verifyInitialSecret(totp, totpToken).then((res) => {
-      console.log(res);
+    verifyInitialSecret(totp).then((res) => {
       if (res.status === 200) {
-        console.log('confirm');
+        toast.info('Kod TOTP berjaya disahkan');
         callback.run();
         hide();
       } else {
+        toast.error('Kod TOTP tidak sah. SIla isi sekali lagi.');
         console.log('error');
       }
     });

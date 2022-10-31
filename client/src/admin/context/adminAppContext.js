@@ -77,10 +77,12 @@ function AdminAppProvider({ children }) {
       Fn: 'create',
       token: getTokenized(),
     });
+    localStorage.setItem('totpToken', response.totpToken);
     return response;
   }
 
-  function verifyInitialSecret(secret, token) {
+  function verifyInitialSecret(secret) {
+    const token = localStorage.getItem('totpToken');
     let response = axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
