@@ -22,7 +22,11 @@ const eventSchema = new Schema({
     type: String,
     // required: true
   },
-  kategori: {
+  jenisEvent: {
+    type: String,
+    // required: true
+  },
+  modPenyampaianPerkhidmatan: {
     type: String,
     // required: true
   },

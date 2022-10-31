@@ -55,9 +55,10 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
   const show = (callback) => (event) => {
     event.preventDefault();
     lookBusyGuys(true);
-    checkDuplicate().then(() => {
-      setOpen(true);
-    });
+    if (!isEdit) {
+      checkDuplicate();
+    }
+    setOpen(true);
     event = {
       ...event,
       target: { ...event.target, value: event.target.value },

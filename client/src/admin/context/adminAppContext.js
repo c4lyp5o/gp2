@@ -1,10 +1,8 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken, getTokenized } from './Tokenizer';
-import styles from '../Modal.module.css';
-import { RiCloseLine } from 'react-icons/ri';
 
 const AdminAppContext = createContext();
 
@@ -54,6 +52,53 @@ function AdminAppProvider({ children }) {
       main: 'UserCenter',
       Fn: 'read',
       token: getTokenized(),
+    });
+    return response;
+  }
+
+  async function saveCurrentUser(data) {
+    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'UserCenter',
+      Fn: 'updateOne',
+      token: getTokenized(),
+      data: data,
+    });
+    localStorage.setItem('adminToken', response.data.adminToken);
+    return response;
+  }
+
+  // totp
+
+  function generateSecret() {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'create',
+      token: getTokenized(),
+    });
+    return response;
+  }
+
+  function verifyInitialSecret(secret, token) {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'update',
+      token: getTokenized(),
+      initialTotpCode: secret,
+      initialTotpToken: token,
+    });
+    return response;
+  }
+
+  function verifySecret(secret) {
+    let response = axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'TotpManager',
+      Fn: 'update',
+      token: getTokenized(),
+      totpCode: secret,
     });
     return response;
   }
@@ -304,6 +349,14 @@ function AdminAppProvider({ children }) {
     kpb: 'KP Bergerak',
     mp: 'Makmal Pergigian',
     event: 'Event',
+    'projek-komuniti': 'Projek Komuniti',
+    utc: 'UTC',
+    rtc: 'RTC',
+    ppkps: 'PPKPS',
+    kgangkat: 'Kampung Angkat',
+    ppr: 'PPR',
+    'we-oku': 'Institusi Warga Emas dan Institusi Orang Kurang Upaya',
+    oap: 'Program Orang Asli dan Penan',
   };
 
   return (
@@ -326,6 +379,7 @@ function AdminAppProvider({ children }) {
         token,
         setToken,
         getCurrentUser,
+        saveCurrentUser,
         catchAxiosErrorAndLogout,
         Dictionary,
         navigate,
@@ -338,6 +392,9 @@ function AdminAppProvider({ children }) {
         // auth
         loginUser,
         checkUser,
+        generateSecret,
+        verifyInitialSecret,
+        verifySecret,
         // hq
         getAllNegeriAndDaerah,
         getKlinikData,
