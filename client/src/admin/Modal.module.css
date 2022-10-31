@@ -16,6 +16,13 @@
   transform: translate(-50%, -50%);
 }
 
+.imagesCentered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .modal {
   width: 250px;
   height: 250px;
@@ -49,6 +56,16 @@
 .modalDelete {
   width: 25rem;
   height: 20rem;
+  background: white;
+  color: white;
+  z-index: 50;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
+.modalEvent {
+  width: 25rem;
+  height: 34rem;
   background: white;
   color: white;
   z-index: 50;

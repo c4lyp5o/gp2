@@ -9,11 +9,11 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import AdminLoginForm from './AdminLoginForm';
 
 // logged in
-import AdminHeader from '../components/AdminHeaderLoggedIn';
+import AdminHeader from '../components/AdminHeader';
 import AdminNavbar from '../components/AdminNavbar';
 
 // paparan utama
-import AdminCenterStageLoggedIn from '../components/AdminCenterStageLoggedIn';
+import AdminCenterStage from '../components/AdminCenterStage';
 
 // klinik details
 import Klinik from '../components/Klinik';
@@ -25,6 +25,9 @@ import AdminFooter from '../components/AdminFooter';
 // -----------------------------------------------------------
 
 import Data from '../components/Data';
+
+// settings
+import Settings from '../components/Settings';
 
 import { ToastContainer } from 'react-toastify';
 
@@ -38,11 +41,13 @@ export default function AdminAfterLogin() {
       .then((res) => {
         setLoginInfo({
           isLoggedIn: true,
+          id: res.data.userId,
           username: res.data.username,
           kp: res.data.kp,
           daerah: res.data.daerah,
           negeri: res.data.negeri,
           accountType: res.data.accountType,
+          totp: res.data.totp,
         });
       })
       .catch(() => {
@@ -71,7 +76,7 @@ export default function AdminAfterLogin() {
           <Route
             index
             element={
-              <AdminCenterStageLoggedIn
+              <AdminCenterStage
                 user={loginInfo.username}
                 accountType={loginInfo.accountType}
               />
@@ -92,6 +97,7 @@ export default function AdminAfterLogin() {
             path='event'
             element={<Data FType='event' kp={loginInfo.kp} />}
           />
+          <Route path='tetapan' element={<Settings />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>

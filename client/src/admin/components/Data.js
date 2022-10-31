@@ -111,10 +111,10 @@ export default function Data({ FType, kp }) {
                     Emel KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Nama Pengguna KP
+                    Akaun Pengguna KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Kata Laluan KP
+                    Akaun Pendaftaran KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Status KP
@@ -143,13 +143,25 @@ export default function Data({ FType, kp }) {
                       {encryptEmail(kp.email)}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
-                      {kp.username}
-                    </td>
-                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.username}</div>
                       <div id={index}>
                         {showPassword === true
                           ? kp.password
                           : encryptPassword(kp.password)}
+                        <button
+                          className='ml-1'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          <AiOutlineEye />
+                        </button>
+                      </div>
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.kaunterUsername}</div>
+                      <div id={index}>
+                        {showPassword === true
+                          ? kp.kaunterPassword
+                          : encryptPassword(kp.kaunterPassword)}
                         <button
                           className='ml-1'
                           onClick={() => setShowPassword(!showPassword)}
@@ -554,6 +566,9 @@ export default function Data({ FType, kp }) {
                     Bil.
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Jenis Event
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Nama Event
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -561,6 +576,9 @@ export default function Data({ FType, kp }) {
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tarikh dan Masa
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Mod Penyampaian Perkhidmatan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Urus
@@ -574,6 +592,9 @@ export default function Data({ FType, kp }) {
                       {index + 1}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {Dictionary[f.jenisEvent]}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.nama}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -582,6 +603,11 @@ export default function Data({ FType, kp }) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {moment(f.tarikh).format('DD/MM/YYYY')},{' '}
                       {formatTime(f.masaMula)} - {formatTime(f.masaTamat)}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.modPenyampaianPerkhidmatan === 'ppb'
+                        ? 'Pasukan Pergigian Bergerak'
+                        : 'Klinik Pergigian Bergerak'}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button

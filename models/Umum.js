@@ -78,6 +78,9 @@ const UmumSchema = new mongoose.Schema(
     institusiOku: { type: String, default: '' },
     // kampung angkat
     kgAngkat: { type: String, default: '' },
+    // event based
+    jenisEvent: { type: String, default: '' },
+    namaEvent: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
     adaCleftLipPemeriksaanUmum: {
