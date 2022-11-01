@@ -3,7 +3,6 @@ const simpleCrypto = require('simple-crypto-js').default;
 const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
 const moment = require('moment');
-const LRU = require('lru-cache');
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
 const Superadmin = require('../models/Superadmin');
@@ -13,20 +12,6 @@ const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const emailGen = require('../lib/emailgen');
-
-const options = {
-  max: 5000,
-  // for use with tracking overall storage size
-  maxSize: 50000,
-  sizeCalculation: (value, key) => {
-    return 1;
-  },
-  ttl: 1000 * 60 * 60 * 24 * 30, // 30 days
-  allowStale: false,
-  updateAgeOnGet: false,
-  updateAgeOnHas: false,
-  fetchMethod: async (key, staleValue, { options, signal }) => {},
-};
 
 const Dictionary = {
   kp: 'klinik',
@@ -42,7 +27,15 @@ const Dictionary = {
   event: 'event',
 };
 
-const totpCache = new LRU(options);
+const transporter = mailer.createTransport({
+  host: process.env.EMAILER_HOST,
+  port: process.env.EMAILER_PORT,
+  secure: true,
+  auth: {
+    user: process.env.EMAILER_ACCT,
+    pass: process.env.EMAILER_PASS,
+  },
+});
 
 exports.getData = async (req, res, next) => {
   if (req.method === 'GET') {
@@ -161,7 +154,6 @@ exports.getData = async (req, res, next) => {
                 createdByNegeri: dataGeografik.negeri,
                 statusPegawai: 'jp',
               });
-              console.log(data);
               return res.status(200).json(data);
             }
             if (theType === 'klinik') {
@@ -364,41 +356,13 @@ exports.getData = async (req, res, next) => {
               negeri: negeri,
               e_mail: e_mail,
               accountType: accountType,
+              totp: false,
             });
             return res.status(200).json(regData);
             break;
           case 'read':
             console.log('read for user');
-            let userData;
-            if (
-              jwt.verify(token, process.env.JWT_SECRET).accountType !==
-              'kpSuperadmin'
-            ) {
-              userData = {
-                userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-                username: jwt.verify(token, process.env.JWT_SECRET).username,
-                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-                e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
-                accountType: jwt.verify(token, process.env.JWT_SECRET)
-                  .accountType,
-                totp: jwt.verify(token, process.env.JWT_SECRET).totp,
-              };
-            }
-            if (
-              jwt.verify(token, process.env.JWT_SECRET).accountType ===
-              'kpSuperadmin'
-            ) {
-              userData = {
-                userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-                username: jwt.verify(token, process.env.JWT_SECRET).username,
-                kp: jwt.verify(token, process.env.JWT_SECRET).kp,
-                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-                accountType: jwt.verify(token, process.env.JWT_SECRET)
-                  .accountType,
-              };
-            }
+            const userData = await readUserData(token);
             return res.status(200).json(userData);
             break;
           case 'readOne':
@@ -416,7 +380,6 @@ exports.getData = async (req, res, next) => {
               }
               return res.status(200).json({
                 status: 'success',
-                message: 'Sila isi password',
                 accountType: 'kpSuperadmin',
               });
             }
@@ -425,64 +388,15 @@ exports.getData = async (req, res, next) => {
             if (tempUser.totp) {
               return res.status(200).json({
                 status: 'success',
-                message: 'Sila isi TOTP dari aplikasi yang anda gunakan',
                 totp: true,
               });
             }
             // if not using totp
-            const key = simpleCrypto.generateRandomString(20);
-            // const invalidateKey = simpleCrypto.generateRandomString(64);
-            await Superadmin.findByIdAndUpdate(
-              tempUser._id,
-              { tempKey: key },
-              { new: true }
-            );
-            // setTimeout(() => {
-            //   Superadmin.findByIdAndUpdate(
-            //     tempUser._id,
-            //     { tempKey: invalidateKey },
-            //     { new: true }
-            //   );
-            // }, 1000 * 60 * 5);
-            const transporter = mailer.createTransport({
-              host: process.env.EMAILER_HOST,
-              port: process.env.EMAILER_PORT,
-              secure: true,
-              auth: {
-                user: process.env.EMAILER_ACCT,
-                pass: process.env.EMAILER_PASS,
-              },
-            });
-            let useEmail = '';
-            if (!tempUser.e_mail) {
-              useEmail = process.env.SEND_TO;
-            }
-            if (tempUser.e_mail) {
-              useEmail = tempUser.e_mail;
-            }
-            const mailOptions = {
-              from: process.env.EMAILER_ACCT,
-              to: useEmail,
-              subject: 'Kunci Verifikasi',
-              html: `<p>Hi ${tempUser.user_name},</p>
-              <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
-              <br /><p>${key}</p><br />
-              <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
-              <p>Terima kasih.</p>`,
-            };
-            transporter.sendMail(mailOptions, (err, info) => {
-              if (err) {
-                console.log(err);
-                return res.status(500).json({
-                  status: 'error',
-                  message: 'Email tidak dapat dihantar',
-                });
-              }
-              return res.status(200).json({
-                status: 'success',
-                message: 'Email telah dihantar',
-                email: tempUser.e_mail,
-              });
+            const currentMail = await sendVerificationEmail(tempUser._id);
+            return res.status(200).json({
+              status: 'success',
+              email: currentMail,
+              totp: false,
             });
             break;
           case 'update':
@@ -493,30 +407,15 @@ exports.getData = async (req, res, next) => {
               console.log('kp user');
               const kpUser = await User.findOne({ username: username });
               if (password !== kpUser.password) {
-                const msg = 'Key salah';
                 return res.status(401).json({
                   status: 'error',
-                  message: msg,
+                  message: 'Key salah',
                 });
               }
-              console.log(kpUser);
-              const genToken = jwt.sign(
-                {
-                  userId: kpUser._id,
-                  username: kpUser.username,
-                  kp: kpUser.kp,
-                  daerah: kpUser.daerah,
-                  negeri: kpUser.negeri,
-                  email: kpUser.email,
-                  accountType: 'kpSuperadmin',
-                },
-                process.env.JWT_SECRET,
-                { expiresIn: process.env.JWT_LIFETIME }
-              );
+              const generatedToken = await createSuperadminToken(kpUser);
               return res.status(200).json({
                 status: 'success',
-                message: 'Login berjaya',
-                adminToken: genToken,
+                adminToken: generatedToken,
               });
             }
             // if kp
@@ -530,83 +429,38 @@ exports.getData = async (req, res, next) => {
                 window: 1,
               });
               if (!verified) {
-                const msg = 'Key salah';
                 return res.status(401).json({
                   status: 'error',
-                  message: msg,
+                  message: 'Key salah',
                 });
               }
-              const genToken = jwt.sign(
-                {
-                  userId: adminUser._id,
-                  username: adminUser.user_name,
-                  daerah: adminUser.daerah,
-                  negeri: adminUser.negeri,
-                  e_mail: adminUser.e_mail,
-                  accountType: adminUser.accountType,
-                  totp: adminUser.totp,
-                },
-                process.env.JWT_SECRET,
-                { expiresIn: process.env.JWT_LIFETIME }
-              );
+              const generatedToken = await createSuperadminToken(adminUser);
               return res.status(200).json({
                 status: 'success',
-                message: 'Login berjaya',
-                adminToken: genToken,
+                adminToken: generatedToken,
               });
             }
             // using tempKey
             if (password !== adminUser.tempKey) {
-              const msg = 'Key salah';
               return res.status(401).json({
                 status: 'error',
-                message: msg,
+                message: 'Key salah',
               });
             }
-            const genToken = jwt.sign(
-              {
-                userId: adminUser._id,
-                username: adminUser.user_name,
-                daerah: adminUser.daerah,
-                negeri: adminUser.negeri,
-                e_mail: adminUser.e_mail,
-                accountType: adminUser.accountType,
-                totp: adminUser.totp,
-              },
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_LIFETIME }
-            );
+            const generatedToken = await createSuperadminToken(adminUser);
             return res.status(200).json({
               status: 'success',
-              message: 'Login berjaya',
-              adminToken: genToken,
+              adminToken: generatedToken,
             });
+            break;
           case 'updateOne':
             console.log('updateOne for user');
-            const id = jwt.verify(token, process.env.JWT_SECRET).userId;
-            const updateAdminUser = await Superadmin.findByIdAndUpdate(
-              id,
-              { username: data.username, e_mail: data.email, totp: data.totp },
-              { new: true }
-            );
-            const newToken = jwt.sign(
-              {
-                userId: updateAdminUser._id,
-                username: updateAdminUser.user_name,
-                daerah: updateAdminUser.daerah,
-                negeri: updateAdminUser.negeri,
-                e_mail: updateAdminUser.e_mail,
-                accountType: updateAdminUser.accountType,
-                totp: updateAdminUser.totp,
-              },
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_LIFETIME }
-            );
+            const newToken = await updateUserData(token, data);
             return res.status(200).json({
               status: 'success',
-              message: 'Update berjaya',
               adminToken: newToken,
             });
+            break;
           case 'delete':
             console.log('delete for user');
             break;
@@ -614,6 +468,7 @@ exports.getData = async (req, res, next) => {
             return res.status(200).json({
               message: 'This is the default case for User Center',
             });
+            break;
         }
         break;
       case 'HqCenter':
@@ -984,11 +839,14 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'create':
             console.log('create for totp');
-            const { id } = jwt.verify(userToken, process.env.JWT_SECRET);
+            const { id, username } = jwt.verify(
+              userToken,
+              process.env.JWT_SECRET
+            );
             let backupCodes = [];
             let hashedBackupCodes = [];
             const secret = speakeasy.generateSecret({
-              name: 'Gi-Ret 2.0 TOTP',
+              name: `Gi-Ret 2.0 (${username})`,
             });
             for (let i = 0; i < 10; i++) {
               const randomCode = (Math.random() * 10000000000).toFixed();
@@ -1008,7 +866,6 @@ exports.getData = async (req, res, next) => {
               backupCodes: backupCodes,
               hashedBackupCodes: hashedBackupCodes,
             };
-            totpCache.set(id, JSON.stringify(tempSecret));
             const totpToken = jwt.sign(
               {
                 userId: id,
@@ -1044,19 +901,20 @@ exports.getData = async (req, res, next) => {
               });
             } else {
               return res.status(400).json({
-                msg: 'TOTP salah',
+                msg: 'error',
                 verified,
               });
             }
             break;
           case 'update':
             const { initialTotpCode, initialTotpToken } = req.body;
-            const initialSecret = jwt.verify(
+            console.log(req.body);
+            const { tempSecret: userSecret } = jwt.verify(
               initialTotpToken,
               process.env.JWT_SECRET
             );
             const initialVerification = speakeasy.totp.verify({
-              secret: initialSecret.tempSecret.hex,
+              secret: userSecret.hex,
               encoding: 'hex',
               token: initialTotpCode,
               window: 1,
@@ -1066,13 +924,12 @@ exports.getData = async (req, res, next) => {
               const initialAdmin = await Superadmin.findByIdAndUpdate(
                 jwt.verify(token, process.env.JWT_SECRET).userId,
                 {
-                  ascii: initialSecret.tempSecret.ascii,
-                  hex: initialSecret.tempSecret.hex,
-                  base32: initialSecret.tempSecret.base32,
-                  otpauth_url: initialSecret.tempSecret.otp_auth_url,
-                  backup_codes: initialSecret.tempSecret.backupCodes,
-                  hashed_backup_codes:
-                    initialSecret.tempSecret.hashedBackupCodes,
+                  ascii: userSecret.ascii,
+                  hex: userSecret.hex,
+                  base32: userSecret.base32,
+                  otpauth_url: userSecret.otp_auth_url,
+                  backup_codes: userSecret.backupCodes,
+                  hashed_backup_codes: userSecret.hashedBackupCodes,
                 },
                 { new: true }
               );
@@ -1101,46 +958,130 @@ exports.getData = async (req, res, next) => {
         return res.status(200).json({
           message: 'Provide nothing, get nothing',
         });
+        break;
     }
   }
 };
 
 exports.getCipher = async (req, res) => {
-  const crypt = new simpleCrypto(process.env.API_SECRET);
-  const cipherText = crypt.encrypt(process.env.API_KEY);
+  var ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify(process.env.API_KEY),
+    process.env.CRYPTO_JS_SECRET
+  ).toString();
+  var bytes = CryptoJS.AES.decrypt(ciphertext, process.env.CRYPTO_JS_SECRET);
+  var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   res.status(200).json({
     status: 'success',
     message: 'Verification route',
-    key: cipherText,
+    key: ciphertext,
+    decryptedKey: decryptedData,
   });
 };
 
-// async function sendVerificationEmail(email, userId) {
-//   let theKey = simpleCrypto.generateRandomString(20);
-//   const update = await Superadmin.findByIdAndUpdate(
-//     userId,
-//     {
-//       tempKey: theKey,
-//     },
-//     { new: true }
-//   );
-//   // const transporter = mailer.createTransport({
-//   //   host: process.env.EMAILER_HOST,
-//   //   port: process.env.EMAILER_PORT,
-//   //   secure: true,
-//   //   auth: {
-//   //     user: process.env.EMAILER_ACCT,
-//   //     pass: process.env.EMAILER_PASS,
-//   //   },
-//   // });
-//   // const verification = await transporter.sendMail({
-//   //   from: `"Admin" <${process.env.EMAILER_ACCT}>`,
-//   //   to: email,
-//   //   subject: 'Verifikasi Akaun',
-//   //   text: 'Kunci verifikasi anda adalah: ' + verificationKey + '\n\n',
-//   //   html:
-//   //     '<p>Kunci verifikasi anda adalah: </p>' + verificationKey + '<p>\n\n</p>',
-//   // });
-//   // console.log('your key: ' + theKey);
-//   return theKey;
-// }
+async function sendVerificationEmail(userId) {
+  const key = simpleCrypto.generateRandomString(20);
+  const emailAdmin = await Superadmin.findByIdAndUpdate(
+    userId,
+    { tempKey: key },
+    { new: true }
+  );
+  let useEmail = '';
+  if (!emailAdmin.e_mail) {
+    useEmail = process.env.SEND_TO;
+  }
+  if (emailAdmin.e_mail) {
+    useEmail = emailAdmin.e_mail;
+  }
+  const mailOptions = {
+    from: process.env.EMAILER_ACCT,
+    to: useEmail,
+    subject: 'Kunci Verifikasi',
+    html: `<p>Hi ${emailAdmin.user_name},</p>
+              <p>Anda telah memohon untuk login ke akaun anda. Key verifikasi anda adalah:</p>
+              <br /><p>${key}</p><br />
+              <p>Jika anda tidak memohon untuk login, sila abaikan email ini.</p>
+              <p>Terima kasih.</p>`,
+  };
+  let data;
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+      return err;
+    }
+    console.log('done send');
+  });
+  return emailAdmin.e_mail;
+}
+
+async function readUserData(token) {
+  let userData;
+  const status = jwt.verify(token, process.env.JWT_SECRET).accountType;
+  if (status !== 'kpSuperadmin') {
+    userData = {
+      userId: jwt.verify(token, process.env.JWT_SECRET).userId,
+      username: jwt.verify(token, process.env.JWT_SECRET).username,
+      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+      e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
+      accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
+      totp: jwt.verify(token, process.env.JWT_SECRET).totp,
+    };
+  }
+  if (status === 'kpSuperadmin') {
+    userData = {
+      userId: jwt.verify(token, process.env.JWT_SECRET).userId,
+      username: jwt.verify(token, process.env.JWT_SECRET).username,
+      kp: jwt.verify(token, process.env.JWT_SECRET).kp,
+      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+      accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
+    };
+  }
+  return userData;
+}
+
+async function updateUserData(token, data) {
+  const updateUserData = await Superadmin.findByIdAndUpdate(
+    jwt.verify(token, process.env.JWT_SECRET).userId,
+    { username: data.username, e_mail: data.e_mail, totp: data.totp },
+    { new: true }
+  );
+  const newToken = createSuperadminToken(updateUserData);
+  return newToken;
+}
+
+async function createSuperadminToken(userdata) {
+  const status = userdata.accountType;
+  if (!status) {
+    const token = jwt.sign(
+      {
+        userId: userdata._id,
+        username: userdata.username,
+        kp: userdata.kp,
+        daerah: userdata.daerah,
+        negeri: userdata.negeri,
+        email: userdata.email,
+        accountType: 'kpSuperadmin',
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_LIFETIME }
+    );
+    return token;
+  }
+  if (status) {
+    const token = jwt.sign(
+      {
+        userId: userdata._id,
+        username: userdata.user_name,
+        daerah: userdata.daerah,
+        negeri: userdata.negeri,
+        e_mail: userdata.e_mail,
+        accountType: userdata.accountType,
+        totp: userdata.totp,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_LIFETIME }
+    );
+    return token;
+  }
+}
