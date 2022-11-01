@@ -1045,7 +1045,7 @@ async function updateUserData(token, data) {
 
 async function createSuperadminToken(userdata) {
   const status = userdata.accountType;
-  if (!status) {
+  if (status === 'kpUser') {
     const token = jwt.sign(
       {
         userId: userdata._id,
@@ -1061,7 +1061,7 @@ async function createSuperadminToken(userdata) {
     );
     return token;
   }
-  if (status) {
+  if (status !== 'kpUser') {
     const token = jwt.sign(
       {
         userId: userdata._id,

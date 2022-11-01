@@ -1,5 +1,5 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
@@ -53,8 +53,10 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const [mdtbMembers, setMdtbMembers] = useState([]);
   // pp sedia ada
   const [allPegawai, setAllPegawai] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setAddingData(true);
     let Data = {};
     Data = {
@@ -137,6 +139,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       setAddingData(false);
     });
   };
+
+  const memoizedHandleSubmit = useCallback(handleSubmit, [FType]);
 
   useEffect(() => {
     if (FType === 'sr' || FType === 'sm') {
@@ -824,10 +828,10 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     );
   }
 
-  function Event({ confirm }) {
+  function Event() {
     return (
       <>
-        <form onSubmit={confirm(handleSubmit)}>
+        <form onSubmit={handleSubmit}>
           <div
             className={styles.darkBG}
             onClick={() => setShowAddModal(false)}
@@ -984,11 +988,12 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                 </div>
                 <div className={styles.modalActions}>
                   <div className={styles.actionsContainer}>
-                    {addingData ? (
-                      <BusyButton func='add' />
-                    ) : (
-                      <SubmitButtton func='add' />
-                    )}
+                    <button
+                      type='button'
+                      onClick={(e) => setShowConfirmation(true)}
+                    >
+                      Ya
+                    </button>
                     <span
                       className={styles.cancelBtn}
                       onClick={() => setShowAddModal(false)}
@@ -1003,6 +1008,36 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         </form>
       </>
     );
+  }
+
+  function ConfirmationX() {
+    if (showConfirmation) {
+      return (
+        <div className={styles.darkBG}>
+          <div className={styles.centered}>
+            <div className={styles.modal}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>Tambah Event</h5>
+              </div>
+              <span
+                className={styles.closeBtn}
+                onClick={() => setShowConfirmation(false)}
+              >
+                <RiCloseLine style={{ marginBottom: '-3px' }} />
+              </span>
+              <div className={styles.modalContent}>
+                <p>Are you sure</p>
+                <div>
+                  <button type='button' onClick={memoizedHandleSubmit}>
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 
   if (loading) {
@@ -1026,11 +1061,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
           {(confirm) => <Facility confirm={confirm} />}
         </Confirmation>
       )}
-      {FType === 'event' && (
-        <Confirmation callbackFunction={handleSubmit} func='add'>
-          {(confirm) => <Event confirm={confirm} />}
-        </Confirmation>
-      )}
+      {FType === 'event' && <Event />}
+      <ConfirmationX />
     </>
   );
 };
