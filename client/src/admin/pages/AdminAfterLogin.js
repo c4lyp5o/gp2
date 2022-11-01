@@ -32,7 +32,7 @@ import Settings from '../components/Settings';
 import { ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
-  const { navigate, getCurrentUser, catchAxiosErrorAndLogout } =
+  const { navigate, getCurrentUser, removeAdminToken } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
 
@@ -51,13 +51,9 @@ export default function AdminAfterLogin() {
         });
       })
       .catch(() => {
-        setLoginInfo({
-          isLoggedIn: false,
-        });
-        catchAxiosErrorAndLogout();
+        removeAdminToken();
         navigate('/pentadbir');
       });
-    return () => setLoginInfo({});
   }, []);
 
   return (
