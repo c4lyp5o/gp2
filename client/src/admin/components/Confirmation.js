@@ -25,7 +25,6 @@ const ConfirmModal = ({ children, func }) => {
   };
 
   const confirm = () => {
-    console.log('confirm');
     callback.run();
     hide();
   };
