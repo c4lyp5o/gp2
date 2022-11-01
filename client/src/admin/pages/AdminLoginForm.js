@@ -80,8 +80,7 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
 }
 
 export default function AdminLoginForm() {
-  const { setToken, toast, loginUser, checkUser, navigate } =
-    useGlobalAdminAppContext();
+  const { toast, loginUser, checkUser, navigate } = useGlobalAdminAppContext();
   const [username, setUserName] = useState();
   const [showUserIDBox, setShowUserIDBox] = useState(true);
   const [password, setPassword] = useState();
@@ -106,7 +105,7 @@ export default function AdminLoginForm() {
           setShowPasswordBox(true);
           return;
         }
-        // if kp superadmin
+        // if superadmin biasa
         // if using TOTP
         if (
           response.data.accountType !== 'kpSuperadmin' &&
@@ -116,6 +115,7 @@ export default function AdminLoginForm() {
           setShowPasswordBox(true);
           return;
         }
+        // if using email
         toast.info(
           `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
@@ -128,8 +128,8 @@ export default function AdminLoginForm() {
           navigate('/pentadbir');
         }, 1000 * 60 * 5);
         setKicker(numkicker);
-      } catch (error) {
-        toast.error(error.response.data.message);
+      } catch (e) {
+        toast.error(e.response.data.message);
         return;
       }
       setShowPasswordBox(true);
@@ -143,12 +143,11 @@ export default function AdminLoginForm() {
             username,
             password,
           });
-          setToken(response.data.adminToken);
           setLoggingIn(false);
           clearTimeout(kicker);
           navigate('/pentadbir/landing');
-        } catch (error) {
-          toast.error(error.response.data.message);
+        } catch (e) {
+          toast.error(e.response.data.message);
           setLoggingIn(false);
         }
       }, 1000);

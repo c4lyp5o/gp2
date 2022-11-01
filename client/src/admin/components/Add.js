@@ -126,7 +126,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       };
     }
     createData(FType, Data).then((res) => {
-      console.log(res);
+      console.log(res.data);
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
@@ -153,7 +153,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     }
     if (FType === 'pp') {
       readPegawaiData().then((res) => {
-        console.log(res);
         setAllPegawai(res);
       });
     }
@@ -164,7 +163,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     }
     if (FType === 'kp') {
       readFasilitiData().then((res) => {
-        console.log(res.data);
         setKlinik(res.data);
       });
     }

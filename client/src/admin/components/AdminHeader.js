@@ -8,7 +8,7 @@ export default function AdminHeader({
   user,
   accountType,
 }) {
-  const { navigate, catchAxiosErrorAndLogout } = useGlobalAdminAppContext();
+  const { navigate, removeAdminToken } = useGlobalAdminAppContext();
 
   return (
     <div className='absolute top-0 left-0 right-0 flex flew-wrap items-center justify-center h-28 bg-admin2 text-adminWhite font-sans capitalize'>
@@ -62,7 +62,7 @@ export default function AdminHeader({
                 type='button'
                 className='p-1 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all'
                 onClick={() => {
-                  catchAxiosErrorAndLogout();
+                  removeAdminToken();
                   navigate('/pentadbir');
                 }}
               >

@@ -5,7 +5,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import styles from '../Modal.module.css';
 
-const TotpModal = ({ children, image, id }) => {
+const TotpModal = ({ children, image }) => {
   const { toast, verifyInitialSecret } = useGlobalAdminAppContext();
   const [totp, setTotp] = useState('');
   const [open, setOpen] = useState(false);
@@ -70,6 +70,7 @@ const TotpModal = ({ children, image, id }) => {
                     type='text'
                     placeholder='Kod TOTP'
                     onChange={(e) => setTotp(e.target.value)}
+                    className='appearance-none leading-7 px-3 py-1 ring-2 ring-admin3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                   />
                 </div>
               </div>

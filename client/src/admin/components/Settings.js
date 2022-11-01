@@ -6,7 +6,7 @@ import Loading from './Loading';
 import TotpConfirmation from './TotpConfirmation';
 
 export default function Settings() {
-  const { getCurrentUser, saveCurrentUser, generateSecret } =
+  const { getCurrentUser, saveCurrentUser, generateSecret, removeTotpToken } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
   const [loading, setLoading] = useState(true);
@@ -40,16 +40,16 @@ export default function Settings() {
   };
 
   useLayoutEffect(() => {
-    generateTotpSecret().then((res) => {
-      setTotpImage(res.data.qrcode);
-    });
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
       setLoading(false);
     });
-    return () => {
-      localStorage.removeItem('totpToken');
-    };
+    if (!loginInfo.totp) {
+      generateTotpSecret().then((res) => {
+        setTotpImage(res.data.qrcode);
+      });
+    }
+    return () => removeTotpToken();
   }, []);
 
   if (loading) {

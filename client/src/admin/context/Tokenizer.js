@@ -1,22 +1,44 @@
 import { useState } from 'react';
 
 export function useToken() {
-  const getToken = () => {
+  const getAdminToken = () => {
     const adminToken = localStorage.getItem('adminToken');
     return adminToken;
   };
-  const [token, setToken] = useState(getToken());
-  const saveToken = (adminToken) => {
-    localStorage.setItem('adminToken', adminToken);
-    setToken(adminToken);
+  const getTotpToken = () => {
+    const totpToken = localStorage.getItem('totpToken');
+    return totpToken;
   };
-  return {
-    setToken: saveToken,
-    token,
-  };
-}
 
-export function getTokenized() {
-  const adminToken = localStorage.getItem('adminToken');
-  return adminToken;
+  const [adminToken, setAdminToken] = useState(getAdminToken());
+  const [totpToken, setTotpToken] = useState(getTotpToken());
+
+  const saveAdminToken = (adminToken) => {
+    localStorage.setItem('adminToken', adminToken);
+    setAdminToken(adminToken);
+  };
+
+  const saveTotpToken = (totpToken) => {
+    localStorage.setItem('totpToken', totpToken);
+    setTotpToken(totpToken);
+  };
+
+  const removeAdminToken = () => {
+    localStorage.removeItem('adminToken');
+    setAdminToken(null);
+  };
+
+  const removeTotpToken = () => {
+    localStorage.removeItem('totpToken');
+    setTotpToken(null);
+  };
+
+  return {
+    saveAdminToken,
+    saveTotpToken,
+    removeAdminToken,
+    removeTotpToken,
+    adminToken,
+    totpToken,
+  };
 }

@@ -2,12 +2,19 @@ import { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useToken, getTokenized } from './Tokenizer';
+import { useToken } from './Tokenizer';
 
 const AdminAppContext = createContext();
 
 function AdminAppProvider({ children }) {
-  const { token, setToken } = useToken();
+  const {
+    saveAdminToken,
+    saveTotpToken,
+    removeAdminToken,
+    removeTotpToken,
+    adminToken,
+    totpToken,
+  } = useToken();
   const navigate = useNavigate();
 
   // ping apdm
@@ -47,59 +54,58 @@ function AdminAppProvider({ children }) {
   // user
 
   async function getCurrentUser() {
-    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
       Fn: 'read',
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   }
 
   async function saveCurrentUser(data) {
-    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
       Fn: 'updateOne',
-      token: getTokenized(),
+      token: adminToken,
       data: data,
     });
-    localStorage.setItem('adminToken', response.data.adminToken);
+    saveAdminToken(response.data.adminToken);
     return response;
   }
 
   // totp
 
-  function generateSecret() {
-    let response = axios.post(`/api/v1/superadmin/newroute`, {
+  async function generateSecret() {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'create',
-      token: getTokenized(),
+      token: adminToken,
     });
-    localStorage.setItem('totpToken', response.totpToken);
+    saveTotpToken(response.data.totpToken);
     return response;
   }
 
-  function verifyInitialSecret(secret) {
-    const token = localStorage.getItem('totpToken');
-    let response = axios.post(`/api/v1/superadmin/newroute`, {
+  async function verifyInitialSecret(secret) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'update',
-      token: getTokenized(),
+      token: adminToken,
       initialTotpCode: secret,
-      initialTotpToken: token,
+      initialTotpToken: totpToken,
     });
     return response;
   }
 
-  function verifySecret(secret) {
-    let response = axios.post(`/api/v1/superadmin/newroute`, {
+  async function verifySecret(secret) {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'update',
-      token: getTokenized(),
+      token: adminToken,
       totpCode: secret,
     });
     return response;
@@ -108,21 +114,21 @@ function AdminAppProvider({ children }) {
   // hq functions
 
   const getAllNegeriAndDaerah = async () => {
-    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'HqCenter',
       Fn: 'read',
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
 
   const getKlinikData = async (id) => {
-    let response = await axios.post(`/api/v1/superadmin/newroute`, {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'HqCenter',
       Fn: 'readOne',
-      token: getTokenized(),
+      token: adminToken,
       id,
     });
     return response;
@@ -137,7 +143,7 @@ function AdminAppProvider({ children }) {
       Fn: 'create',
       FType: type,
       Data: data,
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
@@ -148,7 +154,7 @@ function AdminAppProvider({ children }) {
       main: 'DataCenter',
       Fn: 'read',
       FType: type,
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
@@ -159,7 +165,7 @@ function AdminAppProvider({ children }) {
       main: 'DataCenter',
       Fn: 'read',
       FType: 'kp',
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
@@ -171,7 +177,7 @@ function AdminAppProvider({ children }) {
       Fn: 'readOne',
       FType: type,
       Id: id,
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
@@ -185,7 +191,7 @@ function AdminAppProvider({ children }) {
       FType: type,
       Id: id,
       Data: data,
-      token: getTokenized(),
+      token: adminToken,
     });
     return response;
   };
@@ -198,7 +204,7 @@ function AdminAppProvider({ children }) {
         Fn: 'delete',
         FType: type,
         Id: id,
-        token: getTokenized(),
+        token: adminToken,
       });
       return response;
     } catch (e) {
@@ -316,6 +322,9 @@ function AdminAppProvider({ children }) {
       main: 'UserCenter',
       Fn: 'update',
     });
+    if (response.data.adminToken) {
+      saveAdminToken(response.data.adminToken);
+    }
     return response;
   }
 
@@ -328,10 +337,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   }
-
-  const catchAxiosErrorAndLogout = () => {
-    localStorage.removeItem('adminToken');
-  };
 
   // format 24 hour time to 12 hour
   function formatTime(timeString) {
@@ -364,7 +369,13 @@ function AdminAppProvider({ children }) {
   return (
     <AdminAppContext.Provider
       value={{
-        // superadmin
+        // tokens
+        adminToken,
+        totpToken,
+        saveAdminToken,
+        saveTotpToken,
+        removeAdminToken,
+        removeTotpToken,
         // main data
         createData,
         readData,
@@ -378,15 +389,11 @@ function AdminAppProvider({ children }) {
         readFasilitiData,
         readKpData,
         // misc
-        token,
-        setToken,
         getCurrentUser,
         saveCurrentUser,
-        catchAxiosErrorAndLogout,
         Dictionary,
         navigate,
         toast,
-        getTokenized,
         pingApdmServer,
         encryptEmail,
         encryptPassword,
