@@ -95,7 +95,7 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     }
     console.log(Data);
     updateData(FType, id, Data).then((res) => {
-      console.log(res);
+      console.log(res.data);
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
       setEditingData(false);

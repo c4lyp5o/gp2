@@ -151,13 +151,18 @@ export default function AdminCenterStage({ accountType }) {
                 alt={item.namaNegeri}
                 src={FlagsDictionary[item.namaNegeri]}
               />
-              {item.daerah.map((item2) => {
+              {item.daerah.map((item2, index) => {
                 return (
                   <div className='px-6 py-4 h-full'>
-                    <div className='mb-2 underline'>{item2.namaDaerah}</div>
-                    {item2.klinik.map((item3) => {
+                    <div key={index} className='mb-2 underline'>
+                      {item2.namaDaerah}
+                    </div>
+                    {item2.klinik.map((item3, index) => {
                       return (
-                        <a href={`./landing/klinik?id=${item3.kodFasiliti}`}>
+                        <a
+                          key={index}
+                          href={`./landing/klinik?id=${item3.kodFasiliti}`}
+                        >
                           <p className='text-user1 hover:bg-admin4 hover:rounded-md hover:text-adminWhite'>
                             {item3.namaKlinik}
                           </p>
