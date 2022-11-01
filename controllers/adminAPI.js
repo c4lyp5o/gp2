@@ -839,11 +839,14 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'create':
             console.log('create for totp');
-            const { id } = jwt.verify(userToken, process.env.JWT_SECRET);
+            const { id, username } = jwt.verify(
+              userToken,
+              process.env.JWT_SECRET
+            );
             let backupCodes = [];
             let hashedBackupCodes = [];
             const secret = speakeasy.generateSecret({
-              name: 'Gi-Ret 2.0 TOTP',
+              name: `Gi-Ret 2.0 (${username})`,
             });
             for (let i = 0; i < 10; i++) {
               const randomCode = (Math.random() * 10000000000).toFixed();
