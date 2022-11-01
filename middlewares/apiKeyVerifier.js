@@ -1,10 +1,6 @@
 const CryptoJS = require('crypto-js');
 
 const apiKeyVerifier = (req, res, next) => {
-  if (req.method === 'GET') {
-    return next();
-  }
-
   const { apiKey } = req.body;
 
   if (!apiKey) {
