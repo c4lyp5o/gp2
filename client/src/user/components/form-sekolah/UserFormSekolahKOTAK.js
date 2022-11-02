@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahKOTAK() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    useParams,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const { personSekolahId, kotakSekolahId } = useParams();
 
@@ -31,44 +38,130 @@ function UserFormSekolahKOTAK() {
   const [tarikhQ, setTarikhQ] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
 
+  // tarikh quit date
+  const [tarikhQ1DP, setTarikhQ1DP] = useState(null);
+  const [tarikhQ2DP, setTarikhQ2DP] = useState(null);
+  const [tarikhQ3DP, setTarikhQ3DP] = useState(null);
+  const [tarikhQ4DP, setTarikhQ4DP] = useState(null);
+  const [tarikhQDP, setTarikhQDP] = useState(null);
+
+  const TarikhQ1 = () => {
+    return masterDatePicker({
+      selected: tarikhQ1DP,
+      onChange: (date) => {
+        setTarikhQ1DP(date);
+        setTarikh1(moment(date).format('YYYY-MM-DD'));
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhQ2 = () => {
+    return masterDatePicker({
+      selected: tarikhQ2DP,
+      onChange: (date) => {
+        setTarikhQ2DP(date);
+        setTarikh2(moment(date).format('YYYY-MM-DD'));
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhQ3 = () => {
+    return masterDatePicker({
+      selected: tarikhQ3DP,
+      onChange: (date) => {
+        setTarikhQ3DP(date);
+        setTarikh3(moment(date).format('YYYY-MM-DD'));
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhQ4 = () => {
+    return masterDatePicker({
+      selected: tarikhQ4DP,
+      onChange: (date) => {
+        setTarikhQ4DP(date);
+        setTarikh4(moment(date).format('YYYY-MM-DD'));
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhQ = () => {
+    return masterDatePicker({
+      selected: tarikhQDP,
+      onChange: (date) => {
+        setTarikhQDP(date);
+        setTarikhQ(moment(date).format('YYYY-MM-DD'));
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
+    });
+  };
+
   //reset value
   useEffect(() => {
     if (adaTiadaQTarikh1 === 'ada-q-tarikh1') {
       setTarikh2('');
+      setTarikhQ2DP(null);
       setAdaTiadaQTarikh2('');
       setTarikh3('');
       setAdaTiadaQTarikh3('');
+      setTarikhQ3DP(null);
       setTarikh4('');
       setAdaTiadaQTarikh4('');
+      setTarikhQ4DP(null);
     }
     if (adaTiadaQTarikh2 === 'ada-q-tarikh2') {
       setTarikh3('');
       setAdaTiadaQTarikh3('');
+      setTarikhQ3DP(null);
       setTarikh4('');
       setAdaTiadaQTarikh4('');
+      setTarikhQ4DP(null);
     }
     if (adaTiadaQTarikh3 === 'ada-q-tarikh3') {
       setTarikh4('');
       setAdaTiadaQTarikh4('');
+      setTarikhQ4DP(null);
     }
     if (adaTiadaQTarikh1 === 'tiada-q-tarikh1') {
       setTarikhQ('');
+      setTarikhQDP(null);
       setStatusSelepas6Bulan('');
     }
     if (adaTiadaQTarikh2 === 'tiada-q-tarikh2') {
       setTarikhQ('');
+      setTarikhQDP(null);
       setStatusSelepas6Bulan('');
     }
     if (adaTiadaQTarikh3 === 'tiada-q-tarikh3') {
       setTarikhQ('');
-      setStatusSelepas6Bulan('');
-    }
-    if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
-      setTarikhQ('');
+      setTarikhQDP(null);
       setStatusSelepas6Bulan('');
       setRujukGuruKaunseling('');
     }
-  }, [adaTiadaQTarikh1, adaTiadaQTarikh2, adaTiadaQTarikh3, adaTiadaQTarikh4]);
+    if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
+      setTarikhQ('');
+      setTarikhQDP(null);
+      setStatusSelepas6Bulan('');
+      setRujukGuruKaunseling('');
+    }
+  }, [
+    adaTiadaQTarikh1,
+    adaTiadaQTarikh2,
+    adaTiadaQTarikh3,
+    adaTiadaQTarikh4,
+    tarikhQ2DP,
+    tarikhQ3DP,
+    tarikhQ4DP,
+  ]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -241,7 +334,7 @@ function UserFormSekolahKOTAK() {
 
   return (
     <>
-      <div className='h-full max-h-min lg:h-3/4 p-1 px-2 md:px-10 grid gap-2'>
+      <div className='h-full max-h-min p-1 px-2 md:px-10 grid gap-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -307,7 +400,10 @@ function UserFormSekolahKOTAK() {
         </article>
         <div className='grid h-full overflow-scroll gap-2'>
           <form onSubmit={handleSubmit}>
-            <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
+            <span
+              className='flex bg-user3 p-2 w-full capitalize col-span-2'
+              title='Program Kesihatan Oral Tanpa Amalan Merokok'
+            >
               <p className='ml-3 text-xl font-semibold'>KOTAK</p>
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
@@ -386,268 +482,284 @@ function UserFormSekolahKOTAK() {
                 </div>
               </article>
               <div className='col-span-2'>
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <article className='flex flex-col gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-3'>
                     tarikh intervensi merokok
                   </h4>
-                  <p className='flex items-center justify-center text-xs sm:text-m font-m'>
-                    Sesi 1:
-                    <span className='text-user6 text-xl font-semibold'>*</span>
-                  </p>
-                  <input
-                    required
-                    type='date'
-                    name='tarikh1'
-                    id='tarikh1'
-                    value={tarikh1}
-                    onChange={(e) => {
-                      setTarikh1(e.target.value);
-                    }}
-                    className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
-                  />
-                  <div className='flex items-center flex-row pl-5'>
-                    <input
-                      required
-                      type='radio'
-                      name='ada-tiada-q-tarikh1'
-                      id='ada-q-tarikh1'
-                      value='ada-q-tarikh1'
-                      checked={
-                        adaTiadaQTarikh1 === 'ada-q-tarikh1' ? true : false
-                      }
-                      onChange={(e) => {
-                        setAdaTiadaQTarikh1(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='ada-q-tarikh1'
-                      className='m-2 text-xs sm:text-sm font-m'
-                    >
-                      ada quit date
-                    </label>
-                    <input
-                      required
-                      type='radio'
-                      name='ada-tiada-q-tarikh1'
-                      id='tiada-q-tarikh1'
-                      value='tiada-q-tarikh1'
-                      checked={
-                        adaTiadaQTarikh1 === 'tiada-q-tarikh1' ? true : false
-                      }
-                      onChange={(e) => {
-                        setAdaTiadaQTarikh1(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tiada-q-tarikh1'
-                      className='m-2 text-xs sm:text-sm font-m'
-                    >
-                      tiada quit date
-                    </label>
+                  <div className='flex pl-5 justify-center'>
+                    <div className='flex items-center flex-col lg:flex-row '>
+                      <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                        Sesi 1:
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
+                      </p>
+                      <TarikhQ1 />
+                    </div>
+                    <div className='flex items-center flex-col lg:flex-row pl-5'>
+                      <label
+                        htmlFor='ada-tiada-q-tarikh1'
+                        className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                      >
+                        tarikh berhenti merokok :
+                      </label>
+                      <div className='flex items-center justify-center'>
+                        <input
+                          required
+                          type='radio'
+                          name='ada-tiada-q-tarikh1'
+                          id='ada-q-tarikh1'
+                          value='ada-q-tarikh1'
+                          checked={
+                            adaTiadaQTarikh1 === 'ada-q-tarikh1' ? true : false
+                          }
+                          onChange={(e) => {
+                            setAdaTiadaQTarikh1(e.target.value);
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='ada-q-tarikh1'
+                          className='m-2 text-xs sm:text-sm font-m'
+                        >
+                          ada
+                        </label>
+                        <input
+                          required
+                          type='radio'
+                          name='ada-tiada-q-tarikh1'
+                          id='tiada-q-tarikh1'
+                          value='tiada-q-tarikh1'
+                          checked={
+                            adaTiadaQTarikh1 === 'tiada-q-tarikh1'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setAdaTiadaQTarikh1(e.target.value);
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='tiada-q-tarikh1'
+                          className='m-2 text-xs sm:text-sm font-m'
+                        >
+                          tiada
+                        </label>
+                      </div>
+                    </div>
                   </div>
                   {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
-                      Sesi 2:
-                      {tarikh2 && (
-                        <span className='text-user6 text-xl font-semibold'>
-                          *
-                        </span>
-                      )}
-                    </p>
-                  )}
-                  {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                    <input
-                      type='date'
-                      name='tarikh2'
-                      id='tarikh2'
-                      value={tarikh2}
-                      onChange={(e) => {
-                        setTarikh2(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
-                    />
-                  )}
-                  {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        required={tarikh2 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh2'
-                        id='ada-q-tarikh2'
-                        value='ada-q-tarikh2'
-                        checked={
-                          adaTiadaQTarikh2 === 'ada-q-tarikh2' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh2(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ada-q-tarikh2'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        ada quit date
-                      </label>
-                      <input
-                        required={tarikh2 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh2'
-                        id='tiada-q-tarikh2'
-                        value='tiada-q-tarikh2'
-                        checked={
-                          adaTiadaQTarikh2 === 'tiada-q-tarikh2' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh2(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='tiada-q-tarikh2'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        tiada quit date
-                      </label>
+                    <div className='flex pl-5 justify-center'>
+                      <div className='flex items-center flex-col lg:flex-row'>
+                        <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                          Sesi 2:
+                          {tarikh2 && (
+                            <span className='text-user6 text-xl font-semibold'>
+                              *
+                            </span>
+                          )}
+                        </p>
+                        <TarikhQ2 />
+                      </div>
+                      <div className='flex items-center flex-col lg:flex-row pl-5'>
+                        <label
+                          htmlFor='ada-tiada-q-tarikh1'
+                          className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                        >
+                          tarikh berhenti merokok :
+                        </label>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            required={tarikh2 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh2'
+                            id='ada-q-tarikh2'
+                            value='ada-q-tarikh2'
+                            checked={
+                              adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh2(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ada-q-tarikh2'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            ada
+                          </label>
+                          <input
+                            required={tarikh2 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh2'
+                            id='tiada-q-tarikh2'
+                            value='tiada-q-tarikh2'
+                            checked={
+                              adaTiadaQTarikh2 === 'tiada-q-tarikh2'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh2(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tiada-q-tarikh2'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            tiada
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   )}
                   {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
-                      Sesi 3:
-                      {tarikh3 && (
-                        <span className='text-user6 text-xl font-semibold'>
-                          *
-                        </span>
-                      )}
-                    </p>
-                  )}
-                  {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                    <input
-                      type='date'
-                      name='tarikh3'
-                      id='tarikh3'
-                      value={tarikh3}
-                      onChange={(e) => {
-                        setTarikh3(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
-                    />
-                  )}
-                  {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        required={tarikh3 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh3'
-                        id='ada-q-tarikh3'
-                        value='ada-q-tarikh3'
-                        checked={
-                          adaTiadaQTarikh3 === 'ada-q-tarikh3' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh3(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ada-q-tarikh3'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        ada quit date
-                      </label>
-                      <input
-                        required={tarikh3 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh3'
-                        id='tiada-q-tarikh3'
-                        value='tiada-q-tarikh3'
-                        checked={
-                          adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh3(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='tiada-q-tarikh3'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        tiada quit date
-                      </label>
+                    <div className='flex pl-5 justify-center'>
+                      <div className='flex items-center flex-col lg:flex-row'>
+                        <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                          Sesi 3:
+                          {tarikh3 && (
+                            <span className='text-user6 text-xl font-semibold'>
+                              *
+                            </span>
+                          )}
+                        </p>
+                        <TarikhQ3 />
+                      </div>
+                      <div className='flex items-center flex-col lg:flex-row pl-5'>
+                        <label
+                          htmlFor='ada-tiada-q-tarikh1'
+                          className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                        >
+                          tarikh berhenti merokok :
+                        </label>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            required={tarikh3 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh3'
+                            id='ada-q-tarikh3'
+                            value='ada-q-tarikh3'
+                            checked={
+                              adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh3(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ada-q-tarikh3'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            ada
+                          </label>
+                          <input
+                            required={tarikh3 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh3'
+                            id='tiada-q-tarikh3'
+                            value='tiada-q-tarikh3'
+                            checked={
+                              adaTiadaQTarikh3 === 'tiada-q-tarikh3'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh3(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tiada-q-tarikh3'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            tiada
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   )}
                   {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                    <p className='flex items-center justify-center text-xs sm:text-m font-m'>
-                      Sesi 4:
-                      {tarikh3 && (
-                        <span className='text-user6 text-xl font-semibold'>
-                          *
-                        </span>
-                      )}
-                    </p>
-                  )}
-                  {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                    <input
-                      type='date'
-                      name='tarikh4'
-                      id='tarikh4'
-                      value={tarikh4}
-                      onChange={(e) => {
-                        setTarikh4(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-xs sm:text-sm font-m'
-                    />
-                  )}
-                  {adaTiadaQTarikh3 === 'tiada-q-tarikh3' && (
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        required={tarikh3 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh4'
-                        id='ada-q-tarikh4'
-                        value='ada-q-tarikh4'
-                        checked={
-                          adaTiadaQTarikh4 === 'ada-q-tarikh4' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh4(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ada-q-tarikh4'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        ada quit date
-                      </label>
-                      <input
-                        required={tarikh3 ? true : false}
-                        type='radio'
-                        name='ada-tiada-q-tarikh4'
-                        id='tiada-q-tarikh4'
-                        value='tiada-q-tarikh4'
-                        checked={
-                          adaTiadaQTarikh4 === 'tiada-q-tarikh4' ? true : false
-                        }
-                        onChange={(e) => {
-                          setAdaTiadaQTarikh4(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='tiada-q-tarikh4'
-                        className='m-2 text-xs sm:text-sm font-m'
-                      >
-                        tiada quit date
-                      </label>
+                    <div className='flex pl-5 justify-center'>
+                      <div className='flex items-center flex-col lg:flex-row'>
+                        <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                          Sesi 4:
+                          {tarikh3 && (
+                            <span className='text-user6 text-xl font-semibold'>
+                              *
+                            </span>
+                          )}
+                        </p>
+                        <TarikhQ4 />
+                      </div>
+                      <div className='flex items-center flex-col lg:flex-row pl-5'>
+                        <label
+                          htmlFor='ada-tiada-q-tarikh1'
+                          className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                        >
+                          tarikh berhenti merokok :
+                        </label>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            required={tarikh3 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh4'
+                            id='ada-q-tarikh4'
+                            value='ada-q-tarikh4'
+                            checked={
+                              adaTiadaQTarikh4 === 'ada-q-tarikh4'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh4(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ada-q-tarikh4'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            ada
+                          </label>
+                          <input
+                            required={tarikh3 ? true : false}
+                            type='radio'
+                            name='ada-tiada-q-tarikh4'
+                            id='tiada-q-tarikh4'
+                            value='tiada-q-tarikh4'
+                            checked={
+                              adaTiadaQTarikh4 === 'tiada-q-tarikh4'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setAdaTiadaQTarikh4(e.target.value);
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tiada-q-tarikh4'
+                            className='m-2 text-xs sm:text-sm font-m'
+                          >
+                            tiada
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </article>
               </div>
-              {adaTiadaQTarikh4 === 'tiada-q-tarikh4' && (
+              {adaTiadaQTarikh4 === 'tiada-q-tarikh4' ||
+              adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? (
                 <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
                     status selepas intervensi
@@ -706,16 +818,17 @@ function UserFormSekolahKOTAK() {
                     </label>
                   </div>
                 </article>
-              )}
+              ) : null}
               {adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
               adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
               adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                <article className='flex flex-col border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
+                  <h4 className='font-bold flex flex-row pl-5 whitespace-nowrap p-2'>
                     tarikh quit date
                   </h4>
-                  <input
+                  <TarikhQ />
+                  {/* <input
                     type='date'
                     name='tarikhQ'
                     id='tarikhQ'
@@ -724,7 +837,7 @@ function UserFormSekolahKOTAK() {
                       setTarikhQ(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack m-2 text-sm font-m ml-3'
-                  />
+                  /> */}
                 </article>
               ) : null}
               {adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
