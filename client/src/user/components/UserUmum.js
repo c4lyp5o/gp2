@@ -24,7 +24,7 @@ function UserUmum() {
   const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [jenisFasiliti, setJenisFasiliti] = useState('kp');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
@@ -34,14 +34,20 @@ function UserUmum() {
 
   const [reloadState, setReloadState] = useState(false);
 
+  // datepicker issues
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
+    new Date(dateToday)
+  );
   const TarikhKedatangan = () => {
     return masterDatePicker({
-      selected: tarikhKedatangan,
+      selected: tarikhKedatanganDP,
       onChange: (tarikhKedatangan) => {
-        setTarikhKedatangan(tarikhKedatangan);
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDP(tarikhKedatangan);
       },
       className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
 
@@ -133,9 +139,9 @@ function UserUmum() {
           </h2>
           <label
             htmlFor='nama-pesakit'
-            className='flex flex-row p-2 col-span-2'
+            className='flex flex-row col-span-2 ml-2 py-2'
           >
-            nama pesakit
+            nama pesakit :
           </label>
           <input
             onChange={(e) => {
@@ -145,12 +151,12 @@ function UserUmum() {
             type='text'
             name='nama-pesakit'
             id='nama-pesakit'
-            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 mb-2'
+            className='ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
           />
           <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
             <label
               htmlFor='kad-pengenalan'
-              className='whitespace-nowrap flex items-center'
+              className='whitespace-nowrap flex items-center pb-2'
             >
               tarikh kedatangan :
             </label>
@@ -168,7 +174,7 @@ function UserUmum() {
           </div>
           <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
             <label
-              className='whitespace-nowrap flex items-center'
+              className='whitespace-nowrap flex items-center pb-2'
               htmlFor='jenis-fasiliti'
             >
               pilih jenis fasiliti:
@@ -180,7 +186,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+              className='lg:ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
