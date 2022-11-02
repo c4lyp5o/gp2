@@ -13,8 +13,14 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 import UserUmumDeleteModal from './UserUmumDeleteModal';
 
 function UserUmum() {
-  const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    Dictionary,
+    dateToday,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
@@ -70,21 +76,14 @@ function UserUmum() {
   }, [nama, tarikhKedatangan, jenisFasiliti]);
 
   const TarikhKedatangan = () => {
-    return (
-      <DatePicker
-        showPopperArrow={false}
-        dateFormat='dd/MM/yyyy'
-        selected={tarikhKedatangan}
-        onChange={(tarikhKedatangan) => {
-          setTarikhKedatangan(tarikhKedatangan);
-        }}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-      />
-    );
+    return masterDatePicker({
+      selected: tarikhKedatangan,
+      onChange: (tarikhKedatangan) => {
+        setTarikhKedatangan(tarikhKedatangan);
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+    });
   };
 
   // on tab focus reload data
