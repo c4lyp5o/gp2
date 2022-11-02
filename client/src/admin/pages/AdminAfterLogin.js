@@ -35,6 +35,7 @@ export default function AdminAfterLogin() {
   const { navigate, getCurrentUser, removeAdminToken } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
+  const [updateProfile, setUpdateProfile] = useState(false);
 
   useLayoutEffect(() => {
     getCurrentUser()
