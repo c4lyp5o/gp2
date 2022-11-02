@@ -963,12 +963,12 @@ exports.getData = async (req, res, next) => {
 };
 
 exports.getCipher = async (req, res) => {
-  var ciphertext = CryptoJS.AES.encrypt(
+  const ciphertext = CryptoJS.AES.encrypt(
     JSON.stringify(process.env.API_KEY),
     process.env.CRYPTO_JS_SECRET
   ).toString();
-  var bytes = CryptoJS.AES.decrypt(ciphertext, process.env.CRYPTO_JS_SECRET);
-  var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  const bytes = CryptoJS.AES.decrypt(ciphertext, process.env.CRYPTO_JS_SECRET);
+  const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   res.status(200).json({
     status: 'success',
     message: 'Verification route',
