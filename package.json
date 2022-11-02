@@ -39,7 +39,7 @@
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.5",
     "qrcode": "^1.5.1",
-    "simple-crypto-js": "^3.0.1",
+    "sharp": "^0.31.1",
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
