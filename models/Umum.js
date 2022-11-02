@@ -30,7 +30,6 @@ const UmumSchema = new mongoose.Schema(
     daerahAlamat: { type: String, default: '' },
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
-    // kategoriPesakit: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
@@ -53,13 +52,9 @@ const UmumSchema = new mongoose.Schema(
     labelMakmalPergigianBergerak: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
-    // jenisTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
     enrolmenTaskaTadika: { type: Boolean, default: false },
-    // engganTaskaTadika: { type: Boolean, default: false },
-    // tidakHadirTaskaTadika: { type: Boolean, default: false },
-    // pemeriksaanTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },

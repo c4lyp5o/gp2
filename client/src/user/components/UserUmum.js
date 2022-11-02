@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -34,6 +33,17 @@ function UserUmum() {
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
+
+  const TarikhKedatangan = () => {
+    return masterDatePicker({
+      selected: tarikhKedatangan,
+      onChange: (tarikhKedatangan) => {
+        setTarikhKedatangan(tarikhKedatangan);
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+    });
+  };
 
   useEffect(() => {
     const query = async () => {
@@ -74,17 +84,6 @@ function UserUmum() {
     setPilih('');
     setResultPilih([]);
   }, [nama, tarikhKedatangan, jenisFasiliti]);
-
-  const TarikhKedatangan = () => {
-    return masterDatePicker({
-      selected: tarikhKedatangan,
-      onChange: (tarikhKedatangan) => {
-        setTarikhKedatangan(tarikhKedatangan);
-      },
-      className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
-    });
-  };
 
   // on tab focus reload data
   useEffect(() => {
