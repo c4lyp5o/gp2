@@ -38,7 +38,7 @@ export default function FillableForm({
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
-  const [ic, setIc] = useState(0);
+  const [ic, setIc] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
@@ -48,7 +48,6 @@ export default function FillableForm({
   const [daerahAlamat, setDaerahAlamat] = useState('');
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
-  // const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
@@ -75,13 +74,9 @@ export default function FillableForm({
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
-  // const [engganTaskaTadika, setEngganTaskaTadika] = useState(false);
-  // const [tidakHadirTaskaTadika, setTidakHadirTaskaTadika] = useState(false);
-  // const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -112,20 +107,27 @@ export default function FillableForm({
   const [pilihanEvent, setPilihanEvent] = useState('');
 
   // datepicker issues
-  const [tarikhKedatanganDatePicker, setTarikhKedatanganDatePicker] = useState(
-    new Date()
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
+    new Date(dateToday)
   );
-  const [tarikhLahirDatePicker, setTarikhLahirDatePicker] = useState(
-    new Date()
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date(dateToday));
+  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(
+    new Date(dateToday)
+  );
+  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] = useState(
+    new Date(dateToday)
+  );
+  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(
+    new Date(dateToday)
   );
 
   const TarikhKedatangan = () => {
     return masterDatePicker({
-      selected: tarikhKedatanganDatePicker,
+      selected: tarikhKedatanganDP,
       onChange: (tarikhKedatangan) => {
         const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
         setTarikhKedatangan(tempDate);
-        setTarikhKedatanganDatePicker(tarikhKedatangan);
+        setTarikhKedatanganDP(tarikhKedatangan);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -137,12 +139,12 @@ export default function FillableForm({
 
   const TarikhLahir = () => {
     return masterDatePicker({
-      selected: tarikhLahirDatePicker,
+      selected: tarikhLahirDP,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
         const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-        setTarikhLahirDatePicker(tarikhLahir);
+        setTarikhLahirDP(tarikhLahir);
         setTarikhLahir(tempDate);
         setUmur(tahun);
         setUmurBulan(bulan);
@@ -179,6 +181,54 @@ export default function FillableForm({
     const months = Math.floor(days_diff / 30.4167);
     const values = `${months} months`;
     return values;
+  };
+
+  const TarikhRujukanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhRujukanKeppDP,
+      onChange: (tarikhRujukanKepp) => {
+        const tempDate = moment(tarikhRujukanKepp).format('YYYY-MM-DD');
+        setTarikhRujukanKepp(tempDate);
+        setTarikhRujukanKeppDP(tarikhRujukanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhRundinganPertama = () => {
+    return masterDatePicker({
+      selected: tarikhRundinganPertamaDP,
+      onChange: (tarikhRundinganPertama) => {
+        const tempDate = moment(tarikhRundinganPertama).format('YYYY-MM-DD');
+        setTarikhRundinganPertama(tempDate);
+        setTarikhRundinganPertamaDP(tarikhRundinganPertama);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhMulaRawatanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhMulaRawatanKeppDP,
+      onChange: (tarikhMulaRawatanKepp) => {
+        const tempDate = moment(tarikhMulaRawatanKepp).format('YYYY-MM-DD');
+        setTarikhMulaRawatanKepp(tempDate);
+        setTarikhMulaRawatanKeppDP(tarikhMulaRawatanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
   };
 
   // check ic
@@ -279,7 +329,6 @@ export default function FillableForm({
               daerahAlamat,
               negeriAlamat,
               poskodAlamat,
-              // kategoriPesakit,
               ibuMengandung,
               orangKurangUpaya,
               bersekolah,
@@ -302,13 +351,9 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
-              // engganTaskaTadika,
-              // tidakHadirTaskaTadika,
-              // pemeriksaanTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -379,7 +424,6 @@ export default function FillableForm({
               tarikhRujukanKepp,
               tarikhRundinganPertama,
               tarikhMulaRawatanKepp,
-              // penyampaian perkhidmatan
               kpBergerak,
               labelKpBergerak,
               pasukanPergigianBergerak,
@@ -387,13 +431,9 @@ export default function FillableForm({
               labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
-              // jenisTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
               enrolmenTaskaTadika,
-              // engganTaskaTadika,
-              // tidakHadirTaskaTadika,
-              // pemeriksaanTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -432,62 +472,17 @@ export default function FillableForm({
     }
   };
 
-  // buttans
-  function BusyButton() {
-    return (
-      <>
-        <button
-          type='button'
-          className='inline-flex items-center text-center justify-center m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
-          disabled=''
-        >
-          <svg
-            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-          >
-            <circle
-              className='opacity-25'
-              cx='12'
-              cy='12'
-              r='10'
-              stroke='currentColor'
-              strokeWidth='4'
-            ></circle>
-            <path
-              className='opacity-75'
-              fill='currentColor'
-              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-            ></path>
-          </svg>
-          Menambah Data...
-        </button>
-      </>
-    );
-  }
-
-  function SubmitButtton() {
-    return (
-      <button
-        type='submit'
-        className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-      >
-        Tambah Data
-      </button>
-    );
-  }
-
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
+    setTarikhKedatangan(dateToday);
     setWaktuSampai('');
-    setKedatangan(new Date());
+    setKedatangan('');
     setNoPendaftaranBaru('');
     setNoPendaftaranUlangan('');
     setNama('');
     setJenisIc('');
     setIc('');
-    setTarikhLahir(new Date());
+    setTarikhLahir('');
     setUmur(0);
     setUmurBulan(0);
     setJantina('');
@@ -496,7 +491,6 @@ export default function FillableForm({
     setDaerahAlamat('');
     setNegeriAlamat('');
     setPoskodAlamat('');
-    // setKategoriPesakit('');
     setIbuMengandung(false);
     setOrangKurangUpaya(false);
     setBersekolah(false);
@@ -518,13 +512,9 @@ export default function FillableForm({
     setLabelMakmalPergigianBergerak('');
     // taska / tadika
     setFasilitiTaskaTadika('');
-    // setJenisTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
     setEnrolmenTaskaTadika(false);
-    // setEngganTaskaTadika(false);
-    // setTidakHadirTaskaTadika(false);
-    // setPemeriksaanTaskaTadika('');
     // ipt / kolej
     setIptKolej('');
     setIpg('');
@@ -620,7 +610,6 @@ export default function FillableForm({
           setDaerahAlamat(data.singlePersonKaunter.daerahAlamat);
           setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
           setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
-          // setKategoriPesakit(data.singlePersonKaunter.kategoriPesakit);
           setIbuMengandung(data.singlePersonKaunter.ibuMengandung);
           setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
@@ -652,19 +641,11 @@ export default function FillableForm({
           );
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
-          // setJenisTaskaTadika(data.singlePersonKaunter.jenisTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
           setNamaFasilitiTaskaTadika(
             data.singlePersonKaunter.namaFasilitiTaskaTadika
           );
           setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
-          // setEngganTaskaTadika(data.singlePersonKaunter.engganTaskaTadika);
-          // setTidakHadirTaskaTadika(
-          //   data.singlePersonKaunter.tidakHadirTaskaTadika
-          // );
-          // setPemeriksaanTaskaTadika(
-          //   data.singlePersonKaunter.pemeriksaanTaskaTadika
-          // );
           // ipt / kolej
           setIptKolej(data.singlePersonKaunter.iptKolej);
           setIpg(data.singlePersonKaunter.ipg);
@@ -735,6 +716,52 @@ export default function FillableForm({
       fetchTaskaTadika();
     }
   }, [jenisFasiliti]);
+
+  // buttons
+  function BusyButton() {
+    return (
+      <>
+        <button
+          type='button'
+          className='inline-flex items-center text-center justify-center m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
+          disabled=''
+        >
+          <svg
+            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+          >
+            <circle
+              className='opacity-25'
+              cx='12'
+              cy='12'
+              r='10'
+              stroke='currentColor'
+              strokeWidth='4'
+            ></circle>
+            <path
+              className='opacity-75'
+              fill='currentColor'
+              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+            ></path>
+          </svg>
+          Menambah Data...
+        </button>
+      </>
+    );
+  }
+
+  function SubmitButtton() {
+    return (
+      <button
+        type='submit'
+        className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+      >
+        Tambah Data
+      </button>
+    );
+  }
 
   if (editLoading) {
     return (
@@ -1532,22 +1559,8 @@ export default function FillableForm({
                             : 'hidden'
                         } flex items-center flex-row pl-5`}
                       >
-                        <label
-                          htmlFor='tarikh-rujukan'
-                          className='m-2 text-sm font-m'
-                        >
-                          tarikh rujukan
-                        </label>
-                        <input
-                          type='date'
-                          name='tarikh-rujukan-kepp'
-                          id='tarikh-rujukan-kepp'
-                          value={tarikhRujukanKepp}
-                          onChange={(e) => {
-                            setTarikhRujukanKepp(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        />
+                        <label className='m-2 text-sm'>tarikh rujukan</label>
+                        <TarikhRujukanKepp />
                       </div>
                       <div
                         className={`${
@@ -1556,22 +1569,10 @@ export default function FillableForm({
                             : 'hidden'
                         } flex items-center flex-row pl-5`}
                       >
-                        <label
-                          htmlFor='tarikh-rujukan'
-                          className='m-2 text-sm font-m'
-                        >
+                        <label className='m-2 text-sm'>
                           tarikh perundingan pertama
                         </label>
-                        <input
-                          type='date'
-                          name='tarikh-rujukan-kepp'
-                          id='tarikh-rujukan-kepp'
-                          value={tarikhRundinganPertama}
-                          onChange={(e) => {
-                            setTarikhRundinganPertama(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        />
+                        <TarikhRundinganPertama />
                       </div>
                       <div
                         className={`${
@@ -1580,22 +1581,10 @@ export default function FillableForm({
                             : 'hidden'
                         } flex items-center flex-row pl-5`}
                       >
-                        <label
-                          htmlFor='tarikh-mula-rawatan'
-                          className='m-2 text-sm font-m'
-                        >
+                        <label className='m-2 text-sm'>
                           tarikh mula rawatan
                         </label>
-                        <input
-                          type='date'
-                          name='tarikh-mula-rawatan-kepp'
-                          id='tarikh-mula-rawatan-kepp'
-                          value={tarikhMulaRawatanKepp}
-                          onChange={(e) => {
-                            setTarikhMulaRawatanKepp(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        />
+                        <TarikhMulaRawatanKepp />
                       </div>
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
