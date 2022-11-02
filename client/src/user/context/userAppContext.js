@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { format } from 'date-fns';
+import DatePicker from 'react-datepicker';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
@@ -66,15 +66,21 @@ function statusPesakit(p) {
   return status;
 }
 
-// convert Date to yyyy-mm-dd
-function dateInputFormatter(date) {
-  const ddd = Date.parse(date);
-  const newDate = new Date(ddd);
-  const y = newDate.getFullYear();
-  const m = newDate.getMonth() + 1;
-  const d = newDate.getDate();
-  const newDateFormatted = y + '-' + m + '-' + d;
-  return newDateFormatted;
+function masterDatePicker({ selected, onChange, filterDate, className }) {
+  return (
+    <DatePicker
+      showPopperArrow={false}
+      dateFormat='dd/MM/yyyy'
+      selected={selected}
+      onChange={onChange}
+      peekNextMonth
+      showMonthDropdown
+      showYearDropdown
+      dropdownMode='select'
+      filterDate={filterDate}
+      className={className}
+    />
+  );
 }
 
 const UserAppContext = React.createContext();
@@ -208,7 +214,7 @@ function UserAppProvider({ children }) {
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
-        dateInputFormatter,
+        masterDatePicker,
         ToastContainer,
         toast,
         loggingInUser,
