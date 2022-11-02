@@ -19,7 +19,7 @@ export default function FillableForm({
   jenisFasiliti,
   kp,
 }) {
-  const { kaunterToken, Dictionary, dateToday, toast, dateInputFormatter } =
+  const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
     useGlobalUserAppContext();
 
   const [checkingIc, setCheckingIc] = useState(false);
@@ -31,9 +31,7 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // core
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(
-    moment(new Date()).format('YYYY-MM-DD')
-  );
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -122,53 +120,43 @@ export default function FillableForm({
   );
 
   const TarikhKedatangan = () => {
-    return (
-      <DatePicker
-        showPopperArrow={false}
-        dateFormat='dd/MM/yyyy'
-        selected={tarikhKedatanganDatePicker}
-        onChange={(tarikhKedatangan) => {
-          const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
-          setTarikhKedatangan(tempDate);
-          setTarikhKedatanganDatePicker(tarikhKedatangan);
-        }}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row'
-      />
-    );
+    return masterDatePicker({
+      selected: tarikhKedatanganDatePicker,
+      onChange: (tarikhKedatangan) => {
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDatePicker(tarikhKedatangan);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
   };
 
   const TarikhLahir = () => {
-    return (
-      <DatePicker
-        showPopperArrow={false}
-        required
-        dateFormat='dd/MM/yyyy'
-        selected={tarikhLahirDatePicker}
-        onChange={(tarikhLahir) => {
-          const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
-          const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
-          const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-          setTarikhLahirDatePicker(tarikhLahir);
-          setTarikhLahir(tempDate);
-          setUmur(tahun);
-          setUmurBulan(bulan);
-          setConfirmData({
-            ...confirmData,
-            tarikhLahir: tempDate,
-          });
-        }}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        placeholderText='dd/mm/yyyy'
-        className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row'
-      />
-    );
+    return masterDatePicker({
+      selected: tarikhLahirDatePicker,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+        const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+        setTarikhLahirDatePicker(tarikhLahir);
+        setTarikhLahir(tempDate);
+        setUmur(tahun);
+        setUmurBulan(bulan);
+        setConfirmData({
+          ...confirmData,
+          tarikhLahir: tempDate,
+        });
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
   };
 
   // kira tahun
