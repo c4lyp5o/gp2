@@ -1,9 +1,12 @@
+const fs = require('fs');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
+const sharp = require('sharp');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -953,6 +956,25 @@ exports.getData = async (req, res, next) => {
             break;
         }
         break;
+      case 'ImageResizer':
+        switch (Fn) {
+          case 'resize':
+            console.log('resize for image');
+            const { image } = req.body;
+            const buffer = await resizeProfileImage(image);
+            return res.status(200).json({
+              msg: 'success',
+              imgSrc: buffer,
+            });
+            break;
+          case 'read':
+            console.log('read for image');
+            break;
+          default:
+            console.log('default for image');
+            break;
+        }
+        break;
       default:
         return res.status(200).json({
           message: 'Provide nothing, get nothing',
@@ -1013,11 +1035,13 @@ async function readUserData(token) {
     userData = {
       userId: jwt.verify(token, process.env.JWT_SECRET).userId,
       username: jwt.verify(token, process.env.JWT_SECRET).username,
+      tarikhLahir: jwt.verify(token, process.env.JWT_SECRET).tarikhLahir,
       daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
       negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
       e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
       accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
       totp: jwt.verify(token, process.env.JWT_SECRET).totp,
+      image: jwt.verify(token, process.env.JWT_SECRET).image,
     };
   }
   if (status === 'kpSuperadmin') {
@@ -1036,7 +1060,13 @@ async function readUserData(token) {
 async function updateUserData(token, data) {
   const updateUserData = await Superadmin.findByIdAndUpdate(
     jwt.verify(token, process.env.JWT_SECRET).userId,
-    { username: data.username, e_mail: data.e_mail, totp: data.totp },
+    {
+      nama: data.nama,
+      tarikhLahir: data.tarikhLahir,
+      e_mail: data.e_mail,
+      totp: data.totp,
+      image: data.image,
+    },
     { new: true }
   );
   const newToken = createSuperadminToken(updateUserData);
@@ -1065,12 +1095,14 @@ async function createSuperadminToken(userdata) {
     const token = jwt.sign(
       {
         userId: userdata._id,
-        username: userdata.user_name,
+        username: userdata.nama,
+        tarikhLahir: userdata.tarikhLahir,
         daerah: userdata.daerah,
         negeri: userdata.negeri,
         e_mail: userdata.e_mail,
         accountType: userdata.accountType,
         totp: userdata.totp,
+        image: userdata.image,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_LIFETIME }
@@ -1088,6 +1120,24 @@ const generateRandomString = (length) => {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+};
+
+const resizeProfileImage = async (file) => {
+  const tempFile = Buffer.from(file, 'base64');
+  const name = generateRandomString(10);
+  fs.writeFileSync(
+    path.resolve(process.cwd(), `./uploads/${name}.png`),
+    tempFile
+  );
+  const resizedImage = await sharp(
+    path.resolve(process.cwd(), `./uploads/${name}.png`)
+  )
+    .resize(80, 80)
+    .toBuffer();
+  const dataImagePrefix = `data:image/png;base64,`;
+  const base64 = `${dataImagePrefix}${resizedImage.toString('base64')}`;
+  fs.unlinkSync(path.resolve(process.cwd(), `./uploads/${name}.png`));
+  return base64;
 };
 
 const html = (data, key) =>
