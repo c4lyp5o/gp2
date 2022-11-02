@@ -2,12 +2,19 @@ import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahRawatan() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    useParams,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -171,6 +178,22 @@ function UserFormSekolahRawatan() {
   //   baruJumlahGigiKekalDiberiPrrJenis1,
   //   semulaJumlahGigiKekalDiberiPrrJenis1,
   // ]);
+
+  // tarikh rawatan
+  const [tarikhRawatanSemasaDatePicker, setTarikhRawatanSemasaDatePicker] =
+    useState(new Date());
+  const TarikhRawatanSemasa = () => {
+    return masterDatePicker({
+      selected: tarikhRawatanSemasaDatePicker,
+      onChange: (tarikhRawatanSemasa) => {
+        const tempDate = moment(tarikhRawatanSemasa).format('YYYY-MM-DD');
+        setTarikhRawatanSemasa(tempDate);
+        setTarikhRawatanSemasaDatePicker(tarikhRawatanSemasa);
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+    });
+  };
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -383,14 +406,15 @@ function UserFormSekolahRawatan() {
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
-                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2 pb-2'>
                   tarikh rawatan
                 </h4>
-                <div className='grid grid-cols-2'>
-                  <p className='flex items-center justify-center text-m font-m'>
+                <div className='flex flex-row'>
+                  <p className='flex items-center flex-row text-m font-m px-5 '>
                     tarikh:<span className='text-user6'>*</span>
                   </p>
-                  <input
+                  <TarikhRawatanSemasa />
+                  {/* <input
                     required
                     type='date'
                     name='tarikh-rawatan'
@@ -400,7 +424,7 @@ function UserFormSekolahRawatan() {
                       setTarikhRawatanSemasa(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                  />
+                  /> */}
                 </div>
               </article>
               <div className='grid gap-1 auto-rows-min'>
@@ -427,7 +451,7 @@ function UserFormSekolahRawatan() {
                       murid dibuat pengapan fisur
                     </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
                     <label
                       htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                       className='text-sm font-m'
@@ -655,7 +679,13 @@ function UserFormSekolahRawatan() {
                       murid diberi PRR Jenis 1
                     </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
+                    <label
+                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                      className='text-sm font-m'
+                    >
+                      jumlah gigi kekal perlu PRR jenis 1
+                    </label>
                     <input
                       type='number'
                       name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
@@ -669,12 +699,6 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                    <label
-                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                      className='text-sm font-m'
-                    >
-                      jumlah gigi kekal perlu PRR jenis 1
-                    </label>
                   </div>
                   {/* <div className='flex flex-row items-center pl-5'>
                     <label
