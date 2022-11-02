@@ -2,12 +2,19 @@ import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahPemeriksaan() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    useParams,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const { personSekolahId, pemeriksaanSekolahId } = useParams();
 
@@ -192,6 +199,24 @@ function UserFormSekolahPemeriksaan() {
 
   const [showCleftLip, setShowCleftLip] = useState(false);
   const [showTrauma, setShowTrauma] = useState(false);
+
+  // tarikh pemeriksaan
+  const [
+    tarikhPemeriksaanSemasaDatePicker,
+    setTarikhPemeriksaanSemasaDatePicker,
+  ] = useState(new Date());
+  const TarikhPemeriksaanSemasa = () => {
+    return masterDatePicker({
+      selected: tarikhPemeriksaanSemasaDatePicker,
+      onChange: (tarikhPemeriksaanSemasa) => {
+        const tempDate = moment(tarikhPemeriksaanSemasa).format('YYYY-MM-DD');
+        setTarikhPemeriksaanSemasa(tempDate);
+        setTarikhPemeriksaanSemasaDatePicker(tarikhPemeriksaanSemasa);
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
+    });
+  };
 
   // calculate total dmfx + sm desidus
   useEffect(() => {
@@ -962,10 +987,11 @@ function UserFormSekolahPemeriksaan() {
                   Kedatangan<span className='text-user6'>*</span>
                 </h4>
                 <div>
-                  <p className='flex items-center justify-center text-m font-m'>
-                    tarikh:<span className='text-user6'>*</span>
+                  <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
+                    tarikh pemeriksaan:<span className='text-user6'>*</span>
                   </p>
-                  <input
+                  <TarikhPemeriksaanSemasa />
+                  {/* <input
                     required
                     type='date'
                     name='tarikh-pemeriksaan'
@@ -975,7 +1001,7 @@ function UserFormSekolahPemeriksaan() {
                       setTarikhPemeriksaanSemasa(e.target.value);
                     }}
                     className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                  />
+                  /> */}
                 </div>
                 {/* <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
                   <div className='flex items-center flex-row pl-5 '>
