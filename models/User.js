@@ -115,9 +115,10 @@ UserSchema.methods.createJWT = function () {
     {
       userId: this._id,
       username: this.username,
-      negeri: this.negeri,
-      daerah: this.daerah,
       kp: this.kp,
+      daerah: this.daerah,
+      negeri: this.negeri,
+      email: this.email,
       accountType: this.accountType,
     },
     process.env.JWT_SECRET,

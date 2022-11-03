@@ -345,6 +345,18 @@ function AdminAppProvider({ children }) {
     return (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM');
   }
 
+  // image resizer
+  async function resizeImage(data) {
+    const response = await axios.post('/api/v1/superadmin/newroute', {
+      image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
+      type: data.type,
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'ImageResizer',
+      Fn: 'resize',
+    });
+    return response;
+  }
+
   const Dictionary = {
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
@@ -398,6 +410,7 @@ function AdminAppProvider({ children }) {
         encryptEmail,
         encryptPassword,
         formatTime,
+        resizeImage,
         // auth
         loginUser,
         checkUser,

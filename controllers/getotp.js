@@ -1,5 +1,5 @@
 const Operator = require('../models/Operator');
-const simpleCrypto = require('simple-crypto-js').default;
+const adminAPI = require('./adminAPI');
 const mailer = require('nodemailer');
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
@@ -20,7 +20,7 @@ const saveTempKey = async (req, res) => {
     return res.status(404).json({ msg: 'No operator with that email' });
   }
 
-  const key = simpleCrypto.generateRandomString(20);
+  const key = adminAPI.generateRandomString(20);
 
   const updatedOperator = await Operator.findOneAndUpdate(
     { _id: operator._id },
