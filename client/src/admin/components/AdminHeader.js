@@ -3,6 +3,8 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 export default function AdminHeader({
   isLoggedIn,
+  image,
+  negeri,
   daerah,
   kp,
   user,
@@ -33,6 +35,15 @@ export default function AdminHeader({
         {isLoggedIn === true ? (
           <div className='admin-header-logged-in-container'>
             <div className='absolute top-10 right-5 flex w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
+              <div>
+                <img
+                  className='rounded-full'
+                  src={image}
+                  alt='profile'
+                  width='70'
+                  height='70'
+                />
+              </div>
               <div className='m-3 space-y-1 text-right pr-2'>
                 <p className='w-96 text-sm leading-3'>
                   <b>Pengguna: </b>
@@ -40,10 +51,25 @@ export default function AdminHeader({
                 </p>
                 {accountType !== 'kpSuperadmin' ? (
                   <>
-                    <p className='w-96 text-sm pt-1'>
-                      <b>Daerah: </b>
-                      {daerah}
-                    </p>
+                    {accountType === 'daerahSuperadmin' && (
+                      <p className='w-96 text-sm pt-1'>
+                        <b>Daerah: </b>
+                        {daerah}
+                      </p>
+                    )}
+                    {accountType === 'negeriSuperadmin' && (
+                      <p className='w-96 text-sm pt-1'>
+                        <b>Negeri: </b>
+                        {negeri}
+                      </p>
+                    )}
+                    {accountType === 'hqSuperadmin' && (
+                      <p className='w-96 text-sm pt-1'>
+                        <b>Kementerian Kesihatan Malaysia</b>
+                        <br />
+                        <b>Program Kesihatan Pergigian</b>
+                      </p>
+                    )}
                     <NavLink
                       className='w-96 text-xs pt-1 hover:underline'
                       to='/pentadbir/landing/tetapan'

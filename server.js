@@ -44,7 +44,7 @@ const connectDB = require('./database/connect');
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
