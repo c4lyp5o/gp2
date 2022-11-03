@@ -457,7 +457,7 @@ exports.getData = async (req, res, next) => {
             const newToken = await updateUserData(token, data);
             return res.status(200).json({
               status: 'success',
-              adminToken: newToken,
+              adminToken: newToken.createJWT(),
             });
             break;
           case 'delete':
@@ -477,11 +477,10 @@ exports.getData = async (req, res, next) => {
             break;
           case 'read':
             console.log('read for hq');
-            const accountType = jwt.verify(
-              token,
-              process.env.JWT_SECRET
-            ).accountType;
-            console.log(accountType);
+            const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+            const { daerah, negeri, accountType } = await Superadmin.findOne({
+              _id: userId,
+            });
             let kpSelectionPayload = {};
             let ptSelectionPayload = {};
             if (accountType === 'hqSuperadmin') {
@@ -496,23 +495,23 @@ exports.getData = async (req, res, next) => {
             if (accountType === 'negeriSuperadmin') {
               kpSelectionPayload = {
                 accountType: 'kpUser',
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                negeri: negeri,
               };
               ptSelectionPayload = {
                 jenisFasiliti: 'kp',
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
+                negeri: negeri,
               };
             }
             if (accountType === 'daerahSuperadmin') {
               kpSelectionPayload = {
                 accountType: 'kpUser',
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+                negeri: negeri,
+                daerah: daerah,
               };
               ptSelectionPayload = {
                 jenisFasiliti: 'kp',
-                negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-                daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
+                negeri: negeri,
+                daerah: daerah,
               };
             }
             const kpData = await User.find({ ...kpSelectionPayload });
@@ -875,7 +874,7 @@ exports.getData = async (req, res, next) => {
                 expiresIn: '1h',
               }
             );
-            return res.status(200).json({
+            res.status(200).json({
               msg: 'success',
               qrcode: qrCode,
               url: tempSecret.otp_auth_url,
@@ -894,12 +893,12 @@ exports.getData = async (req, res, next) => {
               token: totpCode,
             });
             if (verified) {
-              return res.status(200).json({
+              res.status(200).json({
                 msg: 'success',
                 verified,
               });
             } else {
-              return res.status(400).json({
+              res.status(400).json({
                 msg: 'error',
                 verified,
               });
@@ -932,14 +931,13 @@ exports.getData = async (req, res, next) => {
                 },
                 { new: true }
               );
-              return res.status(200).json({
+              res.status(200).json({
                 msg: 'success',
                 initialVerification,
                 initialAdmin,
               });
             } else {
-              console.log('initial verification failed');
-              return res.status(400).json({
+              res.status(400).json({
                 msg: 'failed',
                 initialVerification,
               });
@@ -1064,7 +1062,7 @@ async function updateUserData(token, data) {
     },
     { new: true }
   );
-  return updateUserData.createJWT();
+  return updateUserData;
 }
 
 const generateRandomString = (length) => {
