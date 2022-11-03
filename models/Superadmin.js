@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const jwt = require('jsonwebtoken');
 
 const adminSchema = new Schema({
-  image: { type: String },
+  image: {
+    type: String,
+    default:
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAA…UAq0UIMUZZlILtJYD+AfFJYv52yVUcQAAAABJRU5ErkJggg==',
+  },
   user_name: { type: String, required: true },
   nama: { type: String },
   tarikhLahir: { type: String },
-  kp: { type: String, required: true, default: 'NOT APPLICABLE' },
   daerah: { type: String, required: true },
   negeri: { type: String, required: true },
   e_mail: { type: String },
@@ -40,6 +44,41 @@ adminSchema.pre('save', function (next) {
   }
   next();
 });
+
+adminSchema.methods.getProfile = function () {
+  const admin = this;
+  const adminObject = admin.toObject();
+
+  adminObject.username = admin.nama;
+  delete adminObject.tempKey;
+  delete adminObject.ascii;
+  delete adminObject.hex;
+  delete adminObject.base32;
+  delete adminObject.otpauth_url;
+  delete adminObject.backup_codes;
+  delete adminObject.hashed_backup_codes;
+
+  return adminObject;
+};
+
+adminSchema.methods.createJWT = function () {
+  const token = jwt.sign(
+    {
+      userId: this._id.toString(),
+      username: this.nama,
+      tarikhLahir: this.tarikhLahir,
+      daerah: this.daerah,
+      negeri: this.negeri,
+      e_mail: this.e_mail,
+      accountType: this.accountType,
+      totp: this.totp,
+      image: this.image,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_LIFETIME }
+  );
+  return token;
+};
 
 const Superadmin = mongoose.model('Superadmin', adminSchema);
 

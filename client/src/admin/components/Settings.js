@@ -1,5 +1,4 @@
 import { useState, useLayoutEffect, useId } from 'react';
-import axios from 'axios';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -12,6 +11,7 @@ export default function Settings({ update }) {
     saveCurrentUser,
     generateSecret,
     removeTotpToken,
+    resizeImage,
     toast,
   } = useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
@@ -29,24 +29,25 @@ export default function Settings({ update }) {
 
     if (filesSelected.length > 0) {
       const fileToLoad = filesSelected[0];
+      if (fileToLoad.size > 1000000) {
+        toast.error(
+          'Gambar terlalu besar. Sila muat naik gambar yang lebih kecil. Maksimum 1MB.'
+        );
+        return;
+      }
       const fileReader = new FileReader();
-      fileReader.onload = function (fileLoadedEvent) {
+      fileReader.onload = async function (fileLoadedEvent) {
         const srcData = fileLoadedEvent.target.result;
-        const newImage = document.createElement('img');
-        newImage.src = srcData;
-        axios
-          .post('/api/v1/superadmin/newroute', {
-            image: srcData.replace(/^data:image\/(png|jpg);base64,/, ''),
-            apiKey: process.env.REACT_APP_API_KEY,
-            main: 'ImageResizer',
-            Fn: 'resize',
-          })
-          .then((res) => {
-            console.log(res.data);
-            setProfileImageData(res.data.imgSrc);
-          });
-        // document.getElementById(currentImage).innerHTML = newImage.outerHTML;
-        // document.getElementById('divDynamic').innerHTML = newImage.src;
+        const data = {
+          type: fileToLoad.type,
+          image: srcData,
+        };
+        try {
+          const resizedImage = await resizeImage(data);
+          setProfileImageData(resizedImage.data.imgSrc);
+        } catch (error) {
+          toast.error('Gambar tidak sah.');
+        }
       };
       fileReader.readAsDataURL(fileToLoad);
     }
