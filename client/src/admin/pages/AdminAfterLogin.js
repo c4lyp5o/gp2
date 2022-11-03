@@ -32,39 +32,34 @@ import Settings from '../components/Settings';
 import { ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
-  const { navigate, getCurrentUser, removeAdminToken } =
+  const { navigate, getCurrentUser, adminToken, removeAdminToken } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
-  const [updateProfile, setUpdateProfile] = useState(false);
 
   useLayoutEffect(() => {
     getCurrentUser()
       .then((res) => {
         setLoginInfo({
+          ...res.data,
           isLoggedIn: true,
-          id: res.data.userId,
-          username: res.data.username,
-          kp: res.data.kp,
-          daerah: res.data.daerah,
-          negeri: res.data.negeri,
-          accountType: res.data.accountType,
-          totp: res.data.totp,
         });
       })
       .catch(() => {
         removeAdminToken();
         navigate('/pentadbir');
       });
-  }, []);
+  }, [adminToken, getCurrentUser]);
 
   return (
     <>
       <AdminHeader
         isLoggedIn={loginInfo.isLoggedIn}
+        negeri={loginInfo.negeri}
         daerah={loginInfo.daerah}
         kp={loginInfo.kp}
         user={loginInfo.username}
         accountType={loginInfo.accountType}
+        image={loginInfo.image}
       />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <AdminNavbar accountType={loginInfo.accountType} />
