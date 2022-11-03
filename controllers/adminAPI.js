@@ -414,10 +414,9 @@ exports.getData = async (req, res, next) => {
                   message: 'Key salah',
                 });
               }
-              const generatedToken = await createSuperadminToken(kpUser);
               return res.status(200).json({
                 status: 'success',
-                adminToken: generatedToken,
+                adminToken: kpUser.createJWT(),
               });
             }
             // if kp
@@ -436,10 +435,9 @@ exports.getData = async (req, res, next) => {
                   message: 'Key salah',
                 });
               }
-              const generatedToken = await createSuperadminToken(adminUser);
               return res.status(200).json({
                 status: 'success',
-                adminToken: generatedToken,
+                adminToken: adminUser.createJWT(),
               });
             }
             // using tempKey
@@ -449,10 +447,9 @@ exports.getData = async (req, res, next) => {
                 message: 'Key salah',
               });
             }
-            const generatedToken = await createSuperadminToken(adminUser);
             return res.status(200).json({
               status: 'success',
-              adminToken: generatedToken,
+              adminToken: adminUser.createJWT(),
             });
             break;
           case 'updateOne':
@@ -960,12 +957,18 @@ exports.getData = async (req, res, next) => {
         switch (Fn) {
           case 'resize':
             console.log('resize for image');
-            const { image } = req.body;
-            const buffer = await resizeProfileImage(image);
-            return res.status(200).json({
-              msg: 'success',
-              imgSrc: buffer,
-            });
+            const { image, type } = req.body;
+            const base64 = await resizeProfileImage(image, type);
+            if (base64 !== 'err') {
+              return res.status(200).json({
+                msg: 'success',
+                imgSrc: base64,
+              });
+            } else {
+              return res.status(400).json({
+                msg: 'error',
+              });
+            }
             break;
           case 'read':
             console.log('read for image');
@@ -1024,25 +1027,17 @@ async function sendVerificationEmail(userId) {
       console.log(err);
       return err;
     }
-    return emailAdmin.e_mail;
+    console.log('done');
   });
+  return useEmail;
 }
 
 async function readUserData(token) {
   let userData;
-  const status = jwt.verify(token, process.env.JWT_SECRET).accountType;
+  const { userId, status } = jwt.verify(token, process.env.JWT_SECRET);
   if (status !== 'kpSuperadmin') {
-    userData = {
-      userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-      username: jwt.verify(token, process.env.JWT_SECRET).username,
-      tarikhLahir: jwt.verify(token, process.env.JWT_SECRET).tarikhLahir,
-      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-      e_mail: jwt.verify(token, process.env.JWT_SECRET).e_mail,
-      accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
-      totp: jwt.verify(token, process.env.JWT_SECRET).totp,
-      image: jwt.verify(token, process.env.JWT_SECRET).image,
-    };
+    const user = await Superadmin.findById(userId);
+    userData = user.getProfile();
   }
   if (status === 'kpSuperadmin') {
     userData = {
@@ -1069,46 +1064,7 @@ async function updateUserData(token, data) {
     },
     { new: true }
   );
-  const newToken = createSuperadminToken(updateUserData);
-  return newToken;
-}
-
-async function createSuperadminToken(userdata) {
-  const status = userdata.accountType;
-  if (status === 'kpUser') {
-    const token = jwt.sign(
-      {
-        userId: userdata._id,
-        username: userdata.username,
-        kp: userdata.kp,
-        daerah: userdata.daerah,
-        negeri: userdata.negeri,
-        email: userdata.email,
-        accountType: 'kpSuperadmin',
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_LIFETIME }
-    );
-    return token;
-  }
-  if (status !== 'kpUser') {
-    const token = jwt.sign(
-      {
-        userId: userdata._id,
-        username: userdata.nama,
-        tarikhLahir: userdata.tarikhLahir,
-        daerah: userdata.daerah,
-        negeri: userdata.negeri,
-        e_mail: userdata.e_mail,
-        accountType: userdata.accountType,
-        totp: userdata.totp,
-        image: userdata.image,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_LIFETIME }
-    );
-    return token;
-  }
+  return updateUserData.createJWT();
 }
 
 const generateRandomString = (length) => {
@@ -1122,22 +1078,29 @@ const generateRandomString = (length) => {
   return result;
 };
 
-const resizeProfileImage = async (file) => {
-  const tempFile = Buffer.from(file, 'base64');
-  const name = generateRandomString(10);
+const resizeProfileImage = async (file, type) => {
+  const tempFileBuffer = Buffer.from(file, 'base64');
+  const tempFileType = type.split('/')[1];
+  const name = generateRandomString(10) + '.' + tempFileType;
   fs.writeFileSync(
-    path.resolve(process.cwd(), `./uploads/${name}.png`),
-    tempFile
+    path.resolve(process.cwd(), `./public/${name}`),
+    tempFileBuffer
   );
-  const resizedImage = await sharp(
-    path.resolve(process.cwd(), `./uploads/${name}.png`)
-  )
-    .resize(80, 80)
-    .toBuffer();
-  const dataImagePrefix = `data:image/png;base64,`;
-  const base64 = `${dataImagePrefix}${resizedImage.toString('base64')}`;
-  fs.unlinkSync(path.resolve(process.cwd(), `./uploads/${name}.png`));
-  return base64;
+  try {
+    const resizedImage = await sharp(
+      path.resolve(process.cwd(), `./public/${name}`)
+    )
+      .resize(120, 120)
+      .sharpen()
+      .toBuffer();
+    const dataImagePrefix = `data:image/${tempFileType};base64,`;
+    const base64 = `${dataImagePrefix}${resizedImage.toString('base64')}`;
+    fs.unlinkSync(path.resolve(process.cwd(), `./public/${name}`));
+    return base64;
+  } catch (err) {
+    console.log(err);
+    return 'err';
+  }
 };
 
 const html = (data, key) =>
