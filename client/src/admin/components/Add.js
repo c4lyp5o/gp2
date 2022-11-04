@@ -55,7 +55,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const [allPegawai, setAllPegawai] = useState([]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setAddingData(true);
     let Data = {};
     Data = {
@@ -1027,7 +1026,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
           {(confirm) => <Facility confirm={confirm} />}
         </Confirmation>
       )}
-       {FType === 'event' && (
+      {FType === 'event' && (
         <Confirmation callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Event confirm={confirm} />}
         </Confirmation>
