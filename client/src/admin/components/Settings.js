@@ -121,7 +121,17 @@ export default function Settings({ update }) {
                         className='w-32 h-32 rounded-full mr-auto ml-auto'
                       />
                     )}
+                    <button
+                      type='button'
+                      className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-adminWhite bg-admin3 hover:bg-admin2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-admin4'
+                      onClick={() =>
+                        document.getElementById(uploadImage).click()
+                      }
+                    >
+                      Muat naik gambar
+                    </button>
                     <input
+                      hidden
                       type='file'
                       id={uploadImage}
                       name={uploadImage}

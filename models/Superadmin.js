@@ -65,14 +65,6 @@ adminSchema.methods.createJWT = function () {
   const token = jwt.sign(
     {
       userId: this._id.toString(),
-      username: this.nama,
-      tarikhLahir: this.tarikhLahir,
-      daerah: this.daerah,
-      negeri: this.negeri,
-      e_mail: this.e_mail,
-      accountType: this.accountType,
-      totp: this.totp,
-      image: this.image,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }
