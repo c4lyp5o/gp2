@@ -39,7 +39,7 @@ const transporter = mailer.createTransport({
   },
 });
 
-exports.getData = async (req, res, next) => {
+const getData = async (req, res, next) => {
   if (req.method === 'GET') {
     return res.status(200).json({
       message: 'This is the only way. Proceed carefully',
@@ -50,11 +50,10 @@ exports.getData = async (req, res, next) => {
     switch (main) {
       case 'DataCenter':
         var { FType, Data, Id } = req.body;
+        const { daerah, negeri } = await Superadmin.findById(
+          jwt.verify(token, process.env.JWT_SECRET).userId
+        );
         const theType = Dictionary[FType];
-        const dataGeografik = {
-          daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-          negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-        };
         switch (Fn) {
           case 'create':
             console.log('create for', theType);
@@ -67,8 +66,8 @@ exports.getData = async (req, res, next) => {
               Data = {
                 ...Data,
                 jenisFasiliti: theType,
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
               };
               const data = await Fasiliti.create(Data);
               return res.status(200).json(data);
@@ -76,8 +75,8 @@ exports.getData = async (req, res, next) => {
             if (theType === 'event') {
               Data = {
                 ...Data,
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
               };
               const data = await Event.create(Data);
               return res.status(200).json(data);
@@ -85,8 +84,8 @@ exports.getData = async (req, res, next) => {
             if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
               Data = {
                 ...Data,
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
               };
               const data = await Operator.create(Data);
               return res.status(200).json(data);
@@ -94,8 +93,8 @@ exports.getData = async (req, res, next) => {
             if (theType === 'klinik') {
               Data = {
                 ...Data,
-                daerah: dataGeografik.daerah,
-                negeri: dataGeografik.negeri,
+                daerah,
+                negeri,
               };
               const data = await User.create(Data).then(async () => {
                 // creating kaunter user for created klinik
@@ -104,9 +103,8 @@ exports.getData = async (req, res, next) => {
                 for (let i = 0; i < simplifiedKlinikName.length; i++) {
                   acronym += simplifiedKlinikName[i].charAt(0);
                 }
-                const negeriNum = emailGen[dataGeografik.negeri].kodNegeri;
-                const daerahNum =
-                  emailGen[dataGeografik.negeri].daerah[dataGeografik.daerah];
+                const negeriNum = emailGen[negeri].kodNegeri;
+                const daerahNum = emailGen[negeri].daerah[daerah];
                 const tempKaunter = await User.create({
                   username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
                   negeri: Data.negeri,
@@ -130,43 +128,43 @@ exports.getData = async (req, res, next) => {
             ) {
               const data = await Fasiliti.find({
                 jenisFasiliti: theType,
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
               });
               return res.status(200).json(data);
             }
             if (theType === 'event') {
               const data = await Event.find({
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
               });
               return res.status(200).json(data);
             }
             if (theType === 'pegawai') {
               const data = await Operator.find({
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
                 statusPegawai: 'pp',
               });
               return res.status(200).json(data);
             }
             if (theType === 'juruterapi pergigian') {
               const data = await Operator.find({
-                createdByDaerah: dataGeografik.daerah,
-                createdByNegeri: dataGeografik.negeri,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
                 statusPegawai: 'jp',
               });
               return res.status(200).json(data);
             }
             if (theType === 'klinik') {
               const data = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
+                negeri,
+                daerah,
                 statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
               });
               const kaunterAcct = await User.find({
-                negeri: dataGeografik.negeri,
-                daerah: dataGeografik.daerah,
+                negeri,
+                daerah,
                 accountType: 'kaunterUser',
               });
               for (const i in data) {
@@ -985,7 +983,7 @@ exports.getData = async (req, res, next) => {
   }
 };
 
-exports.getCipher = async (req, res) => {
+const getCipher = async (req, res) => {
   const ciphertext = CryptoJS.AES.encrypt(
     JSON.stringify(process.env.API_KEY),
     process.env.CRYPTO_JS_SECRET
@@ -1301,3 +1299,5 @@ const html = (data, key) =>
   </div>
 </body>
 </html>`;
+
+module.exports = { generateRandomString, getData, getCipher };
