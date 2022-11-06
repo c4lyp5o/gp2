@@ -19,7 +19,7 @@ function userIDBox({ setUserName, showUserIDBox }) {
           <input
             className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer'
             type='text'
-            placeholder='ID Pengguna'
+            placeholder=' '
             name='usernameAdmin'
             id='usernameAdmin'
             onChange={(e) => setUserName(e.target.value)}
@@ -53,7 +53,7 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
             type={showPassword ? 'text' : 'password'}
             name='passwordAdmin'
             id='passwordAdmin'
-            placeholder='Kata Laluan'
+            placeholder=' '
             onChange={(e) => setPassword(e.target.value)}
             required
           />

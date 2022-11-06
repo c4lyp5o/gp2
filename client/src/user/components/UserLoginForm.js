@@ -40,7 +40,7 @@ function UserLoginForm() {
             <input
               className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
               type='text'
-              placeholder='ID Pengguna'
+              placeholder=' '
               id='username'
               name='username'
               value={username}
@@ -58,7 +58,7 @@ function UserLoginForm() {
             <input
               className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
               type={showPassword ? 'text' : 'password'}
-              placeholder='Kata Laluan'
+              placeholder=' '
               value={password}
               id='password'
               name='password'
