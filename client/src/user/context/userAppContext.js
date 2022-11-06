@@ -66,7 +66,17 @@ function statusPesakit(p) {
   return status;
 }
 
-function masterDatePicker({ selected, onChange, filterDate, className }) {
+function masterDatePicker({
+  selected,
+  onChange,
+  filterDate,
+  className,
+  selectsStart,
+  selectsEnd,
+  startDate,
+  endDate,
+  minDate,
+}) {
   return (
     <DatePicker
       showPopperArrow={false}
@@ -79,6 +89,11 @@ function masterDatePicker({ selected, onChange, filterDate, className }) {
       dropdownMode='select'
       filterDate={filterDate}
       className={className}
+      selectsStart={selectsStart}
+      selectsEnd={selectsEnd}
+      startDate={startDate}
+      endDate={endDate}
+      minDate={minDate}
     />
   );
 }
