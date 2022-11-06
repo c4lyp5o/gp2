@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast } = useGlobalUserAppContext();
+  const { userToken, toast, masterDatePicker } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -14,6 +15,47 @@ export default function UserGenerateKlinik() {
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kp, setKp] = useState('');
+
+  //datepicker range
+  const [startDatePicker, setStartDatePicker] = useState(null);
+  const [endDatePicker, setEndDatePicker] = useState(null);
+
+  const TarikhAwal = () => {
+    return masterDatePicker({
+      selectsStart: startDatePicker,
+      startDate: startDatePicker,
+      endDate: endDatePicker,
+      selected: startDatePicker,
+      onChange: (startDate) => {
+        setStartDatePicker(startDate);
+        setStartDate(moment(startDate).format('YYYY-MM-DD'));
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
+
+  const TarikhAkhir = () => {
+    return masterDatePicker({
+      selectsEnd: endDatePicker,
+      startDate: startDatePicker,
+      endDate: endDatePicker,
+      selected: endDatePicker,
+      minDate: startDatePicker,
+      onChange: (endDate) => {
+        setEndDatePicker(endDate);
+        setEndDate(moment(endDate).format('YYYY-MM-DD'));
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
 
   useEffect(() => {
     const fetchSekolah = async () => {
@@ -93,7 +135,7 @@ export default function UserGenerateKlinik() {
       <div className='p-2'>
         <h1 className='font-bold text-lg text-user1 '>Penjanaan Laporan</h1>
         <form onSubmit={handleJana}>
-          <div className='grid grid-cols-2 lg:grid-cols-4 gap-2'>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-2'>
             <div className='px-3 py-1'>
               <label
                 htmlFor='jenisReten'
@@ -168,14 +210,15 @@ export default function UserGenerateKlinik() {
                   >
                     Daripada:
                   </label>
-                  <input
+                  <TarikhAwal />
+                  {/* <input
                     required
                     type='date'
                     name='tarikhMula'
                     id='tarikhMula'
                     onChange={(e) => setStartDate(e.target.value)}
                     className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  />
+                  /> */}
                 </div>
                 <div className='px-3 py-1'>
                   <label
@@ -184,13 +227,14 @@ export default function UserGenerateKlinik() {
                   >
                     Sehingga:
                   </label>
-                  <input
+                  <TarikhAkhir />
+                  {/* <input
                     type='date'
                     name='tarikhAkhir'
                     id='tarikhAkhir'
                     onChange={(e) => setEndDate(e.target.value)}
                     className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  />
+                  /> */}
                 </div>
               </>
             )}
