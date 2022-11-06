@@ -996,7 +996,7 @@ const getCipher = async (req, res) => {
 
 const sendVerificationEmail = async (userId) => {
   const key = generateRandomString(8);
-  const { e_mail } = await Superadmin.findByIdAndUpdate(
+  const { nama, e_mail } = await Superadmin.findByIdAndUpdate(
     userId,
     { tempKey: key },
     { new: true }
@@ -1005,7 +1005,7 @@ const sendVerificationEmail = async (userId) => {
     from: process.env.EMAILER_ACCT,
     to: e_mail,
     subject: 'Kunci Verifikasi Anda',
-    html: html(e_mail, key),
+    html: html(nama, key),
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
@@ -1088,7 +1088,7 @@ const resizeProfileImage = async (file, type) => {
   }
 };
 
-const html = (data, key) =>
+const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -1246,7 +1246,7 @@ const html = (data, key) =>
                   <tbody>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:22px;line-height:1;text-align:left;color:#ffffff;"><span style="color:#FEEB35">Hi ${data.user_name},</span><br /></div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:22px;line-height:1;text-align:left;color:#ffffff;"><span style="color:#FEEB35">Hi ${nama},</span><br /></div>
                       </td>
                     </tr>
                     <tr>
