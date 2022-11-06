@@ -41,7 +41,7 @@ function KaunterLogin() {
                   <input
                     className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
                     type='text'
-                    placeholder='ID Pendaftaran'
+                    placeholder=' '
                     id='username-pendaftaran'
                     name='username-pendaftaran'
                     value={username}
@@ -59,7 +59,7 @@ function KaunterLogin() {
                   <input
                     className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
                     type={showPassword ? 'text' : 'password'}
-                    placeholder='Kata Laluan'
+                    placeholder=' '
                     id='password-pendaftaran'
                     name='password-pendaftaran'
                     value={password}
