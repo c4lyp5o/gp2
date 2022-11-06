@@ -111,7 +111,7 @@ function MainChart({ data, accountType }) {
 }
 
 export default function AdminCenterStage({ accountType }) {
-  const { toast, getAllNegeriAndDaerah } = useGlobalAdminAppContext();
+  const { toast, getAllNegeriAndDaerah, navigate } = useGlobalAdminAppContext();
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
@@ -123,6 +123,7 @@ export default function AdminCenterStage({ accountType }) {
       })
       .catch((err) => {
         toast.error(err.response.data.message);
+        navigate('/pentadbir');
       });
   }, []);
 
@@ -130,7 +131,7 @@ export default function AdminCenterStage({ accountType }) {
     return <Loading />;
   }
 
-  if (accountType === 'kpSuperadmin') {
+  if (accountType === 'kpUser') {
     return (
       <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
         <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
