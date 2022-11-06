@@ -143,79 +143,97 @@ export default function Settings({ update }) {
                   </div>
                 </>
               ) : null}
-              <label
-                htmlFor={nama}
-                className='block text-sm font-medium text-gray-700'
-              >
-                Nama Pengguna
-              </label>
-              <input
-                type='text'
-                name='username'
-                id={nama}
-                className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                value={loginInfo.username}
-                onChange={(e) =>
-                  setLoginInfo({ ...loginInfo, username: e.target.value })
-                }
-              />
-              <label htmlFor={tarikhLahir}>Tarikh Lahir</label>
-              <input
-                type='date'
-                name='tarikhLahir'
-                id={tarikhLahir}
-                className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                value={loginInfo.tarikhLahir}
-                onChange={(e) =>
-                  setLoginInfo({ ...loginInfo, tarikhLahir: e.target.value })
-                }
-              />
-              <label
-                htmlFor={email}
-                className='block text-sm font-medium text-gray-700'
-              >
-                Emel
-              </label>
-              <input
-                type='text'
-                name='email'
-                id={email}
-                className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                value={loginInfo.e_mail}
-                onChange={(e) =>
-                  setLoginInfo({ ...loginInfo, email: e.target.value })
-                }
-              />
-              <label
-                htmlFor={totp}
-                className='block text-sm font-medium text-gray-700'
-              >
-                TOTP
-              </label>
-              <input
-                checked={loginInfo.totp === false}
-                type='radio'
-                name='totpActive'
-                id={totp}
-                value={loginInfo.totp}
-                className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                onChange={(e) => setLoginInfo({ ...loginInfo, totp: false })}
-              />
-              Tidak aktif
-              <input
-                type='radio'
-                checked={loginInfo.totp === true}
-                name='totpInactive'
-                id={totp}
-                value={loginInfo.totp}
-                className='mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
-                onChange={confirm(enableTotp)}
-              />
-              Diaktifkan
+              <div className='relative border-b border-user1'>
+                <input
+                  type='text'
+                  name='username'
+                  id={nama}
+                  placeholder=' '
+                  className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
+                  value={loginInfo.username}
+                  onChange={(e) =>
+                    setLoginInfo({ ...loginInfo, username: e.target.value })
+                  }
+                />
+                <label
+                  htmlFor={nama}
+                  className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                >
+                  Nama Pengguna
+                </label>
+              </div>
+              <div className='relative border-b border-user1'>
+                <input
+                  type='date'
+                  name='tarikhLahir'
+                  id={tarikhLahir}
+                  className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
+                  value={loginInfo.tarikhLahir}
+                  onChange={(e) =>
+                    setLoginInfo({ ...loginInfo, tarikhLahir: e.target.value })
+                  }
+                />
+                <label
+                  htmlFor={tarikhLahir}
+                  className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                >
+                  Tarikh Lahir
+                </label>
+              </div>
+              <div className='relative border-b border-user1'>
+                <input
+                  type='text'
+                  name='email'
+                  id={email}
+                  className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
+                  value={loginInfo.e_mail}
+                  onChange={(e) =>
+                    setLoginInfo({ ...loginInfo, email: e.target.value })
+                  }
+                />
+                <label
+                  htmlFor={email}
+                  className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                >
+                  Emel
+                </label>
+              </div>
+              <div className='relative border-b border-user1'>
+                <label
+                  htmlFor={totp}
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  TOTP
+                </label>
+                <div className='flex items-center justify-center'>
+                  <input
+                    checked={loginInfo.totp === false}
+                    type='radio'
+                    name='totpActive'
+                    id={totp}
+                    value={loginInfo.totp}
+                    className='mt-1 w-4 h-4 inline-block shadow-sm border-user1 focus:ring-1 rounded-md mx-3'
+                    onChange={(e) =>
+                      setLoginInfo({ ...loginInfo, totp: false })
+                    }
+                  />
+                  <label htmlFor='totpActive'>Tidak Aktif</label>
+                  <input
+                    type='radio'
+                    checked={loginInfo.totp === true}
+                    name='totpInactive'
+                    id={totp}
+                    value={loginInfo.totp}
+                    className='mt-1 w-4 h-4 inline-block shadow-sm border-user1 focus:ring-1 rounded-md mx-3'
+                    onChange={confirm(enableTotp)}
+                  />
+                  <label htmlFor='totpInactive'>Diaktifkan</label>
+                </div>
+              </div>
               <div>
                 <button
                   type='submit'
-                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-adminWhite bg-admin2 hover:bg-admin3 m-2'
                 >
                   Simpan
                 </button>
