@@ -83,19 +83,21 @@ export default function AdminHeader({
                 className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'
                 ref={profilRef}
               >
-                <div className='flex items-center justify-center'>
-                  <img
-                    className='rounded-full shadow-md'
-                    src={image}
-                    alt='profile'
-                    width='70'
-                    height='70'
-                  />
-                </div>
+                {accountType !== 'kpUser' ? (
+                  <div className='flex items-center justify-center'>
+                    <img
+                      className='rounded-full shadow-md'
+                      src={image}
+                      alt='profile'
+                      width='70'
+                      height='70'
+                    />
+                  </div>
+                ) : null}
                 <p className='w-auto text-sm leading-3 flex flex-col py-2 border-b-2 border-user1'>
                   <span className='uppercase pt-2'>{user}</span>
                 </p>
-                {accountType !== 'kpSuperadmin' ? (
+                {accountType !== 'kpUser' ? (
                   <>
                     {accountType === 'daerahSuperadmin' && (
                       <p className='w-48 text-sm pt-1'>

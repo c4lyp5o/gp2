@@ -20,7 +20,6 @@ const Modal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     deleteData(FType, id).then((res) => {
-      console.log(res.data);
       if (res.status === 200) {
         toast.info(`Data berjaya dipadam`);
         setShowDeleteModal(false);
