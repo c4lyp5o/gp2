@@ -52,7 +52,6 @@ export default function Data({ FType, kp }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
-      console.log(res.data);
       setData(res.data);
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);

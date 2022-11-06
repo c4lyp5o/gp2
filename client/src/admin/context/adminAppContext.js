@@ -134,29 +134,57 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // data
+  // data superadmin
 
   const createData = async (type, data) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'create',
-      FType: type,
-      Data: data,
-      token: adminToken,
-    });
-    return response;
+    try {
+      if (type === 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'KpCenter',
+          Fn: 'create',
+          Data: data,
+          token: adminToken,
+        });
+        return response;
+      }
+      if (type !== 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'DataCenter',
+          Fn: 'create',
+          FType: type,
+          Data: data,
+          token: adminToken,
+        });
+        return response;
+      }
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   };
 
   const readData = async (type) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'read',
-      FType: type,
-      token: adminToken,
-    });
-    return response;
+    if (type === 'event') {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'read',
+        token: adminToken,
+      });
+      return response;
+    }
+    if (type !== 'event') {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'DataCenter',
+        Fn: 'read',
+        FType: type,
+        token: adminToken,
+      });
+      return response;
+    }
   };
 
   const readKpData = async () => {
@@ -171,44 +199,86 @@ function AdminAppProvider({ children }) {
   };
 
   const readOneData = async (type, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'readOne',
-      FType: type,
-      Id: id,
-      token: adminToken,
-    });
-    return response;
-  };
-
-  const updateData = async (type, id, data) => {
-    console.log(data);
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'update',
-      FType: type,
-      Id: id,
-      Data: data,
-      token: adminToken,
-    });
-    return response;
-  };
-
-  const deleteData = async (type, id) => {
-    try {
+    if (type === 'event') {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'readOne',
+        Id: id,
+        token: adminToken,
+      });
+      return response;
+    }
+    if (type !== 'event') {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
         apiKey: process.env.REACT_APP_API_KEY,
         main: 'DataCenter',
-        Fn: 'delete',
+        Fn: 'readOne',
         FType: type,
         Id: id,
         token: adminToken,
       });
       return response;
-    } catch (e) {
-      return e;
+    }
+  };
+
+  const updateData = async (type, id, data) => {
+    try {
+      if (type === 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'KpCenter',
+          Fn: 'update',
+          Id: id,
+          Data: data,
+          token: adminToken,
+        });
+        return response;
+      }
+      if (type !== 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'DataCenter',
+          Fn: 'update',
+          FType: type,
+          Id: id,
+          Data: data,
+          token: adminToken,
+        });
+        return response;
+      }
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  const deleteData = async (type, id) => {
+    try {
+      if (type === 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'KpCenter',
+          Fn: 'delete',
+          Id: id,
+          token: adminToken,
+        });
+        return response;
+      }
+      if (type !== 'event') {
+        const response = await axios.post(`/api/v1/superadmin/newroute`, {
+          apiKey: process.env.REACT_APP_API_KEY,
+          main: 'DataCenter',
+          Fn: 'delete',
+          FType: type,
+          Id: id,
+          token: adminToken,
+        });
+        return response;
+      }
+    } catch (err) {
+      console.log(err);
+      return err;
     }
   };
 
