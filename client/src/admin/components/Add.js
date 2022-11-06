@@ -166,7 +166,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         setKlinik(res.data);
       });
     }
-    if (FType !== 'kp') {
+    if (FType !== 'kp' && FType !== 'event') {
       readKpData().then((res) => {
         setKlinik(res.data);
       });

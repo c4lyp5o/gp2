@@ -50,6 +50,7 @@ adminSchema.methods.getProfile = function () {
   const adminObject = admin.toObject();
 
   adminObject.username = admin.nama;
+  delete adminObject.user_name;
   delete adminObject.tempKey;
   delete adminObject.ascii;
   delete adminObject.hex;
@@ -65,6 +66,8 @@ adminSchema.methods.createJWT = function () {
   const token = jwt.sign(
     {
       userId: this._id.toString(),
+      username: this.nama,
+      accountType: this.accountType,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }

@@ -25,7 +25,7 @@ export default function AdminNavbar({ accountType }) {
           >
             PAPARAN UTAMA
           </NavLink>
-          {accountType !== 'kpSuperadmin' ? (
+          {accountType !== 'kpUser' ? (
             <>
               <NavLink
                 className={({ isActive }) =>
