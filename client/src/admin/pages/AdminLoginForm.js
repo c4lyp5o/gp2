@@ -128,11 +128,10 @@ export default function AdminLoginForm() {
           navigate('/pentadbir');
         }, 1000 * 60 * 5);
         setKicker(numkicker);
+        setShowPasswordBox(true);
       } catch (e) {
         toast.error(e.response.data.message);
-        return;
       }
-      setShowPasswordBox(true);
     }
 
     if (showPasswordBox === true) {

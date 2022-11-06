@@ -34,12 +34,12 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentTempat = useRef();
 
   useEffect(() => {
-    readKpData().then((res) => {
-      console.log(res);
-      setKlinik(res.data);
-    });
+    if (FType !== 'event') {
+      readKpData().then((res) => {
+        setKlinik(res.data);
+      });
+    }
     readOneData(FType, id).then((res) => {
-      console.log(res);
       setEditedEntity(res.data);
     });
     setTimeout(() => {
@@ -86,7 +86,12 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
-    if (FType === 'sr' || FType === 'sm') {
+    if (
+      FType === 'sr' ||
+      FType === 'sm' ||
+      FType === 'taska' ||
+      FType === 'tadika'
+    ) {
       Data = {
         ...Data,
         risikoSekolahPersis: currentRisiko.current,
@@ -585,9 +590,9 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
             onClick={() => setShowEditModal(false)}
           />
           <div className={styles.centered}>
-            <div className={styles.modalAdd}>
+            <div className={styles.modalEvent}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah Event</h5>
+                <h5 className={styles.heading}>Ubah Event</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -609,9 +614,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                         required
                         value={editedEntity.jenisEvent}
                         className='border-2'
-                        onChange={(e) =>
-                          (currentJenisEvent.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          currentJenisEvent.current = e.target.value;
+                          setEditedEntity({
+                            ...editedEntity,
+                            jenisEvent: e.target.value,
+                          });
+                        }}
                         name='jenisEvent'
                         id='jenisEvent'
                       >
@@ -655,7 +664,9 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <label htmlFor='modKpb'>KPB</label>
                       <input
                         checked={
-                          editedEntity.modPenyampaian === 'kpb' ? true : false
+                          editedEntity.modPenyampaianPerkhidmatan === 'kpb'
+                            ? true
+                            : false
                         }
                         type='radio'
                         name='mod'
@@ -683,7 +694,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                         name='nama'
                         id='nama'
                         value={editedEntity.nama}
-                        onChange={(e) => (currentName.current = e.target.value)}
+                        onChange={(e) => {
+                          currentName.current = e.target.value;
+                          setEditedEntity({
+                            ...editedEntity,
+                            nama: e.target.value,
+                          });
+                        }}
                       />
                     </div>
                     <p>
@@ -700,9 +717,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                         name='tarikh'
                         id='tarikh'
                         value={editedEntity.tarikh}
-                        onChange={(e) =>
-                          (currentTarikh.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          currentTarikh.current = e.target.value;
+                          setEditedEntity({
+                            ...editedEntity,
+                            tarikh: e.target.value,
+                          });
+                        }}
                       />
                       <p>
                         Masa{' '}
@@ -718,9 +739,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                           name='masamula'
                           id='masamula'
                           value={editedEntity.masaMula}
-                          onChange={(e) =>
-                            (currentMasaMula.current = e.target.value)
-                          }
+                          onChange={(e) => {
+                            currentMasaMula.current = e.target.value;
+                            setEditedEntity({
+                              ...editedEntity,
+                              masaMula: e.target.value,
+                            });
+                          }}
                         />
                         <input
                           required
@@ -729,9 +754,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                           name='masatamat'
                           id='masatamat'
                           value={editedEntity.masaTamat}
-                          onChange={(e) =>
-                            (currentMasaTamat.current = e.target.value)
-                          }
+                          onChange={(e) => {
+                            currentMasaTamat.current = e.target.value;
+                            setEditedEntity({
+                              ...editedEntity,
+                              masaTamat: e.target.value,
+                            });
+                          }}
                         />
                       </div>
                       <p>
@@ -748,9 +777,13 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                           name='nama'
                           id='nama'
                           value={editedEntity.tempat}
-                          onChange={(e) =>
-                            (currentTempat.current = e.target.value)
-                          }
+                          onChange={(e) => {
+                            currentTempat.current = e.target.value;
+                            setEditedEntity({
+                              ...editedEntity,
+                              tempat: e.target.value,
+                            });
+                          }}
                         />
                       </div>
                     </div>
@@ -759,9 +792,9 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 <div className={styles.modalActions}>
                   <div className={styles.actionsContainer}>
                     {editingData ? (
-                      <BusyButton func='add' />
+                      <BusyButton func='edit' />
                     ) : (
-                      <SubmitButtton func='add' />
+                      <SubmitButtton func='edit' />
                     )}
                     <span
                       className={styles.cancelBtn}

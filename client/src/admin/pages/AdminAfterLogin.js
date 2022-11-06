@@ -6,8 +6,6 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 // -----------------------------------------------------------
 
-import AdminLoginForm from './AdminLoginForm';
-
 // logged in
 import AdminHeader from '../components/AdminHeader';
 import AdminNavbar from '../components/AdminNavbar';
@@ -49,6 +47,10 @@ export default function AdminAfterLogin() {
         navigate('/pentadbir');
       });
   }, [adminToken, getCurrentUser]);
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <>
