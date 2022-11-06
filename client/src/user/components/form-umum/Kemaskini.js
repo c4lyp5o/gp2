@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 import { FaInfoCircle } from 'react-icons/fa';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
-  const { userToken, useParams, Dictionary } = useGlobalUserAppContext();
+  const { userToken, useParams, masterDatePicker, Dictionary } =
+    useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
@@ -17,7 +19,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
-  const [givenNoPendaftaran, setGivenNoPendaftaran] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
@@ -32,7 +33,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [daerahAlamat, setDaerahAlamat] = useState('');
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
-  // const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
@@ -59,13 +59,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
-  // const [engganTaskaTadika, setEngganTaskaTadika] = useState(false);
-  // const [tidakHadirTaskaTadika, setTidakHadirTaskaTadika] = useState(false);
-  // const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -89,6 +85,53 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
+
+  // datepicker issues
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(new Date());
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date());
+  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(new Date());
+  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] = useState(
+    new Date()
+  );
+  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(
+    new Date()
+  );
+
+  const TarikhKedatangan = () => {
+    return masterDatePicker({
+      selected: tarikhKedatanganDP,
+      onChange: (tarikhKedatangan) => {
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDP(tarikhKedatangan);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhLahir = () => {
+    return masterDatePicker({
+      selected: tarikhLahirDP,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+        const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+        setTarikhLahirDP(tarikhLahir);
+        setTarikhLahir(tempDate);
+        setUmur(tahun);
+        setUmurBulan(bulan);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
@@ -114,6 +157,54 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     const days = Math.floor(days_diff % 30.4167);
     const values = `${months} months`;
     return values;
+  };
+
+  const TarikhRujukanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhRujukanKeppDP,
+      onChange: (tarikhRujukanKepp) => {
+        const tempDate = moment(tarikhRujukanKepp).format('YYYY-MM-DD');
+        setTarikhRujukanKepp(tempDate);
+        setTarikhRujukanKeppDP(tarikhRujukanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhRundinganPertama = () => {
+    return masterDatePicker({
+      selected: tarikhRundinganPertamaDP,
+      onChange: (tarikhRundinganPertama) => {
+        const tempDate = moment(tarikhRundinganPertama).format('YYYY-MM-DD');
+        setTarikhRundinganPertama(tempDate);
+        setTarikhRundinganPertamaDP(tarikhRundinganPertama);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhMulaRawatanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhMulaRawatanKeppDP,
+      onChange: (tarikhMulaRawatanKepp) => {
+        const tempDate = moment(tarikhMulaRawatanKepp).format('YYYY-MM-DD');
+        setTarikhMulaRawatanKepp(tempDate);
+        setTarikhMulaRawatanKeppDP(tarikhMulaRawatanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
   };
 
   const closeModal = () => {
@@ -145,7 +236,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setDaerahAlamat(data.singlePersonUmum.daerahAlamat);
         setNegeriAlamat(data.singlePersonUmum.negeriAlamat);
         setPoskodAlamat(data.singlePersonUmum.poskodAlamat);
-        // setKategoriPesakit(data.singlePersonUmum.kategoriPesakit);
         setIbuMengandung(data.singlePersonUmum.ibuMengandung);
         setOrangKurangUpaya(data.singlePersonUmum.orangKurangUpaya);
         setBersekolah(data.singlePersonUmum.bersekolah);
@@ -173,19 +263,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         );
         // taska / tadika
         setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
-        // setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
         setKelasToddler(data.singlePersonUmum.kelasToddler);
         setNamaFasilitiTaskaTadika(
           data.singlePersonUmum.namaFasilitiTaskaTadika
         );
         setEnrolmenTaskaTadika(data.singlePersonUmum.enrolmenTaskaTadika);
-        // setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
-        // setTidakHadirTaskaTadika(
-        //   data.singlePersonUmum.tidakHadirTaskaTadika
-        // );
-        // setPemeriksaanTaskaTadika(
-        //   data.singlePersonUmum.pemeriksaanTaskaTadika
-        // );
         // ipt / kolej
         setIptKolej(data.singlePersonUmum.iptKolej);
         setIpg(data.singlePersonUmum.ipg);
@@ -257,7 +339,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           daerahAlamat,
           negeriAlamat,
           poskodAlamat,
-          // kategoriPesakit,
           ibuMengandung,
           orangKurangUpaya,
           bersekolah,
@@ -279,13 +360,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           labelMakmalPergigianBergerak,
           // taska / tadika
           fasilitiTaskaTadika,
-          // jenisTaskaTadika,
           kelasToddler,
           namaFasilitiTaskaTadika,
           enrolmenTaskaTadika,
-          // engganTaskaTadika,
-          // tidakHadirTaskaTadika,
-          // pemeriksaanTaskaTadika,
           // ipt / kolej
           iptKolej,
           ipg,
@@ -345,18 +422,19 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           </div>
           <div className='grid gap-1'>
             <div className='flex m-2 '>
-              <p className='mr-3 font-semibold flex text-center items-center'>
+              <p className='mr-3 font-semibold flex text-center items-center whitespace-nowrap'>
                 tarikh kedatangan:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
+              <TarikhKedatangan />
+              {/* <input
                 required
                 value={tarikhKedatangan}
                 onChange={(e) => setTarikhKedatangan(e.target.value)}
                 type='date'
                 name='tarikhKedatangan'
                 className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
-              />
+              /> */}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold flex text-center items-center'>
@@ -506,11 +584,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               )}
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold flex flex-row items-center'>
+              <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
                 tarikh lahir:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
+              <TarikhLahir />
+              {/* <input
                 required
                 value={tarikhLahir}
                 onChange={(e) => {
@@ -523,7 +602,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 type='date'
                 name='tarikhLahir'
                 className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase'
-              />
+              /> */}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -946,11 +1025,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh rujukan
                     </label>
-                    <input
+                    <TarikhRujukanKepp />
+                    {/* <input
                       type='date'
                       name='tarikh-rujukan-kepp'
                       id='tarikh-rujukan-kepp'
@@ -959,7 +1039,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhRujukanKepp(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                   <div
                     className={`${
@@ -970,11 +1050,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh perundingan pertama
                     </label>
-                    <input
+                    <TarikhRundinganPertama />
+                    {/* <input
                       type='date'
                       name='tarikh-rujukan-kepp'
                       id='tarikh-rujukan-kepp'
@@ -983,7 +1064,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhRundinganPertama(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                   <div
                     className={`${
@@ -994,11 +1075,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-mula-rawatan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh mula rawatan
                     </label>
-                    <input
+                    <TarikhMulaRawatanKepp />
+                    {/* <input
                       type='date'
                       name='tarikh-mula-rawatan-kepp'
                       id='tarikh-mula-rawatan-kepp'
@@ -1007,7 +1089,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhMulaRawatanKepp(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                 </article>
                 <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
