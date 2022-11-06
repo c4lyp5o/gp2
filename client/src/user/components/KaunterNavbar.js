@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
-function KaunterNavbar({ namaKlinik, logout }) {
+function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
   const [showOutreachSubMenu, setShowOutreachSubMenu] = useState(false);
   const [outreachIsOn, setOutreachIsOn] = useState(false);
@@ -262,7 +262,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
             >
               SENARAI DAFTAR PESAKIT
             </NavLink>
-            <div className='mx-3 lg:hidden capitalize'>
+            {/* <div className='mx-3 lg:hidden capitalize'>
               <div className='m-3 space-y-1 text-center text-sm'>
                 <p className='font-semibold text-base'>pendaftaran:</p>
                 <p>{namaKlinik}</p>
@@ -274,7 +274,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
               >
                 LOG KELUAR
               </button>
-            </div>
+            </div> */}
           </div>
         </nav>
         {/* the toggle button */}
