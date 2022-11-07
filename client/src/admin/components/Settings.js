@@ -1,4 +1,6 @@
 import { useState, useLayoutEffect, useId } from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -20,9 +22,34 @@ export default function Settings({ update }) {
   const [totpImage, setTotpImage] = useState('');
   const uploadImage = useId();
   const nama = useId();
-  const tarikhLahir = useId();
+  const [tarikhLahir, setTarikhLahir] = useState('');
   const email = useId();
   const totp = useId();
+
+  // tarikh lahir pengguna
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+
+  const TarikhLahir = () => {
+    return (
+      <DatePicker
+        showPopperArrow={false}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        value={moment(loginInfo.tarikhLahir).format('DD/MM/YYYY')}
+        selected={tarikhLahirDP}
+        onChange={(tarikhLahir) => {
+          const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+          setTarikhLahirDP(tarikhLahir);
+          setTarikhLahir(tempDate);
+          setLoginInfo({ ...loginInfo, tarikhLahir: tempDate });
+        }}
+        dateFormat='dd/MM/yyyy'
+        className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
+      />
+    );
+  };
 
   const encodeImageFileAsURL = (e) => {
     const filesSelected = document.getElementById(uploadImage).files;
@@ -64,7 +91,7 @@ export default function Settings({ update }) {
     e.preventDefault();
     const data = {
       nama: e.target[nama].value,
-      tarikhLahir: e.target[tarikhLahir].value,
+      tarikhLahir: tarikhLahir,
       email: e.target[email].value,
       totp: loginInfo.totp,
       image: profileImageData,
@@ -163,7 +190,7 @@ export default function Settings({ update }) {
                 </label>
               </div>
               <div className='relative border-b border-user1'>
-                <input
+                {/* <input
                   type='date'
                   name='tarikhLahir'
                   id={tarikhLahir}
@@ -172,7 +199,8 @@ export default function Settings({ update }) {
                   onChange={(e) =>
                     setLoginInfo({ ...loginInfo, tarikhLahir: e.target.value })
                   }
-                />
+                /> */}
+                <TarikhLahir />
                 <label
                   htmlFor={tarikhLahir}
                   className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
