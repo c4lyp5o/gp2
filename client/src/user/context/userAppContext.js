@@ -94,6 +94,7 @@ function masterDatePicker({
       startDate={startDate}
       endDate={endDate}
       minDate={minDate}
+      withPortal={window.matchMedia('(max-width: 400px)').matches}
     />
   );
 }
