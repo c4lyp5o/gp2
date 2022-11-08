@@ -24,7 +24,7 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
   });
 
   return (
-    <div className='absolute top-10 right-5 '>
+    <div className='absolute top-10 right-5 ' ref={profilRef}>
       <div className='hidden lg:flex w-auto h-10 items-center justify-center capitalize text-kaunterWhite text-xs'>
         <div className='m-3 space-y-1 text-right pr-2'>
           <p className='w-96 text-sm leading-3'>
@@ -47,10 +47,7 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
           onClick={hilang}
         />
         {showProfile && (
-          <div
-            className='absolute z-50 bg-adminWhite text-user1 top-10 right-1 m-1 p-2 flex flex-col shadow-lg rounded-md'
-            ref={profilRef}
-          >
+          <div className='absolute z-50 bg-adminWhite text-user1 top-10 right-1 m-1 p-2 flex flex-col shadow-lg rounded-md'>
             <div className=''>
               <p className='w-48 text-sm flex flex-col'>
                 <b>pendaftaran : </b>
