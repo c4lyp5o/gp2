@@ -7,12 +7,18 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
-  const { userToken, useParams, masterDatePicker, Dictionary } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    useParams,
+    masterDatePicker,
+    Dictionary,
+  } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+  const [events, setEvents] = useState([]);
 
   // core
   const [jenisFasiliti, setJenisFasiliti] = useState('');
@@ -86,16 +92,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
 
+  // events
+  const [jenisEvent, setJenisEvent] = useState('');
+  const [namaEvent, setPilihanEvent] = useState('');
+
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(new Date());
-  const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date());
-  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(new Date());
-  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] = useState(
-    new Date()
-  );
-  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(
-    new Date()
-  );
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(null);
+  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
+    useState(null);
+  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
 
   const TarikhKedatangan = () => {
     return masterDatePicker({
@@ -215,10 +222,14 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     const fetchSinglePersonUmum = async () => {
       try {
         const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         });
-        //kaunter
         setJenisFasiliti(data.singlePersonUmum.jenisFasiliti);
+        // core
         setTarikhKedatangan(data.singlePersonUmum.tarikhKedatangan);
         setWaktuSampai(data.singlePersonUmum.waktuSampai);
         setKedatangan(data.singlePersonUmum.kedatangan);
@@ -292,6 +303,27 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setInstitusiOku(data.singlePersonUmum.institusiOku);
         // kampung angkat
         setKgAngkat(data.singlePersonUmum.kgAngkat);
+        // events
+        setJenisEvent(data.singlePersonUmum.jenisEvent);
+        setPilihanEvent(data.singlePersonUmum.namaEvent);
+        // datepicker issues
+        setTarikhKedatanganDP(new Date(data.singlePersonUmum.tarikhKedatangan));
+        setTarikhLahirDP(new Date(data.singlePersonUmum.tarikhLahir));
+        if (data.singlePersonUmum.tarikhRujukanKepp !== '') {
+          setTarikhRujukanKeppDP(
+            new Date(data.singlePersonUmum.tarikhRujukanKepp)
+          );
+        }
+        if (data.singlePersonUmum.tarikhRundinganPertama !== '') {
+          setTarikhRundinganPertamaDP(
+            new Date(data.singlePersonUmum.tarikhRundinganPertama)
+          );
+        }
+        if (data.singlePersonUmum.tarikhMulaRawatanKepp !== '') {
+          setTarikhMulaRawatanKeppDP(
+            new Date(data.singlePersonUmum.tarikhMulaRawatanKepp)
+          );
+        }
       } catch (error) {
         console.log(error);
       }
@@ -305,7 +337,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       const fetchTaskaTadika = async () => {
         try {
           const { data } = await axios.get(`/api/v1/query/umum/taska-tadika`, {
-            headers: { Authorization: `Bearer ${userToken}` },
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
           });
           setTaskaTadikaAll(data.taskaTadikaAll);
         } catch (error) {
@@ -313,6 +349,28 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         }
       };
       fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
+
+  // fetch events if jenis fasiliti === projek-komuniti-lain
+  useEffect(() => {
+    if (jenisFasiliti === 'projek-komuniti-lain') {
+      const fetchEvents = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          });
+          setEvents(data);
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchEvents();
     }
   }, [jenisFasiliti]);
 
@@ -381,8 +439,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           institusiOku,
           // kampung angkat
           kgAngkat,
+          // events
+          jenisEvent,
+          namaEvent,
         },
-        { headers: { Authorization: `Bearer ${userToken}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
       );
       toast.info(`Pesakit berjaya dikemaskini`, {
         position: 'top-right',
