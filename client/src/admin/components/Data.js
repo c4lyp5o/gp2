@@ -42,7 +42,6 @@ export default function Data({ FType, kp }) {
     readData,
     encryptEmail,
     encryptPassword,
-    formatTime,
   } = useGlobalAdminAppContext();
 
   useEffect(() => {
@@ -52,6 +51,7 @@ export default function Data({ FType, kp }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
+      console.log(res.data);
       setData(res.data);
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
@@ -556,7 +556,9 @@ export default function Data({ FType, kp }) {
     if (data.length > 0) {
       return (
         <div className='flex flex-col items-center gap-5'>
-          <h1 className='text-3xl font-bold mt-10 mb-10'>Senarai Event {kp}</h1>
+          <h1 className='text-3xl font-bold mt-10 mb-10'>
+            Senarai Program {kp}
+          </h1>
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>
@@ -565,19 +567,19 @@ export default function Data({ FType, kp }) {
                     Bil.
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Jenis Event
+                    Nama Program
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Nama Event
+                    Nama Aktiviti
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Nama Klinik Yang Bertugas
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Tarikh dan Masa
+                    Tarikh Aktiviti
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Mod Penyampaian Perkhidmatan
+                    Kaedah Penyampaian Perkhidmatan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Urus
@@ -600,13 +602,14 @@ export default function Data({ FType, kp }) {
                       {f.createdByKp}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {moment(f.tarikh).format('DD/MM/YYYY')},{' '}
-                      {formatTime(f.masaMula)} - {formatTime(f.masaTamat)}
+                      {moment(f.tarikh).format('DD/MM/YYYY')}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.modPenyampaianPerkhidmatan === 'ppb'
+                      {f.modPenyampaianPerkhidmatan[0] === 'ppb'
                         ? 'Pasukan Pergigian Bergerak'
-                        : 'Klinik Pergigian Bergerak'}
+                        : f.modPenyampaianPerkhidmatan[0] === 'kpb'
+                        ? 'Klinik Pergigian Bergerak'
+                        : 'Makmal Pergigian Bergerak'}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
@@ -617,7 +620,7 @@ export default function Data({ FType, kp }) {
                           setId(f._id);
                         }}
                       >
-                        Ubah
+                        Kemaskini
                       </button>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'

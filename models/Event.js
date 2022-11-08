@@ -10,14 +10,6 @@ const eventSchema = new Schema({
     type: String,
     // required: true
   },
-  masaMula: {
-    type: String,
-    // required: true
-  },
-  masaTamat: {
-    type: String,
-    // required: true
-  },
   tempat: {
     type: String,
     // required: true
@@ -27,7 +19,7 @@ const eventSchema = new Schema({
     // required: true
   },
   modPenyampaianPerkhidmatan: {
-    type: String,
+    type: Array,
     // required: true
   },
   createdByKp: {
