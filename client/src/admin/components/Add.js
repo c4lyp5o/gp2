@@ -37,10 +37,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const currentGovKe = useRef();
   // event
   const currentJenisEvent = useRef();
-  const currentModPenyampaian = useRef();
+  const currentModPenyampaian = useRef([]);
   const currentTarikh = useRef();
-  const currentMasaMula = useRef();
-  const currentMasaTamat = useRef();
   const currentTempat = useRef();
   // APDM
   const statusApdm = useRef();
@@ -99,14 +97,19 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       };
     }
     if (FType === 'event') {
+      if (currentModPenyampaian.current.length === 0) {
+        toast.error(
+          'Sila pilih sekurang-kurangnya 1 kaedah penyampaian perkhidmatan'
+        );
+        setAddingData(false);
+        return;
+      }
       Data = {
         nama: currentName.current,
         createdByKp: kp,
         jenisEvent: currentJenisEvent.current,
         modPenyampaianPerkhidmatan: currentModPenyampaian.current,
         tarikh: currentTarikh.current,
-        masaMula: currentMasaMula.current,
-        masaTamat: currentMasaTamat.current,
         tempat: currentTempat.current,
       };
     }
@@ -136,6 +139,19 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       setShowAddModal(false);
       setAddingData(false);
     });
+  };
+
+  const eventModeChecker = (e) => {
+    if (currentModPenyampaian.current.includes(e)) {
+      currentModPenyampaian.current.splice(
+        currentModPenyampaian.current.indexOf(e),
+        1
+      );
+      return;
+    }
+    if (!currentModPenyampaian.current.includes(e)) {
+      currentModPenyampaian.current = [...currentModPenyampaian.current, e];
+    }
   };
 
   useEffect(() => {
@@ -349,7 +365,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
                   >
-                    Cancel
+                    Kembali
                   </span>
                 </div>
               </div>
@@ -590,7 +606,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
                   >
-                    Cancel
+                    Kembali
                   </span>
                 </div>
               </div>
@@ -813,7 +829,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                     className={styles.cancelBtn}
                     onClick={() => setShowAddModal(false)}
                   >
-                    Cancel
+                    Kembali
                   </span>
                 </div>
               </div>
@@ -835,7 +851,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
           <div className={styles.centered}>
             <div className={styles.modalEvent}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah Event</h5>
+                <h5 className={styles.heading}>Tambah Program / Aktiviti</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -847,7 +863,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
                     <p>
-                      Jenis Event
+                      Nama Program
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -862,16 +878,15 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                         name='jenisEvent'
                         id='jenisEvent'
                       >
-                        <option value=''>Pilih Jenis Event</option>
+                        <option value=''>Jenis Program / Aktiviti</option>
                         <option value='projek-komuniti'>Projek Komuniti</option>
-                        <option value='utc'>UTC</option>
-                        <option value='rtc'>RTC</option>
-                        <option value='ppkps'>PPKPS</option>
-                        <option value='kgangkat'>Kampung Angkat</option>
-                        <option value='ppr'>PPR</option>
-                        <option value='we-oku'>
-                          Institusi Warga Emas dan Institusi Orang Kurang Upaya
+                        <option value='ppkps'>Program Pemasyarakatan</option>
+                        <option value='kgangkat'>
+                          Kampung Angkat Pergigian
                         </option>
+                        <option value='ppr'>Projek Perumahan Rakyat</option>
+                        <option value='we'>Institusi Warga Emas</option>
+                        <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
                         </option>
@@ -881,27 +896,36 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                       Mod Penyampaian Perkhidmatan
                     </p>
                     <div className='grid grid-cols-2 gap-1'>
-                      <label htmlFor='modPpb'>PPB</label>
+                      <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                       <input
-                        type='radio'
+                        type='checkbox'
                         name='mod'
                         value='ppb'
-                        onChange={(e) =>
-                          (currentModPenyampaian.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
                       />
-                      <label htmlFor='modKpb'>KPB</label>
+                      <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
                       <input
-                        type='radio'
+                        type='checkbox'
                         name='mod'
                         value='kpb'
-                        onChange={(e) =>
-                          (currentModPenyampaian.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
+                      />
+                      <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
+                      <input
+                        type='checkbox'
+                        name='mod'
+                        value='mpb'
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
                       />
                     </div>
                     <p>
-                      Nama Event
+                      Nama Program / Aktiviti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -916,13 +940,13 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                         onChange={(e) => (currentName.current = e.target.value)}
                       />
                     </div>
-                    <p>
-                      Tarikh{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
                     <div className='grid gap-1'>
+                      <p>
+                        Tarikh Program / Aktiviti{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
                       <input
                         required
                         className='border-2'
@@ -933,34 +957,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                           (currentTarikh.current = e.target.value)
                         }
                       />
-                      <p>
-                        Masa{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid gap-1'>
-                        <input
-                          required
-                          className='border-2'
-                          type='time'
-                          name='masamula'
-                          id='masamula'
-                          onChange={(e) =>
-                            (currentMasaMula.current = e.target.value)
-                          }
-                        />
-                        <input
-                          required
-                          className='border-2'
-                          type='time'
-                          name='masatamat'
-                          id='masatamat'
-                          onChange={(e) =>
-                            (currentMasaTamat.current = e.target.value)
-                          }
-                        />
-                      </div>
                       <p>
                         Tempat
                         <span className='font-semibold text-lg text-user6'>
@@ -993,7 +989,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                       className={styles.cancelBtn}
                       onClick={() => setShowAddModal(false)}
                     >
-                      Cancel
+                      Kembali
                     </span>
                   </div>
                 </div>

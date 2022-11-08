@@ -444,7 +444,8 @@ function AdminAppProvider({ children }) {
     ppkps: 'PPKPS',
     kgangkat: 'Kampung Angkat',
     ppr: 'PPR',
-    'we-oku': 'Institusi Warga Emas dan Institusi Orang Kurang Upaya',
+    we: 'Institusi Warga Emas',
+    oku: 'Institusi OKU / PDK',
     oap: 'Program Orang Asli dan Penan',
   };
 

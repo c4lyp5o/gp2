@@ -3,6 +3,8 @@ const Runningnumber = require('./Runningnumber');
 
 const UmumSchema = new mongoose.Schema(
   {
+    // soft delete
+    deleted: { type: Boolean, default: false },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
