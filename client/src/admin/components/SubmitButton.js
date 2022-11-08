@@ -4,9 +4,9 @@ export default function SubmitButtton({ func }) {
       type='submit'
       className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
     >
-      {func === 'add' ? 'Tambah Data' : null}
-      {func === 'del' ? 'Hapus Data' : null}
-      {func === 'edit' ? 'Ubah Data' : null}
+      {func === 'add' ? 'Tambah Maklumat' : null}
+      {func === 'del' ? 'Hapus Maklumat' : null}
+      {func === 'edit' ? 'Kemaskini Maklumat' : null}
     </button>
   );
 }

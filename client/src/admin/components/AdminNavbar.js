@@ -148,7 +148,7 @@ export default function AdminNavbar({ accountType }) {
               to='event'
               onClick={() => setShowLinks(!showLinks)}
             >
-              EVENT
+              PROGRAM
             </NavLink>
           )}
         </div>
