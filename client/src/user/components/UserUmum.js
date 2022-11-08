@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
-import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  BsFilePerson,
+  BsFillFilePersonFill,
+  BsFillCircleFill,
+  BsFillCheckCircleFill,
+} from 'react-icons/bs';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -67,9 +72,13 @@ function UserUmum() {
             },
           }
         );
+        // 👇️ sort by String property ASCENDING (A - Z)
+        const desc = data.umumResultQuery.sort((a, b) =>
+          a.statusReten > b.statusReten ? 1 : -1
+        );
         const userData = JSON.parse(localStorage.getItem('userinfo'));
         setStatus(userData.role);
-        setQueryResult(data.umumResultQuery);
+        setQueryResult(desc);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -214,32 +223,32 @@ function UserUmum() {
                     BIL
                   </th>
                   {jenisFasiliti === 'kp' ? (
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       NO. SIRI
                     </th>
                   ) : null}
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     NO. PENDAFTARAN
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                     NAMA PESAKIT
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     JENIS FASILITI
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     KAD PENGENALAN
                   </th>
                   {jenisFasiliti !== 'projek-komuniti-lain' ? (
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       TARIKH LAWATAN TERAKHIR
                     </th>
                   ) : (
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       EVENT
                     </th>
                   )}
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     STATUS PENGISIAN RETEN
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -335,7 +344,18 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.statusReten}
+                          {/* {singlePersonUmum.statusReten} */}
+                          {singlePersonUmum.statusReten === 'belum diisi' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Belum Diisi</span>
+                              <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Selesai Diisi</span>
+                              <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                            </div>
+                          )}
                         </td>
                         <td
                           onClick={() => {
