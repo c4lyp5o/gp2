@@ -22,14 +22,12 @@ const saveTempKey = async (req, res) => {
     { tempKey: key },
     { new: true, runValidators: true }
   );
-
   const mailOptions = {
     from: process.env.EMAILER_ACCT,
     to: email,
     subject: 'Kunci Verifikasi Anda',
     html: html(nama, key),
   };
-
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.log(err);
@@ -50,15 +48,12 @@ const saveTempKey = async (req, res) => {
 const verifyTempKey = async (req, res) => {
   const { id, otp } = req.query;
   const { tempKey } = await Operator.findOne({ _id: id });
-
   if (!tempKey) {
     return res.status(404).json({ msg: 'No operator with that id' });
   }
-
   if (tempKey === otp) {
     return res.status(200).json({ msg: 'OTP verified' });
   }
-
   return res.status(401).json({ msg: 'OTP not verified' });
 };
 
