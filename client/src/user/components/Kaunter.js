@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import PatientData from './pt-registration/PatientData';
 import FillableForm from './pt-registration/FillableForm';
+import KomunitiLain from './KaunterKomunitiLain';
 // import EditableForm from './pt-registration/EditableForm';
 
 function Kaunter({
@@ -22,9 +24,19 @@ function Kaunter({
   const [showForm, setShowForm] = useState(false);
   const [editForm, setEditForm] = useState(false);
   const [editId, setEditId] = useState('');
+  // program puyna hal
+  const [semuaProgram, setSemuaProgram] = useState([]);
+  const [namaProgram, setNamaProgram] = useState('');
+  const [jenisProgram, setJenisProgram] = useState('');
+  const [fetchProgramData, setFetchProgramData] = useState(false);
+  const [showPilihanProgram, setShowPilihanProgram] = useState(false);
 
   useEffect(() => {
-    if (showForm === false && editForm === false) {
+    if (
+      showForm === false &&
+      editForm === false &&
+      jenisFasiliti !== 'projek-komuniti-lain'
+    ) {
       const fetchPersonUmum = async () => {
         try {
           setIsLoading(true);
@@ -42,7 +54,59 @@ function Kaunter({
       };
       fetchPersonUmum();
     }
+    if (
+      showForm === false &&
+      editForm === false &&
+      jenisFasiliti === 'projek-komuniti-lain'
+    ) {
+      const fetchJenisProgram = async () => {
+        setShowPilihanProgram(true);
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setSemuaProgram(data);
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+          console.log(error);
+        }
+      };
+      fetchJenisProgram();
+    }
   }, [showForm, editForm, jenisFasiliti]);
+
+  useEffect(() => {
+    if (
+      showForm === false &&
+      editForm === false &&
+      jenisFasiliti === 'projek-komuniti-lain'
+    ) {
+      const fetchPersonUmum = async () => {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisProgram=${jenisProgram}`,
+          { headers: { Authorization: `Bearer ${kaunterToken}` } }
+        );
+        return data;
+      };
+      fetchPersonUmum()
+        .then((res) => {
+          setData(res);
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [fetchProgramData]);
+
+  if (loading) {
+    return (
+      <div className='mt-20'>
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -61,6 +125,9 @@ function Kaunter({
           editForm={editForm}
           setEditForm={setEditForm}
           setEditId={setEditId}
+          showPilihanProgram={showPilihanProgram}
+          jenisProgram={jenisProgram}
+          namaProgram={namaProgram}
           jenisFasiliti={jenisFasiliti}
           kp={createdByKp}
         />
@@ -70,6 +137,8 @@ function Kaunter({
           editId={editId}
           setEditId={setEditId}
           jenisFasiliti={jenisFasiliti}
+          namaProgram={namaProgram}
+          jenisProgram={jenisProgram}
           kp={createdByKp}
         />
         {/* <EditableForm
@@ -77,6 +146,16 @@ function Kaunter({
           editForm={editForm}
           setEditForm={setEditForm}
         /> */}
+        <KomunitiLain
+          semuaProgram={semuaProgram}
+          setNamaProgram={setNamaProgram}
+          jenisProgram={jenisProgram}
+          setJenisProgram={setJenisProgram}
+          showPilihanProgram={showPilihanProgram}
+          setShowPilihanProgram={setShowPilihanProgram}
+          setFetchProgramData={setFetchProgramData}
+          fetchProgramData={fetchProgramData}
+        />
       </div>
     </>
   );

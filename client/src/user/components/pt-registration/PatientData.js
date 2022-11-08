@@ -1,4 +1,3 @@
-import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 
@@ -7,9 +6,7 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 export default function PatientData({
   data,
   setData,
-  loading,
   setIsLoading,
-  error,
   setIsError,
   philter,
   setPhilter,
@@ -17,6 +14,9 @@ export default function PatientData({
   setShowForm,
   editForm,
   setEditId,
+  showPilihanProgram,
+  jenisProgram,
+  namaProgram,
   jenisFasiliti,
   kp,
 }) {
@@ -92,11 +92,20 @@ export default function PatientData({
   const reloadData = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(
-        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
-        { headers: { Authorization: `Bearer ${kaunterToken}` } }
-      );
-      setData(data);
+      if (jenisFasiliti !== 'projek-komuniti-lain') {
+        const { data } = await axios.get(
+          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+          { headers: { Authorization: `Bearer ${kaunterToken}` } }
+        );
+        setData(data);
+      }
+      if (jenisFasiliti === 'projek-komuniti-lain') {
+        const { data } = await axios.get(
+          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&namaProgram=${namaProgram}`,
+          { headers: { Authorization: `Bearer ${kaunterToken}` } }
+        );
+        setData(data);
+      }
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -105,22 +114,25 @@ export default function PatientData({
     }
   };
 
-  if (loading)
-    return (
-      <div className='mt-20'>
-        <Spinner />
-      </div>
-    );
-
-  if (error) return <p>Error :(</p>;
-
-  if (!showForm && !editForm) {
+  if (!showForm && !editForm && !showPilihanProgram) {
     return (
       <>
         <div className='grid grid-cols-1 lg:grid-cols-2'>
-          <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
-            Fasiliti: {Dictionary[jenisFasiliti]}
-          </p>
+          <div>
+            <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+              Fasiliti: {Dictionary[jenisFasiliti]}
+            </p>
+            {jenisProgram && namaProgram ? (
+              <>
+                <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+                  Jenis Program: {jenisProgram}
+                </p>
+                <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+                  Nama Program: {namaProgram}
+                </p>
+              </>
+            ) : null}
+          </div>
           <p className='font-semibold text-user6 lg:mt-2 mr-3 lg:ml-auto'>
             Tarikh: {formatMelayu(dateToday)}
           </p>
@@ -244,7 +256,7 @@ export default function PatientData({
                           </td>
                           {jenisFasiliti === 'projek-komuniti-lain' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                              {p.namaProjekKomuniti}
+                              {p.namaProgram}
                             </td>
                           ) : null}
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>

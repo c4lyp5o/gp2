@@ -1,6 +1,10 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../Modal.module.css';
 
 import LoadingScreen from './Loading';
@@ -38,8 +42,11 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   // event
   const currentJenisEvent = useRef();
   const currentModPenyampaian = useRef([]);
-  const currentTarikh = useRef();
+  const currentTarikh = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentTempat = useRef();
+  //datepicker
+  const [date, setDate] = useState(new Date());
+
   // APDM
   const statusApdm = useRef();
   // data
@@ -152,6 +159,25 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     if (!currentModPenyampaian.current.includes(e)) {
       currentModPenyampaian.current = [...currentModPenyampaian.current, e];
     }
+  };
+
+  const CustomDatePicker = () => {
+    return (
+      <DatePicker
+        dateFormat='dd/MM/yyyy'
+        selected={date}
+        onChange={(date) => {
+          const tempDate = moment(date).format('YYYY-MM-DD');
+          setDate(date);
+          currentTarikh.current = tempDate;
+        }}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        className='border-2'
+      />
+    );
   };
 
   useEffect(() => {
@@ -880,7 +906,10 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                       >
                         <option value=''>Jenis Program / Aktiviti</option>
                         <option value='projek-komuniti'>Projek Komuniti</option>
-                        <option value='ppkps'>Program Pemasyarakatan</option>
+                        <option value='ppkps'>
+                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                          Sekolah
+                        </option>
                         <option value='kgangkat'>
                           Kampung Angkat Pergigian
                         </option>
@@ -947,7 +976,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                           *
                         </span>
                       </p>
-                      <input
+                      {/* <input
                         required
                         className='border-2'
                         type='date'
@@ -956,7 +985,8 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                         onChange={(e) =>
                           (currentTarikh.current = e.target.value)
                         }
-                      />
+                      /> */}
+                      <CustomDatePicker />
                       <p>
                         Tempat
                         <span className='font-semibold text-lg text-user6'>
