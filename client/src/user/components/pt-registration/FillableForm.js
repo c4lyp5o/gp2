@@ -26,6 +26,7 @@ export default function FillableForm({
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+  const [events, setEvents] = useState([]);
 
   // for confirmation modal
   const [confirmData, setConfirmData] = useState({});
@@ -102,24 +103,18 @@ export default function FillableForm({
   const [kgAngkat, setKgAngkat] = useState('');
 
   // events
-  const [events, setEvents] = useState([]);
   const [jenisEvent, setJenisEvent] = useState('');
-  const [pilihanEvent, setPilihanEvent] = useState('');
+  const [namaEvent, setPilihanEvent] = useState('');
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
     new Date(dateToday)
   );
-  const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date(dateToday));
-  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(
-    new Date(dateToday)
-  );
-  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] = useState(
-    new Date(dateToday)
-  );
-  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(
-    new Date(dateToday)
-  );
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(null);
+  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
+    useState(null);
+  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
 
   const TarikhKedatangan = () => {
     return masterDatePicker({
@@ -336,7 +331,6 @@ export default function FillableForm({
               statusPesara,
               rujukDaripada,
               catatan,
-              namaProjekKomuniti: pilihanEvent.toLowerCase(),
               // kepp
               kepp,
               kedatanganKepp,
@@ -372,6 +366,9 @@ export default function FillableForm({
               institusiOku,
               // kampung angkat
               kgAngkat,
+              // events
+              jenisEvent,
+              namaEvent,
             },
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           ),
@@ -410,7 +407,6 @@ export default function FillableForm({
               daerahAlamat,
               negeriAlamat,
               poskodAlamat,
-              // kategoriPesakit,
               ibuMengandung,
               orangKurangUpaya,
               bersekolah,
@@ -424,6 +420,7 @@ export default function FillableForm({
               tarikhRujukanKepp,
               tarikhRundinganPertama,
               tarikhMulaRawatanKepp,
+              // penyampaian perkhidmatan
               kpBergerak,
               labelKpBergerak,
               pasukanPergigianBergerak,
@@ -452,9 +449,9 @@ export default function FillableForm({
               institusiOku,
               // kampung angkat
               kgAngkat,
-              // event based
+              // events
               jenisEvent,
-              namaEvent: pilihanEvent,
+              namaEvent,
             },
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           ),
@@ -533,6 +530,15 @@ export default function FillableForm({
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
+    // events
+    setJenisEvent('');
+    setPilihanEvent('');
+    //datepicker issues
+    setTarikhKedatanganDP(new Date(dateToday));
+    setTarikhLahirDP(null);
+    setTarikhRujukanKeppDP(null);
+    setTarikhRundinganPertamaDP(null);
+    setTarikhMulaRawatanKeppDP(null);
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -670,6 +676,29 @@ export default function FillableForm({
           setInstitusiOku(data.singlePersonKaunter.institusiOku);
           // kampung angkat
           setKgAngkat(data.singlePersonKaunter.kgAngkat);
+          // events
+          setJenisEvent(data.singlePersonKaunter.jenisEvent);
+          setPilihanEvent(data.singlePersonKaunter.namaEvent);
+          // datepicker issues
+          setTarikhKedatanganDP(
+            new Date(data.singlePersonKaunter.tarikhKedatangan)
+          );
+          setTarikhLahirDP(new Date(data.singlePersonKaunter.tarikhLahir));
+          if (data.singlePersonKaunter.tarikhRujukanKepp !== '') {
+            setTarikhRujukanKeppDP(
+              new Date(data.singlePersonKaunter.tarikhRujukanKepp)
+            );
+          }
+          if (data.singlePersonKaunter.tarikhRundinganPertama !== '') {
+            setTarikhRundinganPertamaDP(
+              new Date(data.singlePersonKaunter.tarikhRundinganPertama)
+            );
+          }
+          if (data.singlePersonKaunter.tarikhMulaRawatanKepp !== '') {
+            setTarikhMulaRawatanKeppDP(
+              new Date(data.singlePersonKaunter.tarikhMulaRawatanKepp)
+            );
+          }
           setIsEditLoading(false);
         } catch (error) {
           console.log(error);
@@ -678,24 +707,6 @@ export default function FillableForm({
       fetchSinglePersonKaunter();
     }
   }, [editId]);
-
-  // fetch events if jenis fasiliti === projek-komuniti-lain
-  useEffect(() => {
-    if (jenisFasiliti === 'projek-komuniti-lain') {
-      const fetchEvents = async () => {
-        try {
-          const { data } = await axios.get(`/api/v1/query/events`, {
-            headers: { Authorization: `Bearer ${kaunterToken}` },
-          });
-          setEvents(data);
-          console.log(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchEvents();
-    }
-  }, [jenisFasiliti]);
 
   // fetch taska/tadika if jenis fasiliti taska-tadika only
   useEffect(() => {
@@ -714,6 +725,24 @@ export default function FillableForm({
         }
       };
       fetchTaskaTadika();
+    }
+  }, [jenisFasiliti]);
+
+  // fetch events if jenis fasiliti === projek-komuniti-lain
+  useEffect(() => {
+    if (jenisFasiliti === 'projek-komuniti-lain') {
+      const fetchEvents = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setEvents(data);
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchEvents();
     }
   }, [jenisFasiliti]);
 
@@ -846,11 +875,11 @@ export default function FillableForm({
                       <select
                         required
                         name='event'
-                        value={pilihanEvent}
+                        value={namaEvent}
                         onChange={(e) => {
                           setConfirmData({
                             ...confirmData,
-                            pilihanEvent: e.target.value,
+                            namaEvent: e.target.value,
                           });
                           setPilihanEvent(e.target.value);
                         }}
