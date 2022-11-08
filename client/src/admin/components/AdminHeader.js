@@ -35,7 +35,10 @@ export default function AdminHeader({
   });
 
   return (
-    <div className='absolute top-0 left-0 right-0 grid grid-cols-2 grid-rows-1 items-center justify-center h-28 bg-admin2 text-adminWhite font-sans capitalize'>
+    <div
+      className='absolute top-0 left-0 right-0 grid grid-cols-2 grid-rows-1 items-center justify-center h-28 bg-admin2 text-adminWhite font-sans capitalize'
+      ref={profilRef}
+    >
       <div className='grid grid-cols-2'>
         <div className='grid grid-rows-[50px_10px_10px] gap-1 text-center col-start-2 justify-end'>
           <img
@@ -56,7 +59,7 @@ export default function AdminHeader({
           <h1>sistem gi-Ret 2.0</h1>
           <h1>PENTADBIR</h1>
         </div>
-        {isLoggedIn === true ? (
+        {isLoggedIn === true && (
           // dropdown
           <div className='relative right-2'>
             <button
@@ -79,10 +82,7 @@ export default function AdminHeader({
               LOG KELUAR
             </button>
             {showProfile && (
-              <div
-                className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'
-                ref={profilRef}
-              >
+              <div className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
                 {accountType !== 'kpUser' ? (
                   <div className='flex items-center justify-center'>
                     <img
@@ -134,7 +134,7 @@ export default function AdminHeader({
               </div>
             )}
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
