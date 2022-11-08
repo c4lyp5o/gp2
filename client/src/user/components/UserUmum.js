@@ -7,6 +7,7 @@ import {
   BsFillFilePersonFill,
   BsFillCircleFill,
   BsFillCheckCircleFill,
+  BsPersonCircle,
 } from 'react-icons/bs';
 import moment from 'moment';
 
@@ -23,6 +24,9 @@ function UserUmum() {
     Dictionary,
     dateToday,
     masterDatePicker,
+    formatTime,
+    noPendaftaranSplitter,
+    statusPesakit,
     toast,
   } = useGlobalUserAppContext();
 
@@ -222,11 +226,9 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL
                   </th>
-                  {jenisFasiliti === 'kp' ? (
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      NO. SIRI
-                    </th>
-                  ) : null}
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    MASA DAFTAR
+                  </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     NO. PENDAFTARAN
                   </th>
@@ -234,14 +236,14 @@ function UserUmum() {
                     NAMA PESAKIT
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                    JENIS FASILITI
-                  </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     KAD PENGENALAN
                   </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    STATUS PESAKIT
+                  </th>
                   {jenisFasiliti !== 'projek-komuniti-lain' ? (
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      TARIKH LAWATAN TERAKHIR
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      OPERATOR
                     </th>
                   ) : (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
@@ -273,22 +275,22 @@ function UserUmum() {
                         >
                           {index + 1}
                         </td>
-                        {jenisFasiliti === 'kp' ? (
-                          <td
-                            className={`${
-                              pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                          >
-                            {singlePersonUmum.noSiri}
-                          </td>
-                        ) : null}
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          {formatTime(singlePersonUmum.waktuSampai)}
+                        </td>
                         {singlePersonUmum.noPendaftaranBaru ? (
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.noPendaftaranBaru}
+                            {noPendaftaranSplitter(
+                              singlePersonUmum.noPendaftaranBaru
+                            )}
+                            <BsPersonCircle
+                              className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
+                              title='Baru'
+                            />
                           </td>
                         ) : (
                           <td
@@ -296,7 +298,13 @@ function UserUmum() {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.noPendaftaranUlangan}
+                            {noPendaftaranSplitter(
+                              singlePersonUmum.noPendaftaranUlangan
+                            )}
+                            <BsPersonCircle
+                              className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
+                              title='Ulangan'
+                            />
                           </td>
                         )}
                         <td
@@ -311,14 +319,10 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {Dictionary[singlePersonUmum.jenisFasiliti]}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
                           {singlePersonUmum.ic.toUpperCase()}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          {statusPesakit(singlePersonUmum)}
                         </td>
                         {jenisFasiliti !== 'projek-komuniti-lain' ? (
                           <td
@@ -326,9 +330,9 @@ function UserUmum() {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {moment(singlePersonUmum.tarikhKedatangan).format(
-                              'DD/MM/YYYY'
-                            )}
+                            {singlePersonUmum.createdByUsername === 'kaunter'
+                              ? null
+                              : singlePersonUmum.createdByUsername}
                           </td>
                         ) : (
                           <td
@@ -349,6 +353,11 @@ function UserUmum() {
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <span>Belum Diisi</span>
                               <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : singlePersonUmum.statusKehadiran === true ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>data tiada</strike>
+                              <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
                             </div>
                           ) : (
                             <div className='flex items-center justify-center whitespace-nowrap'>
