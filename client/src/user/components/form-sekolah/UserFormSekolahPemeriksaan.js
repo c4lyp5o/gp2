@@ -22,6 +22,9 @@ function UserFormSekolahPemeriksaan() {
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
+  const [showCleftLip, setShowCleftLip] = useState(false);
+  const [showTrauma, setShowTrauma] = useState(false);
+
   const createdByUsername = username;
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
   const [engganKedatanganPendaftaran, setEngganKedatanganPendaftaran] =
@@ -197,21 +200,17 @@ function UserFormSekolahPemeriksaan() {
     setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
   ] = useState(0);
 
-  const [showCleftLip, setShowCleftLip] = useState(false);
-  const [showTrauma, setShowTrauma] = useState(false);
+  // datepicker issue
+  const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
+    useState(null);
 
-  // tarikh pemeriksaan
-  const [
-    tarikhPemeriksaanSemasaDatePicker,
-    setTarikhPemeriksaanSemasaDatePicker,
-  ] = useState(new Date());
   const TarikhPemeriksaanSemasa = () => {
     return masterDatePicker({
-      selected: tarikhPemeriksaanSemasaDatePicker,
+      selected: tarikhPemeriksaanSemasaDP,
       onChange: (tarikhPemeriksaanSemasa) => {
         const tempDate = moment(tarikhPemeriksaanSemasa).format('YYYY-MM-DD');
         setTarikhPemeriksaanSemasa(tempDate);
-        setTarikhPemeriksaanSemasaDatePicker(tarikhPemeriksaanSemasa);
+        setTarikhPemeriksaanSemasaDP(tarikhPemeriksaanSemasa);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -625,6 +624,12 @@ function UserFormSekolahPemeriksaan() {
           setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
+          );
+          // datepicker issue
+          setTarikhPemeriksaanSemasaDP(
+            new Date(
+              data.personSekolahWithPopulate.pemeriksaanSekolah.tarikhPemeriksaanSemasa
+            )
           );
         }
         setIsLoading(false);
