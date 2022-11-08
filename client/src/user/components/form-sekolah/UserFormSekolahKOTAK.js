@@ -38,7 +38,7 @@ function UserFormSekolahKOTAK() {
   const [tarikhQ, setTarikhQ] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
 
-  // tarikh quit date
+  // datepicker issue
   const [tarikhQ1DP, setTarikhQ1DP] = useState(null);
   const [tarikhQ2DP, setTarikhQ2DP] = useState(null);
   const [tarikhQ3DP, setTarikhQ3DP] = useState(null);
@@ -52,6 +52,7 @@ function UserFormSekolahKOTAK() {
         setTarikhQ1DP(date);
         setTarikh1(moment(date).format('YYYY-MM-DD'));
       },
+      required: true,
       filterDate: (date) => {
         return moment() > date;
       },
@@ -232,6 +233,30 @@ function UserFormSekolahKOTAK() {
           setStatusSelepas6Bulan(
             data.personSekolahWithPopulate.kotakSekolah.statusSelepas6Bulan
           );
+          // datepicker issue
+          setTarikhQ1DP(
+            new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh1)
+          );
+          if (data.personSekolahWithPopulate.kotakSekolah.tarikh2 !== '') {
+            setTarikhQ2DP(
+              new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh2)
+            );
+          }
+          if (data.personSekolahWithPopulate.kotakSekolah.tarikh3 !== '') {
+            setTarikhQ3DP(
+              new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh3)
+            );
+          }
+          if (data.personSekolahWithPopulate.kotakSekolah.tarikh4 !== '') {
+            setTarikhQ4DP(
+              new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh4)
+            );
+          }
+          if (data.personSekolahWithPopulate.kotakSekolah.tarikhQ !== '') {
+            setTarikhQDP(
+              new Date(data.personSekolahWithPopulate.kotakSekolah.tarikhQ)
+            );
+          }
         }
         setIsLoading(false);
       } catch (error) {
