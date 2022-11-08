@@ -215,6 +215,9 @@ function UserFormUmumHeader() {
   masterForm.swastaInstitusiWargaEmas = swastaInstitusiWargaEmas;
   masterForm.setSwastaInstitusiWargaEmas = setSwastaInstitusiWargaEmas;
   //pemeriksaan
+  const [statusKehadiran, setStatusKehadiran] = useState(false);
+  masterForm.statusKehadiran = statusKehadiran;
+  masterForm.setStatusKehadiran = setStatusKehadiran;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -1798,6 +1801,7 @@ function UserFormUmumHeader() {
             kerajaanInstitusiWargaEmas,
             swastaInstitusiWargaEmas,
             // pemeriksaan
+            statusKehadiran,
             adaCleftLipPemeriksaanUmum,
             rujukCleftLipPemeriksaanUmum,
             yaTidakSediaAdaStatusDenturePemeriksaanUmum,

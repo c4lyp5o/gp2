@@ -79,6 +79,7 @@ const UmumSchema = new mongoose.Schema(
     namaEvent: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
+    statusKehadiran: { type: Boolean, default: false },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
