@@ -69,6 +69,7 @@ function statusPesakit(p) {
 function masterDatePicker({
   selected,
   onChange,
+  required,
   filterDate,
   className,
   selectsStart,
@@ -87,6 +88,7 @@ function masterDatePicker({
       showMonthDropdown
       showYearDropdown
       dropdownMode='select'
+      required={required}
       filterDate={filterDate}
       className={className}
       selectsStart={selectsStart}
