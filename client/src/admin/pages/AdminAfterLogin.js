@@ -34,7 +34,7 @@ export default function AdminAfterLogin() {
   const [loginInfo, setLoginInfo] = useState({});
   const [kicker, setKicker] = useState('');
   const [kickerNoti, setKickerNoti] = useState('');
-  const [kickerDuration, setKickerDuration] = useState(10);
+  const [kickerDuration, setKickerDuration] = useState(1);
   const kickerNotiId = useRef();
 
   const logOutNotiSystem = () => {
@@ -46,7 +46,7 @@ export default function AdminAfterLogin() {
           kickerDuration / 2
         } minit. Jika anda ingin log keluar sekarang, klik di sini`,
         {
-          autoClose: 1000 * 14,
+          autoClose: 1000 * 60 * (kickerDuration / 2),
           onClick: () => {
             logOutUser();
           },
@@ -61,7 +61,7 @@ export default function AdminAfterLogin() {
     }
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
-    }, 1000 * (kickerDuration / 2));
+    }, 1000 * 60 * (kickerDuration / 2));
     const kickerNumber = setTimeout(() => {
       logOutUser();
     }, 1000 * 60 * kickerDuration);
