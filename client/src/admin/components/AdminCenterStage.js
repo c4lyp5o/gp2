@@ -135,7 +135,7 @@ export default function AdminCenterStage({ accountType }) {
     return (
       <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
         <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
-          <h1>Sila tambah event di bar sisi</h1>
+          <h1>Sila tambah program di bar sisi</h1>
         </div>
       </div>
     );
