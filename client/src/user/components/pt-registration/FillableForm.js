@@ -3,7 +3,6 @@ import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import { FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -578,6 +577,13 @@ export default function FillableForm({
     }
   }, [fasilitiTaskaTadika]);
 
+  // reset ibu mengandung if change jantina
+  useEffect(() => {
+    if (!editId) {
+      setIbuMengandung(false);
+    }
+  }, [jantina]);
+
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
     if (editId) {
@@ -734,24 +740,6 @@ export default function FillableForm({
     }
   }, [jenisFasiliti]);
 
-  // // fetch events if jenis fasiliti === projek-komuniti-lain
-  // useEffect(() => {
-  //   if (jenisFasiliti === 'projek-komuniti-lain') {
-  //     const fetchEvents = async () => {
-  //       try {
-  //         const { data } = await axios.get(`/api/v1/query/events`, {
-  //           headers: { Authorization: `Bearer ${kaunterToken}` },
-  //         });
-  //         setEvents(data);
-  //         console.log(data);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchEvents();
-  //   }
-  // }, [jenisFasiliti]);
-
   // buttons
   function BusyButton() {
     return (
@@ -847,63 +835,6 @@ export default function FillableForm({
                   Fasiliti: {Dictionary[jenisFasiliti]}
                 </p>
               </div>
-              {/* {jenisFasiliti === 'projek-komuniti-lain' && (
-                <div className='justify-center'>
-                  <label htmlFor='event'>Jenis Event</label>
-                  <select
-                    required
-                    name='event'
-                    value={jenisEvent}
-                    onChange={(e) => {
-                      setConfirmData({
-                        ...confirmData,
-                        jenisEvent: e.target.value,
-                      });
-                      setJenisEvent(e.target.value);
-                    }}
-                    className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='projek-komuniti'>Projek Komuniti</option>
-                    <option value='utc'>UTC</option>
-                    <option value='rtc'>RTC</option>
-                    <option value='ppkps'>PPKPS</option>
-                    <option value='kgangkat'>Kampung Angkat</option>
-                    <option value='ppr'>PPR</option>
-                    <option value='we-oku'>
-                      Institusi Warga Emas dan Institusi Orang Kurang Upaya
-                    </option>
-                    <option value='oap'>Program Orang Asli dan Penan</option>
-                  </select>
-                  {jenisEvent ? (
-                    <>
-                      <label htmlFor='event'>Nama Event</label>
-                      <select
-                        required
-                        name='event'
-                        value={namaEvent}
-                        onChange={(e) => {
-                          setConfirmData({
-                            ...confirmData,
-                            namaEvent: e.target.value,
-                          });
-                          setPilihanEvent(e.target.value);
-                        }}
-                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                      >
-                        <option value=''>Sila pilih..</option>
-                        {events.projekKomuniti
-                          .filter((event) => event.jenisEvent === jenisEvent)
-                          .map((k, index) => (
-                            <option key={index} value={k.nama}>
-                              {k.nama}
-                            </option>
-                          ))}
-                      </select>
-                    </>
-                  ) : null}
-                </div>
-              )} */}
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
                   <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
@@ -1217,26 +1148,28 @@ export default function FillableForm({
                     status pesakit:
                   </p>
                   <div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        type='checkbox'
-                        name='hamil'
-                        id='hamil'
-                        value='hamil'
-                        checked={ibuMengandung}
-                        onChange={() => {
-                          setIbuMengandung(!ibuMengandung);
-                          setConfirmData({
-                            ...confirmData,
-                            ibuMengandung: !ibuMengandung,
-                          });
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                      <label htmlFor='hamil' className='m-2 text-sm font-m'>
-                        Ibu mengandung
-                      </label>
-                    </div>
+                    {jantina !== 'lelaki' ? (
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='hamil'
+                          id='hamil'
+                          value='hamil'
+                          checked={ibuMengandung}
+                          onChange={() => {
+                            setIbuMengandung(!ibuMengandung);
+                            setConfirmData({
+                              ...confirmData,
+                              ibuMengandung: !ibuMengandung,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label htmlFor='hamil' className='m-2 text-sm font-m'>
+                          Ibu mengandung
+                        </label>
+                      </div>
+                    ) : null}
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
