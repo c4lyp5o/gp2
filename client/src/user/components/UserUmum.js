@@ -205,13 +205,7 @@ function UserUmum() {
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
               <option value='taska-tadika'>Taska / Tadika</option>
               <option value='ipt-kolej'>IPT / KOLEJ</option>
-              <option value='orang-asli'>Orang asli</option>
-              <option value='ppr'>PPR</option>
-              <option value='institusi-warga-emas'>Institusi warga emas</option>
-              <option value='institusi-oku'>Institusi OKU</option>
-              <option value='kampung-angkat'>Kampung angkat</option>
               <option value='projek-komuniti-lain'>Projek komuniti lain</option>
-              {/* <option value='rtc-kelantan'>RTC (Kelantan sahaja)</option> */}
             </select>
           </div>
         </form>

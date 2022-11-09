@@ -17,6 +17,8 @@ export default function FillableForm({
   editId,
   setEditId,
   jenisFasiliti,
+  namaProgram,
+  jenisProgram,
   kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
@@ -26,7 +28,6 @@ export default function FillableForm({
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
-  const [events, setEvents] = useState([]);
 
   // for confirmation modal
   const [confirmData, setConfirmData] = useState({});
@@ -101,10 +102,6 @@ export default function FillableForm({
 
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
-
-  // events
-  const [jenisEvent, setJenisEvent] = useState('');
-  const [namaEvent, setPilihanEvent] = useState('');
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
@@ -367,8 +364,8 @@ export default function FillableForm({
               // kampung angkat
               kgAngkat,
               // events
-              jenisEvent,
-              namaEvent,
+              jenisProgram: jenisProgram,
+              namaProgram: namaProgram,
             },
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           ),
@@ -449,9 +446,6 @@ export default function FillableForm({
               institusiOku,
               // kampung angkat
               kgAngkat,
-              // events
-              jenisEvent,
-              namaEvent,
             },
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           ),
@@ -530,9 +524,6 @@ export default function FillableForm({
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
-    // events
-    setJenisEvent('');
-    setPilihanEvent('');
     //datepicker issues
     setTarikhKedatanganDP(new Date(dateToday));
     setTarikhLahirDP(null);
@@ -676,9 +667,6 @@ export default function FillableForm({
           setInstitusiOku(data.singlePersonKaunter.institusiOku);
           // kampung angkat
           setKgAngkat(data.singlePersonKaunter.kgAngkat);
-          // events
-          setJenisEvent(data.singlePersonKaunter.jenisEvent);
-          setPilihanEvent(data.singlePersonKaunter.namaEvent);
           // datepicker issues
           setTarikhKedatanganDP(
             new Date(data.singlePersonKaunter.tarikhKedatangan)
@@ -728,23 +716,23 @@ export default function FillableForm({
     }
   }, [jenisFasiliti]);
 
-  // fetch events if jenis fasiliti === projek-komuniti-lain
-  useEffect(() => {
-    if (jenisFasiliti === 'projek-komuniti-lain') {
-      const fetchEvents = async () => {
-        try {
-          const { data } = await axios.get(`/api/v1/query/events`, {
-            headers: { Authorization: `Bearer ${kaunterToken}` },
-          });
-          setEvents(data);
-          console.log(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchEvents();
-    }
-  }, [jenisFasiliti]);
+  // // fetch events if jenis fasiliti === projek-komuniti-lain
+  // useEffect(() => {
+  //   if (jenisFasiliti === 'projek-komuniti-lain') {
+  //     const fetchEvents = async () => {
+  //       try {
+  //         const { data } = await axios.get(`/api/v1/query/events`, {
+  //           headers: { Authorization: `Bearer ${kaunterToken}` },
+  //         });
+  //         setEvents(data);
+  //         console.log(data);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+  //     fetchEvents();
+  //   }
+  // }, [jenisFasiliti]);
 
   // buttons
   function BusyButton() {
@@ -800,25 +788,25 @@ export default function FillableForm({
     );
   }
 
-  if (
-    showForm &&
-    jenisFasiliti === 'projek-komuniti-lain' &&
-    events.projekKomuniti.length === 0
-  ) {
-    return (
-      <div>
-        <h1 className='bg-kaunter3 font-bold text-2xl'>
-          tiada event yang sedang aktif
-        </h1>
-        <button
-          onClick={() => setShowForm(false)}
-          className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-        >
-          kembali
-        </button>
-      </div>
-    );
-  }
+  // if (
+  //   showForm &&
+  //   jenisFasiliti === 'projek-komuniti-lain' &&
+  //   events.projekKomuniti.length === 0
+  // ) {
+  //   return (
+  //     <div>
+  //       <h1 className='bg-kaunter3 font-bold text-2xl'>
+  //         tiada event yang sedang aktif
+  //       </h1>
+  //       <button
+  //         onClick={() => setShowForm(false)}
+  //         className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+  //       >
+  //         kembali
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   if (showForm) {
     return (
@@ -841,7 +829,7 @@ export default function FillableForm({
                   Fasiliti: {Dictionary[jenisFasiliti]}
                 </p>
               </div>
-              {jenisFasiliti === 'projek-komuniti-lain' && (
+              {/* {jenisFasiliti === 'projek-komuniti-lain' && (
                 <div className='justify-center'>
                   <label htmlFor='event'>Jenis Event</label>
                   <select
@@ -897,7 +885,7 @@ export default function FillableForm({
                     </>
                   ) : null}
                 </div>
-              )}
+              )} */}
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
                   <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>

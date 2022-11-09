@@ -48,7 +48,7 @@ const getSinglePersonKaunter = async (req, res) => {
   res.status(201).json({ singlePersonKaunter });
 };
 
-// GET
+// GET /events
 const getProjekKomuniti = async (req, res) => {
   logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
   if (req.user.accountType !== 'kaunterUser') {
@@ -231,7 +231,14 @@ const queryPersonKaunter = async (req, res) => {
 
   const {
     user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti, uniqueId },
+    query: {
+      nama,
+      tarikhKedatangan,
+      jenisFasiliti,
+      uniqueId,
+      jenisProgram,
+      namaProgram,
+    },
   } = req;
 
   const queryObject = {};
@@ -251,6 +258,14 @@ const queryPersonKaunter = async (req, res) => {
 
   if (uniqueId) {
     queryObject.uniqueId = uniqueId;
+  }
+
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
+  }
+
+  if (namaProgram) {
+    queryObject.namaProgram = namaProgram;
   }
 
   const kaunterResultQuery = await Umum.find(queryObject);
