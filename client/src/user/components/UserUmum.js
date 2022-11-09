@@ -8,6 +8,7 @@ import {
   BsFillCircleFill,
   BsFillCheckCircleFill,
   BsPersonCircle,
+  BsCalendarPlusFill,
 } from 'react-icons/bs';
 import moment from 'moment';
 
@@ -56,7 +57,7 @@ function UserUmum() {
         setTarikhKedatanganDP(tarikhKedatangan);
       },
       className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
 
@@ -147,25 +148,27 @@ function UserUmum() {
     <>
       <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
         <form className='text-left grid grid-cols-2'>
-          <h2 className='text-xl font-semibold flex flex-row p-2 col-span-2'>
+          <h2 className='text-xl font-semibold flex flex-row px-2 col-span-2'>
             CARIAN
           </h2>
-          <label
-            htmlFor='nama-pesakit'
-            className='flex flex-row col-span-2 ml-2 py-2'
-          >
-            nama pesakit :
-          </label>
-          <input
-            onChange={(e) => {
-              setNama(e.target.value);
-            }}
-            value={nama}
-            type='text'
-            name='nama-pesakit'
-            id='nama-pesakit'
-            className='ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
-          />
+          <div className='relative flex flex-col col-span-2 ml-2 py-2'>
+            <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
+              nama pesakit :
+            </label>
+            <input
+              onChange={(e) => {
+                setNama(e.target.value);
+              }}
+              value={nama}
+              type='text'
+              name='nama-pesakit'
+              id='nama-pesakit'
+              className='appearance-none leading-7 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
+            />
+            <span className='absolute text-user3 bottom-4 lg:bottom-6 text-xl right-2'>
+              <BsPersonCircle />
+            </span>
+          </div>
           <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
             <label
               htmlFor='kad-pengenalan'
@@ -173,7 +176,12 @@ function UserUmum() {
             >
               tarikh kedatangan :
             </label>
-            <TarikhKedatangan />
+            <div className='relative w-44'>
+              <TarikhKedatangan />
+              <span className='absolute top-2 right-3 lg:right-1 text-user3'>
+                <BsCalendarPlusFill />
+              </span>
+            </div>
             {/* <input
               onChange={(e) => {
                 setTarikhKedatangan(e.target.value);
@@ -199,7 +207,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='lg:ml-2 appearance-none leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+              className='lg:ml-2 leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
@@ -269,7 +277,11 @@ function UserUmum() {
                         >
                           {index + 1}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
                           {formatTime(singlePersonUmum.waktuSampai)}
                         </td>
                         {singlePersonUmum.noPendaftaranBaru ? (
@@ -315,7 +327,11 @@ function UserUmum() {
                         >
                           {singlePersonUmum.ic.toUpperCase()}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
                           {statusPesakit(singlePersonUmum)}
                         </td>
                         {jenisFasiliti !== 'projek-komuniti-lain' ? (
@@ -342,7 +358,6 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {/* {singlePersonUmum.statusReten} */}
                           {singlePersonUmum.statusReten === 'belum diisi' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <span>Belum Diisi</span>

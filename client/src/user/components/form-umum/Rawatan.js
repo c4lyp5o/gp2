@@ -11,7 +11,7 @@ export default function Rawatan(props) {
             <p className='ml-3 text-xl font-semibold'>Rawatan</p>
           </span>
           <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-            <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-2'>
+            <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md lg:col-span-2'>
               <h4
                 className='flex flex-row items-center pl-5 font-bold col-span-2  hover:cursor-pointer'
                 onClick={() => setShow(!show)}
