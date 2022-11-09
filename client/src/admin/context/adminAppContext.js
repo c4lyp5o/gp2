@@ -53,7 +53,7 @@ function AdminAppProvider({ children }) {
 
   // user
 
-  async function getCurrentUser() {
+  const getCurrentUser = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
@@ -61,9 +61,9 @@ function AdminAppProvider({ children }) {
       token: adminToken,
     });
     return response;
-  }
+  };
 
-  async function saveCurrentUser(data) {
+  const saveCurrentUser = async (data) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
@@ -73,7 +73,12 @@ function AdminAppProvider({ children }) {
     });
     saveAdminToken(response.data.adminToken);
     return response;
-  }
+  };
+
+  const logOutUser = () => {
+    removeAdminToken();
+    navigate('/pentadbir');
+  };
 
   // totp
 
@@ -474,6 +479,7 @@ function AdminAppProvider({ children }) {
         // misc
         getCurrentUser,
         saveCurrentUser,
+        logOutUser,
         Dictionary,
         navigate,
         toast,

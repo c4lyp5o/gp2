@@ -232,7 +232,7 @@ function KaunterNavbar() {
             >
               IPT / KOLEJ
             </NavLink>
-            <div>
+            {/* <div>
               <div
                 className={`${
                   showOutreachSubMenu ? 'bg-kaunter3' : 'bg-kaunter2'
@@ -248,7 +248,20 @@ function KaunterNavbar() {
                   />
                 </span>
               </div>
-            </div>
+            </div> */}
+            <NavLink
+              to='projek-komuniti-lain'
+              onClick={() => {
+                outreachOff();
+              }}
+              className={({ isActive }) =>
+                isActive
+                  ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                  : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
+              }
+            >
+              PROGRAM KOMUNITI
+            </NavLink>
             <NavLink
               to='registry'
               onClick={() => {

@@ -74,9 +74,9 @@ const UmumSchema = new mongoose.Schema(
     institusiOku: { type: String, default: '' },
     // kampung angkat
     kgAngkat: { type: String, default: '' },
-    // event based
-    jenisEvent: { type: String, default: '' },
-    namaEvent: { type: String, default: '' },
+    // program based
+    jenisProgram: { type: String, default: 'NOT APPLICABLE' },
+    namaProgram: { type: String, default: 'NOT APPLICABLE' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
     statusKehadiran: { type: Boolean, default: false },
