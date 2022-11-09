@@ -9,8 +9,15 @@ import { BsFillCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserStatusHarian() {
-  const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    Dictionary,
+    dateToday,
+    toast,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
 
   const [status, setStatus] = useState('pengguna');
   const [pickedDate, setPickedDate] = useState(new Date());
@@ -105,6 +112,7 @@ export default function UserStatusHarian() {
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
     setReloadState(!reloadState);
+    setRefreshTimer(!refreshTimer);
     return () => {
       window.removeEventListener('focus', setReloadState);
     };

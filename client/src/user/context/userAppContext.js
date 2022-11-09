@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -124,7 +124,17 @@ function UserAppProvider({ children }) {
   const [loggingInUser, setLoggingInUser] = useState(false);
   const [loggingInKaunter, setLoggingInKaunter] = useState(false);
 
+  const [timer, setTimer] = useState(0);
+  const [refreshTimer, setRefreshTimer] = useState(false);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+    const nowMinutes = new Date().getTime();
+    const real = nowMinutes + logOutTime;
+    setTimer(real);
+  }, [refreshTimer]);
 
   const loginUser = async ({ username, password }) => {
     setLoggingInUser(true);
@@ -239,6 +249,10 @@ function UserAppProvider({ children }) {
         setLoggingInUser,
         loggingInKaunter,
         setLoggingInKaunter,
+        timer,
+        setTimer,
+        refreshTimer,
+        setRefreshTimer,
       }}
     >
       {children}

@@ -20,6 +20,8 @@ function KaunterAfterLogin() {
   const [createdByKp, setCreatedByKp] = useState('');
   const [createdByDaerah, setCreatedByDaerah] = useState('');
   const [createdByNegeri, setCreatedByNegeri] = useState('');
+  const [timer, setTimer] = useState(0);
+  const [refreshTimer, setRefreshTimer] = useState(false);
 
   useEffect(() => {
     const fetchIdentity = async () => {
@@ -38,6 +40,17 @@ function KaunterAfterLogin() {
     fetchIdentity();
   }, []);
 
+  useEffect(() => {
+    countdownTimer();
+  }, [refreshTimer]);
+
+  const countdownTimer = () => {
+    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+    const nowMinutes = new Date().getTime();
+    const real = nowMinutes + logOutTime;
+    setTimer(real);
+  };
+
   const logout = () => {
     catchAxiosErrorAndLogout();
     navigate('/pendaftaran');
@@ -49,7 +62,11 @@ function KaunterAfterLogin() {
       <KaunterHeader />
       <div className='absolute inset-0 -z-10 bg-kaunter3'></div>
       <KaunterNavbar />
-      <KaunterHeaderLoggedIn namaKlinik={createdByKp} logout={logout} />
+      <KaunterHeaderLoggedIn
+        namaKlinik={createdByKp}
+        timer={timer}
+        logout={logout}
+      />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden'>
         <Routes>
           <Route index element={<KaunterLanding />} />
@@ -58,6 +75,8 @@ function KaunterAfterLogin() {
             element={
               <Kaunter
                 jenisFasiliti='kp'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -69,6 +88,8 @@ function KaunterAfterLogin() {
             element={
               <Kaunter
                 jenisFasiliti='kk-kd'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -80,6 +101,8 @@ function KaunterAfterLogin() {
             element={
               <Kaunter
                 jenisFasiliti='taska-tadika'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -91,6 +114,8 @@ function KaunterAfterLogin() {
             element={
               <Kaunter
                 jenisFasiliti='ipt-kolej'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}
@@ -157,6 +182,8 @@ function KaunterAfterLogin() {
             element={
               <Kaunter
                 jenisFasiliti='projek-komuniti-lain'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 setCreatedByNegeri={createdByNegeri}

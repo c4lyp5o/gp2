@@ -3,6 +3,9 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { FaAddressCard, FaRegSun, FaCreativeCommonsBy } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
+import CountdownTimer from '../context/countdownTimer';
+import { toast } from 'react-toastify';
+
 export default function AdminHeader({
   isLoggedIn,
   image,
@@ -11,13 +14,26 @@ export default function AdminHeader({
   kp,
   user,
   accountType,
+  realCountdown,
 }) {
   const { navigate, removeAdminToken } = useGlobalAdminAppContext();
   const [showProfile, setShowProfile] = useState(false);
+  const [showMessage, setShowMessage] = useState(0);
 
   // dropdown profil
   const hilang = () => {
     setShowProfile(!showProfile);
+  };
+
+  const message = () => {
+    if (showMessage === 10) {
+      toast(`Wahai ${user}, button ni xde function!`, {
+        type: 'colored',
+      });
+      setShowMessage(0);
+    } else {
+      setShowMessage(showMessage + 1);
+    }
   };
 
   let profilRef = useRef();
@@ -33,6 +49,12 @@ export default function AdminHeader({
       document.removeEventListener('mousedown', tutupProfil);
     };
   });
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      navigate('/admin');
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div
@@ -62,25 +84,36 @@ export default function AdminHeader({
         {isLoggedIn === true && (
           // dropdown
           <div className='relative right-2'>
-            <button
-              type='button'
-              className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-              onClick={hilang}
-            >
-              <FaAddressCard className='m-1' />
-              PROFIL ANDA
-            </button>
-            <button
-              type='button'
-              className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-              onClick={() => {
-                removeAdminToken();
-                navigate('/pentadbir');
-              }}
-            >
-              <FaCreativeCommonsBy className='m-1' />
-              LOG KELUAR
-            </button>
+            <div className='grid grid-cols-2'>
+              <button
+                type='button'
+                className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+                onClick={hilang}
+              >
+                <FaAddressCard className='m-1' />
+                PROFIL ANDA
+              </button>
+              <button
+                type='button'
+                className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+                onClick={() => {
+                  removeAdminToken();
+                  navigate('/pentadbir');
+                }}
+              >
+                <FaCreativeCommonsBy className='m-1' />
+                LOG KELUAR
+              </button>
+            </div>
+            <div>
+              <button
+                type='button'
+                onClick={() => message()}
+                className='p-1 m-2 w-72 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+              >
+                <CountdownTimer deadline={realCountdown} place='header' />
+              </button>
+            </div>
             {showProfile && (
               <div className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
                 {accountType !== 'kpUser' ? (

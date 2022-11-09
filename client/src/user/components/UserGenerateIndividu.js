@@ -11,6 +11,8 @@ export default function UserGenerateIndividu() {
     catchAxiosErrorAndLogout,
     navigate,
     masterDatePicker,
+    refreshTimer,
+    setRefreshTimer,
   } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -78,6 +80,7 @@ export default function UserGenerateIndividu() {
     if (!userData.numberMdc) {
       setId(userData.numberMdtb);
     }
+    setRefreshTimer(!refreshTimer);
   }, []);
 
   const saveFile = (blob) => {

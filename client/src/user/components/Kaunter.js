@@ -10,6 +10,8 @@ import KomunitiLain from './KaunterKomunitiLain';
 // import EditableForm from './pt-registration/EditableForm';
 
 function Kaunter({
+  refreshTimer,
+  setRefreshTimer,
   jenisFasiliti,
   createdByKp,
   createdByDaerah,
@@ -77,6 +79,7 @@ function Kaunter({
       };
       fetchJenisProgram();
     }
+    setRefreshTimer(!refreshTimer);
   }, [showForm, editForm, jenisFasiliti]);
 
   useEffect(() => {
@@ -102,6 +105,10 @@ function Kaunter({
         });
     }
   }, [fetchProgramData]);
+
+  // useEffect(() => {
+  //   setRefreshTimer(!refreshTimer);
+  // }, []);
 
   if (loading) {
     return (
