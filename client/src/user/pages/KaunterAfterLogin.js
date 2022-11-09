@@ -7,13 +7,11 @@ import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
-import KaunterKomunitiLain from '../components/KaunterKomunitiLain';
 import KaunterFooter from '../components/KaunterFooter';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
-import { useEffect } from 'react';
 
 function KaunterAfterLogin() {
   const { ToastContainer, kaunterToken, navigate, catchAxiosErrorAndLogout } =
