@@ -34,19 +34,18 @@ export default function AdminAfterLogin() {
   const [loginInfo, setLoginInfo] = useState({});
   const [kicker, setKicker] = useState('');
   const [kickerNoti, setKickerNoti] = useState('');
-  const [kickerDuration, setKickerDuration] = useState(1);
   const kickerNotiId = useRef();
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
       (kickerNotiId.current = toast(
         `Anda sudah tidak aktif selama ${
-          kickerDuration / 2
+          process.env.REACT_APP_LOGOUT_TIME / 2
         } minit. Proses log keluar akan dilakukan dalam masa ${
-          kickerDuration / 2
+          process.env.REACT_APP_LOGOUT_TIME / 2
         } minit. Jika anda ingin log keluar sekarang, klik di sini`,
         {
-          autoClose: 1000 * 60 * (kickerDuration / 2),
+          autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
           onClick: () => {
             logOutUser();
           },
@@ -61,10 +60,10 @@ export default function AdminAfterLogin() {
     }
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
-    }, 1000 * 60 * (kickerDuration / 2));
+    }, 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2));
     const kickerNumber = setTimeout(() => {
       logOutUser();
-    }, 1000 * 60 * kickerDuration);
+    }, 1000 * 60 * process.env.REACT_APP_LOGOUT_TIME);
     setKicker(kickerNumber);
     setKickerNoti(kickerNotiNumber);
   };
