@@ -1,4 +1,8 @@
 export default function Promosi(props) {
+  let isDisabled = false;
+  if (props.statusReten === 'telah diisi') {
+    isDisabled = true;
+  }
   return (
     <>
       <div className='p-2'>
@@ -18,6 +22,7 @@ export default function Promosi(props) {
                   <div className='flex flex-row items-center pl-5'>
                     <p className='text-sm font-m'>Ceramah: </p>
                     <select
+                      disabled={isDisabled}
                       name='ceramah-promosi-umum'
                       id='ceramah-promosi-umum'
                       value={props.ceramahPromosiUmum}
@@ -35,6 +40,7 @@ export default function Promosi(props) {
                   <div className='flex flex-row items-center pl-5'>
                     <p className='text-sm font-m'>LMG: </p>
                     <select
+                      disabled={isDisabled}
                       name='lmg-promosi-umum'
                       id='lmg-promosi-umum'
                       value={props.lmgPromosiUmum}
@@ -61,6 +67,7 @@ export default function Promosi(props) {
                       </p>
                       <div className='flex items-center justify-center'>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='melaksanakan-aktiviti-begin-promosi-umum'
                           id='ya-melaksanakan-aktiviti-begin-promosi-umum'
@@ -88,6 +95,7 @@ export default function Promosi(props) {
                           Ya
                         </label>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='melaksanakan-aktiviti-begin-promosi-umum'
                           id='tidak-melaksanakan-aktiviti-begin-promosi-umum'
@@ -128,6 +136,7 @@ export default function Promosi(props) {
                       </p>
                       <div className='flex items-center justify-center'>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='lawatan-ke-rumah-promosi-umum'
                           id='ya-lawatan-ke-rumah-promosi-umum'
@@ -150,6 +159,7 @@ export default function Promosi(props) {
                           Ya
                         </label>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='lawatan-ke-rumah-promosi-umum'
                           id='tidak-lawatan-ke-rumah-promosi-umum'
@@ -181,6 +191,7 @@ export default function Promosi(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='plak-gigi-nasihat-pergigian-individu-promosi-umum'
                       id='plak-gigi-nasihat-pergigian-individu-promosi-umum'
@@ -204,6 +215,7 @@ export default function Promosi(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
                       id='penjagaan-kesihatan-oral-nasihat-pergigian-individu-promosi-umum'
@@ -227,6 +239,7 @@ export default function Promosi(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
                       id='diet-pemakanan-nasihat-pergigian-individu-promosi-umum'
@@ -250,6 +263,7 @@ export default function Promosi(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
                       id='kanser-mulut-nasihat-pergigian-individu-promosi-umum'
@@ -283,6 +297,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 15-17: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-15-17-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -300,6 +315,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 18-19: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-18-19-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -317,6 +333,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 20-29: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-20-29-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -334,6 +351,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 30-49: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-30-49-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -351,6 +369,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 50-59: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-50-59-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -368,6 +387,7 @@ export default function Promosi(props) {
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-m'>umur 60 ke atas: </p>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
                         id='umur-60-ke-atas-bilangan-ibu-bapa-penjaga-diberi-anticipatory-guidance-promosi-umum'
@@ -390,6 +410,7 @@ export default function Promosi(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='dirujuk-kaunseling-pakar-public-health-promosi-umum'
                       id='dirujuk-kaunseling-pakar-public-health-promosi-umum'

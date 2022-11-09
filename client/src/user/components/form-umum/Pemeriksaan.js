@@ -1,6 +1,11 @@
 import { FaInfoCircle } from 'react-icons/fa';
 
 export default function Pemeriksaan(props) {
+  let isDisabled = false;
+  if (props.statusReten === 'telah diisi') {
+    isDisabled = true;
+  }
+
   return (
     <>
       <div className='pb-1 pr-2 pl-2'>
@@ -19,6 +24,7 @@ export default function Pemeriksaan(props) {
                     <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='enggan-taska-tadika'
                           id='enggan-taska-tadika'
@@ -40,6 +46,7 @@ export default function Pemeriksaan(props) {
                       </div>
                       <div className='flex items-center flex-row pl-5'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='tidak-hadir-taska-tadika'
                           id='tidak-hadir-taska-tadika'
@@ -72,6 +79,7 @@ export default function Pemeriksaan(props) {
                       </h4>
                       <div className='flex items-center flex-row px-2'>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='pemeriksaan-taska-tadika'
                           id='ada-pemeriksaan-taska-tadika'
@@ -96,6 +104,7 @@ export default function Pemeriksaan(props) {
                       </div>
                       <div className='flex items-center flex-row px-2'>
                         <input
+                          disabled={isDisabled}
                           type='radio'
                           name='pemeriksaan-taska-tadika'
                           id='tiada-pemeriksaan-taska-tadika'
@@ -127,6 +136,7 @@ export default function Pemeriksaan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='ada-cleft-lip-pemeriksaan-umum'
                       id='ada-cleft-lip-pemeriksaan-umum'
@@ -147,6 +157,7 @@ export default function Pemeriksaan(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 pt-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='rujuk-cleft-lip-palate-pemeriksaan-umum'
                       id='rujuk-cleft-lip-palate-pemeriksaan-umum'
@@ -177,6 +188,7 @@ export default function Pemeriksaan(props) {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
+                          disabled={isDisabled}
                           required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
@@ -202,6 +214,7 @@ export default function Pemeriksaan(props) {
                           Ya
                         </label>
                         <input
+                          disabled={isDisabled}
                           required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
@@ -238,6 +251,7 @@ export default function Pemeriksaan(props) {
                         <div className='grid grid-cols-2'>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
                               id='separa-atas-sedia-ada-denture-pemeriksaan-umum'
@@ -264,6 +278,7 @@ export default function Pemeriksaan(props) {
                           </div>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
                               id='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
@@ -301,6 +316,7 @@ export default function Pemeriksaan(props) {
                         <div className='grid grid-cols-2'>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
                               id='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
@@ -327,6 +343,7 @@ export default function Pemeriksaan(props) {
                           </div>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
                               id='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
@@ -360,6 +377,7 @@ export default function Pemeriksaan(props) {
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
+                          disabled={isDisabled}
                           required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
@@ -385,6 +403,7 @@ export default function Pemeriksaan(props) {
                           Ya
                         </label>
                         <input
+                          disabled={isDisabled}
                           required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
@@ -426,6 +445,7 @@ export default function Pemeriksaan(props) {
                         <div className='grid grid-cols-2'>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
                               id='separa-atas-perlu-denture-pemeriksaan-umum'
@@ -452,6 +472,7 @@ export default function Pemeriksaan(props) {
                           </div>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
                               id='penuh-atas-perlu-denture-pemeriksaan-umum'
@@ -489,6 +510,7 @@ export default function Pemeriksaan(props) {
                         <div className='grid grid-cols-2'>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
                               id='separa-bawah-perlu-denture-pemeriksaan-umum'
@@ -515,6 +537,7 @@ export default function Pemeriksaan(props) {
                           </div>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               type='radio'
                               name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
                               id='penuh-bawah-perlu-denture-pemeriksaan-umum'
@@ -553,6 +576,7 @@ export default function Pemeriksaan(props) {
                   </h4>
                   <div className='flex items-center flex-row pl-5'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='tooth-surface-loss-pemeriksaan-umum'
                       id='tooth-surface-loss-pemeriksaan-umum'
@@ -576,6 +600,7 @@ export default function Pemeriksaan(props) {
                 <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                  disabled={isDisabled}
                     type='checkbox'
                     name='kecederaan-gigi-anterior-pemeriksaan-umum'
                     id='kecederaan-gigi-anterior-pemeriksaan-umum'
@@ -596,6 +621,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                  disabled={isDisabled}
                     type='checkbox'
                     name='tisu-lembut-pemeriksaan-umum'
                     id='tisu-lembut-pemeriksaan-umum'
@@ -616,6 +642,7 @@ export default function Pemeriksaan(props) {
                 </div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
+                  disabled={isDisabled}
                     type='checkbox'
                     name='tisu-keras-pemeriksaan-umum'
                     id='tisu-keras-pemeriksaan-umum'
@@ -644,6 +671,7 @@ export default function Pemeriksaan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='fissure-sealant-pemeriksaan-umum'
                       id='fissure-sealant-pemeriksaan-umum'
@@ -664,6 +692,7 @@ export default function Pemeriksaan(props) {
                       jumlah gigi kekal perlu Pengapan Fisur
                     </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
                       id='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
@@ -691,6 +720,7 @@ export default function Pemeriksaan(props) {
                       Perlu Sapuan
                     </p>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='fv-perlu-sapuan-pemeriksaan-umum'
                       id='ya-fv-perlu-sapuan-pemeriksaan-umum'
@@ -713,6 +743,7 @@ export default function Pemeriksaan(props) {
                       Ya
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='fv-perlu-sapuan-pemeriksaan-umum'
                       id='tidak-fv-perlu-sapuan-pemeriksaan-umum'
@@ -742,6 +773,7 @@ export default function Pemeriksaan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='prr-jenis-1-pemeriksaan-umum'
                       id='prr-jenis-1-pemeriksaan-umum'
@@ -762,6 +794,7 @@ export default function Pemeriksaan(props) {
                       jumlah gigi perlu PRR Jenis 1
                     </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
                       id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
@@ -786,6 +819,7 @@ export default function Pemeriksaan(props) {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                       id='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
@@ -810,6 +844,7 @@ export default function Pemeriksaan(props) {
                       Ya
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
                       id='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
@@ -896,6 +931,7 @@ export default function Pemeriksaan(props) {
                       Kebersihan Mulut<span className='text-user6'>*</span>
                     </p>
                     <select
+                      disabled={isDisabled}
                       required
                       name='kebersihan-mulut-pemeriksaan-umum'
                       id='kebersihan-mulut-pemeriksaan-umum'
@@ -928,6 +964,7 @@ export default function Pemeriksaan(props) {
                       <span className='text-user6'>*</span>
                     </p>
                     <select
+                      disabled={isDisabled}
                       required={
                         props.singlePersonUmum.umur <= 15 ? false : true
                       }
@@ -964,6 +1001,7 @@ export default function Pemeriksaan(props) {
                       <span className='text-user6'>*</span>
                     </p>
                     <select
+                      disabled={isDisabled}
                       required={
                         props.singlePersonUmum.umur >= 17 ? false : true
                       }
@@ -991,6 +1029,7 @@ export default function Pemeriksaan(props) {
                   </div>
                   <div className='flex items-center flex-row pl-5'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='perlu-penskaleran-pemeriksaan-umum'
                       id='perlu-penskaleran-pemeriksaan-umum'
@@ -1017,6 +1056,7 @@ export default function Pemeriksaan(props) {
                   <div className='grid gap-1'>
                     <div className='flex items-center justify-center'>
                       <input
+                        disabled={isDisabled}
                         type='checkbox'
                         name='ada-desidus-pemeriksaan-umum'
                         id='ada-desidus-pemeriksaan-umum'
@@ -1061,6 +1101,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m lowercase'>d: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='20'
@@ -1080,6 +1121,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m lowercase'>m: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='20'
@@ -1099,6 +1141,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m lowercase'>f: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='20'
@@ -1118,6 +1161,7 @@ export default function Pemeriksaan(props) {
                       <p className='text-sm font-m uppercase'>SM: </p>
                       <span className='text-user6'>*</span>
                       <input
+                      disabled={isDisabled}
                         required
                         min='0'
                         max='20'
@@ -1137,6 +1181,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m lowercase'>x: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='20'
@@ -1168,6 +1213,7 @@ export default function Pemeriksaan(props) {
                   <div className='grid gap-1'>
                     <div className='flex items-center justify-center'>
                       <input
+                        disabled={isDisabled}
                         type='checkbox'
                         name='ada-kekal-pemeriksaan-umum'
                         id='ada-kekal-pemeriksaan-umum'
@@ -1212,6 +1258,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m '>D: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='32'
@@ -1231,6 +1278,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m '>M: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='32'
@@ -1250,6 +1298,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m '>F: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='32'
@@ -1269,6 +1318,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m '>E: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='32'
@@ -1288,6 +1338,7 @@ export default function Pemeriksaan(props) {
                         <p className='text-sm font-m '>X: </p>
                         <span className='text-user6'>*</span>
                         <input
+                          disabled={isDisabled}
                           required
                           min='0'
                           max='32'
@@ -1321,6 +1372,7 @@ export default function Pemeriksaan(props) {
                         Jumlah Faktor Risiko:
                       </p>
                       <select
+                        disabled={isDisabled}
                         name='jumlah-faktor-risiko-pemeriksaan-umum'
                         id='jumlah-faktor-risiko-pemeriksaan-umum'
                         value={props.jumlahFaktorRisikoPemeriksaanUmum}
@@ -1394,6 +1446,7 @@ export default function Pemeriksaan(props) {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
+                    disabled={isDisabled}
                       required={
                         props.singlePersonUmum.umur >= 60 ? false : true
                       }
@@ -1421,6 +1474,7 @@ export default function Pemeriksaan(props) {
                       Ya
                     </label>
                     <input
+                    disabled={isDisabled}
                       required={
                         props.singlePersonUmum.umur >= 60 ? false : true
                       }
@@ -1453,6 +1507,7 @@ export default function Pemeriksaan(props) {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
+                    disabled={isDisabled}
                       type='radio'
                       name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                       id='ya-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
@@ -1477,6 +1532,7 @@ export default function Pemeriksaan(props) {
                       ya
                     </label>
                     <input
+                    disabled={isDisabled}
                       type='radio'
                       name='mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
                       id='tidak-mempunyai-20-gigi-edentulous-warga-emas-pemeriksaan-umum'
@@ -1506,6 +1562,7 @@ export default function Pemeriksaan(props) {
                         bilangan gigi: <span className='text-user6'>*</span>
                       </p>
                       <input
+                        disabled={isDisabled}
                         required={
                           props.singlePersonUmum.umur >= 60 ? false : true
                         }
@@ -1536,6 +1593,7 @@ export default function Pemeriksaan(props) {
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='disaring-program-kanser-mulut-pemeriksaan-umum'
                       id='ya-disaring-program-kanser-mulut-pemeriksaan-umum'
@@ -1560,6 +1618,7 @@ export default function Pemeriksaan(props) {
                       ya
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='radio'
                       name='disaring-program-kanser-mulut-pemeriksaan-umum'
                       id='tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
@@ -1589,6 +1648,7 @@ export default function Pemeriksaan(props) {
                 </p>
                 <div className='flex items-center justify-center'>
                   <input
+                  disabled={isDisabled}
                     type='radio'
                     name='dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     id='ya-dirujuk-program-kanser-mulut-pemeriksaan-umum'
@@ -1613,6 +1673,7 @@ export default function Pemeriksaan(props) {
                     ya
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='radio'
                     name='dirujuk-program-kanser-mulut-pemeriksaan-umum'
                     id='tidak-dirujuk-program-kanser-mulut-pemeriksaan-umum'
@@ -1639,6 +1700,7 @@ export default function Pemeriksaan(props) {
                 </div> */}
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='lesi-mulut-pemeriksaan-umum'
                       id='lesi-mulut-pemeriksaan-umum'
@@ -1659,6 +1721,7 @@ export default function Pemeriksaan(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='tabiat-berisiko-tinggi-pemeriksaan-umum'
                       id='tabiat-berisiko-tinggi-pemeriksaan-umum'
@@ -1691,6 +1754,7 @@ export default function Pemeriksaan(props) {
                         anterior :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='12'
                         type='number'
@@ -1715,6 +1779,7 @@ export default function Pemeriksaan(props) {
                         premolar :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='8'
                         type='number'
@@ -1739,6 +1804,7 @@ export default function Pemeriksaan(props) {
                         molar :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='12'
                         type='number'
@@ -1763,6 +1829,7 @@ export default function Pemeriksaan(props) {
                         rawatan semula endodontik :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='32'
                         type='number'
@@ -1784,6 +1851,7 @@ export default function Pemeriksaan(props) {
                       perlu rawatan lain
                     </p>
                     <input
+                    disabled={isDisabled}
                       type='radio'
                       name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='ya-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1808,6 +1876,7 @@ export default function Pemeriksaan(props) {
                       ya
                     </label>
                     <input
+                    disabled={isDisabled}
                       type='radio'
                       name='rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
                       id='tidak-rawatan-lain-kes-endodontik-diperlukan-pemeriksaan-umum'
@@ -1840,6 +1909,7 @@ export default function Pemeriksaan(props) {
                       cabutan :
                     </label>
                     <input
+                    disabled={isDisabled}
                       min='0'
                       max='32'
                       type='number'
@@ -1864,6 +1934,7 @@ export default function Pemeriksaan(props) {
                       tampalan :
                     </label>
                     <input
+                    disabled={isDisabled}
                       min='0'
                       max='32'
                       type='number'
