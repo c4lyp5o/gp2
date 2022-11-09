@@ -2,6 +2,19 @@ const Umum = require('../models/Umum');
 const Fasiliti = require('../models/Fasiliti');
 const cryptoJs = require('crypto-js');
 
+// GET /
+const getAllPersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { kp } = req.user;
+
+  const allPersonUmum = await Umum.find({ createdByKp: kp });
+
+  res.status(200).json({ allPersonUmum });
+};
+
 // GET /:id
 const getSinglePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -134,6 +147,7 @@ const getTaskaTadikaList = async (req, res) => {
 };
 
 module.exports = {
+  getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
   deletePersonUmum,
