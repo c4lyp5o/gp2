@@ -269,6 +269,8 @@ export default function FillableForm({
       setBersekolah(bersekolah);
       setNoOku(noOku);
       setStatusPesara(statusPesara);
+      //datepicker issues
+      setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
         nama,
         tarikhLahir,
@@ -793,26 +795,6 @@ export default function FillableForm({
       </div>
     );
   }
-
-  // if (
-  //   showForm &&
-  //   jenisFasiliti === 'projek-komuniti-lain' &&
-  //   events.projekKomuniti.length === 0
-  // ) {
-  //   return (
-  //     <div>
-  //       <h1 className='bg-kaunter3 font-bold text-2xl'>
-  //         tiada event yang sedang aktif
-  //       </h1>
-  //       <button
-  //         onClick={() => setShowForm(false)}
-  //         className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-  //       >
-  //         kembali
-  //       </button>
-  //     </div>
-  //   );
-  // }
 
   if (showForm) {
     return (
