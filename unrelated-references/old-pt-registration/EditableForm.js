@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 
-import { useGlobalUserAppContext } from '../../context/userAppContext';
+import { useGlobalUserAppContext } from '../../client/src/user/context/userAppContext';
 
 export default function EditableForm({ editId, editForm, setEditForm }) {
   const { kaunterToken, toast } = useGlobalUserAppContext();

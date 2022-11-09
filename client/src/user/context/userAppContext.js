@@ -101,6 +101,50 @@ function masterDatePicker({
   );
 }
 
+const Dictionary = {
+  kp: 'Klinik Pergigian',
+  'kk-kd': 'Klinik Kesihatan / Klinik Desa',
+  'taska-tadika': 'Taska / Tadika',
+  'ipt-kolej': 'IPT / Kolej',
+  'orang-asli': 'Orang Asli',
+  ppr: 'PPR',
+  'institusi-warga-emas': 'Institusi Warga Emas',
+  'institusi-oku': 'Institusi OKU',
+  'kampung-angkat': 'Kampung Angkat',
+  'projek-komuniti-lain': 'Projek Komuniti Lain',
+  // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
+};
+
+const dictionaryDaerah = {
+  '': [],
+  Johor: [
+    'Batu Pahat',
+    'Johor Bahru',
+    'Kluang',
+    'Kota Tinggi',
+    'Kulai',
+    'Mersing',
+    'Muar',
+    'Pontian',
+    'Segamat',
+  ],
+  Kedah: [],
+  Kelantan: [],
+  Melaka: [],
+  'Negeri sembilan': [],
+  Pahang: [],
+  'Pulau pinang': [],
+  Perak: [],
+  Perlis: ['Arau', 'Kangar'],
+  Selangor: [],
+  Terengganu: [],
+  Sabah: [],
+  Sarawak: [],
+  'Kuala lumpur': [],
+  Labuan: [],
+  Putrajaya: [],
+};
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -197,20 +241,6 @@ function UserAppProvider({ children }) {
     setKaunterToken(null);
   };
 
-  const Dictionary = {
-    kp: 'Klinik Pergigian',
-    'kk-kd': 'Klinik Kesihatan / Klinik Desa',
-    'taska-tadika': 'Taska / Tadika',
-    'ipt-kolej': 'IPT / Kolej',
-    'orang-asli': 'Orang Asli',
-    ppr: 'PPR',
-    'institusi-warga-emas': 'Institusi Warga Emas',
-    'institusi-oku': 'Institusi OKU',
-    'kampung-angkat': 'Kampung Angkat',
-    'projek-komuniti-lain': 'Projek Komuniti Lain',
-    // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
-  };
-
   return (
     <UserAppContext.Provider
       value={{
@@ -236,13 +266,14 @@ function UserAppProvider({ children }) {
         loginUser,
         loginKaunter,
         catchAxiosErrorAndLogout,
-        Dictionary,
         useParams,
         dateToday,
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
         masterDatePicker,
+        Dictionary,
+        dictionaryDaerah,
         ToastContainer,
         toast,
         loggingInUser,

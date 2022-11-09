@@ -7,7 +7,6 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 import PatientData from './pt-registration/PatientData';
 import FillableForm from './pt-registration/FillableForm';
 import KomunitiLain from './KaunterKomunitiLain';
-// import EditableForm from './pt-registration/EditableForm';
 
 function Kaunter({
   refreshTimer,
@@ -153,11 +152,6 @@ function Kaunter({
           jenisProgram={jenisProgram}
           kp={createdByKp}
         />
-        {/* <EditableForm
-          editId={editId}
-          editForm={editForm}
-          setEditForm={setEditForm}
-        /> */}
         {jenisFasiliti === 'projek-komuniti-lain' ? (
           <KomunitiLain
             jenisFasiliti={jenisFasiliti}
