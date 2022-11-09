@@ -1,20 +1,77 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import UserForgotPassword from './UserForgotPassword';
 
 function UserLoginForm() {
-  const { loginErrorMessage, isLoginError, loginUser, loggingInUser } =
-    useGlobalUserAppContext();
+  const {
+    loginErrorMessage,
+    isLoginError,
+    loginUser,
+    dictionaryDaerah,
+    loggingInUser,
+  } = useGlobalUserAppContext();
+
+  const [pilihanNegeri, setPilihanNegeri] = useState('');
+  const [listDaerah, setListDaerah] = useState([]);
+  const [pilihanDaerah, setPilihanDaerah] = useState('');
+  const [listKlinik, setListKlinik] = useState([]);
+  const [pilihanKlinik, setPilihanKlinik] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+  // fetch dictionary daerah
+  useEffect(() => {
+    setListDaerah(dictionaryDaerah[pilihanNegeri]);
+    setPilihanDaerah('');
+    setPilihanKlinik('');
+    setUsername('');
+  }, [pilihanNegeri]);
+
+  // fetch klinik base on negeri & daerah
+  useEffect(() => {
+    const fetchKlinik = async () => {
+      try {
+        const { data } = await axios.get(
+          `https://erkm.calypsocloud.one/fasiliti?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
+        );
+        setListKlinik(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchKlinik();
+    setPilihanKlinik('');
+    setUsername('');
+  }, [pilihanDaerah]);
+
+  // fetch id klinik
+  useEffect(() => {
+    const fetchIdKlinik = async () => {
+      try {
+        const { data } = await axios.get(
+          `/api/v1/auth/find?kodFasiliti=${pilihanKlinik}&accountType=kpUser`,
+          {
+            headers: { Authorization: `${process.env.REACT_APP_API_KEY}` },
+          }
+        );
+        setUsername(data.username);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (pilihanKlinik !== '') {
+      fetchIdKlinik();
+    }
+  }, [pilihanKlinik]);
 
   const hilang = () => {
     setShowPassword(!showPassword);
@@ -36,6 +93,72 @@ function UserLoginForm() {
       <h3 className='text-xl font-semibold mt-10'>sila masukkan kata laluan</h3>
       <form onSubmit={handleSubmit}>
         <div className='grid grid-rows-2 gap-2 justify-center items-center'>
+          <div>
+            <label htmlFor='negeri'>Negeri</label>
+            <select
+              name='negeri'
+              id='negeri'
+              value={pilihanNegeri}
+              onChange={(e) => {
+                setPilihanNegeri(e.target.value);
+              }}
+            >
+              <option value=''></option>
+              <option value='Johor'>Johor</option>
+              <option value='Kedah'>Kedah</option>
+              <option value='Kelantan'>Kelantan</option>
+              <option value='Melaka'>Melaka</option>
+              <option value='Negeri sembilan'>Negeri Sembilan</option>
+              <option value='Pahang'>Pahang</option>
+              <option value='Pulau pinang'>Pulau Pinang</option>
+              <option value='Perak'>Perak</option>
+              <option value='Perlis'>Perlis</option>
+              <option value='Selangor'>Selangor</option>
+              <option value='Terengganu'>Terengganu</option>
+              <option value='Sabah'>Sabah</option>
+              <option value='Sarawak'>Sarawak</option>
+              <option value='Kuala lumpur'>Kuala Lumpur</option>
+              <option value='Labuan'>Labuan</option>
+              <option value='Putrajaya'>Putrajaya</option>
+            </select>
+          </div>
+          {pilihanNegeri && listDaerah.length >= 1 && (
+            <div>
+              <label htmlFor='daerah'>Daerah</label>
+              <select
+                name='daerah'
+                id='daerah'
+                value={pilihanDaerah}
+                onChange={(e) => {
+                  setPilihanDaerah(e.target.value);
+                }}
+                className='capitalize'
+              >
+                <option value=''></option>
+                {listDaerah.map((d) => {
+                  return <option value={d}>{d}</option>;
+                })}
+              </select>
+            </div>
+          )}
+          {pilihanNegeri && pilihanDaerah && listKlinik.length >= 1 && (
+            <div>
+              <label htmlFor='klinik'>Klinik</label>
+              <select
+                name='klinik'
+                id='klinik'
+                value={pilihanKlinik}
+                onChange={(e) => {
+                  setPilihanKlinik(e.target.value);
+                }}
+              >
+                <option value=''></option>
+                {listKlinik.map((k) => {
+                  return <option value={k.kodFasiliti}>{k.nama}</option>;
+                })}
+              </select>
+            </div>
+          )}
           <div className='relative'>
             <input
               className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
