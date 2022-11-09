@@ -30,18 +30,21 @@ import Settings from '../components/Settings';
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
-  const { navigate, getCurrentUser, adminToken, removeAdminToken } =
-    useGlobalAdminAppContext();
+  const { getCurrentUser, adminToken, logOutUser } = useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
   const [kicker, setKicker] = useState('');
   const [kickerNoti, setKickerNoti] = useState('');
-  const [kickerDuration, setKickerDuration] = useState(1);
+  const [kickerDuration, setKickerDuration] = useState(10);
   const kickerNotiId = useRef();
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
       (kickerNotiId.current = toast(
-        'Anda sudah tidak aktif selama 1 minit. Proses log keluar akan dilakukan dalam masa 1 minit. Jika anda ingin log keluar sekarang, klik di sini',
+        `Anda sudah tidak aktif selama ${
+          kickerDuration / 2
+        } minit. Proses log keluar akan dilakukan dalam masa ${
+          kickerDuration / 2
+        } minit. Jika anda ingin log keluar sekarang, klik di sini`,
         {
           autoClose: 1000 * 14,
           onClick: () => {
@@ -58,17 +61,12 @@ export default function AdminAfterLogin() {
     }
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
-    }, 1000 * 15);
+    }, 1000 * (kickerDuration / 2));
     const kickerNumber = setTimeout(() => {
       logOutUser();
-    }, 1000 * 30 * kickerDuration);
+    }, 1000 * 60 * kickerDuration);
     setKicker(kickerNumber);
     setKickerNoti(kickerNotiNumber);
-  };
-
-  const logOutUser = () => {
-    removeAdminToken();
-    navigate('/pentadbir');
   };
 
   useLayoutEffect(() => {
