@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState, useRef } from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -27,12 +27,49 @@ import Data from '../components/Data';
 // settings
 import Settings from '../components/Settings';
 
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
   const { navigate, getCurrentUser, adminToken, removeAdminToken } =
     useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
+  const [kicker, setKicker] = useState('');
+  const [kickerNoti, setKickerNoti] = useState('');
+  const [kickerDuration, setKickerDuration] = useState(1);
+  const kickerNotiId = useRef();
+
+  const logOutNotiSystem = () => {
+    const notifyLogOut = () =>
+      (kickerNotiId.current = toast(
+        'Anda sudah tidak aktif selama 1 minit. Proses log keluar akan dilakukan dalam masa 1 minit. Jika anda ingin log keluar sekarang, klik di sini',
+        {
+          autoClose: 1000 * 14,
+          onClick: () => {
+            logOutUser();
+          },
+        }
+      ));
+    const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
+
+    if (kicker && kickerNoti) {
+      dismissLogOut();
+      clearTimeout(kicker);
+      clearTimeout(kickerNoti);
+    }
+    const kickerNotiNumber = setTimeout(() => {
+      notifyLogOut();
+    }, 1000 * 15);
+    const kickerNumber = setTimeout(() => {
+      logOutUser();
+    }, 1000 * 30 * kickerDuration);
+    setKicker(kickerNumber);
+    setKickerNoti(kickerNotiNumber);
+  };
+
+  const logOutUser = () => {
+    removeAdminToken();
+    navigate('/pentadbir');
+  };
 
   useLayoutEffect(() => {
     getCurrentUser()
@@ -41,10 +78,10 @@ export default function AdminAfterLogin() {
           ...res.data,
           isLoggedIn: true,
         });
+        logOutNotiSystem();
       })
       .catch(() => {
-        removeAdminToken();
-        navigate('/pentadbir');
+        logOutUser();
       });
   }, [adminToken, getCurrentUser]);
 
