@@ -2053,7 +2053,9 @@ function UserFormUmumHeader() {
                       </div>
                     )}
                     <div className='text-s flex flex-row pl-5'>
-                      <h2 className='font-semibold text-xs'>NAMA :</h2>
+                      <h2 className='font-semibold text-xs  whitespace-nowrap'>
+                        NAMA :
+                      </h2>
                       <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
                     </div>
                   </div>
