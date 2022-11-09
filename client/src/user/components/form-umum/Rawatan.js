@@ -3,6 +3,10 @@ import { useState } from 'react';
 
 export default function Rawatan(props) {
   const [show, setShow] = useState(false);
+  let isDisabled = false;
+  if (props.statusReten === 'telah diisi') {
+    isDisabled = true;
+  }
   return (
     <>
       <div className='p-2'>
@@ -28,6 +32,7 @@ export default function Rawatan(props) {
                 }`}
               >
                 <input
+                  disabled={isDisabled}
                   type='checkbox'
                   name='tidak-hadir'
                   id='tidak-hadir'
@@ -53,6 +58,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='pesakit-dibuat-fissure-sealant'
                       id='pesakit-dibuat-fissure-sealant'
@@ -80,6 +86,7 @@ export default function Rawatan(props) {
                     Baru
                   </label> */}
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                       id='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
@@ -102,6 +109,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
                     id='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
@@ -124,6 +132,7 @@ export default function Rawatan(props) {
                     Baru
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='baru-jumlah-murid-dibuat-fs-rawatan-umum'
                     id='baru-jumlah-murid-dibuat-fs-rawatan-umum'
@@ -147,6 +156,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-murid-dibuat-fs-rawatan-umum'
                     id='semula-jumlah-murid-dibuat-fs-rawatan-umum'
@@ -172,6 +182,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='pesakit-dibuat-fluoride-varnish'
                       id='pesakit-dibuat-fluoride-varnish'
@@ -199,6 +210,7 @@ export default function Rawatan(props) {
                     Baru
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     id='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
@@ -221,6 +233,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
                     id='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
@@ -243,6 +256,7 @@ export default function Rawatan(props) {
                     Baru
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='baru-jumlah-murid-dibuat-fv-rawatan-umum'
                     id='baru-jumlah-murid-dibuat-fv-rawatan-umum'
@@ -263,6 +277,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-murid-dibuat-fv-rawatan-umum'
                     id='semula-jumlah-murid-dibuat-fv-rawatan-umum'
@@ -282,6 +297,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='pesakit-dibuat-prr-jenis-1'
                       id='pesakit-dibuat-prr-jenis-1'
@@ -309,6 +325,7 @@ export default function Rawatan(props) {
                     Baru
                   </label> */}
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                       id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
@@ -333,6 +350,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
                     id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
@@ -357,6 +375,7 @@ export default function Rawatan(props) {
                     Baru
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
                     id='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
@@ -380,6 +399,7 @@ export default function Rawatan(props) {
                     Semula
                   </label>
                   <input
+                  disabled={isDisabled}
                     type='number'
                     name='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
                     id='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
@@ -406,6 +426,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-center'>
                     <p className='text-sm font-m'>Desidus: </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='cabut-desidus-rawatan-umum'
                       id='cabut-desidus-rawatan-umum'
@@ -421,6 +442,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-center'>
                     <p className='text-sm font-m'>Kekal: </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='cabut-kekal-rawatan-umum'
                       id='cabut-kekal-rawatan-umum'
@@ -438,6 +460,7 @@ export default function Rawatan(props) {
                       Komplikasi selepas cabutan:{' '}
                     </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='komplikasi-selepas-cabutan-rawatan-umum'
                       id='komplikasi-selepas-cabutan-rawatan-umum'
@@ -457,6 +480,7 @@ export default function Rawatan(props) {
                       Cabutan disebabkan periodontitis:
                     </p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='cabutan-disebabkan-periodontitis-rawatan-umum'
                       id='cabutan-disebabkan-periodontitis-rawatan-umum'
@@ -482,6 +506,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-evenly'>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-abses-pembedahan-rawatan-umum'
                         id='ya-abses-pembedahan-rawatan-umum'
@@ -508,6 +533,7 @@ export default function Rawatan(props) {
                     </div>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-abses-pembedahan-rawatan-umum'
                         id='tidak-abses-pembedahan-rawatan-umum'
@@ -536,6 +562,7 @@ export default function Rawatan(props) {
                   {/* <div className='flex items-center justify-evenly col-start-2'>
                     <div>
                       <input
+                      disabled={isDisabled}
                         type='radio'
                         name='baru-semula-abses-pembedahan-rawatan-umum'
                         id='baru-abses-pembedahan-rawatan-umum'
@@ -562,6 +589,7 @@ export default function Rawatan(props) {
                     </div>
                     <div>
                       <input
+                      disabled={isDisabled}
                         type='radio'
                         name='baru-semula-abses-pembedahan-rawatan-umum'
                         id='semula-abses-pembedahan-rawatan-umum'
@@ -590,6 +618,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center flex-row col-span-2 pl-5'>
                     <p className='text-sm font-m'>Cabutan surgikal :</p>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
                       id='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
@@ -610,6 +639,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-evenly'>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-fraktur-pembedahan-rawatan-umum'
                         id='ya-fraktur-pembedahan-rawatan-umum'
@@ -636,6 +666,7 @@ export default function Rawatan(props) {
                     </div>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-fraktur-pembedahan-rawatan-umum'
                         id='tidak-fraktur-pembedahan-rawatan-umum'
@@ -667,6 +698,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-evenly'>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                         id='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
@@ -693,6 +725,7 @@ export default function Rawatan(props) {
                     </div>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
                         id='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
@@ -724,6 +757,7 @@ export default function Rawatan(props) {
                   <div className='flex items-center justify-evenly'>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-trauma-pembedahan-rawatan-umum'
                         id='ya-trauma-pembedahan-rawatan-umum'
@@ -750,6 +784,7 @@ export default function Rawatan(props) {
                     </div>
                     <div>
                       <input
+                        disabled={isDisabled}
                         type='radio'
                         name='ya-tidak-trauma-pembedahan-rawatan-umum'
                         id='tidak-trauma-pembedahan-rawatan-umum'
@@ -781,6 +816,7 @@ export default function Rawatan(props) {
                       <h4 className='font-bold flex flex-row pl-2'>Trauma</h4>
                       <div className='flex items-center flex-row pl-2'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='kecederaan-tulang-muka-umum'
                           id='kecederaan-tulang-muka-umum'
@@ -801,6 +837,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex items-center flex-row pl-2'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='kecederaan-gigi-umum'
                           id='kecederaan-gigi-umum'
@@ -821,6 +858,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex items-center flex-row pl-2'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='kecederaan-tisu-lembut-umum'
                           id='kecederaan-tisu-lembut-umum'
@@ -857,6 +895,7 @@ export default function Rawatan(props) {
                       Baru
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
                       id='baru-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
@@ -879,6 +918,7 @@ export default function Rawatan(props) {
                       Semula
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='semula-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
                       id='semula-jumlah-gigi-yang-diberi-sdf-rawatan-umum'
@@ -909,6 +949,7 @@ export default function Rawatan(props) {
                       Baru
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-crown-bridge-rawatan-umum'
                       id='baru-jumlah-crown-bridge-rawatan-umum'
@@ -931,6 +972,7 @@ export default function Rawatan(props) {
                       Semula
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='semula-jumlah-crown-bridge-rawatan-umum'
                       id='semula-jumlah-crown-bridge-rawatan-umum'
@@ -956,6 +998,7 @@ export default function Rawatan(props) {
                       Baru
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='baru-jumlah-post-core-rawatan-umum'
                       id='baru-jumlah-post-core-rawatan-umum'
@@ -976,6 +1019,7 @@ export default function Rawatan(props) {
                       Semula
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='semula-jumlah-post-core-rawatan-umum'
                       id='semula-jumlah-post-core-rawatan-umum'
@@ -1002,6 +1046,7 @@ export default function Rawatan(props) {
                         baru
                       </label>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='baru-penuh-jumlah-dentur-prostodontik-rawatan-umum'
                         id='baru-penuh-jumlah-dentur-prostodontik-rawatan-umum'
@@ -1026,6 +1071,7 @@ export default function Rawatan(props) {
                         semula
                       </label>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='semula-penuh-jumlah-dentur-prostodontik-rawatan-umum'
                         id='semula-penuh-jumlah-dentur-prostodontik-rawatan-umum'
@@ -1053,6 +1099,7 @@ export default function Rawatan(props) {
                         baru
                       </label>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='baru-separa-jumlah-dentur-prostodontik-rawatan-umum'
                         id='baru-separa-jumlah-dentur-prostodontik-rawatan-umum'
@@ -1077,6 +1124,7 @@ export default function Rawatan(props) {
                         semula
                       </label>
                       <input
+                        disabled={isDisabled}
                         type='number'
                         name='semula-separa-jumlah-dentur-prostodontik-rawatan-umum'
                         id='semula-separa-jumlah-dentur-prostodontik-rawatan-umum'
@@ -1102,6 +1150,7 @@ export default function Rawatan(props) {
                       immediate dentur
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='immediate-dentur-prostodontik-rawatan-umum'
                       id='immediate-dentur-prostodontik-rawatan-umum'
@@ -1124,6 +1173,7 @@ export default function Rawatan(props) {
                       pembaikan dentur
                     </label>
                     <input
+                      disabled={isDisabled}
                       type='number'
                       name='pembaikan-dentur-prostodontik-rawatan-umum'
                       id='pembaikan-dentur-prostodontik-rawatan-umum'
@@ -1149,6 +1199,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='penskaleran-rawatan-umum'
                       id='penskaleran-rawatan-umum'
@@ -1169,6 +1220,7 @@ export default function Rawatan(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='rawatan-lain-periodontik-rawatan-umum'
                       id='rawatan-lain-periodontik-rawatan-umum'
@@ -1196,6 +1248,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='rawatan-ortodontik-rawatan-umum'
                       id='rawatan-ortodontik-rawatan-umum'
@@ -1218,6 +1271,7 @@ export default function Rawatan(props) {
                   </div>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='kes-perubatan-mulut-rawatan-umum'
                       id='kes-perubatan-mulut-rawatan-umum'
@@ -1244,6 +1298,7 @@ export default function Rawatan(props) {
                     bilangan x-ray yang diambil
                   </h4>
                   <input
+                    disabled={isDisabled}
                     min='0'
                     max='32'
                     type='number'
@@ -1269,6 +1324,7 @@ export default function Rawatan(props) {
                       </h4>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='12'
                           type='number'
@@ -1293,6 +1349,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='12'
                           type='number'
@@ -1317,6 +1374,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='12'
                           type='number'
@@ -1341,6 +1399,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1370,6 +1429,7 @@ export default function Rawatan(props) {
                       </h4>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='8'
                           type='number'
@@ -1394,6 +1454,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='8'
                           type='number'
@@ -1418,6 +1479,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1442,6 +1504,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1471,6 +1534,7 @@ export default function Rawatan(props) {
                       </h4>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='8'
                           type='number'
@@ -1495,6 +1559,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='8'
                           type='number'
@@ -1519,6 +1584,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1543,6 +1609,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1572,6 +1639,7 @@ export default function Rawatan(props) {
                       </h4>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1596,6 +1664,7 @@ export default function Rawatan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-3'>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='20'
                           type='number'
@@ -1631,6 +1700,7 @@ export default function Rawatan(props) {
                           jumlah tampalan sementara :
                         </label>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -1664,6 +1734,7 @@ export default function Rawatan(props) {
                       anterior :
                     </label>
                     <input
+                    disabled={isDisabled}
                       min='0'
                       max='12'
                       type='number'
@@ -1686,6 +1757,7 @@ export default function Rawatan(props) {
                       premolar :
                     </label>
                     <input
+                    disabled={isDisabled}
                       min='0'
                       max='8'
                       type='number'
@@ -1708,6 +1780,7 @@ export default function Rawatan(props) {
                       molar :
                     </label>
                     <input
+                    disabled={isDisabled}
                       min='0'
                       max='12'
                       type='number'
@@ -1737,6 +1810,7 @@ export default function Rawatan(props) {
                       anterior :
                     </label>
                     <input
+                      disabled={isDisabled}
                       min='0'
                       max='12'
                       type='number'
@@ -1761,6 +1835,7 @@ export default function Rawatan(props) {
                       premolar :
                     </label>
                     <input
+                      disabled={isDisabled}
                       min='0'
                       max='8'
                       type='number'
@@ -1785,6 +1860,7 @@ export default function Rawatan(props) {
                       molar :
                     </label>
                     <input
+                      disabled={isDisabled}
                       min='0'
                       max='12'
                       type='number'
@@ -1807,6 +1883,7 @@ export default function Rawatan(props) {
                       rawatan semula endodontik :
                     </label>
                     <input
+                      disabled={isDisabled}
                       min='0'
                       max='32'
                       type='number'
@@ -1838,6 +1915,7 @@ export default function Rawatan(props) {
                         memenuhi RDITN kod 3 :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='10'
                         type='number'
@@ -1860,6 +1938,7 @@ export default function Rawatan(props) {
                         restorasi pasca endodontik :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='32'
                         type='number'
@@ -1884,6 +1963,7 @@ export default function Rawatan(props) {
                         komplikasi semasa rawatan KEPP :
                       </label>
                       <input
+                        disabled={isDisabled}
                         min='0'
                         max='32'
                         type='number'
@@ -1908,6 +1988,7 @@ export default function Rawatan(props) {
                   </h4>
                   <div className='flex flex-row items-center pl-5 m-1'>
                     <input
+                      disabled={isDisabled}
                       type='checkbox'
                       name='kes-selesai-rawatan-umum'
                       id='kes-selesai-rawatan-umum'
