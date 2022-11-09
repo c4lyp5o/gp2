@@ -17,7 +17,7 @@ import Promosi from './form-umum/Promosi';
 import Confirmation from './UserFormUmumConfirmation';
 
 function UserFormUmumHeader() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
+  const { userToken, reliefUserToken, username, useParams, toast, Dictionary } =
     useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
@@ -1992,79 +1992,103 @@ function UserFormUmumHeader() {
         <>
           <div className='h-full p-1 grid'>
             <div className='p-2'>
-              <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-2'>
+              <article className='outline outline-1 outline-userBlack flex flex-col pb-2'>
                 {!isLoading && (
                   <div>
-                    <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                      <h1>MAKLUMAT AM PESAKIT</h1>
-                      <FaInfoCircle
-                        className='hover:cursor-pointer m-1 text-lg'
-                        onMouseEnter={() => setIsShown(true)}
-                        onMouseLeave={() => setIsShown(false)}
-                      />
-                      <button
-                        onClick={kemaskini}
-                        className='float-left px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-md text-xs font-medium'
-                      >
-                        kemaskini
-                      </button>
-                    </div>
-                    {isShown && (
-                      <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
-                        <div className='flex flex-row text-sm'>
-                          <h2 className='font-semibold'>NAMA :</h2>
-                          <p className='ml-1'>{singlePersonUmum.nama}</p>
+                    <div className='text-l font-bold flex flex-col md:flex-row pl-5 p-2'>
+                      <h1 className='flex flex-row'>MAKLUMAT AM PESAKIT</h1>
+                      <div className='flex flex-row'>
+                        <div className='relative md:ml-2'>
+                          <span
+                            className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-l-md px-2 py-1 capitalize transition-all whitespace-nowrap'
+                            onMouseEnter={() => setIsShown(true)}
+                            onMouseLeave={() => setIsShown(false)}
+                          >
+                            Fasiliti :{' '}
+                            {Dictionary[singlePersonUmum.jenisFasiliti]}
+                          </span>
+                          {isShown && (
+                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
+                              <div className='flex flex-row text-sm'>
+                                <h2 className='font-semibold  whitespace-nowrap'>
+                                  NAMA :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.nama}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold whitespace-nowrap'>
+                                  IC/PASSPORT :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.ic}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>JANTINA :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.jantina}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>
+                                  TARIKH LAHIR :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {moment(singlePersonUmum.tarikhLahir).format(
+                                    'DD/MM/YYYY'
+                                  )}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>UMUR :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.umur} tahun{' '}
+                                  {singlePersonUmum.umurBulan} bulan
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>
+                                  KUMPULAN ETNIK :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.kumpulanEtnik}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>KEDATANGAN :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.kedatangan ===
+                                  'baru-kedatangan'
+                                    ? 'Baru'
+                                    : 'Ulangan'}
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>IC/PASSPORT :</h2>
-                          <p className='ml-1'>{singlePersonUmum.ic}</p>
-                        </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>JANTINA :</h2>
-                          <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                        </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                          <p className='ml-1'>
-                            {moment(singlePersonUmum.tarikhLahir).format(
-                              'DD/MM/YYYY'
-                            )}
-                          </p>
-                        </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>UMUR :</h2>
-                          <p className='ml-1'>
-                            {singlePersonUmum.umur} tahun{' '}
-                            {singlePersonUmum.umurBulan} bulan
-                          </p>
-                        </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
-                          <p className='ml-1'>
-                            {singlePersonUmum.kumpulanEtnik}
-                          </p>
-                        </div>
-                        <div className='text-sm flex flex-row '>
-                          <h2 className='font-semibold'>KEDATANGAN :</h2>
-                          <p className='ml-1'>
-                            {singlePersonUmum.kedatangan === 'baru-kedatangan'
-                              ? 'Baru'
-                              : 'Ulangan'}
-                          </p>
+                        <div className='relative'>
+                          <button
+                            onClick={kemaskini}
+                            className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium'
+                          >
+                            kemaskini
+                          </button>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  </div>
+                )}
+                {!isLoading && (
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
                     <div className='text-s flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs  whitespace-nowrap'>
                         NAMA :
                       </h2>
                       <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
                     </div>
-                  </div>
-                )}
-                {!isLoading && (
-                  <>
-                    <div className='md:pt-11'>
+                    <div className=''>
                       <div className='text-s flex flex-row pl-5'>
                         <h2 className='font-semibold text-xs'>JANTINA :</h2>
                         <p className='ml-1 text-xs'>
@@ -2072,13 +2096,13 @@ function UserFormUmumHeader() {
                         </p>
                       </div>
                     </div>
-                    <div className='lg:pt-11'>
+                    <div className=''>
                       <div className='text-s flex flex-row pl-5'>
                         <h2 className='font-semibold text-xs'>IC/Passport :</h2>
                         <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
                       </div>
                     </div>
-                    <div className='lg:pt-11'>
+                    <div className=''>
                       <div className='text-s flex flex-row pl-5'>
                         <h2 className='font-semibold text-xs'>UMUR :</h2>
                         <p className='ml-1 text-xs'>
@@ -2087,7 +2111,7 @@ function UserFormUmumHeader() {
                         </p>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
                 {isLoading && (
                   <p className='col-span-3 py-[15px] text-base font-semibold'>
