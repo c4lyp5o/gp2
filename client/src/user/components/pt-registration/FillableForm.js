@@ -693,6 +693,24 @@ export default function FillableForm({
               new Date(data.singlePersonKaunter.tarikhMulaRawatanKepp)
             );
           }
+          setConfirmData({
+            nama: data.singlePersonKaunter.nama,
+            tarikhLahir: data.singlePersonKaunter.tarikhLahir,
+            ic: data.singlePersonKaunter.ic,
+            umur: data.singlePersonKaunter.umur,
+            umurBulan: data.singlePersonKaunter.umurBulan,
+            jantina: data.singlePersonKaunter.jantina,
+            kumpulanEtnik: data.singlePersonKaunter.kumpulanEtnik,
+            alamat: data.singlePersonKaunter.alamat,
+            daerahAlamat: data.singlePersonKaunter.daerahAlamat,
+            negeriAlamat: data.singlePersonKaunter.negeriAlamat,
+            poskodAlamat: data.singlePersonKaunter.poskodAlamat,
+            ibuMengandung: data.singlePersonKaunter.ibuMengandung,
+            orangKurangUpaya: data.singlePersonKaunter.orangKurangUpaya,
+            bersekolah: data.singlePersonKaunter.bersekolah,
+            noOku: data.singlePersonKaunter.noOku,
+            statusPesara: data.singlePersonKaunter.statusPersara,
+          });
           setIsEditLoading(false);
         } catch (error) {
           console.log(error);
@@ -824,14 +842,6 @@ export default function FillableForm({
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <TarikhKedatangan />
-                  {/* <input
-                    required
-                    value={tarikhKedatangan}
-                    // onChange={(e) => setTarikhKedatangan(e.target.value)}
-                    type='number'
-                    name='tarikhKedatangan'
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  /> */}
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-3 font-semibold'>
@@ -905,77 +915,6 @@ export default function FillableForm({
                     />
                   )}
                 </div>
-                {/* <div className='flex m-2'>
-              <div className='flex items-center flex-row '>
-                <p className='font-semibold'>
-                  kedatangan <span className='font-semibold text-user6'>*</span>
-                </p>
-              </div>
-              <div className='flex items-center flex-row pl-5'>
-                <input
-                  required
-                  type='radio'
-                  name='kedatangan'
-                  id='baru-kedatangan'
-                  value='baru-kedatangan'
-                  checked={kedatangan === 'baru-kedatangan' ? true : false}
-                  onChange={(e) => {
-                    setKedatangan(e.target.value);
-                  }}
-                  className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                />
-                <label htmlFor='baru-kedatangan' className='m-2 text-sm font-m'>
-                  baru
-                </label>
-              </div>
-              <div className='flex items-center flex-row '>
-                <input
-                  required
-                  type='radio'
-                  name='kedatangan'
-                  id='ulangan-kedatangan'
-                  value='ulangan-kedatangan'
-                  checked={kedatangan === 'ulangan-kedatangan' ? true : false}
-                  onChange={(e) => {
-                    setKedatangan(e.target.value);
-                  }}
-                  className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                />
-                <label
-                  htmlFor='ulangan-kedatangan'
-                  className='m-2 text-sm font-m'
-                >
-                  ulangan
-                </label>
-              </div>
-            </div> */}
-                {/* <div className='flex m-2'>
-              <p className='mr-3 text-sm font-semibold flex items-center'>
-                no. pendaftaran{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              {kedatangan === 'baru-kedatangan' && (
-                // auto generate no pendaftaran
-                <input
-                  disabled
-                  type='number'
-                  name='no-pendaftaran-baru'
-                  id='no-pendaftaran-baru'
-                  value={noPendaftaranBaru}
-                  className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-                />
-              )}
-              {kedatangan === 'ulangan-kedatangan' && (
-                <input
-                  type='number'
-                  name='no-pendaftaran-ulangan'
-                  id='no-pendaftaran-ulangan'
-                  value={noPendaftaranUlangan}
-                  onChange={(e) => setNoPendaftaranUlangan(e.target.value)}
-                  className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-                />
-              )}
-            </div> */}
                 <div className='flex m-2'>
                   <p className='mr-2 font-semibold flex flex-row items-center'>
                     nama: <span className='font-semibold text-user6'>*</span>
@@ -999,26 +938,6 @@ export default function FillableForm({
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <TarikhLahir />
-                  {/* <input
-                    required
-                    value={tarikhLahir}
-                    onChange={(e) => {
-                      setTarikhLahir(e.target.value);
-                      setUmur(
-                        parseInt(howOldAreYouMyFriendtahun(e.target.value))
-                      );
-                      setUmurBulan(
-                        parseInt(howOldAreYouMyFriendbulan(e.target.value))
-                      );
-                      setConfirmData({
-                        ...confirmData,
-                        tarikhLahir: e.target.value,
-                      });
-                    }}
-                    type='date'
-                    name='tarikhLahir'
-                    className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  /> */}
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-3 font-semibold'>
@@ -1199,14 +1118,6 @@ export default function FillableForm({
                     <option value='labuan'>Labuan</option>
                     <option value='putrajaya'>Putrajaya</option>
                   </select>
-                  {/* <input
-                required
-                value={negeriAlamat}
-                onChange={(e) => setNegeriAlamat(e.target.value)}
-                type='text'
-                name='negeri-alamat'
-                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-              /> */}
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
@@ -1232,29 +1143,6 @@ export default function FillableForm({
                     className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                {/* <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                kategori pesakit:{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                name='kategoriPesakit'
-                id='kategoriPesakit'
-                value={kategoriPesakit}
-                onChange={(e) => setKategoriPesakit(e.target.value)}
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='toddler'>Toddler (0 - 4) tahun</option>
-                <option value='prasekolah'>Prasekolah (5 - 6) tahun</option>
-                <option value='sekolahrendah'>Sekolah rendah</option>
-                <option value='sekolahmenengah'>Sekolah menengah</option>
-                <option value='oku'>OKU</option>
-                <option value='hamil'>Ibu mengandung</option>
-                <option value='dewasa'>Dewasa</option>
-                <option value='warga-tua'>Warga tua</option>
-              </select>
-            </div> */}
                 <div className='flex m-2 flex-col md:flex-row'>
                   <p className='mr-3 font-semibold flex flex-row'>
                     status pesakit:
@@ -1344,10 +1232,7 @@ export default function FillableForm({
                   </div>
                 )}
                 <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>
-                    status pesara:{' '}
-                    {/* <span className='font-semibold text-user6'>*</span> */}
-                  </p>
+                  <p className='mr-3 font-semibold'>status pesara:</p>
                   <select
                     // required
                     name='statusPesara'
@@ -1363,7 +1248,6 @@ export default function FillableForm({
                     className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   >
                     <option value=''>Sila pilih..</option>
-                    {/* <option value='bukan-pesara'>Bukan pesara</option> */}
                     <option value='pesara-kerajaan'>Pesara kerajaan</option>
                     <option value='pesara-atm'>Pesara ATM</option>
                   </select>
@@ -1648,22 +1532,6 @@ export default function FillableForm({
                         </select>
                       </div>
                       <div className='overflow-x-auto'>
-                        {/* <select
-                      name='jenis-taska-tadika'
-                      id='jenis-taska-tadika'
-                      value={jenisTaskaTadika}
-                      onChange={(e) => {
-                        setJenisTaskaTadika(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    >
-                      <option value=''>Pilih jenis taska / tadika</option>
-                      <option value='kemas'>KEMAS </option>
-                      <option value='perpaduan'>Perpaduan </option>
-                      <option value='lain-lain'>Lain-lain</option>
-                      <option value='swasta'>Swasta</option>
-                    </select>
-                    <br /> */}
                         <input
                           type='checkbox'
                           id='kelas-toddler'
@@ -1723,108 +1591,6 @@ export default function FillableForm({
                         className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                     </div>
-                    {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
-                    kedatangan taska / tadika
-                  </h4>
-                  <div className='grid grid-rows-2'>
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        type='checkbox'
-                        name='enggan-taska-tadika'
-                        id='enggan-taska-tadika'
-                        value='enggan-taska-tadika'
-                        checked={engganTaskaTadika}
-                        onChange={() => {
-                          setEngganTaskaTadika(!engganTaskaTadika);
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                      <label
-                        htmlFor='enggan-taska-tadika'
-                        className='m-2 text-sm font-m'
-                      >
-                        enggan
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <input
-                        type='checkbox'
-                        name='tidak-hadir-taska-tadika'
-                        id='tidak-hadir-taska-tadika'
-                        value='tidak-hadir-taska-tadika'
-                        checked={tidakHadirTaskaTadika}
-                        onChange={() => {
-                          setTidakHadirTaskaTadika(!tidakHadirTaskaTadika);
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                      <label
-                        htmlFor='tidak-hadir-taska-tadika'
-                        className='m-2 text-sm font-m'
-                      >
-                        tidak hadir
-                      </label>
-                    </div>
-                  </div>
-                  <div
-                    className={`${
-                      engganTaskaTadika || tidakHadirTaskaTadika || 'hidden'
-                    } outline outline-1 outline-userBlack grid grid-rows-3 col-start-2`}
-                  >
-                    <h4 className=' font-bold flex items-center flex-row px-2 text-clip'>
-                      pemeriksaan
-                    </h4>
-                    <div className='flex items-center flex-row px-2'>
-                      <input
-                        type='radio'
-                        name='pemeriksaan-taska-tadika'
-                        id='ada-pemeriksaan-taska-tadika'
-                        value='ada-pemeriksaan-taska-tadika'
-                        checked={
-                          pemeriksaanTaskaTadika ===
-                          'ada-pemeriksaan-taska-tadika'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setPemeriksaanTaskaTadika(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='ada-pemeriksaan-taska-tadika'
-                        className='m-2 text-sm font-m'
-                      >
-                        ada
-                      </label>
-                    </div>
-                    <div className='flex items-center flex-row px-2'>
-                      <input
-                        type='radio'
-                        name='pemeriksaan-taska-tadika'
-                        id='tiada-pemeriksaan-taska-tadika'
-                        value='tiada-pemeriksaan-taska-tadika'
-                        checked={
-                          pemeriksaanTaskaTadika ===
-                          'tiada-pemeriksaan-taska-tadika'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          setPemeriksaanTaskaTadika(e.target.value);
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='tiada-pemeriksaan-taska-tadika'
-                        className='m-2 text-sm font-m'
-                      >
-                        tiada
-                      </label>
-                    </div>
-                  </div>
-                </article> */}
                   </div>
                 )}
                 {jenisFasiliti === 'ipt-kolej' && (
