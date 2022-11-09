@@ -182,16 +182,6 @@ function UserUmum() {
                 <BsCalendarPlusFill />
               </span>
             </div>
-            {/* <input
-              onChange={(e) => {
-                setTarikhKedatangan(e.target.value);
-              }}
-              value={tarikhKedatangan}
-              type='date'
-              name='tarikh-kedatangan'
-              id='tarikh-kedatangan'
-              className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-            /> */}
           </div>
           <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
             <label
@@ -207,7 +197,7 @@ function UserUmum() {
               onChange={(e) => {
                 setJenisFasiliti(e.target.value);
               }}
-              className='lg:ml-2 leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+              className='lg:ml-2 leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
             >
               <option value='kp'>Klinik Pergigian</option>
               <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>

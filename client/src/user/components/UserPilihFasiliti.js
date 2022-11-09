@@ -36,17 +36,12 @@ function UserPilihFasiliti() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        '/api/v1/auth/login',
-        {
-          apiKey: process.env.REACT_APP_API_KEY,
-          pilihanFasiliti: pilihanFasiliti.current.value,
-          pilihanDaerah,
-        },
-        {
-          headers: { Authorization: `Bearer ${userToken}` },
-        }
-      );
+      const { data } = await axios.post('/api/v1/auth/login', {
+        apiKey: process.env.REACT_APP_API_KEY,
+        userToken,
+        pilihanFasiliti: pilihanFasiliti.current.value,
+        pilihanDaerah,
+      });
       localStorage.setItem('reliefUserToken', data.reliefUserToken);
       setReliefUserToken(data.reliefUserToken);
       localStorage.setItem('fasilitiRelief', pilihanFasiliti.current.value);
