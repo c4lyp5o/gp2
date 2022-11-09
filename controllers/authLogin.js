@@ -10,6 +10,10 @@ const authFind = async (req, res) => {
     accountType: accountType,
   });
 
+  if (!user) {
+    return res.status(404).json({ msg: 'User not found' });
+  }
+
   // just give out the username
   const username = user.username;
 

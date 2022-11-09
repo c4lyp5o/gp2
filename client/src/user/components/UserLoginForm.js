@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
@@ -13,6 +14,7 @@ function UserLoginForm() {
     isLoginError,
     loginUser,
     dictionaryDaerah,
+    toast,
     loggingInUser,
   } = useGlobalUserAppContext();
 
@@ -21,9 +23,10 @@ function UserLoginForm() {
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [listKlinik, setListKlinik] = useState([]);
   const [pilihanKlinik, setPilihanKlinik] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -56,6 +59,8 @@ function UserLoginForm() {
   // fetch id klinik
   useEffect(() => {
     const fetchIdKlinik = async () => {
+      setShowPasswordBox(false);
+      setIsLoading(true);
       try {
         const { data } = await axios.get(
           `/api/v1/auth/find?kodFasiliti=${pilihanKlinik}&accountType=kpUser`,
@@ -64,9 +69,12 @@ function UserLoginForm() {
           }
         );
         setUsername(data.username);
+        setShowPasswordBox(true);
       } catch (error) {
+        toast.error('Klinik belum didaftarkan di modul Pentadbir');
         console.log(error);
       }
+      setIsLoading(false);
     };
     if (pilihanKlinik !== '') {
       fetchIdKlinik();
@@ -90,11 +98,13 @@ function UserLoginForm() {
 
   return (
     <>
-      <h3 className='text-xl font-semibold mt-10'>sila masukkan kata laluan</h3>
+      <h3 className='text-xl font-semibold mt-7'>sila masukkan kata laluan</h3>
       <form onSubmit={handleSubmit}>
-        <div className='grid grid-rows-2 gap-2 justify-center items-center'>
+        <div className='grid grid-rows-2 gap-5 justify-center items-center mt-5'>
           <div>
-            <label htmlFor='negeri'>Negeri</label>
+            <label htmlFor='negeri' className='mr-3'>
+              Negeri:
+            </label>
             <select
               name='negeri'
               id='negeri'
@@ -102,6 +112,7 @@ function UserLoginForm() {
               onChange={(e) => {
                 setPilihanNegeri(e.target.value);
               }}
+              className='leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
             >
               <option value=''></option>
               <option value='Johor'>Johor</option>
@@ -124,7 +135,9 @@ function UserLoginForm() {
           </div>
           {pilihanNegeri && listDaerah.length >= 1 && (
             <div>
-              <label htmlFor='daerah'>Daerah</label>
+              <label htmlFor='daerah' className='mr-3'>
+                Daerah:
+              </label>
               <select
                 name='daerah'
                 id='daerah'
@@ -132,7 +145,7 @@ function UserLoginForm() {
                 onChange={(e) => {
                   setPilihanDaerah(e.target.value);
                 }}
-                className='capitalize'
+                className='leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''></option>
                 {listDaerah.map((d) => {
@@ -142,8 +155,10 @@ function UserLoginForm() {
             </div>
           )}
           {pilihanNegeri && pilihanDaerah && listKlinik.length >= 1 && (
-            <div>
-              <label htmlFor='klinik'>Klinik</label>
+            <div className='flex'>
+              <label htmlFor='klinik' className='mr-3'>
+                Klinik:
+              </label>
               <select
                 name='klinik'
                 id='klinik'
@@ -151,6 +166,7 @@ function UserLoginForm() {
                 onChange={(e) => {
                   setPilihanKlinik(e.target.value);
                 }}
+                className='leading-7 px-3 py-1 ring-2 w-40 lg:w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''></option>
                 {listKlinik.map((k) => {
@@ -159,49 +175,38 @@ function UserLoginForm() {
               </select>
             </div>
           )}
-          <div className='relative'>
-            <input
-              className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
-              type='text'
-              placeholder=' '
-              id='username'
-              name='username'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <label
-              htmlFor='username'
-              className='absolute left-3 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
-            >
-              ID Pengguna
-            </label>
-          </div>
-          <div className='relative'>
-            <input
-              className='mt-5 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
-              type={showPassword ? 'text' : 'password'}
-              placeholder=' '
-              value={password}
-              id='password'
-              name='password'
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <label
-              htmlFor='password'
-              className='absolute left-3 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
-            >
-              Kata Laluan
-            </label>
-            <div className='absolute top-7 right-3 text-xl text-user3'>
-              {showPassword ? (
-                <AiFillEye onClick={hilang} />
-              ) : (
-                <AiFillEyeInvisible onClick={hilang} />
-              )}
+          {isLoading && (
+            <p className='text-xs font-semibold flex justify-center'>
+              <Spinner color='#1f315f' />
+            </p>
+          )}
+          {showPasswordBox && pilihanKlinik !== '' && (
+            <div className='relative'>
+              <input
+                className='mt-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
+                type={showPassword ? 'text' : 'password'}
+                placeholder=' '
+                value={password}
+                id='password'
+                name='password'
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <label
+                htmlFor='password'
+                className='absolute left-10 lg:left-14 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+              >
+                Kata Laluan
+              </label>
+              <div className='absolute top-5 right-10 lg:right-14 text-xl text-user3'>
+                {showPassword ? (
+                  <AiFillEye onClick={hilang} />
+                ) : (
+                  <AiFillEyeInvisible onClick={hilang} />
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {isLoginError && (
           <p className='max-w-max mx-auto mt-5 text-sm text-user6'>
