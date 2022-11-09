@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
+
 export default function KomunitiLain({
+  jenisFasiliti,
   setNamaProgram,
   semuaProgram,
+  setSemuaProgram,
   showPilihanProgram,
   setShowPilihanProgram,
   jenisProgram,
@@ -8,17 +12,19 @@ export default function KomunitiLain({
   setFetchProgramData,
   fetchProgramData,
 }) {
-  if (semuaProgram.length === 0) {
-    return (
-      <div className='flex flex-col justify-center items-center'>
-        <h1 className='text-2xl font-bold text-center'>
-          Tiada program yang sedang berlangsung
-        </h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    return () => setSemuaProgram([]);
+  }, []);
 
-  if (showPilihanProgram) {
+  // if (
+  //   semuaProgram.length === 0 &&
+  //   jenisProgram.length === 0 &&
+  //   jenisFasiliti === 'projek-komuniti-lain'
+  // ) {
+  //   return <div>ni div</div>;
+  // }
+
+  if (showPilihanProgram && jenisFasiliti === 'projek-komuniti-lain') {
     return (
       <div className='flex flex-col gap-5 mt-2 ml-2'>
         <h1 className='flex flex-row text-3xl font-bold text-left'>

@@ -122,7 +122,7 @@ export default function PatientData({
             <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
-            {jenisProgram && namaProgram ? (
+            {jenisFasiliti === 'projek-komuniti-lain' ? (
               <>
                 <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
                   Jenis Program: {jenisProgram}

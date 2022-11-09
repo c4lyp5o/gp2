@@ -40,6 +40,7 @@ function Kaunter({
       const fetchPersonUmum = async () => {
         try {
           setIsLoading(true);
+          setShowPilihanProgram(false);
           const { data } = await axios.get(
             `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
@@ -52,6 +53,7 @@ function Kaunter({
           setIsLoading(false);
         }
       };
+      setSemuaProgram([]);
       fetchPersonUmum();
     }
     if (
@@ -60,6 +62,7 @@ function Kaunter({
       jenisFasiliti === 'projek-komuniti-lain'
     ) {
       const fetchJenisProgram = async () => {
+        setIsLoading(true);
         setShowPilihanProgram(true);
         try {
           const { data } = await axios.get(`/api/v1/query/events`, {
@@ -68,8 +71,8 @@ function Kaunter({
           setSemuaProgram(data);
           setIsLoading(false);
         } catch (error) {
-          setIsLoading(false);
           console.log(error);
+          setIsLoading(false);
         }
       };
       fetchJenisProgram();
@@ -111,26 +114,28 @@ function Kaunter({
   return (
     <>
       <div className='px-2 lg:px-10 h-full p-3 overflow-y-auto'>
-        <PatientData
-          data={data}
-          setData={setData}
-          loading={loading}
-          setIsLoading={setIsLoading}
-          error={error}
-          setIsError={setIsError}
-          philter={philter}
-          setPhilter={setPhilter}
-          showForm={showForm}
-          setShowForm={setShowForm}
-          editForm={editForm}
-          setEditForm={setEditForm}
-          setEditId={setEditId}
-          showPilihanProgram={showPilihanProgram}
-          jenisProgram={jenisProgram}
-          namaProgram={namaProgram}
-          jenisFasiliti={jenisFasiliti}
-          kp={createdByKp}
-        />
+        {!showPilihanProgram ? (
+          <PatientData
+            data={data}
+            setData={setData}
+            loading={loading}
+            setIsLoading={setIsLoading}
+            error={error}
+            setIsError={setIsError}
+            philter={philter}
+            setPhilter={setPhilter}
+            showForm={showForm}
+            setShowForm={setShowForm}
+            editForm={editForm}
+            setEditForm={setEditForm}
+            setEditId={setEditId}
+            showPilihanProgram={showPilihanProgram}
+            jenisProgram={jenisProgram}
+            namaProgram={namaProgram}
+            jenisFasiliti={jenisFasiliti}
+            kp={createdByKp}
+          />
+        ) : null}
         <FillableForm
           showForm={showForm}
           setShowForm={setShowForm}
@@ -146,16 +151,20 @@ function Kaunter({
           editForm={editForm}
           setEditForm={setEditForm}
         /> */}
-        <KomunitiLain
-          semuaProgram={semuaProgram}
-          setNamaProgram={setNamaProgram}
-          jenisProgram={jenisProgram}
-          setJenisProgram={setJenisProgram}
-          showPilihanProgram={showPilihanProgram}
-          setShowPilihanProgram={setShowPilihanProgram}
-          setFetchProgramData={setFetchProgramData}
-          fetchProgramData={fetchProgramData}
-        />
+        {jenisFasiliti === 'projek-komuniti-lain' ? (
+          <KomunitiLain
+            jenisFasiliti={jenisFasiliti}
+            semuaProgram={semuaProgram}
+            setSemuaProgram={setSemuaProgram}
+            setNamaProgram={setNamaProgram}
+            jenisProgram={jenisProgram}
+            setJenisProgram={setJenisProgram}
+            showPilihanProgram={showPilihanProgram}
+            setShowPilihanProgram={setShowPilihanProgram}
+            setFetchProgramData={setFetchProgramData}
+            fetchProgramData={fetchProgramData}
+          />
+        ) : null}
       </div>
     </>
   );
