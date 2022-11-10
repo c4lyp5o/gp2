@@ -95,6 +95,7 @@ const getData = async (req, res) => {
                 negeri: Data.negeri,
                 daerah: Data.daerah,
                 kp: Data.kp,
+                kodFasiliti: Data.kodFasiliti,
                 accountType: 'kaunterUser',
                 password: 'temporary',
               });
