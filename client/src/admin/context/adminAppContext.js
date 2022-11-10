@@ -387,6 +387,11 @@ function AdminAppProvider({ children }) {
     return response.data;
   };
 
+  const readDpimsData = async (nama) => {
+    const response = await axios.get(`/dpims?nama=${nama}`);
+    return response.data.matches;
+  };
+
   // auth
 
   async function loginUser(credentials) {
@@ -473,6 +478,7 @@ function AdminAppProvider({ children }) {
         updateData,
         deleteData,
         // misc data
+        readDpimsData,
         readSekolahData,
         readPegawaiData,
         readMdtbData,
