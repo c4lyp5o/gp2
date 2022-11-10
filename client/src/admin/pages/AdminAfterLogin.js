@@ -35,6 +35,7 @@ export default function AdminAfterLogin() {
   const [kicker, setKicker] = useState('');
   const [kickerNoti, setKickerNoti] = useState('');
   const kickerNotiId = useRef();
+  const [timer, setTimer] = useState(null);
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
@@ -48,6 +49,7 @@ export default function AdminAfterLogin() {
           autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
           onClick: () => {
             logOutUser();
+            clearTimeout(kicker);
           },
         }
       ));
@@ -76,6 +78,11 @@ export default function AdminAfterLogin() {
           isLoggedIn: true,
         });
         logOutNotiSystem();
+        const logOutTime =
+          parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+        const nowMinutes = new Date().getTime();
+        const real = nowMinutes + logOutTime;
+        setTimer(real);
       })
       .catch(() => {
         logOutUser();
@@ -96,6 +103,7 @@ export default function AdminAfterLogin() {
         user={loginInfo.username}
         accountType={loginInfo.accountType}
         image={loginInfo.image}
+        realCountdown={timer}
       />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <AdminNavbar accountType={loginInfo.accountType} />
