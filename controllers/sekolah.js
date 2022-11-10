@@ -122,7 +122,6 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
 
 // not used
 // POST /
-// will use for ERKM
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
