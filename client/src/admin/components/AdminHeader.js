@@ -84,7 +84,7 @@ export default function AdminHeader({
         {isLoggedIn === true && (
           // dropdown
           <div className='relative right-2'>
-            <div className='grid grid-cols-2'>
+            <div className='flex flex-col'>
               <button
                 type='button'
                 className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
@@ -104,15 +104,11 @@ export default function AdminHeader({
                 <FaCreativeCommonsBy className='m-1' />
                 LOG KELUAR
               </button>
-            </div>
-            <div>
-              <button
-                type='button'
-                onClick={() => message()}
-                className='p-1 m-2 w-72 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-              >
-                <CountdownTimer deadline={realCountdown} place='header' />
-              </button>
+              <div className='absolute right-0 top-12'>
+                <span>
+                  <CountdownTimer deadline={realCountdown} place='header' />
+                </span>
+              </div>
             </div>
             {showProfile && (
               <div className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
