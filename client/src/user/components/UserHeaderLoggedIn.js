@@ -70,16 +70,8 @@ function UserHeaderLoggedIn() {
             {fasilitiRelief}
           </p>
         )}
-        <div>
-          <button
-            type='button'
-            className='p-1 m-2 w-72 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-          >
-            <CountdownTimer deadline={timer} place='header' />
-          </button>
-        </div>
       </div>
-      <div className='grid grid-rows-2 gap-2'>
+      <div className='grid grid-rows-2 gap-4'>
         <button
           type='button'
           className='p-1 text-user2 bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
@@ -94,6 +86,11 @@ function UserHeaderLoggedIn() {
         >
           LOG KELUAR
         </button>
+      </div>
+      <div className='absolute -right-3 top-4'>
+        <span>
+          <CountdownTimer deadline={timer} place='header' />
+        </span>
       </div>
     </div>
   );
