@@ -5,7 +5,8 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast, masterDatePicker } = useGlobalUserAppContext();
+  const { userToken, toast, masterDatePicker, refreshTimer, setRefreshTimer } =
+    useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -89,6 +90,7 @@ export default function UserGenerateKlinik() {
     };
     fetchSekolah();
     fetchKp();
+    setRefreshTimer(!refreshTimer);
   }, []);
 
   const saveFile = (blob) => {

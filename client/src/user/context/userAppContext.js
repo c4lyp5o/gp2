@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -107,11 +107,18 @@ const Dictionary = {
   'taska-tadika': 'Taska / Tadika',
   'ipt-kolej': 'IPT / Kolej',
   'orang-asli': 'Orang Asli',
-  ppr: 'PPR',
+  ppr: 'Projek Perumahan Rakyat',
   'institusi-warga-emas': 'Institusi Warga Emas',
   'institusi-oku': 'Institusi OKU',
   'kampung-angkat': 'Kampung Angkat',
   'projek-komuniti-lain': 'Projek Komuniti Lain',
+  'projek-komuniti': 'Projek Komuniti',
+  ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
+  kgangkat: 'Kampung Angkat Pergigian',
+  we: 'Institusi Warga Emas',
+  oku: 'Institusi OKU / PDK',
+  oap: 'Program Orang Asli dan Penan',
+
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
 
@@ -168,7 +175,17 @@ function UserAppProvider({ children }) {
   const [loggingInUser, setLoggingInUser] = useState(false);
   const [loggingInKaunter, setLoggingInKaunter] = useState(false);
 
+  const [timer, setTimer] = useState(0);
+  const [refreshTimer, setRefreshTimer] = useState(false);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+    const nowMinutes = new Date().getTime();
+    const real = nowMinutes + logOutTime;
+    setTimer(real);
+  }, [refreshTimer]);
 
   const loginUser = async ({ username, password }) => {
     setLoggingInUser(true);
@@ -270,6 +287,10 @@ function UserAppProvider({ children }) {
         setLoggingInUser,
         loggingInKaunter,
         setLoggingInKaunter,
+        timer,
+        setTimer,
+        refreshTimer,
+        setRefreshTimer,
       }}
     >
       {children}

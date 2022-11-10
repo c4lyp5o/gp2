@@ -440,7 +440,7 @@ function AdminAppProvider({ children }) {
     sr: 'Sekolah Rendah',
     sm: 'Sekolah Menengah',
     ins: 'Institusi',
-    kpb: 'KP Bergerak',
+    kpb: 'Klinik Pergigian Bergerak',
     mp: 'Makmal Pergigian',
     event: 'Event',
     'projek-komuniti': 'Projek Komuniti',
@@ -452,6 +452,8 @@ function AdminAppProvider({ children }) {
     we: 'Institusi Warga Emas',
     oku: 'Institusi OKU / PDK',
     oap: 'Program Orang Asli dan Penan',
+    ppb: 'Pasukan Pergigian Bergerak',
+    mpb: 'Makmal Pergigian Bergerak',
   };
 
   return (

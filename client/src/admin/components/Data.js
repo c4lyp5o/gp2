@@ -573,9 +573,6 @@ export default function Data({ FType, kp }) {
                     Nama Aktiviti
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Nama Klinik Yang Bertugas
-                  </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tarikh Aktiviti
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -599,17 +596,21 @@ export default function Data({ FType, kp }) {
                       {f.nama}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.createdByKp}
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {moment(f.tarikh).format('DD/MM/YYYY')}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.modPenyampaianPerkhidmatan[0] === 'ppb'
+                      {/* {f.modPenyampaianPerkhidmatan[0] === 'ppb'
                         ? 'Pasukan Pergigian Bergerak'
                         : f.modPenyampaianPerkhidmatan[0] === 'kpb'
                         ? 'Klinik Pergigian Bergerak'
-                        : 'Makmal Pergigian Bergerak'}
+                        : 'Makmal Pergigian Bergerak'} */}
+                      <div className='grid gap-1'>
+                        {f.modPenyampaianPerkhidmatan.map((f) => (
+                          <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            {Dictionary[f]}
+                          </span>
+                        ))}
+                      </div>
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button

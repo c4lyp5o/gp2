@@ -9,6 +9,8 @@ import FillableForm from './pt-registration/FillableForm';
 import KomunitiLain from './KaunterKomunitiLain';
 
 function Kaunter({
+  refreshTimer,
+  setRefreshTimer,
   jenisFasiliti,
   createdByKp,
   createdByDaerah,
@@ -63,11 +65,12 @@ function Kaunter({
       const fetchJenisProgram = async () => {
         setIsLoading(true);
         setShowPilihanProgram(true);
+        setJenisProgram('');
         try {
           const { data } = await axios.get(`/api/v1/query/events`, {
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
-          setSemuaProgram(data);
+          setSemuaProgram(data.projekKomuniti);
           setIsLoading(false);
         } catch (error) {
           console.log(error);
@@ -76,6 +79,7 @@ function Kaunter({
       };
       fetchJenisProgram();
     }
+    setRefreshTimer(!refreshTimer);
   }, [showForm, editForm, jenisFasiliti]);
 
   useEffect(() => {
@@ -101,6 +105,10 @@ function Kaunter({
         });
     }
   }, [fetchProgramData]);
+
+  // useEffect(() => {
+  //   setRefreshTimer(!refreshTimer);
+  // }, []);
 
   if (loading) {
     return (
