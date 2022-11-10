@@ -174,7 +174,7 @@ function UserUmum() {
               type='text'
               name='nama-pesakit'
               id='nama-pesakit'
-              className='appearance-none leading-7 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
+              className='appearance-none leading-7 py-1 px-3 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
             />
             <span className='absolute text-user3 bottom-4 lg:bottom-6 text-xl right-2'>
               <BsPersonCircle />
