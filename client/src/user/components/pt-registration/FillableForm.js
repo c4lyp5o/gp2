@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -50,6 +50,8 @@ export default function FillableForm({
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
+  const [episodMengandung, setEpisodMengandung] = useState('');
+  const [bookingIM, setBookingIM] = useState(false);
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
@@ -65,13 +67,13 @@ export default function FillableForm({
   const [tarikhMulaRawatanKepp, setTarikhMulaRawatanKepp] = useState('');
 
   // penyampaian perkhidmatan
-  const [kpBergerak, setKpBergerak] = useState(false);
-  const [labelKpBergerak, setLabelKpBergerak] = useState('');
-  const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
-    useState(false);
-  const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
-  const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
-    useState('');
+  // const [kpBergerak, setKpBergerak] = useState(false);
+  // const [labelKpBergerak, setLabelKpBergerak] = useState('');
+  // const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
+  //   useState(false);
+  // const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
+  // const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
+  //   useState('');
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
@@ -336,11 +338,11 @@ export default function FillableForm({
               tarikhRundinganPertama,
               tarikhMulaRawatanKepp,
               // penyampaian perkhidmatan
-              kpBergerak,
-              labelKpBergerak,
-              pasukanPergigianBergerak,
-              makmalPergigianBergerak,
-              labelMakmalPergigianBergerak,
+              // kpBergerak,
+              // labelKpBergerak,
+              // pasukanPergigianBergerak,
+              // makmalPergigianBergerak,
+              // labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -419,11 +421,11 @@ export default function FillableForm({
               tarikhRundinganPertama,
               tarikhMulaRawatanKepp,
               // penyampaian perkhidmatan
-              kpBergerak,
-              labelKpBergerak,
-              pasukanPergigianBergerak,
-              makmalPergigianBergerak,
-              labelMakmalPergigianBergerak,
+              // kpBergerak,
+              // labelKpBergerak,
+              // pasukanPergigianBergerak,
+              // makmalPergigianBergerak,
+              // labelMakmalPergigianBergerak,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -497,11 +499,11 @@ export default function FillableForm({
     setTarikhRundinganPertama('');
     setTarikhMulaRawatanKepp('');
     // penyampaian perkhidmatan
-    setKpBergerak(false);
-    setLabelKpBergerak('');
-    setPasukanPergigianBergerak(false);
-    setMakmalPergigianBergerak(false);
-    setLabelMakmalPergigianBergerak('');
+    // setKpBergerak(false);
+    // setLabelKpBergerak('');
+    // setPasukanPergigianBergerak(false);
+    // setMakmalPergigianBergerak(false);
+    // setLabelMakmalPergigianBergerak('');
     // taska / tadika
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
@@ -633,17 +635,17 @@ export default function FillableForm({
             data.singlePersonKaunter.tarikhMulaRawatanKepp
           );
           // penyampaian perkhidmatan
-          setKpBergerak(data.singlePersonKaunter.kpBergerak);
-          setLabelKpBergerak(data.singlePersonKaunter.labelKpBergerak);
-          setPasukanPergigianBergerak(
-            data.singlePersonKaunter.pasukanPergigianBergerak
-          );
-          setMakmalPergigianBergerak(
-            data.singlePersonKaunter.makmalPergigianBergerak
-          );
-          setLabelMakmalPergigianBergerak(
-            data.singlePersonKaunter.labelMakmalPergigianBergerak
-          );
+          // setKpBergerak(data.singlePersonKaunter.kpBergerak);
+          // setLabelKpBergerak(data.singlePersonKaunter.labelKpBergerak);
+          // setPasukanPergigianBergerak(
+          //   data.singlePersonKaunter.pasukanPergigianBergerak
+          // );
+          // setMakmalPergigianBergerak(
+          //   data.singlePersonKaunter.makmalPergigianBergerak
+          // );
+          // setLabelMakmalPergigianBergerak(
+          //   data.singlePersonKaunter.labelMakmalPergigianBergerak
+          // );
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
@@ -885,6 +887,14 @@ export default function FillableForm({
                       className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                     />
                   )}
+                  {/* myIdentity */}
+                  <div>
+                    {/* kalau ada myIdentity jadi betul then vice versa */}
+                    <span>
+                      <FaThumbsUp className='text-lg text-user7' />
+                      <FaThumbsDown className='text-lg text-user9' />
+                    </span>
+                  </div>
                   {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
                     <input
                       required
@@ -896,6 +906,31 @@ export default function FillableForm({
                       className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
                     />
                   )}
+                </div>
+                <div className='flex flex-row m-2'>
+                  {/* mySejahtera */}
+                  <p className='mr-3 font-semibold flex text-center items-center'>
+                    mySejahtera
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <div>
+                    <label htmlFor='nombor-telefon'>no. tel</label>
+                    <input
+                      type='text'
+                      name='nombor-telefon'
+                      id='nombor-telefon'
+                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor='email-mysj'>email </label>
+                    <input
+                      type='email'
+                      name='email-mysj'
+                      id='email-mysj'
+                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                    />
+                  </div>
                 </div>
                 <div className='flex m-2'>
                   <p className='mr-2 font-semibold flex flex-row items-center'>
@@ -1096,9 +1131,9 @@ export default function FillableForm({
                     <option value='sarawak'>Sarawak</option>
                     <option value='selangor'>Selangor</option>
                     <option value='terengganu'>Terengganu</option>
-                    <option value='kuala lumpur'>Kuala Lumpur</option>
-                    <option value='labuan'>Labuan</option>
-                    <option value='putrajaya'>Putrajaya</option>
+                    <option value='kuala lumpur'>WP Kuala Lumpur</option>
+                    <option value='labuan'>WP Labuan</option>
+                    <option value='putrajaya'>WP Putrajaya</option>
                   </select>
                 </div>
                 <div className='flex m-2'>
@@ -1130,28 +1165,102 @@ export default function FillableForm({
                     status pesakit:
                   </p>
                   <div>
-                    {jantina !== 'lelaki' ? (
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='hamil'
-                          id='hamil'
-                          value='hamil'
-                          checked={ibuMengandung}
-                          onChange={() => {
-                            setIbuMengandung(!ibuMengandung);
-                            setConfirmData({
-                              ...confirmData,
-                              ibuMengandung: !ibuMengandung,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label htmlFor='hamil' className='m-2 text-sm font-m'>
-                          Ibu mengandung
-                        </label>
+                    {jantina === 'perempuan' && (
+                      <div className='flex flex-col pl-5'>
+                        <div className='flex flex-row items-center'>
+                          <input
+                            type='checkbox'
+                            name='hamil'
+                            id='hamil'
+                            value='hamil'
+                            checked={ibuMengandung}
+                            onChange={() => {
+                              setIbuMengandung(!ibuMengandung);
+                              setConfirmData({
+                                ...confirmData,
+                                ibuMengandung: !ibuMengandung,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label htmlFor='hamil' className='m-2 text-sm font-m'>
+                            Ibu mengandung
+                          </label>
+                        </div>
+                        {ibuMengandung === true && (
+                          <div className='flex flex-col outline outline-1 outline-userBlack p-2'>
+                            <div className='flex flex-row'>
+                              <label
+                                htmlFor='episod-mengandung'
+                                className='m-2 text-sm font-m'
+                              >
+                                Gravida Mengandung
+                              </label>
+                              <select
+                                name='episod-mengandung'
+                                id='episod-mengandung'
+                                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                              >
+                                <option value=''>Sila pilih..</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                                <option value='6'>6</option>
+                                <option value='7'>7</option>
+                                <option value='8'>8</option>
+                              </select>
+                            </div>
+                            <div className='flex flex-row'>
+                              <p className='flex flex-row items-center text-sm font-m m-2'>
+                                didaftarkan di KKIA pada tahun semasa
+                              </p>
+                              <div className='flex items-center'>
+                                <input
+                                  type='radio'
+                                  name='booking-im'
+                                  id='ya-booking-im'
+                                  value='ya-booking-im'
+                                  checked={
+                                    bookingIM === 'ya-booking-im' ? true : false
+                                  }
+                                  onChange={(e) => setBookingIM(e.target.value)}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                />
+                                <label
+                                  htmlFor='ya-booking-im'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  ya
+                                </label>
+                              </div>
+                              <div className='flex items-center'>
+                                <input
+                                  type='radio'
+                                  name='booking-im'
+                                  id='tidak-booking-im'
+                                  value='tidak-booking-im'
+                                  checked={
+                                    bookingIM === 'tidak-booking-im'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => setBookingIM(e.target.value)}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                />
+                                <label
+                                  htmlFor='tidak-booking-im'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  tidak
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    ) : null}
+                    )}
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
@@ -1290,7 +1399,7 @@ export default function FillableForm({
                 </div>
                 {jenisFasiliti === 'kp' && (
                   <>
-                    <article className='grid justify-center border border-userBlack pl-3 p-2 rounded-md'>
+                    <article className='grid justify-start border border-userBlack pl-3 p-2 rounded-md'>
                       <div className='grid'>
                         <div className='flex items-center flex-row pl-5'>
                           <input
@@ -1403,7 +1512,7 @@ export default function FillableForm({
                         <TarikhMulaRawatanKepp />
                       </div>
                     </article>
-                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <p className='font-semibold col-span-2'>
                         penyampaian perkhidmatan
                       </p>
@@ -1489,7 +1598,7 @@ export default function FillableForm({
                           <option value='apa??'>Apa?</option>
                         </select>
                       </div>
-                    </article>
+                    </article> */}
                   </>
                 )}
                 {jenisFasiliti === 'taska-tadika' && (

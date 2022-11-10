@@ -118,18 +118,14 @@ export default function PatientData({
     return (
       <>
         <div className='grid grid-cols-1 lg:grid-cols-2'>
-          <div>
-            <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+          <div className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+            <p className='flex flex-row'>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
             {jenisFasiliti === 'projek-komuniti-lain' ? (
               <>
-                <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
-                  Jenis Program: {jenisProgram}
-                </p>
-                <p className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
-                  Nama Program: {namaProgram}
-                </p>
+                <p className='flex flex-row'>Jenis Program: {jenisProgram}</p>
+                <p className='flex flex-row'>Nama Program: {namaProgram}</p>
               </>
             ) : null}
           </div>
