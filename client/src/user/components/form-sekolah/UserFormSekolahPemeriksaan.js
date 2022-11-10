@@ -48,6 +48,7 @@ function UserFormSekolahPemeriksaan() {
     useState('');
   const [separaPenuhBawahPerluDenture, setSeparaPenuhBawahPerluDenture] =
     useState('');
+  const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
   const [statusM, setStatusM] = useState('');
   const [inginMelakukanIntervensiMerokok, setInginMelakukanIntervensiMerokok] =
     useState('');
@@ -394,6 +395,10 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .separaPenuhBawahPerluDenture
           );
+          setDalamPemantauanKohort(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .dalamPemantauanKohort
+          );
           setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
           setMenerimaNasihatRingkas(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -704,6 +709,7 @@ function UserFormSekolahPemeriksaan() {
               yaTidakPerluStatusDenture,
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
+              dalamPemantauanKohort,
               statusM,
               menerimaNasihatRingkas,
               // jenisR,
@@ -819,6 +825,7 @@ function UserFormSekolahPemeriksaan() {
               yaTidakPerluStatusDenture,
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
+              dalamPemantauanKohort,
               statusM,
               menerimaNasihatRingkas,
               // jenisR,
@@ -1636,6 +1643,60 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </article>
                   <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                      Program KOTAK<span className='text-user6'>*</span>
+                    </h4>
+                    <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                      dalam pemantauan kohort
+                      <span className='text-user6'>*</span>
+                    </p>
+                    <div className='flex items-center justify-center'>
+                      <input
+                        required
+                        type='radio'
+                        name='dalam-pemantauan-kohort'
+                        id='ya-dalam-pemantauan-kohort'
+                        value='ya-dalam-pemantauan-kohort'
+                        checked={
+                          dalamPemantauanKohort === 'ya-dalam-pemantauan-kohort'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          setDalamPemantauanKohort(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='ya-dalam-pemantauan-kohort'
+                        className='m-2 text-sm font-m'
+                      >
+                        Ya
+                      </label>
+                      <input
+                        required
+                        type='radio'
+                        name='dalam-pemantauan-kohort'
+                        id='tidak-dalam-pemantauan-kohort'
+                        value='tidak-dalam-pemantauan-kohort'
+                        checked={
+                          dalamPemantauanKohort ===
+                          'tidak-dalam-pemantauan-kohort'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          setDalamPemantauanKohort(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='tidak-dalam-pemantauan-kohort'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
+                      </label>
+                    </div>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       status merokok<span className='text-user6'>*</span>
                     </h4>
