@@ -178,7 +178,7 @@ export default function Rawatan(props) {
                   title='Fluoride Varnish'
                 >
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Sapuan Florida
+                    Sapuan Flourida
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
@@ -196,7 +196,7 @@ export default function Rawatan(props) {
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label className='mx-2 text-sm font-m'>
-                      Pesakit diberi Sapuan Florida
+                      Pesakit diberi Sapuan Flourida
                     </label>
                   </div>
                   {/* <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
@@ -293,7 +293,7 @@ export default function Rawatan(props) {
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    PRR Jenis 1
+                    Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
                   </h4>
                   <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                     <input
@@ -311,11 +311,13 @@ export default function Rawatan(props) {
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                     />
                     <label className='mx-2 text-sm font-m'>
-                      pesakit diberi PRR jenis 1
+                      pesakit diberi Tampalan Resin Pencegahan Jenis 1 (PRR Type
+                      I)
                     </label>
                   </div>
                   <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    jumlah gigi diberi PRR Jenis 1
+                    jumlah gigi diberi Tampalan Resin Pencegahan Jenis 1 (PRR
+                    Type I)
                   </p>
                   <div className='flex flex-row items-center pl-5'>
                     {/* <label
@@ -1905,7 +1907,7 @@ export default function Rawatan(props) {
                 {props.kepp === true ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-semibold flex flex-row pl-3'>
-                      kes rujuk UPPR
+                      kes rujuk Unit Pakar Pergigian Restoratif
                     </h4>
                     <div className='flex flex-row items-center pl-3'>
                       <label

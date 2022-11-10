@@ -384,11 +384,11 @@ function UserFormUmumHeader() {
   masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
   masterForm.setDAdaGigiDesidusPemeriksaanUmum =
     setDAdaGigiDesidusPemeriksaanUmum;
-  const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setMAdaGigiDesidusPemeriksaanUmum =
-    setMAdaGigiDesidusPemeriksaanUmum;
+  // const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
+  //   useState('');
+  // masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
+  // masterForm.setMAdaGigiDesidusPemeriksaanUmum =
+  //   setMAdaGigiDesidusPemeriksaanUmum;
   const [fAdaGigiDesidusPemeriksaanUmum, setFAdaGigiDesidusPemeriksaanUmum] =
     useState('');
   masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
@@ -1057,12 +1057,12 @@ function UserFormUmumHeader() {
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
   //promosi
-  const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
-  masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
-  masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
-  const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
-  masterForm.lmgPromosiUmum = lmgPromosiUmum;
-  masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
+  // const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
+  // masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
+  // masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
+  // const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
+  // masterForm.lmgPromosiUmum = lmgPromosiUmum;
+  // masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
   const [
     melaksanakanAktivitiBeginPromosiUmum,
     setMelaksanakanAktivitiBeginPromosiUmum,
@@ -1202,13 +1202,11 @@ function UserFormUmumHeader() {
   useEffect(() => {
     setSumDMFXDesidusUmum(
       parseInt(dAdaGigiDesidusPemeriksaanUmum) +
-        parseInt(mAdaGigiDesidusPemeriksaanUmum) +
         parseInt(fAdaGigiDesidusPemeriksaanUmum) +
         parseInt(xAdaGigiDesidusPemeriksaanUmum)
     );
   }, [
     dAdaGigiDesidusPemeriksaanUmum,
-    mAdaGigiDesidusPemeriksaanUmum,
     fAdaGigiDesidusPemeriksaanUmum,
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
@@ -1388,9 +1386,9 @@ function UserFormUmumHeader() {
         setDAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
         );
-        setMAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
-        );
+        // setMAdaGigiDesidusPemeriksaanUmum(
+        //   data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
+        // );
         setFAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
         );
@@ -1687,8 +1685,8 @@ function UserFormUmumHeader() {
         );
         setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
         //map promosi
-        setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
-        setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
+        // setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
+        // setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
         setMelaksanakanAktivitiBeginPromosiUmum(
           data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
@@ -1831,7 +1829,7 @@ function UserFormUmumHeader() {
             perluPenskaleranPemeriksaanUmum,
             adaDesidusPemeriksaanUmum,
             dAdaGigiDesidusPemeriksaanUmum,
-            mAdaGigiDesidusPemeriksaanUmum,
+            // mAdaGigiDesidusPemeriksaanUmum,
             fAdaGigiDesidusPemeriksaanUmum,
             // smAdaGigiDesidusPemeriksaanUmum,
             xAdaGigiDesidusPemeriksaanUmum,
@@ -1929,8 +1927,8 @@ function UserFormUmumHeader() {
             komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
             kesSelesaiRawatanUmum,
             //promosi
-            ceramahPromosiUmum,
-            lmgPromosiUmum,
+            // ceramahPromosiUmum,
+            // lmgPromosiUmum,
             melaksanakanAktivitiBeginPromosiUmum,
             lawatanKeRumahPromosiUmum,
             plakGigiNasihatPergigianIndividuPromosiUmum,
