@@ -107,11 +107,18 @@ const Dictionary = {
   'taska-tadika': 'Taska / Tadika',
   'ipt-kolej': 'IPT / Kolej',
   'orang-asli': 'Orang Asli',
-  ppr: 'PPR',
+  ppr: 'Projek Perumahan Rakyat',
   'institusi-warga-emas': 'Institusi Warga Emas',
   'institusi-oku': 'Institusi OKU',
   'kampung-angkat': 'Kampung Angkat',
   'projek-komuniti-lain': 'Projek Komuniti Lain',
+  'projek-komuniti': 'Projek Komuniti',
+  ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
+  kgangkat: 'Kampung Angkat Pergigian',
+  we: 'Institusi Warga Emas',
+  oku: 'Institusi OKU / PDK',
+  oap: 'Program Orang Asli dan Penan',
+
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
 
