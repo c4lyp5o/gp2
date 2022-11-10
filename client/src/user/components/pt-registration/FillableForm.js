@@ -812,12 +812,19 @@ export default function FillableForm({
             <form onSubmit={confirm(handleSubmit)}>
               <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
               <div className='grid grid-cols-1 lg:grid-cols-2'>
-                <p className='font-semibold text-user6 mt-3 ml-3 mr-auto'>
+                <p className='font-semibold text-user6 mt-3 ml-3 lg:mr-auto'>
                   * mandatori
                 </p>
-                <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
-                  Fasiliti: {Dictionary[jenisFasiliti]}
-                </p>
+                <div className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
+                  <p className='lg:flex flex-row'>
+                    Fasiliti: {Dictionary[jenisFasiliti]}
+                  </p>
+                  {jenisFasiliti === 'projek-komuniti-lain' ? (
+                    <p className='lg:flex flex-row'>
+                      Nama Program: {namaProgram}
+                    </p>
+                  ) : null}
+                </div>
               </div>
               <div className='grid gap-1'>
                 <div className='flex m-2 '>
@@ -941,6 +948,7 @@ export default function FillableForm({
                     type='text'
                     id='nama-umum'
                     name='nama-umum'
+                    placeholder='Isi Nama Penuh Mengikut Kad Pengenalan'
                     value={nama}
                     onChange={(e) => {
                       setNama(e.target.value);
