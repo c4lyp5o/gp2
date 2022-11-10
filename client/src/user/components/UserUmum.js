@@ -22,13 +22,14 @@ function UserUmum() {
   const {
     userToken,
     reliefUserToken,
-    Dictionary,
     dateToday,
     masterDatePicker,
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
     toast,
+    refreshTimer,
+    setRefreshTimer,
   } = useGlobalUserAppContext();
 
   const [status, setStatus] = useState('pengguna');
@@ -109,6 +110,7 @@ function UserUmum() {
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
     setReloadState(!reloadState);
+    setRefreshTimer(!refreshTimer);
     return () => {
       window.removeEventListener('focus', setReloadState);
     };

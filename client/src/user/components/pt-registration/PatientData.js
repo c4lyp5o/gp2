@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import { TbArrowBigLeftLine } from 'react-icons/tb';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -28,6 +29,7 @@ export default function PatientData({
     noPendaftaranSplitter,
     statusPesakit,
     toast,
+    navigate,
   } = useGlobalUserAppContext();
 
   const saveFile = (blob) => {
@@ -124,7 +126,17 @@ export default function PatientData({
             </p>
             {jenisFasiliti === 'projek-komuniti-lain' ? (
               <>
-                <p className='flex flex-row'>Jenis Program: {jenisProgram}</p>
+                <span
+                  className='absolute top-5 left-2 text-admin2 text-lg h-96 cursor-pointer'
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  <TbArrowBigLeftLine />
+                </span>
+                <p className='flex flex-row'>
+                  Jenis Program: {Dictionary[jenisProgram]}
+                </p>
                 <p className='flex flex-row'>Nama Program: {namaProgram}</p>
               </>
             ) : null}
