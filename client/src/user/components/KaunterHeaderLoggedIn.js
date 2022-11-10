@@ -1,7 +1,9 @@
 import { FaUserCircle, FaFingerprint } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
-function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
+import CountdownTimer from '../../admin/context/countdownTimer';
+
+function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
   const [showProfile, setShowProfile] = useState(false);
 
   // dropdown profil
@@ -35,6 +37,14 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout }) {
         >
           <FaFingerprint className='inline-flex mr-1' />
           LOG KELUAR
+        </button>
+      </div>
+      <div>
+        <button
+          type='button'
+          className='p-1 m-2 w-72 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+        >
+          <CountdownTimer deadline={timer} place='header' />
         </button>
       </div>
       <div className='relative flex lg:hidden w-auto h-10 items-center justify-center capitalize text-kaunterWhite text-xs'>

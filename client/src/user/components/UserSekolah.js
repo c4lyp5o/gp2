@@ -6,7 +6,13 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolah() {
-  const { userToken, reliefUserToken, navigate } = useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    navigate,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -67,6 +73,7 @@ function UserSekolah() {
       }
     };
     fetchAllPersonSekolahs();
+    setRefreshTimer(!refreshTimer);
   }, []);
 
   // reset value
