@@ -104,7 +104,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
       };
     }
     if (FType === 'event') {
-      if (currentModPenyampaian.current.length === 0) {
+      if (currentModPenyampaian.current.length < 1) {
         toast.error(
           'Sila pilih sekurang-kurangnya 1 kaedah penyampaian perkhidmatan'
         );
@@ -154,11 +154,13 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         currentModPenyampaian.current.indexOf(e),
         1
       );
+      console.log(currentModPenyampaian.current);
       return;
     }
     if (!currentModPenyampaian.current.includes(e)) {
       currentModPenyampaian.current = [...currentModPenyampaian.current, e];
     }
+    console.log(currentModPenyampaian.current);
   };
 
   const CustomDatePicker = () => {
@@ -889,6 +891,23 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
                     <p>
+                      Tarikh Program / Aktiviti{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    {/* <input
+                        required
+                        className='border-2'
+                        type='date'
+                        name='tarikh'
+                        id='tarikh'
+                        onChange={(e) =>
+                          (currentTarikh.current = e.target.value)
+                        }
+                      /> */}
+                    <CustomDatePicker />
+                    <p>
                       Nama Program
                       <span className='font-semibold text-lg text-user6'>
                         *
@@ -897,7 +916,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                     <div className='grid gap-1'>
                       <select
                         required
-                        className='border-2'
+                        className='border-2 w-fit'
                         onChange={(e) =>
                           (currentJenisEvent.current = e.target.value)
                         }
@@ -970,23 +989,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                       />
                     </div>
                     <div className='grid gap-1'>
-                      <p>
-                        Tarikh Program / Aktiviti{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      {/* <input
-                        required
-                        className='border-2'
-                        type='date'
-                        name='tarikh'
-                        id='tarikh'
-                        onChange={(e) =>
-                          (currentTarikh.current = e.target.value)
-                        }
-                      /> */}
-                      <CustomDatePicker />
                       <p>
                         Tempat
                         <span className='font-semibold text-lg text-user6'>

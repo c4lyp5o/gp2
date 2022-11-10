@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function KomunitiLain({
   jenisFasiliti,
@@ -12,19 +12,21 @@ export default function KomunitiLain({
   setFetchProgramData,
   fetchProgramData,
 }) {
-  useEffect(() => {
-    return () => setSemuaProgram([]);
-  }, []);
+  const { navigate } = useGlobalUserAppContext();
 
-  // if (
-  //   semuaProgram.length === 0 &&
-  //   jenisProgram.length === 0 &&
-  //   jenisFasiliti === 'projek-komuniti-lain'
-  // ) {
-  //   return <div>ni div</div>;
-  // }
+  if (
+    semuaProgram.length < 1 &&
+    jenisProgram.length < 1 &&
+    jenisFasiliti === 'projek-komuniti-lain'
+  ) {
+    return <div>ni div</div>;
+  }
 
-  if (showPilihanProgram && jenisFasiliti === 'projek-komuniti-lain') {
+  if (
+    showPilihanProgram &&
+    jenisFasiliti === 'projek-komuniti-lain' &&
+    semuaProgram.length > 0
+  ) {
     return (
       <div className='flex flex-col gap-5 mt-2 ml-2'>
         <h1 className='flex flex-row text-3xl font-bold text-left'>
@@ -70,7 +72,7 @@ export default function KomunitiLain({
                 </th>
               </tr>
             </thead>
-            {semuaProgram.projekKomuniti
+            {semuaProgram
               .filter((program) => program.jenisEvent === jenisProgram)
               .map((e, index) => (
                 <>
