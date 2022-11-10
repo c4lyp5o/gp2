@@ -39,14 +39,6 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
           LOG KELUAR
         </button>
       </div>
-      <div>
-        <button
-          type='button'
-          className='p-1 m-2 w-72 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-        >
-          <CountdownTimer deadline={timer} place='header' />
-        </button>
-      </div>
       <div className='relative flex lg:hidden w-auto h-10 items-center justify-center capitalize text-kaunterWhite text-xs'>
         <FaUserCircle
           className='text-4xl cursor-pointer transition-all ease-in-out hover:-translate-y-1 hover:scale-110 duration-300'
@@ -74,6 +66,11 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
             LOG KELUAR
           </button>
         </div>
+      </div>
+      <div className='absolute right-6 lg:-right-3 -top-1'>
+        <span>
+          <CountdownTimer deadline={timer} place='header' />
+        </span>
       </div>
     </div>
   );

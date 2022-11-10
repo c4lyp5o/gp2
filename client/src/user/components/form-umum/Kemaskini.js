@@ -55,13 +55,13 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [tarikhMulaRawatanKepp, setTarikhMulaRawatanKepp] = useState('');
 
   // penyampaian perkhidmatan
-  const [kpBergerak, setKpBergerak] = useState(false);
-  const [labelKpBergerak, setLabelKpBergerak] = useState('');
-  const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
-    useState(false);
-  const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
-  const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
-    useState('');
+  // const [kpBergerak, setKpBergerak] = useState(false);
+  // const [labelKpBergerak, setLabelKpBergerak] = useState('');
+  // const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
+  //   useState(false);
+  // const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
+  // const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
+  //   useState('');
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
@@ -261,17 +261,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setTarikhRundinganPertama(data.singlePersonUmum.tarikhRundinganPertama);
         setTarikhMulaRawatanKepp(data.singlePersonUmum.tarikhMulaRawatanKepp);
         // penyampaian perkhidmatan
-        setKpBergerak(data.singlePersonUmum.kpBergerak);
-        setLabelKpBergerak(data.singlePersonUmum.labelKpBergerak);
-        setPasukanPergigianBergerak(
-          data.singlePersonUmum.pasukanPergigianBergerak
-        );
-        setMakmalPergigianBergerak(
-          data.singlePersonUmum.makmalPergigianBergerak
-        );
-        setLabelMakmalPergigianBergerak(
-          data.singlePersonUmum.labelMakmalPergigianBergerak
-        );
+        // setKpBergerak(data.singlePersonUmum.kpBergerak);
+        // setLabelKpBergerak(data.singlePersonUmum.labelKpBergerak);
+        // setPasukanPergigianBergerak(
+        //   data.singlePersonUmum.pasukanPergigianBergerak
+        // );
+        // setMakmalPergigianBergerak(
+        //   data.singlePersonUmum.makmalPergigianBergerak
+        // );
+        // setLabelMakmalPergigianBergerak(
+        //   data.singlePersonUmum.labelMakmalPergigianBergerak
+        // );
         // taska / tadika
         setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
         setKelasToddler(data.singlePersonUmum.kelasToddler);
@@ -411,11 +411,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           tarikhRundinganPertama,
           tarikhMulaRawatanKepp,
           // penyampaian perkhidmatan
-          kpBergerak,
-          labelKpBergerak,
-          pasukanPergigianBergerak,
-          makmalPergigianBergerak,
-          labelMakmalPergigianBergerak,
+          // kpBergerak,
+          // labelKpBergerak,
+          // pasukanPergigianBergerak,
+          // makmalPergigianBergerak,
+          // labelMakmalPergigianBergerak,
           // taska / tadika
           fasilitiTaskaTadika,
           kelasToddler,
@@ -1159,7 +1159,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                     /> */}
                   </div>
                 </article>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <p className='font-semibold col-span-2'>
                     penyampaian perkhidmatan
                   </p>
@@ -1241,7 +1241,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       <option value='apa??'>Apa?</option>
                     </select>
                   </div>
-                </article>
+                </article> */}
               </>
             )}
             {jenisFasiliti === 'taska-tadika' && (
