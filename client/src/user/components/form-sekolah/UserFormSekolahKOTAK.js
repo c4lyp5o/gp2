@@ -20,12 +20,13 @@ function UserFormSekolahKOTAK() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+  const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
 
   const createdByUsername = username;
-  const [rokokBiasaKotak, setRokokBiasaKotak] = useState(0);
-  const [elektronikVapeKotak, setElektronikVapeKotak] = useState(0);
-  const [shishaKotak, setShishaKotak] = useState(0);
-  const [lainLainKotak, setLainLainKotak] = useState(0);
+  const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
+  const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
+  const [shishaKotak, setShishaKotak] = useState(false);
+  const [lainLainKotak, setLainLainKotak] = useState(false);
   const [tarikh1, setTarikh1] = useState('');
   const [adaTiadaQTarikh1, setAdaTiadaQTarikh1] = useState('');
   const [tarikh2, setTarikh2] = useState('');
@@ -113,9 +114,7 @@ function UserFormSekolahKOTAK() {
         setTarikhQDP(date);
         setTarikhQ(moment(date).format('YYYY-MM-DD'));
       },
-      filterDate: (date) => {
-        return moment() > date;
-      },
+      minDate: new Date(),
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
@@ -178,6 +177,26 @@ function UserFormSekolahKOTAK() {
     tarikhQ3DP,
     tarikhQ4DP,
   ]);
+
+  // set isJenisRokokRequired to true or false
+  useEffect(() => {
+    if (
+      rokokBiasaKotak ||
+      elektronikVapeKotak ||
+      shishaKotak ||
+      lainLainKotak
+    ) {
+      setIsJenisRokokRequired(false);
+    }
+    if (
+      !rokokBiasaKotak &&
+      !elektronikVapeKotak &&
+      !shishaKotak &&
+      !lainLainKotak
+    ) {
+      setIsJenisRokokRequired(true);
+    }
+  }, [rokokBiasaKotak, elektronikVapeKotak, shishaKotak, lainLainKotak]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -456,6 +475,7 @@ function UserFormSekolahKOTAK() {
                     type='checkbox'
                     name='rokok-biasa-kotak'
                     id='rokok-biasa-kotak'
+                    required={isJenisRokokRequired}
                     checked={rokokBiasaKotak}
                     onChange={() => {
                       setRokokBiasaKotak(!rokokBiasaKotak);
@@ -474,6 +494,7 @@ function UserFormSekolahKOTAK() {
                     type='checkbox'
                     name='elektronik-vape-kotak'
                     id='elektronik-vape-kotak'
+                    required={isJenisRokokRequired}
                     checked={elektronikVapeKotak}
                     onChange={() => {
                       setElektronikVapeKotak(!elektronikVapeKotak);
@@ -484,7 +505,7 @@ function UserFormSekolahKOTAK() {
                     htmlFor='elektronik-vape-kotak'
                     className='m-2 text-sm font-m'
                   >
-                    elektronik / vape
+                    peranti rokok elektronik
                   </label>
                 </div>
                 <div className='flex items-center flex-row pl-5'>
@@ -492,6 +513,7 @@ function UserFormSekolahKOTAK() {
                     type='checkbox'
                     name='shisha-kotak'
                     id='shisha-kotak'
+                    required={isJenisRokokRequired}
                     checked={shishaKotak}
                     onChange={() => {
                       setShishaKotak(!shishaKotak);
@@ -507,6 +529,7 @@ function UserFormSekolahKOTAK() {
                     type='checkbox'
                     name='lain-lain-kotak'
                     id='lain-lain-kotak'
+                    required={isJenisRokokRequired}
                     checked={lainLainKotak}
                     onChange={() => {
                       setLainLainKotak(!lainLainKotak);
@@ -541,7 +564,7 @@ function UserFormSekolahKOTAK() {
                         htmlFor='ada-tiada-q-tarikh1'
                         className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                       >
-                        tarikh berhenti merokok :
+                        tarikh rancang berhenti merokok :
                       </label>
                       <div className='flex items-center justify-center'>
                         <input
@@ -607,7 +630,7 @@ function UserFormSekolahKOTAK() {
                           htmlFor='ada-tiada-q-tarikh1'
                           className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                         >
-                          tarikh berhenti merokok :
+                          tarikh rancang berhenti merokok :
                         </label>
                         <div className='flex items-center justify-center'>
                           <input
@@ -676,7 +699,7 @@ function UserFormSekolahKOTAK() {
                           htmlFor='ada-tiada-q-tarikh1'
                           className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                         >
-                          tarikh berhenti merokok :
+                          tarikh rancang berhenti merokok :
                         </label>
                         <div className='flex items-center justify-center'>
                           <input
@@ -745,7 +768,7 @@ function UserFormSekolahKOTAK() {
                           htmlFor='ada-tiada-q-tarikh1'
                           className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                         >
-                          tarikh berhenti merokok :
+                          tarikh rancang berhenti merokok :
                         </label>
                         <div className='flex items-center justify-center'>
                           <input
@@ -865,7 +888,7 @@ function UserFormSekolahKOTAK() {
               adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
                 <article className='flex flex-col border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                   <h4 className='font-bold flex flex-row pl-5 whitespace-nowrap p-2'>
-                    tarikh quit date
+                    tarikh rancang berhenti merokok
                   </h4>
                   <TarikhQ />
                   {/* <input
