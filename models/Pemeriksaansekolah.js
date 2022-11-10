@@ -71,6 +71,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  dalamPemantauanKohort: {
+    type: String,
+    default: '',
+  },
   statusM: {
     type: String,
     default: '',
