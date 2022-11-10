@@ -19,7 +19,7 @@ export default function KomunitiLain({
     jenisProgram.length < 1 &&
     jenisFasiliti === 'projek-komuniti-lain'
   ) {
-    return <div>ni div</div>;
+    return <div></div>;
   }
 
   if (
