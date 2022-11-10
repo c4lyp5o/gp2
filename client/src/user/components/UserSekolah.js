@@ -159,7 +159,7 @@ function UserSekolah() {
             onChange={(e) => {
               setPilihanSekolah(e.target.value);
             }}
-            className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+            className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
           >
             <option value=''>Sila pilih..</option>
             {namaSekolahs.map((singleNamaSekolah, index) => {
@@ -182,7 +182,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanTahun(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {tahun.map((singleTahun, index) => {
@@ -207,7 +207,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanNamaKelas(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {namaKelas.map((singleNamaKelas, index) => {
@@ -226,14 +226,14 @@ function UserSekolah() {
           )}
           {pilihanNamaKelas && (
             <>
-              <p className=''>Nama Pelajar</p>
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Pelajar</p>
               <input
                 type='text'
                 value={filterNama}
                 onChange={(e) => {
                   setFilterNama(e.target.value.toUpperCase());
                 }}
-                className='lowercase'
+                className='lowercase w-11/12 appearance-none leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               />
             </>
           )}
