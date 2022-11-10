@@ -98,11 +98,11 @@ function UserLoginForm() {
 
   return (
     <>
-      <h3 className='text-xl font-semibold mt-7'>sila masukkan kata laluan</h3>
+      <h3 className='text-xl font-semibold mt-7'>sila pilih klinik anda</h3>
       <form onSubmit={handleSubmit}>
         <div className='grid grid-rows-2 gap-5 justify-center items-center mt-5'>
-          <div>
-            <label htmlFor='negeri' className='mr-3'>
+          <div className='w-60 flex'>
+            <label htmlFor='negeri' className='mr-5'>
               Negeri:
             </label>
             <select
@@ -112,30 +112,30 @@ function UserLoginForm() {
               onChange={(e) => {
                 setPilihanNegeri(e.target.value);
               }}
-              className='leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
             >
               <option value=''></option>
               <option value='Johor'>Johor</option>
               <option value='Kedah'>Kedah</option>
               <option value='Kelantan'>Kelantan</option>
               <option value='Melaka'>Melaka</option>
-              <option value='Negeri sembilan'>Negeri Sembilan</option>
+              <option value='Negeri Sembilan'>Negeri Sembilan</option>
               <option value='Pahang'>Pahang</option>
-              <option value='Pulau pinang'>Pulau Pinang</option>
+              <option value='Pulau Pinang'>Pulau Pinang</option>
               <option value='Perak'>Perak</option>
               <option value='Perlis'>Perlis</option>
               <option value='Selangor'>Selangor</option>
               <option value='Terengganu'>Terengganu</option>
               <option value='Sabah'>Sabah</option>
               <option value='Sarawak'>Sarawak</option>
-              <option value='Kuala lumpur'>Kuala Lumpur</option>
+              <option value='Kuala Lumpur'>Kuala Lumpur</option>
               <option value='Labuan'>Labuan</option>
               <option value='Putrajaya'>Putrajaya</option>
             </select>
           </div>
           {pilihanNegeri && listDaerah.length >= 1 && (
-            <div>
-              <label htmlFor='daerah' className='mr-3'>
+            <div className='w-60 flex'>
+              <label htmlFor='daerah' className='mr-4'>
                 Daerah:
               </label>
               <select
@@ -145,7 +145,7 @@ function UserLoginForm() {
                 onChange={(e) => {
                   setPilihanDaerah(e.target.value);
                 }}
-                className='leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''></option>
                 {listDaerah.map((d) => {
@@ -155,8 +155,8 @@ function UserLoginForm() {
             </div>
           )}
           {pilihanNegeri && pilihanDaerah && listKlinik.length >= 1 && (
-            <div className='flex'>
-              <label htmlFor='klinik' className='mr-3'>
+            <div className='w-60 flex'>
+              <label htmlFor='klinik' className='mr-7'>
                 Klinik:
               </label>
               <select
@@ -166,7 +166,7 @@ function UserLoginForm() {
                 onChange={(e) => {
                   setPilihanKlinik(e.target.value);
                 }}
-                className='leading-7 px-3 py-1 ring-2 w-40 lg:w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''></option>
                 {listKlinik.map((k) => {
@@ -194,11 +194,11 @@ function UserLoginForm() {
               />
               <label
                 htmlFor='password'
-                className='absolute left-10 lg:left-14 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                className='absolute left-5 bottom-8 text-xs text-user3 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
               >
                 Kata Laluan
               </label>
-              <div className='absolute top-5 right-10 lg:right-14 text-xl text-user3'>
+              <div className='absolute top-5 right-5 text-xl text-user3'>
                 {showPassword ? (
                   <AiFillEye onClick={hilang} />
                 ) : (
