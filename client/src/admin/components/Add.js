@@ -19,6 +19,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     createData,
     readSekolahData,
     readKpData,
+    readDpimsData,
     pingApdmServer,
     readPegawaiData,
     readMdtbData,
@@ -58,6 +59,9 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   const [mdtbMembers, setMdtbMembers] = useState([]);
   // pp sedia ada
   const [allPegawai, setAllPegawai] = useState([]);
+  // dpims nama
+  const [carianNama, setCarianNama] = useState('');
+  const [searching, setSearching] = useState(false);
 
   const handleSubmit = async (e) => {
     setAddingData(true);
@@ -195,11 +199,11 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         setSekolah(res);
       });
     }
-    if (FType === 'pp') {
-      readPegawaiData().then((res) => {
-        setAllPegawai(res);
-      });
-    }
+    // if (FType === 'pp') {
+    //   readPegawaiData().then((res) => {
+    //     setAllPegawai(res);
+    //   });
+    // }
     if (FType === 'jp') {
       readMdtbData().then((res) => {
         setMdtbMembers(res);
@@ -434,31 +438,119 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                     </p>
                     {FType === 'pp' ? (
                       <div className='grid gap-1'>
-                        <select
-                          className='border-2 max-w-sm'
-                          onChange={(e) => {
-                            const selectedPp = allPegawai.find(
-                              (p) => p.mdcNumber === parseInt(e.target.value)
-                            );
-                            console.log(selectedPp);
-                            currentName.current = selectedPp.nama;
-                            currentRegNumber.current = selectedPp.mdcNumber;
-                            currentGred.current = selectedPp.gred;
-                          }}
+                        <label
+                          for='default-search'
+                          className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          <option key='no-value' value=''>
-                            Pilih Pegawai...
-                          </option>
-                          {allPegawai.map((p) => (
-                            <option
-                              className='capitalize'
-                              key={p.bil}
-                              value={p.mdcNumber}
+                          Search
+                        </label>
+                        <div className='relative'>
+                          <div class='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                            <svg
+                              aria-hidden='true'
+                              className='w-5 h-3 text-gray-500 dark:text-gray-400'
+                              fill='none'
+                              stroke='currentColor'
+                              viewBox='0 0 24 24'
+                              xmlns='http://www.w3.org/2000/svg'
                             >
-                              {p.nama}
+                              <path
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                                strokeWidth='2'
+                                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                              ></path>
+                            </svg>
+                          </div>
+                          <input
+                            autoFocus
+                            value={carianNama}
+                            type='search'
+                            className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Cari pegawai...'
+                            onChange={(e) => {
+                              currentName.current = e.target.value;
+                              setCarianNama(e.target.value);
+                            }}
+                          />
+                          {searching === false ? (
+                            <button
+                              type='button'
+                              class='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                setSearching(true);
+                                setAllPegawai([]);
+                                const res = await readDpimsData(
+                                  currentName.current
+                                );
+                                setAllPegawai(res);
+                                setSearching(false);
+                              }}
+                            >
+                              Search
+                            </button>
+                          ) : (
+                            <>
+                              <button
+                                type='button'
+                                className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                                disabled={true}
+                              >
+                                <svg
+                                  className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  fill='none'
+                                  viewBox='0 0 24 24'
+                                >
+                                  <circle
+                                    className='opacity-25'
+                                    cx='12'
+                                    cy='12'
+                                    r='10'
+                                    stroke='currentColor'
+                                    strokeWidth='4'
+                                  ></circle>
+                                  <path
+                                    className='opacity-75'
+                                    fill='currentColor'
+                                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                  ></path>
+                                </svg>
+                              </button>
+                            </>
+                          )}
+                        </div>
+                        {allPegawai.length > 0 ? (
+                          <select
+                            className='border-2 max-w-sm'
+                            onChange={(e) => {
+                              const selectedPp = allPegawai.find(
+                                (p) => p.nomborMdc === e.target.value
+                              );
+                              currentName.current = selectedPp.nama;
+                              currentRegNumber.current = selectedPp.nomborMdc;
+                              // currentGred.current = selectedPp.gred;
+                              console.log(
+                                currentName.current,
+                                currentRegNumber.current
+                              );
+                            }}
+                          >
+                            <option key='no-value' value=''>
+                              Pilih Pegawai...
                             </option>
-                          ))}
-                        </select>
+                            {allPegawai.map((p) => (
+                              <option
+                                className='capitalize'
+                                key={p.bil}
+                                value={p.nomborMdc}
+                              >
+                                {p.nama}
+                              </option>
+                            ))}
+                          </select>
+                        ) : null}
                       </div>
                     ) : (
                       <div className='grid gap-1'>
@@ -539,8 +631,14 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                         </select>
                       </>
                     )} */}
+                    <p>
+                      Gred{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
                     <div className='grid gap-1'>
-                      {FType === 'nantilahitu' && (
+                      {FType === 'pp' && (
                         <select
                           required
                           className='border-2'
@@ -559,28 +657,20 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                         </select>
                       )}
                       {FType === 'jp' && (
-                        <>
-                          <p>
-                            Gred{' '}
-                            <span className='font-semibold text-lg text-user6'>
-                              *
-                            </span>
-                          </p>
-                          <select
-                            required
-                            className='border-2'
-                            onChange={(e) =>
-                              (currentGred.current = e.target.value)
-                            }
-                          >
-                            <option value=''>Pilih Gred</option>
-                            <option value='u40'>U40</option>
-                            <option value='u38'>U38</option>
-                            <option value='u36'>U36</option>
-                            <option value='u32'>U32</option>
-                            <option value='u29'>U29</option>
-                          </select>
-                        </>
+                        <select
+                          required
+                          className='border-2'
+                          onChange={(e) =>
+                            (currentGred.current = e.target.value)
+                          }
+                        >
+                          <option value=''>Pilih Gred</option>
+                          <option value='u40'>U40</option>
+                          <option value='u38'>U38</option>
+                          <option value='u36'>U36</option>
+                          <option value='u32'>U32</option>
+                          <option value='u29'>U29</option>
+                        </select>
                       )}
                     </div>
                     <div className='grid gap-1'>
