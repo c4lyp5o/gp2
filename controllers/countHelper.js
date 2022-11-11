@@ -4697,9 +4697,13 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
-                '$rawatanSekolah.tarikhRawatanSemasa',
+              $or: [
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                    '$rawatanSekolah.tarikhRawatanSemasa',
+                  ],
+                },
               ],
             },
             1,
@@ -5274,7 +5278,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rawatanSekolah.kesSelesaiSekolahRawatan', true],
+              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
             },
             1,
             0,
@@ -7282,101 +7286,98 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
     $group: {
       _id: '$namaSekolah',
       jumlahBudak: { $sum: 1 },
-      telahFvMuridB: {
-        $sum: '$muridDiberiFv',
-      },
-      telahPRR1MuridB: {
+      telahFvMurid: {
         $sum: {
-          $and: [{ $gt: ['$muridDiberiPrrJenis1', 0] }],
+          $cond: [
+            {
+              $eq: ['$rawatanSekolah.muridDiberiFv', true],
+            },
+            1,
+            0,
+          ],
         },
       },
-      telahPRR1GigiB: {
-        $sum: '$baruJumlahGigiKekalDiberiPrrJenis1',
+      telahPRR1Murid: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rawatanSekolah.muridDiberiPrrJenis1', true],
+            },
+            1,
+            0,
+          ],
+        },
       },
-      telahFSMuridB: {
-        $sum: '$muridDibuatFs',
+      telahPRR1Gigi: {
+        $sum: '$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1',
       },
-      telahFSGigiB: {
-        $sum: '$baruJumlahGigiKekalDibuatFs',
+      telahFSMurid: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rawatanSekolah.muridDibuatFs', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      telahFSGigi: {
+        $sum: '$rawatanSekolah.baruJumlahGigiKekalDibuatFs',
       },
       telahTampalanAntGdB: {
-        $sum: {
-          $gt: ['$gdBaruAnteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanAntGdS: {
-        $sum: {
-          $gt: ['$gdSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanAntGkB: {
-        $sum: {
-          $gt: ['$gkBaruAnteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanAntGkS: {
-        $sum: {
-          $gt: ['$gkSemulaAnteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanPosGdB: {
-        $sum: {
-          $gt: ['$gdBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanPosGdS: {
-        $sum: {
-          $gt: ['$gdSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanPosGkB: {
-        $sum: {
-          $gt: ['$gkBaruPosteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanPosGkS: {
-        $sum: {
-          $gt: ['$gkSemulaPosteriorSewarnaJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
       },
       telahTampalanAmgGdB: {
-        $sum: {
-          $gt: ['$gdBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
       },
       telahTampalanAmgGdS: {
-        $sum: {
-          $gt: ['$gdSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
       },
       telahTampalanAmgGkB: {
-        $sum: {
-          $gt: ['$gkBaruPosteriorAmalgamJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
       },
       telahTampalanAmgGkS: {
-        $sum: {
-          $gt: ['$gkSemulaPosteriorAmalgamJumlahTampalanDibuat', 0],
-        },
+        $sum: '$rawatanSekolah.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
       },
       tampalanSementara: {
         $sum: '$jumlahTampalanSementaraSekolahRawatan',
       },
       cabutanGd: {
-        $sum: '$cabutDesidusPenyataAkhir2',
+        $sum: '$rawatanSekolah.cabutDesidusSekolahRawatan',
       },
       cabutanGk: {
-        $sum: '$cabutKekalPenyataAkhir2',
+        $sum: '$rawatanSekolah.cabutKekalSekolahRawatan',
       },
       penskaleran: {
-        $sum: '$penskaleranPenyataAkhir2',
+        $sum: '$rawatanSekolah.penskaleranSekolahRawatan',
       },
       caseCompletedICDAS: {
-        //kena finish E; cabutan ;scaling ; tampanlan
         $sum: {
           $cond: [
             {
-              $eq: ['$kesSelesaiIcdasPenyataAkhir2', true],
+              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
             },
             1,
             0,
@@ -7387,7 +7388,7 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$kesSelesaiPenyataAkhir2', true],
+              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
             },
             1,
             0,
