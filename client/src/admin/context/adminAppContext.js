@@ -389,6 +389,18 @@ function AdminAppProvider({ children }) {
 
   const readDpimsData = async (nama) => {
     const response = await axios.get(`/dpims?nama=${nama}`);
+    const currentPegawai = await readData('pp');
+    if (currentPegawai.data.length === 0) {
+      console.log('no pegawai');
+      return response.data.matches;
+    }
+    console.log('current pegawai', currentPegawai.data);
+    for (let j = 0; j < currentPegawai.data.length; j++) {
+      const deletePegawai = response.data.matches
+        .map((e) => e.nomborMdc)
+        .indexOf(currentPegawai.data[j].mdcNumber);
+      response.data.matches.splice(deletePegawai, 1);
+    }
     return response.data.matches;
   };
 
