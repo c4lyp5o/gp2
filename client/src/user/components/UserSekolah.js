@@ -16,12 +16,15 @@ function UserSekolah() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
+  const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
+  const [dahFilterTahun, setDahFilterTahun] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahun, setTahun] = useState([]);
   const [namaKelas, setNamaKelas] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanTahun, setPilihanTahun] = useState([]);
-  const [pilihanNamaKelas, setPilihanNamaKelas] = useState([]);
+  const [pilihanTahun, setPilihanTahun] = useState('');
+  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [filterNama, setFilterNama] = useState('');
 
   // init fetch allPersonSekolahs
   useEffect(() => {
@@ -45,28 +48,8 @@ function UserSekolah() {
           },
           ['']
         );
-        const tahun = allPersonSekolahs.reduce(
-          (arrTahun, singlePersonSekolah) => {
-            if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-              arrTahun.push(singlePersonSekolah.tahun);
-            }
-            return arrTahun.filter((valid) => valid);
-          },
-          ['']
-        );
-        const namaKelas = allPersonSekolahs.reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-              arrNamaKelas.push(singlePersonSekolah.namaKelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
-        setTahun(tahun);
-        setNamaKelas(namaKelas);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -76,11 +59,55 @@ function UserSekolah() {
     setRefreshTimer(!refreshTimer);
   }, []);
 
+  useEffect(() => {
+    const filteredSekolahs = allPersonSekolahs.filter((person) =>
+      person.namaSekolah.includes(pilihanSekolah)
+    );
+    const tahun = filteredSekolahs.reduce(
+      (arrTahun, singlePersonSekolah) => {
+        if (!arrTahun.includes(singlePersonSekolah.tahun)) {
+          arrTahun.push(singlePersonSekolah.tahun);
+        }
+        return arrTahun.filter((valid) => valid);
+      },
+      ['']
+    );
+    setTahun(tahun);
+    setDahFilterSekolahs(filteredSekolahs);
+  }, [pilihanSekolah]);
+
+  useEffect(() => {
+    const filteredTahun = dahFilterSekolahs.filter((person) =>
+      person.tahun.includes(pilihanTahun)
+    );
+    const namaKelas = filteredTahun.reduce(
+      (arrNamaKelas, singlePersonSekolah) => {
+        if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
+          arrNamaKelas.push(singlePersonSekolah.namaKelas);
+        }
+        return arrNamaKelas.filter((valid) => valid);
+      },
+      ['']
+    );
+    setNamaKelas(namaKelas);
+    setDahFilterTahun(filteredTahun);
+  }, [pilihanTahun]);
+
   // reset value
   useEffect(() => {
     setPilihanTahun('');
     setPilihanNamaKelas('');
+    setFilterNama('');
   }, [pilihanSekolah]);
+
+  useEffect(() => {
+    setPilihanNamaKelas('');
+    setFilterNama('');
+  }, [pilihanTahun]);
+
+  useEffect(() => {
+    setFilterNama('');
+  }, [pilihanNamaKelas]);
 
   const reloadData = async () => {
     try {
@@ -102,28 +129,8 @@ function UserSekolah() {
         },
         ['']
       );
-      const tahun = allPersonSekolahs.reduce(
-        (arrTahun, singlePersonSekolah) => {
-          if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-            arrTahun.push(singlePersonSekolah.tahun);
-          }
-          return arrTahun.filter((valid) => valid);
-        },
-        ['']
-      );
-      const namaKelas = allPersonSekolahs.reduce(
-        (arrNamaKelas, singlePersonSekolah) => {
-          if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-            arrNamaKelas.push(singlePersonSekolah.namaKelas);
-          }
-          return arrNamaKelas.filter((valid) => valid);
-        },
-        ['']
-      );
       setAllPersonSekolahs(data.allPersonSekolahs);
       setNamaSekolahs(namaSekolahs);
-      setTahun(tahun);
-      setNamaKelas(namaKelas);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -152,7 +159,7 @@ function UserSekolah() {
             onChange={(e) => {
               setPilihanSekolah(e.target.value);
             }}
-            className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+            className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
           >
             <option value=''>Sila pilih..</option>
             {namaSekolahs.map((singleNamaSekolah, index) => {
@@ -175,7 +182,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanTahun(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {tahun.map((singleTahun, index) => {
@@ -200,7 +207,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanNamaKelas(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {namaKelas.map((singleNamaKelas, index) => {
@@ -217,112 +224,19 @@ function UserSekolah() {
               </select>
             </>
           )}
-          {/* {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
+          {pilihanNamaKelas && (
             <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Darjah</p>
-              <select
-                value={pilihanDarjah}
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Pelajar</p>
+              <input
+                type='text'
+                value={filterNama}
                 onChange={(e) => {
-                  setPilihanDarjah(e.target.value);
+                  setFilterNama(e.target.value.toUpperCase());
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {darjah.map((singleDarjah, index) => {
-                  return (
-                    <option
-                      value={singleDarjah}
-                      key={index}
-                      className='capitalize'
-                    >
-                      {singleDarjah}
-                    </option>
-                  );
-                })}
-              </select>
+                className='lowercase w-11/12 appearance-none leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
             </>
           )}
-          {pilihanSekolah.includes('menengah') && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Tingkatan</p>
-              <select
-                value={pilihanTingkatan}
-                onChange={(e) => {
-                  setPilihanTingkatan(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {tingkatan.map((singleTingkatan, index) => {
-                  return (
-                    <option
-                      value={singleTingkatan}
-                      key={index}
-                      className='capitalize'
-                    >
-                      {singleTingkatan}
-                    </option>
-                  );
-                })}
-              </select>
-            </>
-          )}
-          {pilihanDarjah && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Darjah</p>
-              <select
-                value={pilihanKelasDarjah}
-                onChange={(e) => {
-                  setPilihanKelasDarjah(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {namaKelasDarjah
-                  .filter((kelasDarjah) => kelasDarjah.includes(pilihanDarjah))
-                  .map((singleNamaKelas, index) => {
-                    return (
-                      <option
-                        value={singleNamaKelas}
-                        key={index}
-                        className='capitalize'
-                      >
-                        {singleNamaKelas}
-                      </option>
-                    );
-                  })}
-              </select>
-            </>
-          )}
-          {pilihanTingkatan && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Tingkatan</p>
-              <select
-                value={pilihanKelasTingkatan}
-                onChange={(e) => {
-                  setPilihanKelasTingkatan(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {namaKelasTingkatan
-                  .filter((kelasTingkatan) =>
-                    kelasTingkatan.includes(pilihanTingkatan)
-                  )
-                  .map((singleNamaKelas, index) => {
-                    return (
-                      <option
-                        value={singleNamaKelas}
-                        key={index}
-                        className='capitalize'
-                      >
-                        {singleNamaKelas}
-                      </option>
-                    );
-                  })}
-              </select>
-            </>
-          )} */}
           <div className='flex justify-end px-12 '>
             <button
               onClick={() => {
@@ -332,12 +246,6 @@ function UserSekolah() {
             >
               kembali ke senarai sekolah
             </button>
-            {/* <button
-              onClick={reloadData}
-              className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
-            >
-              refresh pelajar
-            </button> */}
           </div>
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -374,11 +282,8 @@ function UserSekolah() {
                   (person) =>
                     person.namaSekolah.includes(pilihanSekolah) &&
                     person.tahun.includes(pilihanTahun) &&
-                    person.namaKelas.includes(pilihanNamaKelas)
-                  // person.kelas.includes(pilihanTingkatan) &&
-                  // person.kelas.includes(pilihanDarjah) &&
-                  // person.kelas.includes(pilihanKelasDarjah) &&
-                  // person.kelas.includes(pilihanKelasTingkatan)
+                    person.namaKelas.includes(pilihanNamaKelas) &&
+                    person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {
                   return (

@@ -99,7 +99,7 @@ const queryPersonUmum = async (req, res) => {
 
   const {
     user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
   queryObject.createdByKp = kp;
@@ -114,6 +114,10 @@ const queryPersonUmum = async (req, res) => {
 
   if (jenisFasiliti) {
     queryObject.jenisFasiliti = jenisFasiliti;
+  }
+
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
   }
 
   const umumResultQuery = await Umum.find(queryObject);
