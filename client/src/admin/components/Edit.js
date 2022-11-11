@@ -311,7 +311,7 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 </p>
                 <div className='grid gap-1'>
                   <input
-                    required
+                    readOnly={true}
                     defaultValue={editedEntity.nama}
                     className='border-2'
                     type='text'

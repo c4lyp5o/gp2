@@ -23,6 +23,7 @@ export default function FillableForm({
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
     useGlobalUserAppContext();
 
+  const [usingCache, setUsingCache] = useState(false);
   const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
@@ -40,6 +41,8 @@ export default function FillableForm({
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
+  const [nomborTelefon, setNomborTelefon] = useState('');
+  const [emel, setEmel] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
@@ -51,7 +54,7 @@ export default function FillableForm({
   const [poskodAlamat, setPoskodAlamat] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [episodMengandung, setEpisodMengandung] = useState('');
-  const [bookingIM, setBookingIM] = useState(false);
+  const [bookingIM, setBookingIM] = useState('');
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
@@ -113,6 +116,9 @@ export default function FillableForm({
   const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
     useState(null);
   const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
+
+  // myidentity
+  const [myIdVerified, setMyIdVerified] = useState(false);
 
   const TarikhKedatangan = () => {
     return masterDatePicker({
@@ -224,9 +230,37 @@ export default function FillableForm({
     });
   };
 
-  // check ic
-  const checkIc = async (ic) => {
-    setCheckingIc(true);
+  const checkMyIdentity = async (ic) => {
+    try {
+      const res = await axios.get(
+        `https://erkm.calypsocloud.one/mysjid?pid=${ic}`,
+        {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        }
+      );
+      const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
+        res.data.info;
+      setNama(nama.toLowerCase());
+      setJantina(jantina.toLowerCase());
+      setAlamat(alamat);
+      setPoskodAlamat(poskod);
+      setDaerahAlamat(daerah);
+      setNegeriAlamat(negeri.toLowerCase());
+      setMyIdVerified(res.data.verified);
+      if (mysjid === phone) {
+        setNomborTelefon(mysjid);
+      }
+      if (mysjid !== phone) {
+        setEmel(mysjid);
+      }
+      toast.success('Menggunakan data dari MyIdentity');
+      return res.data.verified;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkCache = async () => {
     try {
       const response = await axios.post(
         '/api/v1/kaunter/check',
@@ -237,7 +271,6 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
-      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
       const {
         nama,
         tarikhLahir,
@@ -291,8 +324,18 @@ export default function FillableForm({
         noOku,
         statusPesara,
       });
+      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+    }
+  };
+
+  // check ic
+  const checkIc = async (ic) => {
+    setCheckingIc(true);
+    const res = await checkMyIdentity(ic);
+    if (!res) {
+      await checkCache();
     }
     setCheckingIc(false);
   };
@@ -315,6 +358,8 @@ export default function FillableForm({
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
+              nomborTelefon,
+              emel,
               tarikhLahir,
               umur,
               umurBulan,
@@ -325,6 +370,8 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               ibuMengandung,
+              episodMengandung,
+              bookingIM,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -398,6 +445,8 @@ export default function FillableForm({
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
+              nomborTelefon,
+              emel,
               tarikhLahir,
               umur,
               umurBulan,
@@ -408,6 +457,8 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               ibuMengandung,
+              episodMengandung,
+              bookingIM,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -476,6 +527,8 @@ export default function FillableForm({
     setNama('');
     setJenisIc('');
     setIc('');
+    setNomborTelefon('');
+    setEmel('');
     setTarikhLahir('');
     setUmur(0);
     setUmurBulan(0);
@@ -486,6 +539,8 @@ export default function FillableForm({
     setNegeriAlamat('');
     setPoskodAlamat('');
     setIbuMengandung(false);
+    setEpisodMengandung('');
+    setBookingIM(false);
     setOrangKurangUpaya(false);
     setBersekolah(false);
     setNoOku('');
@@ -608,6 +663,8 @@ export default function FillableForm({
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
+          setNomborTelefon(data.singlePersonKaunter.nomborTelefon);
+          setEmel(data.singlePersonKaunter.emel);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
           setUmur(data.singlePersonKaunter.umur);
           setUmurBulan(data.singlePersonKaunter.umurBulan);
@@ -618,6 +675,8 @@ export default function FillableForm({
           setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
           setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
           setIbuMengandung(data.singlePersonKaunter.ibuMengandung);
+          setEpisodMengandung(data.singlePersonKaunter.episodMengandung);
+          setBookingIM(data.singlePersonKaunter.bookingIM);
           setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
           setNoOku(data.singlePersonKaunter.noOku);
@@ -898,8 +957,11 @@ export default function FillableForm({
                   <div>
                     {/* kalau ada myIdentity jadi betul then vice versa */}
                     <span>
-                      <FaThumbsUp className='text-lg text-user7' />
-                      <FaThumbsDown className='text-lg text-user9' />
+                      {myIdVerified ? (
+                        <FaThumbsUp className='text-lg text-user7' />
+                      ) : (
+                        <FaThumbsDown className='text-lg text-user9' />
+                      )}
                     </span>
                   </div>
                   {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
@@ -923,19 +985,23 @@ export default function FillableForm({
                   <div>
                     <label htmlFor='nombor-telefon'>no. tel</label>
                     <input
+                      value={nomborTelefon}
                       type='text'
                       name='nombor-telefon'
                       id='nombor-telefon'
                       className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                      onChange={(e) => setNomborTelefon(e.target.value)}
                     />
                   </div>
                   <div>
                     <label htmlFor='email-mysj'>email </label>
                     <input
+                      value={emel}
                       type='email'
                       name='email-mysj'
                       id='email-mysj'
                       className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                      onChange={(e) => setEmel(e.target.value)}
                     />
                   </div>
                 </div>
@@ -1208,6 +1274,13 @@ export default function FillableForm({
                                 name='episod-mengandung'
                                 id='episod-mengandung'
                                 className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                onChange={(e) => {
+                                  setEpisodMengandung(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    episodMengandung: e.target.value,
+                                  });
+                                }}
                               >
                                 <option value=''>Sila pilih..</option>
                                 <option value='1'>1</option>
