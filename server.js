@@ -10,6 +10,7 @@ const axios = require('axios');
 // IMPORT ROUTER -----------------------------------------------
 // erkm import
 const erkm = require('./routes/erkm');
+const dpims = require('./routes/dpims');
 
 // user import
 const authRegister = require('./routes/authRegister');
@@ -48,6 +49,7 @@ app.use(express.json({ limit: '5mb' }));
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
+app.use('/dpims', dpims);
 // give erkm token every 5 seconds or sync erkm every 10 mins
 // setInterval(async () => {
 //   const UserModel = require('./models/User');

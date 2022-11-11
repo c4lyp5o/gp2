@@ -120,8 +120,6 @@ const getData = async (req, res) => {
           }
           if (theType === 'pegawai') {
             const data = await Operator.find({
-              createdByDaerah: daerah,
-              createdByNegeri: negeri,
               statusPegawai: 'pp',
             });
             return res.status(200).json(data);
