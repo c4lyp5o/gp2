@@ -23,6 +23,7 @@ export default function FillableForm({
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
     useGlobalUserAppContext();
 
+  const [usingCache, setUsingCache] = useState(false);
   const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
@@ -229,9 +230,37 @@ export default function FillableForm({
     });
   };
 
-  // check ic
-  const checkIc = async (ic) => {
-    setCheckingIc(true);
+  const checkMyIdentity = async (ic) => {
+    try {
+      const res = await axios.get(
+        `https://erkm.calypsocloud.one/mysjid?pid=${ic}`,
+        {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        }
+      );
+      const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
+        res.data.info;
+      setNama(nama.toLowerCase());
+      setJantina(jantina.toLowerCase());
+      setAlamat(alamat);
+      setPoskodAlamat(poskod);
+      setDaerahAlamat(daerah);
+      setNegeriAlamat(negeri.toLowerCase());
+      setMyIdVerified(res.data.verified);
+      if (mysjid === phone) {
+        setNomborTelefon(mysjid);
+      }
+      if (mysjid !== phone) {
+        setEmel(mysjid);
+      }
+      toast.success('Menggunakan data dari MyIdentity');
+      return res.data.verified;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkCache = async () => {
     try {
       const response = await axios.post(
         '/api/v1/kaunter/check',
@@ -242,7 +271,6 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
-      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
       const {
         nama,
         tarikhLahir,
@@ -296,31 +324,18 @@ export default function FillableForm({
         noOku,
         statusPesara,
       });
+      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
     }
-    try {
-      const res = await axios.get(`http://localhost:6002/mysjid?pid=${ic}`, {
-        headers: { Authorization: `Bearer ${kaunterToken}` },
-      });
-      console.log(res);
-      setMyIdVerified(res.data.verified);
-      const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
-        res.data.info;
-      setNama(nama.toLowerCase());
-      setJantina(jantina.toLowerCase());
-      setAlamat(alamat);
-      setPoskodAlamat(poskod);
-      setDaerahAlamat(daerah);
-      setNegeriAlamat(negeri.toLowerCase());
-      if (mysjid === phone) {
-        setNomborTelefon(mysjid);
-      }
-      if (mysjid !== phone) {
-        setEmel(mysjid);
-      }
-    } catch (error) {
-      console.log(error);
+  };
+
+  // check ic
+  const checkIc = async (ic) => {
+    setCheckingIc(true);
+    const res = await checkMyIdentity(ic);
+    if (!res) {
+      await checkCache();
     }
     setCheckingIc(false);
   };
