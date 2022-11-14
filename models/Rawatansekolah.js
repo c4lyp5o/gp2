@@ -212,14 +212,38 @@ const RawatansekolahSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  ceramahPromosiSekolahRawatan: {
+  rujukCabutanGigiKekalSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukRawatanEndodontikSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukRawatanOrtodontikSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukRawatanPeriodontikSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukLainLainSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukLainLainTulisSekolahRawatan: {
     type: String,
     default: '',
   },
-  lmgPromosiSekolahRawatan: {
-    type: String,
-    default: '',
-  },
+  // ceramahPromosiSekolahRawatan: {
+  //   type: String,
+  //   default: '',
+  // },
+  // lmgPromosiSekolahRawatan: {
+  //   type: String,
+  //   default: '',
+  // },
   yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan: {
     type: String,
     default: '',

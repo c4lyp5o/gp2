@@ -24,6 +24,7 @@ function UserFormSekolahRawatan() {
 
   const createdByUsername = username;
   const [tarikhRawatanSemasa, setTarikhRawatanSemasa] = useState('');
+  const [engganTidakHadirRawatan, setEngganTidakHadirRawatan] = useState('');
   const [muridDibuatFs, setMuridDibuatFs] = useState(false);
   const [baruJumlahGigiKekalDibuatFs, setBaruJumlahGigiKekalDibuatFs] =
     useState(0);
@@ -124,9 +125,31 @@ function UserFormSekolahRawatan() {
   const [kesSelesaiIcdasSekolahRawatan, setKesSelesaiIcdasSekolahRawatan] =
     useState(false);
   const [rujukSekolahRawatan, setRujukSekolahRawatan] = useState(false);
-  const [ceramahPromosiSekolahRawatan, setCeramahPromosiSekolahRawatan] =
-    useState('');
-  const [lmgPromosiSekolahRawatan, setLmgPromosiSekolahRawatan] = useState('');
+  const [
+    rujukCabutanGigiKekalSekolahRawatan,
+    setRujukCabutanGigiKekalSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanEndodontikSekolahRawatan,
+    setRujukRawatanEndodontikSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanOrtodontikSekolahRawatan,
+    setRujukRawatanOrtodontikSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanPeriodontikSekolahRawatan,
+    setRujukRawatanPeriodontikSekolahRawatan,
+  ] = useState(false);
+  const [rujukLainLainSekolahRawatan, setRujukLainLainSekolahRawatan] =
+    useState(false);
+  const [
+    rujukLainLainTulisSekolahRawatan,
+    setRujukLainLainTulisSekolahRawatan,
+  ] = useState('');
+  // const [ceramahPromosiSekolahRawatan, setCeramahPromosiSekolahRawatan] =
+  //   useState('');
+  // const [lmgPromosiSekolahRawatan, setLmgPromosiSekolahRawatan] = useState('');
   const [
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
@@ -296,8 +319,14 @@ function UserFormSekolahRawatan() {
             kesSelesaiSekolahRawatan,
             kesSelesaiIcdasSekolahRawatan,
             rujukSekolahRawatan,
-            ceramahPromosiSekolahRawatan,
-            lmgPromosiSekolahRawatan,
+            rujukCabutanGigiKekalSekolahRawatan,
+            rujukRawatanEndodontikSekolahRawatan,
+            rujukRawatanOrtodontikSekolahRawatan,
+            rujukRawatanPeriodontikSekolahRawatan,
+            rujukLainLainSekolahRawatan,
+            rujukLainLainTulisSekolahRawatan,
+            // ceramahPromosiSekolahRawatan,
+            // lmgPromosiSekolahRawatan,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
             yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -410,7 +439,7 @@ function UserFormSekolahRawatan() {
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2 pb-2'>
-                  tarikh rawatan
+                  kedatangan
                 </h4>
                 <div className='flex flex-row'>
                   <p className='flex items-center flex-row text-m font-m px-5 '>
@@ -428,6 +457,53 @@ function UserFormSekolahRawatan() {
                     }}
                     className='outline outline-1 outline-userBlack m-2 text-sm font-m'
                   /> */}
+                </div>
+                {/* buat radio untuk pilih enggan / tidak hadir */}
+                <div className='flex items-center flex-row pl-5'>
+                  <input
+                    required
+                    type='radio'
+                    name='enggan-tidak-hadir-rawatan'
+                    id='enggan-rawatan'
+                    value='enggan-rawatan'
+                    checked={
+                      engganTidakHadirRawatan === 'enggan-rawatan'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      setEngganTidakHadirRawatan(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='enggan-rawatan'
+                    className='m-2 text-xs sm:text-sm font-m'
+                  >
+                    enggan
+                  </label>
+                  <input
+                    required
+                    type='radio'
+                    name='enggan-tidak-hadir-rawatan'
+                    id='tidak-hadir-rawatan'
+                    value='tidak-hadir-rawatan'
+                    checked={
+                      engganTidakHadirRawatan === 'tidak-hadir-rawatan'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      setEngganTidakHadirRawatan(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='tidak-hadir-rawatan'
+                    className='m-2 text-xs sm:text-sm font-m'
+                  >
+                    tidak hadir
+                  </label>
                 </div>
               </article>
               <div className='grid gap-1 auto-rows-min'>
@@ -546,7 +622,7 @@ function UserFormSekolahRawatan() {
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Sapuan Fluorida{' '}
+                    Sapuan Fluorida(FV)
                     <FaInfoCircle
                       title='Fluoride Varnish Application'
                       className='m-2'
@@ -564,7 +640,7 @@ function UserFormSekolahRawatan() {
                       className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
                     />
                     <label htmlFor='murid-diberi-fv' className='text-sm font-m'>
-                      murid diberi sapuan fluorida
+                      murid diberi Sapuan Fluorida(FV)
                     </label>
                   </div>
                   {/* <div className='flex flex-row items-center pl-5'>
@@ -662,7 +738,7 @@ function UserFormSekolahRawatan() {
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    PRR Jenis 1
+                    Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
                   </h4>
                   <div className='flex flex-row items-center pl-11 col-span-2'>
                     <input
@@ -679,7 +755,8 @@ function UserFormSekolahRawatan() {
                       htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
                       className='text-sm font-m'
                     >
-                      murid diberi PRR Jenis 1
+                      murid diberi Tampalan Resin Pencegahan Jenis 1 (PRR Type
+                      I)
                     </label>
                   </div>
                   <div className='flex flex-row items-center pl-5 col-span-2'>
@@ -687,7 +764,8 @@ function UserFormSekolahRawatan() {
                       htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
                       className='text-sm font-m'
                     >
-                      jumlah gigi kekal perlu PRR jenis 1
+                      jumlah gigi kekal perlu Tampalan Resin Pencegahan Jenis 1
+                      (PRR Type I)
                     </label>
                     <input
                       type='number'
@@ -1306,6 +1384,142 @@ function UserFormSekolahRawatan() {
                       rujuk
                     </label>
                   </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      id='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      checked={rujukCabutanGigiKekalSekolahRawatan}
+                      onChange={() => {
+                        setRujukCabutanGigiKekalSekolahRawatan(
+                          !rujukCabutanGigiKekalSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      cabutan gigi kekal
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      id='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      checked={rujukRawatanEndodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanEndodontikSekolahRawatan(
+                          !rujukRawatanEndodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan endodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rawatan-ortodontik-penyata-akhir-2'
+                      id='rawatan-ortodontik-penyata-akhir-2'
+                      checked={rujukRawatanOrtodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanOrtodontikSekolahRawatan(
+                          !rujukRawatanOrtodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rawatan-ortodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan ortodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      id='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      checked={rujukRawatanPeriodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanPeriodontikSekolahRawatan(
+                          !rujukRawatanPeriodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan periodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-lain-lain-penyata-akhir-2'
+                      id='rujuk-lain-lain-penyata-akhir-2'
+                      checked={rujukLainLainSekolahRawatan}
+                      onChange={() => {
+                        setRujukLainLainSekolahRawatan(
+                          !rujukLainLainSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-lain-lain-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      lain-lain
+                    </label>
+                    <div
+                      className={`${
+                        !rujukSekolahRawatan && 'hidden'
+                      } flex flex-row items-center`}
+                    >
+                      <input
+                        type='text'
+                        name='rujuk-lain-lain-tulis-rawatan'
+                        id='rujuk-lain-lain-tulis-rawatan'
+                        value={rujukLainLainTulisSekolahRawatan}
+                        onChange={(e) => {
+                          setRujukLainLainTulisSekolahRawatan(e.target.value);
+                        }}
+                        className='ml-4 px-2 py-1 ring-1 ring-user3 rounded-md focus:ring-2 focus:ring-user3 focus:outline-none'
+                      />
+                    </div>
+                  </div>
                 </article>
               </div>
               <div className='grid gap-2 auto-rows-min'>
@@ -1313,7 +1527,7 @@ function UserFormSekolahRawatan() {
                   <h4 className='font-bold flex flex-row pl-5'>
                     promosi & pendidikan kesihatan pergigian
                   </h4>
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       menyertai aktiviti
                     </h4>
@@ -1353,7 +1567,7 @@ function UserFormSekolahRawatan() {
                         </select>
                       </div>
                     </div>
-                  </article>
+                  </article> */}
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
                       melaksanakan aktiviti
@@ -1498,7 +1712,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penyakit pergigian
+                          nasihat berkaitan plak gigi
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1520,7 +1734,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          diet pemakanan
+                          nasihat berkaitan diet pemakanan
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1542,7 +1756,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penjagaan kesihatan mulut
+                          nasihat berkaitan penjagaan kesihatan oral
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1564,7 +1778,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          kanser mulut
+                          nasihat berkaitan kanser mulut
                         </label>
                       </div>
                     </div>
