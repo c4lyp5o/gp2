@@ -249,9 +249,31 @@ export default function FillableForm({
       setMyIdVerified(res.data.verified);
       if (mysjid === phone) {
         setNomborTelefon(mysjid);
+        setConfirmData({
+          ...confirmData,
+          nama: nama.toLowerCase(),
+          ic: ic,
+          jantina: jantina.toLowerCase(),
+          alamat: alamat,
+          poskodAlamat: poskod,
+          daerahAlamat: daerah,
+          negeriAlamat: negeri.toLowerCase(),
+          nomborTelefon: mysjid,
+        });
       }
       if (mysjid !== phone) {
         setEmel(mysjid);
+        setConfirmData({
+          ...confirmData,
+          nama: nama.toLowerCase(),
+          ic: ic,
+          jantina: jantina.toLowerCase(),
+          alamat: alamat,
+          poskodAlamat: poskod,
+          daerahAlamat: daerah,
+          negeriAlamat: negeri.toLowerCase(),
+          emel: mysjid,
+        });
       }
       toast.success('Menggunakan data dari MyIdentity');
       return res.data.verified;
@@ -958,7 +980,9 @@ export default function FillableForm({
                         type='text'
                         name='ic'
                         value={ic}
-                        onChange={(e) => setIc(e.target.value)}
+                        onChange={(e) => {
+                          setIc(e.target.value);
+                        }}
                         placeholder='123456121234'
                         className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
