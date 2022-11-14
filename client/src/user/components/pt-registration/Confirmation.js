@@ -106,6 +106,12 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                 <p>Nama: {data.nama}</p>
                 <p>No. Pengenalan Diri: {data.ic}</p>
                 <p>
+                  MySejahtera ID:{' '}
+                  {data.nomborTelefon ? `${data.nomborTelefon}` : null}
+                  {''}
+                  {data.emel ? `/${data.emel}` : null}
+                </p>
+                <p>
                   Tarikh Lahir: {moment(data.tarikhLahir).format('DD/MM/YYYY')}
                 </p>
                 <p>Jantina: {data.jantina}</p>
@@ -114,9 +120,9 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                   Alamat: {data.alamat}, {data.daerahAlamat},{' '}
                   {data.poskodAlamat}, {data.negeriAlamat}
                 </p>
-                <p>Ibu Mengandung: {data.ibuMengandung ? 'Ya' : 'Tidak'}</p>
-                <p>Bersekolah: {data.bersekolah ? 'Ya' : 'Tidak'}</p>
-                <p>OKU: {data.oku ? 'Ya' : 'Tidak'}</p>
+                {data.ibuMengandung ? <p>Ibu Mengandung: Ya</p> : null}
+                {data.bersekolah ? <p>Bersekolah: Ya</p> : null}
+                {data.oku ? <p>OKU: Ya</p> : null}
                 {data.statusPesara ? <p>Pesara: {data.statusPesara}</p> : null}
                 {data.rujukDaripada ? (
                   <p>Rujuk Daripada: {data.rujukDaripada}</p>
