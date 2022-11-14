@@ -1,11 +1,11 @@
 // CORE --------------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
-const logger = require('./logs/logger');
 const express = require('express');
 const app = express();
 const path = require('path');
 const axios = require('axios');
+const logger = require('./logs/logger');
 
 // IMPORT ROUTER -----------------------------------------------
 // erkm import
@@ -47,9 +47,11 @@ const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '5mb' }));
 
+// the dpims scrap
+app.use('/dpims', dpims);
+
 // erkm route
 app.use('/erkm', authCheck, erkm);
-app.use('/dpims', dpims);
 // give erkm token every 5 seconds or sync erkm every 10 mins
 // setInterval(async () => {
 //   const UserModel = require('./models/User');

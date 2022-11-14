@@ -26,6 +26,9 @@ function UserSekolah() {
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
+  const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
+  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
+
   // init fetch allPersonSekolahs
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
@@ -108,6 +111,32 @@ function UserSekolah() {
   useEffect(() => {
     setFilterNama('');
   }, [pilihanNamaKelas]);
+
+  // fetch fasiliti sekolah to determine selesai reten
+  useEffect(() => {
+    const fetchFasilitiSekolahs = async () => {
+      try {
+        const { data } = await axios.get('/api/v1/sekolah', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setFasilitiSekolah(data.fasilitiSekolahs);
+        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchFasilitiSekolahs();
+  }, []);
+
+  useEffect(() => {
+    setFilteredFasilitiSekolah(
+      fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
+    );
+  }, [pilihanSekolah]);
 
   const reloadData = async () => {
     try {
@@ -248,6 +277,14 @@ function UserSekolah() {
             </button>
           </div>
         </div>
+        {pilihanSekolah &&
+          filteredFasilitiSekolah[0].sekolahSelesaiReten === true && (
+            <div>reten sekolah telah ditutup</div>
+          )}
+        {pilihanSekolah &&
+          filteredFasilitiSekolah[0].sekolahSelesaiReten === false && (
+            <div>reten sekolah masih dibuka</div>
+          )}
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>

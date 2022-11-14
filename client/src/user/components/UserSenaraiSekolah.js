@@ -55,7 +55,6 @@ function UserSekolahList() {
               // }
             });
           setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
-          console.log(tempKedatanganBaru);
         });
         setIsLoading(false);
       } catch (error) {
@@ -65,6 +64,25 @@ function UserSekolahList() {
     fetchFasilitiSekolahs();
     setRefreshTimer(!refreshTimer);
   }, []);
+
+  const selesaiSekolah = async (idSekolah) => {
+    alert('**WARNING PLACEHOLDER** Anda pasti selesai sekolah? ' + idSekolah);
+    try {
+      const { data } = await axios.patch(
+        `/api/v1/sekolah/fasiliti/${idSekolah}`,
+        { sekolahSelesaiReten: true },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -149,9 +167,15 @@ function UserSekolahList() {
               {namaSekolahs.map((singleNamaSekolah) => {
                 return (
                   <tr>
-                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      {singleNamaSekolah._id}
-                    </td>
+                    <button
+                      disabled={true}
+                      onClick={() => {
+                        selesaiSekolah(singleNamaSekolah._id);
+                      }}
+                    >
+                      sekolah selesai:{' '}
+                      {singleNamaSekolah.sekolahSelesaiReten ? 'ya' : 'tidak'}
+                    </button>
                   </tr>
                 );
               })}
