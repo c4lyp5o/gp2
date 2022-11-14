@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
-import { FaInfoCircle, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
+import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -132,7 +132,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -156,7 +156,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -194,7 +194,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -885,16 +885,16 @@ export default function FillableForm({
                   ) : null}
                 </div>
               </div>
-              <div className='grid gap-1'>
-                <div className='flex m-2 '>
-                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
+              <div className='grid 2xl:grid-cols-2'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 '>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh kedatangan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <TarikhKedatangan />
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
                     waktu tiba:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
@@ -904,22 +904,22 @@ export default function FillableForm({
                     onChange={(e) => setWaktuSampai(e.target.value)}
                     type='time'
                     name='waktuSampai'
-                    className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                <div className='flex m-2 flex-col md:flex-row'>
-                  <div className='flex flex-row'>
-                    <p className='mr-3 font-semibold flex text-center items-center'>
-                      jenis pengenalan:{' '}
-                      <span className='font-semibold text-user6'>*</span>
-                    </p>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    jenis pengenalan:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <div className='flex flex-col lg:flex-row'>
                     <select
                       required
                       id='pengenalan'
                       name='pengenalan'
                       value={jenisIc}
                       onChange={(e) => setJenisIc(e.target.value)}
-                      className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
+                      className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                     >
                       <option value=''>Sila pilih..</option>
                       <option value='mykad-mykid'>MyKad / MyKid</option>
@@ -928,85 +928,98 @@ export default function FillableForm({
                       <option value='polis'>Polis</option>
                       <option value='sijil-lahir'>Sijil lahir</option>
                     </select>
+                    {jenisIc === 'mykad-mykid' && (
+                      <input
+                        required
+                        type='text'
+                        name='ic'
+                        pattern='[0-9]+'
+                        title='12 numbers MyKad / MyKid'
+                        minLength={12}
+                        maxLength={12}
+                        value={ic}
+                        onChange={(e) => {
+                          setIc(e.target.value);
+                          setConfirmData({
+                            ...confirmData,
+                            ic: e.target.value,
+                          });
+                          if (e.target.value.length === 12) {
+                            checkIc(e.target.value);
+                          }
+                        }}
+                        placeholder='123456090987'
+                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                      />
+                    )}
+                    {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
+                      <input
+                        required
+                        type='text'
+                        name='ic'
+                        value={ic}
+                        onChange={(e) => setIc(e.target.value)}
+                        placeholder='123456121234'
+                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                      />
+                    )}
                   </div>
-                  {jenisIc === 'mykad-mykid' && (
-                    <input
-                      required
-                      type='text'
-                      name='ic'
-                      pattern='[0-9]+'
-                      title='12 numbers MyKad / MyKid'
-                      minLength={12}
-                      maxLength={12}
-                      value={ic}
-                      onChange={(e) => {
-                        setIc(e.target.value);
-                        setConfirmData({
-                          ...confirmData,
-                          ic: e.target.value,
-                        });
-                        if (e.target.value.length === 12) {
-                          checkIc(e.target.value);
-                        }
-                      }}
-                      placeholder='123456090987'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
-                  )}
-                  {/* myIdentity */}
-                  <div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  {/* mySejahtera */}
+                  <div className='flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center'>
+                      mySejahtera
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    {/* myIdentity */}
+
                     {/* kalau ada myIdentity jadi betul then vice versa */}
                     <span>
                       {myIdVerified ? (
-                        <FaThumbsUp className='text-lg text-user7' />
+                        <FaCheckCircle className='text-lg text-user7' />
                       ) : (
-                        <FaThumbsDown className='text-lg text-user9' />
+                        <FaTimesCircle className='text-lg text-user9' />
                       )}
                     </span>
                   </div>
-                  {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
-                    <input
-                      required
-                      type='text'
-                      name='ic'
-                      value={ic}
-                      onChange={(e) => setIc(e.target.value)}
-                      placeholder='123456121234'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
-                  )}
-                </div>
-                <div className='flex flex-row m-2'>
-                  {/* mySejahtera */}
-                  <p className='mr-3 font-semibold flex text-center items-center'>
-                    mySejahtera
-                    <span className='font-semibold text-user6'>*</span>
-                  </p>
-                  <div>
-                    <label htmlFor='nombor-telefon'>no. tel</label>
-                    <input
-                      value={nomborTelefon}
-                      type='text'
-                      name='nombor-telefon'
-                      id='nombor-telefon'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                      onChange={(e) => setNomborTelefon(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='email-mysj'>email </label>
-                    <input
-                      value={emel}
-                      type='email'
-                      name='email-mysj'
-                      id='email-mysj'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                      onChange={(e) => setEmel(e.target.value)}
-                    />
+                  <div className='flex flex-col'>
+                    <div className='flex flex-col md:flex-row items-center'>
+                      <label
+                        htmlFor='nombor-telefon'
+                        className='mr-1 flex items-center text-left flex-row text-xs md:text-sm'
+                      >
+                        no. tel
+                      </label>
+                      <input
+                        value={nomborTelefon}
+                        type='text'
+                        name='nombor-telefon'
+                        id='nombor-telefon'
+                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                        onChange={(e) => setNomborTelefon(e.target.value)}
+                      />
+                    </div>
+                    <div className='flex flex-col md:flex-row items-center'>
+                      <label
+                        htmlFor='email-mysj'
+                        className='mr-4 flex items-center text-left flex-row text-xs md:text-sm'
+                      >
+                        email{' '}
+                      </label>
+                      <input
+                        value={emel}
+                        type='email'
+                        name='email-mysj'
+                        id='email-mysj'
+                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
+                        onChange={(e) => setEmel(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-2 font-semibold flex flex-row items-center'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     nama: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <input
@@ -1023,54 +1036,56 @@ export default function FillableForm({
                     className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
                   />
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <TarikhLahir />
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     umur: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <div className='relative'>
-                    <input
-                      disabled
-                      placeholder='tahun'
-                      type='number'
-                      name='umur'
-                      id='umur'
-                      value={umur}
-                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
-                    />
-                    <label
-                      htmlFor='umur'
-                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                    >
-                      Tahun
-                    </label>
-                  </div>
-                  <div className='relative'>
-                    <input
-                      disabled
-                      placeholder='bulan'
-                      type='number'
-                      name='umurBulan'
-                      id='umurBulan'
-                      value={umurBulan}
-                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
-                    />
-                    <label
-                      htmlFor='umurBulan'
-                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                    >
-                      Bulan
-                    </label>
+                  <div className='flex'>
+                    <div className='relative'>
+                      <input
+                        disabled
+                        placeholder='tahun'
+                        type='number'
+                        name='umur'
+                        id='umur'
+                        value={umur}
+                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
+                      />
+                      <label
+                        htmlFor='umur'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                      >
+                        Tahun
+                      </label>
+                    </div>
+                    <div className='relative'>
+                      <input
+                        disabled
+                        placeholder='bulan'
+                        type='number'
+                        name='umurBulan'
+                        id='umurBulan'
+                        value={umurBulan}
+                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                      />
+                      <label
+                        htmlFor='umurBulan'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                      >
+                        Bulan
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     jantina: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <select
@@ -1085,15 +1100,15 @@ export default function FillableForm({
                         jantina: e.target.value,
                       });
                     }}
-                    className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase m-1'
+                    className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
                   >
                     <option value=''>Sila pilih..</option>
                     <option value='lelaki'>Lelaki</option>
                     <option value='perempuan'>Perempuan</option>
                   </select>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     kumpulan etnik:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
@@ -1137,8 +1152,8 @@ export default function FillableForm({
                     <option value='bukan warganegara'>Bukan warganegara</option>
                   </select>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] 2xl:col-start-1 m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     alamat: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <input
@@ -1156,8 +1171,8 @@ export default function FillableForm({
                     className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     daerah: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <input
@@ -1172,11 +1187,11 @@ export default function FillableForm({
                     }}
                     type='text'
                     name='daerah-alamat'
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='text-xs md:text-sm text-right grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     negeri: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <select
@@ -1189,7 +1204,7 @@ export default function FillableForm({
                         negeriAlamat: e.target.value,
                       });
                     }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   >
                     <option value=''>Sila pilih..</option>
                     <option value='johor'>Johor</option>
@@ -1210,8 +1225,8 @@ export default function FillableForm({
                     <option value='putrajaya'>WP Putrajaya</option>
                   </select>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     poskod: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <input
@@ -1231,16 +1246,16 @@ export default function FillableForm({
                       });
                     }}
                     placeholder='62519'
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                <div className='flex m-2 flex-col md:flex-row'>
-                  <p className='mr-3 font-semibold flex flex-row'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     status pesakit:
                   </p>
-                  <div>
-                    {jantina === 'perempuan' && (
-                      <div className='flex flex-col pl-5'>
+                  <div className=''>
+                    {jantina === 'perempuan' && umur >= 8 && (
+                      <div className='flex flex-col pl-2 md:pl-5'>
                         <div className='flex flex-row items-center'>
                           <input
                             type='checkbox'
@@ -1263,17 +1278,17 @@ export default function FillableForm({
                         </div>
                         {ibuMengandung === true && (
                           <div className='flex flex-col outline outline-1 outline-userBlack p-2'>
-                            <div className='flex flex-row'>
+                            <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <label
                                 htmlFor='episod-mengandung'
-                                className='m-2 text-sm font-m'
+                                className='m-2 text-left font-light'
                               >
                                 Gravida Mengandung
                               </label>
                               <select
                                 name='episod-mengandung'
                                 id='episod-mengandung'
-                                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                                 onChange={(e) => {
                                   setEpisodMengandung(e.target.value);
                                   setConfirmData({
@@ -1293,8 +1308,8 @@ export default function FillableForm({
                                 <option value='8'>8</option>
                               </select>
                             </div>
-                            <div className='flex flex-row'>
-                              <p className='flex flex-row items-center text-sm font-m m-2'>
+                            <div className='flex flex-col md:flex-row text-xs md:text-sm'>
+                              <p className='text-left font-light m-2'>
                                 didaftarkan di KKIA pada tahun semasa
                               </p>
                               <div className='flex items-center'>
@@ -1311,7 +1326,7 @@ export default function FillableForm({
                                 />
                                 <label
                                   htmlFor='ya-booking-im'
-                                  className='m-2 text-sm font-m'
+                                  className='m-2 text-xs md:text-sm font-light'
                                 >
                                   ya
                                 </label>
@@ -1332,7 +1347,7 @@ export default function FillableForm({
                                 />
                                 <label
                                   htmlFor='tidak-booking-im'
-                                  className='m-2 text-sm font-m'
+                                  className='m-2 text-xs md:text-sm font-light'
                                 >
                                   tidak
                                 </label>
@@ -1342,7 +1357,7 @@ export default function FillableForm({
                         )}
                       </div>
                     )}
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-2 md:pl-5'>
                       <input
                         type='checkbox'
                         name='bersekolah'
@@ -1365,7 +1380,7 @@ export default function FillableForm({
                         Bersekolah
                       </label>
                     </div>
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-2 md:pl-5'>
                       <input
                         type='checkbox'
                         name='oku'
@@ -1379,17 +1394,17 @@ export default function FillableForm({
                             orangKurangUpaya: !orangKurangUpaya,
                           });
                         }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 mr-1 md:mr-0'
                       />
-                      <label htmlFor='oku' className='m-2 text-sm font-m'>
+                      <label htmlFor='oku' className='md:m-2 text-sm font-m'>
                         Orang Kurang Upaya (OKU)
                       </label>
                     </div>
                   </div>
                 </div>
                 {orangKurangUpaya === true && (
-                  <div className='flex m-2'>
-                    <p className='mr-3 font-semibold'>
+                  <div className='grid grid-cols-[1fr_2fr] m-2'>
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                       no. OKU:{' '}
                       <span className='font-semibold text-user6'>*</span>
                     </p>
@@ -1399,14 +1414,15 @@ export default function FillableForm({
                       onChange={(e) => setNoOku(e.target.value)}
                       type='text'
                       name='no-oku'
-                      className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     />
                   </div>
                 )}
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>status pesara:</p>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    status pesara:
+                  </p>
                   <select
-                    // required
                     name='statusPesara'
                     id='statusPesara'
                     value={statusPesara}
@@ -1417,15 +1433,17 @@ export default function FillableForm({
                         statusPesara: e.target.value,
                       });
                     }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   >
                     <option value=''>Sila pilih..</option>
                     <option value='pesara-kerajaan'>Pesara kerajaan</option>
                     <option value='pesara-atm'>Pesara ATM</option>
                   </select>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>rujuk daripada: </p>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    rujuk daripada:{' '}
+                  </p>
                   <select
                     name='rujukDaripada'
                     id='rujukDaripada'
@@ -1437,7 +1455,7 @@ export default function FillableForm({
                         rujukDaripada: e.target.value,
                       });
                     }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   >
                     <option value=''>Sila pilih..</option>
                     <option value='dalaman'>Dalaman</option>
@@ -1450,18 +1468,20 @@ export default function FillableForm({
                     <option value='lain-lain'>Lain-lain</option>
                   </select>
                 </div>
-                <div className='flex m-2'>
-                  <p className='font-semibold'>catatan </p>
-                  <FaInfoCircle
-                    className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
-                    title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
-                  />
-                  <p className='font-semibold mr-2'>
-                    :
-                    {statusPesara !== '' && (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
-                  </p>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <div className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    <p>catatan </p>
+                    <FaInfoCircle
+                      className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
+                      title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
+                    />
+                    <p>
+                      :
+                      {statusPesara !== '' && (
+                        <span className='font-semibold text-user6'>*</span>
+                      )}
+                    </p>
+                  </div>
                   <input
                     type='text'
                     name='catatan'
@@ -1480,9 +1500,9 @@ export default function FillableForm({
                 </div>
                 {jenisFasiliti === 'kp' && (
                   <>
-                    <article className='grid justify-start border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='grid'>
-                        <div className='flex items-center flex-row pl-5'>
+                    <article className='grid grid-cols-[1fr_2fr]'>
+                      <div className='grid justify-start border border-userBlack pl-3 p-2 rounded-md col-span-2'>
+                        <div className='flex items-center flex-row pl-1 md:pl-5'>
                           <input
                             type='checkbox'
                             id='kepp'
@@ -1494,7 +1514,8 @@ export default function FillableForm({
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                            KEPP
+                            Perkhidmatan Pergigian Endodontik Di Klinik
+                            Pergigian Primer (KEPP)
                           </label>
                         </div>
                         {kepp && (
@@ -1557,40 +1578,40 @@ export default function FillableForm({
                             </div>
                           </>
                         )}
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'baru-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>tarikh rujukan</label>
-                        <TarikhRujukanKepp />
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'ulangan-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>
-                          tarikh perundingan pertama
-                        </label>
-                        <TarikhRundinganPertama />
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'ulangan-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>
-                          tarikh mula rawatan
-                        </label>
-                        <TarikhMulaRawatanKepp />
+                        <div
+                          className={`${
+                            kedatanganKepp === 'baru-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>tarikh rujukan</label>
+                          <TarikhRujukanKepp />
+                        </div>
+                        <div
+                          className={`${
+                            kedatanganKepp === 'ulangan-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>
+                            tarikh perundingan pertama
+                          </label>
+                          <TarikhRundinganPertama />
+                        </div>
+                        <div
+                          className={`${
+                            kedatanganKepp === 'ulangan-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>
+                            tarikh mula rawatan
+                          </label>
+                          <TarikhMulaRawatanKepp />
+                        </div>
                       </div>
                     </article>
                     {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
