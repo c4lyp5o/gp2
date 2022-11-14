@@ -103,6 +103,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  perluPenskaleran: {
+    type: Boolean,
+    default: false,
+  },
   adaDesidus: {
     type: Boolean,
     default: false,
