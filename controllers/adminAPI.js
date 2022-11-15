@@ -15,6 +15,9 @@ const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const emailGen = require('../lib/emailgen');
 
+// helper
+const Helper = require('../controllers/countHelper');
+
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
@@ -967,6 +970,41 @@ const getData = async (req, res) => {
           break;
         default:
           console.log('default for image');
+          break;
+      }
+      break;
+    case 'AQManager':
+      switch (Fn) {
+        case 'create':
+          console.log('create for aq');
+          break;
+        case 'read':
+          console.log('read for aq');
+          const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+          const { daerah, negeri } = await Superadmin.findOne({
+            _id: userId,
+          });
+          const { x, y, mengandung, oku, bersekolah, pesara } = req.body;
+          const query = await Helper.countAdHocQuery(
+            negeri,
+            daerah,
+            x,
+            y,
+            mengandung,
+            oku,
+            bersekolah,
+            pesara
+          );
+          res.status(200).json(query);
+          break;
+        case 'update':
+          console.log('update for aq');
+          break;
+        case 'delete':
+          console.log('delete for aq');
+          break;
+        default:
+          console.log('default for aq');
           break;
       }
       break;
