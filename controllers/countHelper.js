@@ -9296,6 +9296,109 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
     console.log(error);
   }
 };
+// Ad Hoc Query
+const countAdHocQuery = async (
+  negeri,
+  daerah,
+  x,
+  y,
+  mengandung,
+  oku,
+  bersekolah,
+  pesara
+) => {
+  console.log('x', x, 'y', y);
+  const Dictionary = {
+    '': false,
+    Pegawai: '$createdByUsername',
+    Masa: '$tarikhKedatangan',
+    Klinik: '$createdByKp',
+    'Jumlah Semua Pesakit': '',
+    'Jumlah Pesakit Baru': 'baru-kedatangan',
+    'Jumlah Pesakit Ulangan': 'ulangan-kedatangan',
+    'Jumlah Ibu Mengandung': true,
+    'Jumlah OKU': true,
+    'Jumlah Bersekolah': true,
+    'Jumlah Pesara': true,
+  };
+
+  let match_stage = [
+    {
+      $match: {
+        $and: [
+          { createdByNegeri: negeri },
+          { createdByDaerah: daerah },
+          // { createdByKp: klinik },
+          { createdByUsername: { $not: { $eq: 'kaunter' } } },
+          { kedatangan: Dictionary[y] },
+          // { ibuMengandung: Dictionary[mengandung] },
+          // { orangKurangUpaya: Dictionary[oku] },
+          // { bersekolah: Dictionary[bersekolah] },
+          // { statusPesara: Dictionary[pesara] },
+        ],
+      },
+    },
+  ];
+
+  if (y === 'Jumlah Semua Pesakit') {
+    match_stage = [
+      {
+        $match: {
+          $and: [
+            { createdByNegeri: negeri },
+            { createdByDaerah: daerah },
+            // { createdByKp: klinik },
+            { createdByUsername: { $not: { $eq: 'kaunter' } } },
+            // { kedatangan: Dictionary[y] },
+            // { ibuMengandung: Dictionary[mengandung] },
+            // { orangKurangUpaya: Dictionary[oku] },
+            // { bersekolah: Dictionary[bersekolah] },
+            // { statusPesara: Dictionary[pesara] },
+          ],
+        },
+      },
+    ];
+  }
+
+  let project_stage = {
+    $project: {
+      _id: 0,
+      negeri: '$_id.negeri',
+      daerah: '$_id.daerah',
+      klinik: '$_id.klinik',
+      pegawai: '$_id.pegawai',
+      tahun: '$_id.tahun',
+      jumlah: 1,
+    },
+  };
+  let group_stage = {
+    $group: {
+      // _id:
+      // negeri: '$createdByNegeri',
+      // daerah: '$createdByDaerah',
+      // klinik: '$createdByKp',
+      // pegawai: '$createdByUsername'
+      // tahun: '$tahun',
+      // ,
+      _id: Dictionary[x],
+      jumlah: { $sum: 1 },
+    },
+  };
+
+  try {
+    const pipeline = [match_stage[0], group_stage];
+    const query = await Umum.aggregate(pipeline);
+    // sort by date
+    if (x === 'Masa') {
+      query.sort((a, b) => {
+        return new Date(a._id) - new Date(b._id);
+      });
+    }
+    return query;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   countPG101,
@@ -9309,4 +9412,5 @@ module.exports = {
   countPGS203,
   countPGPR201,
   countPPIM03,
+  countAdHocQuery,
 };

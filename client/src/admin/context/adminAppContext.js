@@ -17,12 +17,26 @@ function AdminAppProvider({ children }) {
   } = useToken();
   const navigate = useNavigate();
 
+  // adhoc query
+
+  const adhocQuery = async (y, x) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'AQManager',
+      Fn: 'read',
+      y: y,
+      x: x,
+      token: adminToken,
+    });
+    return response;
+  };
+
   // ping apdm
 
-  async function pingApdmServer() {
+  const pingApdmServer = async () => {
     const response = await axios.get(`https://erkm.calypsocloud.one/`);
     return response;
-  }
+  };
 
   // crypter
 
@@ -517,6 +531,8 @@ function AdminAppProvider({ children }) {
         // hq
         getAllNegeriAndDaerah,
         getKlinikData,
+        // ahq
+        adhocQuery,
       }}
     >
       {children}
