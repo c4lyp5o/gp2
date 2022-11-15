@@ -1,6 +1,9 @@
-import { useLayoutEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { Routes, Route } from 'react-router-dom';
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
@@ -26,6 +29,9 @@ import Data from '../components/Data';
 
 // settings
 import Settings from '../components/Settings';
+
+//ad hoc query
+import AdHocQuery from '../components/AdHocQuery';
 
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -70,7 +76,7 @@ export default function AdminAfterLogin() {
     setKickerNoti(kickerNotiNumber);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getCurrentUser()
       .then((res) => {
         setLoginInfo({
@@ -132,6 +138,14 @@ export default function AdminAfterLogin() {
           <Route
             path='event'
             element={<Data FType='event' kp={loginInfo.kp} />}
+          />
+          <Route
+            path='aq'
+            element={
+              <DndProvider backend={HTML5Backend}>
+                <AdHocQuery />
+              </DndProvider>
+            }
           />
           <Route path='tetapan' element={<Settings />} />
           <Route path='*' element={<AdminLoggedInNotFound />} />

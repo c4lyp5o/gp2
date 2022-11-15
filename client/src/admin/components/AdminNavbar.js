@@ -25,120 +25,134 @@ export default function AdminNavbar({ accountType }) {
           >
             PAPARAN UTAMA
           </NavLink>
-          {accountType !== 'kpUser' ? (
-            <>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='kp'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                KLINIK PERGIGIAN
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='pp'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                PEGAWAI PERGIGIAN
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='jp'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                JURUTERAPI PERGIGIAN
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='taska'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                TASKA
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='tadika'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                TADIKA
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='sr'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                SEKOLAH RENDAH
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='sm'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                SEKOLAH MENENGAH
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='ins'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                INSTITUSI
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='kpb'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                KP BERGERAK
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='mp'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                MAKMAL PERGIGIAN
-              </NavLink>
-            </>
-          ) : (
+          {accountType !== 'kpUser' &&
+            accountType !== 'negeriSuperadmin' &&
+            accountType !== 'hqSuperadmin' && (
+              <>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='kp'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  KLINIK PERGIGIAN
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='pp'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  PEGAWAI PERGIGIAN
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='jp'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  JURUTERAPI PERGIGIAN
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='taska'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  TASKA
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='tadika'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  TADIKA
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='sr'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  SEKOLAH RENDAH
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='sm'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  SEKOLAH MENENGAH
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='ins'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  INSTITUSI
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='kpb'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  KP BERGERAK
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='mp'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  MAKMAL PERGIGIAN
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='aq'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  AD-HOC QUERY
+                </NavLink>
+              </>
+            )}
+          {accountType === 'kpUser' && (
             <NavLink
               className={({ isActive }) =>
                 isActive
@@ -151,6 +165,20 @@ export default function AdminNavbar({ accountType }) {
               PROGRAM
             </NavLink>
           )}
+          {/* {(accountType === 'negeriSuperadmin' ||
+            accountType === 'hqSuperadmin') && (
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+              }
+              to='aq'
+              onClick={() => setShowLinks(!showLinks)}
+            >
+              AD-HOC QUERY
+            </NavLink>
+          )} */}
         </div>
       </nav>
 
