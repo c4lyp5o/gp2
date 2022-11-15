@@ -390,29 +390,29 @@ function UserSekolah() {
                                 !singlePersonSekolah.kotakSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah
-                                  .inginMelakukanIntervensiMerokok ===
-                                  'ya-ingin-melakukan-intervensi-merokok'
-                                  ? 'bg-user6'
+                                  ? // .inginMelakukanIntervensiMerokok ===
+                                    // 'ya-ingin-melakukan-intervensi-merokok'
+                                    'bg-user6'
                                   : singlePersonSekolah.kotakSekolah &&
                                     singlePersonSekolah.pemeriksaanSekolah &&
                                     singlePersonSekolah.pemeriksaanSekolah
-                                      .inginMelakukanIntervensiMerokok ===
-                                      'ya-ingin-melakukan-intervensi-merokok'
-                                  ? 'bg-user7'
+                                  ? // .inginMelakukanIntervensiMerokok ===
+                                    // 'ya-ingin-melakukan-intervensi-merokok'
+                                    'bg-user7'
                                   : 'pointer-events-none bg-user4'
                               } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
                             >
                               {!singlePersonSekolah.kotakSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah
-                                .inginMelakukanIntervensiMerokok ===
-                                'ya-ingin-melakukan-intervensi-merokok'
-                                ? 'tambah KOTAK'
+                                ? // .inginMelakukanIntervensiMerokok ===
+                                  // 'ya-ingin-melakukan-intervensi-merokok'
+                                  'tambah KOTAK'
                                 : singlePersonSekolah.kotakSekolah &&
                                   singlePersonSekolah.pemeriksaanSekolah &&
-                                  singlePersonSekolah.pemeriksaanSekolah
-                                    .inginMelakukanIntervensiMerokok ===
-                                    'ya-ingin-melakukan-intervensi-merokok'
+                                  // singlePersonSekolah.pemeriksaanSekolah
+                                  //   .inginMelakukanIntervensiMerokok ===
+                                  'ya-ingin-melakukan-intervensi-merokok'
                                 ? 'ubah KOTAK'
                                 : 'tidak perlu KOTAK'}
                             </Link>
