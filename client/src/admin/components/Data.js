@@ -59,15 +59,7 @@ export default function Data({ FType, kp }) {
       if (FType === 'kp') {
         setShowKlinik(true);
       }
-      if (FType === 'event') {
-        setShowEvent(true);
-      }
-      if (
-        FType !== 'kp' &&
-        FType !== 'jp' &&
-        FType !== 'pp' &&
-        FType !== 'event'
-      ) {
+      if (FType !== 'kp' && FType !== 'jp' && FType !== 'pp') {
         setShowFacilities(true);
       }
       setTimeout(() => {
