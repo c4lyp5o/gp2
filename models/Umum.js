@@ -10,6 +10,8 @@ const UmumSchema = new mongoose.Schema(
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
+    createdByMdcMdtb: { type: String, default: '' },
+    // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
     uniqueId: { type: String },
