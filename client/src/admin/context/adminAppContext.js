@@ -301,6 +301,80 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // data KP
+
+  const createDataForKp = async (data) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'create',
+        FType: 'kp',
+        Data: data,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  const readDataForKp = async (FType) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'KpCenter',
+      Fn: 'read',
+      FType: FType,
+      token: adminToken,
+    });
+    return response;
+  };
+
+  const readOneDataForKp = async (id) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'KpCenter',
+      Fn: 'readOne',
+      Id: id,
+      token: adminToken,
+    });
+    return response;
+  };
+
+  const updateDataForKp = async (id, data) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'update',
+        Id: id,
+        Data: data,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  const deleteDataForKp = async (id) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'delete',
+        Id: id,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
   // erkm
 
   const readSekolahData = async (FType) => {
@@ -503,6 +577,12 @@ function AdminAppProvider({ children }) {
         readOneData,
         updateData,
         deleteData,
+        // kp data
+        createDataForKp,
+        readDataForKp,
+        readOneDataForKp,
+        updateDataForKp,
+        deleteDataForKp,
         // misc data
         readDpimsData,
         readSekolahData,

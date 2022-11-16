@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-import Loading from './Loading';
+import { Loading } from './Loading';
 import TotpConfirmation from './TotpConfirmation';
 
 export default function Settings({ update }) {

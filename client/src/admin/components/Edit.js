@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
 
-import LoadingScreen from './Loading';
+import { Loading } from './Loading';
 import Confirmation from './Confirmation';
 import BusyButton from './BusyButton';
 import SubmitButtton from './SubmitButton';
@@ -813,7 +813,7 @@ const Modal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   }
 
   if (loading) {
-    return <LoadingScreen />;
+    return <Loading />;
   }
 
   return (
