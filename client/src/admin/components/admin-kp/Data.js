@@ -28,10 +28,15 @@ export default function DataKp({ FType }) {
 
   // data
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [kp, setKp] = useState(null);
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
+
+  // shower
+  const [show, setShow] = useState({});
+  const [showModal, setShowModal] = useState({});
 
   // reloader workaround
   const [reload, setReload] = useState(false);
@@ -40,24 +45,54 @@ export default function DataKp({ FType }) {
     useGlobalAdminAppContext();
 
   useEffect(() => {
+    setLoading(true);
     const getData = async () => {
-      const { nama, kp, daerah, negeri } = await getCurrentUser();
-      setUser(nama);
-      setKp(kp);
-      setDaerah(daerah);
-      setNegeri(negeri);
+      const { data: userData } = await getCurrentUser();
+      setUser(userData.nama);
+      setKp(userData.kp);
+      setDaerah(userData.daerah);
+      setNegeri(userData.negeri);
       const { data } = await readDataForKp(FType);
       setData(data);
     };
-    getData().catch((err) => {
-      console.log(err);
-    });
+    getData()
+      .then(() => {
+        switch (FType) {
+          case 'program':
+            setShow({ program: true });
+            break;
+          case 'sosmed':
+            setShow({ sosmed: true });
+            break;
+          case 'tastad':
+            setShow({ tastad: true });
+            break;
+          case 'pp':
+            setShow({ pp: true });
+            break;
+          case 'jp':
+            setShow({ jp: true });
+            break;
+          case 'ins':
+            setShow({ ins: true });
+            break;
+          default:
+            setShow({ program: true });
+            break;
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     return () => {
       setData(null);
     };
   }, [FType, reload]);
 
   const props = {
+    showModal,
+    setShowModal,
     showAddModal,
     setShowAddModal,
     showSosMedModal,
@@ -113,12 +148,12 @@ export default function DataKp({ FType }) {
   const RenderSection = () => {
     return (
       <>
-        {FType === 'program' ? <Program {...props} /> : null}
-        {FType === 'sosmed' ? <Sosmed {...props} /> : null}
-        {FType === 'tastad' ? <Tastad {...props} /> : null}
-        {FType === 'pp' ? <Pegawai {...props} /> : null}
-        {FType === 'jp' ? <Pegawai {...props} /> : null}
-        {FType === 'ins' ? <Institusi {...props} /> : null}
+        {show.program ? <Program {...props} /> : null}
+        {show.sosmed ? <Sosmed {...props} /> : null}
+        {show.tastad ? <Tastad {...props} /> : null}
+        {show.pp ? <Pegawai {...props} /> : null}
+        {show.jp ? <Pegawai {...props} /> : null}
+        {show.ins ? <Institusi {...props} /> : null}
       </>
     );
   };
@@ -133,17 +168,29 @@ export default function DataKp({ FType }) {
     );
   };
 
-  if (!data) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (data) {
-    return (
-      <>
-        {data.length === 0 ? <NothingHereBoi /> : <RenderSection />}
-        <RenderModal />
-        {showSosMedModal ? <ModalSosMed {...props} /> : null}
-      </>
-    );
-  }
+  return (
+    <>
+      {data.length === 0 ? <NothingHereBoi /> : <RenderSection />}
+      <RenderModal />
+      {FType === 'program' ? (
+        <button
+          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
+          onClick={() => {
+            setShowAddModal(true);
+            setShowEditModal(false);
+            setShowDeleteModal(false);
+          }}
+        >
+          <div className='text-adminWhite text-7xl'>
+            <FaPlus />
+          </div>
+        </button>
+      ) : null}
+      {showSosMedModal ? <ModalSosMed {...props} /> : null}
+    </>
+  );
 }

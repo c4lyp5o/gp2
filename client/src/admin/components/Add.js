@@ -21,7 +21,6 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
     readKpData,
     readDpimsData,
     pingApdmServer,
-    readPegawaiData,
     readMdtbData,
     readFasilitiData,
   } = useGlobalAdminAppContext();
@@ -108,7 +107,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         kodFasiliti: currentKodFasiliti.current,
       };
     }
-    if (FType === 'event') {
+    if (FType === 'program') {
       if (currentModPenyampaian.current.length < 1) {
         toast.error(
           'Sila pilih sekurang-kurangnya 1 kaedah penyampaian perkhidmatan'
