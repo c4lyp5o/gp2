@@ -15,6 +15,9 @@ import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekol
 import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
 import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
 
+import UserPromosi from '../components/UserPromosi';
+import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
+
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
@@ -62,6 +65,9 @@ function UserAfterLogin() {
             path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
             element={<UserFormSekolahKOTAK />}
           />
+
+          <Route path='promosi' element={<UserPromosi />} />
+          <Route path='promosi/form-promosi' element={<UserFormPromosi />} />
 
           {reliefUserToken ? null : (
             <>
