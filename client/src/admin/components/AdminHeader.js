@@ -6,16 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import CountdownTimer from '../context/countdownTimer';
 import { toast } from 'react-toastify';
 
-export default function AdminHeader({
-  isLoggedIn,
-  image,
-  negeri,
-  daerah,
-  kp,
-  user,
-  accountType,
-  realCountdown,
-}) {
+export default function AdminHeader(props) {
   const { navigate, removeAdminToken } = useGlobalAdminAppContext();
   const [showProfile, setShowProfile] = useState(false);
   const [showMessage, setShowMessage] = useState(0);
@@ -27,7 +18,7 @@ export default function AdminHeader({
 
   const message = () => {
     if (showMessage === 10) {
-      toast(`Wahai ${user}, button ni xde function!`, {
+      toast(`Wahai ${props.loginInfo.user}, button ni xde function!`, {
         type: 'colored',
       });
       setShowMessage(0);
@@ -49,12 +40,6 @@ export default function AdminHeader({
       document.removeEventListener('mousedown', tutupProfil);
     };
   });
-
-  useEffect(() => {
-    if (isLoggedIn === false) {
-      navigate('/admin');
-    }
-  }, [isLoggedIn, navigate]);
 
   return (
     <div
@@ -81,7 +66,7 @@ export default function AdminHeader({
           <h1>sistem gi-Ret 2.0</h1>
           <h1>PENTADBIR</h1>
         </div>
-        {isLoggedIn === true && (
+        {props.loginInfo ? (
           // dropdown
           <div className='relative right-2'>
             <div className='flex flex-col'>
@@ -106,17 +91,17 @@ export default function AdminHeader({
               </button>
               <div className='absolute right-0 top-12'>
                 <span>
-                  <CountdownTimer deadline={realCountdown} place='header' />
+                  <CountdownTimer deadline={props.timer} place='header' />
                 </span>
               </div>
             </div>
             {showProfile && (
               <div className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
-                {accountType !== 'kpUser' ? (
+                {props.loginInfo.accountType !== 'kpUser' ? (
                   <div className='flex items-center justify-center'>
                     <img
                       className='rounded-full shadow-md'
-                      src={image}
+                      src={props.loginInfo.image}
                       alt='profile'
                       width='70'
                       height='70'
@@ -124,23 +109,25 @@ export default function AdminHeader({
                   </div>
                 ) : null}
                 <p className='w-auto text-sm leading-3 flex flex-col py-2 border-b-2 border-user1'>
-                  <span className='uppercase pt-2'>{user}</span>
+                  <span className='uppercase pt-2'>
+                    {props.loginInfo.username}
+                  </span>
                 </p>
-                {accountType !== 'kpUser' ? (
+                {props.loginInfo.accountType !== 'kpUser' ? (
                   <>
-                    {accountType === 'daerahSuperadmin' && (
+                    {props.loginInfo.accountType === 'daerahSuperadmin' && (
                       <p className='w-48 text-sm pt-1'>
                         <b>Daerah: </b>
-                        {daerah}
+                        {props.loginInfo.daerah}
                       </p>
                     )}
-                    {accountType === 'negeriSuperadmin' && (
+                    {props.loginInfo.accountType === 'negeriSuperadmin' && (
                       <p className='w-48 text-sm pt-1'>
                         <b>Negeri: </b>
-                        {negeri}
+                        {props.loginInfo.negeri}
                       </p>
                     )}
-                    {accountType === 'hqSuperadmin' && (
+                    {props.loginInfo.accountType === 'hqSuperadmin' && (
                       <p className='w-48 text-xs pt-1 flex flex-col'>
                         <b>Kementerian Kesihatan Malaysia</b>
                         <b>Program Kesihatan Pergigian</b>
@@ -157,13 +144,13 @@ export default function AdminHeader({
                 ) : (
                   <p className='w-40 text-sm pt-1'>
                     <b>KP: </b>
-                    {kp}
+                    {props.loginInfo.kp}
                   </p>
                 )}
               </div>
             )}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
