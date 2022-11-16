@@ -40,7 +40,7 @@ export default function Rawatan(props) {
                 className='flex flex-row items-center pl-5 font-bold col-span-2  hover:cursor-pointer'
                 onClick={() => setShow(!show)}
               >
-                kedatangan
+                Pemeriksaan atau Rawatan Yang Tidak Diberikan
                 <FaInfoCircle
                   className='ml-2 text-xl text-userBlack'
                   title='Tanda jika pesakit sudah didaftar dan tidak diberi pemeriksaan/rawatan'
@@ -63,13 +63,16 @@ export default function Rawatan(props) {
                   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                 />
                 <label htmlFor='tidak-hadir' className='m-2 text-sm font-m'>
-                  tidak hadir
+                  pesakit yang tidak menjalani pemeriksaan atau rawatan
                 </label>
               </div>
             </article>
             {props.statusKehadiran === false ? (
               <>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md lg:col-span-2'>
+                <article className='grid border border-userBlack pl-3 px-2 p-2 rounded-md lg:col-span-2'>
+                  <h1 className='flex flex-row text-base font-semibold p-1'>
+                    rawatan yang dijalankan hari ini
+                  </h1>
                   {props.statusKehadiran === false ? (
                     <Select
                       isMulti
