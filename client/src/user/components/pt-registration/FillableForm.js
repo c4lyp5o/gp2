@@ -1427,7 +1427,7 @@ export default function FillableForm({
                   </div>
                 </div>
                 {orangKurangUpaya === true && (
-                  <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                     <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                       no. OKU:{' '}
                       <span className='font-semibold text-user6'>*</span>
