@@ -18,7 +18,7 @@ import update from 'immutability-helper';
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import Card from './Card';
-import Loading from './Loading';
+import { Loading } from './Loading';
 
 ChartJS.register(
   CategoryScale,
