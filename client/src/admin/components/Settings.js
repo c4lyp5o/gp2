@@ -130,7 +130,7 @@ export default function Settings({ update }) {
                 <>
                   <label
                     htmlFor={uploadImage}
-                    className='block text-sm font-medium text-gray-700'
+                    className='hidden block text-sm font-medium text-gray-700'
                   >
                     Muat naik gambar
                   </label>
@@ -155,7 +155,7 @@ export default function Settings({ update }) {
                         document.getElementById(uploadImage).click()
                       }
                     >
-                      Muat naik gambar
+                      Muat naik gambar baru
                     </button>
                     <input
                       hidden
