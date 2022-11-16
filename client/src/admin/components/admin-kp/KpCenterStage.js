@@ -1,7 +1,9 @@
-export default function KpCenterStage() {
+export default function KpCenterStage(props) {
   return (
     <div>
-      <h1>Center Stage</h1>
+      <h1>
+        Selamat datang, {props.loginInfo.username} dari {props.loginInfo.kp}
+      </h1>
     </div>
   );
 }

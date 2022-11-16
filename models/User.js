@@ -33,7 +33,6 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
   },
-
   // this is klinik
   kodFasiliti: {
     type: String,
@@ -49,6 +48,9 @@ const UserSchema = new mongoose.Schema({
       message:
         '{VALUE} is not supported. Provide only "klinik", "kepp", "utc", "rtc", "visiting"',
     },
+  },
+  lastLogin: {
+    type: Date,
   },
 });
 
