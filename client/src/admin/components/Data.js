@@ -7,7 +7,7 @@ import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
-import Loading from './Loading';
+import { Loading } from './Loading';
 
 import nothinghere from '../assets/nothinghere.png';
 

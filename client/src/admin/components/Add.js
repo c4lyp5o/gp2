@@ -7,7 +7,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../Modal.module.css';
 
-import LoadingScreen from './Loading';
+import { Loading } from './Loading';
 import Confirmation from './Confirmation';
 import BusyButton from './BusyButton';
 import SubmitButtton from './SubmitButton';
@@ -39,6 +39,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   // taska
   const currentKodTastad = useRef();
   const currentAlamatTastad = useRef();
+  const currentEnrolmenTastad = useRef();
   const currentGovKe = useRef();
   // event
   const currentJenisEvent = useRef();
@@ -129,6 +130,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
         ...Data,
         kodTastad: currentKodTastad.current,
         alamatTastad: currentAlamatTastad.current,
+        enrolmenTastad: currentEnrolmenTastad.current,
         govKe: currentGovKe.current,
       };
     }
@@ -865,6 +867,26 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
                             (currentAlamatTastad.current = e.target.value)
                           }
                         />
+                        <div>
+                          <p>
+                            Enrolmen {Dictionary[FType]}
+                            <span className='font-semibold text-lg text-user6'>
+                              *
+                            </span>
+                          </p>
+                        </div>
+                        <div className='grid gap-1'>
+                          <input
+                            required
+                            className='border-2'
+                            type='text'
+                            name='enrolmen'
+                            id='enrolmen'
+                            onChange={(e) =>
+                              (currentEnrolmenTastad.current = e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
                     </>
                   )}
@@ -1124,7 +1146,7 @@ const Modal = ({ setShowAddModal, FType, kp, daerah, reload, setReload }) => {
   }
 
   if (loading) {
-    return <LoadingScreen />;
+    return <Loading />;
   }
 
   return (

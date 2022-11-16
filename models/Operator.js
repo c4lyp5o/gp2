@@ -43,6 +43,11 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
+  cscspVerified: {
+    type: Boolean,
+    default: false,
+    // required: true
+  },
   tempKey: {
     type: String,
     // required: true
