@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 
-export default function AdminNavbar({ accountType }) {
+export default function AdminNavbar(props) {
   const [showLinks, setShowLinks] = useState(false);
 
   const toggleLinks = () => {
@@ -25,9 +25,9 @@ export default function AdminNavbar({ accountType }) {
           >
             PAPARAN UTAMA
           </NavLink>
-          {accountType !== 'kpUser' &&
-            accountType !== 'negeriSuperadmin' &&
-            accountType !== 'hqSuperadmin' && (
+          {props.loginInfo.accountType !== 'kpUser' &&
+            props.loginInfo.accountType !== 'negeriSuperadmin' &&
+            props.loginInfo.accountType !== 'hqSuperadmin' && (
               <>
                 <NavLink
                   className={({ isActive }) =>
@@ -152,7 +152,7 @@ export default function AdminNavbar({ accountType }) {
                 </NavLink>
               </>
             )}
-          {accountType === 'kpUser' && (
+          {props.loginInfo.accountType === 'kpUser' && (
             <>
               <NavLink
                 className={({ isActive }) =>
@@ -222,8 +222,8 @@ export default function AdminNavbar({ accountType }) {
               </NavLink>
             </>
           )}
-          {(accountType === 'negeriSuperadmin' ||
-            accountType === 'hqSuperadmin') && (
+          {(props.loginInfo.accountType === 'negeriSuperadmin' ||
+            props.loginInfo.accountType === 'hqSuperadmin') && (
             <NavLink
               className={({ isActive }) =>
                 isActive

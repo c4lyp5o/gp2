@@ -115,7 +115,7 @@ export default function AdminAfterLogin() {
     <>
       <AdminHeader {...props} />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
-      <AdminNavbar accountType={loginInfo.accountType} />
+      <AdminNavbar {...props} />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
           {/* daerah, negeri, hq superadmin */}
@@ -148,15 +148,7 @@ export default function AdminAfterLogin() {
           {/* KP superadmin */}
           {loginInfo.accountType === 'kpUser' ? (
             <>
-              <Route
-                index
-                element={
-                  <KpCenterStage
-                    user={loginInfo.username}
-                    accountType={loginInfo.accountType}
-                  />
-                }
-              />
+              <Route index element={<KpCenterStage {...props} />} />
               <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/sosmed' element={<DataKp FType='sosmed' />} />
               <Route path='kp/tastad' element={<DataKp FType='tastad' />} />

@@ -2,7 +2,6 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useRef, useState } from 'react';
 import Select from 'react-select';
 import { RiCloseLine } from 'react-icons/ri';
-import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../../Modal.module.css';
@@ -15,57 +14,47 @@ const ModalSosMed = (props) => {
   const { toast, createData } = useGlobalAdminAppContext();
 
   const [pilihanPromosi, setPilihanPromosi] = useState([]);
-  const [questionState, setQuestionState] = useState(null);
+  const [questionState, setQuestionState] = useState([]);
 
   const currentName = useRef();
-  const currentStatusPerkhidmatan = useRef();
-  const currentKp = useRef();
 
-  // event
-  const currentJenisEvent = useRef();
-  const currentModPenyampaian = useRef([]);
-  const currentTarikh = useRef(moment(new Date()).format('YYYY-MM-DD'));
-  const currentTempat = useRef();
   // data
   const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setAddingData(true);
     let Data = {};
     Data = {
       ...Data,
-      nama: currentName.current,
-      handler: currentKp.current,
-      statusPerkhidmatan: currentStatusPerkhidmatan.current,
+      createdByKp: props.kp,
+      createdByDaerah: props.daerah,
+      cretedByNegeri: props.negeri,
     };
-    if (props.FType === 'event') {
-      if (currentModPenyampaian.current.length < 1) {
-        toast.error(
-          'Sila pilih sekurang-kurangnya 1 kaedah penyampaian perkhidmatan'
-        );
-        setAddingData(false);
-        return;
-      }
-      Data = {
-        nama: currentName.current,
-        createdByKp: props.kp,
-        jenisEvent: currentJenisEvent.current,
-        modPenyampaianPerkhidmatan: currentModPenyampaian.current,
-        tarikh: currentTarikh.current,
-        tempat: currentTempat.current,
-      };
-    }
-    createData(props.FType, Data).then((res) => {
-      console.log(res.data);
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        props.setReload(!props.reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
-      }
-      props.setShowAddModal(false);
-      setAddingData(false);
-    });
+    Data = {
+      ...questionState,
+      ...Data,
+    };
+    // createData(props.FType, Data).then((res) => {
+    //   console.log(res.data);
+    //   if (res.status === 200) {
+    //     toast.info(`Data berjaya ditambah`);
+    //     props.setReload(!props.reload);
+    //   } else {
+    //     toast.error(`Data tidak berjaya ditambah`);
+    //   }
+    //   props.setShowAddModal(false);
+    //   setAddingData(false);
+    // });
+    console.log(Data);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setQuestionState({ ...questionState, [name]: value });
+    setTimeout(() => {
+      console.log(questionState);
+    }, 1000);
   };
 
   const Section = ({ nama }) => {
@@ -78,48 +67,78 @@ const ModalSosMed = (props) => {
             <div className='grid grid-cols-2'>
               <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_live_bilAktivitiShareKurang10',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_live_bilAktivitiShareLebih10',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Penonton</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_live_bilPenonton',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Reach</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_live_bilReach',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Share</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_live_bilShare',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
             </div>
           </article>
@@ -131,48 +150,78 @@ const ModalSosMed = (props) => {
             <div className='grid grid-cols-2'>
               <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_poster_bilAktivitiShareKurang10',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_poster_bilAktivitiShareLebih10',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Penonton</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_poster_bilPenonton',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Reach</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_poster_bilReach',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
               <p>Bil. Share</p>
               <input
-                required
                 className='border-2'
                 type='text'
                 name='nama'
                 id='nama'
-                onChange={(e) => (currentName.current = e.target.value)}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: nama + '_poster_bilShare',
+                      value: e.target.value,
+                    },
+                  })
+                }
               />
             </div>
           </article>
@@ -183,48 +232,78 @@ const ModalSosMed = (props) => {
           <div className='grid grid-cols-2'>
             <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
             <input
-              required
               className='border-2'
               type='text'
               name='nama'
               id='nama'
-              onChange={(e) => (currentName.current = e.target.value)}
+              onChange={(e) =>
+                handleChange({
+                  target: {
+                    name: nama + '_video_bilAktivitiShareKurang10',
+                    value: e.target.value,
+                  },
+                })
+              }
             />
             <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
             <input
-              required
               className='border-2'
               type='text'
               name='nama'
               id='nama'
-              onChange={(e) => (currentName.current = e.target.value)}
+              onChange={(e) =>
+                handleChange({
+                  target: {
+                    name: nama + '_video_bilAktivitiShareLebih10',
+                    value: e.target.value,
+                  },
+                })
+              }
             />
             <p>Bil. Penonton</p>
             <input
-              required
               className='border-2'
               type='text'
               name='nama'
               id='nama'
-              onChange={(e) => (currentName.current = e.target.value)}
+              onChange={(e) =>
+                handleChange({
+                  target: {
+                    name: nama + '_video_bilPenonton',
+                    value: e.target.value,
+                  },
+                })
+              }
             />
             <p>Bil. Reach</p>
             <input
-              required
               className='border-2'
               type='text'
               name='nama'
               id='nama'
-              onChange={(e) => (currentName.current = e.target.value)}
+              onChange={(e) =>
+                handleChange({
+                  target: {
+                    name: nama + '_video_bilReach',
+                    value: e.target.value,
+                  },
+                })
+              }
             />
             <p>Bil. Share</p>
             <input
-              required
               className='border-2'
               type='text'
               name='nama'
               id='nama'
-              onChange={(e) => (currentName.current = e.target.value)}
+              onChange={(e) =>
+                handleChange({
+                  target: {
+                    name: nama + '_video_bilShare',
+                    value: e.target.value,
+                  },
+                })
+              }
             />
           </div>
         </article>
