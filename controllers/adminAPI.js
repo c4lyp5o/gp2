@@ -43,8 +43,8 @@ const transporter = mailer.createTransport({
 });
 
 const getData = async (req, res) => {
-  const { main, Fn, token, FType, Id } = req.body;
-  var { Data } = req.body;
+  let { main, Fn, token, FType, Id } = req.body;
+  let { Data } = req.body;
   switch (main) {
     case 'DataCenter':
       const theType = Dictionary[FType];
@@ -294,12 +294,13 @@ const getData = async (req, res) => {
       }
       break;
     case 'KpCenter':
-      var { daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
       switch (Fn) {
         case 'create':
           console.log('create for kpcenter');
           Data = {
             ...Data,
+            createdByKp: kp,
             createdByDaerah: daerah,
             createdByNegeri: negeri,
           };
@@ -308,11 +309,61 @@ const getData = async (req, res) => {
           break;
         case 'read':
           console.log('read for kpcenter');
-          const eventData = await Event.find({
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
-          });
-          res.status(200).json(eventData);
+          switch (FType) {
+            case 'program':
+              const eventData = await Event.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              res.status(200).json(eventData);
+              break;
+            case 'sosmed':
+              const sosmedData = await Event.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              res.status(200).json(sosmedData);
+              break;
+            case 'tastad':
+              let tastadData = [];
+              const allTastad = await Fasiliti.find({
+                jenisFasiliti: ['taska', 'tadika'],
+                handler: kp,
+              });
+              const studentCount = await Umum.countDocuments({
+                jenisFasiliti: ['taska', 'tadika'],
+                createdByKp: kp,
+              });
+              console.log(allTastad, studentCount);
+              res.status(200).json(tastadData);
+              break;
+            case 'pp':
+              const ppData = await Operator.find({
+                statusPegawai: 'pp',
+                kpSkrg: kp,
+              });
+              res.status(200).json(ppData);
+              break;
+            case 'jp':
+              const jpData = await Operator.find({
+                statusPegawai: 'jp',
+                kpSkrg: kp,
+              });
+              res.status(200).json(jpData);
+              break;
+            case 'ins':
+              const institusiData = await Fasiliti.find({
+                jenisFasiliti: Dictionary[FType],
+                handler: kp,
+              });
+              res.status(200).json(institusiData);
+              break;
+            default:
+              console.log('default case for read');
+              break;
+          }
           break;
         case 'readOne':
           console.log('readOne for kpcenter');
