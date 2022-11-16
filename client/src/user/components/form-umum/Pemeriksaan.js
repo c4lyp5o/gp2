@@ -1592,11 +1592,12 @@ export default function Pemeriksaan(props) {
                     Program Kanser Mulut
                   </h4>
                   <p className='flex items-center justify-center text-sm font-m '>
-                    disaring:
+                    disaring: <span className='text-user6'>*</span>
                   </p>
                   <div className='flex items-center justify-center'>
                     <input
                       disabled={isDisabled}
+                      required
                       type='radio'
                       name='disaring-program-kanser-mulut-pemeriksaan-umum'
                       id='ya-disaring-program-kanser-mulut-pemeriksaan-umum'
@@ -1622,6 +1623,7 @@ export default function Pemeriksaan(props) {
                     </label>
                     <input
                       disabled={isDisabled}
+                      required
                       type='radio'
                       name='disaring-program-kanser-mulut-pemeriksaan-umum'
                       id='tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
