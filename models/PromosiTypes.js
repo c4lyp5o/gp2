@@ -7,13 +7,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const promosiSchema = new Schema({
+const jenisPromosiSchema = new Schema({
   nama: {
-    type: String,
+    type: Array,
     // required: true
+    default: ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'],
   },
 });
 
-const Promosi = mongoose.model('Promosi', promosiSchema);
+const JenisPromosi = mongoose.model('JenisPromosi', jenisPromosiSchema);
 
-module.exports = Promosi;
+module.exports = JenisPromosi;

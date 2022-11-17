@@ -6,9 +6,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../../Modal.module.css';
 
-import Confirmation from '../../Confirmation';
-import BusyButton from '../../BusyButton';
-import SubmitButtton from '../../SubmitButton';
+import Confirmation from '../../superadmin/Confirmation';
+import { SubmitButton, BusyButton } from '../../Buttons';
 
 const ModalSosMed = (props) => {
   const { toast, createData } = useGlobalAdminAppContext();
@@ -362,7 +361,7 @@ const ModalSosMed = (props) => {
                   {addingData ? (
                     <BusyButton func='add' />
                   ) : (
-                    <SubmitButtton func='add' />
+                    <SubmitButton func='add' />
                   )}
                   <span
                     className={styles.cancelBtn}
