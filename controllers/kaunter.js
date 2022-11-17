@@ -88,6 +88,7 @@ const createPersonKaunter = async (req, res) => {
     uniqueId += simplifiedName[i].charAt(0);
   }
   uniqueId += '-';
+  console.log(req.body.tarikhLahir);
   const dateOfBirth = req.body.tarikhLahir.split('-').join('');
   uniqueId += dateOfBirth;
 
