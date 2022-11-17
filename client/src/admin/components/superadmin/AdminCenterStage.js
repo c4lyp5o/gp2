@@ -11,26 +11,26 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-import { Loading } from './Loading';
+import { Loading } from '../Screens';
 
-import perlis from '../assets/flags/perlis.png';
-import kedah from '../assets/flags/kedah.png';
-import pulauPinang from '../assets/flags/penang.png';
-import perak from '../assets/flags/perak.png';
-import selangor from '../assets/flags/selangor.png';
-import negeriSembilan from '../assets/flags/negeri_sembilan.png';
-import melaka from '../assets/flags/malacca.png';
-import johor from '../assets/flags/johor.png';
-import pahang from '../assets/flags/pahang.png';
-import terengganu from '../assets/flags/terengganu.png';
-import kelantan from '../assets/flags/kelantan.png';
-import sabah from '../assets/flags/sabah.png';
-import sarawak from '../assets/flags/sarawak.png';
-import labuan from '../assets/flags/labuan.png';
-import putrajaya from '../assets/flags/putrajaya.png';
-import kualaLumpur from '../assets/flags/kuala_lumpur.png';
+import perlis from '../../assets/flags/perlis.png';
+import kedah from '../../assets/flags/kedah.png';
+import pulauPinang from '../../assets/flags/penang.png';
+import perak from '../../assets/flags/perak.png';
+import selangor from '../../assets/flags/selangor.png';
+import negeriSembilan from '../../assets/flags/negeri_sembilan.png';
+import melaka from '../../assets/flags/malacca.png';
+import johor from '../../assets/flags/johor.png';
+import pahang from '../../assets/flags/pahang.png';
+import terengganu from '../../assets/flags/terengganu.png';
+import kelantan from '../../assets/flags/kelantan.png';
+import sabah from '../../assets/flags/sabah.png';
+import sarawak from '../../assets/flags/sarawak.png';
+import labuan from '../../assets/flags/labuan.png';
+import putrajaya from '../../assets/flags/putrajaya.png';
+import kualaLumpur from '../../assets/flags/kuala_lumpur.png';
 
 ChartJS.register(
   CategoryScale,

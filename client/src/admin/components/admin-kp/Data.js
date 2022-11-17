@@ -1,8 +1,5 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
-import Add from '../Add';
-import Edit from '../Edit';
-import Delete from '../Delete';
 import { FaPlus } from 'react-icons/fa';
 
 import Program from './Program';
@@ -13,9 +10,8 @@ import Institusi from './Institusi';
 
 import ModalSosMed from './modal-sosmed/Modal';
 
-import { Loading } from '../Loading';
-
-import nothinghere from '../../assets/nothinghere.png';
+import { AddModal, EditModal, DeleteModal } from '../superadmin/Modal';
+import { Loading, NothingHereBoi } from '../Screens';
 
 export default function DataKp({ FType }) {
   // modal
@@ -41,8 +37,7 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { Dictionary, getCurrentUser, readDataForKp } =
-    useGlobalAdminAppContext();
+  const { getCurrentUser, readDataForKp } = useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
@@ -119,32 +114,6 @@ export default function DataKp({ FType }) {
     setReload,
   };
 
-  function NothingHereBoi() {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto rounded-md grid'>
-          <div className='rounded-lg shadow-lg bg-white max-w-sm'>
-            <img
-              className='rounded-t-lg'
-              src={nothinghere}
-              alt='There is nothing here'
-            />
-            <div className='p-6'>
-              <h5 className='text-gray-900 text-xl font-medium mb-2'>
-                Tiada Data
-              </h5>
-              <p className='text-gray-700 text-base mb-4'>
-                Data{' '}
-                {FType === 'kp' ? `Klinik Pergigian` : `${Dictionary[FType]}`}{' '}
-                belum di isi...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const RenderSection = () => {
     return (
       <>
@@ -161,9 +130,9 @@ export default function DataKp({ FType }) {
   const RenderModal = () => {
     return (
       <>
-        {showAddModal ? <Add {...props} /> : null}
-        {showEditModal ? <Edit {...props} /> : null}
-        {showDeleteModal ? <Delete {...props} /> : null}
+        {showAddModal ? <AddModal {...props} /> : null}
+        {showEditModal ? <EditModal {...props} /> : null}
+        {showDeleteModal ? <DeleteModal {...props} /> : null}
       </>
     );
   };
@@ -174,7 +143,7 @@ export default function DataKp({ FType }) {
 
   return (
     <>
-      {data.length === 0 ? <NothingHereBoi /> : <RenderSection />}
+      {data.length === 0 ? <NothingHereBoi FType={FType} /> : <RenderSection />}
       <RenderModal />
       {FType === 'program' ? (
         <button

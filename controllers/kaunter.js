@@ -170,6 +170,8 @@ const createPersonKaunter = async (req, res) => {
 
   const singlePersonKaunter = await Umum.create(req.body);
 
+  console.log(req.body.ic);
+
   res.status(201).json({ singlePersonKaunter });
 };
 
@@ -302,7 +304,7 @@ const getTaskaTadikaList = async (req, res) => {
 // check from cache if ic is same
 // POST /check
 const getPersonFromCache = async (req, res) => {
-  const { ic } = req.body;
+  console.log('ic', ic);
   const person = await cache.get(ic.toString());
   if (person) {
     return res.status(200).json({ person });

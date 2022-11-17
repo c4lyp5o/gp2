@@ -2,9 +2,9 @@ import { useState, useLayoutEffect, useId } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-import { Loading } from './Loading';
+import { Loading } from '../Screens';
 import TotpConfirmation from './TotpConfirmation';
 
 export default function Settings({ update }) {

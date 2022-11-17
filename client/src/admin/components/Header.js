@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import CountdownTimer from '../context/countdownTimer';
 import { toast } from 'react-toastify';
 
-export default function AdminHeader(props) {
+export default function Header(props) {
   const { navigate, removeAdminToken } = useGlobalAdminAppContext();
   const [showProfile, setShowProfile] = useState(false);
   const [showMessage, setShowMessage] = useState(0);

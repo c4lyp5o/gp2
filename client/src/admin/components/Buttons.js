@@ -1,4 +1,4 @@
-export default function BusyButton({ func }) {
+export function BusyButton({ func }) {
   return (
     <>
       <button
@@ -31,5 +31,18 @@ export default function BusyButton({ func }) {
         {func === 'edit' ? 'Mengubah Data' : null}
       </button>
     </>
+  );
+}
+
+export function SubmitButton({ func }) {
+  return (
+    <button
+      type='submit'
+      className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+    >
+      {func === 'add' ? 'Tambah Maklumat' : null}
+      {func === 'del' ? 'Hapus Maklumat' : null}
+      {func === 'edit' ? 'Kemaskini Maklumat' : null}
+    </button>
   );
 }

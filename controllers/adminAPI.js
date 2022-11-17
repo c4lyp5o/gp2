@@ -21,6 +21,7 @@ const Helper = require('../controllers/countHelper');
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
+  ppall: 'pegawai-all',
   jp: 'juruterapi pergigian',
   taska: 'taska',
   tadika: 'tadika',
@@ -112,7 +113,8 @@ const getData = async (req, res) => {
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'pegawai-all'
           ) {
             const data = await Fasiliti.find({
               jenisFasiliti: theType,
@@ -122,6 +124,14 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai') {
+            const data = await Operator.find({
+              statusPegawai: 'pp',
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+            });
+            return res.status(200).json(data);
+          }
+          if (theType === 'pegawai-all') {
             const data = await Operator.find({
               statusPegawai: 'pp',
             });
