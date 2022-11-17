@@ -20,7 +20,6 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
         `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&uniqueId=${uniqueId}`,
         { headers: { Authorization: `Bearer ${kaunterToken}` } }
       );
-      console.log(res.data);
       if (res.data.kaunterResultQuery.length > 0) {
         const lastIndex = res.data.kaunterResultQuery.length - 1;
         setDuplicate(true);
