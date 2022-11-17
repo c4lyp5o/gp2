@@ -15,10 +15,10 @@ import { Chart } from 'react-chartjs-2';
 
 import update from 'immutability-helper';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 import Card from './Card';
-import { Loading } from './Loading';
+import { Loading } from '../Screens';
 
 ChartJS.register(
   CategoryScale,

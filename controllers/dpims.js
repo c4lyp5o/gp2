@@ -51,11 +51,11 @@ async function dpimsService(req, res) {
   } catch (error) {
     console.error(error);
   }
-  // if (matches.length === 0) {
-  //   return res
-  //     .status()
-  //     .json({ status: 'error', message: 'No matches found' });
-  // }
+  if (matches.length === 0) {
+    return res
+      .status(404)
+      .json({ status: 'error', message: 'Tiada pegawai dijumpai' });
+  }
   res.status(200).json({ status: 'success', matches: matches });
 }
 

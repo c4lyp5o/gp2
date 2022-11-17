@@ -476,20 +476,25 @@ function AdminAppProvider({ children }) {
   };
 
   const readDpimsData = async (nama) => {
-    const response = await axios.get(`/dpims?nama=${nama}`);
-    const currentPegawai = await readData('pp');
-    if (currentPegawai.data.length === 0) {
-      console.log('no pegawai');
+    try {
+      const response = await axios.get(`/dpims?nama=${nama}`);
+      const currentPegawai = await readData('ppall');
+      if (currentPegawai.data === 0) {
+        return response.data.matches;
+      }
+      for (let j = 0; j < currentPegawai.data.length; j++) {
+        const deletePegawai = response.data.matches
+          .map((e) => e.nomborMdc)
+          .indexOf(currentPegawai.data[j].mdcNumber);
+        if (deletePegawai < 0) {
+          return response.data.matches;
+        }
+        response.data.matches.splice(deletePegawai, 1);
+      }
       return response.data.matches;
+    } catch (err) {
+      return false;
     }
-    console.log('current pegawai', currentPegawai.data);
-    for (let j = 0; j < currentPegawai.data.length; j++) {
-      const deletePegawai = response.data.matches
-        .map((e) => e.nomborMdc)
-        .indexOf(currentPegawai.data[j].mdcNumber);
-      response.data.matches.splice(deletePegawai, 1);
-    }
-    return response.data.matches;
   };
 
   // auth
@@ -559,6 +564,9 @@ function AdminAppProvider({ children }) {
     oap: 'Program Orang Asli dan Penan',
     ppb: 'Pasukan Pergigian Bergerak',
     mpb: 'Makmal Pergigian Bergerak',
+    program: 'Program',
+    sosmed: 'Media Sosial',
+    tastad: 'Tadika dan Taska',
   };
 
   return (

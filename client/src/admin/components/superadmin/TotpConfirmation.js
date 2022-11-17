@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-import styles from '../Modal.module.css';
+import styles from '../../Modal.module.css';
 
 const TotpModal = ({ children, image }) => {
   const { toast, verifyInitialSecret } = useGlobalAdminAppContext();

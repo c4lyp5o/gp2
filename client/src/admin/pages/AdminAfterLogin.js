@@ -10,32 +10,32 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 // -----------------------------------------------------------
 
 // logged in
-import AdminHeader from '../components/AdminHeader';
-import AdminNavbar from '../components/AdminNavbar';
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 // paparan utama
-import AdminCenterStage from '../components/AdminCenterStage';
+import AdminCenterStage from '../components/superadmin/AdminCenterStage';
 import KpCenterStage from '../components/admin-kp/KpCenterStage';
 
 // klinik details
-import Klinik from '../components/Klinik';
+import Klinik from '../components/superadmin/Klinik';
 
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
-import AdminFooter from '../components/AdminFooter';
+import Footer from '../components/Footer';
 // -----------------------------------------------------------
 
-import Data from '../components/Data';
+import Data from '../components/superadmin/Data';
 import DataKp from '../components/admin-kp/Data';
 
 // settings
-import Settings from '../components/Settings';
+import Settings from '../components/superadmin/Settings';
 
 //ad hoc query
-import AdHocQuery from '../components/AdHocQuery';
+import AdHocQuery from '../components/superadmin/AdHocQuery';
 
-import { LoadingSuperDark } from '../components/Loading';
+import { LoadingSuperDark } from '../components/Screens';
 
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -113,9 +113,9 @@ export default function AdminAfterLogin() {
 
   return (
     <>
-      <AdminHeader {...props} />
+      <Header {...props} />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
-      <AdminNavbar {...props} />
+      <Navbar {...props} />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
           {/* daerah, negeri, hq superadmin */}
@@ -160,7 +160,7 @@ export default function AdminAfterLogin() {
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
-      <AdminFooter />
+      <Footer />
       <ToastContainer />
     </>
   );
