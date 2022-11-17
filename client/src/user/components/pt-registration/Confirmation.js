@@ -45,7 +45,10 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
       uniqueId += simplifiedName[i].charAt(0);
     }
     uniqueId += '-';
-    const dateOfBirth = data.tarikhLahir.split('-').join('');
+    const dateOfBirth = moment(data.tarikhLahir)
+      .format('YYYY-MM-DD')
+      .split('-')
+      .join('');
     uniqueId += dateOfBirth;
     return uniqueId;
   };
@@ -116,7 +119,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                 <p className='text-sm p-1 flex justify-end text-right'>
                   MySejahtera ID:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5'>
+                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5 normal-case'>
                   {data.nomborTelefon ? `${data.nomborTelefon}` : null}
                   {''}
                   {data.emel ? `/${data.emel}` : null}
@@ -126,6 +129,12 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
                 </p>
                 <p className='text-sm p-1 flex justify-start text-left'>
                   {moment(data.tarikhLahir).format('DD/MM/YYYY')}
+                </p>
+                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Umur:
+                </p>
+                <p className='text-sm p-1 flex justify-start text-left'>
+                  {data.umur} tahun, {data.umurBulan} bulan
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right'>
                   Jantina:{' '}
