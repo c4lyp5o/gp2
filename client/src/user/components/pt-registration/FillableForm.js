@@ -230,6 +230,58 @@ export default function FillableForm({
     });
   };
 
+  const findAgeFromIc = (ic) => {
+    const year = ic.substring(0, 2);
+    const month = ic.substring(2, 4);
+    const day = ic.substring(4, 6);
+    const today = new Date();
+    const dob = new Date(`19${year}-${month}-${day}`);
+    const dob2 = new Date(`20${year}-${month}-${day}`);
+    const diff = today.getTime() - dob.getTime();
+    const diff2 = today.getTime() - dob2.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const years2 = Math.floor(diff2 / 31556736000);
+    const months = Math.floor((diff % 31556736000) / 2629800000);
+    let value;
+    if (years > 99) {
+      value = {
+        dob: dob2,
+        dobISO: new Date(dob2),
+        years: years2,
+        months: months,
+      };
+    }
+    if (years < 100) {
+      value = {
+        dob: dob,
+        dobISO: new Date(dob),
+        years: years,
+        months: months,
+      };
+    }
+    return value;
+  };
+
+  const handleIc = (ic) => {
+    const icLength = ic.length;
+    if (icLength === 12) {
+      const age = findAgeFromIc(ic);
+      const tempDate = moment(age.dob).format('YYYY-MM-DD');
+      const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+      const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+      setTarikhLahir(tempDate);
+      setTarikhLahirDP(age.dobISO);
+      setUmur(tahun);
+      setUmurBulan(bulan);
+      setConfirmData({
+        ...confirmData,
+        tarikhLahir: age.dob,
+        umur: tahun,
+        umurBulan: bulan,
+      });
+    }
+  };
+
   const checkMyIdentity = async (ic) => {
     try {
       const res = await axios.get(
@@ -238,10 +290,18 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
+      if (!res.data.verified) {
+        return false;
+      }
       const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
         res.data.info;
+      const age = findAgeFromIc(ic);
       setNama(nama.toLowerCase());
       setJantina(jantina.toLowerCase());
+      setTarikhLahir(moment(age.dob).format('DD/MM/YYYY'));
+      setTarikhLahirDP(new Date(age.dob));
+      setUmur(age.years);
+      setUmurBulan(age.months);
       setAlamat(alamat);
       setPoskodAlamat(poskod);
       setDaerahAlamat(daerah);
@@ -252,7 +312,10 @@ export default function FillableForm({
         setConfirmData({
           ...confirmData,
           nama: nama.toLowerCase(),
+          tarikhLahir: age.dob,
           ic: ic,
+          umur: age.years,
+          umurBulan: age.months,
           jantina: jantina.toLowerCase(),
           alamat: alamat,
           poskodAlamat: poskod,
@@ -266,7 +329,10 @@ export default function FillableForm({
         setConfirmData({
           ...confirmData,
           nama: nama.toLowerCase(),
+          tarikhLahir: age.dob,
           ic: ic,
+          umur: age.years,
+          umurBulan: age.months,
           jantina: jantina.toLowerCase(),
           alamat: alamat,
           poskodAlamat: poskod,
@@ -347,8 +413,10 @@ export default function FillableForm({
         statusPesara,
       });
       toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+      return false;
     }
   };
 
@@ -357,7 +425,10 @@ export default function FillableForm({
     setCheckingIc(true);
     const res = await checkMyIdentity(ic);
     if (!res) {
-      await checkCache();
+      const cache = await checkCache();
+      if (!cache) {
+        handleIc(ic);
+      }
     }
     setCheckingIc(false);
   };
@@ -1021,7 +1092,13 @@ export default function FillableForm({
                         name='nombor-telefon'
                         id='nombor-telefon'
                         className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                        onChange={(e) => setNomborTelefon(e.target.value)}
+                        onChange={(e) => {
+                          setNomborTelefon(e.target.value);
+                          setConfirmData({
+                            ...confirmData,
+                            nomborTelefon: e.target.value,
+                          });
+                        }}
                       />
                     </div>
                     <div className='flex flex-col md:flex-row items-center'>
@@ -1037,7 +1114,13 @@ export default function FillableForm({
                         name='email-mysj'
                         id='email-mysj'
                         className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                        onChange={(e) => setEmel(e.target.value)}
+                        onChange={(e) => {
+                          setEmel(e.target.value);
+                          setConfirmData({
+                            ...confirmData,
+                            emel: e.target.value,
+                          });
+                        }}
                       />
                     </div>
                   </div>
@@ -1244,9 +1327,9 @@ export default function FillableForm({
                     <option value='sarawak'>Sarawak</option>
                     <option value='selangor'>Selangor</option>
                     <option value='terengganu'>Terengganu</option>
-                    <option value='kuala lumpur'>WP Kuala Lumpur</option>
-                    <option value='labuan'>WP Labuan</option>
-                    <option value='putrajaya'>WP Putrajaya</option>
+                    <option value='wp kuala lumpur'>WP Kuala Lumpur</option>
+                    <option value='wp labuan'>WP Labuan</option>
+                    <option value='wp putrajaya'>WP Putrajaya</option>
                   </select>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
