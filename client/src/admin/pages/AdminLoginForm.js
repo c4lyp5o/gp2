@@ -6,8 +6,8 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 import { ToastContainer } from 'react-toastify';
 
-import AdminHeader from '../components/AdminHeader';
-import AdminFooter from '../components/AdminFooter';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 import CountdownTimer from '../context/countdownTimer';
 
@@ -155,7 +155,7 @@ export default function AdminLoginForm() {
 
   return (
     <>
-      <AdminHeader />
+      <Header />
       <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
@@ -218,7 +218,7 @@ export default function AdminLoginForm() {
           </div>
         </div>
       </div>
-      <AdminFooter />
+      <Footer />
       <ToastContainer />
     </>
   );

@@ -1,15 +1,11 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import Add from './Add';
-import Edit from './Edit';
-import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
-import { Loading } from './Loading';
-
-import nothinghere from '../assets/nothinghere.png';
+import { AddModal, EditModal, DeleteModal } from './Modal';
+import { Loading, NothingHereBoi } from '../Screens';
 
 export default function Data({ FType, kp }) {
   // modal
@@ -637,32 +633,6 @@ export default function Data({ FType, kp }) {
     }
   }
 
-  function NothingHereBoi() {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto rounded-md grid'>
-          <div className='rounded-lg shadow-lg bg-white max-w-sm'>
-            <img
-              className='rounded-t-lg'
-              src={nothinghere}
-              alt='There is nothing here'
-            />
-            <div className='p-6'>
-              <h5 className='text-gray-900 text-xl font-medium mb-2'>
-                Tiada Data
-              </h5>
-              <p className='text-gray-700 text-base mb-4'>
-                Data{' '}
-                {FType === 'kp' ? `Klinik Pergigian` : `${Dictionary[FType]}`}{' '}
-                belum di isi...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return <Loading />;
   }
@@ -670,7 +640,7 @@ export default function Data({ FType, kp }) {
   if (!loading) {
     return (
       <>
-        {data.length === 0 && <NothingHereBoi />}
+        {data.length === 0 && <NothingHereBoi FType={FType} />}
         {showKlinik && <Klinik />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
@@ -688,7 +658,7 @@ export default function Data({ FType, kp }) {
           </div>
         </button>
         {showAddModal && (
-          <Add
+          <AddModal
             setShowAddModal={setShowAddModal}
             FType={FType}
             kp={kp}
@@ -698,7 +668,7 @@ export default function Data({ FType, kp }) {
           />
         )}
         {showEditModal && (
-          <Edit
+          <EditModal
             setShowEditModal={setShowEditModal}
             FType={FType}
             kp={kp}
@@ -708,7 +678,7 @@ export default function Data({ FType, kp }) {
           />
         )}
         {showDeleteModal && (
-          <Delete
+          <DeleteModal
             setShowDeleteModal={setShowDeleteModal}
             FType={FType}
             deleteCandidate={deleteCandidate}
