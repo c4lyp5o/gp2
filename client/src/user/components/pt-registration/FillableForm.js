@@ -453,7 +453,7 @@ export default function FillableForm({
               ic,
               nomborTelefon,
               emel,
-              tarikhLahir,
+              tarikhLahir: moment(tarikhLahirDP).format('YYYY-MM-DD'),
               umur,
               umurBulan,
               jantina,
