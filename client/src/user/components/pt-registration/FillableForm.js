@@ -348,7 +348,7 @@ export default function FillableForm({
     }
   };
 
-  const checkCache = async () => {
+  const checkCache = async (ic) => {
     try {
       const response = await axios.post(
         '/api/v1/kaunter/check',
@@ -365,11 +365,13 @@ export default function FillableForm({
         umur,
         umurBulan,
         jantina,
-        kumpulanEtnik,
+        nomborTelefon,
+        emel,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
+        kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
         bersekolah,
@@ -382,11 +384,13 @@ export default function FillableForm({
       setUmur(umur);
       setUmurBulan(umurBulan);
       setJantina(jantina);
-      setKumpulanEtnik(kumpulanEtnik);
+      setNomborTelefon(nomborTelefon);
+      setEmel(emel);
       setAlamat(alamat);
       setDaerahAlamat(daerahAlamat);
       setNegeriAlamat(negeriAlamat);
       setPoskodAlamat(poskodAlamat);
+      setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
       setOrangKurangUpaya(orangKurangUpaya);
       setBersekolah(bersekolah);
@@ -401,11 +405,13 @@ export default function FillableForm({
         umur,
         umurBulan,
         jantina,
-        kumpulanEtnik,
+        nomborTelefon,
+        emel,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
+        kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
         bersekolah,
@@ -425,7 +431,7 @@ export default function FillableForm({
     setCheckingIc(true);
     const res = await checkMyIdentity(ic);
     if (!res) {
-      const cache = await checkCache();
+      const cache = await checkCache(ic);
       if (!cache) {
         handleIc(ic);
       }
