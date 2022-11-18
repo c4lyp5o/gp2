@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { LoadingSuperDark } from '../components/Screens';
 
 import CountdownTimer from '../context/countdownTimer';
 
@@ -54,7 +55,10 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
             name='passwordAdmin'
             id='passwordAdmin'
             placeholder=' '
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              console.log(e.target.value);
+            }}
             required
           />
           <label
@@ -80,14 +84,22 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
 }
 
 export default function AdminLoginForm() {
-  const { toast, loginUser, checkUser, navigate } = useGlobalAdminAppContext();
-  const [username, setUserName] = useState();
+  const { toast, loginUser, checkUser, navigate, readSuperadminData } =
+    useGlobalAdminAppContext();
+  const [userName, setUserName] = useState(null);
   const [showUserIDBox, setShowUserIDBox] = useState(true);
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState(null);
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [kicker, setKicker] = useState(null);
+
+  const [data, setData] = useState(null);
+  const [pilihanNegeri, setPilihanNegeri] = useState(null);
+  const [pilihanDaerah, setPilihanDaerah] = useState(null);
+  const [pilihanKlinik, setPilihanKlinik] = useState(null);
+
+  const currentUser = useRef();
 
   const hilang = () => {
     setShowPassword(!showPassword);
@@ -96,9 +108,17 @@ export default function AdminLoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!pilihanDaerah && !pilihanKlinik) {
+      currentUser.current = userName.negeri;
+    } else if (!pilihanKlinik) {
+      currentUser.current = userName.daerah;
+    } else {
+      currentUser.current = userName.klinik;
+    }
+
     if (showPasswordBox === false) {
       try {
-        const response = await checkUser(username);
+        const response = await checkUser(currentUser.current);
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
           toast.info(`Sila isi password`);
@@ -139,7 +159,7 @@ export default function AdminLoginForm() {
       setTimeout(async () => {
         try {
           const response = await loginUser({
-            username,
+            username: currentUser.current,
             password,
           });
           setLoggingIn(false);
@@ -153,6 +173,25 @@ export default function AdminLoginForm() {
     }
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await readSuperadminData();
+        console.log(response);
+        return response;
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData().then((res) => {
+      setData(res.data);
+    });
+  }, []);
+
+  if (!data) {
+    return <LoadingSuperDark />;
+  }
+
   return (
     <>
       <Header />
@@ -163,13 +202,169 @@ export default function AdminLoginForm() {
               sila masukkan ID pentadbir
             </h3>
             <form onSubmit={handleSubmit}>
-              {userIDBox({ setUserName, showUserIDBox })}
+              {/* {userIDBox({ setUserName, showUserIDBox })}
               {passwordBox({
                 setPassword,
                 showPasswordBox,
                 showPassword,
                 hilang,
-              })}
+              })} */}
+              <div className='grid grid-rows-2 gap-5 justify-center items-center mt-5'>
+                <div className='w-60 flex'>
+                  <label htmlFor='negeri' className='mr-5'>
+                    Negeri:
+                  </label>
+                  <select
+                    name='negeri'
+                    id='negeri'
+                    value={pilihanNegeri}
+                    onChange={(e) => {
+                      setPilihanNegeri(e.target.value);
+                      setUserName({
+                        ...userName,
+                        negeri: `negeri${e.target.value}`,
+                      });
+                    }}
+                    className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+                  >
+                    <option value=''>Sila Pilih Negeri...</option>
+                    {data.map((i) => {
+                      return (
+                        <option
+                          key={i.id}
+                          value={i.negeri}
+                          className='capitalize'
+                        >
+                          {i.negeri}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                {pilihanNegeri && (
+                  <div className='w-60 flex mr-3'>
+                    <label htmlFor='daerah' className='mr-4'>
+                      Daerah:
+                    </label>
+                    <select
+                      name='daerah'
+                      id='daerah'
+                      value={pilihanDaerah}
+                      onChange={(e) => {
+                        const element = document.getElementById('daerah');
+                        const getKey =
+                          element.options[element.selectedIndex].getAttribute(
+                            'data-key'
+                          );
+                        console.log(getKey);
+                        setPilihanDaerah(e.target.value);
+                        setUserName({
+                          ...userName,
+                          daerah: getKey,
+                        });
+                      }}
+                      className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+                    >
+                      <option value=''>Sila Pilih Daerah...</option>
+                      {data.map((d) => {
+                        if (d.negeri === pilihanNegeri) {
+                          return d.daerah.map((i) => {
+                            return (
+                              <option
+                                id='daerah'
+                                data-key={i.username}
+                                value={i.daerah}
+                                className='capitalize'
+                              >
+                                {i.daerah}
+                              </option>
+                            );
+                          });
+                        }
+                      })}
+                    </select>
+                  </div>
+                )}
+                {pilihanNegeri && pilihanDaerah && (
+                  <div className='w-60 flex'>
+                    <label htmlFor='klinik' className='mr-7'>
+                      Klinik:
+                    </label>
+                    <select
+                      name='klinik'
+                      id='klinik'
+                      value={pilihanKlinik}
+                      onChange={(e) => {
+                        setPilihanKlinik(e.target.value);
+                        setUserName({
+                          ...userName,
+                          klinik: e.target.value,
+                        });
+                      }}
+                      className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md'
+                    >
+                      <option value=''>Sila Pilih Klinik</option>
+                      {data.map((d) => {
+                        if (d.negeri === pilihanNegeri) {
+                          return d.daerah.map((i) => {
+                            if (i.daerah === pilihanDaerah) {
+                              return i.klinik.map((k) => {
+                                return (
+                                  <option
+                                    key={k.id}
+                                    value={k.username}
+                                    className='capitalize'
+                                  >
+                                    {k.nama}
+                                  </option>
+                                );
+                              });
+                            }
+                          });
+                        }
+                      })}
+                    </select>
+                  </div>
+                )}
+                {/* {isLoading && (
+                  <p className='text-xs font-semibold flex justify-center'>
+                    <Spinner />
+                  </p>
+                )} */}
+                {/* {showPasswordBox && pilihanKlinik !== '' && (
+                  <div className='relative'>
+                    <input
+                      className='mt-3 appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder=' '
+                      id='password-pendaftaran'
+                      name='password-pendaftaran'
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <label
+                      htmlFor='password-pendaftaran'
+                      className='absolute left-7 bottom-8 text-xs text-kaunter2 bg-userWhite peer-placeholder-shown:text-kaunter2 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
+                    >
+                      Kata Laluan
+                    </label>
+                    <div className='absolute top-5 right-7 text-xl text-kaunter2'>
+                      {showPassword ? (
+                        <AiFillEye onClick={hilang} />
+                      ) : (
+                        <AiFillEyeInvisible onClick={hilang} />
+                      )}
+                    </div>
+                  </div>
+                )} */}
+                {passwordBox({
+                  setPassword,
+                  showPasswordBox,
+                  showPassword,
+                  hilang,
+                })}
+              </div>
               <div className='grid grid-cols-2 gap-2 mt-5 ml-20 mr-20'>
                 <Link
                   to='/'
