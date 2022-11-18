@@ -475,26 +475,47 @@ function AdminAppProvider({ children }) {
     return response.data;
   };
 
+  // read dpims data
+
   const readDpimsData = async (nama) => {
     try {
       const response = await axios.get(`/dpims?nama=${nama}`);
       const currentPegawai = await readData('ppall');
+      console.log('current pegawai', currentPegawai.data);
+      console.log('response', response.data.matches);
       if (currentPegawai.data === 0) {
         return response.data.matches;
+      }
+      if (response.data.matches.length === 1) {
+        const match = currentPegawai.data
+          .map((e) => e.mdcNumber)
+          .includes(response.data.matches[0].nomborMdc);
+        console.log(match);
+        if (match) {
+          return false;
+        }
       }
       for (let j = 0; j < currentPegawai.data.length; j++) {
         const deletePegawai = response.data.matches
           .map((e) => e.nomborMdc)
           .indexOf(currentPegawai.data[j].mdcNumber);
-        if (deletePegawai < 0) {
-          return response.data.matches;
-        }
         response.data.matches.splice(deletePegawai, 1);
       }
       return response.data.matches;
     } catch (err) {
       return false;
     }
+  };
+
+  // read superadmin data
+
+  const readSuperadminData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'read',
+    });
+    return response;
   };
 
   // auth
@@ -598,6 +619,7 @@ function AdminAppProvider({ children }) {
         readMdtbData,
         readFasilitiData,
         readKpData,
+        readSuperadminData,
         // misc
         getCurrentUser,
         saveCurrentUser,
