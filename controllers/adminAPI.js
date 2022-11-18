@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -31,6 +32,7 @@ const Dictionary = {
   kpb: 'kp-bergerak',
   mp: 'makmal-pergigian',
   event: 'event',
+  'sa-a': 'superadmin-all',
 };
 
 const transporter = mailer.createTransport({
@@ -403,8 +405,96 @@ const getData = async (req, res) => {
           break;
       }
       break;
+    case 'SuperadminCenter':
+      switch (Fn) {
+        case 'create':
+          console.log('create for superadmincenter');
+          break;
+        case 'read':
+          console.log('read for superadmincenter');
+          const all = await Superadmin.find({});
+          const allKlinik = await User.find({
+            role: 'klinik',
+          });
+          let allData = [];
+          let cleanData = [];
+          for (let i = 0; i < all.length; i++) {
+            let location = {
+              daerah: all[i].daerah,
+              negeri: all[i].negeri,
+              username: all[i].user_name,
+            };
+            allData.push(location);
+          }
+          const num = _.findIndex(allData, { negeri: '-' });
+          allData.splice(num, 1);
+          const negeri = _.uniqBy(allData, 'negeri');
+          const daerah = _.uniqBy(allData, 'daerah');
+          const username = _.uniqBy(allData, 'username');
+          for (let i = 0; i < negeri.length; i++) {
+            let temp = [];
+            let usernames = [];
+            let klinik = [];
+            for (let j = 0; j < daerah.length; j++) {
+              if (
+                negeri[i].negeri === daerah[j].negeri &&
+                daerah[j].daerah !== '-'
+              ) {
+                let tempDaerah = {
+                  daerah: daerah[j].daerah,
+                  username: daerah[j].username,
+                  klinik: [],
+                };
+                for (let k = 0; k < allKlinik.length; k++) {
+                  if (
+                    daerah[j].daerah === allKlinik[k].daerah &&
+                    allKlinik[k].accountType !== 'kaunterUser'
+                  ) {
+                    let tempKlinik = {
+                      username: allKlinik[k].username,
+                      nama: allKlinik[k].kp,
+                    };
+                    tempDaerah.klinik.push(tempKlinik);
+                  }
+                }
+                temp.push(tempDaerah);
+              }
+            }
+            for (let j = 0; j < username.length; j++) {
+              if (
+                negeri[i].negeri === username[j].negeri &&
+                username[j].daerah === '-'
+              ) {
+                let tempUser = { username: username[j].username };
+                usernames.push(tempUser);
+              }
+            }
+            let temp2 = {
+              negeri: negeri[i].negeri,
+              usernames: usernames,
+              daerah: temp,
+            };
+            cleanData.push(temp2);
+          }
+          res.status(200).json(cleanData);
+          break;
+        case 'readOne':
+          console.log('readOne for superadmincenter');
+          break;
+        case 'update':
+          console.log('update for superadmincenter');
+          break;
+        case 'delete':
+          console.log('delete for superadmincenter');
+          break;
+        default:
+          console.log('default case for superadmincenter');
+          break;
+      }
+      break;
     case 'UserCenter':
       var { username, password, data } = req.body;
+      console.log(req.body);
       switch (Fn) {
         case 'create':
           console.log('create for user');
