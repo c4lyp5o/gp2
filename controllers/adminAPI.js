@@ -494,7 +494,6 @@ const getData = async (req, res) => {
       break;
     case 'UserCenter':
       var { username, password, data } = req.body;
-      console.log(req.body);
       switch (Fn) {
         case 'create':
           console.log('create for user');

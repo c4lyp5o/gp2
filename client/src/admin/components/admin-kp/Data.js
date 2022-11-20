@@ -137,6 +137,15 @@ export default function DataKp({ FType }) {
     );
   };
 
+  const handleAdd = () => {
+    if (FType === 'sosmed') {
+      setShowSosMedModal(true);
+    }
+    if (FType === 'program') {
+      setShowAddModal(true);
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -145,14 +154,10 @@ export default function DataKp({ FType }) {
     <>
       {data.length === 0 ? <NothingHereBoi FType={FType} /> : <RenderSection />}
       <RenderModal />
-      {FType === 'program' ? (
+      {FType === 'program' || FType === 'sosmed' ? (
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
-          onClick={() => {
-            setShowAddModal(true);
-            setShowEditModal(false);
-            setShowDeleteModal(false);
-          }}
+          onClick={handleAdd}
         >
           <div className='text-adminWhite text-7xl'>
             <FaPlus />
