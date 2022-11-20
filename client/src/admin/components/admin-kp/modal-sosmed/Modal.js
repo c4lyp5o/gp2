@@ -1,16 +1,51 @@
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useRef, useState } from 'react';
 import Select from 'react-select';
-import { RiCloseLine } from 'react-icons/ri';
+import { FaWindowClose } from 'react-icons/fa';
+import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import styles from '../../../Modal.module.css';
 
 import Confirmation from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
 
+import RenderSection from './Cards';
+
+import Facebook from '../../../assets/socmed/facebook.svg';
+import Instagram from '../../../assets/socmed/instagram.png';
+import Twitter from '../../../assets/socmed/twitter.svg';
+import Tiktok from '../../../assets/socmed/tiktok.svg';
+import Youtube from '../../../assets/socmed/youtube.svg';
+
+const CustomDatePicker = () => {
+  return (
+    <DatePicker
+      dateFormat='dd/MM/yyyy'
+      // selected={date}
+      // onChange={(date) => {
+      //   const tempDate = moment(date).format('YYYY-MM-DD');
+      //   setDate(date);
+      //   setPilihanTarikh(tempDate);
+      // }}
+      peekNextMonth
+      showMonthDropdown
+      showYearDropdown
+      dropdownMode='select'
+      className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+    />
+  );
+};
+
 const ModalSosMed = (props) => {
   const { toast, createData } = useGlobalAdminAppContext();
+
+  const JenisPromosi = [
+    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
+    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
+    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
+    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
+    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
+  ];
 
   const [pilihanPromosi, setPilihanPromosi] = useState([]);
   const [questionState, setQuestionState] = useState([]);
@@ -22,7 +57,7 @@ const ModalSosMed = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAddingData(true);
+    // setAddingData(true);/
     let Data = {};
     Data = {
       ...Data,
@@ -48,332 +83,98 @@ const ModalSosMed = (props) => {
     console.log(Data);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setQuestionState({ ...questionState, [name]: value });
-    setTimeout(() => {
-      console.log(questionState);
-    }, 1000);
+  const props2 = {
+    questionState,
+    setQuestionState,
   };
-
-  const Section = ({ nama }) => {
-    return (
-      <div className='grid grid-cols-3 overflow-y-auto overflow-x-hidden'>
-        {nama !== 'Twitter' ? (
-          <article className='admin-pegawai-handler'>
-            Promosi: {nama}
-            <p>GO LIVE! </p>
-            <div className='grid grid-cols-2'>
-              <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_live_bilAktivitiShareKurang10',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_live_bilAktivitiShareLebih10',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Penonton</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_live_bilPenonton',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Reach</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_live_bilReach',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Share</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_live_bilShare',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
-          </article>
-        ) : null}
-        {nama !== 'Youtube' && nama !== 'Tiktok' ? (
-          <article className='admin-pegawai-handler'>
-            Promosi: {nama}
-            <p>Poster Infografik </p>
-            <div className='grid grid-cols-2'>
-              <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_poster_bilAktivitiShareKurang10',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_poster_bilAktivitiShareLebih10',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Penonton</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_poster_bilPenonton',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Reach</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_poster_bilReach',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-              <p>Bil. Share</p>
-              <input
-                className='border-2'
-                type='text'
-                name='nama'
-                id='nama'
-                onChange={(e) =>
-                  handleChange({
-                    target: {
-                      name: nama + '_poster_bilShare',
-                      value: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
-          </article>
-        ) : null}
-        <article className='admin-pegawai-handler'>
-          Promosi: {nama}
-          <p>Video Promosi/Pendidikan Kesihatan Pergigian </p>
-          <div className='grid grid-cols-2'>
-            <p>Bil. Aktiviti Yang Mendapat Bil. Share kurang 10</p>
-            <input
-              className='border-2'
-              type='text'
-              name='nama'
-              id='nama'
-              onChange={(e) =>
-                handleChange({
-                  target: {
-                    name: nama + '_video_bilAktivitiShareKurang10',
-                    value: e.target.value,
-                  },
-                })
-              }
-            />
-            <p>Bil. Aktiviti Yang Mendapat Bil. Share lebih 10</p>
-            <input
-              className='border-2'
-              type='text'
-              name='nama'
-              id='nama'
-              onChange={(e) =>
-                handleChange({
-                  target: {
-                    name: nama + '_video_bilAktivitiShareLebih10',
-                    value: e.target.value,
-                  },
-                })
-              }
-            />
-            <p>Bil. Penonton</p>
-            <input
-              className='border-2'
-              type='text'
-              name='nama'
-              id='nama'
-              onChange={(e) =>
-                handleChange({
-                  target: {
-                    name: nama + '_video_bilPenonton',
-                    value: e.target.value,
-                  },
-                })
-              }
-            />
-            <p>Bil. Reach</p>
-            <input
-              className='border-2'
-              type='text'
-              name='nama'
-              id='nama'
-              onChange={(e) =>
-                handleChange({
-                  target: {
-                    name: nama + '_video_bilReach',
-                    value: e.target.value,
-                  },
-                })
-              }
-            />
-            <p>Bil. Share</p>
-            <input
-              className='border-2'
-              type='text'
-              name='nama'
-              id='nama'
-              onChange={(e) =>
-                handleChange({
-                  target: {
-                    name: nama + '_video_bilShare',
-                    value: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </article>
-      </div>
-    );
-  };
-
-  const renderSection = (item) => {
-    return <Section key={item.id} nama={item.value} />;
-  };
-
-  const JenisPromosi = [
-    { value: 'Facebook', label: 'Facebook' },
-    { value: 'Instagram', label: 'Instagram' },
-    { value: 'Youtube', label: 'Youtube' },
-    { value: 'Tiktok', label: 'Tiktok' },
-    { value: 'Twitter', label: 'Twitter' },
-  ];
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div
-          className={styles.darkBG}
-          onClick={() => props.setShowSosMedModal(false)}
-        />
-        <div className={styles.centered}>
-          <div className={styles.modalPromosi}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Sila pilih</h5>
+        <div className='absolute inset-x-1 inset-y-1 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <FaWindowClose
+            className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+            onClick={() => {
+              props.setShowSosMedModal(false);
+            }}
+          />
+          <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
+            AKTIVITI MEDIA SOSIAL
+          </h5>
+          <div className='grid grid-row-3 mx-auto'>
+            <div className='flex flex-row mt-1 mb-1'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                Kod Program:{' '}
+              </p>
+              <input
+                type='text'
+                className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row mr-2 mb-2'
+                placeholder='Kod Program'
+                ref={currentName}
+                onChange={(e) => {
+                  setQuestionState({
+                    ...questionState,
+                    kodProgram: e.target.value,
+                  });
+                }}
+              />
+              <button className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-1 m-3'>
+                Cari
+              </button>
             </div>
-            <span
-              className={styles.closeBtn}
-              onClick={() => props.setShowSosMedModal(false)}
-            >
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </span>
-            <div className={styles.modalContent}>
-              <div className='justify-between items-center'>
-                <article>
-                  <Select
-                    isMulti
-                    name='promosi'
-                    options={JenisPromosi}
-                    className='basic-multi-select'
-                    classNamePrefix='select'
-                    onChange={(e) => {
-                      setPilihanPromosi(e);
-                    }}
-                  />
-                </article>
-                {pilihanPromosi.map((item) => renderSection(item))}
-              </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  {addingData ? (
-                    <BusyButton func='add' />
-                  ) : (
-                    <SubmitButton func='add' />
-                  )}
-                  <span
-                    className={styles.cancelBtn}
-                    onClick={() => props.setShowSosMedModal(false)}
-                  >
-                    Kembali
-                  </span>
-                </div>
-              </div>
+            <div className='flex justify-center mb-1'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                tarikh mula: <span className='font-semibold text-user6'>*</span>
+              </p>
+              <CustomDatePicker />
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                tarikh akhir:{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <CustomDatePicker />
+            </div>
+            <div className='flex mt-1'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                nama aktiviti:{' '}
+                <span className='font-semibold text-user6'>*</span>
+                <input
+                  className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+                  type='text'
+                />
+              </p>
             </div>
           </div>
+          <div className='mt-5 p-1'>
+            <Select
+              isMulti
+              name='promosi'
+              options={JenisPromosi}
+              placeholder='Sila pilih promosi...'
+              className='basic-multi-select'
+              classNamePrefix='select'
+              onChange={(e) => {
+                setPilihanPromosi(e);
+              }}
+            />
+            {pilihanPromosi.map((item) => RenderSection(item, props2))}
+          </div>
+          <div className='flex justify-center'>
+            {addingData ? (
+              <BusyButton func='add' />
+            ) : (
+              <SubmitButton func='add' />
+            )}
+            <button
+              className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-1 m-3'
+              onClick={() => {
+                props.setShowSosMedModal(false);
+              }}
+            >
+              Batal
+            </button>
+          </div>
         </div>
+        <div className='absolute inset-0 bg-user1 z-10 opacity-100' />
       </form>
     </>
   );
