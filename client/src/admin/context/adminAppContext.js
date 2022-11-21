@@ -303,13 +303,13 @@ function AdminAppProvider({ children }) {
 
   // data KP
 
-  const createDataForKp = async (data) => {
+  const createDataForKp = async (FType, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
         apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'create',
-        FType: 'kp',
+        FType: FType,
         Data: data,
         token: adminToken,
       });

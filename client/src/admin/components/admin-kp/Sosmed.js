@@ -14,21 +14,46 @@ const socmed = [
   { name: 'Youtube', img: Youtube },
 ];
 
-const SosmedCards = (current) => {
+const SosmedCards = (current, props) => {
   return (
     <div className='w-1/3 rounded overflow-hidden shadow-lg'>
       <img className='w-1/3 mx-auto mt-2' src={current.img} alt='logo' />
       <div className='px-6 py-4'>
         <div className='font-bold text-xl mb-2'>{current.name}</div>
-        <p className='text-gray-700 text-base'>Data for {current.name}</p>
+        <p className='text-gray-700 text-xs'>Data for {current.name}</p>
+        {props.data.map((item) => {
+          return (
+            <div className='grid grid-row-2 mx-auto'>
+              {item.data.map((sosmed) => {
+                return (
+                  <div className='flex flex-row justify-between'>
+                    <p className='text-gray-700 text-xs'>
+                      {Object.keys(sosmed).map((key) => {
+                        if (key.includes(current.name)) {
+                          return (
+                            <div>
+                              <p className='text-gray-700 text-xs'>
+                                {key}: {sosmed[key]}
+                              </p>
+                            </div>
+                          );
+                        }
+                      })}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
-const renderCards = () => {
+const renderCards = (props) => {
   return socmed.map((name) => {
-    return SosmedCards(name);
+    return SosmedCards(name, props);
   });
 };
 
@@ -49,7 +74,7 @@ export default function Sosmed(props) {
             <SosmedCards />
             <SosmedCards />
           </div> */}
-          <div className='flex flex-auto m-2'>{renderCards()}</div>
+          <div className='flex flex-auto m-2'>{renderCards(props)}</div>
         </div>
         {/* <div>
           <button

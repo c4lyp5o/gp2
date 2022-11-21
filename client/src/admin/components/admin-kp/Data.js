@@ -48,7 +48,8 @@ export default function DataKp({ FType }) {
       setDaerah(userData.daerah);
       setNegeri(userData.negeri);
       const { data } = await readDataForKp(FType);
-      setData(data);
+      console.log(data);
+      setData([]);
     };
     getData()
       .then(() => {
@@ -112,6 +113,7 @@ export default function DataKp({ FType }) {
     setUser,
     reload,
     setReload,
+    FType,
   };
 
   const RenderSection = () => {

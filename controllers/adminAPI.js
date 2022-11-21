@@ -14,6 +14,7 @@ const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
+const Sosmed = require('../models/MediaSosial');
 const emailGen = require('../lib/emailgen');
 
 // helper
@@ -34,6 +35,8 @@ const Dictionary = {
   event: 'event',
   'sa-a': 'superadmin-all',
 };
+
+const socmed = ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'];
 
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
@@ -307,17 +310,47 @@ const getData = async (req, res) => {
       break;
     case 'KpCenter':
       var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(FType);
       switch (Fn) {
         case 'create':
           console.log('create for kpcenter');
-          Data = {
-            ...Data,
-            createdByKp: kp,
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
-          };
-          const createdEvent = await Event.create(Data);
-          res.status(200).json(createdEvent);
+          switch (FType) {
+            case 'program':
+              Data = {
+                ...Data,
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const createdEvent = await Event.create(Data);
+              res.status(200).json(createdEvent);
+              break;
+            case 'sosmed':
+              const previousData = await Sosmed.find({
+                kodProgram: Data.kodProgram,
+              });
+              console.log(previousData, previousData.length);
+              if (previousData.length === 0) {
+                console.log('no previous data');
+                delete Data.data[0].kodProgram;
+                const createdSosmed = await Sosmed.create(Data);
+                return res.status(200).json(createdSosmed);
+              }
+              if (previousData.length > 0) {
+                console.log('previous data found');
+                delete Data.data[0].kodProgram;
+                const updatedSosmed = await Sosmed.findOneAndUpdate(
+                  { kodProgram: Data.kodProgram },
+                  { $push: { data: Data.data[0] } },
+                  { new: true }
+                );
+                res.status(200).json(updatedSosmed);
+              }
+              break;
+            default:
+              console.log('default case for kpcenter');
+              break;
+          }
           break;
         case 'read':
           console.log('read for kpcenter');
@@ -331,12 +364,53 @@ const getData = async (req, res) => {
               res.status(200).json(eventData);
               break;
             case 'sosmed':
-              const sosmedData = await Event.find({
+              let countedData = [];
+              const sosmedData = await Sosmed.find({
                 createdByKp: kp,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
-              res.status(200).json(sosmedData);
+              if (sosmedData[0].data.length > 0) {
+                sosmedData[0].data.map((item) => {
+                  let data = { name: '', data: [] };
+                  Object.keys(item).map((key) => {
+                    let keyData = { name: '', value: 0 };
+                    for (let i = 0; i < socmed.length; i++) {
+                      if (key.includes(socmed[i])) {
+                        data.name = socmed[i];
+                        keyData = {
+                          ...keyData,
+                          name: key,
+                          value: keyData.value + parseInt(item[key]),
+                        };
+                      }
+                    }
+                    if (keyData.name !== '') {
+                      data.data.push(keyData);
+                    }
+                  });
+                  if (data.name !== '') {
+                    countedData.push(data);
+                  }
+                });
+              }
+              for (let i = 0; i < countedData.length; i++) {
+                for (let j = 0; j < countedData.length; j++) {
+                  if (i !== j) {
+                    if (countedData[i].name === countedData[j].name) {
+                      countedData[i].data.map((item) => {
+                        countedData[j].data.map((item2) => {
+                          if (item.name === item2.name) {
+                            item.value += item2.value;
+                          }
+                        });
+                      });
+                      countedData.splice(j, 1);
+                    }
+                  }
+                }
+              }
+              res.status(200).json(countedData);
               break;
             case 'tastad':
               let tastadData = [];
@@ -386,22 +460,34 @@ const getData = async (req, res) => {
           break;
         case 'update':
           console.log('update for kpcenter');
-          const updateEvent = await Event.findByIdAndUpdate(
-            { _id: Id },
-            { $set: Data },
-            { new: true }
-          );
-          res.status(200).json(updateEvent);
+          switch (FType) {
+            case 'program':
+              const updateEvent = await Event.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateEvent);
+              break;
+            default:
+              console.log('default case for update');
+              break;
+          }
           break;
         case 'delete':
           console.log('delete for kpcenter');
-          const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
-          res.status(200).json(deletedEvent);
+          switch (FType) {
+            case 'program':
+              const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
+              res.status(200).json(deletedEvent);
+              break;
+            default:
+              console.log('default case for delete');
+              break;
+          }
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for KpCenter',
-          });
+          console.log('default case for kpcenter');
           break;
       }
       break;
