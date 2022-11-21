@@ -72,12 +72,16 @@ export default function AdminAfterLogin() {
     }
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
-    }, 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2));
+    }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
     const kickerNumber = setTimeout(() => {
       logOutUser();
-    }, 1000 * 60 * process.env.REACT_APP_LOGOUT_TIME);
+    }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
     setKicker(kickerNumber);
     setKickerNoti(kickerNotiNumber);
+    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+    const nowMinutes = new Date().getTime();
+    const real = nowMinutes + logOutTime;
+    setTimer(real);
   };
 
   const props = {
@@ -85,6 +89,8 @@ export default function AdminAfterLogin() {
     loginInfo,
     setLoginInfo,
     logOutNotiSystem,
+    kicker,
+    kickerNoti,
   };
 
   useEffect(() => {
@@ -95,11 +101,6 @@ export default function AdminAfterLogin() {
         isLoggedIn: true,
       });
       logOutNotiSystem();
-      const logOutTime =
-        parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
-      const nowMinutes = new Date().getTime();
-      const real = nowMinutes + logOutTime;
-      setTimer(real);
     };
     getUser().catch((err) => {
       console.log(err);

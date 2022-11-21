@@ -83,7 +83,7 @@ const ModalSosMed = (props) => {
     console.log(Data);
   };
 
-  const props2 = {
+  const propsSosMed = {
     questionState,
     setQuestionState,
   };
@@ -156,7 +156,7 @@ const ModalSosMed = (props) => {
                 setPilihanPromosi(e);
               }}
             />
-            {pilihanPromosi.map((item) => RenderSection(item, props2))}
+            {pilihanPromosi.map((item) => RenderSection(item, propsSosMed))}
           </div>
           <div className='flex justify-center'>
             {addingData ? (
