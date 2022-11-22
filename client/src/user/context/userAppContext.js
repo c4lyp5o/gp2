@@ -97,6 +97,10 @@ function masterDatePicker({
       endDate={endDate}
       minDate={minDate}
       withPortal={window.matchMedia('(max-width: 400px)').matches}
+      onKeyDown={(e) => {
+        e.preventDefault();
+      }}
+      onFocus={(e) => e.target.blur()} // disable keyboad input
     />
   );
 }
