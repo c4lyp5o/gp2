@@ -42,8 +42,8 @@ import { toast, ToastContainer } from 'react-toastify';
 export default function AdminAfterLogin() {
   const { getCurrentUser, adminToken, logOutUser } = useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState(null);
-  const [kicker, setKicker] = useState('');
-  const [kickerNoti, setKickerNoti] = useState('');
+  const [kicker, setKicker] = useState(null);
+  const [kickerNoti, setKickerNoti] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
 

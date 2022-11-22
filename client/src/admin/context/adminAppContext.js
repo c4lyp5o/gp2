@@ -531,49 +531,19 @@ function AdminAppProvider({ children }) {
   };
 
   const DictionarySosMedParam = (key) => {
-    if (key.includes('live_bilAktivitiShareKurang10') === true) {
+    if (key.includes('bilAktivitiShareKurang10') === true) {
       return 'Bilangan aktiviti share kurang 10';
     }
-    if (key.includes('live_bilAktivitiShareLebih10') === true) {
+    if (key.includes('bilAktivitiShareLebih10') === true) {
       return 'Bilangan aktiviti share lebih 10';
     }
-    if (key.includes('live_bilPenonton') === true) {
+    if (key.includes('bilPenonton') === true) {
       return 'Bilangan penonton';
     }
-    if (key.includes('live_bilReach') === true) {
+    if (key.includes('bilReach') === true) {
       return 'Bilangan reach';
     }
-    if (key.includes('live_bilShare') === true) {
-      return 'Bilangan share';
-    }
-    if (key.includes('poster_bilAktivitiShareKurang10') === true) {
-      return 'Bilangan aktiviti share kurang 10';
-    }
-    if (key.includes('poster_bilAktivitiShareLebih10')) {
-      return 'Bilangan aktiviti share lebih 10';
-    }
-    if (key.includes('poster_bilPenonton') === true) {
-      return 'Bilangan penonton';
-    }
-    if (key.includes('poster_bilReach') === true) {
-      return 'Bilangan reach';
-    }
-    if (key.includes('poster_bilShare') === true) {
-      return 'Bilangan share';
-    }
-    if (key.includes('video_bilAktivitiShareKurang10') === true) {
-      return 'Bilangan aktiviti share kurang 10';
-    }
-    if (key.includes('video_bilAktivitiShareLebih10') === true) {
-      return 'Bilangan aktiviti share lebih 10';
-    }
-    if (key.includes('video_bilPenonton') === true) {
-      return 'Bilangan penonton';
-    }
-    if (key.includes('video_bilReach') === true) {
-      return 'Bilangan reach';
-    }
-    if (key.includes('video_bilShare') === true) {
+    if (key.includes('bilShare') === true) {
       return 'Bilangan share';
     }
   };

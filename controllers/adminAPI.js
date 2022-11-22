@@ -462,14 +462,32 @@ const getData = async (req, res) => {
               // }
               for (let i = 0; i < socmed.length; i++) {
                 let obj = { name: socmed[i], data: [] };
-                let objdata = {};
+                let objlive = { name: 'live', data: [] };
+                let objvideo = { name: 'video', data: [] };
+                let objposter = { name: 'poster', data: [] };
+                let livedata = {};
+                let videodata = {};
+                let posterdata = {};
                 Object.keys(keys).forEach((key) => {
                   if (key.includes(socmed[i])) {
-                    let newKey = key.split(`${socmed[i]}_`)[1];
-                    objdata[newKey] = keys[key];
+                    if (key.includes('live')) {
+                      let newKey = key.replace(`${socmed[i]}_live_`, '');
+                      livedata[newKey] = keys[key];
+                    } else if (key.includes('video')) {
+                      let newKey = key.replace(`${socmed[i]}_video_`, '');
+                      videodata[newKey] = keys[key];
+                    } else if (key.includes('poster')) {
+                      let newKey = key.replace(`${socmed[i]}_poster_`, '');
+                      posterdata[newKey] = keys[key];
+                    }
                   }
                 });
-                obj.data.push(objdata);
+                objlive.data.push(livedata);
+                objvideo.data.push(videodata);
+                objposter.data.push(posterdata);
+                obj.data.push(objlive);
+                obj.data.push(objvideo);
+                obj.data.push(objposter);
                 countedData.push(obj);
               }
               res.status(200).json(countedData);
