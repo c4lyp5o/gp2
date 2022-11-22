@@ -14,6 +14,7 @@ const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
+const Sosmed = require('../models/MediaSosial');
 const emailGen = require('../lib/emailgen');
 
 // helper
@@ -34,6 +35,8 @@ const Dictionary = {
   event: 'event',
   'sa-a': 'superadmin-all',
 };
+
+const socmed = ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'];
 
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
@@ -307,17 +310,56 @@ const getData = async (req, res) => {
       break;
     case 'KpCenter':
       var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(FType);
       switch (Fn) {
         case 'create':
           console.log('create for kpcenter');
-          Data = {
-            ...Data,
-            createdByKp: kp,
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
-          };
-          const createdEvent = await Event.create(Data);
-          res.status(200).json(createdEvent);
+          switch (FType) {
+            case 'program':
+              Data = {
+                ...Data,
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const createdEvent = await Event.create(Data);
+              res.status(200).json(createdEvent);
+              break;
+            case 'sosmed':
+              const previousData = await Sosmed.find({
+                kodProgram: Data.kodProgram,
+              });
+              if (previousData.length === 0) {
+                console.log('no previous data');
+                delete Data.data[0].kodProgram;
+                console.log(Data.data[0]);
+                Data.data[0] = {
+                  id: 1,
+                  ...Data.data[0],
+                };
+                const createdSosmed = await Sosmed.create(Data);
+                return res.status(200).json(createdSosmed);
+              }
+              if (previousData.length > 0) {
+                delete Data.data[0].kodProgram;
+                const lastData = previousData[0].data.length;
+                const lastIdofData = previousData[0].data[lastData - 1].id;
+                Data.data[0] = {
+                  id: lastIdofData + 1,
+                  ...Data.data[0],
+                };
+                const updatedSosmed = await Sosmed.findOneAndUpdate(
+                  { kodProgram: Data.kodProgram },
+                  { $push: { data: Data.data[0] } },
+                  { new: true }
+                );
+                res.status(200).json(updatedSosmed);
+              }
+              break;
+            default:
+              console.log('default case for kpcenter');
+              break;
+          }
           break;
         case 'read':
           console.log('read for kpcenter');
@@ -331,12 +373,124 @@ const getData = async (req, res) => {
               res.status(200).json(eventData);
               break;
             case 'sosmed':
-              const sosmedData = await Event.find({
+              let countedData = [];
+              let keys = {
+                Facebook_live_bilAktivitiShareKurang10: 0,
+                Facebook_live_bilAktivitiShareLebih10: 0,
+                Facebook_live_bilPenonton: 0,
+                Facebook_live_bilReach: 0,
+                Facebook_live_bilShare: 0,
+                Facebook_poster_bilAktivitiShareKurang10: 0,
+                Facebook_poster_bilAktivitiShareLebih10: 0,
+                Facebook_poster_bilPenonton: 0,
+                Facebook_poster_bilReach: 0,
+                Facebook_poster_bilShare: 0,
+                Facebook_video_bilAktivitiShareKurang10: 0,
+                Facebook_video_bilAktivitiShareLebih10: 0,
+                Facebook_video_bilPenonton: 0,
+                Facebook_video_bilReach: 0,
+                Facebook_video_bilShare: 0,
+                Instagram_live_bilAktivitiShareKurang10: 0,
+                Instagram_live_bilAktivitiShareLebih10: 0,
+                Instagram_live_bilPenonton: 0,
+                Instagram_live_bilReach: 0,
+                Instagram_live_bilShare: 0,
+                Instagram_poster_bilAktivitiShareKurang10: 0,
+                Instagram_poster_bilAktivitiShareLebih10: 0,
+                Instagram_poster_bilPenonton: 0,
+                Instagram_poster_bilReach: 0,
+                Instagram_poster_bilShare: 0,
+                Instagram_video_bilAktivitiShareKurang10: 0,
+                Instagram_video_bilAktivitiShareLebih10: 0,
+                Instagram_video_bilPenonton: 0,
+                Instagram_video_bilReach: 0,
+                Instagram_video_bilShare: 0,
+                Twitter_poster_bilAktivitiShareKurang10: 0,
+                Twitter_poster_bilAktivitiShareLebih10: 0,
+                Twitter_poster_bilPenonton: 0,
+                Twitter_poster_bilReach: 0,
+                Twitter_poster_bilShare: 0,
+                Twitter_video_bilAktivitiShareKurang10: 0,
+                Twitter_video_bilAktivitiShareLebih10: 0,
+                Twitter_video_bilPenonton: 0,
+                Twitter_video_bilReach: 0,
+                Twitter_video_bilShare: 0,
+                Tiktok_live_bilAktivitiShareKurang10: 0,
+                Tiktok_live_bilAktivitiShareLebih10: 0,
+                Tiktok_live_bilPenonton: 0,
+                Tiktok_live_bilReach: 0,
+                Tiktok_live_bilShare: 0,
+                Tiktok_video_bilAktivitiShareKurang10: 0,
+                Tiktok_video_bilAktivitiShareLebih10: 0,
+                Tiktok_video_bilPenonton: 0,
+                Tiktok_video_bilReach: 0,
+                Tiktok_video_bilShare: 0,
+                Youtube_live_bilAktivitiShareKurang10: 0,
+                Youtube_live_bilAktivitiShareLebih10: 0,
+                Youtube_live_bilPenonton: 0,
+                Youtube_live_bilReach: 0,
+                Youtube_live_bilShare: 0,
+                Youtube_video_bilAktivitiShareKurang10: 0,
+                Youtube_video_bilAktivitiShareLebih10: 0,
+                Youtube_video_bilPenonton: 0,
+                Youtube_video_bilReach: 0,
+                Youtube_video_bilShare: 0,
+              };
+              const sosmedData = await Sosmed.find({
                 createdByKp: kp,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
-              res.status(200).json(sosmedData);
+              for (let i = 0; i < sosmedData[0].data.length; i++) {
+                Object.keys(sosmedData[0].data[i]).forEach((key) => {
+                  keys[key] += parseInt(sosmedData[0].data[i][key]);
+                });
+              }
+              delete keys.id;
+              delete keys.tarikhAkhir;
+              delete keys.tarikhMula;
+              delete keys.namaAktiviti;
+              // for (let i = 0; i < socmed.length; i++) {
+              //   let obj = {};
+              //   Object.keys(keys).forEach((key) => {
+              //     console.log(`${key}: ${keys[key]}`);
+              //     if (key.includes(socmed[i])) {
+              //       obj[key] = keys[key];
+              //     }
+              //   });
+              //   countedData.push(obj);
+              // }
+              for (let i = 0; i < socmed.length; i++) {
+                let obj = { name: socmed[i], data: [] };
+                let objlive = { name: 'live', data: [] };
+                let objvideo = { name: 'video', data: [] };
+                let objposter = { name: 'poster', data: [] };
+                let livedata = {};
+                let videodata = {};
+                let posterdata = {};
+                Object.keys(keys).forEach((key) => {
+                  if (key.includes(socmed[i])) {
+                    if (key.includes('live')) {
+                      let newKey = key.replace(`${socmed[i]}_live_`, '');
+                      livedata[newKey] = keys[key];
+                    } else if (key.includes('video')) {
+                      let newKey = key.replace(`${socmed[i]}_video_`, '');
+                      videodata[newKey] = keys[key];
+                    } else if (key.includes('poster')) {
+                      let newKey = key.replace(`${socmed[i]}_poster_`, '');
+                      posterdata[newKey] = keys[key];
+                    }
+                  }
+                });
+                objlive.data.push(livedata);
+                objvideo.data.push(videodata);
+                objposter.data.push(posterdata);
+                obj.data.push(objlive);
+                obj.data.push(objvideo);
+                obj.data.push(objposter);
+                countedData.push(obj);
+              }
+              res.status(200).json(countedData);
               break;
             case 'tastad':
               let tastadData = [];
@@ -386,22 +540,34 @@ const getData = async (req, res) => {
           break;
         case 'update':
           console.log('update for kpcenter');
-          const updateEvent = await Event.findByIdAndUpdate(
-            { _id: Id },
-            { $set: Data },
-            { new: true }
-          );
-          res.status(200).json(updateEvent);
+          switch (FType) {
+            case 'program':
+              const updateEvent = await Event.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateEvent);
+              break;
+            default:
+              console.log('default case for update');
+              break;
+          }
           break;
         case 'delete':
           console.log('delete for kpcenter');
-          const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
-          res.status(200).json(deletedEvent);
+          switch (FType) {
+            case 'program':
+              const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
+              res.status(200).json(deletedEvent);
+              break;
+            default:
+              console.log('default case for delete');
+              break;
+          }
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for KpCenter',
-          });
+          console.log('default case for kpcenter');
           break;
       }
       break;

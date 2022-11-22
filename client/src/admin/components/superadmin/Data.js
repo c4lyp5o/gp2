@@ -21,7 +21,7 @@ export default function Data({ FType, kp }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(null);
 
   // short circuit
   const [showKlinik, setShowKlinik] = useState(false);
@@ -49,6 +49,11 @@ export default function Data({ FType, kp }) {
     readData(FType).then((res) => {
       console.log(res.data);
       setData(res.data);
+      setShowPassword({
+        ...showPassword,
+        [res.data.username]: false,
+        [res.data.kaunterUsername]: false,
+      });
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
       }
@@ -132,12 +137,17 @@ export default function Data({ FType, kp }) {
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
                       <div>{kp.username}</div>
                       <div id={index}>
-                        {showPassword === true
+                        {showPassword[kp.username] === true
                           ? kp.password
                           : encryptPassword(kp.password)}
                         <button
                           className='ml-1'
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() => {
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.username]: !showPassword[kp.username],
+                            });
+                          }}
                         >
                           <AiOutlineEye />
                         </button>
@@ -146,12 +156,18 @@ export default function Data({ FType, kp }) {
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
                       <div>{kp.kaunterUsername}</div>
                       <div id={index}>
-                        {showPassword === true
+                        {showPassword[kp.kaunterUsername] === true
                           ? kp.kaunterPassword
                           : encryptPassword(kp.kaunterPassword)}
                         <button
                           className='ml-1'
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() =>
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.kaunterUsername]:
+                                !showPassword[kp.kaunterUsername],
+                            })
+                          }
                         >
                           <AiOutlineEye />
                         </button>
