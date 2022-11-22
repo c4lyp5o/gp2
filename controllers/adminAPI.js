@@ -329,16 +329,25 @@ const getData = async (req, res) => {
               const previousData = await Sosmed.find({
                 kodProgram: Data.kodProgram,
               });
-              console.log(previousData, previousData.length);
               if (previousData.length === 0) {
                 console.log('no previous data');
                 delete Data.data[0].kodProgram;
+                console.log(Data.data[0]);
+                Data.data[0] = {
+                  id: 1,
+                  ...Data.data[0],
+                };
                 const createdSosmed = await Sosmed.create(Data);
                 return res.status(200).json(createdSosmed);
               }
               if (previousData.length > 0) {
-                console.log('previous data found');
                 delete Data.data[0].kodProgram;
+                const lastData = previousData[0].data.length;
+                const lastIdofData = previousData[0].data[lastData - 1].id;
+                Data.data[0] = {
+                  id: lastIdofData + 1,
+                  ...Data.data[0],
+                };
                 const updatedSosmed = await Sosmed.findOneAndUpdate(
                   { kodProgram: Data.kodProgram },
                   { $push: { data: Data.data[0] } },
@@ -365,50 +374,103 @@ const getData = async (req, res) => {
               break;
             case 'sosmed':
               let countedData = [];
+              let keys = {
+                Facebook_live_bilAktivitiShareKurang10: 0,
+                Facebook_live_bilAktivitiShareLebih10: 0,
+                Facebook_live_bilPenonton: 0,
+                Facebook_live_bilReach: 0,
+                Facebook_live_bilShare: 0,
+                Facebook_poster_bilAktivitiShareKurang10: 0,
+                Facebook_poster_bilAktivitiShareLebih10: 0,
+                Facebook_poster_bilPenonton: 0,
+                Facebook_poster_bilReach: 0,
+                Facebook_poster_bilShare: 0,
+                Facebook_video_bilAktivitiShareKurang10: 0,
+                Facebook_video_bilAktivitiShareLebih10: 0,
+                Facebook_video_bilPenonton: 0,
+                Facebook_video_bilReach: 0,
+                Facebook_video_bilShare: 0,
+                Instagram_live_bilAktivitiShareKurang10: 0,
+                Instagram_live_bilAktivitiShareLebih10: 0,
+                Instagram_live_bilPenonton: 0,
+                Instagram_live_bilReach: 0,
+                Instagram_live_bilShare: 0,
+                Instagram_poster_bilAktivitiShareKurang10: 0,
+                Instagram_poster_bilAktivitiShareLebih10: 0,
+                Instagram_poster_bilPenonton: 0,
+                Instagram_poster_bilReach: 0,
+                Instagram_poster_bilShare: 0,
+                Instagram_video_bilAktivitiShareKurang10: 0,
+                Instagram_video_bilAktivitiShareLebih10: 0,
+                Instagram_video_bilPenonton: 0,
+                Instagram_video_bilReach: 0,
+                Instagram_video_bilShare: 0,
+                Twitter_poster_bilAktivitiShareKurang10: 0,
+                Twitter_poster_bilAktivitiShareLebih10: 0,
+                Twitter_poster_bilPenonton: 0,
+                Twitter_poster_bilReach: 0,
+                Twitter_poster_bilShare: 0,
+                Twitter_video_bilAktivitiShareKurang10: 0,
+                Twitter_video_bilAktivitiShareLebih10: 0,
+                Twitter_video_bilPenonton: 0,
+                Twitter_video_bilReach: 0,
+                Twitter_video_bilShare: 0,
+                Tiktok_live_bilAktivitiShareKurang10: 0,
+                Tiktok_live_bilAktivitiShareLebih10: 0,
+                Tiktok_live_bilPenonton: 0,
+                Tiktok_live_bilReach: 0,
+                Tiktok_live_bilShare: 0,
+                Tiktok_video_bilAktivitiShareKurang10: 0,
+                Tiktok_video_bilAktivitiShareLebih10: 0,
+                Tiktok_video_bilPenonton: 0,
+                Tiktok_video_bilReach: 0,
+                Tiktok_video_bilShare: 0,
+                Youtube_live_bilAktivitiShareKurang10: 0,
+                Youtube_live_bilAktivitiShareLebih10: 0,
+                Youtube_live_bilPenonton: 0,
+                Youtube_live_bilReach: 0,
+                Youtube_live_bilShare: 0,
+                Youtube_video_bilAktivitiShareKurang10: 0,
+                Youtube_video_bilAktivitiShareLebih10: 0,
+                Youtube_video_bilPenonton: 0,
+                Youtube_video_bilReach: 0,
+                Youtube_video_bilShare: 0,
+              };
               const sosmedData = await Sosmed.find({
                 createdByKp: kp,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
-              if (sosmedData[0].data.length > 0) {
-                sosmedData[0].data.map((item) => {
-                  let data = { name: '', data: [] };
-                  Object.keys(item).map((key) => {
-                    let keyData = { name: '', value: 0 };
-                    for (let i = 0; i < socmed.length; i++) {
-                      if (key.includes(socmed[i])) {
-                        data.name = socmed[i];
-                        keyData = {
-                          ...keyData,
-                          name: key,
-                          value: keyData.value + parseInt(item[key]),
-                        };
-                      }
-                    }
-                    if (keyData.name !== '') {
-                      data.data.push(keyData);
-                    }
-                  });
-                  if (data.name !== '') {
-                    countedData.push(data);
-                  }
+              for (let i = 0; i < sosmedData[0].data.length; i++) {
+                Object.keys(sosmedData[0].data[i]).forEach((key) => {
+                  keys[key] += parseInt(sosmedData[0].data[i][key]);
                 });
               }
-              for (let i = 0; i < countedData.length; i++) {
-                for (let j = 0; j < countedData.length; j++) {
-                  if (i !== j) {
-                    if (countedData[i].name === countedData[j].name) {
-                      countedData[i].data.map((item) => {
-                        countedData[j].data.map((item2) => {
-                          if (item.name === item2.name) {
-                            item.value += item2.value;
-                          }
-                        });
-                      });
-                      countedData.splice(j, 1);
-                    }
+              delete keys.id;
+              delete keys.tarikhAkhir;
+              delete keys.tarikhMula;
+              delete keys.namaAktiviti;
+              // for (let i = 0; i < socmed.length; i++) {
+              //   let obj = {};
+              //   Object.keys(keys).forEach((key) => {
+              //     console.log(`${key}: ${keys[key]}`);
+              //     if (key.includes(socmed[i])) {
+              //       obj[key] = keys[key];
+              //     }
+              //   });
+              //   countedData.push(obj);
+              // }
+              for (let i = 0; i < socmed.length; i++) {
+                let obj = { name: socmed[i], data: [] };
+                let objdata = {};
+                Object.keys(keys).forEach((key) => {
+                  if (key.includes(socmed[i])) {
+                    let newKey = key.split(`${socmed[i]}_`)[1];
+                    objdata[newKey] = keys[key];
                   }
-                }
+                });
+                obj.data.push(objdata);
+                countedData.push(obj);
               }
               res.status(200).json(countedData);
               break;

@@ -49,7 +49,7 @@ export default function DataKp({ FType }) {
       setNegeri(userData.negeri);
       const { data } = await readDataForKp(FType);
       console.log(data);
-      setData([]);
+      setData(data);
     };
     getData()
       .then(() => {

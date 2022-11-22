@@ -15,36 +15,39 @@ const socmed = [
 ];
 
 const SosmedCards = (current, props) => {
+  const { DictionarySosMedParam, DictionarySosMedAcronym } =
+    useGlobalAdminAppContext();
   return (
     <div className='w-1/3 rounded overflow-hidden shadow-lg'>
-      <img className='w-1/3 mx-auto mt-2' src={current.img} alt='logo' />
+      <img className='h-20 mx-auto mt-2 p-4' src={current.img} alt='logo' />
       <div className='px-6 py-4'>
         <div className='font-bold text-xl mb-2'>{current.name}</div>
-        <p className='text-gray-700 text-xs'>Data for {current.name}</p>
+        <p className='text-gray-700 text-xs mb-2'>Data for {current.name}</p>
         {props.data.map((item) => {
-          return (
-            <div className='grid grid-row-2 mx-auto'>
-              {item.data.map((sosmed) => {
-                return (
-                  <div className='flex flex-row justify-between'>
-                    <p className='text-gray-700 text-xs'>
-                      {Object.keys(sosmed).map((key) => {
-                        if (key.includes(current.name)) {
+          if (item.name === current.name) {
+            return (
+              <div className='grid grid-row-2 mx-auto'>
+                {item.data.map((sosmed) => {
+                  return (
+                    <div className='flex flex-row justify-between'>
+                      <p className='text-gray-700 text-xs'>
+                        {Object.keys(sosmed).map((key) => {
                           return (
                             <div>
-                              <p className='text-gray-700 text-xs'>
-                                {key}: {sosmed[key]}
+                              <p className='text-gray-700 text-xs mt-1'>
+                                {DictionarySosMedAcronym(key.split('_')[0])}{' '}
+                                {DictionarySosMedParam(key)}: {sosmed[key]}
                               </p>
                             </div>
                           );
-                        }
-                      })}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          );
+                        })}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }
         })}
       </div>
     </div>
