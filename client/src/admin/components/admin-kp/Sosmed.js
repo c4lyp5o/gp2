@@ -14,21 +14,124 @@ const socmed = [
   { name: 'Youtube', img: Youtube },
 ];
 
-const SosmedCards = (current) => {
+const SosmedCards = (current, props) => {
+  const { DictionarySosMedParam, DictionarySosMedAcronym } =
+    useGlobalAdminAppContext();
   return (
     <div className='w-1/3 rounded overflow-hidden shadow-lg'>
-      <img className='w-1/3 mx-auto mt-2' src={current.img} alt='logo' />
+      <img className='h-20 mx-auto mt-2 p-4' src={current.img} alt='logo' />
       <div className='px-6 py-4'>
         <div className='font-bold text-xl mb-2'>{current.name}</div>
-        <p className='text-gray-700 text-base'>Data for {current.name}</p>
+        {props.data.map((item) => {
+          if (item.name === current.name) {
+            return (
+              <div className='grid grid-row-2 mx-auto'>
+                {item.data.map((type) => {
+                  return (
+                    <div className='flex flex-row justify-between'>
+                      <p className='text-gray-700 text-xs'>
+                        {type.name === 'live' && item.name !== 'Twitter' ? (
+                          <div className='mb-2'>
+                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              {DictionarySosMedAcronym(type.name)}
+                            </span>
+                            {type.data.map((live) => {
+                              return (
+                                <div>
+                                  <p className='text-gray-700 text-xs mt-1'>
+                                    {Object.keys(live).map((key) => {
+                                      return (
+                                        <div>
+                                          <p className='text-gray-700 text-xs mt-1'>
+                                            {DictionarySosMedAcronym(
+                                              key.split('_')[0]
+                                            )}{' '}
+                                            {DictionarySosMedParam(key)}:{' '}
+                                            {live[key]}
+                                          </p>
+                                        </div>
+                                      );
+                                    })}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                        {type.name === 'poster' &&
+                        item.name !== 'Youtube' &&
+                        item.name !== 'Tiktok' ? (
+                          <div className='mb-2'>
+                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              {type.name}
+                            </span>
+                            {type.data.map((live) => {
+                              return (
+                                <div>
+                                  <p className='text-gray-700 text-xs mt-1'>
+                                    {Object.keys(live).map((key) => {
+                                      return (
+                                        <div>
+                                          <p className='text-gray-700 text-xs mt-1'>
+                                            {DictionarySosMedAcronym(
+                                              key.split('_')[0]
+                                            )}{' '}
+                                            {DictionarySosMedParam(key)}:{' '}
+                                            {live[key]}
+                                          </p>
+                                        </div>
+                                      );
+                                    })}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                        {type.name === 'video' ? (
+                          <div className='mb-2'>
+                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              {type.name}
+                            </span>
+                            {type.data.map((live) => {
+                              return (
+                                <div>
+                                  <p className='text-gray-700 text-xs mt-1'>
+                                    {Object.keys(live).map((key) => {
+                                      return (
+                                        <div>
+                                          <p className='text-gray-700 text-xs mt-1'>
+                                            {DictionarySosMedAcronym(
+                                              key.split('_')[0]
+                                            )}{' '}
+                                            {DictionarySosMedParam(key)}:{' '}
+                                            {live[key]}
+                                          </p>
+                                        </div>
+                                      );
+                                    })}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );
 };
 
-const renderCards = () => {
+const renderCards = (props) => {
   return socmed.map((name) => {
-    return SosmedCards(name);
+    return SosmedCards(name, props);
   });
 };
 
@@ -49,7 +152,7 @@ export default function Sosmed(props) {
             <SosmedCards />
             <SosmedCards />
           </div> */}
-          <div className='flex flex-auto m-2'>{renderCards()}</div>
+          <div className='flex flex-auto m-2'>{renderCards(props)}</div>
         </div>
         {/* <div>
           <button

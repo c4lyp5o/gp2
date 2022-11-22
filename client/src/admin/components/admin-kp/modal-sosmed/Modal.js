@@ -1,5 +1,6 @@
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useRef, useState } from 'react';
+import moment from 'moment';
 import Select from 'react-select';
 import { FaWindowClose } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
@@ -17,16 +18,28 @@ import Twitter from '../../../assets/socmed/twitter.svg';
 import Tiktok from '../../../assets/socmed/tiktok.svg';
 import Youtube from '../../../assets/socmed/youtube.svg';
 
-const CustomDatePicker = () => {
+const CustomDatePicker = ({ jenis, setQuestionState }) => {
+  const [date, setDate] = useState(null);
   return (
     <DatePicker
       dateFormat='dd/MM/yyyy'
-      // selected={date}
-      // onChange={(date) => {
-      //   const tempDate = moment(date).format('YYYY-MM-DD');
-      //   setDate(date);
-      //   setPilihanTarikh(tempDate);
-      // }}
+      selected={date}
+      onChange={(date) => {
+        const tempDate = moment(date).format('YYYY-MM-DD');
+        setDate(date);
+        if (jenis === 'mula') {
+          setQuestionState((prev) => ({
+            ...prev,
+            tarikhMula: tempDate,
+          }));
+        }
+        if (jenis === 'akhir') {
+          setQuestionState((prev) => ({
+            ...prev,
+            tarikhAkhir: tempDate,
+          }));
+        }
+      }}
       peekNextMonth
       showMonthDropdown
       showYearDropdown
@@ -37,7 +50,7 @@ const CustomDatePicker = () => {
 };
 
 const ModalSosMed = (props) => {
-  const { toast, createData } = useGlobalAdminAppContext();
+  const { toast, createDataForKp } = useGlobalAdminAppContext();
 
   const JenisPromosi = [
     { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
@@ -61,29 +74,28 @@ const ModalSosMed = (props) => {
     let Data = {};
     Data = {
       ...Data,
+      kodProgram: questionState.kodProgram,
       createdByKp: props.kp,
       createdByDaerah: props.daerah,
-      cretedByNegeri: props.negeri,
+      createdByNegeri: props.negeri,
     };
     Data = {
-      ...questionState,
       ...Data,
+      data: [questionState],
     };
-    // createData(props.FType, Data).then((res) => {
-    //   console.log(res.data);
-    //   if (res.status === 200) {
-    //     toast.info(`Data berjaya ditambah`);
-    //     props.setReload(!props.reload);
-    //   } else {
-    //     toast.error(`Data tidak berjaya ditambah`);
-    //   }
-    //   props.setShowAddModal(false);
-    //   setAddingData(false);
-    // });
-    console.log(Data);
+    createDataForKp(props.FType, Data).then((res) => {
+      if (res.status === 200) {
+        toast.info(`Data berjaya ditambah`);
+        props.setReload(!props.reload);
+      } else {
+        toast.error(`Data tidak berjaya ditambah`);
+      }
+      props.setShowSosMedModal(false);
+      setAddingData(false);
+    });
   };
 
-  const props2 = {
+  const propsSosMed = {
     questionState,
     setQuestionState,
   };
@@ -126,12 +138,18 @@ const ModalSosMed = (props) => {
               <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                 tarikh mula: <span className='font-semibold text-user6'>*</span>
               </p>
-              <CustomDatePicker />
+              <CustomDatePicker
+                jenis='mula'
+                setQuestionState={setQuestionState}
+              />
               <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                 tarikh akhir:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
-              <CustomDatePicker />
+              <CustomDatePicker
+                jenis='akhir'
+                setQuestionState={setQuestionState}
+              />
             </div>
             <div className='flex mt-1'>
               <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
@@ -140,6 +158,13 @@ const ModalSosMed = (props) => {
                 <input
                   className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
                   type='text'
+                  placeholder='Nama Aktiviti'
+                  onChange={(e) => {
+                    setQuestionState({
+                      ...questionState,
+                      namaAktiviti: e.target.value,
+                    });
+                  }}
                 />
               </p>
             </div>
@@ -156,7 +181,7 @@ const ModalSosMed = (props) => {
                 setPilihanPromosi(e);
               }}
             />
-            {pilihanPromosi.map((item) => RenderSection(item, props2))}
+            {pilihanPromosi.map((item) => RenderSection(item, propsSosMed))}
           </div>
           <div className='flex justify-center'>
             {addingData ? (

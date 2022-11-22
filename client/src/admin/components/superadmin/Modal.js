@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../Modal.module.css';
 
 import { Loading } from '../Screens';
-import Confirmation from './Confirmation';
+import { ConfirmModalForData } from './Confirmation';
 import { SubmitButton, BusyButton } from '../Buttons';
 
 const AddModal = ({
@@ -1159,24 +1159,24 @@ const AddModal = ({
   return (
     <>
       {FType === 'kp' && (
-        <Confirmation callbackFunction={handleSubmit} func='add'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Klinik confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {(FType === 'pp' || FType === 'jp') && (
-        <Confirmation callbackFunction={handleSubmit} func='add'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Pegawai confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && FType !== 'event' && (
-        <Confirmation callbackFunction={handleSubmit} func='add'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Facility confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {FType === 'event' && (
-        <Confirmation callbackFunction={handleSubmit} func='add'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Event confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
     </>
   );
@@ -1989,24 +1989,24 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   return (
     <>
       {FType === 'kp' && (
-        <Confirmation callbackFunction={handleSubmit} func='edit'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Klinik confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {(FType === 'pp' || FType === 'jp') && (
-        <Confirmation callbackFunction={handleSubmit} func='edit'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Pegawai confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {FType === 'event' && (
-        <Confirmation callbackFunction={handleSubmit} func='edit'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Event confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
       {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && FType !== 'event' && (
-        <Confirmation callbackFunction={handleSubmit} func='edit'>
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Facility confirm={confirm} />}
-        </Confirmation>
+        </ConfirmModalForData>
       )}
     </>
   );
