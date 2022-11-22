@@ -112,6 +112,7 @@ export default function DataKp({ FType }) {
     setUser,
     reload,
     setReload,
+    FType,
   };
 
   const RenderSection = () => {
