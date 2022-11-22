@@ -23,7 +23,6 @@ export default function FillableForm({
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
     useGlobalUserAppContext();
 
-  const [usingCache, setUsingCache] = useState(false);
   const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
@@ -166,7 +165,6 @@ export default function FillableForm({
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
     const values = `${years} years`;
     return values;
   };
@@ -275,6 +273,7 @@ export default function FillableForm({
       setUmurBulan(bulan);
       setConfirmData({
         ...confirmData,
+        ic: ic,
         tarikhLahir: age.dob,
         umur: tahun,
         umurBulan: bulan,
@@ -963,7 +962,6 @@ export default function FillableForm({
         lookBusyGuys={setAddingData}
         data={confirmData}
         isEdit={editId}
-        klinik={kp}
       >
         {(confirm) => (
           <>
@@ -1039,10 +1037,6 @@ export default function FillableForm({
                         value={ic}
                         onChange={(e) => {
                           setIc(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            ic: e.target.value,
-                          });
                           if (e.target.value.length === 12) {
                             checkIc(e.target.value);
                           }
