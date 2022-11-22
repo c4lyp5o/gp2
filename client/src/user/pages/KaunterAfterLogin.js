@@ -9,19 +9,75 @@ import Kaunter from '../components/Kaunter';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterFooter from '../components/KaunterFooter';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function KaunterAfterLogin() {
-  const { ToastContainer, kaunterToken, navigate, catchAxiosErrorAndLogout } =
-    useGlobalUserAppContext();
+  const {
+    ToastContainer,
+    toast,
+    kaunterToken,
+    navigate,
+    catchAxiosErrorAndLogout,
+  } = useGlobalUserAppContext();
 
   const [createdByKp, setCreatedByKp] = useState('');
   const [createdByDaerah, setCreatedByDaerah] = useState('');
   const [createdByNegeri, setCreatedByNegeri] = useState('');
   const [timer, setTimer] = useState(0);
   const [refreshTimer, setRefreshTimer] = useState(false);
+  const [kicker, setKicker] = useState(null);
+  const [kickerNoti, setKickerNoti] = useState(null);
+
+  const kickerNotiId = useRef();
+
+  const logOutNotiSystem = () => {
+    const notifyLogOut = () =>
+      (kickerNotiId.current = toast(
+        `Anda sudah tidak aktif selama ${
+          parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2
+        } minit. Proses log keluar akan dilakukan dalam masa ${
+          parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2
+        } minit. Jika anda ingin log keluar sekarang, klik di sini`,
+        {
+          autoClose:
+            1000 *
+            60 *
+            (parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2),
+          onClick: () => {
+            logout();
+          },
+        }
+      ));
+    const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
+
+    if (kicker && kickerNoti) {
+      dismissLogOut();
+      clearTimeout(kicker);
+      clearTimeout(kickerNoti);
+    }
+    const kickerNotiNumber = setTimeout(() => {
+      notifyLogOut();
+    }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2));
+    const kickerNumber = setTimeout(() => {
+      logout();
+    }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN));
+    setKicker(kickerNumber);
+    setKickerNoti(kickerNotiNumber);
+    const logOutTime =
+      parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) * 60 * 1000;
+    const nowMinutes = new Date().getTime();
+    const real = nowMinutes + logOutTime;
+    setTimer(real);
+  };
+
+  const logout = () => {
+    clearTimeout(kicker);
+    clearTimeout(kickerNoti);
+    catchAxiosErrorAndLogout();
+    navigate('/pendaftaran');
+  };
 
   useEffect(() => {
     const fetchIdentity = async () => {
@@ -41,20 +97,8 @@ function KaunterAfterLogin() {
   }, []);
 
   useEffect(() => {
-    countdownTimer();
+    logOutNotiSystem();
   }, [refreshTimer]);
-
-  const countdownTimer = () => {
-    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
-    const nowMinutes = new Date().getTime();
-    const real = nowMinutes + logOutTime;
-    setTimer(real);
-  };
-
-  const logout = () => {
-    catchAxiosErrorAndLogout();
-    navigate('/pendaftaran');
-  };
 
   return (
     <>
@@ -66,6 +110,8 @@ function KaunterAfterLogin() {
         namaKlinik={createdByKp}
         timer={timer}
         logout={logout}
+        kickerNumber={kicker}
+        kickerNotiNumber={kickerNoti}
       />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-userWhite text-center justify-center items-center outline outline-1 outline-userBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden'>
         <Routes>
