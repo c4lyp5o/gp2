@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
+const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
   const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
 
   const [open, setOpen] = useState(false);
@@ -14,10 +14,9 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
   const [duplicateData, setDuplicateData] = useState(null);
 
   const checkDuplicate = async () => {
-    const uniqueId = createUniqueId(data, klinik);
     try {
       const res = await axios.get(
-        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&uniqueId=${uniqueId}`,
+        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&ic=${data.ic}`,
         { headers: { Authorization: `Bearer ${kaunterToken}` } }
       );
       if (res.data.kaunterResultQuery.length > 0) {
@@ -31,26 +30,6 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit, klinik }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const createUniqueId = (data, klinik) => {
-    let uniqueId = '';
-    const simplifiedKp = klinik.split(' ');
-    for (let i = 0; i < simplifiedKp.length; i++) {
-      uniqueId += simplifiedKp[i].charAt(0);
-    }
-    uniqueId += '-';
-    const simplifiedName = data.nama.toLowerCase().split(' ');
-    for (let i = 0; i < simplifiedName.length; i++) {
-      uniqueId += simplifiedName[i].charAt(0);
-    }
-    uniqueId += '-';
-    const dateOfBirth = moment(data.tarikhLahir)
-      .format('YYYY-MM-DD')
-      .split('-')
-      .join('');
-    uniqueId += dateOfBirth;
-    return uniqueId;
   };
 
   const show = (callback) => (event) => {
