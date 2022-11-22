@@ -434,6 +434,7 @@ function AdminAppProvider({ children }) {
         if (match) {
           return false;
         }
+        return response.data.matches;
       }
       for (let j = 0; j < currentPegawai.data.length; j++) {
         const deletePegawai = response.data.matches
