@@ -32,12 +32,12 @@ const getSinglePersonUmum = async (req, res) => {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
   }
 
-  // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonUmum.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonUmum.ic = decryptedIc;
+  // decrypt KIV
+  // const decryptedIc = cryptoJs.AES.decrypt(
+  //   singlePersonUmum.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString(cryptoJs.enc.Utf8);
+  // singlePersonUmum.ic = decryptedIc;
 
   res.status(200).json({ singlePersonUmum });
 };
@@ -66,16 +66,30 @@ const updatePersonUmum = async (req, res) => {
   //   req.body.ic = encryptedIc;
   // }
 
-  let summary = {};
-  const singlePersonInfo = await Umum.findById({ _id: personUmumId });
-  summary = { ...singlePersonInfo._doc, ...req.body };
-  const updateOfficerSummary = await Operator.findOneAndUpdate(
-    {
-      nomborMdc: req.body.createdByMdcMdtb,
-    },
-    { $push: { summary } },
-    { new: true }
-  );
+  if (req.body.statusReten === 'telah diisi') {
+    let summary = {};
+    let shortened = {};
+    Object.keys(req.body).forEach((key) => {
+      if (
+        key !== '' ||
+        key !== null ||
+        key !== undefined ||
+        key !== 0 ||
+        key !== false
+      ) {
+        shortened[key] = req.body[key];
+      }
+    });
+    const singlePersonInfo = await Umum.findById({ _id: personUmumId });
+    summary = { ...singlePersonInfo._doc, ...shortened };
+    const updateOfficerSummary = await Operator.findOneAndUpdate(
+      {
+        nomborMdc: req.body.createdByMdcMdtb,
+      },
+      { $push: { summary } },
+      { new: true }
+    );
+  }
 
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
     { _id: personUmumId },
@@ -134,14 +148,14 @@ const queryPersonUmum = async (req, res) => {
 
   const umumResultQuery = await Umum.find(queryObject);
 
-  // decrypt
-  umumResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
+  // decrypt KIV
+  // umumResultQuery.forEach((p) => {
+  //   const decryptedIc = cryptoJs.AES.decrypt(
+  //     p.ic,
+  //     process.env.CRYPTO_JS_SECRET
+  //   ).toString(cryptoJs.enc.Utf8);
+  //   p.ic = decryptedIc;
+  // });
 
   res.status(200).json({ umumResultQuery });
 };
