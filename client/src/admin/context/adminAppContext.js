@@ -422,8 +422,6 @@ function AdminAppProvider({ children }) {
     try {
       const response = await axios.get(`/dpims?nama=${nama}`);
       const currentPegawai = await readData('ppall');
-      console.log('current pegawai', currentPegawai.data);
-      console.log('response', response.data.matches);
       if (currentPegawai.data === 0) {
         return response.data.matches;
       }
@@ -431,7 +429,6 @@ function AdminAppProvider({ children }) {
         const match = currentPegawai.data
           .map((e) => e.mdcNumber)
           .includes(response.data.matches[0].nomborMdc);
-        console.log(match);
         if (match) {
           return false;
         }
