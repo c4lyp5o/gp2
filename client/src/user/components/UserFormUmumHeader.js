@@ -17,15 +17,8 @@ import Promosi from './form-umum/Promosi';
 import Confirmation from './UserFormUmumConfirmation';
 
 function UserFormUmumHeader() {
-  const {
-    userToken,
-    reliefUserToken,
-    username,
-    userinfo,
-    useParams,
-    toast,
-    Dictionary,
-  } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, username, useParams, toast, Dictionary } =
+    useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
