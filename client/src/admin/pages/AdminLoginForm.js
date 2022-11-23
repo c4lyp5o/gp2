@@ -321,9 +321,9 @@ export default function AdminLoginForm() {
                   kembali ke halaman utama
                 </Link>
                 {loggingIn ? (
-                  <BusyButton func='login' />
+                  <BusyButton func='pentadbir' />
                 ) : (
-                  <SubmitButton func='login' level={buttonProps} />
+                  <SubmitButton func='pentadbir' level={buttonProps} />
                 )}
               </div>
             </form>

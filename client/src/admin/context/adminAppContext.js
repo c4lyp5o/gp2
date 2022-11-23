@@ -271,11 +271,12 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  const readOneDataForKp = async (id) => {
+  const readOneDataForKp = async (FType, id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
       main: 'KpCenter',
       Fn: 'readOne',
+      FType: FType,
       Id: id,
       token: adminToken,
     });
