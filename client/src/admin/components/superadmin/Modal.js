@@ -1218,19 +1218,20 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentTempat = useRef();
 
   useEffect(() => {
-    if (FType !== 'program') {
-      readKpData().then((res) => {
-        setKlinik(res.data);
+    if (FType === 'kp') {
+      readOneData(FType, id).then((res) => {
+        setEditedEntity(res.data);
       });
     }
     if (FType === 'program') {
-      console.log('id', id);
-      console.log('FType', FType);
       readOneDataForKp(FType, id).then((res) => {
         setEditedEntity(res.data);
       });
     }
     if (FType !== 'program') {
+      readKpData().then((res) => {
+        setKlinik(res.data);
+      });
       readOneData(FType, id).then((res) => {
         setEditedEntity(res.data);
       });
@@ -1327,7 +1328,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <label htmlFor='nama'>Nama Klinik</label>
                       <input
                         readOnly={true}
-                        defaultValue={editedEntity.kp}
+                        value={editedEntity.kp}
                         className='border-2'
                         type='text'
                         name='nama'
@@ -1337,7 +1338,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <label htmlFor='nama'>Kod Fasiliti</label>
                       <input
                         readOnly={true}
-                        defaultValue={editedEntity.kodFasiliti}
+                        value={editedEntity.kodFasiliti}
                         className='border-2'
                         type='text'
                         name='kod'
@@ -1357,6 +1358,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     <div className='grid grid-cols-4 gap-1'>
                       <label htmlFor='role'>KEPP</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'kepp'}
                         type='radio'
                         id='role'
@@ -1366,6 +1368,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>UTC</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'utc'}
                         type='radio'
                         id='role'
@@ -1375,6 +1378,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>RTC</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'rtc'}
                         type='radio'
                         id='role'
@@ -1384,6 +1388,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>Visiting</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'visiting'}
                         type='radio'
                         id='role'
@@ -1396,7 +1401,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                           Klinik Pergigian
                         </label>
                         <input
-                          required
+                          readOnly={true}
                           checked={
                             editedEntity.statusRoleKlinik === 'klinik'
                               ? true
@@ -1817,7 +1822,6 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                         readOnly
                         className='border-2 w-fit overflow-x-hidden'
                         value={editedEntity.jenisEvent}
-                        className='border-2'
                         onChange={(e) => {
                           currentJenisEvent.current = e.target.value;
                           setEditedEntity({
