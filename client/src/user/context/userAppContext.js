@@ -189,23 +189,27 @@ function UserAppProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (kicker && kickerNoti) {
-      dismissLogOut();
-      clearTimeout(kicker);
-      clearTimeout(kickerNoti);
+    if (userToken) {
+      if (kicker && kickerNoti) {
+        dismissLogOut();
+        clearTimeout(kicker);
+        clearTimeout(kickerNoti);
+      }
+      const logOutTime =
+        parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+      const nowMinutes = new Date().getTime();
+      const real = nowMinutes + logOutTime;
+      setTimer(real);
+      const kickerNotiNumber = setTimeout(() => {
+        notifyLogOut();
+      }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+      const kickerNumber = setTimeout(() => {
+        logoutUser();
+      }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
+      setKicker(kickerNumber);
+      setKickerNoti(kickerNotiNumber);
+      console.log('user kicker started');
     }
-    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
-    const nowMinutes = new Date().getTime();
-    const real = nowMinutes + logOutTime;
-    setTimer(real);
-    const kickerNotiNumber = setTimeout(() => {
-      notifyLogOut();
-    }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
-    const kickerNumber = setTimeout(() => {
-      logoutUser();
-    }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
-    setKicker(kickerNumber);
-    setKickerNoti(kickerNotiNumber);
   }, [refreshTimer]);
 
   const notifyLogOut = () =>

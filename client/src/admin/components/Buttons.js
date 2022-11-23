@@ -3,7 +3,19 @@ export function BusyButton({ func }) {
     <>
       <button
         type='button'
-        className='inline-flex items-center text-center justify-center px-4 py-2 bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all ease-in-out duration-150 cursor-not-allowed'
+        className={`inline-flex items-center text-center justify-center px-4 py-2 order-first lg:order-last capitalize rounded-md shadow-xl p-2 transition-all ease-in-out duration-150 cursor-not-allowed 
+      ${func === 'pengguna' ? 'bg-user3 text-userWhite hover:bg-user1' : null} 
+      ${
+        func === 'pendaftaran'
+          ? 'bg-kaunter2 text-userWhite hover:bg-kaunter1'
+          : null
+      }
+      ${
+        func === 'pentadbir'
+          ? 'bg-admin3 text-adminWhite hover:bg-admin1'
+          : null
+      }
+      `}
         disabled=''
       >
         <svg
@@ -29,7 +41,9 @@ export function BusyButton({ func }) {
         {func === 'add' ? 'Menambah Maklumat' : null}
         {func === 'del' ? 'Menghapus Maklumat' : null}
         {func === 'edit' ? 'Mengubah Maklumat' : null}
-        {func === 'login' ? 'Sedang log masuk' : null}
+        {func === 'pengguna' || func === 'pendaftaran' || func === 'pentadbir'
+          ? 'Sedang log masuk'
+          : null}
       </button>
     </>
   );
@@ -39,30 +53,46 @@ export function SubmitButton({ func, level }) {
   return (
     <button
       type='submit'
-      className='capitalize bg-admin3 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
+      className={`order-first lg:order-last capitalize rounded-md shadow-xl p-2 transition-all 
+      ${func === 'pengguna' ? 'bg-user3 text-userWhite hover:bg-user1' : null} 
+      ${
+        func === 'pendaftaran'
+          ? 'bg-kaunter2 text-userWhite hover:bg-kaunter1'
+          : null
+      }
+      ${
+        func === 'pentadbir' ||
+        func === 'add' ||
+        func === 'edit' ||
+        func === 'del'
+          ? 'bg-admin3 text-adminWhite hover:bg-admin1'
+          : null
+      }
+      `}
     >
       {func === 'add' ? 'Tambah Maklumat' : null}
       {func === 'del' ? 'Hapus Maklumat' : null}
       {func === 'edit' ? 'Kemaskini Maklumat' : null}
-      {func === 'login' &&
+      {func === 'pengguna' || func === 'pendaftaran' ? 'Log Masuk' : null}
+      {func === 'pentadbir' &&
       level.pilihanNegeri === '' &&
       level.pilihanDaerah === '' &&
       level.pilihanKlinik === ''
         ? 'Sila Pilih Pentadbir'
         : null}
-      {func === 'login' &&
+      {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&
       level.pilihanDaerah === '' &&
       level.pilihanKlinik === ''
         ? `Log masuk sebagai pentadbir negeri ${level.pilihanNegeri}`
         : null}
-      {func === 'login' &&
+      {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&
       level.pilihanDaerah !== '' &&
       level.pilihanKlinik === ''
         ? `Log masuk sebagai pentadbir daerah ${level.pilihanDaerah}`
         : null}
-      {func === 'login' &&
+      {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&
       level.pilihanDaerah !== '' &&
       level.pilihanKlinik !== ''
