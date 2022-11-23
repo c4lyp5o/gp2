@@ -106,6 +106,7 @@ function UserLoginForm() {
               Negeri:
             </label>
             <select
+              required
               name='negeri'
               id='negeri'
               value={pilihanNegeri}
@@ -139,6 +140,7 @@ function UserLoginForm() {
                 Daerah:
               </label>
               <select
+                required
                 name='daerah'
                 id='daerah'
                 value={pilihanDaerah}
@@ -160,6 +162,7 @@ function UserLoginForm() {
                 Klinik:
               </label>
               <select
+                required
                 name='klinik'
                 id='klinik'
                 value={pilihanKlinik}

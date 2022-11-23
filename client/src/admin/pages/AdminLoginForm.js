@@ -20,7 +20,7 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
   if (showPasswordBox === true) {
     return (
       <div className='flex flex-col justify-center items-center'>
-        <h3 className='text-xl font-semibold mt-5'>
+        <h3 className='text-xl font-semibold mt-1'>
           sila masukkan Key verifikasi
         </h3>
         <div className='relative'>
@@ -60,7 +60,12 @@ function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
 export default function AdminLoginForm() {
   const { toast, loginUser, checkUser, navigate, readSuperadminData } =
     useGlobalAdminAppContext();
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState({
+    negeri: null,
+    daerah: null,
+    klinik: null,
+    klinikName: null,
+  });
   const [password, setPassword] = useState(null);
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -123,7 +128,7 @@ export default function AdminLoginForm() {
           toast.error(
             'Masa untuk login telah habis. Sila masukkan ID semula untuk login!'
           );
-          setUserName('');
+          setUserName(null);
           setShowPasswordBox(false);
           navigate('/pentadbir');
         }, 1000 * 60 * 5);
@@ -167,6 +172,27 @@ export default function AdminLoginForm() {
     });
   }, []);
 
+  // to reset value if dropdown selection change
+  useEffect(() => {
+    setUserName({
+      ...userName,
+      daerah: null,
+      klinik: null,
+      klinikName: null,
+    });
+    setPilihanDaerah('');
+    setPilihanKlinik('');
+  }, [pilihanNegeri]);
+
+  useEffect(() => {
+    setUserName({
+      ...userName,
+      klinik: null,
+      klinikName: null,
+    });
+    setPilihanKlinik('');
+  }, [pilihanDaerah]);
+
   if (!data) {
     return <LoadingSuperDark />;
   }
@@ -175,10 +201,10 @@ export default function AdminLoginForm() {
     <>
       <Header />
       <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
-        <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
+        <div className='w-1/2 h-[30rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
-            <h3 className='text-xl font-semibold mt-10'>
-              sila masukkan ID pentadbir
+            <h3 className='text-xl font-semibold mt-7'>
+              sila pilih untuk log masuk
             </h3>
             <form onSubmit={handleSubmit}>
               <div className='grid grid-rows-2 gap-5 justify-center items-center mt-5'>
@@ -187,6 +213,7 @@ export default function AdminLoginForm() {
                     Negeri:
                   </label>
                   <select
+                    required
                     name='negeri'
                     id='negeri'
                     value={pilihanNegeri}
@@ -313,7 +340,7 @@ export default function AdminLoginForm() {
                   hilang,
                 })}
               </div>
-              <div className='grid grid-cols-2 gap-2 mt-5 ml-20 mr-20'>
+              <div className='grid grid-cols-2 gap-2 mt-7 ml-20 mr-20'>
                 <Link
                   to='/'
                   className='capitalize bg-admin4 text-adminWhite rounded-md shadow-xl p-2 hover:bg-admin1 transition-all'
