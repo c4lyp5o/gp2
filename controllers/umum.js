@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
 const cryptoJs = require('crypto-js');
 
@@ -56,14 +57,25 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
-  // encrypt
-  if (req.body.ic) {
-    const encryptedIc = cryptoJs.AES.encrypt(
-      req.body.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString();
-    req.body.ic = encryptedIc;
-  }
+  // encrypt KIV
+  // if (req.body.ic) {
+  //   const encryptedIc = cryptoJs.AES.encrypt(
+  //     req.body.ic,
+  //     process.env.CRYPTO_JS_SECRET
+  //   ).toString();
+  //   req.body.ic = encryptedIc;
+  // }
+
+  let summary = {};
+  const singlePersonInfo = await Umum.findById({ _id: personUmumId });
+  summary = { ...singlePersonInfo._doc, ...req.body };
+  const updateOfficerSummary = await Operator.findOneAndUpdate(
+    {
+      nomborMdc: req.body.createdByMdcMdtb,
+    },
+    { $push: { summary } },
+    { new: true }
+  );
 
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
     { _id: personUmumId },
