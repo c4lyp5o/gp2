@@ -110,6 +110,7 @@ function KaunterLogin() {
                     Negeri:
                   </label>
                   <select
+                    required
                     name='negeri'
                     id='negeri'
                     value={pilihanNegeri}
@@ -143,6 +144,7 @@ function KaunterLogin() {
                       Daerah:
                     </label>
                     <select
+                      required
                       name='daerah'
                       id='daerah'
                       value={pilihanDaerah}
@@ -164,6 +166,7 @@ function KaunterLogin() {
                       Klinik:
                     </label>
                     <select
+                      required
                       name='klinik'
                       id='klinik'
                       value={pilihanKlinik}
