@@ -220,7 +220,7 @@ const AddModal = ({
         setKlinik(res.data);
       });
     }
-    if (FType !== 'kp' && FType !== 'event') {
+    if (FType !== 'kp' && FType !== 'program') {
       readKpData().then((res) => {
         setKlinik(res.data);
       });
@@ -1168,12 +1168,15 @@ const AddModal = ({
           {(confirm) => <Pegawai confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType !== 'kp' && FType !== 'pp' && FType !== 'jp' && FType !== 'event' && (
-        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
-          {(confirm) => <Facility confirm={confirm} />}
-        </ConfirmModalForData>
-      )}
-      {FType === 'event' && (
+      {FType !== 'kp' &&
+        FType !== 'pp' &&
+        FType !== 'jp' &&
+        FType !== 'program' && (
+          <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
+            {(confirm) => <Facility confirm={confirm} />}
+          </ConfirmModalForData>
+        )}
+      {FType === 'program' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <Event confirm={confirm} />}
         </ConfirmModalForData>
@@ -1183,8 +1186,15 @@ const AddModal = ({
 };
 
 const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
-  const { Dictionary, toast, readOneData, readKpData, updateData } =
-    useGlobalAdminAppContext();
+  const {
+    Dictionary,
+    toast,
+    readKpData,
+    readOneData,
+    updateData,
+    readOneDataForKp,
+    updateDataForKp,
+  } = useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -1208,14 +1218,24 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentTempat = useRef();
 
   useEffect(() => {
-    if (FType !== 'event') {
+    if (FType === 'kp') {
+      readOneData(FType, id).then((res) => {
+        setEditedEntity(res.data);
+      });
+    }
+    if (FType === 'program') {
+      readOneDataForKp(FType, id).then((res) => {
+        setEditedEntity(res.data);
+      });
+    }
+    if (FType !== 'program') {
       readKpData().then((res) => {
         setKlinik(res.data);
       });
+      readOneData(FType, id).then((res) => {
+        setEditedEntity(res.data);
+      });
     }
-    readOneData(FType, id).then((res) => {
-      setEditedEntity(res.data);
-    });
     setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -1238,7 +1258,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         role: currentRole.current,
       };
     }
-    if (FType === 'event') {
+    if (FType === 'program') {
       Data = {
         // nama: currentName.current,
         createdByKp: kp,
@@ -1308,7 +1328,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <label htmlFor='nama'>Nama Klinik</label>
                       <input
                         readOnly={true}
-                        defaultValue={editedEntity.kp}
+                        value={editedEntity.kp}
                         className='border-2'
                         type='text'
                         name='nama'
@@ -1318,7 +1338,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <label htmlFor='nama'>Kod Fasiliti</label>
                       <input
                         readOnly={true}
-                        defaultValue={editedEntity.kodFasiliti}
+                        value={editedEntity.kodFasiliti}
                         className='border-2'
                         type='text'
                         name='kod'
@@ -1338,6 +1358,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     <div className='grid grid-cols-4 gap-1'>
                       <label htmlFor='role'>KEPP</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'kepp'}
                         type='radio'
                         id='role'
@@ -1347,6 +1368,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>UTC</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'utc'}
                         type='radio'
                         id='role'
@@ -1356,6 +1378,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>RTC</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'rtc'}
                         type='radio'
                         id='role'
@@ -1365,6 +1388,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       />
                       <label htmlFor='role'>Visiting</label>
                       <input
+                        readOnly={true}
                         checked={editedEntity.role === 'visiting'}
                         type='radio'
                         id='role'
@@ -1377,7 +1401,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                           Klinik Pergigian
                         </label>
                         <input
-                          required
+                          readOnly={true}
                           checked={
                             editedEntity.statusRoleKlinik === 'klinik'
                               ? true
@@ -1762,7 +1786,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
           <div className={styles.centered}>
             <div className={styles.modalEvent}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Ubah Event</h5>
+                <h5 className={styles.heading}>Kemaskini Program / Aktiviti</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -1774,16 +1798,30 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
                     <p>
-                      Jenis Event
+                      Tarikh Program / Aktiviti{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <input
+                      readOnly
+                      className='border-2'
+                      type='date'
+                      name='tarikh'
+                      id='tarikh'
+                      value={editedEntity.tarikh}
+                    />
+                    <p>
+                      Nama Program
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
                     </p>
                     <div className='grid gap-1'>
                       <select
-                        required
+                        readOnly
+                        className='border-2 w-fit overflow-x-hidden'
                         value={editedEntity.jenisEvent}
-                        className='border-2'
                         onChange={(e) => {
                           currentJenisEvent.current = e.target.value;
                           setEditedEntity({
@@ -1794,16 +1832,18 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                         name='jenisEvent'
                         id='jenisEvent'
                       >
-                        <option value=''>Pilih Jenis Event</option>
+                        <option value=''>Jenis Program / Aktiviti</option>
                         <option value='projek-komuniti'>Projek Komuniti</option>
-                        <option value='utc'>UTC</option>
-                        <option value='rtc'>RTC</option>
-                        <option value='ppkps'>PPKPS</option>
-                        <option value='kgangkat'>Kampung Angkat</option>
-                        <option value='ppr'>PPR</option>
-                        <option value='we-oku'>
-                          Institusi Warga Emas dan Institusi Orang Kurang Upaya
+                        <option value='ppkps'>
+                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                          Sekolah
                         </option>
+                        <option value='kgangkat'>
+                          Kampung Angkat Pergigian
+                        </option>
+                        <option value='ppr'>Projek Perumahan Rakyat</option>
+                        <option value='we'>Institusi Warga Emas</option>
+                        <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
                         </option>
@@ -1813,126 +1853,51 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       Mod Penyampaian Perkhidmatan
                     </p>
                     <div className='grid grid-cols-2 gap-1'>
-                      <label htmlFor='modPpb'>PPB</label>
+                      <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                       <input
-                        checked={
-                          editedEntity.modPenyampaianPerkhidmatan === 'ppb'
-                            ? true
-                            : false
-                        }
-                        type='radio'
+                        readOnly
+                        type='checkbox'
                         name='mod'
-                        value='ppb'
-                        onChange={(e) => {
-                          setEditedEntity({
-                            ...editedEntity,
-                            modPenyampaianPerkhidmatan: e.target.value,
-                          });
-                          currentModPenyampaian.current = e.target.value;
-                        }}
+                        checked={editedEntity.modPenyampaianPerkhidmatan.includes(
+                          'ppb'
+                        )}
                       />
-                      <label htmlFor='modKpb'>KPB</label>
+                      <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
                       <input
-                        checked={
-                          editedEntity.modPenyampaianPerkhidmatan === 'kpb'
-                            ? true
-                            : false
-                        }
-                        type='radio'
+                        readOnly
+                        type='checkbox'
                         name='mod'
-                        value='kpb'
-                        onChange={(e) => {
-                          setEditedEntity({
-                            ...editedEntity,
-                            modPenyampaianPerkhidmatan: e.target.value,
-                          });
-                          currentModPenyampaian.current = e.target.value;
-                        }}
+                        checked={editedEntity.modPenyampaianPerkhidmatan.includes(
+                          'kpb'
+                        )}
+                      />
+                      <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
+                      <input
+                        readOnly
+                        type='checkbox'
+                        name='mod'
+                        checked={editedEntity.modPenyampaianPerkhidmatan.includes(
+                          'mpb'
+                        )}
                       />
                     </div>
                     <p>
-                      Nama Event
+                      Nama Program / Aktiviti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
                     </p>
                     <div className='grid gap-1'>
                       <input
-                        required
+                        readOnly
                         className='border-2'
                         type='text'
                         name='nama'
                         id='nama'
                         value={editedEntity.nama}
-                        onChange={(e) => {
-                          currentName.current = e.target.value;
-                          setEditedEntity({
-                            ...editedEntity,
-                            nama: e.target.value,
-                          });
-                        }}
                       />
                     </div>
-                    <p>
-                      Tarikh{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
                     <div className='grid gap-1'>
-                      <input
-                        required
-                        className='border-2'
-                        type='date'
-                        name='tarikh'
-                        id='tarikh'
-                        value={editedEntity.tarikh}
-                        onChange={(e) => {
-                          currentTarikh.current = e.target.value;
-                          setEditedEntity({
-                            ...editedEntity,
-                            tarikh: e.target.value,
-                          });
-                        }}
-                      />
-                      <p>
-                        Masa{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid gap-1'>
-                        <input
-                          required
-                          className='border-2'
-                          type='time'
-                          name='masamula'
-                          id='masamula'
-                          value={editedEntity.masaMula}
-                          onChange={(e) => {
-                            currentMasaMula.current = e.target.value;
-                            setEditedEntity({
-                              ...editedEntity,
-                              masaMula: e.target.value,
-                            });
-                          }}
-                        />
-                        <input
-                          required
-                          className='border-2'
-                          type='time'
-                          name='masatamat'
-                          id='masatamat'
-                          value={editedEntity.masaTamat}
-                          onChange={(e) => {
-                            currentMasaTamat.current = e.target.value;
-                            setEditedEntity({
-                              ...editedEntity,
-                              masaTamat: e.target.value,
-                            });
-                          }}
-                        />
-                      </div>
                       <p>
                         Tempat
                         <span className='font-semibold text-lg text-user6'>
@@ -1941,7 +1906,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       </p>
                       <div className='grid gap-1'>
                         <input
-                          required
+                          readOnly
                           className='border-2'
                           type='text'
                           name='nama'
@@ -1970,7 +1935,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       className={styles.cancelBtn}
                       onClick={() => setShowEditModal(false)}
                     >
-                      Cancel
+                      Kembali
                     </span>
                   </div>
                 </div>
@@ -1998,16 +1963,19 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
           {(confirm) => <Pegawai confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType === 'event' && (
+      {FType === 'program' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Event confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType !== 'pp' && FType !== 'kp' && FType !== 'jp' && FType !== 'event' && (
-        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Facility confirm={confirm} />}
-        </ConfirmModalForData>
-      )}
+      {FType !== 'pp' &&
+        FType !== 'kp' &&
+        FType !== 'jp' &&
+        FType !== 'program' && (
+          <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+            {(confirm) => <Facility confirm={confirm} />}
+          </ConfirmModalForData>
+        )}
     </>
   );
 };
