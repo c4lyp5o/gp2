@@ -17,8 +17,15 @@ import Promosi from './form-umum/Promosi';
 import Confirmation from './UserFormUmumConfirmation';
 
 function UserFormUmumHeader() {
-  const { userToken, reliefUserToken, username, useParams, toast, Dictionary } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    userinfo,
+    useParams,
+    toast,
+    Dictionary,
+  } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
@@ -1756,12 +1763,21 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = async (e) => {
+    const userData = JSON.parse(localStorage.getItem('userinfo'));
+    let mdcmdtbNum;
+    if (!userData.mdcNumber) {
+      mdcmdtbNum = userData.mdtbNumber;
+    }
+    if (!userData.mdtbNumber) {
+      mdcmdtbNum = userData.mdcNumber;
+    }
     await toast
       .promise(
         axios.patch(
           `/api/v1/umum/${personUmumId}`,
           {
             createdByUsername: masterForm.createdByUsername,
+            createdByMdcMdtb: mdcmdtbNum,
             statusReten: 'telah diisi',
             // fasiliti perkhidmatan
             jenisFasiliti,

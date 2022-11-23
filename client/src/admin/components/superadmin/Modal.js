@@ -70,7 +70,7 @@ const AddModal = ({
   const [searching, setSearching] = useState(false);
   const [noPp, setNoPp] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     setAddingData(true);
     let Data = {};
     Data = {
@@ -88,6 +88,7 @@ const AddModal = ({
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
+        activationStatus: true,
       };
     }
     if (FType === 'jp') {
@@ -99,6 +100,7 @@ const AddModal = ({
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
+        activationStatus: true,
       };
     }
     if (FType === 'kp') {
