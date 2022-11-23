@@ -29,13 +29,13 @@ const ShowCounter = ({ minutes, seconds, place }) => {
           Masa untuk log masuk:
         </span>
         <div className='flex flex-col items-center justify-center'>
-          <span className='font-mono text-xl'>
+          <span className='font-mono text-base'>
             {<TimeDisplay value={minutes} />}
           </span>
           minit
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <span className='font-mono text-xl'>
+          <span className='font-mono text-base'>
             {' '}
             {<TimeDisplay value={seconds} />}
           </span>
