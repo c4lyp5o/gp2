@@ -76,6 +76,20 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
+            const exists = await Operator.findOne({
+              mdcNumber: Data.mdcNumber,
+            });
+            if (exists) {
+              exists.createdByNegeri = negeri;
+              exists.createdByDaerah = daerah;
+              exists.kpSkrg = Data.kpSkrg;
+              exists.activationStatus = true;
+              exists.email = Data.email;
+              exists.gred = Data.gred;
+              exists.role = Data.role;
+              const prevOfficer = await exists.save();
+              return res.status(200).json(prevOfficer);
+            }
             Data = {
               ...Data,
               createdByDaerah: daerah,
@@ -133,12 +147,14 @@ const getData = async (req, res) => {
               statusPegawai: 'pp',
               createdByDaerah: daerah,
               createdByNegeri: negeri,
+              activationStatus: true,
             });
             return res.status(200).json(data);
           }
           if (theType === 'pegawai-all') {
             const data = await Operator.find({
               statusPegawai: 'pp',
+              activationStatus: true,
             });
             return res.status(200).json(data);
           }
@@ -242,7 +258,10 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
-            const data = await Operator.findByIdAndDelete({ _id: Id });
+            const data = await Operator.findById({ _id: Id });
+            data.activationStatus = false;
+            data.tempatBertugasSebelumIni.push(data.kpSkrg);
+            await data.save();
             return res.status(200).json(data);
           }
           if (theType === 'klinik') {
