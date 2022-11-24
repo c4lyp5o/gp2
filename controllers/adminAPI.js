@@ -15,6 +15,7 @@ const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const Sosmed = require('../models/MediaSosial');
+const PromosiType = require('../models/PromosiType');
 const emailGen = require('../lib/emailgen');
 
 // helper
@@ -510,6 +511,26 @@ const getData = async (req, res) => {
                 countedData.push(obj);
               }
               res.status(200).json(countedData);
+              break;
+            case 'sosmedByKodProgram':
+              const sosmedDataByProgram = await Sosmed.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              console.log(sosmedDataByProgram);
+              const data = sosmedDataByProgram[0];
+              // let sosmedDataByProgramCounted = [];
+              // for (let i = 0; i < sosmedDataByProgram[0].data.length; i++) {
+              //   let obj = {};
+              //   Object.keys(sosmedDataByProgram[0].data[i]).forEach((key) => {
+              //     if (key.includes('bil')) {
+              //       obj[key] = sosmedDataByProgram[0].data[i][key];
+              //     }
+              //   });
+              //   sosmedDataByProgramCounted.push(obj);
+              // }
+              res.status(200).json(sosmedDataByProgram);
               break;
             case 'tastad':
               let tastadData = [];
@@ -1340,6 +1361,28 @@ const getData = async (req, res) => {
           break;
         default:
           console.log('default for aq');
+          break;
+      }
+      break;
+    case 'PromosiManager':
+      switch (Fn) {
+        case 'create':
+          console.log('create for promosi');
+          break;
+        case 'read':
+          console.log('read for promosi');
+          const types = await PromosiType.find({ nama: 'current' });
+          const { program } = types[0];
+          res.status(200).json(program);
+          break;
+        case 'update':
+          console.log('update for promosi');
+          break;
+        case 'delete':
+          console.log('delete for promosi');
+          break;
+        default:
+          console.log('default for promosi');
           break;
       }
       break;

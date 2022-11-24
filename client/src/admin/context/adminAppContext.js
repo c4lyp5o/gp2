@@ -18,7 +18,6 @@ function AdminAppProvider({ children }) {
   const navigate = useNavigate();
 
   // adhoc query
-
   const adhocQuery = async (y, x) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -32,14 +31,12 @@ function AdminAppProvider({ children }) {
   };
 
   // ping apdm
-
   const pingApdmServer = async () => {
     const response = await axios.get(`https://erkm.calypsocloud.one/`);
     return response;
   };
 
   // crypter
-
   const encryptEmail = (email) => {
     if (!email) return 'No email provided';
     const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
@@ -54,7 +51,6 @@ function AdminAppProvider({ children }) {
       email.split('@')[1];
     return encrypted;
   };
-
   const encryptPassword = (password) => {
     if (!password) return 'No password provided';
     const letterToEncrypt = password.length;
@@ -66,7 +62,6 @@ function AdminAppProvider({ children }) {
   };
 
   // user
-
   const getCurrentUser = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -76,7 +71,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const saveCurrentUser = async (data) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -88,14 +82,12 @@ function AdminAppProvider({ children }) {
     saveAdminToken(response.data.adminToken);
     return response;
   };
-
   const logOutUser = () => {
     removeAdminToken();
     navigate('/pentadbir');
   };
 
   // totp
-
   async function generateSecret() {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -106,7 +98,6 @@ function AdminAppProvider({ children }) {
     saveTotpToken(response.data.totpToken);
     return response;
   }
-
   async function verifyInitialSecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -118,7 +109,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   }
-
   async function verifySecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -131,7 +121,6 @@ function AdminAppProvider({ children }) {
   }
 
   // hq functions
-
   const getAllNegeriAndDaerah = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -141,7 +130,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const getKlinikData = async (id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -154,7 +142,6 @@ function AdminAppProvider({ children }) {
   };
 
   // data superadmin
-
   const createData = async (type, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -171,7 +158,6 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-
   const readData = async (type) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -182,7 +168,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const readKpData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -193,7 +178,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const readOneData = async (type, id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -205,7 +189,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const updateData = async (type, id, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -223,7 +206,6 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-
   const deleteData = async (type, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -242,7 +224,6 @@ function AdminAppProvider({ children }) {
   };
 
   // data KP
-
   const createDataForKp = async (FType, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -259,7 +240,6 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-
   const readDataForKp = async (FType) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -270,7 +250,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const readOneDataForKp = async (FType, id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -282,7 +261,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const updateDataForKp = async (id, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -299,7 +277,6 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-
   const deleteDataForKp = async (id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -317,7 +294,6 @@ function AdminAppProvider({ children }) {
   };
 
   // erkm
-
   const readSekolahData = async (FType) => {
     const response = await axios.get(
       'https://erkm.calypsocloud.one/listsekolah'
@@ -358,7 +334,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read pegawai data
-
   const readPegawaiData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
     const currentPegawai = await readData('pp');
@@ -377,7 +352,6 @@ function AdminAppProvider({ children }) {
   };
 
   // get mdtb data
-
   const readMdtbData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
     console.log(response.data);
@@ -397,7 +371,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read fasiliti data
-
   const readFasilitiData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/fasiliti');
     console.log(response.data);
@@ -417,7 +390,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read dpims data
-
   const readDpimsData = async (nama) => {
     try {
       const response = await axios.get(`/dpims?nama=${nama}`);
@@ -447,7 +419,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read superadmin data
-
   const readSuperadminData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -457,8 +428,17 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // auth
+  // read kod program data
+  const readKodProgramData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'PromosiManager',
+      Fn: 'read',
+    });
+    return response;
+  };
 
+  // auth
   async function loginUser(credentials) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -472,7 +452,6 @@ function AdminAppProvider({ children }) {
     }
     return response;
   }
-
   async function checkUser(username) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -502,6 +481,7 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
+  // Dictionaries
   const Dictionary = {
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
@@ -528,7 +508,6 @@ function AdminAppProvider({ children }) {
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
   };
-
   const DictionarySosMedParam = (key) => {
     if (key.includes('bilAktivitiShareKurang10') === true) {
       return 'Bilangan aktiviti share kurang 10';
@@ -546,7 +525,6 @@ function AdminAppProvider({ children }) {
       return 'Bilangan share';
     }
   };
-
   const DictionarySosMedAcronym = (key) => {
     if (key.includes('live') === true) {
       return 'GO LIVE!';
@@ -589,6 +567,7 @@ function AdminAppProvider({ children }) {
         readFasilitiData,
         readKpData,
         readSuperadminData,
+        readKodProgramData,
         // misc
         getCurrentUser,
         saveCurrentUser,
