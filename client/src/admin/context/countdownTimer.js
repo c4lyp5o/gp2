@@ -14,7 +14,7 @@ const ShowCounter = ({ minutes, seconds, place }) => {
   if (place === 'header') {
     return (
       <div className='text-adminWhite bg-user1 rounded-lg justify-center whitespace-nowrap relative'>
-        <span className='flex items-center font-mono text-xs capitalize'>
+        <span className='flex items-center font-mono text-xs capitalize animate-pulse'>
           {<TimeDisplay value={minutes} />}:{<TimeDisplay value={seconds} />}
         </span>
       </div>
