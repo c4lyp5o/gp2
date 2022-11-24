@@ -93,7 +93,7 @@ function UserPilihNama() {
         <p className='mt-5'>sila pilih nama pengguna</p>
         <select
           ref={pilihanOperator}
-          className='mt-7 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md hover:cursor-pointer'
+          className='mt-5 w-2/3 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md hover:cursor-pointer'
           required
         >
           {listPilihNama.map((singlePerson, index) => {
