@@ -70,7 +70,7 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
               </button>
             </div>
           </div>
-          <div className='absolute right-6 lg:-right-3 -top-1'>
+          <div className='absolute -right-2 -top-3 lg:-top-1'>
             <span>
               <CountdownTimer deadline={timer} place='header' />
             </span>
