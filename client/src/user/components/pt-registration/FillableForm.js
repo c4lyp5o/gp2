@@ -1,7 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
-import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import {
+  FaInfoCircle,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaCalendar,
+  FaCaretSquareDown,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaHouseUser,
+  FaRestroom,
+  FaUserInjured,
+  FaMoneyCheckAlt,
+} from 'react-icons/fa';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -982,13 +994,18 @@ export default function FillableForm({
                   ) : null}
                 </div>
               </div>
-              <div className='grid 2xl:grid-cols-2'>
+              <div className='grid lg:grid-cols-2'>
                 <div className='grid grid-cols-[1fr_2fr] m-2 '>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh kedatangan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <TarikhKedatangan />
+                  <div className='relative w-full md:w-56'>
+                    <TarikhKedatangan />
+                    <span>
+                      <FaCalendar className='absolute top-2 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
@@ -1009,22 +1026,27 @@ export default function FillableForm({
                     jenis pengenalan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <div className='flex flex-col lg:flex-row'>
-                    <select
-                      required
-                      id='pengenalan'
-                      name='pengenalan'
-                      value={jenisIc}
-                      onChange={(e) => setJenisIc(e.target.value)}
-                      className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
-                    >
-                      <option value=''>Sila pilih..</option>
-                      <option value='mykad-mykid'>MyKad / MyKid</option>
-                      <option value='passport'>Passport</option>
-                      <option value='tentera'>Tentera</option>
-                      <option value='polis'>Polis</option>
-                      <option value='sijil-lahir'>Sijil lahir</option>
-                    </select>
+                  <div className='flex flex-col'>
+                    <div className='relative w-full md:w-56'>
+                      <select
+                        required
+                        id='pengenalan'
+                        name='pengenalan'
+                        value={jenisIc}
+                        onChange={(e) => setJenisIc(e.target.value)}
+                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                      >
+                        <option value=''>Sila pilih..</option>
+                        <option value='mykad-mykid'>MyKad / MyKid</option>
+                        <option value='passport'>Passport</option>
+                        <option value='tentera'>Tentera</option>
+                        <option value='polis'>Polis</option>
+                        <option value='sijil-lahir'>Sijil lahir</option>
+                      </select>
+                      <span>
+                        <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
+                      </span>
+                    </div>
                     {jenisIc === 'mykad-mykid' && (
                       <input
                         required
@@ -1042,7 +1064,7 @@ export default function FillableForm({
                           }
                         }}
                         placeholder='123456090987'
-                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
                     )}
                     {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
@@ -1055,7 +1077,7 @@ export default function FillableForm({
                           setIc(e.target.value);
                         }}
                         placeholder='123456121234'
-                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
                     )}
                   </div>
@@ -1079,49 +1101,59 @@ export default function FillableForm({
                     </span>
                   </div>
                   <div className='flex flex-col'>
-                    <div className='flex flex-col md:flex-row items-center'>
+                    <div className='flex flex-col justify-start'>
                       <label
                         htmlFor='nombor-telefon'
-                        className='mr-1 flex items-center text-left flex-row text-xs md:text-sm'
+                        className='mr-1 flex text-left flex-row text-xs md:text-sm'
                       >
-                        no. tel
+                        no. tel :
                       </label>
-                      <input
-                        value={nomborTelefon}
-                        type='text'
-                        name='nombor-telefon'
-                        id='nombor-telefon'
-                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                        onChange={(e) => {
-                          setNomborTelefon(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            nomborTelefon: e.target.value,
-                          });
-                        }}
-                      />
+                      <div className='relative w-full md:w-56'>
+                        <input
+                          value={nomborTelefon}
+                          type='text'
+                          name='nombor-telefon'
+                          id='nombor-telefon'
+                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                          onChange={(e) => {
+                            setNomborTelefon(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              nomborTelefon: e.target.value,
+                            });
+                          }}
+                        />
+                        <span>
+                          <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
+                        </span>
+                      </div>
                     </div>
-                    <div className='flex flex-col md:flex-row items-center'>
+                    <div className='flex flex-col justify-start'>
                       <label
                         htmlFor='email-mysj'
-                        className='mr-4 flex items-center text-left flex-row text-xs md:text-sm'
+                        className='mr-4 flex text-left flex-row text-xs md:text-sm'
                       >
-                        email{' '}
+                        email :
                       </label>
-                      <input
-                        value={emel}
-                        type='email'
-                        name='email-mysj'
-                        id='email-mysj'
-                        className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                        onChange={(e) => {
-                          setEmel(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            emel: e.target.value,
-                          });
-                        }}
-                      />
+                      <div className='relative w-full md:w-56'>
+                        <input
+                          value={emel}
+                          type='email'
+                          name='email-mysj'
+                          id='email-mysj'
+                          className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                          onChange={(e) => {
+                            setEmel(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              emel: e.target.value,
+                            });
+                          }}
+                        />
+                        <span>
+                          <FaEnvelope className='absolute top-3 right-2 text-kaunter3' />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1129,26 +1161,39 @@ export default function FillableForm({
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     nama: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    type='text'
-                    id='nama-umum'
-                    name='nama-umum'
-                    placeholder='Isi Nama Penuh Mengikut Kad Pengenalan'
-                    value={nama}
-                    onChange={(e) => {
-                      setNama(e.target.value);
-                      setConfirmData({ ...confirmData, nama: e.target.value });
-                    }}
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  />
+                  <div className='relative w-full'>
+                    <input
+                      required
+                      type='text'
+                      id='nama-umum'
+                      name='nama-umum'
+                      placeholder='Isi Nama Penuh Mengikut Kad Pengenalan'
+                      value={nama}
+                      onChange={(e) => {
+                        setNama(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          nama: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    />
+                    <span>
+                      <FaUserInjured className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <TarikhLahir />
+                  <div className='relative w-full md:w-56'>
+                    <TarikhLahir />
+                    <span className='absolute top-2 right-2 text-kaunter3'>
+                      <FaCalendar />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
@@ -1195,166 +1240,198 @@ export default function FillableForm({
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     jantina: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    name='jantina'
-                    id='jantina'
-                    value={jantina}
-                    onChange={(e) => {
-                      setJantina(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        jantina: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='lelaki'>Lelaki</option>
-                    <option value='perempuan'>Perempuan</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      name='jantina'
+                      id='jantina'
+                      value={jantina}
+                      onChange={(e) => {
+                        setJantina(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          jantina: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='lelaki'>Lelaki</option>
+                      <option value='perempuan'>Perempuan</option>
+                    </select>
+                    <span>
+                      <FaRestroom className='absolute top-2 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     kumpulan etnik:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    name='kumpulanEtnik'
-                    id='kumpulanEtnik'
-                    value={kumpulanEtnik}
-                    onChange={(e) => {
-                      setKumpulanEtnik(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        kumpulanEtnik: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='melayu'>Melayu</option>
-                    <option value='cina'>Cina</option>
-                    <option value='india'>India</option>
-                    <option value='bajau'>Bajau</option>
-                    <option value='dusun'>Dusun</option>
-                    <option value='kadazan'>Kadazan</option>
-                    <option value='murut'>Murut</option>
-                    <option value='bumiputera sabah lain'>
-                      Bumiputera sabah lain
-                    </option>
-                    <option value='melanau'>Melanau</option>
-                    <option value='kedayan'>Kedayan</option>
-                    <option value='iban'>Iban</option>
-                    <option value='bidayuh'>Bidayuh</option>
-                    <option value='penan'>Penan</option>
-                    <option value='bumiputera sarawak lain'>
-                      Bumiputera sarawak lain
-                    </option>
-                    <option value='orang asli semenanjung'>
-                      Orang asli semenanjung
-                    </option>
-                    <option value='lain-lain'>Lain-lain</option>
-                    <option value='bukan warganegara'>Bukan warganegara</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      name='kumpulanEtnik'
+                      id='kumpulanEtnik'
+                      value={kumpulanEtnik}
+                      onChange={(e) => {
+                        setKumpulanEtnik(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          kumpulanEtnik: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='melayu'>Melayu</option>
+                      <option value='cina'>Cina</option>
+                      <option value='india'>India</option>
+                      <option value='bajau'>Bajau</option>
+                      <option value='dusun'>Dusun</option>
+                      <option value='kadazan'>Kadazan</option>
+                      <option value='murut'>Murut</option>
+                      <option value='bumiputera sabah lain'>
+                        Bumiputera sabah lain
+                      </option>
+                      <option value='melanau'>Melanau</option>
+                      <option value='kedayan'>Kedayan</option>
+                      <option value='iban'>Iban</option>
+                      <option value='bidayuh'>Bidayuh</option>
+                      <option value='penan'>Penan</option>
+                      <option value='bumiputera sarawak lain'>
+                        Bumiputera sarawak lain
+                      </option>
+                      <option value='orang asli semenanjung'>
+                        Orang asli semenanjung
+                      </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='bukan warganegara'>
+                        Bukan warganegara
+                      </option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] 2xl:col-start-1 m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     alamat: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    value={alamat}
-                    onChange={(e) => {
-                      setAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        alamat: e.target.value,
-                      });
-                    }}
-                    type='text'
-                    name='alamat'
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full'>
+                    <input
+                      required
+                      value={alamat}
+                      onChange={(e) => {
+                        setAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          alamat: e.target.value,
+                        });
+                      }}
+                      type='text'
+                      name='alamat'
+                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     daerah: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    value={daerahAlamat}
-                    onChange={(e) => {
-                      setDaerahAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        daerahAlamat: e.target.value,
-                      });
-                    }}
-                    type='text'
-                    name='daerah-alamat'
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full md:w-56'>
+                    <input
+                      required
+                      value={daerahAlamat}
+                      onChange={(e) => {
+                        setDaerahAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          daerahAlamat: e.target.value,
+                        });
+                      }}
+                      type='text'
+                      name='daerah-alamat'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='text-xs md:text-sm text-right grid grid-cols-[1fr_2fr] m-2'>
-                  <p className='font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                <div className='text-right grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     negeri: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    value={negeriAlamat}
-                    onChange={(e) => {
-                      setNegeriAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        negeriAlamat: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='johor'>Johor</option>
-                    <option value='kedah'>Kedah</option>
-                    <option value='kelantan'>Kelantan</option>
-                    <option value='melaka'>Melaka</option>
-                    <option value='negeri sembilan'>Negeri Sembilan</option>
-                    <option value='pahang'>Pahang</option>
-                    <option value='perak'>Perak</option>
-                    <option value='perlis'>Perlis</option>
-                    <option value='pulau pinang'>Pulau Pinang</option>
-                    <option value='sabah'>Sabah</option>
-                    <option value='sarawak'>Sarawak</option>
-                    <option value='selangor'>Selangor</option>
-                    <option value='terengganu'>Terengganu</option>
-                    <option value='wp kuala lumpur'>WP Kuala Lumpur</option>
-                    <option value='wp labuan'>WP Labuan</option>
-                    <option value='wp putrajaya'>WP Putrajaya</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      value={negeriAlamat}
+                      onChange={(e) => {
+                        setNegeriAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          negeriAlamat: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='johor'>Johor</option>
+                      <option value='kedah'>Kedah</option>
+                      <option value='kelantan'>Kelantan</option>
+                      <option value='melaka'>Melaka</option>
+                      <option value='negeri sembilan'>Negeri Sembilan</option>
+                      <option value='pahang'>Pahang</option>
+                      <option value='perak'>Perak</option>
+                      <option value='perlis'>Perlis</option>
+                      <option value='pulau pinang'>Pulau Pinang</option>
+                      <option value='sabah'>Sabah</option>
+                      <option value='sarawak'>Sarawak</option>
+                      <option value='selangor'>Selangor</option>
+                      <option value='terengganu'>Terengganu</option>
+                      <option value='wp kuala lumpur'>WP Kuala Lumpur</option>
+                      <option value='wp labuan'>WP Labuan</option>
+                      <option value='wp putrajaya'>WP Putrajaya</option>
+                    </select>
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     poskod: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    type='text'
-                    name='poskod-alamat'
-                    pattern='[0-9]+'
-                    title='5 numbers poskod'
-                    minLength={5}
-                    maxLength={5}
-                    value={poskodAlamat}
-                    onChange={(e) => {
-                      setPoskodAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        poskodAlamat: e.target.value,
-                      });
-                    }}
-                    placeholder='62519'
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full md:w-56'>
+                    <input
+                      required
+                      type='text'
+                      name='poskod-alamat'
+                      pattern='[0-9]+'
+                      title='5 numbers poskod'
+                      minLength={5}
+                      maxLength={5}
+                      value={poskodAlamat}
+                      onChange={(e) => {
+                        setPoskodAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          poskodAlamat: e.target.value,
+                        });
+                      }}
+                      placeholder='62519'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
@@ -1392,28 +1469,33 @@ export default function FillableForm({
                               >
                                 Gravida Mengandung
                               </label>
-                              <select
-                                name='episod-mengandung'
-                                id='episod-mengandung'
-                                className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                                onChange={(e) => {
-                                  setEpisodMengandung(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    episodMengandung: e.target.value,
-                                  });
-                                }}
-                              >
-                                <option value=''>Sila pilih..</option>
-                                <option value='1'>1</option>
-                                <option value='2'>2</option>
-                                <option value='3'>3</option>
-                                <option value='4'>4</option>
-                                <option value='5'>5</option>
-                                <option value='6'>6</option>
-                                <option value='7'>7</option>
-                                <option value='8'>8</option>
-                              </select>
+                              <div className='relative w-full md:w-48'>
+                                <select
+                                  name='episod-mengandung'
+                                  id='episod-mengandung'
+                                  className='appearance-none w-full md:w-48 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                  onChange={(e) => {
+                                    setEpisodMengandung(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      episodMengandung: e.target.value,
+                                    });
+                                  }}
+                                >
+                                  <option value=''>Sila pilih..</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                  <option value='5'>5</option>
+                                  <option value='6'>6</option>
+                                  <option value='7'>7</option>
+                                  <option value='8'>8</option>
+                                </select>
+                                <span>
+                                  <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                                </span>
+                              </div>
                             </div>
                             <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <p className='text-left font-light m-2'>
@@ -1529,51 +1611,61 @@ export default function FillableForm({
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     status pesara:
                   </p>
-                  <select
-                    name='statusPesara'
-                    id='statusPesara'
-                    value={statusPesara}
-                    onChange={(e) => {
-                      setStatusPesara(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        statusPesara: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='pesara-kerajaan'>Pesara kerajaan</option>
-                    <option value='pesara-atm'>Pesara ATM</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      name='statusPesara'
+                      id='statusPesara'
+                      value={statusPesara}
+                      onChange={(e) => {
+                        setStatusPesara(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          statusPesara: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='pesara-kerajaan'>Pesara kerajaan</option>
+                      <option value='pesara-atm'>Pesara ATM</option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     rujuk daripada:{' '}
                   </p>
-                  <select
-                    name='rujukDaripada'
-                    id='rujukDaripada'
-                    value={rujukDaripada}
-                    onChange={(e) => {
-                      setRujukDaripada(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        rujukDaripada: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='dalaman'>Dalaman</option>
-                    <option value='kp'>Klinik Pergigian Kerajaan</option>
-                    <option value='kk'>Klinik Kesihatan Kerajaan</option>
-                    <option value='hospital/institusi-kerajaan'>
-                      Hospital / Institusi Kerajaan
-                    </option>
-                    <option value='swasta'>Swasta</option>
-                    <option value='lain-lain'>Lain-lain</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      name='rujukDaripada'
+                      id='rujukDaripada'
+                      value={rujukDaripada}
+                      onChange={(e) => {
+                        setRujukDaripada(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          rujukDaripada: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='dalaman'>Dalaman</option>
+                      <option value='kp'>Klinik Pergigian Kerajaan</option>
+                      <option value='kk'>Klinik Kesihatan Kerajaan</option>
+                      <option value='hospital/institusi-kerajaan'>
+                        Hospital / Institusi Kerajaan
+                      </option>
+                      <option value='swasta'>Swasta</option>
+                      <option value='lain-lain'>Lain-lain</option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <div className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
@@ -1589,25 +1681,30 @@ export default function FillableForm({
                       )}
                     </p>
                   </div>
-                  <input
-                    type='text'
-                    name='catatan'
-                    id='catatan'
-                    value={catatan}
-                    required={statusPesara !== '' ? true : false}
-                    onChange={(e) => {
-                      setCatatan(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        catatan: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full'>
+                    <input
+                      type='text'
+                      name='catatan'
+                      id='catatan'
+                      value={catatan}
+                      required={statusPesara !== '' ? true : false}
+                      onChange={(e) => {
+                        setCatatan(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          catatan: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 {jenisFasiliti === 'kp' && (
                   <>
-                    <article className='grid grid-cols-[1fr_2fr]'>
+                    <article className='grid grid-cols-[1fr_2fr] px-1'>
                       <div className='grid justify-start border border-userBlack pl-3 p-2 rounded-md col-span-2'>
                         <div className='flex items-center flex-row pl-1 md:pl-5'>
                           <input

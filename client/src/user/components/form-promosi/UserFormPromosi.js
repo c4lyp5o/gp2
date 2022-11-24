@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Select from 'react-select';
+import { HiOutlineEmojiHappy, HiOutlineEmojiSad } from 'react-icons/hi';
 
 const optionsBahagianB = [
   { value: 'pameran-kempen', label: 'Pameran / Kempen' },
@@ -309,261 +310,281 @@ function UserFormPromosi() {
           <form>
             <section className='grid grid-cols-1 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div className='flex flex-row justify-start lg:col-span-2 items-center'>
+                <div className='flex flex-col md:flex-row justify-start lg:col-span-2 items-center'>
                   <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
                     Adakah acara terlibat dengan media massa?
+                    <span className='text-user6'>*</span>
                   </h1>
-                  <input
-                    type='radio'
-                    name='media-massa'
-                    id='media-massa-ya'
-                    value='media-massa-ya'
-                    checked={mediaMassa === 'media-massa-ya' ? true : false}
-                    onChange={(e) => setMediaMassa(e.target.value)}
-                    className='peer'
-                  />
-                  <label
-                    htmlFor='media-massa-ya'
-                    className='peer ml-2 mr-5 text-sm'
-                  >
-                    Ya
-                  </label>
-                  <input
-                    type='radio'
-                    name='media-massa'
-                    id='media-massa-tidak'
-                    value='media-massa-tidak'
-                    checked={mediaMassa === 'media-massa-tidak' ? true : false}
-                    onChange={(e) => setMediaMassa(e.target.value)}
-                    className='peer'
-                  />
-                  <label
-                    htmlFor='media-massa-tidak'
-                    className='peer ml-2 mr-5 text-sm'
-                  >
-                    Tidak
-                  </label>
-                </div>
-                <div className='outline outline-1 outline-user1 rounded-md'>
-                  <h1 className='flex flex-row text-base font-semibold pl-5'>
-                    televisyen
-                  </h1>
-                  <div className='grid grid-cols-[1fr_3fr]'>
-                    <p className='text-sm font-medium flex items-center justify-start pl-5'>
-                      Bil. Aktiviti :
-                    </p>
+                  <div className='flex flex-row justify-start'>
                     <input
-                      type='number'
-                      name='bilangan-aktiviti-televisyen'
-                      id='bilangan-aktiviti-televisyen'
-                      min='0'
-                      value={bilanganAktivitiTelevisyen}
-                      onChange={(e) =>
-                        setBilanganAktivitiTelevisyen(e.target.value)
-                      }
-                      className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      required
+                      type='radio'
+                      name='media-massa'
+                      id='media-massa-ya'
+                      value='media-massa-ya'
+                      checked={mediaMassa === 'media-massa-ya' ? true : false}
+                      onChange={(e) => setMediaMassa(e.target.value)}
+                      className='peer'
                     />
-                    <p className='text-sm font-medium flex items-center justify-start pl-5'>
-                      Bil. Peserta :
-                    </p>
+                    <label
+                      htmlFor='media-massa-ya'
+                      className='peer-checked:bg-user1 peer-checked:bg-opacity-5 ml-2 mr-5 text-sm px-2 py-1 rounded-md cursor-pointer '
+                    >
+                      Ya
+                    </label>
+                  </div>
+                  <div className='flex flex-row justify-start'>
                     <input
-                      type='number'
-                      name='bilangan-peserta-televisyen'
-                      id='bilangan-peserta-televisyen'
-                      min='0'
-                      value={bilanganPesertaTelevisyen}
-                      onChange={(e) =>
-                        setBilanganPesertaTelevisyen(e.target.value)
+                      required
+                      type='radio'
+                      name='media-massa'
+                      id='media-massa-tidak'
+                      value='media-massa-tidak'
+                      checked={
+                        mediaMassa === 'media-massa-tidak' ? true : false
                       }
-                      className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      onChange={(e) => setMediaMassa(e.target.value)}
+                      className='peer'
                     />
+                    <label
+                      htmlFor='media-massa-tidak'
+                      className='peer-checked:bg-user1 peer-checked:bg-opacity-5 ml-2 mr-5 text-sm px-2 py-1 rounded-md cursor-pointer'
+                    >
+                      Tidak
+                    </label>
                   </div>
                 </div>
-                <div className='outline outline-1 outline-user1 rounded-md'>
-                  <h1 className='flex flex-row text-base font-semibold pl-5'>
-                    radio
-                  </h1>
-                  <div className='grid grid-cols-[1fr_3fr]'>
-                    <p className='text-sm font-medium flex items-center justify-start pl-5'>
-                      Bil. Aktiviti :
-                    </p>
-                    <input
-                      type='number'
-                      name='bilangan-aktiviti-radio'
-                      id='bilangan-aktiviti-radio'
-                      min='0'
-                      value={bilanganAktivitiRadio}
-                      onChange={(e) => setBilanganAktivitiRadio(e.target.value)}
-                      className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
-                    <p className='text-sm font-medium flex items-center justify-start pl-5'>
-                      Bil. Peserta :
-                    </p>
-                    <input
-                      type='number'
-                      name='bilangan-peserta-radio'
-                      id='bilangan-peserta-radio'
-                      min='0'
-                      value={bilanganPesertaRadio}
-                      onChange={(e) => setBilanganPesertaRadio(e.target.value)}
-                      className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
+                {mediaMassa === 'media-massa-ya' && (
+                  <div className='outline outline-1 outline-user1 rounded-md'>
+                    <h1 className='flex flex-row text-base font-semibold pl-5'>
+                      televisyen
+                    </h1>
+                    <div className='grid grid-cols-[1fr_3fr]'>
+                      <p className='text-sm font-medium flex items-center justify-start pl-5'>
+                        Bil. Aktiviti :
+                      </p>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-televisyen'
+                        id='bilangan-aktiviti-televisyen'
+                        min='0'
+                        value={bilanganAktivitiTelevisyen}
+                        onChange={(e) =>
+                          setBilanganAktivitiTelevisyen(e.target.value)
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <p className='text-sm font-medium flex items-center justify-start pl-5'>
+                        Bil. Peserta :
+                      </p>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-televisyen'
+                        id='bilangan-peserta-televisyen'
+                        min='0'
+                        value={bilanganPesertaTelevisyen}
+                        onChange={(e) =>
+                          setBilanganPesertaTelevisyen(e.target.value)
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
+                {mediaMassa === 'media-massa-ya' && (
+                  <div className='outline outline-1 outline-user1 rounded-md'>
+                    <h1 className='flex flex-row text-base font-semibold pl-5'>
+                      radio
+                    </h1>
+                    <div className='grid grid-cols-[1fr_3fr]'>
+                      <p className='text-sm font-medium flex items-center justify-start pl-5'>
+                        Bil. Aktiviti :
+                      </p>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-radio'
+                        id='bilangan-aktiviti-radio'
+                        min='0'
+                        value={bilanganAktivitiRadio}
+                        onChange={(e) =>
+                          setBilanganAktivitiRadio(e.target.value)
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <p className='text-sm font-medium flex items-center justify-start pl-5'>
+                        Bil. Peserta :
+                      </p>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-radio'
+                        id='bilangan-peserta-radio'
+                        min='0'
+                        value={bilanganPesertaRadio}
+                        onChange={(e) =>
+                          setBilanganPesertaRadio(e.target.value)
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                  </div>
+                )}
               </article>
               <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <div className='flex flex-row justify-start lg:col-span-2 items-center'>
-                  <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
+                  <h1 className='text-base font-bold flex flex-row lg:pl-5 mr-5'>
                     Bahagian A
                   </h1>
                 </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2'>
+                <div className='grid grid-cols-[1fr_2fr]'>
+                  <div className='col-span-2 p-1 relative w-full'>
                     <input
                       type='checkbox'
                       name='ceramah-bahagian-a'
                       id='ceramah-bahagian-a'
                       checked={ceramahBahagianA}
                       onChange={() => setCeramahBahagianA(!ceramahBahagianA)}
+                      className='hidden peer'
                     />
                     <label
                       htmlFor='ceramah-bahagian-a'
-                      className='ml-2 mr-5 text-sm'
+                      className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-32 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                     >
                       Ceramah
                     </label>
                   </div>
-                  <div className='flex flex-col justify-start col-span-2'>
-                    <div className='grid grid-cols-[1fr_2fr]'>
-                      <div className='flex flex-row justify-end'>
-                        <label
-                          htmlFor='baru-ceramah-bahagian-a'
-                          className='ml-2 mr-5 text-sm flex items-center'
-                        >
-                          Baru
-                        </label>
-                        <input
-                          type='checkbox'
-                          name='baru-ceramah-bahagian-a'
-                          id='baru-ceramah-bahagian-a'
-                          checked={baruCeramahBahagianA}
-                          onChange={() =>
-                            setBaruCeramahBahagianA(!baruCeramahBahagianA)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <div>
+                  {ceramahBahagianA && (
+                    <div className='flex flex-col justify-start col-span-2'>
+                      <div className='grid grid-cols-[1fr_2fr]'>
+                        <div className='flex flex-row justify-end'>
                           <label
-                            htmlFor='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
+                            htmlFor='baru-ceramah-bahagian-a'
+                            className='ml-2 mr-5 text-sm flex items-center'
                           >
-                            bilangan aktiviti
+                            Baru
                           </label>
                           <input
-                            type='number'
-                            name='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                            id='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                            min='0'
-                            value={bilanganAktivitiBaruCeramahBahagianA}
-                            onChange={(e) =>
-                              setBilanganAktivitiBaruCeramahBahagianA(
-                                e.target.value
-                              )
+                            type='checkbox'
+                            name='baru-ceramah-bahagian-a'
+                            id='baru-ceramah-bahagian-a'
+                            checked={baruCeramahBahagianA}
+                            onChange={() =>
+                              setBaruCeramahBahagianA(!baruCeramahBahagianA)
                             }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
                         <div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan aktiviti
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                              id='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                              min='0'
+                              value={bilanganAktivitiBaruCeramahBahagianA}
+                              onChange={(e) =>
+                                setBilanganAktivitiBaruCeramahBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-peserta-baru-ceramah-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan peserta
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-peserta-baru-ceramah-bahagian-a'
+                              id='bilangan-peserta-baru-ceramah-bahagian-a'
+                              min='0'
+                              value={bilanganPesertaBaruCeramahBahagianA}
+                              onChange={(e) =>
+                                setBilanganPesertaBaruCeramahBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className='grid grid-cols-[1fr_2fr]'>
+                        <div className='flex flex-row justify-end'>
                           <label
-                            htmlFor='bilangan-peserta-baru-ceramah-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
+                            htmlFor='ulang-ceramah-bahagian-a'
+                            className='ml-2 mr-5 text-sm flex items-center'
                           >
-                            bilangan peserta
+                            Ulangan
                           </label>
                           <input
-                            type='number'
-                            name='bilangan-peserta-baru-ceramah-bahagian-a'
-                            id='bilangan-peserta-baru-ceramah-bahagian-a'
-                            min='0'
-                            value={bilanganPesertaBaruCeramahBahagianA}
-                            onChange={(e) =>
-                              setBilanganPesertaBaruCeramahBahagianA(
-                                e.target.value
-                              )
+                            type='checkbox'
+                            name='ulang-ceramah-bahagian-a'
+                            id='ulang-ceramah-bahagian-a'
+                            checked={ulangCeramahBahagianA}
+                            onChange={() =>
+                              setUlangCeramahBahagianA(!ulangCeramahBahagianA)
                             }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
+                        </div>
+                        <div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan aktiviti
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                              id='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                              min='0'
+                              value={bilanganAktivitiUlangCeramahBahagianA}
+                              onChange={(e) =>
+                                setBilanganAktivitiUlangCeramahBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-peserta-ulang-ceramah-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan peserta
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-peserta-ulang-ceramah-bahagian-a'
+                              id='bilangan-peserta-ulang-ceramah-bahagian-a'
+                              min='0'
+                              value={bilanganPesertaUlangCeramahBahagianA}
+                              onChange={(e) =>
+                                setBilanganPesertaUlangCeramahBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className='grid grid-cols-[1fr_2fr]'>
-                      <div className='flex flex-row justify-end'>
-                        <label
-                          htmlFor='ulang-ceramah-bahagian-a'
-                          className='ml-2 mr-5 text-sm flex items-center'
-                        >
-                          Ulangan
-                        </label>
-                        <input
-                          type='checkbox'
-                          name='ulang-ceramah-bahagian-a'
-                          id='ulang-ceramah-bahagian-a'
-                          checked={ulangCeramahBahagianA}
-                          onChange={() =>
-                            setUlangCeramahBahagianA(!ulangCeramahBahagianA)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <div>
-                          <label
-                            htmlFor='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
-                          >
-                            bilangan aktiviti
-                          </label>
-                          <input
-                            type='number'
-                            name='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                            id='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                            min='0'
-                            value={bilanganAktivitiUlangCeramahBahagianA}
-                            onChange={(e) =>
-                              setBilanganAktivitiUlangCeramahBahagianA(
-                                e.target.value
-                              )
-                            }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor='bilangan-peserta-ulang-ceramah-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
-                          >
-                            bilangan peserta
-                          </label>
-                          <input
-                            type='number'
-                            name='bilangan-peserta-ulang-ceramah-bahagian-a'
-                            id='bilangan-peserta-ulang-ceramah-bahagian-a'
-                            min='0'
-                            value={bilanganPesertaUlangCeramahBahagianA}
-                            onChange={(e) =>
-                              setBilanganPesertaUlangCeramahBahagianA(
-                                e.target.value
-                              )
-                            }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2'>
+                <div className='grid grid-cols-[1fr_2fr]'>
+                  <div className='col-span-2 p-1 relative w-full'>
                     <input
                       type='checkbox'
                       name='latihan-memberus-gigi-bahagian-a'
@@ -574,154 +595,157 @@ function UserFormPromosi() {
                           !latihanMemberusGigiBahagianA
                         )
                       }
+                      className='hidden peer'
                     />
                     <label
                       htmlFor='latihan-memberus-gigi-bahagian-a'
-                      className='ml-2 mr-5 text-sm'
+                      className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-20 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                     >
                       Latihan Memberus Gigi
                     </label>
                   </div>
-                  <div className='flex flex-col justify-start col-span-2'>
-                    <div className='grid grid-cols-[1fr_2fr]'>
-                      <div className='flex flex-row justify-end'>
-                        <label
-                          htmlFor='baru-latihan-memberus-gigi-bahagian-a'
-                          className='ml-2 mr-5 text-sm flex items-center'
-                        >
-                          Baru
-                        </label>
-                        <input
-                          type='checkbox'
-                          name='baru-latihan-memberus-gigi-bahagian-a'
-                          id='baru-latihan-memberus-gigi-bahagian-a'
-                          checked={baruLatihanMemberusGigiBahagianA}
-                          onChange={() =>
-                            setBaruLatihanMemberusGigiBahagianA(
-                              !baruLatihanMemberusGigiBahagianA
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <div>
+                  {latihanMemberusGigiBahagianA && (
+                    <div className='flex flex-col justify-start col-span-2'>
+                      <div className='grid grid-cols-[1fr_2fr]'>
+                        <div className='flex flex-row justify-end'>
                           <label
-                            htmlFor='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
+                            htmlFor='baru-latihan-memberus-gigi-bahagian-a'
+                            className='ml-2 mr-5 text-sm flex items-center'
                           >
-                            bilangan aktiviti
+                            Baru
                           </label>
                           <input
-                            type='number'
-                            name='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                            id='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                            min='0'
-                            value={
-                              bilanganAktivitiBaruLatihanMemberusGigiBahagianA
-                            }
-                            onChange={(e) =>
-                              setBilanganAktivitiBaruLatihanMemberusGigiBahagianA(
-                                e.target.value
+                            type='checkbox'
+                            name='baru-latihan-memberus-gigi-bahagian-a'
+                            id='baru-latihan-memberus-gigi-bahagian-a'
+                            checked={baruLatihanMemberusGigiBahagianA}
+                            onChange={() =>
+                              setBaruLatihanMemberusGigiBahagianA(
+                                !baruLatihanMemberusGigiBahagianA
                               )
                             }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
                         <div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan aktiviti
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                              id='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                              min='0'
+                              value={
+                                bilanganAktivitiBaruLatihanMemberusGigiBahagianA
+                              }
+                              onChange={(e) =>
+                                setBilanganAktivitiBaruLatihanMemberusGigiBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan peserta
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                              id='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                              min='0'
+                              value={
+                                bilanganPesertaBaruLatihanMemberusGigiBahagianA
+                              }
+                              onChange={(e) =>
+                                setBilanganPesertaBaruLatihanMemberusGigiBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className='grid grid-cols-[1fr_2fr]'>
+                        <div className='flex flex-row justify-end'>
                           <label
-                            htmlFor='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
+                            htmlFor='ulang-latihan-memberus-gigi-bahagian-a'
+                            className='ml-2 mr-5 text-sm flex items-center'
                           >
-                            bilangan peserta
+                            Ulangan
                           </label>
                           <input
-                            type='number'
-                            name='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                            id='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                            min='0'
-                            value={
-                              bilanganPesertaBaruLatihanMemberusGigiBahagianA
-                            }
-                            onChange={(e) =>
-                              setBilanganPesertaBaruLatihanMemberusGigiBahagianA(
-                                e.target.value
+                            type='checkbox'
+                            name='ulang-latihan-memberus-gigi-bahagian-a'
+                            id='ulang-latihan-memberus-gigi-bahagian-a'
+                            checked={ulangLatihanMemberusGigiBahagianA}
+                            onChange={() =>
+                              setUlangLatihanMemberusGigiBahagianA(
+                                !ulangLatihanMemberusGigiBahagianA
                               )
                             }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
+                        </div>
+                        <div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan aktiviti
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                              id='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                              min='0'
+                              value={
+                                bilanganAktivitiUlangLatihanMemberusGigiBahagianA
+                              }
+                              onChange={(e) =>
+                                setBilanganAktivitiUlangLatihanMemberusGigiBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-3 text-sm'
+                            >
+                              bilangan peserta
+                            </label>
+                            <input
+                              type='number'
+                              name='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                              id='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                              min='0'
+                              value={
+                                bilanganPesertaUlangLatihanMemberusGigiBahagianA
+                              }
+                              onChange={(e) =>
+                                setBilanganPesertaUlangLatihanMemberusGigiBahagianA(
+                                  e.target.value
+                                )
+                              }
+                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className='grid grid-cols-[1fr_2fr]'>
-                      <div className='flex flex-row justify-end'>
-                        <label
-                          htmlFor='ulang-latihan-memberus-gigi-bahagian-a'
-                          className='ml-2 mr-5 text-sm flex items-center'
-                        >
-                          Ulangan
-                        </label>
-                        <input
-                          type='checkbox'
-                          name='ulang-latihan-memberus-gigi-bahagian-a'
-                          id='ulang-latihan-memberus-gigi-bahagian-a'
-                          checked={ulangLatihanMemberusGigiBahagianA}
-                          onChange={() =>
-                            setUlangLatihanMemberusGigiBahagianA(
-                              !ulangLatihanMemberusGigiBahagianA
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <div>
-                          <label
-                            htmlFor='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
-                          >
-                            bilangan aktiviti
-                          </label>
-                          <input
-                            type='number'
-                            name='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                            id='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                            min='0'
-                            value={
-                              bilanganAktivitiUlangLatihanMemberusGigiBahagianA
-                            }
-                            onChange={(e) =>
-                              setBilanganAktivitiUlangLatihanMemberusGigiBahagianA(
-                                e.target.value
-                              )
-                            }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-3 text-sm'
-                          >
-                            bilangan peserta
-                          </label>
-                          <input
-                            type='number'
-                            name='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                            id='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                            min='0'
-                            value={
-                              bilanganPesertaUlangLatihanMemberusGigiBahagianA
-                            }
-                            onChange={(e) =>
-                              setBilanganPesertaUlangLatihanMemberusGigiBahagianA(
-                                e.target.value
-                              )
-                            }
-                            className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </article>
               <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
