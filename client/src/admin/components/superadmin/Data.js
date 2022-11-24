@@ -697,7 +697,6 @@ export default function Data({ FType, kp }) {
           <DeleteModal
             setShowDeleteModal={setShowDeleteModal}
             FType={FType}
-            kp={kp}
             deleteCandidate={deleteCandidate}
             id={id}
             setReload={setReload}

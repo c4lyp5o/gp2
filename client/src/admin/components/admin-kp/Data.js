@@ -8,7 +8,7 @@ import Tastad from './Tastad';
 import Pegawai from './Pegawai';
 import Institusi from './Institusi';
 
-import ModalSosMed from './modal-sosmed/Modal';
+import { ModalSosMed, ModalDataIkutProgram } from './modal-sosmed/Modal';
 
 import { AddModal, EditModal, DeleteModal } from '../superadmin/Modal';
 import { Loading, NothingHereBoi } from '../Screens';
@@ -19,6 +19,7 @@ export default function DataKp({ FType }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSosMedModal, setShowSosMedModal] = useState(false);
+  const [showSosMedDataModal, setShowSosMedDataModal] = useState(false);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState(null);
 
@@ -75,6 +76,7 @@ export default function DataKp({ FType }) {
             setShow({ program: true });
             break;
         }
+        setShowSosMedModal(false);
         setLoading(false);
       })
       .catch((err) => {
@@ -92,6 +94,8 @@ export default function DataKp({ FType }) {
     setShowAddModal,
     showSosMedModal,
     setShowSosMedModal,
+    showSosMedDataModal,
+    setShowSosMedDataModal,
     showEditModal,
     setShowEditModal,
     showDeleteModal,
@@ -166,6 +170,7 @@ export default function DataKp({ FType }) {
         </button>
       ) : null}
       {showSosMedModal ? <ModalSosMed {...props} /> : null}
+      {showSosMedDataModal ? <ModalDataIkutProgram {...props} /> : null}
     </>
   );
 }
