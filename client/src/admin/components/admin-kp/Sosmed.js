@@ -164,6 +164,16 @@ export default function Sosmed(props) {
             Tambah Aktiviti Media Sosial
           </button>
         </div> */}
+        <div className='m-3'>
+          <button
+            className='bg-user9 text-userWhite text-sm rounded-md px-2 py-1 hover:bg-user6 hover:cursor-pointer transition-all'
+            onClick={() =>
+              props.setShowSosMedDataModal(!props.showSosMedDataModal)
+            }
+          >
+            Lihat data berdasarkan kod program
+          </button>
+        </div>
       </div>
     );
   }
