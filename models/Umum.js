@@ -84,6 +84,10 @@ const UmumSchema = new mongoose.Schema(
     namaProgram: { type: String, default: 'NOT APPLICABLE' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
+    statusKehadiran: {
+      type: Boolean,
+      default: false,
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -309,9 +313,9 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan umum
-    statusKehadiran: {
-      type: Boolean,
-      default: false,
+    waktuDipanggil: {
+      type: String,
+      default: '',
     },
     pesakitDibuatFissureSealant: {
       type: Boolean,

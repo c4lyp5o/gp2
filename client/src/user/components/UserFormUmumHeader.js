@@ -548,6 +548,9 @@ function UserFormUmumHeader() {
   masterForm.setTampalanKesEndodontikDiperlukanPemeriksaanUmum =
     setTampalanKesEndodontikDiperlukanPemeriksaanUmum;
   //rawatan
+  const [waktuDipanggil, setWaktuDipanggil] = useState('');
+  masterForm.waktuDipanggil = waktuDipanggil;
+  masterForm.setWaktuDipanggil = setWaktuDipanggil;
   const [pesakitDibuatFissureSealant, setPesakitDibuatFissureSealant] =
     useState(false);
   masterForm.pesakitDibuatFissureSealant = pesakitDibuatFissureSealant;
@@ -1211,7 +1214,7 @@ function UserFormUmumHeader() {
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
 
-  // calculate total DMFEX
+  // calculate total DMFXE
   useEffect(() => {
     setSumDMFXKekalUmum(
       parseInt(dAdaGigiKekalPemeriksaanUmum) +
@@ -1469,6 +1472,7 @@ function UserFormUmumHeader() {
           data.singlePersonUmum.tampalanKesEndodontikDiperlukanPemeriksaanUmum
         );
         //map rawatan umum
+        setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
         setPesakitDibuatFissureSealant(
           data.singlePersonUmum.pesakitDibuatFissureSealant
         );
@@ -1757,12 +1761,12 @@ function UserFormUmumHeader() {
 
   const handleSubmit = async (e) => {
     const userData = JSON.parse(localStorage.getItem('userinfo'));
-    let mdcmdtbNum;
+    let mdcMdtbNum;
     if (!userData.mdcNumber) {
-      mdcmdtbNum = userData.mdtbNumber;
+      mdcMdtbNum = userData.mdtbNumber;
     }
     if (!userData.mdtbNumber) {
-      mdcmdtbNum = userData.mdcNumber;
+      mdcMdtbNum = userData.mdcNumber;
     }
     await toast
       .promise(
@@ -1770,7 +1774,7 @@ function UserFormUmumHeader() {
           `/api/v1/umum/${personUmumId}`,
           {
             createdByUsername: masterForm.createdByUsername,
-            createdByMdcMdtb: mdcmdtbNum,
+            createdByMdcMdtb: mdcMdtbNum,
             statusReten: 'telah diisi',
             // fasiliti perkhidmatan
             jenisFasiliti,
@@ -1864,6 +1868,7 @@ function UserFormUmumHeader() {
             cabutanKesEndodontikDiperlukanPemeriksaanUmum,
             tampalanKesEndodontikDiperlukanPemeriksaanUmum,
             //rawatan
+            waktuDipanggil,
             pesakitDibuatFissureSealant,
             baruJumlahGigiKekalDibuatFSRawatanUmum,
             // semulaJumlahGigiKekalDibuatFSRawatanUmum,
@@ -2131,7 +2136,7 @@ function UserFormUmumHeader() {
               <form onSubmit={confirm(handleSubmit)}>
                 {/* <FasilitiPerkhidmatan {...masterForm} /> */}
                 {/* <MaklumatLanjut {...masterForm} /> */}
-                {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
+                {singlePersonUmum.kedatangan === 'baru-kedatangan' && (
                   <Pemeriksaan
                     {...masterForm}
                     singlePersonUmum={singlePersonUmum}
