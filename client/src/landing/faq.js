@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function Faq() {
   // Pentadbir
@@ -109,7 +110,7 @@ function Faq() {
             >
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPentadbir1(!showSubPentadbir1);
                     setShowSubPentadbir2(false);
@@ -117,6 +118,11 @@ function Faq() {
                     setShowSubPentadbir4(false);
                   }}
                 >
+                  {showSubPentadbir1 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 1
                 </span>
                 <p
@@ -131,7 +137,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPentadbir2(!showSubPentadbir2);
                     setShowSubPentadbir1(false);
@@ -139,6 +145,11 @@ function Faq() {
                     setShowSubPentadbir4(false);
                   }}
                 >
+                  {showSubPentadbir2 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 2
                 </span>
                 <p
@@ -153,7 +164,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPentadbir3(!showSubPentadbir3);
                     setShowSubPentadbir1(false);
@@ -161,6 +172,11 @@ function Faq() {
                     setShowSubPentadbir4(false);
                   }}
                 >
+                  {showSubPentadbir3 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 3
                 </span>
                 <p
@@ -175,7 +191,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPentadbir4(!showSubPentadbir4);
                     setShowSubPentadbir1(false);
@@ -183,6 +199,11 @@ function Faq() {
                     setShowSubPentadbir3(false);
                   }}
                 >
+                  {showSubPentadbir4 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 4
                 </span>
                 <p
@@ -206,7 +227,7 @@ function Faq() {
             >
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPendaftaran1(!showSubPendaftaran1);
                     setShowSubPendaftaran2(false);
@@ -214,6 +235,11 @@ function Faq() {
                     setShowSubPendaftaran4(false);
                   }}
                 >
+                  {showSubPendaftaran1 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 1
                 </span>
                 <p
@@ -228,7 +254,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPendaftaran2(!showSubPendaftaran2);
                     setShowSubPendaftaran1(false);
@@ -236,6 +262,11 @@ function Faq() {
                     setShowSubPendaftaran4(false);
                   }}
                 >
+                  {showSubPendaftaran2 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 2
                 </span>
                 <p
@@ -250,7 +281,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPendaftaran3(!showSubPendaftaran3);
                     setShowSubPendaftaran1(false);
@@ -258,6 +289,11 @@ function Faq() {
                     setShowSubPendaftaran4(false);
                   }}
                 >
+                  {showSubPendaftaran3 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 3
                 </span>
                 <p
@@ -272,7 +308,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPendaftaran4(!showSubPendaftaran4);
                     setShowSubPendaftaran1(false);
@@ -280,6 +316,11 @@ function Faq() {
                     setShowSubPendaftaran3(false);
                   }}
                 >
+                  {showSubPendaftaran4 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 4
                 </span>
                 <p
@@ -303,7 +344,7 @@ function Faq() {
             >
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPengguna1(!showSubPengguna1);
                     setShowSubPengguna2(false);
@@ -311,6 +352,11 @@ function Faq() {
                     setShowSubPengguna4(false);
                   }}
                 >
+                  {showSubPengguna1 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 1
                 </span>
                 <p
@@ -325,7 +371,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPengguna2(!showSubPengguna2);
                     setShowSubPengguna1(false);
@@ -333,6 +379,11 @@ function Faq() {
                     setShowSubPengguna4(false);
                   }}
                 >
+                  {showSubPengguna2 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 2
                 </span>
                 <p
@@ -347,7 +398,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPengguna3(!showSubPengguna3);
                     setShowSubPengguna1(false);
@@ -355,6 +406,11 @@ function Faq() {
                     setShowSubPengguna4(false);
                   }}
                 >
+                  {showSubPengguna3 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 3
                 </span>
                 <p
@@ -369,7 +425,7 @@ function Faq() {
               </article>
               <article className='my-1'>
                 <span
-                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
                   onClick={() => {
                     setShowSubPengguna4(!showSubPengguna4);
                     setShowSubPengguna1(false);
@@ -377,6 +433,11 @@ function Faq() {
                     setShowSubPengguna3(false);
                   }}
                 >
+                  {showSubPengguna4 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
                   Soalan 4
                 </span>
                 <p
