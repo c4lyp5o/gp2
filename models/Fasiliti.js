@@ -4,11 +4,9 @@ const Schema = mongoose.Schema;
 const fasilitiSchema = new Schema({
   nama: {
     type: String,
-    // required: true
   },
   statusPerkhidmatan: {
     type: String,
-    // required: true
     default: 'NOT APPLICABLE',
   },
   kodSekolah: {
@@ -17,15 +15,12 @@ const fasilitiSchema = new Schema({
   },
   createdByNegeri: {
     type: String,
-    // required: true
   },
   createdByDaerah: {
     type: String,
-    // required: true
   },
   handler: {
     type: String,
-    // required: true
     default: 'NOT APPLICABLE',
   },
   jenisFasiliti: {
@@ -35,6 +30,10 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  sekolahSelesaiReten: {
+    type: Boolean,
+    default: false,
+  },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
@@ -43,12 +42,15 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // khas taska/tadika
   kodTastad: {
     type: String,
     default: 'NOT APPLICABLE',
   },
   alamatTastad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenTastad: {
     type: String,
     default: 'NOT APPLICABLE',
   },

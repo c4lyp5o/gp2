@@ -384,11 +384,11 @@ function UserFormUmumHeader() {
   masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
   masterForm.setDAdaGigiDesidusPemeriksaanUmum =
     setDAdaGigiDesidusPemeriksaanUmum;
-  const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setMAdaGigiDesidusPemeriksaanUmum =
-    setMAdaGigiDesidusPemeriksaanUmum;
+  // const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
+  //   useState('');
+  // masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
+  // masterForm.setMAdaGigiDesidusPemeriksaanUmum =
+  //   setMAdaGigiDesidusPemeriksaanUmum;
   const [fAdaGigiDesidusPemeriksaanUmum, setFAdaGigiDesidusPemeriksaanUmum] =
     useState('');
   masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
@@ -548,6 +548,9 @@ function UserFormUmumHeader() {
   masterForm.setTampalanKesEndodontikDiperlukanPemeriksaanUmum =
     setTampalanKesEndodontikDiperlukanPemeriksaanUmum;
   //rawatan
+  const [waktuDipanggil, setWaktuDipanggil] = useState('');
+  masterForm.waktuDipanggil = waktuDipanggil;
+  masterForm.setWaktuDipanggil = setWaktuDipanggil;
   const [pesakitDibuatFissureSealant, setPesakitDibuatFissureSealant] =
     useState(false);
   masterForm.pesakitDibuatFissureSealant = pesakitDibuatFissureSealant;
@@ -1057,12 +1060,12 @@ function UserFormUmumHeader() {
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
   //promosi
-  const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
-  masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
-  masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
-  const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
-  masterForm.lmgPromosiUmum = lmgPromosiUmum;
-  masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
+  // const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
+  // masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
+  // masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
+  // const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
+  // masterForm.lmgPromosiUmum = lmgPromosiUmum;
+  // masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
   const [
     melaksanakanAktivitiBeginPromosiUmum,
     setMelaksanakanAktivitiBeginPromosiUmum,
@@ -1202,18 +1205,16 @@ function UserFormUmumHeader() {
   useEffect(() => {
     setSumDMFXDesidusUmum(
       parseInt(dAdaGigiDesidusPemeriksaanUmum) +
-        parseInt(mAdaGigiDesidusPemeriksaanUmum) +
         parseInt(fAdaGigiDesidusPemeriksaanUmum) +
         parseInt(xAdaGigiDesidusPemeriksaanUmum)
     );
   }, [
     dAdaGigiDesidusPemeriksaanUmum,
-    mAdaGigiDesidusPemeriksaanUmum,
     fAdaGigiDesidusPemeriksaanUmum,
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
 
-  // calculate total DMFEX
+  // calculate total DMFXE
   useEffect(() => {
     setSumDMFXKekalUmum(
       parseInt(dAdaGigiKekalPemeriksaanUmum) +
@@ -1388,9 +1389,9 @@ function UserFormUmumHeader() {
         setDAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
         );
-        setMAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
-        );
+        // setMAdaGigiDesidusPemeriksaanUmum(
+        //   data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
+        // );
         setFAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
         );
@@ -1471,6 +1472,7 @@ function UserFormUmumHeader() {
           data.singlePersonUmum.tampalanKesEndodontikDiperlukanPemeriksaanUmum
         );
         //map rawatan umum
+        setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
         setPesakitDibuatFissureSealant(
           data.singlePersonUmum.pesakitDibuatFissureSealant
         );
@@ -1687,8 +1689,8 @@ function UserFormUmumHeader() {
         );
         setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
         //map promosi
-        setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
-        setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
+        // setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
+        // setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
         setMelaksanakanAktivitiBeginPromosiUmum(
           data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
@@ -1758,12 +1760,21 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = async (e) => {
+    const userData = JSON.parse(localStorage.getItem('userinfo'));
+    let mdcMdtbNum;
+    if (!userData.mdcNumber) {
+      mdcMdtbNum = userData.mdtbNumber;
+    }
+    if (!userData.mdtbNumber) {
+      mdcMdtbNum = userData.mdcNumber;
+    }
     await toast
       .promise(
         axios.patch(
           `/api/v1/umum/${personUmumId}`,
           {
             createdByUsername: masterForm.createdByUsername,
+            createdByMdcMdtb: mdcMdtbNum,
             statusReten: 'telah diisi',
             // fasiliti perkhidmatan
             jenisFasiliti,
@@ -1831,7 +1842,7 @@ function UserFormUmumHeader() {
             perluPenskaleranPemeriksaanUmum,
             adaDesidusPemeriksaanUmum,
             dAdaGigiDesidusPemeriksaanUmum,
-            mAdaGigiDesidusPemeriksaanUmum,
+            // mAdaGigiDesidusPemeriksaanUmum,
             fAdaGigiDesidusPemeriksaanUmum,
             // smAdaGigiDesidusPemeriksaanUmum,
             xAdaGigiDesidusPemeriksaanUmum,
@@ -1857,6 +1868,7 @@ function UserFormUmumHeader() {
             cabutanKesEndodontikDiperlukanPemeriksaanUmum,
             tampalanKesEndodontikDiperlukanPemeriksaanUmum,
             //rawatan
+            waktuDipanggil,
             pesakitDibuatFissureSealant,
             baruJumlahGigiKekalDibuatFSRawatanUmum,
             // semulaJumlahGigiKekalDibuatFSRawatanUmum,
@@ -1929,8 +1941,8 @@ function UserFormUmumHeader() {
             komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
             kesSelesaiRawatanUmum,
             //promosi
-            ceramahPromosiUmum,
-            lmgPromosiUmum,
+            // ceramahPromosiUmum,
+            // lmgPromosiUmum,
             melaksanakanAktivitiBeginPromosiUmum,
             lawatanKeRumahPromosiUmum,
             plakGigiNasihatPergigianIndividuPromosiUmum,
@@ -2124,7 +2136,7 @@ function UserFormUmumHeader() {
               <form onSubmit={confirm(handleSubmit)}>
                 {/* <FasilitiPerkhidmatan {...masterForm} /> */}
                 {/* <MaklumatLanjut {...masterForm} /> */}
-                {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
+                {singlePersonUmum.kedatangan === 'baru-kedatangan' && (
                   <Pemeriksaan
                     {...masterForm}
                     singlePersonUmum={singlePersonUmum}

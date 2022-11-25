@@ -9,14 +9,15 @@ import {
   BsFillCheckCircleFill,
   BsPersonCircle,
   BsCalendarPlusFill,
+  BsFillCaretDownFill,
 } from 'react-icons/bs';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
-
 import UserUmumDeleteModal from './UserUmumDeleteModal';
+
+import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserUmum() {
   const {
@@ -37,6 +38,7 @@ function UserUmum() {
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [jenisFasiliti, setJenisFasiliti] = useState('kp');
+  const [jenisProgram, setJenisProgram] = useState('');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
@@ -58,7 +60,7 @@ function UserUmum() {
         setTarikhKedatanganDP(tarikhKedatangan);
       },
       className:
-        'w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'appearance-none w-64 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -69,7 +71,9 @@ function UserUmum() {
         const { data } = await axios.get(
           `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
             tarikhKedatangan
-          ).format('YYYY-MM-DD')}&jenisFasiliti=${jenisFasiliti}`,
+          ).format(
+            'YYYY-MM-DD'
+          )}&jenisFasiliti=${jenisFasiliti}&jenisProgram=${jenisProgram}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -91,7 +95,7 @@ function UserUmum() {
       }
     };
     query();
-  }, [nama, tarikhKedatangan, jenisFasiliti, reloadState]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -104,7 +108,12 @@ function UserUmum() {
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
-  }, [nama, tarikhKedatangan, jenisFasiliti]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram]);
+
+  // clearprogram if change jenisFasiliti
+  useEffect(() => {
+    setJenisProgram('');
+  }, [jenisFasiliti]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -149,11 +158,11 @@ function UserUmum() {
   return (
     <>
       <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
-        <form className='text-left grid grid-cols-2'>
-          <h2 className='text-xl font-semibold flex flex-row px-2 col-span-2'>
+        <form className='text-left grid grid-cols-1 lg:grid-cols-3'>
+          <h2 className='text-xl font-semibold flex flex-row px-2 lg:col-span-3'>
             CARIAN
           </h2>
-          <div className='relative flex flex-col col-span-2 ml-2 py-2'>
+          <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
             <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
               nama pesakit :
             </label>
@@ -165,49 +174,89 @@ function UserUmum() {
               type='text'
               name='nama-pesakit'
               id='nama-pesakit'
-              className='appearance-none leading-7 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
+              className='appearance-none leading-7 py-1 px-3 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
             />
             <span className='absolute text-user3 bottom-4 lg:bottom-6 text-xl right-2'>
               <BsPersonCircle />
             </span>
           </div>
-          <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
+          <div className='mx-2 flex flex-col mb-2'>
             <label
               htmlFor='kad-pengenalan'
-              className='whitespace-nowrap flex items-center pb-2'
+              className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
             >
               tarikh kedatangan :
             </label>
-            <div className='relative w-44'>
+            <div className='relative w-64'>
               <TarikhKedatangan />
-              <span className='absolute top-2 right-3 lg:right-1 text-user3'>
+              <span className='absolute top-2 right-3 lg:right-2 text-user3'>
                 <BsCalendarPlusFill />
               </span>
             </div>
           </div>
-          <div className='m-2 flex flex-col lg:flex-row col-span-2 lg:col-span-1'>
+          <div className='mx-2 flex flex-col mb-2'>
             <label
-              className='whitespace-nowrap flex items-center pb-2'
+              className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
               htmlFor='jenis-fasiliti'
             >
               pilih jenis fasiliti:
             </label>
-            <select
-              name='jenis-fasiliti'
-              id='jenis-fasiliti'
-              value={jenisFasiliti}
-              onChange={(e) => {
-                setJenisFasiliti(e.target.value);
-              }}
-              className='lg:ml-2 leading-7 px-3 py-1 ring-2 w-auto focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-            >
-              <option value='kp'>Klinik Pergigian</option>
-              <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
-              <option value='taska-tadika'>Taska / Tadika</option>
-              <option value='ipt-kolej'>IPT / KOLEJ</option>
-              <option value='projek-komuniti-lain'>Projek komuniti lain</option>
-            </select>
+            <div className='relative w-64'>
+              <select
+                name='jenis-fasiliti'
+                id='jenis-fasiliti'
+                value={jenisFasiliti}
+                onChange={(e) => {
+                  setJenisFasiliti(e.target.value);
+                }}
+                className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+              >
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+                <option value='taska-tadika'>Taska / Tadika</option>
+                <option value='ipt-kolej'>IPT / KOLEJ</option>
+                <option value='projek-komuniti-lain'>
+                  Projek komuniti lain
+                </option>
+              </select>
+              <span>
+                <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
+              </span>
+            </div>
           </div>
+          {jenisFasiliti === 'projek-komuniti-lain' && (
+            <div className='mx-2 flex flex-col mb-2'>
+              <label
+                className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
+                htmlFor='jenis-program'
+              >
+                jenis program:
+              </label>
+              <div className='relative w-64'>
+                <select
+                  name='jenis-program'
+                  id='jenis-program'
+                  value={jenisProgram}
+                  onChange={(e) => {
+                    setJenisProgram(e.target.value);
+                  }}
+                  className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+                >
+                  <option value=''>Jenis Program / Aktiviti</option>
+                  <option value='projek-komuniti'>Projek Komuniti</option>
+                  <option value='ppkps'>Program Pemasyarakatan</option>
+                  <option value='kgangkat'>Kampung Angkat Pergigian</option>
+                  <option value='ppr'>Projek Perumahan Rakyat</option>
+                  <option value='we'>Institusi Warga Emas</option>
+                  <option value='oku'>Institusi OKU / PDK</option>
+                  <option value='oap'>Program Orang Asli dan Penan</option>
+                </select>
+                <span>
+                  <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
+                </span>
+              </div>
+            </div>
+          )}
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
@@ -342,7 +391,7 @@ function UserUmum() {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaProjekKomuniti}
+                            {singlePersonUmum.namaProgram}
                           </td>
                         )}
                         <td

@@ -1,15 +1,16 @@
 // CORE --------------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
-const logger = require('./logs/logger');
 const express = require('express');
 const app = express();
 const path = require('path');
 const axios = require('axios');
+const logger = require('./logs/logger');
 
 // IMPORT ROUTER -----------------------------------------------
 // erkm import
 const erkm = require('./routes/erkm');
+const dpims = require('./routes/dpims');
 
 // user import
 const authRegister = require('./routes/authRegister');
@@ -45,6 +46,9 @@ const connectDB = require('./database/connect');
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '5mb' }));
+
+// the dpims scrap
+app.use('/dpims', dpims);
 
 // erkm route
 app.use('/erkm', authCheck, erkm);

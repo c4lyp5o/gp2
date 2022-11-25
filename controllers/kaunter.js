@@ -76,96 +76,27 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
-  // generate unique id
-  let uniqueId = '';
-  const simplifiedKp = req.body.createdByKp.split(' ');
-  for (let i = 0; i < simplifiedKp.length; i++) {
-    uniqueId += simplifiedKp[i].charAt(0);
-  }
-  uniqueId += '-';
-  const simplifiedName = req.body.nama.split(' ');
-  for (let i = 0; i < simplifiedName.length; i++) {
-    uniqueId += simplifiedName[i].charAt(0);
-  }
-  uniqueId += '-';
-  const dateOfBirth = req.body.tarikhLahir.split('-').join('');
-  uniqueId += dateOfBirth;
-
-  // tagging unique id
-  req.body.uniqueId = uniqueId;
-  logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-
-  // find if person already exist using unique id
+  // find if person already exist using ic
   const personExist = await Umum.findOne({
-    uniqueId: uniqueId,
+    ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
   });
 
   // tagging person according to their status
   if (personExist) {
-    logger.info(
-      `${req.method} ${req.url} unique id yang sama telah wujud. check ic sama atau tidak`
-    );
-    console.log('unique id yang sama telah wujud. check ic sama atau tidak');
-    const decryptedIc = cryptoJs.AES.decrypt(
-      personExist.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    console.log('ic', decryptedIc);
-    if (decryptedIc === req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic sama. tagging ulangan`);
-      console.log('ic sama. tagging ulangan');
-      req.body.kedatangan = 'ulangan-kedatangan';
-      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    }
-    if (decryptedIc !== req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic tidak sama`);
-      console.log('ic tidak sama');
-      const last4digitIc = req.body.ic.slice(-4);
-      console.log('last4digitIc', last4digitIc);
-      uniqueId += '-' + last4digitIc;
-      logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-      console.log('uniqueId', uniqueId);
-      // check person with new unique id
-      const personExistWithNewUniqueId = await Umum.findOne({
-        uniqueId: uniqueId,
-        jenisFasiliti: req.body.jenisFasiliti,
-      });
-      if (personExistWithNewUniqueId) {
-        logger.info(
-          `${req.method} ${req.url} unique id yang sama telah wujud. tagging ulangan`
-        );
-        console.log('unique id baru yang sama telah wujud. tagging ulangan');
-        req.body.kedatangan = 'ulangan-kedatangan';
-        req.body.noPendaftaranUlangan =
-          personExistWithNewUniqueId.noPendaftaranBaru;
-      }
-      if (!personExistWithNewUniqueId) {
-        console.log('unique id baru yang sama tidak wujud. tagging baru');
-        req.body.uniqueId = uniqueId;
-        req.body.kedatangan = 'baru-kedatangan';
-      }
-    }
+    logger.info(`${req.method} ${req.url} ic telah wujud. tagging ulangan`);
+    req.body.kedatangan = 'ulangan-kedatangan';
+    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
   }
 
   if (!personExist) {
-    logger.info(`${req.method} ${req.url} unique id tidak wujud. tagging baru`);
+    logger.info(`${req.method} ${req.url} ic tidak wujud. tagging baru`);
     console.log('belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
 
-  // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-
-  // send to cache before encrypting
   logger.info(`${req.method} ${req.url} sending to cache`);
   cache.set(req.body.ic, req.body);
-
-  // replace ic with encrypted ic
-  req.body.ic = encryptedIc;
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -235,7 +166,7 @@ const queryPersonKaunter = async (req, res) => {
       nama,
       tarikhKedatangan,
       jenisFasiliti,
-      uniqueId,
+      ic,
       jenisProgram,
       namaProgram,
     },
@@ -256,8 +187,8 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
-  if (uniqueId) {
-    queryObject.uniqueId = uniqueId;
+  if (ic) {
+    queryObject.ic = ic;
   }
 
   if (jenisProgram) {
@@ -269,15 +200,6 @@ const queryPersonKaunter = async (req, res) => {
   }
 
   const kaunterResultQuery = await Umum.find(queryObject);
-
-  // decrypt
-  kaunterResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
 
   res.status(200).json({ kaunterResultQuery });
 };

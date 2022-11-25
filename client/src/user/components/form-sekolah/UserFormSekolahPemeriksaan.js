@@ -1006,17 +1006,6 @@ function UserFormSekolahPemeriksaan() {
                     tarikh pemeriksaan:<span className='text-user6'>*</span>
                   </p>
                   <TarikhPemeriksaanSemasa />
-                  {/* <input
-                    required
-                    type='date'
-                    name='tarikh-pemeriksaan'
-                    id='tarikh-pemeriksaan'
-                    value={tarikhPemeriksaanSemasa}
-                    onChange={(e) => {
-                      setTarikhPemeriksaanSemasa(e.target.value);
-                    }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                  /> */}
                 </div>
                 {/* <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
                   <div className='flex items-center flex-row pl-5 '>
@@ -1211,13 +1200,7 @@ function UserFormSekolahPemeriksaan() {
                   </select>
                   <span className='text-user6'>*</span>
                 </div>
-                <div
-                  className={`${
-                    statikBergerak === 'pasukan-pergigian-bergerak'
-                      ? 'visible'
-                      : 'hidden'
-                  } flex flex-row items-center pl-5`}
-                >
+                <div className='flex flex-row items-center pl-5'>
                   <input
                     type='checkbox'
                     name='kp-bergerak'
@@ -1259,7 +1242,7 @@ function UserFormSekolahPemeriksaan() {
                 <div className='grid gap-2 col-span-2 sm:col-span-1'>
                   <article className='row-span-1 sm:row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      Status denture
+                      Status dentur
                     </h4>
                     <div className='grid grid-rows-2 gap-2 auto-rows-min'>
                       <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
@@ -1858,11 +1841,11 @@ function UserFormSekolahPemeriksaan() {
                 <div className='grid gap-2 auto-rows-min'>
                   <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      Oral Hygiene
+                      Kebersihan Mulut
                     </h4>
                     <div className='flex items-center '>
                       <p className='flex flex-row pl-5 text-sm font-m'>
-                        Kebersihan Mulut<span className='text-user6'>*</span>
+                        Gred Skor Plak<span className='text-user6'>*</span>
                       </p>
                       <select
                         required
@@ -2774,7 +2757,7 @@ function UserFormSekolahPemeriksaan() {
                   </article>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                      Sapuan Fluorida{' '}
+                      Sapuan Fluorida(FV)
                       <FaInfoCircle
                         title='Fluoride Varnish Application'
                         className='m-2'
@@ -2795,7 +2778,7 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-murid-perlu-fv'
                         className='text-sm font-m'
                       >
-                        murid perlu sapuan fluorida
+                        murid perlu Sapuan Fluorida(FV)
                       </label>
                     </div>
                     {/* <div className='flex flex-row items-center pl-5'>
@@ -2866,7 +2849,7 @@ function UserFormSekolahPemeriksaan() {
                   </article>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                      PRR Jenis 1
+                      Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
                     </h4>
                     <div className='flex flex-row items-center pl-11 col-span-2'>
                       <input
@@ -2885,7 +2868,8 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-murid-perlu-prr-jenis-1'
                         className='text-sm font-m'
                       >
-                        murid perlu PRR Jenis 1
+                        murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR Type
+                        I)
                       </label>
                     </div>
                     <div className='flex flex-row items-center pl-5'>
@@ -2905,7 +2889,8 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                         className='text-sm font-m'
                       >
-                        jumlah gigi kekal perlu PRR Jenis 1
+                        jumlah gigi kekal perlu Tampalan Resin Pencegahan Jenis
+                        1 (PRR Type I)
                       </label>
                     </div>
                     {/* <div className='flex flex-row items-center pl-5'>

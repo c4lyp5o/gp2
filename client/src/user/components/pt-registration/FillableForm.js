@@ -1,7 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
-import { FaInfoCircle, FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
+import {
+  FaInfoCircle,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaCalendar,
+  FaCaretSquareDown,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaHouseUser,
+  FaRestroom,
+  FaUserInjured,
+  FaMoneyCheckAlt,
+} from 'react-icons/fa';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -40,6 +52,8 @@ export default function FillableForm({
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
+  const [nomborTelefon, setNomborTelefon] = useState('');
+  const [emel, setEmel] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
@@ -51,7 +65,7 @@ export default function FillableForm({
   const [poskodAlamat, setPoskodAlamat] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [episodMengandung, setEpisodMengandung] = useState('');
-  const [bookingIM, setBookingIM] = useState(false);
+  const [bookingIM, setBookingIM] = useState('');
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
@@ -114,6 +128,9 @@ export default function FillableForm({
     useState(null);
   const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
 
+  // myidentity
+  const [myIdVerified, setMyIdVerified] = useState(false);
+
   const TarikhKedatangan = () => {
     return masterDatePicker({
       selected: tarikhKedatanganDP,
@@ -126,7 +143,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -150,7 +167,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -160,7 +177,6 @@ export default function FillableForm({
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
     const values = `${years} years`;
     return values;
   };
@@ -188,7 +204,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -224,9 +240,126 @@ export default function FillableForm({
     });
   };
 
-  // check ic
-  const checkIc = async (ic) => {
-    setCheckingIc(true);
+  const findAgeFromIc = (ic) => {
+    const year = ic.substring(0, 2);
+    const month = ic.substring(2, 4);
+    const day = ic.substring(4, 6);
+    const today = new Date();
+    const dob = new Date(`19${year}-${month}-${day}`);
+    const dob2 = new Date(`20${year}-${month}-${day}`);
+    const diff = today.getTime() - dob.getTime();
+    const diff2 = today.getTime() - dob2.getTime();
+    const years = Math.floor(diff / 31556736000);
+    const years2 = Math.floor(diff2 / 31556736000);
+    const months = Math.floor((diff % 31556736000) / 2629800000);
+    let value;
+    if (years > 99) {
+      value = {
+        dob: dob2,
+        dobISO: new Date(dob2),
+        years: years2,
+        months: months,
+      };
+    }
+    if (years < 100) {
+      value = {
+        dob: dob,
+        dobISO: new Date(dob),
+        years: years,
+        months: months,
+      };
+    }
+    return value;
+  };
+
+  const handleIc = (ic) => {
+    const icLength = ic.length;
+    if (icLength === 12) {
+      const age = findAgeFromIc(ic);
+      const tempDate = moment(age.dob).format('YYYY-MM-DD');
+      const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+      const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+      setTarikhLahir(tempDate);
+      setTarikhLahirDP(age.dobISO);
+      setUmur(tahun);
+      setUmurBulan(bulan);
+      setConfirmData({
+        ...confirmData,
+        ic: ic,
+        tarikhLahir: age.dob,
+        umur: tahun,
+        umurBulan: bulan,
+      });
+    }
+  };
+
+  const checkMyIdentity = async (ic) => {
+    try {
+      const res = await axios.get(
+        `https://erkm.calypsocloud.one/mysjid?pid=${ic}`,
+        {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        }
+      );
+      if (!res.data.verified) {
+        return false;
+      }
+      const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
+        res.data.info;
+      const age = findAgeFromIc(ic);
+      setNama(nama.toLowerCase());
+      setJantina(jantina.toLowerCase());
+      setTarikhLahir(moment(age.dob).format('DD/MM/YYYY'));
+      setTarikhLahirDP(new Date(age.dob));
+      setUmur(age.years);
+      setUmurBulan(age.months);
+      setAlamat(alamat);
+      setPoskodAlamat(poskod);
+      setDaerahAlamat(daerah);
+      setNegeriAlamat(negeri.toLowerCase());
+      setMyIdVerified(res.data.verified);
+      if (mysjid === phone) {
+        setNomborTelefon(mysjid);
+        setConfirmData({
+          ...confirmData,
+          nama: nama.toLowerCase(),
+          tarikhLahir: age.dob,
+          ic: ic,
+          umur: age.years,
+          umurBulan: age.months,
+          jantina: jantina.toLowerCase(),
+          alamat: alamat,
+          poskodAlamat: poskod,
+          daerahAlamat: daerah,
+          negeriAlamat: negeri.toLowerCase(),
+          nomborTelefon: mysjid,
+        });
+      }
+      if (mysjid !== phone) {
+        setEmel(mysjid);
+        setConfirmData({
+          ...confirmData,
+          nama: nama.toLowerCase(),
+          tarikhLahir: age.dob,
+          ic: ic,
+          umur: age.years,
+          umurBulan: age.months,
+          jantina: jantina.toLowerCase(),
+          alamat: alamat,
+          poskodAlamat: poskod,
+          daerahAlamat: daerah,
+          negeriAlamat: negeri.toLowerCase(),
+          emel: mysjid,
+        });
+      }
+      toast.success('Menggunakan data dari MyIdentity');
+      return res.data.verified;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkCache = async (ic) => {
     try {
       const response = await axios.post(
         '/api/v1/kaunter/check',
@@ -237,18 +370,19 @@ export default function FillableForm({
           headers: { Authorization: `Bearer ${kaunterToken}` },
         }
       );
-      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
       const {
         nama,
         tarikhLahir,
         umur,
         umurBulan,
         jantina,
-        kumpulanEtnik,
+        nomborTelefon,
+        emel,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
+        kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
         bersekolah,
@@ -261,11 +395,13 @@ export default function FillableForm({
       setUmur(umur);
       setUmurBulan(umurBulan);
       setJantina(jantina);
-      setKumpulanEtnik(kumpulanEtnik);
+      setNomborTelefon(nomborTelefon);
+      setEmel(emel);
       setAlamat(alamat);
       setDaerahAlamat(daerahAlamat);
       setNegeriAlamat(negeriAlamat);
       setPoskodAlamat(poskodAlamat);
+      setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
       setOrangKurangUpaya(orangKurangUpaya);
       setBersekolah(bersekolah);
@@ -280,19 +416,36 @@ export default function FillableForm({
         umur,
         umurBulan,
         jantina,
-        kumpulanEtnik,
+        nomborTelefon,
+        emel,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
+        kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
         bersekolah,
         noOku,
         statusPesara,
       });
+      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+      return false;
+    }
+  };
+
+  // check ic
+  const checkIc = async (ic) => {
+    setCheckingIc(true);
+    const res = await checkMyIdentity(ic);
+    if (!res) {
+      const cache = await checkCache(ic);
+      if (!cache) {
+        handleIc(ic);
+      }
     }
     setCheckingIc(false);
   };
@@ -315,7 +468,9 @@ export default function FillableForm({
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
-              tarikhLahir,
+              nomborTelefon,
+              emel,
+              tarikhLahir: moment(tarikhLahirDP).format('YYYY-MM-DD'),
               umur,
               umurBulan,
               jantina,
@@ -325,6 +480,8 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               ibuMengandung,
+              episodMengandung,
+              bookingIM,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -398,6 +555,8 @@ export default function FillableForm({
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
+              nomborTelefon,
+              emel,
               tarikhLahir,
               umur,
               umurBulan,
@@ -408,6 +567,8 @@ export default function FillableForm({
               negeriAlamat,
               poskodAlamat,
               ibuMengandung,
+              episodMengandung,
+              bookingIM,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -476,6 +637,8 @@ export default function FillableForm({
     setNama('');
     setJenisIc('');
     setIc('');
+    setNomborTelefon('');
+    setEmel('');
     setTarikhLahir('');
     setUmur(0);
     setUmurBulan(0);
@@ -486,6 +649,8 @@ export default function FillableForm({
     setNegeriAlamat('');
     setPoskodAlamat('');
     setIbuMengandung(false);
+    setEpisodMengandung('');
+    setBookingIM(false);
     setOrangKurangUpaya(false);
     setBersekolah(false);
     setNoOku('');
@@ -608,6 +773,8 @@ export default function FillableForm({
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
+          setNomborTelefon(data.singlePersonKaunter.nomborTelefon);
+          setEmel(data.singlePersonKaunter.emel);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
           setUmur(data.singlePersonKaunter.umur);
           setUmurBulan(data.singlePersonKaunter.umurBulan);
@@ -618,6 +785,8 @@ export default function FillableForm({
           setNegeriAlamat(data.singlePersonKaunter.negeriAlamat);
           setPoskodAlamat(data.singlePersonKaunter.poskodAlamat);
           setIbuMengandung(data.singlePersonKaunter.ibuMengandung);
+          setEpisodMengandung(data.singlePersonKaunter.episodMengandung);
+          setBookingIM(data.singlePersonKaunter.bookingIM);
           setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
           setNoOku(data.singlePersonKaunter.noOku);
@@ -805,30 +974,41 @@ export default function FillableForm({
         lookBusyGuys={setAddingData}
         data={confirmData}
         isEdit={editId}
-        klinik={kp}
       >
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
               <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
               <div className='grid grid-cols-1 lg:grid-cols-2'>
-                <p className='font-semibold text-user6 mt-3 ml-3 mr-auto'>
+                <p className='font-semibold text-user6 mt-3 ml-3 lg:mr-auto'>
                   * mandatori
                 </p>
-                <p className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
-                  Fasiliti: {Dictionary[jenisFasiliti]}
-                </p>
+                <div className='font-semibold text-user6 lg:mt-3 lg:ml-auto'>
+                  <p className='lg:flex flex-row'>
+                    Fasiliti: {Dictionary[jenisFasiliti]}
+                  </p>
+                  {jenisFasiliti === 'projek-komuniti-lain' ? (
+                    <p className='lg:flex flex-row'>
+                      Nama Program: {namaProgram}
+                    </p>
+                  ) : null}
+                </div>
               </div>
-              <div className='grid gap-1'>
-                <div className='flex m-2 '>
-                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
+              <div className='grid lg:grid-cols-2'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 '>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh kedatangan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <TarikhKedatangan />
+                  <div className='relative w-full md:w-56'>
+                    <TarikhKedatangan />
+                    <span>
+                      <FaCalendar className='absolute top-2 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
                     waktu tiba:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
@@ -838,335 +1018,428 @@ export default function FillableForm({
                     onChange={(e) => setWaktuSampai(e.target.value)}
                     type='time'
                     name='waktuSampai'
-                    className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                   />
                 </div>
-                <div className='flex m-2 flex-col md:flex-row'>
-                  <div className='flex flex-row'>
-                    <p className='mr-3 font-semibold flex text-center items-center'>
-                      jenis pengenalan:{' '}
-                      <span className='font-semibold text-user6'>*</span>
-                    </p>
-                    <select
-                      required
-                      id='pengenalan'
-                      name='pengenalan'
-                      value={jenisIc}
-                      onChange={(e) => setJenisIc(e.target.value)}
-                      className='appearance-none leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
-                    >
-                      <option value=''>Sila pilih..</option>
-                      <option value='mykad-mykid'>MyKad / MyKid</option>
-                      <option value='passport'>Passport</option>
-                      <option value='tentera'>Tentera</option>
-                      <option value='polis'>Polis</option>
-                      <option value='sijil-lahir'>Sijil lahir</option>
-                    </select>
-                  </div>
-                  {jenisIc === 'mykad-mykid' && (
-                    <input
-                      required
-                      type='text'
-                      name='ic'
-                      pattern='[0-9]+'
-                      title='12 numbers MyKad / MyKid'
-                      minLength={12}
-                      maxLength={12}
-                      value={ic}
-                      onChange={(e) => {
-                        setIc(e.target.value);
-                        setConfirmData({
-                          ...confirmData,
-                          ic: e.target.value,
-                        });
-                        if (e.target.value.length === 12) {
-                          checkIc(e.target.value);
-                        }
-                      }}
-                      placeholder='123456090987'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
-                  )}
-                  {/* myIdentity */}
-                  <div>
-                    {/* kalau ada myIdentity jadi betul then vice versa */}
-                    <span>
-                      <FaThumbsUp className='text-lg text-user7' />
-                      <FaThumbsDown className='text-lg text-user9' />
-                    </span>
-                  </div>
-                  {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
-                    <input
-                      required
-                      type='text'
-                      name='ic'
-                      value={ic}
-                      onChange={(e) => setIc(e.target.value)}
-                      placeholder='123456121234'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
-                  )}
-                </div>
-                <div className='flex flex-row m-2'>
-                  {/* mySejahtera */}
-                  <p className='mr-3 font-semibold flex text-center items-center'>
-                    mySejahtera
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    jenis pengenalan:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <div>
-                    <label htmlFor='nombor-telefon'>no. tel</label>
-                    <input
-                      type='text'
-                      name='nombor-telefon'
-                      id='nombor-telefon'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor='email-mysj'>email </label>
-                    <input
-                      type='email'
-                      name='email-mysj'
-                      id='email-mysj'
-                      className='appearance-none leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md m-1'
-                    />
+                  <div className='flex flex-col'>
+                    <div className='relative w-full md:w-56'>
+                      <select
+                        required
+                        id='pengenalan'
+                        name='pengenalan'
+                        value={jenisIc}
+                        onChange={(e) => setJenisIc(e.target.value)}
+                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                      >
+                        <option value=''>Sila pilih..</option>
+                        <option value='mykad-mykid'>MyKad / MyKid</option>
+                        <option value='passport'>Passport</option>
+                        <option value='tentera'>Tentera</option>
+                        <option value='polis'>Polis</option>
+                        <option value='sijil-lahir'>Sijil lahir</option>
+                      </select>
+                      <span>
+                        <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
+                      </span>
+                    </div>
+                    {jenisIc === 'mykad-mykid' && (
+                      <input
+                        required
+                        type='text'
+                        name='ic'
+                        pattern='[0-9]+'
+                        title='12 numbers MyKad / MyKid'
+                        minLength={12}
+                        maxLength={12}
+                        value={ic}
+                        onChange={(e) => {
+                          setIc(e.target.value);
+                          if (e.target.value.length === 12) {
+                            checkIc(e.target.value);
+                          }
+                        }}
+                        placeholder='123456090987'
+                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                      />
+                    )}
+                    {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
+                      <input
+                        required
+                        type='text'
+                        name='ic'
+                        value={ic}
+                        onChange={(e) => {
+                          setIc(e.target.value);
+                        }}
+                        placeholder='123456121234'
+                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                      />
+                    )}
                   </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-2 font-semibold flex flex-row items-center'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  {/* mySejahtera */}
+                  <div className='flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center'>
+                      mySejahtera
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    {/* myIdentity */}
+
+                    {/* kalau ada myIdentity jadi betul then vice versa */}
+                    <span>
+                      {myIdVerified ? (
+                        <FaCheckCircle className='text-lg text-user7' />
+                      ) : (
+                        <FaTimesCircle className='text-lg text-user9' />
+                      )}
+                    </span>
+                  </div>
+                  <div className='flex flex-col'>
+                    <div className='flex flex-col justify-start'>
+                      <label
+                        htmlFor='nombor-telefon'
+                        className='mr-1 flex text-left flex-row text-xs md:text-sm'
+                      >
+                        no. tel :
+                      </label>
+                      <div className='relative w-full md:w-56'>
+                        <input
+                          value={nomborTelefon}
+                          type='text'
+                          name='nombor-telefon'
+                          id='nombor-telefon'
+                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                          onChange={(e) => {
+                            setNomborTelefon(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              nomborTelefon: e.target.value,
+                            });
+                          }}
+                        />
+                        <span>
+                          <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
+                        </span>
+                      </div>
+                    </div>
+                    <div className='flex flex-col justify-start'>
+                      <label
+                        htmlFor='email-mysj'
+                        className='mr-4 flex text-left flex-row text-xs md:text-sm'
+                      >
+                        email :
+                      </label>
+                      <div className='relative w-full md:w-56'>
+                        <input
+                          value={emel}
+                          type='email'
+                          name='email-mysj'
+                          id='email-mysj'
+                          className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                          onChange={(e) => {
+                            setEmel(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              emel: e.target.value,
+                            });
+                          }}
+                        />
+                        <span>
+                          <FaEnvelope className='absolute top-3 right-2 text-kaunter3' />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     nama: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    type='text'
-                    id='nama-umum'
-                    name='nama-umum'
-                    value={nama}
-                    onChange={(e) => {
-                      setNama(e.target.value);
-                      setConfirmData({ ...confirmData, nama: e.target.value });
-                    }}
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  />
+                  <div className='relative w-full'>
+                    <input
+                      required
+                      type='text'
+                      id='nama-umum'
+                      name='nama-umum'
+                      placeholder='Isi Nama Penuh Mengikut Kad Pengenalan'
+                      value={nama}
+                      onChange={(e) => {
+                        setNama(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          nama: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    />
+                    <span>
+                      <FaUserInjured className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <TarikhLahir />
+                  <div className='relative w-full md:w-56'>
+                    <TarikhLahir />
+                    <span className='absolute top-2 right-2 text-kaunter3'>
+                      <FaCalendar />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     umur: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <div className='relative'>
-                    <input
-                      disabled
-                      placeholder='tahun'
-                      type='number'
-                      name='umur'
-                      id='umur'
-                      value={umur}
-                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
-                    />
-                    <label
-                      htmlFor='umur'
-                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                    >
-                      Tahun
-                    </label>
-                  </div>
-                  <div className='relative'>
-                    <input
-                      disabled
-                      placeholder='bulan'
-                      type='number'
-                      name='umurBulan'
-                      id='umurBulan'
-                      value={umurBulan}
-                      className='appearance-none w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
-                    />
-                    <label
-                      htmlFor='umurBulan'
-                      className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
-                    >
-                      Bulan
-                    </label>
+                  <div className='flex'>
+                    <div className='relative'>
+                      <input
+                        disabled
+                        placeholder='tahun'
+                        type='number'
+                        name='umur'
+                        id='umur'
+                        value={umur}
+                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
+                      />
+                      <label
+                        htmlFor='umur'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                      >
+                        Tahun
+                      </label>
+                    </div>
+                    <div className='relative'>
+                      <input
+                        disabled
+                        placeholder='bulan'
+                        type='number'
+                        name='umurBulan'
+                        id='umurBulan'
+                        value={umurBulan}
+                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                      />
+                      <label
+                        htmlFor='umurBulan'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                      >
+                        Bulan
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     jantina: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    name='jantina'
-                    id='jantina'
-                    value={jantina}
-                    onChange={(e) => {
-                      setJantina(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        jantina: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase m-1'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='lelaki'>Lelaki</option>
-                    <option value='perempuan'>Perempuan</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      name='jantina'
+                      id='jantina'
+                      value={jantina}
+                      onChange={(e) => {
+                        setJantina(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          jantina: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='lelaki'>Lelaki</option>
+                      <option value='perempuan'>Perempuan</option>
+                    </select>
+                    <span>
+                      <FaRestroom className='absolute top-2 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     kumpulan etnik:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    name='kumpulanEtnik'
-                    id='kumpulanEtnik'
-                    value={kumpulanEtnik}
-                    onChange={(e) => {
-                      setKumpulanEtnik(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        kumpulanEtnik: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='melayu'>Melayu</option>
-                    <option value='cina'>Cina</option>
-                    <option value='india'>India</option>
-                    <option value='bajau'>Bajau</option>
-                    <option value='dusun'>Dusun</option>
-                    <option value='kadazan'>Kadazan</option>
-                    <option value='murut'>Murut</option>
-                    <option value='bumiputera sabah lain'>
-                      Bumiputera sabah lain
-                    </option>
-                    <option value='melanau'>Melanau</option>
-                    <option value='kedayan'>Kedayan</option>
-                    <option value='iban'>Iban</option>
-                    <option value='bidayuh'>Bidayuh</option>
-                    <option value='penan'>Penan</option>
-                    <option value='bumiputera sarawak lain'>
-                      Bumiputera sarawak lain
-                    </option>
-                    <option value='orang asli semenanjung'>
-                      Orang asli semenanjung
-                    </option>
-                    <option value='lain-lain'>Lain-lain</option>
-                    <option value='bukan warganegara'>Bukan warganegara</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      name='kumpulanEtnik'
+                      id='kumpulanEtnik'
+                      value={kumpulanEtnik}
+                      onChange={(e) => {
+                        setKumpulanEtnik(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          kumpulanEtnik: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='melayu'>Melayu</option>
+                      <option value='cina'>Cina</option>
+                      <option value='india'>India</option>
+                      <option value='bajau'>Bajau</option>
+                      <option value='dusun'>Dusun</option>
+                      <option value='kadazan'>Kadazan</option>
+                      <option value='murut'>Murut</option>
+                      <option value='bumiputera sabah lain'>
+                        Bumiputera sabah lain
+                      </option>
+                      <option value='melanau'>Melanau</option>
+                      <option value='kedayan'>Kedayan</option>
+                      <option value='iban'>Iban</option>
+                      <option value='bidayuh'>Bidayuh</option>
+                      <option value='penan'>Penan</option>
+                      <option value='bumiputera sarawak lain'>
+                        Bumiputera sarawak lain
+                      </option>
+                      <option value='orang asli semenanjung'>
+                        Orang asli semenanjung
+                      </option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='bukan warganegara'>
+                        Bukan warganegara
+                      </option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] 2xl:col-start-1 m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     alamat: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    value={alamat}
-                    onChange={(e) => {
-                      setAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        alamat: e.target.value,
-                      });
-                    }}
-                    type='text'
-                    name='alamat'
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full'>
+                    <input
+                      required
+                      value={alamat}
+                      onChange={(e) => {
+                        setAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          alamat: e.target.value,
+                        });
+                      }}
+                      type='text'
+                      name='alamat'
+                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     daerah: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    value={daerahAlamat}
-                    onChange={(e) => {
-                      setDaerahAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        daerahAlamat: e.target.value,
-                      });
-                    }}
-                    type='text'
-                    name='daerah-alamat'
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full md:w-56'>
+                    <input
+                      required
+                      value={daerahAlamat}
+                      onChange={(e) => {
+                        setDaerahAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          daerahAlamat: e.target.value,
+                        });
+                      }}
+                      type='text'
+                      name='daerah-alamat'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='text-right grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     negeri: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <select
-                    required
-                    value={negeriAlamat}
-                    onChange={(e) => {
-                      setNegeriAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        negeriAlamat: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='johor'>Johor</option>
-                    <option value='kedah'>Kedah</option>
-                    <option value='kelantan'>Kelantan</option>
-                    <option value='melaka'>Melaka</option>
-                    <option value='negeri sembilan'>Negeri Sembilan</option>
-                    <option value='pahang'>Pahang</option>
-                    <option value='perak'>Perak</option>
-                    <option value='perlis'>Perlis</option>
-                    <option value='pulau pinang'>Pulau Pinang</option>
-                    <option value='sabah'>Sabah</option>
-                    <option value='sarawak'>Sarawak</option>
-                    <option value='selangor'>Selangor</option>
-                    <option value='terengganu'>Terengganu</option>
-                    <option value='kuala lumpur'>WP Kuala Lumpur</option>
-                    <option value='labuan'>WP Labuan</option>
-                    <option value='putrajaya'>WP Putrajaya</option>
-                  </select>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      required
+                      value={negeriAlamat}
+                      onChange={(e) => {
+                        setNegeriAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          negeriAlamat: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='johor'>Johor</option>
+                      <option value='kedah'>Kedah</option>
+                      <option value='kelantan'>Kelantan</option>
+                      <option value='melaka'>Melaka</option>
+                      <option value='negeri sembilan'>Negeri Sembilan</option>
+                      <option value='pahang'>Pahang</option>
+                      <option value='perak'>Perak</option>
+                      <option value='perlis'>Perlis</option>
+                      <option value='pulau pinang'>Pulau Pinang</option>
+                      <option value='sabah'>Sabah</option>
+                      <option value='sarawak'>Sarawak</option>
+                      <option value='selangor'>Selangor</option>
+                      <option value='terengganu'>Terengganu</option>
+                      <option value='wp kuala lumpur'>WP Kuala Lumpur</option>
+                      <option value='wp labuan'>WP Labuan</option>
+                      <option value='wp putrajaya'>WP Putrajaya</option>
+                    </select>
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     poskod: <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    type='text'
-                    name='poskod-alamat'
-                    pattern='[0-9]+'
-                    title='5 numbers poskod'
-                    minLength={5}
-                    maxLength={5}
-                    value={poskodAlamat}
-                    onChange={(e) => {
-                      setPoskodAlamat(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        poskodAlamat: e.target.value,
-                      });
-                    }}
-                    placeholder='62519'
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full md:w-56'>
+                    <input
+                      required
+                      type='text'
+                      name='poskod-alamat'
+                      pattern='[0-9]+'
+                      title='5 numbers poskod'
+                      minLength={5}
+                      maxLength={5}
+                      value={poskodAlamat}
+                      onChange={(e) => {
+                        setPoskodAlamat(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          poskodAlamat: e.target.value,
+                        });
+                      }}
+                      placeholder='62519'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
-                <div className='flex m-2 flex-col md:flex-row'>
-                  <p className='mr-3 font-semibold flex flex-row'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     status pesakit:
                   </p>
-                  <div>
-                    {jantina === 'perempuan' && (
-                      <div className='flex flex-col pl-5'>
+                  <div className=''>
+                    {jantina === 'perempuan' && umur >= 8 && (
+                      <div className='flex flex-col pl-2 md:pl-5'>
                         <div className='flex flex-row items-center'>
                           <input
                             type='checkbox'
@@ -1189,31 +1462,43 @@ export default function FillableForm({
                         </div>
                         {ibuMengandung === true && (
                           <div className='flex flex-col outline outline-1 outline-userBlack p-2'>
-                            <div className='flex flex-row'>
+                            <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <label
                                 htmlFor='episod-mengandung'
-                                className='m-2 text-sm font-m'
+                                className='m-2 text-left font-light'
                               >
                                 Gravida Mengandung
                               </label>
-                              <select
-                                name='episod-mengandung'
-                                id='episod-mengandung'
-                                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                              >
-                                <option value=''>Sila pilih..</option>
-                                <option value='1'>1</option>
-                                <option value='2'>2</option>
-                                <option value='3'>3</option>
-                                <option value='4'>4</option>
-                                <option value='5'>5</option>
-                                <option value='6'>6</option>
-                                <option value='7'>7</option>
-                                <option value='8'>8</option>
-                              </select>
+                              <div className='relative w-full md:w-48'>
+                                <select
+                                  name='episod-mengandung'
+                                  id='episod-mengandung'
+                                  className='appearance-none w-full md:w-48 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                  onChange={(e) => {
+                                    setEpisodMengandung(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      episodMengandung: e.target.value,
+                                    });
+                                  }}
+                                >
+                                  <option value=''>Sila pilih..</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                  <option value='5'>5</option>
+                                  <option value='6'>6</option>
+                                  <option value='7'>7</option>
+                                  <option value='8'>8</option>
+                                </select>
+                                <span>
+                                  <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                                </span>
+                              </div>
                             </div>
-                            <div className='flex flex-row'>
-                              <p className='flex flex-row items-center text-sm font-m m-2'>
+                            <div className='flex flex-col md:flex-row text-xs md:text-sm'>
+                              <p className='text-left font-light m-2'>
                                 didaftarkan di KKIA pada tahun semasa
                               </p>
                               <div className='flex items-center'>
@@ -1230,7 +1515,7 @@ export default function FillableForm({
                                 />
                                 <label
                                   htmlFor='ya-booking-im'
-                                  className='m-2 text-sm font-m'
+                                  className='m-2 text-xs md:text-sm font-light'
                                 >
                                   ya
                                 </label>
@@ -1251,7 +1536,7 @@ export default function FillableForm({
                                 />
                                 <label
                                   htmlFor='tidak-booking-im'
-                                  className='m-2 text-sm font-m'
+                                  className='m-2 text-xs md:text-sm font-light'
                                 >
                                   tidak
                                 </label>
@@ -1261,7 +1546,7 @@ export default function FillableForm({
                         )}
                       </div>
                     )}
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-2 md:pl-5'>
                       <input
                         type='checkbox'
                         name='bersekolah'
@@ -1284,7 +1569,7 @@ export default function FillableForm({
                         Bersekolah
                       </label>
                     </div>
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-2 md:pl-5'>
                       <input
                         type='checkbox'
                         name='oku'
@@ -1298,17 +1583,17 @@ export default function FillableForm({
                             orangKurangUpaya: !orangKurangUpaya,
                           });
                         }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 mr-1 md:mr-0'
                       />
-                      <label htmlFor='oku' className='m-2 text-sm font-m'>
+                      <label htmlFor='oku' className='md:m-2 text-sm font-m'>
                         Orang Kurang Upaya (OKU)
                       </label>
                     </div>
                   </div>
                 </div>
                 {orangKurangUpaya === true && (
-                  <div className='flex m-2'>
-                    <p className='mr-3 font-semibold'>
+                  <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                       no. OKU:{' '}
                       <span className='font-semibold text-user6'>*</span>
                     </p>
@@ -1318,90 +1603,110 @@ export default function FillableForm({
                       onChange={(e) => setNoOku(e.target.value)}
                       type='text'
                       name='no-oku'
-                      className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     />
                   </div>
                 )}
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>status pesara:</p>
-                  <select
-                    // required
-                    name='statusPesara'
-                    id='statusPesara'
-                    value={statusPesara}
-                    onChange={(e) => {
-                      setStatusPesara(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        statusPesara: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='pesara-kerajaan'>Pesara kerajaan</option>
-                    <option value='pesara-atm'>Pesara ATM</option>
-                  </select>
-                </div>
-                <div className='flex m-2'>
-                  <p className='mr-3 font-semibold'>rujuk daripada: </p>
-                  <select
-                    name='rujukDaripada'
-                    id='rujukDaripada'
-                    value={rujukDaripada}
-                    onChange={(e) => {
-                      setRujukDaripada(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        rujukDaripada: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  >
-                    <option value=''>Sila pilih..</option>
-                    <option value='dalaman'>Dalaman</option>
-                    <option value='kp'>Klinik Pergigian Kerajaan</option>
-                    <option value='kk'>Klinik Kesihatan Kerajaan</option>
-                    <option value='hospital/institusi-kerajaan'>
-                      Hospital / Institusi Kerajaan
-                    </option>
-                    <option value='swasta'>Swasta</option>
-                    <option value='lain-lain'>Lain-lain</option>
-                  </select>
-                </div>
-                <div className='flex m-2'>
-                  <p className='font-semibold'>catatan </p>
-                  <FaInfoCircle
-                    className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
-                    title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
-                  />
-                  <p className='font-semibold mr-2'>
-                    :
-                    {statusPesara !== '' && (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    status pesara:
                   </p>
-                  <input
-                    type='text'
-                    name='catatan'
-                    id='catatan'
-                    value={catatan}
-                    required={statusPesara !== '' ? true : false}
-                    onChange={(e) => {
-                      setCatatan(e.target.value);
-                      setConfirmData({
-                        ...confirmData,
-                        catatan: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      name='statusPesara'
+                      id='statusPesara'
+                      value={statusPesara}
+                      onChange={(e) => {
+                        setStatusPesara(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          statusPesara: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='pesara-kerajaan'>Pesara kerajaan</option>
+                      <option value='pesara-atm'>Pesara ATM</option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                    rujuk daripada:{' '}
+                  </p>
+                  <div className='relative w-full md:w-56'>
+                    <select
+                      name='rujukDaripada'
+                      id='rujukDaripada'
+                      value={rujukDaripada}
+                      onChange={(e) => {
+                        setRujukDaripada(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          rujukDaripada: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='dalaman'>Dalaman</option>
+                      <option value='kp'>Klinik Pergigian Kerajaan</option>
+                      <option value='kk'>Klinik Kesihatan Kerajaan</option>
+                      <option value='hospital/institusi-kerajaan'>
+                        Hospital / Institusi Kerajaan
+                      </option>
+                      <option value='swasta'>Swasta</option>
+                      <option value='lain-lain'>Lain-lain</option>
+                    </select>
+                    <span>
+                      <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                  <div className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    <p>catatan </p>
+                    <FaInfoCircle
+                      className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
+                      title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
+                    />
+                    <p>
+                      :
+                      {statusPesara !== '' && (
+                        <span className='font-semibold text-user6'>*</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className='relative w-full'>
+                    <input
+                      type='text'
+                      name='catatan'
+                      id='catatan'
+                      value={catatan}
+                      required={statusPesara !== '' ? true : false}
+                      onChange={(e) => {
+                        setCatatan(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          catatan: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <span>
+                      <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                    </span>
+                  </div>
                 </div>
                 {jenisFasiliti === 'kp' && (
                   <>
-                    <article className='grid justify-start border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='grid'>
-                        <div className='flex items-center flex-row pl-5'>
+                    <article className='grid grid-cols-[1fr_2fr] px-1'>
+                      <div className='grid justify-start border border-userBlack pl-3 p-2 rounded-md col-span-2'>
+                        <div className='flex items-center flex-row pl-1 md:pl-5'>
                           <input
                             type='checkbox'
                             id='kepp'
@@ -1413,7 +1718,8 @@ export default function FillableForm({
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                            KEPP
+                            Perkhidmatan Pergigian Endodontik Di Klinik
+                            Pergigian Primer (KEPP)
                           </label>
                         </div>
                         {kepp && (
@@ -1476,40 +1782,40 @@ export default function FillableForm({
                             </div>
                           </>
                         )}
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'baru-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>tarikh rujukan</label>
-                        <TarikhRujukanKepp />
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'ulangan-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>
-                          tarikh perundingan pertama
-                        </label>
-                        <TarikhRundinganPertama />
-                      </div>
-                      <div
-                        className={`${
-                          kedatanganKepp === 'ulangan-kedatangan-kepp'
-                            ? 'visible'
-                            : 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label className='m-2 text-sm'>
-                          tarikh mula rawatan
-                        </label>
-                        <TarikhMulaRawatanKepp />
+                        <div
+                          className={`${
+                            kedatanganKepp === 'baru-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>tarikh rujukan</label>
+                          <TarikhRujukanKepp />
+                        </div>
+                        <div
+                          className={`${
+                            kedatanganKepp === 'ulangan-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>
+                            tarikh perundingan pertama
+                          </label>
+                          <TarikhRundinganPertama />
+                        </div>
+                        <div
+                          className={`${
+                            kedatanganKepp === 'ulangan-kedatangan-kepp'
+                              ? 'visible'
+                              : 'hidden'
+                          } flex items-center flex-row pl-5`}
+                        >
+                          <label className='m-2 text-sm'>
+                            tarikh mula rawatan
+                          </label>
+                          <TarikhMulaRawatanKepp />
+                        </div>
                       </div>
                     </article>
                     {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>

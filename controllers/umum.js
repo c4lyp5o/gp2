@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
 const cryptoJs = require('crypto-js');
 
@@ -31,12 +32,12 @@ const getSinglePersonUmum = async (req, res) => {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
   }
 
-  // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonUmum.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonUmum.ic = decryptedIc;
+  // decrypt KIV
+  // const decryptedIc = cryptoJs.AES.decrypt(
+  //   singlePersonUmum.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString(cryptoJs.enc.Utf8);
+  // singlePersonUmum.ic = decryptedIc;
 
   res.status(200).json({ singlePersonUmum });
 };
@@ -56,13 +57,38 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
-  // encrypt
-  if (req.body.ic) {
-    const encryptedIc = cryptoJs.AES.encrypt(
-      req.body.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString();
-    req.body.ic = encryptedIc;
+  // encrypt KIV
+  // if (req.body.ic) {
+  //   const encryptedIc = cryptoJs.AES.encrypt(
+  //     req.body.ic,
+  //     process.env.CRYPTO_JS_SECRET
+  //   ).toString();
+  //   req.body.ic = encryptedIc;
+  // }
+
+  if (req.body.statusReten === 'telah diisi') {
+    let summary = {};
+    let shortened = {};
+    Object.keys(req.body).forEach((key) => {
+      if (
+        key !== '' ||
+        key !== null ||
+        key !== undefined ||
+        key !== 0 ||
+        key !== false
+      ) {
+        shortened[key] = req.body[key];
+      }
+    });
+    const singlePersonInfo = await Umum.findById({ _id: personUmumId });
+    summary = { ...singlePersonInfo._doc, ...shortened };
+    const updateOfficerSummary = await Operator.findOneAndUpdate(
+      {
+        nomborMdc: req.body.createdByMdcMdtb,
+      },
+      { $push: { summary } },
+      { new: true }
+    );
   }
 
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
@@ -99,7 +125,7 @@ const queryPersonUmum = async (req, res) => {
 
   const {
     user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
   queryObject.createdByKp = kp;
@@ -116,16 +142,20 @@ const queryPersonUmum = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
+  }
+
   const umumResultQuery = await Umum.find(queryObject);
 
-  // decrypt
-  umumResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
+  // decrypt KIV
+  // umumResultQuery.forEach((p) => {
+  //   const decryptedIc = cryptoJs.AES.decrypt(
+  //     p.ic,
+  //     process.env.CRYPTO_JS_SECRET
+  //   ).toString(cryptoJs.enc.Utf8);
+  //   p.ic = decryptedIc;
+  // });
 
   res.status(200).json({ umumResultQuery });
 };

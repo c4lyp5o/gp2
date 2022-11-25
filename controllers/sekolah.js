@@ -122,7 +122,6 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
 
 // not used
 // POST /
-// will use for ERKM
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -225,6 +224,21 @@ const createKotakWithSetPersonSekolah = async (req, res) => {
   );
 
   res.status(201).json({ personSekolah });
+};
+
+// PATCH /fasiliti/:fasilitiId
+const updateFasiliti = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const updatedFasiliti = await Fasiliti.findOneAndUpdate(
+    { _id: req.params.fasilitiId },
+    req.body,
+    { new: true }
+  );
+
+  res.status(201).json({ updatedFasiliti });
 };
 
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
@@ -338,6 +352,7 @@ module.exports = {
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
   createKotakWithSetPersonSekolah,
+  updateFasiliti,
   updatePemeriksaanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,

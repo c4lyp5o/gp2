@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -97,6 +97,10 @@ function masterDatePicker({
       endDate={endDate}
       minDate={minDate}
       withPortal={window.matchMedia('(max-width: 400px)').matches}
+      onKeyDown={(e) => {
+        e.preventDefault();
+      }}
+      onFocus={(e) => e.target.blur()} // disable keyboad input
     />
   );
 }
@@ -177,15 +181,54 @@ function UserAppProvider({ children }) {
 
   const [timer, setTimer] = useState(0);
   const [refreshTimer, setRefreshTimer] = useState(false);
+  const [kicker, setKicker] = useState(null);
+  const [kickerNoti, setKickerNoti] = useState(null);
+
+  const kickerNotiId = useRef();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
-    const nowMinutes = new Date().getTime();
-    const real = nowMinutes + logOutTime;
-    setTimer(real);
+    if (userToken) {
+      if (kicker && kickerNoti) {
+        dismissLogOut();
+        clearTimeout(kicker);
+        clearTimeout(kickerNoti);
+      }
+      const logOutTime =
+        parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+      const nowMinutes = new Date().getTime();
+      const real = nowMinutes + logOutTime;
+      setTimer(real);
+      const kickerNotiNumber = setTimeout(() => {
+        notifyLogOut();
+      }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+      const kickerNumber = setTimeout(() => {
+        logoutUser();
+      }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
+      setKicker(kickerNumber);
+      setKickerNoti(kickerNotiNumber);
+      console.log('user kicker started');
+    }
   }, [refreshTimer]);
+
+  const notifyLogOut = () =>
+    (kickerNotiId.current = toast(
+      `Anda sudah tidak aktif selama ${
+        parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2
+      } minit. Proses log keluar akan dilakukan dalam masa ${
+        parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2
+      } minit. Jika anda ingin log keluar sekarang, klik di sini`,
+      {
+        autoClose:
+          1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2),
+        onClick: () => {
+          logoutUser();
+        },
+      }
+    ));
+
+  const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
 
   const loginUser = async ({ username, password }) => {
     setLoggingInUser(true);
@@ -209,6 +252,13 @@ function UserAppProvider({ children }) {
       navigate('/pengguna');
     }
     setLoggingInUser(false);
+  };
+
+  const logoutUser = () => {
+    clearTimeout(kicker);
+    clearTimeout(kickerNoti);
+    catchAxiosErrorAndLogout();
+    navigate('/pengguna');
   };
 
   const loginKaunter = async ({ username, password }) => {
@@ -291,6 +341,10 @@ function UserAppProvider({ children }) {
         setTimer,
         refreshTimer,
         setRefreshTimer,
+        kicker,
+        kickerNoti,
+        kickerNotiId,
+        logoutUser,
       }}
     >
       {children}

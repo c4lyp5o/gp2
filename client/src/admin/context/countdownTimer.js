@@ -13,10 +13,9 @@ const ExpiredNotice = () => {
 const ShowCounter = ({ minutes, seconds, place }) => {
   if (place === 'header') {
     return (
-      <div className='text-center text-adminWhite justify-center text-xs'>
-        <span className='flex items-center font-mono text-xs'>
-          Auto logout dalam:{<TimeDisplay value={minutes} />}:
-          {<TimeDisplay value={seconds} />}
+      <div className='text-adminWhite bg-user1 rounded-lg justify-center whitespace-nowrap relative'>
+        <span className='flex items-center font-mono text-xs capitalize animate-pulse'>
+          {<TimeDisplay value={minutes} />}:{<TimeDisplay value={seconds} />}
         </span>
       </div>
     );
@@ -30,13 +29,13 @@ const ShowCounter = ({ minutes, seconds, place }) => {
           Masa untuk log masuk:
         </span>
         <div className='flex flex-col items-center justify-center'>
-          <span className='font-mono text-xl'>
+          <span className='font-mono text-base'>
             {<TimeDisplay value={minutes} />}
           </span>
           minit
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <span className='font-mono text-xl'>
+          <span className='font-mono text-base'>
             {' '}
             {<TimeDisplay value={seconds} />}
           </span>

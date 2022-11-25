@@ -1,4 +1,5 @@
 import { useGlobalUserAppContext } from '../context/userAppContext';
+import moment from 'moment';
 
 export default function KomunitiLain({
   jenisFasiliti,
@@ -28,25 +29,27 @@ export default function KomunitiLain({
     semuaProgram.length > 0
   ) {
     return (
-      <div className='flex flex-col gap-5 mt-2 ml-2'>
+      <div className='flex flex-col gap-3 mt-2 ml-2'>
         <h1 className='flex flex-row text-3xl font-bold text-left'>
           Senarai Program / Aktiviti
         </h1>
-        <p>
+        <p className='flex justify-start font-semibold text-lg'>
           Nama Program
           <span className='font-semibold text-lg text-user6'>*</span>
         </p>
         <div className='grid gap-1'>
           <select
             required
-            className='border-2'
             onChange={(e) => setJenisProgram(e.target.value)}
             name='jenisProgram'
             id='jenisProgram'
+            className='appearance-none border-2 border-user6 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md'
           >
             <option value=''>Jenis Program / Aktiviti</option>
             <option value='projek-komuniti'>Projek Komuniti</option>
-            <option value='ppkps'>Program Pemasyarakatan</option>
+            <option value='ppkps'>
+              Program Pemasyarakatan Klinik Pergigian Sekolah
+            </option>
             <option value='kgangkat'>Kampung Angkat Pergigian</option>
             <option value='ppr'>Projek Perumahan Rakyat</option>
             <option value='we'>Institusi Warga Emas</option>
@@ -85,7 +88,7 @@ export default function KomunitiLain({
                         {e.nama}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                        {e.tarikh}
+                        {moment(e.tarikh).format('DD/MM/YYYY')}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                         <button

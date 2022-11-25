@@ -11,26 +11,26 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-import Loading from './Loading';
+import { Loading } from '../Screens';
 
-import perlis from '../assets/flags/perlis.png';
-import kedah from '../assets/flags/kedah.png';
-import pulauPinang from '../assets/flags/penang.png';
-import perak from '../assets/flags/perak.png';
-import selangor from '../assets/flags/selangor.png';
-import negeriSembilan from '../assets/flags/negeri_sembilan.png';
-import melaka from '../assets/flags/malacca.png';
-import johor from '../assets/flags/johor.png';
-import pahang from '../assets/flags/pahang.png';
-import terengganu from '../assets/flags/terengganu.png';
-import kelantan from '../assets/flags/kelantan.png';
-import sabah from '../assets/flags/sabah.png';
-import sarawak from '../assets/flags/sarawak.png';
-import labuan from '../assets/flags/labuan.png';
-import putrajaya from '../assets/flags/putrajaya.png';
-import kualaLumpur from '../assets/flags/kuala_lumpur.png';
+import perlis from '../../assets/flags/perlis.png';
+import kedah from '../../assets/flags/kedah.png';
+import pulauPinang from '../../assets/flags/penang.png';
+import perak from '../../assets/flags/perak.png';
+import selangor from '../../assets/flags/selangor.png';
+import negeriSembilan from '../../assets/flags/negeri_sembilan.png';
+import melaka from '../../assets/flags/malacca.png';
+import johor from '../../assets/flags/johor.png';
+import pahang from '../../assets/flags/pahang.png';
+import terengganu from '../../assets/flags/terengganu.png';
+import kelantan from '../../assets/flags/kelantan.png';
+import sabah from '../../assets/flags/sabah.png';
+import sarawak from '../../assets/flags/sarawak.png';
+import labuan from '../../assets/flags/labuan.png';
+import putrajaya from '../../assets/flags/putrajaya.png';
+import kualaLumpur from '../../assets/flags/kuala_lumpur.png';
 
 ChartJS.register(
   CategoryScale,
@@ -110,35 +110,23 @@ function MainChart({ data, accountType }) {
   );
 }
 
-export default function AdminCenterStage({ accountType }) {
+export default function AdminCenterStage(props) {
   const { toast, getAllNegeriAndDaerah, navigate } = useGlobalAdminAppContext();
-  const [data, setData] = useState([]);
-  const [loading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    getAllNegeriAndDaerah()
-      .then((res) => {
-        setData(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-        navigate('/pentadbir');
-      });
+    const fetchData = async () => {
+      const res = await getAllNegeriAndDaerah();
+      setData(res.data);
+    };
+    fetchData().catch((err) => {
+      toast.error(err.response.data.message);
+      navigate('/pentadbir');
+    });
   }, []);
 
-  if (loading) {
+  if (!data) {
     return <Loading />;
-  }
-
-  if (accountType === 'kpUser') {
-    return (
-      <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
-        <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
-          <h1>Sila tambah program di bar sisi</h1>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -182,7 +170,10 @@ export default function AdminCenterStage({ accountType }) {
           <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
             <div className='w-1/2 rounded overflow-hidden shadow-lg relative flex flex-col'>
               {data.length > 0 && (
-                <MainChart data={item} accountType={accountType} />
+                <MainChart
+                  data={item}
+                  accountType={props.loginInfo.accountType}
+                />
               )}
             </div>
           </div>

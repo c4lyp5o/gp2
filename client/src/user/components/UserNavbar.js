@@ -71,25 +71,25 @@ function UserNavbar() {
     fetchIdentity();
   }, []);
 
-  const tukarPengguna = () => {
-    setDisplayLoginForm(false);
-    setDisplayPilihNama(true);
-    setDisplayPilihFasiliti(false);
-    localStorage.removeItem('username');
-    localStorage.removeItem('userinfo');
-    localStorage.removeItem('reliefUserToken');
-    localStorage.removeItem('fasilitiRelief');
-    setUsername(null);
-    setStatus(null);
-    setReliefUserToken(null);
-    setFasilitiRelief(null);
-    navigate('/pengguna');
-  };
+  // const tukarPengguna = () => {
+  //   setDisplayLoginForm(false);
+  //   setDisplayPilihNama(true);
+  //   setDisplayPilihFasiliti(false);
+  //   localStorage.removeItem('username');
+  //   localStorage.removeItem('userinfo');
+  //   localStorage.removeItem('reliefUserToken');
+  //   localStorage.removeItem('fasilitiRelief');
+  //   setUsername(null);
+  //   setStatus(null);
+  //   setReliefUserToken(null);
+  //   setFasilitiRelief(null);
+  //   navigate('/pengguna');
+  // };
 
-  const logout = () => {
-    catchAxiosErrorAndLogout();
-    navigate('/pengguna');
-  };
+  // const logout = () => {
+  //   catchAxiosErrorAndLogout();
+  //   navigate('/pengguna');
+  // };
 
   return (
     <>
@@ -189,6 +189,20 @@ function UserNavbar() {
                 >
                   SEKOLAH
                 </NavLink>
+                <NavLink
+                  to='promosi'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowGenerateSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PROMOSI
+                </NavLink>
               </div>
             </div>
             {status === 'admin' &&
@@ -263,7 +277,7 @@ function UserNavbar() {
               CARIAN
             </NavLink>
             {/* UserHeaderLoggedIn appear when screen size smaller than lg */}
-            <div className='mx-3 lg:hidden capitalize'>
+            {/* <div className='mx-3 lg:hidden capitalize'>
               <p className='mt-3'>
                 <b>{username}</b>
               </p>
@@ -290,7 +304,7 @@ function UserNavbar() {
                   LOG KELUAR
                 </button>
               </div>
-            </div>
+            </div> */}
             {/* end of UserHeaderLoggedIn */}
           </div>
         </nav>

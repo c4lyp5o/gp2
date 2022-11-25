@@ -2,9 +2,9 @@ import { useState, useLayoutEffect, useId } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-import Loading from './Loading';
+import { Loading } from '../Screens';
 import TotpConfirmation from './TotpConfirmation';
 
 export default function Settings({ update }) {
@@ -130,7 +130,7 @@ export default function Settings({ update }) {
                 <>
                   <label
                     htmlFor={uploadImage}
-                    className='block text-sm font-medium text-gray-700'
+                    className='hidden block text-sm font-medium text-gray-700'
                   >
                     Muat naik gambar
                   </label>
@@ -155,7 +155,7 @@ export default function Settings({ update }) {
                         document.getElementById(uploadImage).click()
                       }
                     >
-                      Muat naik gambar
+                      Muat naik gambar baru
                     </button>
                     <input
                       hidden

@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -13,11 +14,17 @@ const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
+const Sosmed = require('../models/MediaSosial');
+const PromosiType = require('../models/PromosiType');
 const emailGen = require('../lib/emailgen');
+
+// helper
+const Helper = require('../controllers/countHelper');
 
 const Dictionary = {
   kp: 'klinik',
   pp: 'pegawai',
+  ppall: 'pegawai-all',
   jp: 'juruterapi pergigian',
   taska: 'taska',
   tadika: 'tadika',
@@ -27,7 +34,10 @@ const Dictionary = {
   kpb: 'kp-bergerak',
   mp: 'makmal-pergigian',
   event: 'event',
+  'sa-a': 'superadmin-all',
 };
+
+const socmed = ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'];
 
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
@@ -40,8 +50,8 @@ const transporter = mailer.createTransport({
 });
 
 const getData = async (req, res) => {
-  const { main, Fn, token, FType, Id } = req.body;
-  var { Data } = req.body;
+  let { main, Fn, token, FType, Id } = req.body;
+  let { Data } = req.body;
   switch (main) {
     case 'DataCenter':
       const theType = Dictionary[FType];
@@ -67,6 +77,20 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
+            const exists = await Operator.findOne({
+              mdcNumber: Data.mdcNumber,
+            });
+            if (exists) {
+              exists.createdByNegeri = negeri;
+              exists.createdByDaerah = daerah;
+              exists.kpSkrg = Data.kpSkrg;
+              exists.activationStatus = true;
+              exists.email = Data.email;
+              exists.gred = Data.gred;
+              exists.role = Data.role;
+              const prevOfficer = await exists.save();
+              return res.status(200).json(prevOfficer);
+            }
             Data = {
               ...Data,
               createdByDaerah: daerah,
@@ -109,7 +133,8 @@ const getData = async (req, res) => {
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'pegawai-all'
           ) {
             const data = await Fasiliti.find({
               jenisFasiliti: theType,
@@ -120,9 +145,17 @@ const getData = async (req, res) => {
           }
           if (theType === 'pegawai') {
             const data = await Operator.find({
+              statusPegawai: 'pp',
               createdByDaerah: daerah,
               createdByNegeri: negeri,
+              activationStatus: true,
+            });
+            return res.status(200).json(data);
+          }
+          if (theType === 'pegawai-all') {
+            const data = await Operator.find({
               statusPegawai: 'pp',
+              activationStatus: true,
             });
             return res.status(200).json(data);
           }
@@ -226,7 +259,10 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
-            const data = await Operator.findByIdAndDelete({ _id: Id });
+            const data = await Operator.findById({ _id: Id });
+            data.activationStatus = false;
+            data.tempatBertugasSebelumIni.push(data.kpSkrg);
+            await data.save();
             return res.status(200).json(data);
           }
           if (theType === 'klinik') {
@@ -293,25 +329,247 @@ const getData = async (req, res) => {
       }
       break;
     case 'KpCenter':
-      var { daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(FType);
       switch (Fn) {
         case 'create':
           console.log('create for kpcenter');
-          Data = {
-            ...Data,
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
-          };
-          const createdEvent = await Event.create(Data);
-          res.status(200).json(createdEvent);
+          switch (FType) {
+            case 'program':
+              Data = {
+                ...Data,
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const createdEvent = await Event.create(Data);
+              res.status(200).json(createdEvent);
+              break;
+            case 'sosmed':
+              const previousData = await Sosmed.find({
+                kodProgram: Data.kodProgram,
+              });
+              if (previousData.length === 0) {
+                console.log('no previous data');
+                delete Data.data[0].kodProgram;
+                console.log(Data.data[0]);
+                Data.data[0] = {
+                  id: 1,
+                  ...Data.data[0],
+                };
+                const createdSosmed = await Sosmed.create(Data);
+                return res.status(200).json(createdSosmed);
+              }
+              if (previousData.length > 0) {
+                delete Data.data[0].kodProgram;
+                const lastData = previousData[0].data.length;
+                const lastIdofData = previousData[0].data[lastData - 1].id;
+                Data.data[0] = {
+                  id: lastIdofData + 1,
+                  ...Data.data[0],
+                };
+                const updatedSosmed = await Sosmed.findOneAndUpdate(
+                  { kodProgram: Data.kodProgram },
+                  { $push: { data: Data.data[0] } },
+                  { new: true }
+                );
+                res.status(200).json(updatedSosmed);
+              }
+              break;
+            default:
+              console.log('default case for kpcenter');
+              break;
+          }
           break;
         case 'read':
           console.log('read for kpcenter');
-          const eventData = await Event.find({
-            createdByDaerah: daerah,
-            createdByNegeri: negeri,
-          });
-          res.status(200).json(eventData);
+          switch (FType) {
+            case 'program':
+              const eventData = await Event.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              res.status(200).json(eventData);
+              break;
+            case 'sosmed':
+              let countedData = [];
+              let keys = {
+                Facebook_live_bilAktivitiShareKurang10: 0,
+                Facebook_live_bilAktivitiShareLebih10: 0,
+                Facebook_live_bilPenonton: 0,
+                Facebook_live_bilReach: 0,
+                Facebook_live_bilShare: 0,
+                Facebook_poster_bilAktivitiShareKurang10: 0,
+                Facebook_poster_bilAktivitiShareLebih10: 0,
+                Facebook_poster_bilPenonton: 0,
+                Facebook_poster_bilReach: 0,
+                Facebook_poster_bilShare: 0,
+                Facebook_video_bilAktivitiShareKurang10: 0,
+                Facebook_video_bilAktivitiShareLebih10: 0,
+                Facebook_video_bilPenonton: 0,
+                Facebook_video_bilReach: 0,
+                Facebook_video_bilShare: 0,
+                Instagram_live_bilAktivitiShareKurang10: 0,
+                Instagram_live_bilAktivitiShareLebih10: 0,
+                Instagram_live_bilPenonton: 0,
+                Instagram_live_bilReach: 0,
+                Instagram_live_bilShare: 0,
+                Instagram_poster_bilAktivitiShareKurang10: 0,
+                Instagram_poster_bilAktivitiShareLebih10: 0,
+                Instagram_poster_bilPenonton: 0,
+                Instagram_poster_bilReach: 0,
+                Instagram_poster_bilShare: 0,
+                Instagram_video_bilAktivitiShareKurang10: 0,
+                Instagram_video_bilAktivitiShareLebih10: 0,
+                Instagram_video_bilPenonton: 0,
+                Instagram_video_bilReach: 0,
+                Instagram_video_bilShare: 0,
+                Twitter_poster_bilAktivitiShareKurang10: 0,
+                Twitter_poster_bilAktivitiShareLebih10: 0,
+                Twitter_poster_bilPenonton: 0,
+                Twitter_poster_bilReach: 0,
+                Twitter_poster_bilShare: 0,
+                Twitter_video_bilAktivitiShareKurang10: 0,
+                Twitter_video_bilAktivitiShareLebih10: 0,
+                Twitter_video_bilPenonton: 0,
+                Twitter_video_bilReach: 0,
+                Twitter_video_bilShare: 0,
+                Tiktok_live_bilAktivitiShareKurang10: 0,
+                Tiktok_live_bilAktivitiShareLebih10: 0,
+                Tiktok_live_bilPenonton: 0,
+                Tiktok_live_bilReach: 0,
+                Tiktok_live_bilShare: 0,
+                Tiktok_video_bilAktivitiShareKurang10: 0,
+                Tiktok_video_bilAktivitiShareLebih10: 0,
+                Tiktok_video_bilPenonton: 0,
+                Tiktok_video_bilReach: 0,
+                Tiktok_video_bilShare: 0,
+                Youtube_live_bilAktivitiShareKurang10: 0,
+                Youtube_live_bilAktivitiShareLebih10: 0,
+                Youtube_live_bilPenonton: 0,
+                Youtube_live_bilReach: 0,
+                Youtube_live_bilShare: 0,
+                Youtube_video_bilAktivitiShareKurang10: 0,
+                Youtube_video_bilAktivitiShareLebih10: 0,
+                Youtube_video_bilPenonton: 0,
+                Youtube_video_bilReach: 0,
+                Youtube_video_bilShare: 0,
+              };
+              const sosmedData = await Sosmed.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              for (let i = 0; i < sosmedData[0].data.length; i++) {
+                Object.keys(sosmedData[0].data[i]).forEach((key) => {
+                  keys[key] += parseInt(sosmedData[0].data[i][key]);
+                });
+              }
+              delete keys.id;
+              delete keys.tarikhAkhir;
+              delete keys.tarikhMula;
+              delete keys.namaAktiviti;
+              // for (let i = 0; i < socmed.length; i++) {
+              //   let obj = {};
+              //   Object.keys(keys).forEach((key) => {
+              //     console.log(`${key}: ${keys[key]}`);
+              //     if (key.includes(socmed[i])) {
+              //       obj[key] = keys[key];
+              //     }
+              //   });
+              //   countedData.push(obj);
+              // }
+              for (let i = 0; i < socmed.length; i++) {
+                let obj = { name: socmed[i], data: [] };
+                let objlive = { name: 'live', data: [] };
+                let objvideo = { name: 'video', data: [] };
+                let objposter = { name: 'poster', data: [] };
+                let livedata = {};
+                let videodata = {};
+                let posterdata = {};
+                Object.keys(keys).forEach((key) => {
+                  if (key.includes(socmed[i])) {
+                    if (key.includes('live')) {
+                      let newKey = key.replace(`${socmed[i]}_live_`, '');
+                      livedata[newKey] = keys[key];
+                    } else if (key.includes('video')) {
+                      let newKey = key.replace(`${socmed[i]}_video_`, '');
+                      videodata[newKey] = keys[key];
+                    } else if (key.includes('poster')) {
+                      let newKey = key.replace(`${socmed[i]}_poster_`, '');
+                      posterdata[newKey] = keys[key];
+                    }
+                  }
+                });
+                objlive.data.push(livedata);
+                objvideo.data.push(videodata);
+                objposter.data.push(posterdata);
+                obj.data.push(objlive);
+                obj.data.push(objvideo);
+                obj.data.push(objposter);
+                countedData.push(obj);
+              }
+              res.status(200).json(countedData);
+              break;
+            case 'sosmedByKodProgram':
+              const sosmedDataByProgram = await Sosmed.find({
+                createdByKp: kp,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              });
+              console.log(sosmedDataByProgram);
+              const data = sosmedDataByProgram[0];
+              // let sosmedDataByProgramCounted = [];
+              // for (let i = 0; i < sosmedDataByProgram[0].data.length; i++) {
+              //   let obj = {};
+              //   Object.keys(sosmedDataByProgram[0].data[i]).forEach((key) => {
+              //     if (key.includes('bil')) {
+              //       obj[key] = sosmedDataByProgram[0].data[i][key];
+              //     }
+              //   });
+              //   sosmedDataByProgramCounted.push(obj);
+              // }
+              res.status(200).json(sosmedDataByProgram);
+              break;
+            case 'tastad':
+              let tastadData = [];
+              const allTastad = await Fasiliti.find({
+                jenisFasiliti: ['taska', 'tadika'],
+                handler: kp,
+              });
+              const studentCount = await Umum.countDocuments({
+                jenisFasiliti: ['taska', 'tadika'],
+                createdByKp: kp,
+              });
+              console.log(allTastad, studentCount);
+              res.status(200).json(tastadData);
+              break;
+            case 'pp':
+              const ppData = await Operator.find({
+                statusPegawai: 'pp',
+                kpSkrg: kp,
+              });
+              res.status(200).json(ppData);
+              break;
+            case 'jp':
+              const jpData = await Operator.find({
+                statusPegawai: 'jp',
+                kpSkrg: kp,
+              });
+              res.status(200).json(jpData);
+              break;
+            case 'ins':
+              const institusiData = await Fasiliti.find({
+                jenisFasiliti: Dictionary[FType],
+                handler: kp,
+              });
+              res.status(200).json(institusiData);
+              break;
+            default:
+              console.log('default case for read');
+              break;
+          }
           break;
         case 'readOne':
           console.log('readOne for kpcenter');
@@ -322,22 +580,121 @@ const getData = async (req, res) => {
           break;
         case 'update':
           console.log('update for kpcenter');
-          const updateEvent = await Event.findByIdAndUpdate(
-            { _id: Id },
-            { $set: Data },
-            { new: true }
-          );
-          res.status(200).json(updateEvent);
+          switch (FType) {
+            case 'program':
+              const updateEvent = await Event.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateEvent);
+              break;
+            default:
+              console.log('default case for update');
+              break;
+          }
           break;
         case 'delete':
           console.log('delete for kpcenter');
-          const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
-          res.status(200).json(deletedEvent);
+          switch (FType) {
+            case 'program':
+              const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
+              res.status(200).json(deletedEvent);
+              break;
+            default:
+              console.log('default case for delete');
+              break;
+          }
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for KpCenter',
+          console.log('default case for kpcenter');
+          break;
+      }
+      break;
+    case 'SuperadminCenter':
+      switch (Fn) {
+        case 'create':
+          console.log('create for superadmincenter');
+          break;
+        case 'read':
+          console.log('read for superadmincenter');
+          const all = await Superadmin.find({});
+          const allKlinik = await User.find({
+            role: 'klinik',
           });
+          let allData = [];
+          let cleanData = [];
+          for (let i = 0; i < all.length; i++) {
+            let location = {
+              daerah: all[i].daerah,
+              negeri: all[i].negeri,
+              username: all[i].user_name,
+            };
+            allData.push(location);
+          }
+          const num = _.findIndex(allData, { negeri: '-' });
+          allData.splice(num, 1);
+          const negeri = _.uniqBy(allData, 'negeri');
+          const daerah = _.uniqBy(allData, 'daerah');
+          const username = _.uniqBy(allData, 'username');
+          for (let i = 0; i < negeri.length; i++) {
+            let temp = [];
+            let usernames = [];
+            let klinik = [];
+            for (let j = 0; j < daerah.length; j++) {
+              if (
+                negeri[i].negeri === daerah[j].negeri &&
+                daerah[j].daerah !== '-'
+              ) {
+                let tempDaerah = {
+                  daerah: daerah[j].daerah,
+                  username: daerah[j].username,
+                  klinik: [],
+                };
+                for (let k = 0; k < allKlinik.length; k++) {
+                  if (
+                    daerah[j].daerah === allKlinik[k].daerah &&
+                    allKlinik[k].accountType !== 'kaunterUser'
+                  ) {
+                    let tempKlinik = {
+                      username: allKlinik[k].username,
+                      nama: allKlinik[k].kp,
+                    };
+                    tempDaerah.klinik.push(tempKlinik);
+                  }
+                }
+                temp.push(tempDaerah);
+              }
+            }
+            for (let j = 0; j < username.length; j++) {
+              if (
+                negeri[i].negeri === username[j].negeri &&
+                username[j].daerah === '-'
+              ) {
+                let tempUser = { username: username[j].username };
+                usernames.push(tempUser);
+              }
+            }
+            let temp2 = {
+              negeri: negeri[i].negeri,
+              usernames: usernames,
+              daerah: temp,
+            };
+            cleanData.push(temp2);
+          }
+          res.status(200).json(cleanData);
+          break;
+        case 'readOne':
+          console.log('readOne for superadmincenter');
+          break;
+        case 'update':
+          console.log('update for superadmincenter');
+          break;
+        case 'delete':
+          console.log('delete for superadmincenter');
+          break;
+        default:
+          console.log('default case for superadmincenter');
           break;
       }
       break;
@@ -969,6 +1326,63 @@ const getData = async (req, res) => {
           break;
         default:
           console.log('default for image');
+          break;
+      }
+      break;
+    case 'AQManager':
+      switch (Fn) {
+        case 'create':
+          console.log('create for aq');
+          break;
+        case 'read':
+          console.log('read for aq');
+          const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+          const { daerah, negeri } = await Superadmin.findOne({
+            _id: userId,
+          });
+          const { x, y, mengandung, oku, bersekolah, pesara } = req.body;
+          const query = await Helper.countAdHocQuery(
+            negeri,
+            daerah,
+            x,
+            y,
+            mengandung,
+            oku,
+            bersekolah,
+            pesara
+          );
+          res.status(200).json(query);
+          break;
+        case 'update':
+          console.log('update for aq');
+          break;
+        case 'delete':
+          console.log('delete for aq');
+          break;
+        default:
+          console.log('default for aq');
+          break;
+      }
+      break;
+    case 'PromosiManager':
+      switch (Fn) {
+        case 'create':
+          console.log('create for promosi');
+          break;
+        case 'read':
+          console.log('read for promosi');
+          const types = await PromosiType.find({ nama: 'current' });
+          const { program } = types[0];
+          res.status(200).json(program);
+          break;
+        case 'update':
+          console.log('update for promosi');
+          break;
+        case 'delete':
+          console.log('delete for promosi');
+          break;
+        default:
+          console.log('default for promosi');
           break;
       }
       break;

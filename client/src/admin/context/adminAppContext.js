@@ -17,15 +17,26 @@ function AdminAppProvider({ children }) {
   } = useToken();
   const navigate = useNavigate();
 
-  // ping apdm
+  // adhoc query
+  const adhocQuery = async (y, x) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'AQManager',
+      Fn: 'read',
+      y: y,
+      x: x,
+      token: adminToken,
+    });
+    return response;
+  };
 
-  async function pingApdmServer() {
+  // ping apdm
+  const pingApdmServer = async () => {
     const response = await axios.get(`https://erkm.calypsocloud.one/`);
     return response;
-  }
+  };
 
   // crypter
-
   const encryptEmail = (email) => {
     if (!email) return 'No email provided';
     const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
@@ -40,7 +51,6 @@ function AdminAppProvider({ children }) {
       email.split('@')[1];
     return encrypted;
   };
-
   const encryptPassword = (password) => {
     if (!password) return 'No password provided';
     const letterToEncrypt = password.length;
@@ -52,7 +62,6 @@ function AdminAppProvider({ children }) {
   };
 
   // user
-
   const getCurrentUser = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -62,7 +71,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const saveCurrentUser = async (data) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -74,14 +82,12 @@ function AdminAppProvider({ children }) {
     saveAdminToken(response.data.adminToken);
     return response;
   };
-
   const logOutUser = () => {
     removeAdminToken();
     navigate('/pentadbir');
   };
 
   // totp
-
   async function generateSecret() {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -92,7 +98,6 @@ function AdminAppProvider({ children }) {
     saveTotpToken(response.data.totpToken);
     return response;
   }
-
   async function verifyInitialSecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -104,7 +109,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   }
-
   async function verifySecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -117,7 +121,6 @@ function AdminAppProvider({ children }) {
   }
 
   // hq functions
-
   const getAllNegeriAndDaerah = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -127,7 +130,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const getKlinikData = async (id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -140,58 +142,32 @@ function AdminAppProvider({ children }) {
   };
 
   // data superadmin
-
   const createData = async (type, data) => {
     try {
-      if (type === 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'KpCenter',
-          Fn: 'create',
-          Data: data,
-          token: adminToken,
-        });
-        return response;
-      }
-      if (type !== 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'DataCenter',
-          Fn: 'create',
-          FType: type,
-          Data: data,
-          token: adminToken,
-        });
-        return response;
-      }
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'DataCenter',
+        Fn: 'create',
+        FType: type,
+        Data: data,
+        token: adminToken,
+      });
+      return response;
     } catch (err) {
       console.log(err);
       return err;
     }
   };
-
   const readData = async (type) => {
-    if (type === 'event') {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
-        main: 'KpCenter',
-        Fn: 'read',
-        token: adminToken,
-      });
-      return response;
-    }
-    if (type !== 'event') {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
-        main: 'DataCenter',
-        Fn: 'read',
-        FType: type,
-        token: adminToken,
-      });
-      return response;
-    }
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'read',
+      FType: type,
+      token: adminToken,
+    });
+    return response;
   };
-
   const readKpData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -202,85 +178,115 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const readOneData = async (type, id) => {
-    if (type === 'event') {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
-        main: 'KpCenter',
-        Fn: 'readOne',
-        Id: id,
-        token: adminToken,
-      });
-      return response;
-    }
-    if (type !== 'event') {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'readOne',
+      FType: type,
+      Id: id,
+      token: adminToken,
+    });
+    return response;
+  };
+  const updateData = async (type, id, data) => {
+    try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
         apiKey: process.env.REACT_APP_API_KEY,
         main: 'DataCenter',
-        Fn: 'readOne',
+        Fn: 'update',
+        FType: type,
+        Id: id,
+        Data: data,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const deleteData = async (type, id) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'DataCenter',
+        Fn: 'delete',
         FType: type,
         Id: id,
         token: adminToken,
       });
       return response;
-    }
-  };
-
-  const updateData = async (type, id, data) => {
-    try {
-      if (type === 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'KpCenter',
-          Fn: 'update',
-          Id: id,
-          Data: data,
-          token: adminToken,
-        });
-        return response;
-      }
-      if (type !== 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'DataCenter',
-          Fn: 'update',
-          FType: type,
-          Id: id,
-          Data: data,
-          token: adminToken,
-        });
-        return response;
-      }
     } catch (err) {
       console.log(err);
       return err;
     }
   };
 
-  const deleteData = async (type, id) => {
+  // data KP
+  const createDataForKp = async (FType, data) => {
     try {
-      if (type === 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'KpCenter',
-          Fn: 'delete',
-          Id: id,
-          token: adminToken,
-        });
-        return response;
-      }
-      if (type !== 'event') {
-        const response = await axios.post(`/api/v1/superadmin/newroute`, {
-          apiKey: process.env.REACT_APP_API_KEY,
-          main: 'DataCenter',
-          Fn: 'delete',
-          FType: type,
-          Id: id,
-          token: adminToken,
-        });
-        return response;
-      }
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'create',
+        FType: FType,
+        Data: data,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const readDataForKp = async (FType) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'KpCenter',
+      Fn: 'read',
+      FType: FType,
+      token: adminToken,
+    });
+    return response;
+  };
+  const readOneDataForKp = async (FType, id) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'KpCenter',
+      Fn: 'readOne',
+      FType: FType,
+      Id: id,
+      token: adminToken,
+    });
+    return response;
+  };
+  const updateDataForKp = async (id, data) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'update',
+        Id: id,
+        Data: data,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const deleteDataForKp = async (id) => {
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        apiKey: process.env.REACT_APP_API_KEY,
+        main: 'KpCenter',
+        Fn: 'delete',
+        Id: id,
+        token: adminToken,
+      });
+      return response;
     } catch (err) {
       console.log(err);
       return err;
@@ -288,7 +294,6 @@ function AdminAppProvider({ children }) {
   };
 
   // erkm
-
   const readSekolahData = async (FType) => {
     const response = await axios.get(
       'https://erkm.calypsocloud.one/listsekolah'
@@ -329,7 +334,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read pegawai data
-
   const readPegawaiData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
     const currentPegawai = await readData('pp');
@@ -348,7 +352,6 @@ function AdminAppProvider({ children }) {
   };
 
   // get mdtb data
-
   const readMdtbData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
     console.log(response.data);
@@ -368,7 +371,6 @@ function AdminAppProvider({ children }) {
   };
 
   // read fasiliti data
-
   const readFasilitiData = async () => {
     const response = await axios.get('https://erkm.calypsocloud.one/fasiliti');
     console.log(response.data);
@@ -387,8 +389,56 @@ function AdminAppProvider({ children }) {
     return response.data;
   };
 
-  // auth
+  // read dpims data
+  const readDpimsData = async (nama) => {
+    try {
+      const response = await axios.get(`/dpims?nama=${nama}`);
+      const currentPegawai = await readData('ppall');
+      if (currentPegawai.data === 0) {
+        return response.data.matches;
+      }
+      if (response.data.matches.length === 1) {
+        const match = currentPegawai.data
+          .map((e) => e.mdcNumber)
+          .includes(response.data.matches[0].nomborMdc);
+        if (match) {
+          return false;
+        }
+        return response.data.matches;
+      }
+      for (let j = 0; j < currentPegawai.data.length; j++) {
+        const deletePegawai = response.data.matches
+          .map((e) => e.nomborMdc)
+          .indexOf(currentPegawai.data[j].mdcNumber);
+        response.data.matches.splice(deletePegawai, 1);
+      }
+      return response.data.matches;
+    } catch (err) {
+      return false;
+    }
+  };
 
+  // read superadmin data
+  const readSuperadminData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'read',
+    });
+    return response;
+  };
+
+  // read kod program data
+  const readKodProgramData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'PromosiManager',
+      Fn: 'read',
+    });
+    return response;
+  };
+
+  // auth
   async function loginUser(credentials) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -402,7 +452,6 @@ function AdminAppProvider({ children }) {
     }
     return response;
   }
-
   async function checkUser(username) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -432,6 +481,7 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
+  // Dictionaries
   const Dictionary = {
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
@@ -454,6 +504,37 @@ function AdminAppProvider({ children }) {
     oap: 'Program Orang Asli dan Penan',
     ppb: 'Pasukan Pergigian Bergerak',
     mpb: 'Makmal Pergigian Bergerak',
+    program: 'Program',
+    sosmed: 'Media Sosial',
+    tastad: 'Tadika dan Taska',
+  };
+  const DictionarySosMedParam = (key) => {
+    if (key.includes('bilAktivitiShareKurang10') === true) {
+      return 'Bilangan aktiviti share kurang 10';
+    }
+    if (key.includes('bilAktivitiShareLebih10') === true) {
+      return 'Bilangan aktiviti share lebih 10';
+    }
+    if (key.includes('bilPenonton') === true) {
+      return 'Bilangan penonton';
+    }
+    if (key.includes('bilReach') === true) {
+      return 'Bilangan reach';
+    }
+    if (key.includes('bilShare') === true) {
+      return 'Bilangan share';
+    }
+  };
+  const DictionarySosMedAcronym = (key) => {
+    if (key.includes('live') === true) {
+      return 'GO LIVE!';
+    }
+    if (key.includes('poster') === true) {
+      return 'POSTER';
+    }
+    if (key.includes('video') === true) {
+      return 'VIDEO';
+    }
   };
 
   return (
@@ -472,17 +553,28 @@ function AdminAppProvider({ children }) {
         readOneData,
         updateData,
         deleteData,
+        // kp data
+        createDataForKp,
+        readDataForKp,
+        readOneDataForKp,
+        updateDataForKp,
+        deleteDataForKp,
         // misc data
+        readDpimsData,
         readSekolahData,
         readPegawaiData,
         readMdtbData,
         readFasilitiData,
         readKpData,
+        readSuperadminData,
+        readKodProgramData,
         // misc
         getCurrentUser,
         saveCurrentUser,
         logOutUser,
         Dictionary,
+        DictionarySosMedParam,
+        DictionarySosMedAcronym,
         navigate,
         toast,
         pingApdmServer,
@@ -499,6 +591,8 @@ function AdminAppProvider({ children }) {
         // hq
         getAllNegeriAndDaerah,
         getKlinikData,
+        // ahq
+        adhocQuery,
       }}
     >
       {children}

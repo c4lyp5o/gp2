@@ -1,15 +1,11 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import Add from './Add';
-import Edit from './Edit';
-import Delete from './Delete';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
-import Loading from './Loading';
-
-import nothinghere from '../assets/nothinghere.png';
+import { AddModal, EditModal, DeleteModal } from './Modal';
+import { Loading, NothingHereBoi } from '../Screens';
 
 export default function Data({ FType, kp }) {
   // modal
@@ -25,7 +21,7 @@ export default function Data({ FType, kp }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(null);
 
   // short circuit
   const [showKlinik, setShowKlinik] = useState(false);
@@ -53,21 +49,18 @@ export default function Data({ FType, kp }) {
     readData(FType).then((res) => {
       console.log(res.data);
       setData(res.data);
+      setShowPassword({
+        ...showPassword,
+        [res.data.username]: false,
+        [res.data.kaunterUsername]: false,
+      });
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
       }
       if (FType === 'kp') {
         setShowKlinik(true);
       }
-      if (FType === 'event') {
-        setShowEvent(true);
-      }
-      if (
-        FType !== 'kp' &&
-        FType !== 'jp' &&
-        FType !== 'pp' &&
-        FType !== 'event'
-      ) {
+      if (FType !== 'kp' && FType !== 'jp' && FType !== 'pp') {
         setShowFacilities(true);
       }
       setTimeout(() => {
@@ -144,12 +137,17 @@ export default function Data({ FType, kp }) {
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
                       <div>{kp.username}</div>
                       <div id={index}>
-                        {showPassword === true
+                        {showPassword[kp.username] === true
                           ? kp.password
                           : encryptPassword(kp.password)}
                         <button
                           className='ml-1'
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() => {
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.username]: !showPassword[kp.username],
+                            });
+                          }}
                         >
                           <AiOutlineEye />
                         </button>
@@ -158,12 +156,18 @@ export default function Data({ FType, kp }) {
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
                       <div>{kp.kaunterUsername}</div>
                       <div id={index}>
-                        {showPassword === true
+                        {showPassword[kp.kaunterUsername] === true
                           ? kp.kaunterPassword
                           : encryptPassword(kp.kaunterPassword)}
                         <button
                           className='ml-1'
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() =>
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.kaunterUsername]:
+                                !showPassword[kp.kaunterUsername],
+                            })
+                          }
                         >
                           <AiOutlineEye />
                         </button>
@@ -645,32 +649,6 @@ export default function Data({ FType, kp }) {
     }
   }
 
-  function NothingHereBoi() {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto rounded-md grid'>
-          <div className='rounded-lg shadow-lg bg-white max-w-sm'>
-            <img
-              className='rounded-t-lg'
-              src={nothinghere}
-              alt='There is nothing here'
-            />
-            <div className='p-6'>
-              <h5 className='text-gray-900 text-xl font-medium mb-2'>
-                Tiada Data
-              </h5>
-              <p className='text-gray-700 text-base mb-4'>
-                Data{' '}
-                {FType === 'kp' ? `Klinik Pergigian` : `${Dictionary[FType]}`}{' '}
-                belum di isi...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return <Loading />;
   }
@@ -678,7 +656,7 @@ export default function Data({ FType, kp }) {
   if (!loading) {
     return (
       <>
-        {data.length === 0 && <NothingHereBoi />}
+        {data.length === 0 && <NothingHereBoi FType={FType} />}
         {showKlinik && <Klinik />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
@@ -696,7 +674,7 @@ export default function Data({ FType, kp }) {
           </div>
         </button>
         {showAddModal && (
-          <Add
+          <AddModal
             setShowAddModal={setShowAddModal}
             FType={FType}
             kp={kp}
@@ -706,7 +684,7 @@ export default function Data({ FType, kp }) {
           />
         )}
         {showEditModal && (
-          <Edit
+          <EditModal
             setShowEditModal={setShowEditModal}
             FType={FType}
             kp={kp}
@@ -716,7 +694,7 @@ export default function Data({ FType, kp }) {
           />
         )}
         {showDeleteModal && (
-          <Delete
+          <DeleteModal
             setShowDeleteModal={setShowDeleteModal}
             FType={FType}
             deleteCandidate={deleteCandidate}

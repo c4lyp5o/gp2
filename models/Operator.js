@@ -43,10 +43,18 @@ const operatorSchema = new Schema({
     type: String,
     // required: true
   },
+  cscspVerified: {
+    type: Boolean,
+    default: false,
+    // required: true
+  },
   tempKey: {
     type: String,
     // required: true
   },
+  activationStatus: { type: Boolean, default: false },
+  summary: { type: Array, default: [] },
+  tempatBertugasSebelumIni: { type: Array, default: [] },
 });
 
 const Operator = mongoose.model('Operator', operatorSchema);

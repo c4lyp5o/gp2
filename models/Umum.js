@@ -10,6 +10,8 @@ const UmumSchema = new mongoose.Schema(
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
+    createdByMdcMdtb: { type: String, default: '' },
+    // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
     uniqueId: { type: String },
@@ -23,6 +25,8 @@ const UmumSchema = new mongoose.Schema(
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
+    nomborTelefon: { type: String, default: '' },
+    emel: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
@@ -33,6 +37,7 @@ const UmumSchema = new mongoose.Schema(
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
+    episodeMengandung: { type: String, default: '' },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
@@ -79,6 +84,10 @@ const UmumSchema = new mongoose.Schema(
     namaProgram: { type: String, default: 'NOT APPLICABLE' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
+    statusKehadiran: {
+      type: Boolean,
+      default: false,
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -304,9 +313,9 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan umum
-    statusKehadiran: {
-      type: Boolean,
-      default: false,
+    waktuDipanggil: {
+      type: String,
+      default: '',
     },
     pesakitDibuatFissureSealant: {
       type: Boolean,

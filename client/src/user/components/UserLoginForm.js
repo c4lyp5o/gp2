@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import UserForgotPassword from './UserForgotPassword';
+import { BusyButton, SubmitButton } from '../../admin/components/Buttons';
 
 function UserLoginForm() {
   const {
@@ -106,6 +107,7 @@ function UserLoginForm() {
               Negeri:
             </label>
             <select
+              required
               name='negeri'
               id='negeri'
               value={pilihanNegeri}
@@ -128,9 +130,9 @@ function UserLoginForm() {
               <option value='Terengganu'>Terengganu</option>
               <option value='Sabah'>Sabah</option>
               <option value='Sarawak'>Sarawak</option>
-              <option value='Kuala Lumpur'>Kuala Lumpur</option>
-              <option value='Labuan'>Labuan</option>
-              <option value='Putrajaya'>Putrajaya</option>
+              <option value='Kuala Lumpur'>WP Kuala Lumpur</option>
+              <option value='Labuan'>WP Labuan</option>
+              <option value='Putrajaya'>WP Putrajaya</option>
             </select>
           </div>
           {pilihanNegeri && listDaerah.length >= 1 && (
@@ -139,6 +141,7 @@ function UserLoginForm() {
                 Daerah:
               </label>
               <select
+                required
                 name='daerah'
                 id='daerah'
                 value={pilihanDaerah}
@@ -160,6 +163,7 @@ function UserLoginForm() {
                 Klinik:
               </label>
               <select
+                required
                 name='klinik'
                 id='klinik'
                 value={pilihanKlinik}
