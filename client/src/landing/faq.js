@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
 
 function Faq() {
-  {
-    /*Pendtabir*/
-  }
+  // Pentadbir
+  const [showPentadbir, setShowPentadbir] = useState(false);
   const [showSubPentadbir1, setShowSubPentadbir1] = useState(false);
-  const [showSubJpentadbir1, setShowSubJpentadbir1] = useState(false);
-  const [showAccordian1, setShowAccordian1] = useState(true);
-  {
-    /*Register*/
-  }
-  const [showSubRegister, setShowSubRegister] = useState(false);
-  const [showSubRegister1, setShowSubRegister1] = useState(false);
-  const [showSubAdmin2, setShowSubAdmin2] = useState(true);
+  const [showSubPentadbir2, setShowSubPentadbir2] = useState(false);
+  const [showSubPentadbir3, setShowSubPentadbir3] = useState(false);
+  const [showSubPentadbir4, setShowSubPentadbir4] = useState(false);
 
-  const [showSubAdmin3, setShowSubAdmin3] = useState(false);
+  // Register
+  const [showPendaftaran, setShowPendaftaran] = useState(false);
+  const [showSubPendaftaran1, setShowSubPendaftaran1] = useState(false);
+  const [showSubPendaftaran2, setShowSubPendaftaran2] = useState(false);
+  const [showSubPendaftaran3, setShowSubPendaftaran3] = useState(false);
+  const [showSubPendaftaran4, setShowSubPendaftaran4] = useState(false);
 
-  {
-    /*Pengguna*/
-  }
+  // Pengguna
+  const [showPengguna, setShowPengguna] = useState(false);
+  const [showSubPengguna1, setShowSubPengguna1] = useState(false);
+  const [showSubPengguna2, setShowSubPengguna2] = useState(false);
+  const [showSubPengguna3, setShowSubPengguna3] = useState(false);
+  const [showSubPengguna4, setShowSubPengguna4] = useState(false);
+
+  // unUsed
+  const [showUnused, setShowUnused] = useState(true);
 
   return (
     <>
       {/*header*/}
-      <div className='absolute top-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 grid-rows-1 items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-evenly'>
+      <div className='absolute top-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 grid-rows-1 items-center h-28 bg-[#2c3e50] text-userWhite font-sans capitalize justify-evenly'>
         <div className='grid grid-cols-1 md:grid-cols-2'>
           <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
             <img
@@ -40,116 +45,376 @@ function Faq() {
             <h1 className='md:hidden text-lg font-semibold'>Soalan Lazim</h1>
           </div>
         </div>
-        <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
+        <div className='hidden md:grid grid-rows-2 text-3xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>Soalan Lazim</h1>
         </div>
       </div>
       {/* content */}
-      <div className='absolute inset-0 -z-10 flex bg-[] text-center justify-center items-center capitalize'>
-        <div className='w-5/6 lg:w-3/4 h-[25rem] mt-20 mb-5 bg-userWhite outline outline-1 outline-use rounded-md shadow-xl'>
-          <div className='grid ml-auto mr-auto p-5'>
-            <div className='justify-center items-center text-3 xl font-bold mt-7'>
+      <div className='absolute inset-0 -z-10 flex bg-user5 text-center justify-center items-center capitalize'>
+        <div className='w-full h-4/6 md:h-3/4 mx-2 mt-24 bg-userWhite outline outline-1 outline-use rounded-md shadow-xl'>
+          <div className='grid'>
+            <div className='justify-center items-center text-xl font-bold mt-7'>
               <h1>Soalan Lazim Gi-Ret 2.0</h1>
             </div>
             <p className='lg:hidden text-sm text-user6 mt-3'></p>
           </div>
-          <div className='px-2'>
-            <span
-              className='flex text-sm text-kaunterWhite font-bold bg-user3 p-1 w-full capitalize cursor-pointer rounded-md '
-              onClick={() => {
-                setShowSubPentadbir1(!showSubPentadbir1);
-              }}
-            >
-              MODUL PENTADBIR{' '}
-            </span>
-            <div
-              className={`flex flex-col transition-all ${
-                showSubPentadbir1
-                  ? 'max-h-full overflow-y-auto'
-                  : 'max-h-0 overflow-hidden'
-              } `}
-            >
-              <span
-                className='flex text-sm text-userBlackk font-bold mt-2 bg-user7 p-1 w-full capitalize cursor-pointer rounded-md '
-                onClick={() => setShowSubPentadbir1(!setShowSubJpentadbir1)}
+          <div className='px-2 grid grid-cols-3'>
+            {/* tajuk modul */}
+            <div>
+              <button
+                className='flex text-kaunterWhite text-sm lg:text-lg font-semibold justify-center bg-admin2 bg-opacity-70 active:bg-opacity-100 focus:bg-opacity-100 hover:bg-opacity-100 p-1 w-full capitalize cursor-pointer rounded-t-md'
+                onClick={() => {
+                  setShowPentadbir(!showPentadbir);
+                  setShowPendaftaran(false);
+                  setShowPengguna(false);
+                  setShowUnused(false);
+                }}
               >
-                Soalan Pertama, apakah...{' '}
-              </span>
-              <article
-                className={`flex mt-1 flex-row bg-user8 transition-all rounded-md ${
-                  setShowSubJpentadbir1
-                    ? 'max-h-20 overflow-y-auto'
-                    : 'max-h-0 overflow-hidden'
-                } `}
-              >
-                Jawapan Soalan Pertama
-              </article>
+                PENTADBIR
+              </button>
             </div>
-
-            <div
-              className={`flex flex-col transition-all ${
-                showAccordian1
+            <div>
+              <button
+                className='flex text-kaunterWhite text-sm lg:text-lg font-semibold justify-center bg-kaunter1 bg-opacity-70 active:bg-opacity-100 focus:bg-opacity-100 hover:bg-opacity-100 p-1 w-full capitalize cursor-pointer rounded-t-md '
+                onClick={() => {
+                  setShowPendaftaran(!showPendaftaran);
+                  setShowPentadbir(false);
+                  setShowPengguna(false);
+                  setShowUnused(false);
+                }}
+              >
+                PANDAFTARAN
+              </button>
+            </div>
+            <div>
+              <button
+                className='flex text-kaunterWhite text-sm lg:text-lg font-semibold justify-center bg-user2 bg-opacity-70 active:bg-opacity-100 focus:bg-opacity-100 hover:bg-opacity-100 p-1 w-full capitalize cursor-pointer rounded-t-md '
+                onClick={() => {
+                  setShowPengguna(!showPengguna);
+                  setShowPentadbir(false);
+                  setShowPendaftaran(false);
+                  setShowUnused(false);
+                }}
+              >
+                PENGGUNA
+              </button>
+            </div>
+            {/* modul pentadbir */}
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-admin5 bg-opacity-70 rounded-b-md ${
+                showPentadbir
                   ? 'max-h-full overflow-y-auto'
-                  : 'max-h-0 overflow-hidden'
+                  : 'max-h-0 overflow-y-hidden'
               } `}
             >
-              <span
-                className='flex text-sm text-kaunterWhite font-bold mt-2 bg-user3 p-1 w-full capitalize cursor-pointer rounded-md '
-                onClick={() => setShowSubRegister(!showSubRegister)}
-              >
-                MODUL PENDAFTAR{' '}
-              </span>
-              <div
-                className={`flex flex-col transition-all ${
-                  showSubRegister
-                    ? 'max-h-full overflow-y-auto'
-                    : 'max-h-0 overflow-hidden'
-                } `}
-              >
+              <article className='my-1'>
                 <span
-                  className='flex text-sm text-userBlackk font-bold mt-2 bg-user7 p-1 w-full capitalize cursor-pointer rounded-md '
-                  onClick={() => setShowSubRegister(!setShowSubRegister1)}
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir1(!showSubPentadbir1);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                  }}
                 >
-                  Soalan Pertama, apakah...{' '}
+                  Soalan 1
                 </span>
-                <article
-                  className={`flex mt-1 flex-row bg-user8 transition-all rounded-md ${
-                    setShowSubRegister1
-                      ? 'max-h-20 overflow-y-auto'
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir1
+                      ? 'max-h-full overflow-y-auto'
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan Pertama
-                </article>
-              </div>
-            </div>
-            <span
-              className='flex text-sm text-kaunterWhite font-bold mt-2 bg-user3 p-1 w-full capitalize cursor-pointer rounded-md '
-              onClick={() => {
-                setShowSubAdmin2(!showSubAdmin2);
-              }}
-            >
-              MODUL PENGGUNA{' '}
-            </span>
-            <article
-              className='flex text-sm text-userBlackk font-bold mt-2 bg-user7 p-1 w-full capitalize cursor-pointer rounded-md '
-              onClick={() => setShowSubAdmin3(!setShowSubAdmin3)}
-            >
-              Soalannya..
-            </article>
-            <div>
-              <article
-                className={`flex mt-1 flex-row bg-user4 transition-all rounded-md ${
-                  setShowSubAdmin3
-                    ? 'max-h-20 overflow-y-auto'
-                    : 'max-h-0 overflow-hidden'
-                } `}
-              >
-                Jawapannya
+                  jlklllllllllllllllllllllllllllllllllllllllllksdlkjaspdjsapdaslkdjaslkdjpkjdksljd
+                </p>
               </article>
-            </div>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir2(!showSubPentadbir2);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                  }}
+                >
+                  Soalan 2
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir2
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir3(!showSubPentadbir3);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir4(false);
+                  }}
+                >
+                  Soalan 3
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir3
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir4(!showSubPentadbir4);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                  }}
+                >
+                  Soalan 4
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir4
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+            </article>
+            {/* modul pendaftaran */}
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-kaunter3 bg-opacity-70 rounded-b-md ${
+                showPendaftaran
+                  ? 'max-h-full overflow-y-auto'
+                  : 'max-h-0 overflow-y-hidden'
+              } `}
+            >
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran1(!showSubPendaftaran1);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                  }}
+                >
+                  Soalan 1
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran1
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  jlklllllllllllllllllllllllllllllllllllllllllksdlkjaspdjsapdaslkdjaslkdjpkjdksljd
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran2(!showSubPendaftaran2);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                  }}
+                >
+                  Soalan 2
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran2
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran3(!showSubPendaftaran3);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran4(false);
+                  }}
+                >
+                  Soalan 3
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran3
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran4(!showSubPendaftaran4);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                  }}
+                >
+                  Soalan 4
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran4
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+            </article>
+            {/* modul pengguna */}
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
+                showPengguna
+                  ? 'max-h-full overflow-y-auto'
+                  : 'max-h-0 overflow-y-hidden'
+              } `}
+            >
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna1(!showSubPengguna1);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                  }}
+                >
+                  Soalan 1
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna1
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  jlklllllllllllllllllllllllllllllllllllllllllksdlkjaspdjsapdaslkdjaslkdjpkjdksljd
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna2(!showSubPengguna2);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                  }}
+                >
+                  Soalan 2
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna2
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna3(!showSubPengguna3);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna4(false);
+                  }}
+                >
+                  Soalan 3
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna3
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna4(!showSubPengguna4);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                  }}
+                >
+                  Soalan 4
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna4
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  apapapa huhu
+                </p>
+              </article>
+            </article>
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
+                showUnused
+                  ? 'max-h-full overflow-y-auto'
+                  : 'max-h-0 overflow-y-hidden'
+              } `}
+            >
+              <p className='text-xl font-thin'>
+                sila pilih modul yang dikehendaki
+              </p>
+            </article>
           </div>
         </div>
+      </div>
+      {/* footer */}
+      <div className='absolute bottom-0 left-0 right-0 grid grid-cols-2 bg-[#95a5a6] uppercase'>
+        <p className='text-left ml-1 my-1 text-xs'>hak cipta kkm</p>
+        <p className='text-right mr-1 my-1 text-xs whitespace-nowrap overflow-x-auto'>
+          <a
+            className='text-admin2 underline'
+            href='https://forms.gle/v9P7w9qweTX86Nxn8'
+          >
+            meja bantuan: borang maklumbalas
+          </a>
+        </p>
       </div>
     </>
   );
