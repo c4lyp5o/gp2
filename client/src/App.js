@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // landing page import
 import LandingPage from './landing/LandingPage';
+import Faq from './landing/faq';
 
 // kaunter import ----------------------------------------
 import KaunterLogin from './user/pages/KaunterLogin';
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             {/* landing page selection */}
             <Route path='/' element={<LandingPage />} />
+            <Route path='/faq' element={<Faq />} />
             {/* pendaftaran */}
             <Route path='/pendaftaran' element={<KaunterLogin />} />
             <Route
