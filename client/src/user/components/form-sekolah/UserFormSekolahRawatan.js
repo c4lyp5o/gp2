@@ -461,7 +461,6 @@ function UserFormSekolahRawatan() {
                 {/* buat radio untuk pilih enggan / tidak hadir */}
                 <div className='flex items-center flex-row pl-5'>
                   <input
-                    required
                     type='radio'
                     name='enggan-tidak-hadir-rawatan'
                     id='enggan-rawatan'
@@ -483,7 +482,6 @@ function UserFormSekolahRawatan() {
                     enggan
                   </label>
                   <input
-                    required
                     type='radio'
                     name='enggan-tidak-hadir-rawatan'
                     id='tidak-hadir-rawatan'
