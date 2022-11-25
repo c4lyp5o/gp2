@@ -15,6 +15,7 @@ function UserSekolah() {
   } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
   const [dahFilterTahun, setDahFilterTahun] = useState([]);
@@ -373,8 +374,31 @@ function UserSekolah() {
                                   : 'bg-user3 hover:bg-user2'
                               } text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
                             >
-                              tambah rawatan
+                              {singlePersonSekolah.statusRawatan === 'selesai'
+                                ? 'selesai rawatan'
+                                : 'tambah rawatan'}
                             </Link>
+                            {/* keluar berapa rawatan & rawatan apa */}
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 && (
+                              <div className='relative inline-flex'>
+                                <span
+                                  className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                  onMouseEnter={() => setIsShown(true)}
+                                  onMouseLeave={() => setIsShown(false)}
+                                >
+                                  {singlePersonSekolah.rawatanSekolah.length}
+                                </span>
+                                {/* {isShown && singlePersonSekolah && (
+                                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-2 bg-userWhite top-0 left-6'>
+                                    <div className='text-xs text-userBlack font-semibold'>
+                                      <span className='font-bold'>
+                                        tampalan: 2
+                                      </span>
+                                    </div>
+                                  </div>
+                                )} */}
+                              </div>
+                            )}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <Link
@@ -422,12 +446,60 @@ function UserSekolah() {
                     </>
                   );
                 })}
+            {isLoading && (
+              // <p className='text-xl font-semibold'>
+              //   <Spinner color='#1f315f' />
+              // </p>
+              <tbody className='bg-user4'>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+              </tbody>
+            )}
           </table>
-          {isLoading && (
-            <p className='text-xl font-semibold'>
-              <Spinner color='#1f315f' />
-            </p>
-          )}
         </div>
       </div>
     </>
