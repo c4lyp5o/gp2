@@ -3,9 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
 import { FaWindowClose } from 'react-icons/fa';
-import DatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
 
 import Confirmation from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
@@ -19,13 +16,54 @@ import Twitter from '../../../assets/socmed/twitter.svg';
 import Tiktok from '../../../assets/socmed/tiktok.svg';
 import Youtube from '../../../assets/socmed/youtube.svg';
 
-const CustomDatePicker = ({ jenis, setQuestionState }) => {
-  const [date, setDate] = useState(null);
-  return (
-    <DatePicker
-      dateFormat='dd/MM/yyyy'
-      selected={date}
-      onChange={(date) => {
+// const CustomDatePicker = ({ jenis, setQuestionState }) => {
+//   const [date, setDate] = useState(null);
+//   return (
+//     <DatePicker
+//       dateFormat='dd/MM/yyyy'
+//       selected={date}
+//       onChange={(date) => {
+//         const tempDate = moment(date).format('YYYY-MM-DD');
+//         setDate(date);
+//         if (jenis === 'mula') {
+//           setQuestionState((prev) => ({
+//             ...prev,
+//             tarikhMula: tempDate,
+//           }));
+//         }
+//         if (jenis === 'akhir') {
+//           setQuestionState((prev) => ({
+//             ...prev,
+//             tarikhAkhir: tempDate,
+//           }));
+//         }
+//       }}
+//       peekNextMonth
+//       showMonthDropdown
+//       showYearDropdown
+//       dropdownMode='select'
+//       className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+//     />
+//   );
+// };
+
+export const ModalSosMed = (props) => {
+  const { toast, createDataForKp, readKodProgramData, masterDatePicker } =
+    useGlobalAdminAppContext();
+
+  const JenisMediaSosial = [
+    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
+    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
+    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
+    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
+    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
+  ];
+
+  const CustomDatePicker = ({ jenis, setQuestionState }) => {
+    const [date, setDate] = useState(null);
+    return masterDatePicker({
+      selected: date,
+      onChange: (date) => {
         const tempDate = moment(date).format('YYYY-MM-DD');
         setDate(date);
         if (jenis === 'mula') {
@@ -40,27 +78,11 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
             tarikhAkhir: tempDate,
           }));
         }
-      }}
-      peekNextMonth
-      showMonthDropdown
-      showYearDropdown
-      dropdownMode='select'
-      className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-    />
-  );
-};
-
-export const ModalSosMed = (props) => {
-  const { toast, createDataForKp, readKodProgramData } =
-    useGlobalAdminAppContext();
-
-  const JenisMediaSosial = [
-    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
-    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
-    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
-    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
-    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
-  ];
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+    });
+  };
 
   const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
   const [pilihanMediaSosial, setPilihanMediaSosial] = useState([]);
