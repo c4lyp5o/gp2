@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlus } from 'react-icons/fa';
 
+import UserModalPromosi from './form-promosi/UserModalPromosi';
+
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserPromosi() {
   const { userToken, reliefUserToken } = useGlobalUserAppContext();
 
   const [kodProgram, setKodProgram] = useState('');
-  const [namaProgram, setNamaProgram] = useState('');
   const [jenisProgram, setJenisProgram] = useState('');
+  const [namaProgram, setNamaProgram] = useState('');
 
   return (
     <>
+      <UserModalPromosi />
       <div className='px-3 lg:px-3 h-full p-3 overflow-y-auto'>
         <div className='relative grid grid-cols-3 outline outline-1 outline-userBlack m-3'>
           <form className='col-span-2 grid grid-cols-2'>
@@ -32,22 +35,6 @@ function UserPromosi() {
               </div>
               <div className='flex'>
                 <label
-                  htmlFor='nama-program'
-                  className='font-semibold whitespace-nowrap m-auto mx-5'
-                >
-                  nama program :
-                </label>
-                <select
-                  name='nama-program'
-                  id='nama-program'
-                  className='w-full my-3 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                >
-                  <option value=''>?</option>
-                  <option value='?'>?</option>
-                </select>
-              </div>
-              <div className='flex'>
-                <label
                   htmlFor='jenis-program'
                   className='font-semibold whitespace-nowrap m-auto mx-5'
                 >
@@ -57,6 +44,22 @@ function UserPromosi() {
                   name='jenis-program'
                   id='jenis-program'
                   className='w-full my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                >
+                  <option value=''>?</option>
+                  <option value='?'>?</option>
+                </select>
+              </div>
+              <div className='flex'>
+                <label
+                  htmlFor='nama-program'
+                  className='font-semibold whitespace-nowrap m-auto mx-5'
+                >
+                  nama program :
+                </label>
+                <select
+                  name='nama-program'
+                  id='nama-program'
+                  className='w-full my-3 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
                 >
                   <option value=''>?</option>
                   <option value='?'>?</option>
