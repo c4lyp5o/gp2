@@ -21,6 +21,7 @@ const AddModal = ({
 }) => {
   const {
     Dictionary,
+    masterDatePicker,
     toast,
     createData,
     readSekolahData,
@@ -175,23 +176,35 @@ const AddModal = ({
     }
   };
 
+  // const CustomDatePicker = () => {
+  //   return (
+  //     <DatePicker
+  //       dateFormat='dd/MM/yyyy'
+  //       selected={date}
+  //       onChange={(date) => {
+  //         const tempDate = moment(date).format('YYYY-MM-DD');
+  //         setDate(date);
+  //         currentTarikh.current = tempDate;
+  //       }}
+  //       peekNextMonth
+  //       showMonthDropdown
+  //       showYearDropdown
+  //       dropdownMode='select'
+  //       className='border-2'
+  //     />
+  //   );
+  // };
+
   const CustomDatePicker = () => {
-    return (
-      <DatePicker
-        dateFormat='dd/MM/yyyy'
-        selected={date}
-        onChange={(date) => {
-          const tempDate = moment(date).format('YYYY-MM-DD');
-          setDate(date);
-          currentTarikh.current = tempDate;
-        }}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        className='border-2'
-      />
-    );
+    return masterDatePicker({
+      selected: date,
+      onChange: (date) => {
+        const tempDate = moment(date).format('YYYY-MM-DD');
+        setDate(date);
+        currentTarikh.current = tempDate;
+      },
+      className: 'border-2 w-full',
+    });
   };
 
   useEffect(() => {
@@ -1037,7 +1050,7 @@ const AddModal = ({
                     <div className='grid gap-1'>
                       <select
                         required
-                        className='border-2 w-fit'
+                        className='border-2 w-full'
                         onChange={(e) =>
                           (currentJenisEvent.current = e.target.value)
                         }
