@@ -67,6 +67,9 @@ export default function PatientData({
     return output;
   };
 
+  //carian ic semua
+  const keys = ['nama', 'ic', 'statusReten'];
+
   const handleJana = async (e) => {
     e.preventDefault();
     await toast
@@ -151,7 +154,7 @@ export default function PatientData({
               type='search'
               className='outline outline-1 outline-userBlack rounded-md p-3'
               id='carianPesakit'
-              placeholder='Cari pesakit...'
+              placeholder='Carian Pesakit'
               onChange={(e) => setPhilter(e.target.value.toLowerCase())}
             />
           </div>
@@ -222,7 +225,9 @@ export default function PatientData({
                   </tr>
                 </thead>
                 {data.kaunterResultQuery
-                  .filter((pt) => pt.nama.includes(philter))
+                  .filter((pt) =>
+                    keys.some((key) => pt[key].toLowerCase().includes(philter))
+                  )
                   .map((p, index) => (
                     <>
                       <tbody className='bg-kaunter3'>
