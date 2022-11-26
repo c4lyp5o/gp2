@@ -39,11 +39,11 @@ const getSinglePersonKaunter = async (req, res) => {
   }
 
   // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonKaunter.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonKaunter.ic = decryptedIc;
+  // const decryptedIc = cryptoJs.AES.decrypt(
+  //   singlePersonKaunter.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString(cryptoJs.enc.Utf8);
+  // singlePersonKaunter.ic = decryptedIc;
 
   res.status(201).json({ singlePersonKaunter });
 };
@@ -111,11 +111,11 @@ const updatePersonKaunter = async (req, res) => {
   }
 
   // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-  req.body.ic = encryptedIc;
+  // const encryptedIc = cryptoJs.AES.encrypt(
+  //   req.body.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString();
+  // req.body.ic = encryptedIc;
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     { _id: req.params.personKaunterId },

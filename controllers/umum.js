@@ -82,7 +82,7 @@ const updatePersonUmum = async (req, res) => {
     });
     const singlePersonInfo = await Umum.findById({ _id: personUmumId });
     summary = { ...singlePersonInfo._doc, ...shortened };
-    const updateOfficerSummary = await Operator.findOneAndUpdate(
+    const updatedOfficerSummary = await Operator.findOneAndUpdate(
       {
         nomborMdc: req.body.createdByMdcMdtb,
       },

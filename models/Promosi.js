@@ -10,7 +10,11 @@ const PromosiSchema = new mongoose.Schema(
     createdByMdcMtdb: { type: String, required: true },
     // status reten promosi ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
-    // start here for all the field --------------------------------
+    //modal promosi
+    namaAcara: { type: String, default: '' },
+    tarikhMula: { type: String, default: '' },
+    tarikhAkhir: { type: String, default: '' },
+    lokasi: { type: String, default: '' },
     //maklumat acara
     mediaMassa: { type: String, default: '' },
     bilanganAktivitiTelevisyen: { type: Number, min: 0, default: 0 },
