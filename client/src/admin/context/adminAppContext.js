@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken } from './Tokenizer';
+import DatePicker from 'react-datepicker';
 
 const AdminAppContext = createContext();
 
@@ -481,6 +482,48 @@ function AdminAppProvider({ children }) {
     return response;
   }
 
+  // datepicker
+  function masterDatePicker({
+    selected,
+    value,
+    onChange,
+    required,
+    filterDate,
+    className,
+    selectsStart,
+    selectsEnd,
+    startDate,
+    endDate,
+    minDate,
+  }) {
+    return (
+      <DatePicker
+        showPopperArrow={false}
+        dateFormat='dd/MM/yyyy'
+        selected={selected}
+        value={value}
+        onChange={onChange}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode='select'
+        required={required}
+        filterDate={filterDate}
+        className={className}
+        selectsStart={selectsStart}
+        selectsEnd={selectsEnd}
+        startDate={startDate}
+        endDate={endDate}
+        minDate={minDate}
+        withPortal={window.matchMedia('(max-width: 400px)').matches}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+        onFocus={(e) => e.target.blur()} // disable keyboad input
+      />
+    );
+  }
+
   // Dictionaries
   const Dictionary = {
     pp: 'Pegawai Pergigian',
@@ -582,6 +625,7 @@ function AdminAppProvider({ children }) {
         encryptPassword,
         formatTime,
         resizeImage,
+        masterDatePicker,
         // auth
         loginUser,
         checkUser,

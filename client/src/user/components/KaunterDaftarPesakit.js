@@ -101,6 +101,9 @@ export default function DaftarPesakit({ createdByKp }) {
     fetchPersonUmum();
   }, []);
 
+  //carian ic semua
+  const keys = ['nama', 'ic', 'statusReten'];
+
   if (!data) {
     return (
       <div className='mt-20'>
@@ -205,7 +208,9 @@ export default function DaftarPesakit({ createdByKp }) {
                   if (pilihanTarikh === '') return item;
                   if (item.tarikhKedatangan === pilihanTarikh) return item;
                 })
-                .filter((pt) => pt.nama.includes(philter))
+                .filter((pt) =>
+                  keys.some((key) => pt[key].toLowerCase().includes(philter))
+                )
                 .sort((a, b) => {
                   if (sort.masaDaftar)
                     return b.waktuSampai.localeCompare(a.waktuSampai);
