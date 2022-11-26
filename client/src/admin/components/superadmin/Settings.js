@@ -14,6 +14,7 @@ export default function Settings({ update }) {
     generateSecret,
     removeTotpToken,
     resizeImage,
+    masterDatePicker,
     toast,
   } = useGlobalAdminAppContext();
   const [loginInfo, setLoginInfo] = useState({});
@@ -29,26 +30,44 @@ export default function Settings({ update }) {
   // tarikh lahir pengguna
   const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
 
+  // const TarikhLahir = () => {
+  //   return (
+  //     <DatePicker
+  //       showPopperArrow={false}
+  //       peekNextMonth
+  //       showMonthDropdown
+  //       showYearDropdown
+  //       dropdownMode='select'
+  //       value={moment(loginInfo.tarikhLahir).format('DD/MM/YYYY')}
+  //       selected={tarikhLahirDP}
+  //       onChange={(tarikhLahir) => {
+  //         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+  //         setTarikhLahirDP(tarikhLahir);
+  //         setTarikhLahir(tempDate);
+  //         setLoginInfo({ ...loginInfo, tarikhLahir: tempDate });
+  //       }}
+  //       dateFormat='dd/MM/yyyy'
+  //       className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
+  //     />
+  //   );
+  // };
+
   const TarikhLahir = () => {
-    return (
-      <DatePicker
-        showPopperArrow={false}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        value={moment(loginInfo.tarikhLahir).format('DD/MM/YYYY')}
-        selected={tarikhLahirDP}
-        onChange={(tarikhLahir) => {
-          const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
-          setTarikhLahirDP(tarikhLahir);
-          setTarikhLahir(tempDate);
-          setLoginInfo({ ...loginInfo, tarikhLahir: tempDate });
-        }}
-        dateFormat='dd/MM/yyyy'
-        className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
-      />
-    );
+    return masterDatePicker({
+      value: moment(loginInfo.tarikhLahir).format('DD/MM/YYYY'),
+      selected: tarikhLahirDP,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        setTarikhLahirDP(tarikhLahir);
+        setTarikhLahir(tempDate);
+        setLoginInfo({ ...loginInfo, tarikhLahir: tempDate });
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer',
+    });
   };
 
   const encodeImageFileAsURL = (e) => {
@@ -130,7 +149,7 @@ export default function Settings({ update }) {
                 <>
                   <label
                     htmlFor={uploadImage}
-                    className='hidden block text-sm font-medium text-gray-700'
+                    className='hidden text-sm font-medium text-gray-700'
                   >
                     Muat naik gambar
                   </label>
@@ -190,16 +209,6 @@ export default function Settings({ update }) {
                 </label>
               </div>
               <div className='relative border-b border-user1'>
-                {/* <input
-                  type='date'
-                  name='tarikhLahir'
-                  id={tarikhLahir}
-                  className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
-                  value={loginInfo.tarikhLahir}
-                  onChange={(e) =>
-                    setLoginInfo({ ...loginInfo, tarikhLahir: e.target.value })
-                  }
-                /> */}
                 <TarikhLahir />
                 <label
                   htmlFor={tarikhLahir}
@@ -226,42 +235,56 @@ export default function Settings({ update }) {
                   Emel
                 </label>
               </div>
-              <div className='relative border-b border-user1'>
+              <div className='relative'>
                 <label
-                  htmlFor={totp}
-                  className='block text-sm font-medium text-gray-700'
+                  htmlFor='totp'
+                  className='block text-sm py-2 font-medium text-user1'
                 >
                   TOTP
                 </label>
                 <div className='flex items-center justify-center'>
-                  <input
-                    checked={loginInfo.totp === false}
-                    type='radio'
-                    name='totpActive'
-                    id={totp}
-                    value={loginInfo.totp}
-                    className='mt-1 w-4 h-4 inline-block shadow-sm border-user1 focus:ring-1 rounded-md mx-3'
-                    onChange={(e) =>
-                      setLoginInfo({ ...loginInfo, totp: false })
-                    }
-                  />
-                  <label htmlFor='totpActive'>Tidak Aktif</label>
-                  <input
-                    type='radio'
-                    checked={loginInfo.totp === true}
-                    name='totpInactive'
-                    id={totp}
-                    value={loginInfo.totp}
-                    className='mt-1 w-4 h-4 inline-block shadow-sm border-user1 focus:ring-1 rounded-md mx-3'
-                    onChange={confirm(enableTotp)}
-                  />
-                  <label htmlFor='totpInactive'>Diaktifkan</label>
+                  <div>
+                    <input
+                      checked={loginInfo.totp === false}
+                      type='radio'
+                      name='totpActive'
+                      id='totpTidakAktif'
+                      value={loginInfo.totp}
+                      className='peer hidden'
+                      onChange={(e) =>
+                        setLoginInfo({ ...loginInfo, totp: false })
+                      }
+                    />
+                    <label
+                      htmlFor='totpTidakAktif'
+                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-4 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                    >
+                      Tidak Aktif
+                    </label>
+                  </div>
+                  <div>
+                    <input
+                      type='radio'
+                      checked={loginInfo.totp === true}
+                      name='totpInactive'
+                      id={totp}
+                      value={loginInfo.totp}
+                      className='peer hidden'
+                      onChange={confirm(enableTotp)}
+                    />
+                    <label
+                      htmlFor={totp}
+                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-4 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                    >
+                      Diaktifkan
+                    </label>
+                  </div>
                 </div>
               </div>
               <div>
                 <button
                   type='submit'
-                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-adminWhite bg-admin2 hover:bg-admin3 m-2'
+                  className='inline-flex justify-center py-2 px-4 mt-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-adminWhite bg-admin2 hover:bg-admin3 m-2'
                 >
                   Simpan
                 </button>
