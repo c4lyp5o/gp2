@@ -14,36 +14,31 @@ function UserPromosi() {
   const [isLoading, setIsLoading] = useState(true);
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [kodProgram, setKodProgram] = useState('');
-  const [jenisProgram, setJenisProgram] = useState('');
-  const [namaProgram, setNamaProgram] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
 
   const [showTambahAcara, setShowTambahAcara] = useState(false);
 
   useEffect(() => {
-    const query = async () => {
+    const fetchAllProgramPromosi = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(
-          `/api/v1/query/promosi?kodProgram=${kodProgram}&jenisProgram=${jenisProgram}&namaProgram=${namaProgram}`,
-          {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
-            },
-          }
-        );
-        console.log(data);
-        setAllProgramPromosi(data.filteredProgramPromosi);
+        const { data } = await axios.get('/api/v1/promosi', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setAllProgramPromosi(data.allProgramPromosi);
+
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-    query();
-  }, [kodProgram, jenisProgram, namaProgram]);
+    fetchAllProgramPromosi();
+  }, []);
 
   const tambahAcara = () => {
     setShowTambahAcara(true);
@@ -53,7 +48,7 @@ function UserPromosi() {
     <>
       <div className='px-3 lg:px-3 h-full p-3 overflow-y-auto'>
         <div className='relative grid grid-cols-3 outline outline-1 outline-userBlack m-3'>
-          <form className='col-span-2 grid grid-cols-2'>
+          <div className='col-span-2 grid grid-cols-2'>
             <div>
               <div className='w-full flex'>
                 <label
@@ -62,14 +57,23 @@ function UserPromosi() {
                 >
                   kod program :
                 </label>
-                <input
+                <select
                   type='text'
                   value={kodProgram}
                   onChange={(e) => {
                     setKodProgram(e.target.value);
                   }}
-                  className='w-full my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
-                />
+                  className='w-full my-3 ml-4 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                >
+                  <option value=''></option>
+                  {allProgramPromosi.map((p) => {
+                    return (
+                      <option value={p.kodProgram}>
+                        {p.kodProgram} | {p.jenisProgram} | {p.namaProgram}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div className='flex'>
                 <label
@@ -78,22 +82,15 @@ function UserPromosi() {
                 >
                   jenis program :
                 </label>
-                <select
-                  name='jenis-program'
-                  id='jenis-program'
-                  value={jenisProgram}
-                  onChange={(e) => {
-                    setJenisProgram(e.target.value);
-                  }}
-                  className='w-full my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                >
-                  <option value=''></option>
-                  {allProgramPromosi.map((p) => {
-                    return (
-                      <option value={p.jenisProgram}>{p.jenisProgram}</option>
-                    );
-                  })}
-                </select>
+                <p className='w-full my-3 ml-2 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'>
+                  {kodProgram !== ''
+                    ? allProgramPromosi
+                        .filter((p) => p.kodProgram.includes(kodProgram))
+                        .map((p) => {
+                          return <h1>{p.jenisProgram}</h1>;
+                        })
+                    : 'Sila pilih..'}
+                </p>
               </div>
               <div className='flex'>
                 <label
@@ -102,22 +99,15 @@ function UserPromosi() {
                 >
                   nama program :
                 </label>
-                <select
-                  name='nama-program'
-                  id='nama-program'
-                  value={namaProgram}
-                  onChange={(e) => {
-                    setNamaProgram(e.target.value);
-                  }}
-                  className='w-full my-3 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                >
-                  <option value=''></option>
-                  {allProgramPromosi.map((p) => {
-                    return (
-                      <option value={p.namaProgram}>{p.namaProgram}</option>
-                    );
-                  })}
-                </select>
+                <p className='w-full my-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'>
+                  {kodProgram !== ''
+                    ? allProgramPromosi
+                        .filter((p) => p.kodProgram.includes(kodProgram))
+                        .map((p) => {
+                          return <h1>{p.namaProgram}</h1>;
+                        })
+                    : 'Sila pilih..'}
+                </p>
               </div>
             </div>
             <div className='relative'>
@@ -125,7 +115,7 @@ function UserPromosi() {
                 cari
               </button>
             </div>
-          </form>
+          </div>
           <div className='relative'>
             <div
               onClick={tambahAcara}

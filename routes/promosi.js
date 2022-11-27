@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-// const {
-//   getProgramPromosi,
-//   getAktivitiPromosi,
-// } = require('../controllers/promosi');
+const { getAllProgramPromosi } = require('../controllers/promosi');
 
-// router.route('/').get(getProgramPromosi);
-// router.route('/aktiviti').get(getAktivitiPromosi);
+router.route('/').get(getAllProgramPromosi);
 
 module.exports = router;
