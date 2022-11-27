@@ -214,10 +214,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     });
   };
 
-  const closeModal = () => {
-    setShowKemaskini(false);
-  };
-
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
@@ -373,6 +369,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       fetchEvents();
     }
   }, [jenisFasiliti]);
+
+  const closeModal = () => {
+    setShowKemaskini(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

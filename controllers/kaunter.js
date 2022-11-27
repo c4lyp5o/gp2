@@ -48,22 +48,6 @@ const getSinglePersonKaunter = async (req, res) => {
   res.status(201).json({ singlePersonKaunter });
 };
 
-// GET /events
-const getProjekKomuniti = async (req, res) => {
-  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
-  if (req.user.accountType !== 'kaunterUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
-  const projekKomuniti = await Event.find({
-    createdByKp: req.user.kp,
-    createdByDaerah: req.user.daerah,
-    createdByNegeri: req.user.negeri,
-  });
-
-  res.status(200).json({ projekKomuniti });
-};
-
 // POST /
 const createPersonKaunter = async (req, res) => {
   logger.info(`${req.method} ${req.url} createPersonKaunter called`);
@@ -154,14 +138,14 @@ const deletePersonKaunter = async (req, res) => {
   });
 };
 
-// query route
+// query /kaunter
 const queryPersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const {
-    user: { kp },
+    user: { kp, daerah, negeri },
     query: {
       nama,
       tarikhKedatangan,
@@ -174,6 +158,8 @@ const queryPersonKaunter = async (req, res) => {
 
   const queryObject = {};
   queryObject.createdByKp = kp;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByNegeri = negeri;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -204,7 +190,7 @@ const queryPersonKaunter = async (req, res) => {
   res.status(200).json({ kaunterResultQuery });
 };
 
-// query /taska-tadika
+// query /kaunter/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -220,6 +206,23 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
+// query /events
+const getProjekKomuniti = async (req, res) => {
+  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const projekKomuniti = await Event.find({
+    createdByKp: req.user.kp,
+    createdByDaerah: req.user.daerah,
+    createdByNegeri: req.user.negeri,
+  });
+
+  res.status(200).json({ projekKomuniti });
+};
+
+// TODO to refactor not post, rearrange for query
 // check from cache if ic is same
 // POST /check
 const getPersonFromCache = async (req, res) => {
