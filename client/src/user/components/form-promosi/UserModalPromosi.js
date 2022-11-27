@@ -57,19 +57,47 @@ function UserModalPromosi({}) {
           </h1>
         </div>
         <form>
-          <div className='grid'>
-            <div>
-              <label htmlFor='nama-acara'>nama acara</label>
+          <div className='grid gap-3 mt-7'>
+            <div className='flex m-auto'>
+              <label htmlFor='nama-acara' className='mt-4'>
+                nama acara :
+              </label>
               <input
                 type='text'
                 id='nama-acara'
                 name='nama-acara'
-                className='outline outline-1'
+                className='my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
               />
             </div>
+            <div className='flex m-auto'>
+              <label htmlFor='tarikh-mula' className='whitespace-nowrap mr-3'>
+                tarikh mula :{' '}
+              </label>
+              <TarikhMula />
+            </div>
+            <div className='flex m-auto'>
+              <label htmlFor='tarikh-akhir' className='whitespace-nowrap mr-3'>
+                tarikh akhir :{' '}
+              </label>
+              <TarikhAkhir />
+            </div>
             <div>
-              <label htmlFor='tarikh-mula'>tarikh mula</label>
-              <input type='text' />
+              <label htmlFor='lokasi'>lokasi : </label>
+              <select
+                name='lokasi'
+                id='lokasi'
+                className='w-1/2 my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              >
+                <option value=''>Sila pilih lokasi..</option>
+                <option value='hospital'>Hospital</option>
+                <option value='klinik'>Klinik</option>
+                <option value='kawasan-awam'>Kawasan awam</option>
+              </select>
+            </div>
+            <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>
+              <button className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'>
+                tambah
+              </button>
             </div>
           </div>
         </form>
