@@ -19,6 +19,7 @@ const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
+const promosi = require('./routes/promosi');
 const allQueryRoute = require('./routes/allQueryRoute');
 
 // kaunter
@@ -92,6 +93,7 @@ app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/getotp', getotp);
 // ---
 app.use('/api/v1/sekolah', authCheck, sekolah);
+app.use('/api/v1/promosi', authCheck, promosi);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
 // kaunter route
