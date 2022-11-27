@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-function UserModalPromosi({}) {
+function UserModalPromosi({ setShowTambahAcara, toast }) {
   const { userToken, reliefUserToken, masterDatePicker } =
     useGlobalUserAppContext();
 
@@ -47,11 +47,18 @@ function UserModalPromosi({}) {
     });
   };
 
+  const closeModal = () => {
+    setShowTambahAcara(false);
+  };
+
   return (
     <>
       <div className='absolute inset-10 lg:inset-16 lg:inset-x-96 2xl:inset-x-[40rem] bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <div className='sticky top-0 z-50'>
-          <FaWindowClose className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user6 transition-all' />
+          <FaWindowClose
+            onClick={closeModal}
+            className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user6 transition-all'
+          />
           <h1 className='bg-user3 text-userWhite font-semibold text-xl'>
             tambah acara
           </h1>
@@ -102,7 +109,10 @@ function UserModalPromosi({}) {
           </div>
         </form>
       </div>
-      <div className='absolute inset-0 bg-user1 z-10 opacity-75' />
+      <div
+        onClick={closeModal}
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+      />
     </>
   );
 }
