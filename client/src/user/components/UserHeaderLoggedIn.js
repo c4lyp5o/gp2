@@ -91,12 +91,12 @@ function UserHeaderLoggedIn() {
             <div ref={profilRef}>
               <div className='hidden lg:flex absolute top-10 right-5 w-auto h-10 items-center justify-center capitalize text-userWhite text-xs'>
                 <div className='m-3 space-y-1 text-right pr-2'>
-                  <p className='w-96 text-sm leading-3'>
+                  <p className='w-60 text-sm leading-'>
                     <b>{username}</b>
                   </p>
-                  <p className='w-96 text-sm'>{namaKlinik}</p>
+                  <p className='w-60 text-sm'>{namaKlinik}</p>
                   {fasilitiRelief && (
-                    <p className='w-96 text-sm pt-1'>
+                    <p className='w-60 text-sm pt-1'>
                       <b>anda relief : </b>
                       {fasilitiRelief}
                     </p>
