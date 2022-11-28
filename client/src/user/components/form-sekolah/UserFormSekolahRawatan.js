@@ -10,6 +10,7 @@ function UserFormSekolahRawatan() {
   const {
     userToken,
     reliefUserToken,
+    dateToday,
     username,
     useParams,
     masterDatePicker,
@@ -204,7 +205,7 @@ function UserFormSekolahRawatan() {
 
   // tarikh rawatan
   const [tarikhRawatanSemasaDatePicker, setTarikhRawatanSemasaDatePicker] =
-    useState(new Date());
+    useState(null);
   const TarikhRawatanSemasa = () => {
     return masterDatePicker({
       selected: tarikhRawatanSemasaDatePicker,
