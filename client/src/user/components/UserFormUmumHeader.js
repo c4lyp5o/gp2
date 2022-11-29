@@ -1775,7 +1775,6 @@ function UserFormUmumHeader() {
     if (!userinfo.mdtbNumber) {
       mdcMdtbNum = userinfo.mdcNumber;
     }
-    console.log(mdcMdtbNum);
     await toast
       .promise(
         axios.patch(

@@ -23,13 +23,13 @@ export default function UserGenerateKlinik() {
 
   const TarikhAwal = () => {
     return masterDatePicker({
-      selectsStart: startDatePicker,
+      selected: startDatePicker,
+      selectsStart: true,
       startDate: startDatePicker,
       endDate: endDatePicker,
-      selected: startDatePicker,
       onChange: (startDate) => {
-        setStartDatePicker(startDate);
         setStartDate(moment(startDate).format('YYYY-MM-DD'));
+        setStartDatePicker(startDate);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -41,14 +41,14 @@ export default function UserGenerateKlinik() {
 
   const TarikhAkhir = () => {
     return masterDatePicker({
-      selectsEnd: endDatePicker,
+      selected: endDatePicker,
+      selectsEnd: true,
       startDate: startDatePicker,
       endDate: endDatePicker,
-      selected: endDatePicker,
       minDate: startDatePicker,
       onChange: (endDate) => {
-        setEndDatePicker(endDate);
         setEndDate(moment(endDate).format('YYYY-MM-DD'));
+        setEndDatePicker(endDate);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -57,6 +57,12 @@ export default function UserGenerateKlinik() {
         'appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
     });
   };
+
+  // reset endDate if change startDate
+  useEffect(() => {
+    setEndDate('');
+    setEndDatePicker(null);
+  }, [startDate]);
 
   useEffect(() => {
     const fetchSekolah = async () => {

@@ -22,13 +22,14 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
   const TarikhMula = () => {
     return masterDatePicker({
       selected: tarikhMulaDP,
+      selectsStart: true,
+      startDate: tarikhMulaDP,
+      endDate: tarikhAkhirDP,
+      required: true,
       onChange: (tarikhMula) => {
         const tempDate = moment(tarikhMula).format('YYYY-MM-DD');
         setTarikhMula(tempDate);
         setTarikhMulaDP(tarikhMula);
-      },
-      filterDate: (date) => {
-        return moment() > date;
       },
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
@@ -38,16 +39,26 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
   const TarikhAkhir = () => {
     return masterDatePicker({
       selected: tarikhAkhirDP,
+      selectsEnd: true,
+      startDate: tarikhMulaDP,
+      endDate: tarikhAkhirDP,
+      minDate: tarikhMulaDP,
+      required: true,
       onChange: (tarikhAkhir) => {
         const tempDate = moment(tarikhAkhir).format('YYYY-MM-DD');
         setTarikhAkhir(tempDate);
         setTarikhAkhirDP(tarikhAkhir);
       },
-      minDate: new Date(),
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
+
+  // reset tarikhAkhir if change tarikhMula
+  useEffect(() => {
+    setTarikhAkhir('');
+    setTarikhAkhirDP(null);
+  }, [tarikhMula]);
 
   const closeModal = () => {
     setShowTambahAcara(false);
@@ -55,7 +66,47 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // send
+    let mdcMdtbNum;
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
+    await toast
+      .promise(
+        axios.post(
+          '/api/v1/promosi/aktiviti',
+          {
+            createdByUsername: username,
+            createdByMdcMtdb: mdcMdtbNum,
+            //modal promosi
+            kodProgram,
+            namaAcara,
+            tarikhMula,
+            tarikhAkhir,
+            lokasi,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menambah acara...',
+          success: 'Acara berjaya ditambah',
+          error: 'Acara gagal ditambah',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        closeModal();
+      });
   };
 
   return (
@@ -78,9 +129,10 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
             </div>
             <div className='flex m-auto'>
               <label htmlFor='nama-acara' className='mt-4'>
-                nama acara :
+                nama acara : <span className='font-semibold text-user6'>*</span>
               </label>
               <input
+                required
                 type='text'
                 id='nama-acara'
                 name='nama-acara'
@@ -93,19 +145,24 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
             </div>
             <div className='flex m-auto'>
               <label htmlFor='tarikh-mula' className='whitespace-nowrap mr-3'>
-                tarikh mula :
+                tarikh mula :{' '}
+                <span className='font-semibold text-user6'>*</span>
               </label>
               <TarikhMula />
             </div>
             <div className='flex m-auto'>
               <label htmlFor='tarikh-akhir' className='whitespace-nowrap mr-3'>
-                tarikh akhir :
+                tarikh akhir :{' '}
+                <span className='font-semibold text-user6'>*</span>
               </label>
               <TarikhAkhir />
             </div>
             <div>
-              <label htmlFor='lokasi'>lokasi : </label>
+              <label htmlFor='lokasi'>
+                lokasi : <span className='font-semibold text-user6'>*</span>
+              </label>
               <select
+                required
                 name='lokasi'
                 id='lokasi'
                 value={lokasi}
@@ -121,7 +178,10 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
               </select>
             </div>
             <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>
-              <button className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'>
+              <button
+                onClick={handleSubmit}
+                className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+              >
                 tambah
               </button>
             </div>
