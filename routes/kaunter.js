@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {
-  createPersonKaunter,
   getSinglePersonKaunter,
+  createPersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
   getPersonFromCache,

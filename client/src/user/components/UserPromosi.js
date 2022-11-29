@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlus } from 'react-icons/fa';
+import moment from 'moment';
 
 import UserModalPromosi from './form-promosi/UserModalPromosi';
 
@@ -14,12 +15,13 @@ function UserPromosi() {
   const [isLoading, setIsLoading] = useState(true);
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [kodProgram, setKodProgram] = useState('');
+  const [showTambahAcara, setShowTambahAcara] = useState(false);
 
   const [allAktivitiPromosi, setAllAktivitiPromosi] = useState([]);
+  const [pilih, setPilih] = useState('');
+  const [resultPilih, setResultPilih] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
-
-  const [showTambahAcara, setShowTambahAcara] = useState(false);
 
   useEffect(() => {
     const fetchAllProgramPromosi = async () => {
@@ -69,6 +71,19 @@ function UserPromosi() {
       }
     };
     query();
+  }, [kodProgram]);
+
+  useEffect(() => {
+    const resultFilter = allAktivitiPromosi.filter((a) => {
+      return a._id === pilih;
+    });
+    setResultPilih(resultFilter);
+  }, [pilih]);
+
+  // clear pilihan if change kodProgram
+  useEffect(() => {
+    setPilih('');
+    setResultPilih([]);
   }, [kodProgram]);
 
   return (
@@ -203,72 +218,137 @@ function UserPromosi() {
                   </tr>
                 </thead>
                 <tbody className='bg-user4'>
-                  <tr>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                  </tr>
+                  {allAktivitiPromosi.map((a, index) => {
+                    return (
+                      <tr>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {index + 1}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {a.kodProgram}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {kodProgram !== '' &&
+                            allProgramPromosi
+                              .filter((p) => p.kodProgram.includes(kodProgram))
+                              .map((p) => {
+                                return <span>{p.namaProgram}</span>;
+                              })}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {a.namaAcara}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {moment(a.tarikhMula).format('DD/MM/YYYY')}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {a.statusReten}
+                        </td>
+                        <td
+                          onClick={() => {
+                            setPilih(a._id);
+                          }}
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                        >
+                          <u>pilih</u>
+                        </td>
+                        <td
+                          className={`${
+                            pilih === a._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                        >
+                          <u>hapus</u>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
           </section>
           <section className='relative outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2 m-3'>
-            <div className='lg:mb-3'>
-              <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                <h1>MAKLUMAT ACARA</h1>
-              </div>
-              <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                <h2 className='font-semibold'>jenis program :</h2>
-                <p className='ml-1'>mengemas rumah</p>
-              </div>
-              <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                <h2 className='font-semibold'>nama acara :</h2>
-                <p className='ml-1'>mop lantai</p>
-              </div>
-              <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                <h2 className='font-semibold'>tarikh mula :</h2>
-                <p className='ml-1'>01/01/2022</p>
-              </div>
-            </div>
-            <div className='lg:pt-10 relative'>
-              <div className='text-xs lg:text-sm flex flex-row pl-5 lg:absolute lg:bottom-3'>
-                <h2 className='font-semibold'>tarikh akhir :</h2>
-                <p className='ml-1'>02/01/2022</p>
-              </div>
-            </div>
-            <div className='absolute right-3 bottom-5'>
-              <Link
-                target='_blank'
-                to='form-promosi'
-                className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
-              >
-                ke form promosi
-              </Link>
-            </div>
+            {resultPilih.map((a) => {
+              return (
+                <>
+                  <div className='lg:mb-3'>
+                    <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                      <h1>MAKLUMAT ACARA</h1>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>jenis program :</h2>
+                      <p className='ml-1'>
+                        {kodProgram !== '' &&
+                          allProgramPromosi
+                            .filter((p) => p.kodProgram.includes(kodProgram))
+                            .map((p) => {
+                              return <span>{p.jenisProgram}</span>;
+                            })}
+                      </p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>nama acara :</h2>
+                      <p className='ml-1'>{a.namaAcara}</p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>tarikh mula :</h2>
+                      <p className='ml-1'>
+                        {moment(a.tarikhMula).format('DD/MM/YYYY')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className='lg:pt-10 relative'>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5 lg:absolute lg:bottom-3'>
+                      <h2 className='font-semibold'>tarikh akhir :</h2>
+                      <p className='ml-1'>
+                        {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className='absolute right-3 bottom-5'>
+                    <Link
+                      target='_blank'
+                      to={`form-promosi/${a._id}`}
+                      className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                    >
+                      masukkan reten promosi
+                    </Link>
+                  </div>
+                </>
+              );
+            })}
           </section>
         </div>
       </div>
