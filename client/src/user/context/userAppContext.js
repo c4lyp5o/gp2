@@ -82,15 +82,14 @@ function masterDatePicker({
     <DatePicker
       showPopperArrow={false}
       dateFormat='dd/MM/yyyy'
-      selected={selected}
-      onChange={onChange}
       peekNextMonth
       showMonthDropdown
       showYearDropdown
       dropdownMode='select'
+      selected={selected}
+      onChange={onChange}
       required={required}
       filterDate={filterDate}
-      className={className}
       selectsStart={selectsStart}
       selectsEnd={selectsEnd}
       startDate={startDate}
@@ -101,6 +100,7 @@ function masterDatePicker({
         e.preventDefault();
       }}
       onFocus={(e) => e.target.blur()} // disable keyboad input
+      className={className}
     />
   );
 }

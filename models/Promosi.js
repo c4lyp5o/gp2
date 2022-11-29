@@ -8,13 +8,14 @@ const PromosiSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMtdb: { type: String, required: true },
-    // status reten promosi ----------------------------------------
-    statusReten: { type: String, required: true, default: 'belum diisi' },
-    //modal promosi
+    // modal promosi
+    kodProgram: { type: String, required: true },
     namaAcara: { type: String, default: '' },
     tarikhMula: { type: String, default: '' },
     tarikhAkhir: { type: String, default: '' },
     lokasi: { type: String, default: '' },
+    // status reten promosi ----------------------------------------
+    statusReten: { type: String, default: 'belum diisi' },
     //maklumat acara
     mediaMassa: { type: String, default: '' },
     bilanganAktivitiTelevisyen: { type: Number, min: 0, default: 0 },
