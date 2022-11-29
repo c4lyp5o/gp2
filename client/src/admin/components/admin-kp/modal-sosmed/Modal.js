@@ -255,6 +255,25 @@ export const ModalSosMed = (props) => {
 export const ModalDataIkutProgram = (props) => {
   const { toast, readDataForKp } = useGlobalAdminAppContext();
   const [data, setData] = useState();
+  const [showInfo, setShowInfo] = useState(false);
+
+  const decoder = (data) => {
+    if (data.includes('Facebook')) {
+      return 'Facebook';
+    }
+    if (data.includes('Instagram')) {
+      return 'Instagram';
+    }
+    if (data.includes('Twitter')) {
+      return 'Twitter';
+    }
+    if (data.includes('Youtube')) {
+      return 'Youtube';
+    }
+    if (data.includes('TikTok')) {
+      return 'TikTok';
+    }
+  };
 
   useEffect(() => {
     console.log('hey');
@@ -307,8 +326,35 @@ export const ModalDataIkutProgram = (props) => {
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {i.namaAktiviti}
+                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 flex'>
+                          {i.namaAktiviti}{' '}
+                          <FaInfoCircle
+                            className='ml-2 text-xl text-userBlack'
+                            onMouseEnter={(e) => {
+                              setShowInfo(true);
+                            }}
+                            onMouseLeave={(e) => {
+                              setShowInfo(false);
+                            }}
+                          />
+                          {showInfo && (
+                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
+                              <div className='text-sm'>
+                                <h2 className='font-semibold  whitespace-nowrap'>
+                                  NAMA :
+                                </h2>
+                                {Object.keys(i).map((key) => {
+                                  if (key.includes('nama')) {
+                                    return (
+                                      <p className='whitespace-nowrap'>
+                                        {key} : {i[key]}
+                                      </p>
+                                    );
+                                  }
+                                })}
+                              </div>
+                            </div>
+                          )}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           {i.tarikhMula} - {i.tarikhAkhir}

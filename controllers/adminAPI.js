@@ -518,18 +518,6 @@ const getData = async (req, res) => {
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
-              console.log(sosmedDataByProgram);
-              const data = sosmedDataByProgram[0];
-              // let sosmedDataByProgramCounted = [];
-              // for (let i = 0; i < sosmedDataByProgram[0].data.length; i++) {
-              //   let obj = {};
-              //   Object.keys(sosmedDataByProgram[0].data[i]).forEach((key) => {
-              //     if (key.includes('bil')) {
-              //       obj[key] = sosmedDataByProgram[0].data[i][key];
-              //     }
-              //   });
-              //   sosmedDataByProgramCounted.push(obj);
-              // }
               res.status(200).json(sosmedDataByProgram);
               break;
             case 'tastad':
