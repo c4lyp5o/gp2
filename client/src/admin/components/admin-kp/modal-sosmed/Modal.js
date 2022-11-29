@@ -16,39 +16,34 @@ import Twitter from '../../../assets/socmed/twitter.svg';
 import Tiktok from '../../../assets/socmed/tiktok.svg';
 import Youtube from '../../../assets/socmed/youtube.svg';
 
-// const CustomDatePicker = ({ jenis, setQuestionState }) => {
-//   const [date, setDate] = useState(null);
-//   return (
-//     <DatePicker
-//       dateFormat='dd/MM/yyyy'
-//       selected={date}
-//       onChange={(date) => {
-//         const tempDate = moment(date).format('YYYY-MM-DD');
-//         setDate(date);
-//         if (jenis === 'mula') {
-//           setQuestionState((prev) => ({
-//             ...prev,
-//             tarikhMula: tempDate,
-//           }));
-//         }
-//         if (jenis === 'akhir') {
-//           setQuestionState((prev) => ({
-//             ...prev,
-//             tarikhAkhir: tempDate,
-//           }));
-//         }
-//       }}
-//       peekNextMonth
-//       showMonthDropdown
-//       showYearDropdown
-//       dropdownMode='select'
-//       className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-//     />
-//   );
-// };
+const CustomDatePicker = ({ jenis, setQuestionState }) => {
+  const { masterDatePicker } = useGlobalAdminAppContext();
+  const [date, setDate] = useState(null);
+  return masterDatePicker({
+    selected: date,
+    onChange: (date) => {
+      const tempDate = moment(date).format('YYYY-MM-DD');
+      setDate(date);
+      if (jenis === 'mula') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhMula: tempDate,
+        }));
+      }
+      if (jenis === 'akhir') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhAkhir: tempDate,
+        }));
+      }
+    },
+    className:
+      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+  });
+};
 
 export const ModalSosMed = (props) => {
-  const { toast, createDataForKp, readKodProgramData, masterDatePicker } =
+  const { toast, createData, createDataForKp, readKodProgramData } =
     useGlobalAdminAppContext();
 
   const JenisMediaSosial = [
@@ -58,31 +53,6 @@ export const ModalSosMed = (props) => {
     { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
     { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
   ];
-
-  const CustomDatePicker = ({ jenis, setQuestionState }) => {
-    const [date, setDate] = useState(null);
-    return masterDatePicker({
-      selected: date,
-      onChange: (date) => {
-        const tempDate = moment(date).format('YYYY-MM-DD');
-        setDate(date);
-        if (jenis === 'mula') {
-          setQuestionState((prev) => ({
-            ...prev,
-            tarikhMula: tempDate,
-          }));
-        }
-        if (jenis === 'akhir') {
-          setQuestionState((prev) => ({
-            ...prev,
-            tarikhAkhir: tempDate,
-          }));
-        }
-      },
-      className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
-    });
-  };
 
   const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
   const [pilihanMediaSosial, setPilihanMediaSosial] = useState([]);
@@ -99,16 +69,44 @@ export const ModalSosMed = (props) => {
     let Data = {};
     Data = {
       ...Data,
-      kodProgram: questionState.kodProgram,
       createdByKp: props.kp,
       createdByDaerah: props.daerah,
       createdByNegeri: props.negeri,
-    };
-    Data = {
-      ...Data,
+      kodProgram: questionState.kodProgram,
       data: [questionState],
     };
-    createDataForKp(props.FType, Data).then((res) => {
+    if (props.kp) {
+      Data = {
+        ...Data,
+        belongsTo: props.kp,
+      };
+      createDataForKp(props.FType, Data).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          toast.info(`Data berjaya ditambah`);
+          props.setReload(!props.reload);
+        } else {
+          toast.error(`Data tidak berjaya ditambah`);
+        }
+        props.setShowSosMedModal(false);
+        setAddingData(false);
+        return;
+      });
+    }
+    if (!props.kp) {
+      Data = {
+        ...Data,
+        belongsTo: props.daerah,
+      };
+    }
+    if (!props.daerah) {
+      Data = {
+        ...Data,
+        belongsTo: props.negeri,
+      };
+    }
+    createData(props.FType, Data).then((res) => {
+      console.log(res);
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         props.setReload(!props.reload);
@@ -117,6 +115,7 @@ export const ModalSosMed = (props) => {
       }
       props.setShowSosMedModal(false);
       setAddingData(false);
+      return;
     });
   };
 
@@ -148,21 +147,6 @@ export const ModalSosMed = (props) => {
           </h5>
           <div className='grid grid-row-3 mx-auto'>
             <div className='m-2'>
-              {/* <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                Kod Program:{' '}
-              </p> */}
-              {/* <input
-                type='text'
-                className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row mr-2 mb-2'
-                placeholder='Kod Program'
-                ref={currentName}
-                onChange={(e) => {
-                  setQuestionState({
-                    ...questionState,
-                    kodProgram: e.target.value,
-                  });
-                }}
-              /> */}
               <Select
                 className='basic-single'
                 classNamePrefix='select'
@@ -253,17 +237,23 @@ export const ModalSosMed = (props) => {
 };
 
 export const ModalDataIkutProgram = (props) => {
-  const { toast, readDataForKp, InfoDecoder } = useGlobalAdminAppContext();
+  const { readData, readDataForKp, InfoDecoder } = useGlobalAdminAppContext();
   const [dataIndex, setDataIndex] = useState();
   const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    readDataForKp('sosmedByKodProgram').then((res) => {
-      console.log(res);
-      setData(res.data);
-    });
+    if (props.accountType !== 'kpUser') {
+      readData('sosmedByKodProgram').then((res) => {
+        setData(res.data);
+      });
+    }
+    if (props.accountType === 'kpUser') {
+      readDataForKp('sosmedByKodProgram').then((res) => {
+        setData(res.data);
+      });
+    }
   }, []);
 
   if (!data) {
@@ -336,9 +326,9 @@ export const ModalDataIkutProgram = (props) => {
           </>
         ))}
         {showInfo && (
-          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-8'>
-            <div className='text-sm'>
-              <h2 className='font-semibold whitespace-nowrap'>INFO:</h2>
+          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+            <div className='text-xs'>
+              <h2 className='font-mono whitespace-nowrap'>INFO:</h2>
               {Object.keys(data[dataIndex].data[internalDataIndex])
                 .filter(
                   (i) =>
@@ -349,7 +339,7 @@ export const ModalDataIkutProgram = (props) => {
                 )
                 .map((key) => {
                   return (
-                    <p className='whitespace-nowrap'>
+                    <p className='font-mono whitespace-nowrap'>
                       {InfoDecoder(key)} :{' '}
                       {data[dataIndex].data[internalDataIndex][key]}
                     </p>
