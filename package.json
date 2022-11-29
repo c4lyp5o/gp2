@@ -27,7 +27,6 @@
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.12",
-    "client": "^0.0.1",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "exceljs": "^4.3.0",
@@ -42,7 +41,6 @@
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.5",
     "qrcode": "^1.5.1",
-    "server": "^1.0.37",
     "sharp": "^0.31.1",
     "speakeasy": "^2.0.0"
   },
