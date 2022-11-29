@@ -6,7 +6,12 @@ const getOperatorList = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const operators = await Operator.find({ kpSkrg: req.user.kp });
+  const operators = await Operator.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    kpSkrg: req.user.kp,
+    activationStatus: true,
+  });
   res.status(200).json({ operators });
 };
 
