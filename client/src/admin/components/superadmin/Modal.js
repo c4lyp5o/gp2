@@ -1,7 +1,6 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
