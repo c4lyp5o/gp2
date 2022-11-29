@@ -220,6 +220,9 @@ function UserFormUmumHeader() {
   const [statusKehadiran, setStatusKehadiran] = useState(false);
   masterForm.statusKehadiran = statusKehadiran;
   masterForm.setStatusKehadiran = setStatusKehadiran;
+  const [waktuDipanggil, setWaktuDipanggil] = useState('');
+  masterForm.waktuDipanggil = waktuDipanggil;
+  masterForm.setWaktuDipanggil = setWaktuDipanggil;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -548,9 +551,6 @@ function UserFormUmumHeader() {
   masterForm.setTampalanKesEndodontikDiperlukanPemeriksaanUmum =
     setTampalanKesEndodontikDiperlukanPemeriksaanUmum;
   //rawatan
-  const [waktuDipanggil, setWaktuDipanggil] = useState('');
-  masterForm.waktuDipanggil = waktuDipanggil;
-  masterForm.setWaktuDipanggil = setWaktuDipanggil;
   const [pesakitDibuatFissureSealant, setPesakitDibuatFissureSealant] =
     useState(false);
   masterForm.pesakitDibuatFissureSealant = pesakitDibuatFissureSealant;
@@ -1315,6 +1315,8 @@ function UserFormUmumHeader() {
           data.singlePersonUmum.swastaInstitusiWargaEmas
         );
         //map pemeriksaan
+        setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
+        setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
         setAdaCleftLipPemeriksaanUmum(
           data.singlePersonUmum.adaCleftLipPemeriksaanUmum
         );
@@ -1368,7 +1370,7 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum
         );
-        // kotak masuk sini
+        //kotak masuk sini
         setStatusMPemeriksaanUmum(data.singlePersonUmum.statusMPemeriksaanUmum);
         setJenisRPemeriksaanUmum(data.singlePersonUmum.jenisRPemeriksaanUmum);
         setKebersihanMulutOralHygienePemeriksaanUmum(
@@ -1471,8 +1473,7 @@ function UserFormUmumHeader() {
         setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
           data.singlePersonUmum.tampalanKesEndodontikDiperlukanPemeriksaanUmum
         );
-        //map rawatan umum
-        setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
+        //map rawatan
         setPesakitDibuatFissureSealant(
           data.singlePersonUmum.pesakitDibuatFissureSealant
         );
@@ -1776,7 +1777,7 @@ function UserFormUmumHeader() {
             createdByUsername: masterForm.createdByUsername,
             createdByMdcMdtb: mdcMdtbNum,
             statusReten: 'telah diisi',
-            // fasiliti perkhidmatan
+            //fasiliti perkhidmatan
             jenisFasiliti,
             kepp,
             jenisProgramKomuniti,
@@ -1813,8 +1814,9 @@ function UserFormUmumHeader() {
             institusiWargaEmas,
             kerajaanInstitusiWargaEmas,
             swastaInstitusiWargaEmas,
-            // pemeriksaan
+            //pemeriksaan
             statusKehadiran,
+            waktuDipanggil,
             adaCleftLipPemeriksaanUmum,
             rujukCleftLipPemeriksaanUmum,
             yaTidakSediaAdaStatusDenturePemeriksaanUmum,
@@ -1833,7 +1835,7 @@ function UserFormUmumHeader() {
             prrJenis1PemeriksaanUmum,
             baruJumlahGigiKekalPerluPRRJenis1RawatanUmum,
             yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum,
-            // kotak masuk sini
+            //kotak masuk sini
             statusMPemeriksaanUmum,
             jenisRPemeriksaanUmum,
             kebersihanMulutOralHygienePemeriksaanUmum,
@@ -1868,7 +1870,6 @@ function UserFormUmumHeader() {
             cabutanKesEndodontikDiperlukanPemeriksaanUmum,
             tampalanKesEndodontikDiperlukanPemeriksaanUmum,
             //rawatan
-            waktuDipanggil,
             pesakitDibuatFissureSealant,
             baruJumlahGigiKekalDibuatFSRawatanUmum,
             // semulaJumlahGigiKekalDibuatFSRawatanUmum,
@@ -2136,12 +2137,10 @@ function UserFormUmumHeader() {
               <form onSubmit={confirm(handleSubmit)}>
                 {/* <FasilitiPerkhidmatan {...masterForm} /> */}
                 {/* <MaklumatLanjut {...masterForm} /> */}
-                {singlePersonUmum.kedatangan === 'baru-kedatangan' && (
-                  <Pemeriksaan
-                    {...masterForm}
-                    singlePersonUmum={singlePersonUmum}
-                  />
-                )}
+                <Pemeriksaan
+                  {...masterForm}
+                  singlePersonUmum={singlePersonUmum}
+                />
                 <Rawatan {...masterForm} />
                 <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
                 {/* <Kotak {...masterForm} /> */}
