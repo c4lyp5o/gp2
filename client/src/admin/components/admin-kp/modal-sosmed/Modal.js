@@ -2,7 +2,7 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useRef, useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
-import { FaWindowClose } from 'react-icons/fa';
+import { FaWindowClose, FaInfoCircle } from 'react-icons/fa';
 
 import Confirmation from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
@@ -253,30 +253,13 @@ export const ModalSosMed = (props) => {
 };
 
 export const ModalDataIkutProgram = (props) => {
-  const { toast, readDataForKp } = useGlobalAdminAppContext();
+  const { toast, readDataForKp, InfoDecoder } = useGlobalAdminAppContext();
+  const [dataIndex, setDataIndex] = useState();
+  const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
   const [showInfo, setShowInfo] = useState(false);
 
-  const decoder = (data) => {
-    if (data.includes('Facebook')) {
-      return 'Facebook';
-    }
-    if (data.includes('Instagram')) {
-      return 'Instagram';
-    }
-    if (data.includes('Twitter')) {
-      return 'Twitter';
-    }
-    if (data.includes('Youtube')) {
-      return 'Youtube';
-    }
-    if (data.includes('TikTok')) {
-      return 'TikTok';
-    }
-  };
-
   useEffect(() => {
-    console.log('hey');
     readDataForKp('sosmedByKodProgram').then((res) => {
       console.log(res);
       setData(res.data);
@@ -299,7 +282,7 @@ export const ModalDataIkutProgram = (props) => {
         <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
           DATA MENGIKUT KOD PROGRAM
         </h5>
-        {data.map((i, index) => (
+        {data.map((i, dataIndex) => (
           <>
             <div className='m-2 justify-center'>
               <h1>KOD PROGRAM: {i.kodProgram.toUpperCase()}</h1>
@@ -332,32 +315,17 @@ export const ModalDataIkutProgram = (props) => {
                             className='ml-2 text-xl text-userBlack'
                             onMouseEnter={(e) => {
                               setShowInfo(true);
+                              setDataIndex(dataIndex);
+                              setInternalDataIndex(index);
                             }}
                             onMouseLeave={(e) => {
                               setShowInfo(false);
                             }}
                           />
-                          {showInfo && (
-                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
-                              <div className='text-sm'>
-                                <h2 className='font-semibold  whitespace-nowrap'>
-                                  NAMA :
-                                </h2>
-                                {Object.keys(i).map((key) => {
-                                  if (key.includes('nama')) {
-                                    return (
-                                      <p className='whitespace-nowrap'>
-                                        {key} : {i[key]}
-                                      </p>
-                                    );
-                                  }
-                                })}
-                              </div>
-                            </div>
-                          )}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {i.tarikhMula} - {i.tarikhAkhir}
+                          {moment(i.tarikhMula).format('DD-MM-YYYY')} -{' '}
+                          {moment(i.tarikhAkhir).format('DD-MM-YYYY')}
                         </td>
                       </tr>
                     </>
@@ -367,6 +335,29 @@ export const ModalDataIkutProgram = (props) => {
             </div>
           </>
         ))}
+        {showInfo && (
+          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-8'>
+            <div className='text-sm'>
+              <h2 className='font-semibold whitespace-nowrap'>INFO:</h2>
+              {Object.keys(data[dataIndex].data[internalDataIndex])
+                .filter(
+                  (i) =>
+                    i !== 'id' &&
+                    i !== 'tarikhMula' &&
+                    i !== 'tarikhAkhir' &&
+                    i !== 'namaAktiviti'
+                )
+                .map((key) => {
+                  return (
+                    <p className='whitespace-nowrap'>
+                      {InfoDecoder(key)} :{' '}
+                      {data[dataIndex].data[internalDataIndex][key]}
+                    </p>
+                  );
+                })}
+            </div>
+          </div>
+        )}
       </div>
       <div className='absolute inset-0 bg-user1 z-10 opacity-100' />
     </>
