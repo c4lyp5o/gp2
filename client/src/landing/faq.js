@@ -8,6 +8,12 @@ function Faq() {
   const [showSubPentadbir2, setShowSubPentadbir2] = useState(false);
   const [showSubPentadbir3, setShowSubPentadbir3] = useState(false);
   const [showSubPentadbir4, setShowSubPentadbir4] = useState(false);
+  const [showSubPentadbir5, setShowSubPentadbir5] = useState(false);
+  const [showSubPentadbir6, setShowSubPentadbir6] = useState(false);
+  const [showSubPentadbir7, setShowSubPentadbir7] = useState(false);
+  const [showSubPentadbir8, setShowSubPentadbir8] = useState(false);
+  const [showSubPentadbir9, setShowSubPentadbir9] = useState(false);
+  const [showSubPentadbir10, setShowSubPentadbir10] = useState(false);
 
   // Register
   const [showPendaftaran, setShowPendaftaran] = useState(false);
@@ -214,6 +220,191 @@ function Faq() {
                   } `}
                 >
                   apapapa huhu
+                </p>
+              </article>
+              {/* copy starts here */}
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir5(!showSubPentadbir5);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                  }}
+                >
+                  {showSubPentadbir5 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 5
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir5
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 5......
+                </p>
+              </article>
+              {/* copy ends here*/}
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir6(!showSubPentadbir6);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                    setShowSubPentadbir5(false);
+                  }}
+                >
+                  {showSubPentadbir6 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 6
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir6
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 6......
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir7(!showSubPentadbir7);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                    setShowSubPentadbir5(false);
+                    setShowSubPentadbir6(false);
+                  }}
+                >
+                  {showSubPentadbir7 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 7
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir7
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 7......
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir8(!showSubPentadbir8);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                    setShowSubPentadbir5(false);
+                    setShowSubPentadbir6(false);
+                    setShowSubPentadbir7(false);
+                  }}
+                >
+                  {showSubPentadbir8 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 8
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir8
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 8......
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir9(!showSubPentadbir9);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                    setShowSubPentadbir5(false);
+                    setShowSubPentadbir6(false);
+                    setShowSubPentadbir7(false);
+                    setShowSubPentadbir8(false);
+                  }}
+                >
+                  {showSubPentadbir9 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 9
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir9
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 9......
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPentadbir10(!showSubPentadbir10);
+                    setShowSubPentadbir1(false);
+                    setShowSubPentadbir2(false);
+                    setShowSubPentadbir3(false);
+                    setShowSubPentadbir4(false);
+                    setShowSubPentadbir5(false);
+                    setShowSubPentadbir6(false);
+                    setShowSubPentadbir7(false);
+                    setShowSubPentadbir8(false);
+                    setShowSubPentadbir9(false);
+                  }}
+                >
+                  {showSubPentadbir10 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 10
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPentadbir10
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  Jawapan soalan 10......
                 </p>
               </article>
             </article>
