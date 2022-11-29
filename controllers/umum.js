@@ -9,9 +9,13 @@ const getAllPersonUmum = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { kp } = req.user;
+  const { negeri, daerah, kp } = req.user;
 
-  const allPersonUmum = await Umum.find({ createdByKp: kp });
+  const allPersonUmum = await Umum.find({
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKp: kp,
+  });
 
   res.status(200).json({ allPersonUmum });
 };
@@ -124,13 +128,13 @@ const queryPersonUmum = async (req, res) => {
   }
 
   const {
-    user: { kp, daerah, negeri },
+    user: { negeri, daerah, kp },
     query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
-  queryObject.createdByKp = kp;
-  queryObject.createdByDaerah = daerah;
   queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
