@@ -307,7 +307,7 @@ const updateKotakSekolah = async (req, res) => {
 };
 
 // not used
-// query route
+// query /sekolah
 const queryPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });

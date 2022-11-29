@@ -82,7 +82,7 @@ const updatePersonUmum = async (req, res) => {
     });
     const singlePersonInfo = await Umum.findById({ _id: personUmumId });
     summary = { ...singlePersonInfo._doc, ...shortened };
-    const updateOfficerSummary = await Operator.findOneAndUpdate(
+    const updatedOfficerSummary = await Operator.findOneAndUpdate(
       {
         nomborMdc: req.body.createdByMdcMdtb,
       },
@@ -117,18 +117,20 @@ const deletePersonUmum = async (req, res) => {
   res.status(200).json({ deletedSinglePersonUmum });
 };
 
-// query route
+// query /umum
 const queryPersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const {
-    user: { kp },
+    user: { kp, daerah, negeri },
     query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
   queryObject.createdByKp = kp;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByNegeri = negeri;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -160,7 +162,7 @@ const queryPersonUmum = async (req, res) => {
   res.status(200).json({ umumResultQuery });
 };
 
-// query /taska-tadika
+// query /umum/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });

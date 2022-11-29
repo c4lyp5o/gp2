@@ -664,7 +664,7 @@ function Faq() {
             className='text-admin2 underline'
             href='https://forms.gle/v9P7w9qweTX86Nxn8'
           >
-            meja bantuan: borang maklumbalas
+            bantuan perkhidmatan: borang maklumbalas
           </a>
         </p>
       </div>

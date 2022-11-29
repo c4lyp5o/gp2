@@ -3,21 +3,60 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlus } from 'react-icons/fa';
 
+import UserModalPromosi from './form-promosi/UserModalPromosi';
+
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserPromosi() {
-  const { userToken, reliefUserToken } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, toast, refreshTimer, setRefreshTimer } =
+    useGlobalUserAppContext();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [kodProgram, setKodProgram] = useState('');
-  const [namaProgram, setNamaProgram] = useState('');
-  const [jenisProgram, setJenisProgram] = useState('');
+
+  const [reloadState, setReloadState] = useState(false);
+
+  const [showTambahAcara, setShowTambahAcara] = useState(false);
+
+  useEffect(() => {
+    const fetchAllProgramPromosi = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get('/api/v1/promosi', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setAllProgramPromosi(data.allProgramPromosi);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAllProgramPromosi();
+  }, []);
+
+  const clearKodProgram = () => {
+    setKodProgram('');
+  };
+
+  const tambahAcara = () => {
+    setShowTambahAcara(true);
+  };
 
   return (
     <>
       <div className='px-3 lg:px-3 h-full p-3 overflow-y-auto'>
         <div className='relative grid grid-cols-3 outline outline-1 outline-userBlack m-3'>
-          <form className='col-span-2 grid grid-cols-2'>
+          <div className='col-span-2 grid grid-cols-2'>
             <div>
+              <h2 className='text-xl text-left ml-5 mt-2 font-semibold'>
+                PROGRAM PROMOSI
+              </h2>
               <div className='w-full flex'>
                 <label
                   htmlFor='kod-program'
@@ -25,25 +64,22 @@ function UserPromosi() {
                 >
                   kod program :
                 </label>
-                <input
-                  type='text'
-                  className='w-full my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
-                />
-              </div>
-              <div className='flex'>
-                <label
-                  htmlFor='nama-program'
-                  className='font-semibold whitespace-nowrap m-auto mx-5'
-                >
-                  nama program :
-                </label>
                 <select
-                  name='nama-program'
-                  id='nama-program'
-                  className='w-full my-3 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  type='text'
+                  value={kodProgram}
+                  onChange={(e) => {
+                    setKodProgram(e.target.value);
+                  }}
+                  className='w-full my-3 ml-4 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
                 >
-                  <option value=''>?</option>
-                  <option value='?'>?</option>
+                  <option value=''></option>
+                  {allProgramPromosi.map((p) => {
+                    return (
+                      <option value={p.kodProgram}>
+                        {p.kodProgram} | {p.jenisProgram} | {p.namaProgram}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className='flex'>
@@ -53,26 +89,56 @@ function UserPromosi() {
                 >
                   jenis program :
                 </label>
-                <select
-                  name='jenis-program'
-                  id='jenis-program'
-                  className='w-full my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                <div className='w-full my-3 ml-2 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
+                  <p className='whitespace-nowrap overflow-y-auto'>
+                    {kodProgram !== ''
+                      ? allProgramPromosi
+                          .filter((p) => p.kodProgram.includes(kodProgram))
+                          .map((p) => {
+                            return <span>{p.jenisProgram}</span>;
+                          })
+                      : 'Sila pilih..'}
+                  </p>
+                </div>
+              </div>
+              <div className='flex'>
+                <label
+                  htmlFor='nama-program'
+                  className='font-semibold whitespace-nowrap m-auto mx-5'
                 >
-                  <option value=''>?</option>
-                  <option value='?'>?</option>
-                </select>
+                  nama program :
+                </label>
+                <div className='w-full my-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
+                  <p className='whitespace-nowrap overflow-y-auto'>
+                    {kodProgram !== ''
+                      ? allProgramPromosi
+                          .filter((p) => p.kodProgram.includes(kodProgram))
+                          .map((p) => {
+                            return <span>{p.namaProgram}</span>;
+                          })
+                      : 'Sila pilih..'}
+                  </p>
+                </div>
               </div>
             </div>
             <div className='relative'>
-              <button className='absolute left-5 top-3 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'>
-                cari
+              <button
+                onClick={clearKodProgram}
+                className='absolute left-5 top-11 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+              >
+                pilih semula
               </button>
             </div>
-          </form>
+          </div>
           <div className='relative'>
-            <div className='absolute right-5 top-5 text-4xl text-userWhite bg-user3 p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-user4'>
-              <FaPlus />
-            </div>
+            {kodProgram && (
+              <div
+                onClick={tambahAcara}
+                className='absolute right-5 top-5 text-7xl text-userWhite bg-user3 p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-user4'
+              >
+                <FaPlus />
+              </div>
+            )}
           </div>
         </div>
         <div className='outline outline-1 outline-userBlack m-3 pt-1 pb-3'>
@@ -143,93 +209,6 @@ function UserPromosi() {
                       ayam
                     </td>
                   </tr>
-                  <tr>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                    <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                      ayam
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -270,6 +249,13 @@ function UserPromosi() {
           </section>
         </div>
       </div>
+      {showTambahAcara && (
+        <UserModalPromosi
+          setShowTambahAcara={setShowTambahAcara}
+          kodProgram={kodProgram}
+          toast={toast}
+        />
+      )}
     </>
   );
 }

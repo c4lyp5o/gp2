@@ -2,10 +2,7 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useRef, useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
-import { FaWindowClose } from 'react-icons/fa';
-import DatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
+import { FaWindowClose, FaInfoCircle } from 'react-icons/fa';
 
 import Confirmation from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
@@ -19,13 +16,54 @@ import Twitter from '../../../assets/socmed/twitter.svg';
 import Tiktok from '../../../assets/socmed/tiktok.svg';
 import Youtube from '../../../assets/socmed/youtube.svg';
 
-const CustomDatePicker = ({ jenis, setQuestionState }) => {
-  const [date, setDate] = useState(null);
-  return (
-    <DatePicker
-      dateFormat='dd/MM/yyyy'
-      selected={date}
-      onChange={(date) => {
+// const CustomDatePicker = ({ jenis, setQuestionState }) => {
+//   const [date, setDate] = useState(null);
+//   return (
+//     <DatePicker
+//       dateFormat='dd/MM/yyyy'
+//       selected={date}
+//       onChange={(date) => {
+//         const tempDate = moment(date).format('YYYY-MM-DD');
+//         setDate(date);
+//         if (jenis === 'mula') {
+//           setQuestionState((prev) => ({
+//             ...prev,
+//             tarikhMula: tempDate,
+//           }));
+//         }
+//         if (jenis === 'akhir') {
+//           setQuestionState((prev) => ({
+//             ...prev,
+//             tarikhAkhir: tempDate,
+//           }));
+//         }
+//       }}
+//       peekNextMonth
+//       showMonthDropdown
+//       showYearDropdown
+//       dropdownMode='select'
+//       className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
+//     />
+//   );
+// };
+
+export const ModalSosMed = (props) => {
+  const { toast, createDataForKp, readKodProgramData, masterDatePicker } =
+    useGlobalAdminAppContext();
+
+  const JenisMediaSosial = [
+    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
+    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
+    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
+    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
+    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
+  ];
+
+  const CustomDatePicker = ({ jenis, setQuestionState }) => {
+    const [date, setDate] = useState(null);
+    return masterDatePicker({
+      selected: date,
+      onChange: (date) => {
         const tempDate = moment(date).format('YYYY-MM-DD');
         setDate(date);
         if (jenis === 'mula') {
@@ -40,27 +78,11 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
             tarikhAkhir: tempDate,
           }));
         }
-      }}
-      peekNextMonth
-      showMonthDropdown
-      showYearDropdown
-      dropdownMode='select'
-      className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-    />
-  );
-};
-
-export const ModalSosMed = (props) => {
-  const { toast, createDataForKp, readKodProgramData } =
-    useGlobalAdminAppContext();
-
-  const JenisMediaSosial = [
-    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
-    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
-    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
-    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
-    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
-  ];
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+    });
+  };
 
   const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
   const [pilihanMediaSosial, setPilihanMediaSosial] = useState([]);
@@ -231,11 +253,13 @@ export const ModalSosMed = (props) => {
 };
 
 export const ModalDataIkutProgram = (props) => {
-  const { toast, readDataForKp } = useGlobalAdminAppContext();
+  const { toast, readDataForKp, InfoDecoder } = useGlobalAdminAppContext();
+  const [dataIndex, setDataIndex] = useState();
+  const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    console.log('hey');
     readDataForKp('sosmedByKodProgram').then((res) => {
       console.log(res);
       setData(res.data);
@@ -258,7 +282,7 @@ export const ModalDataIkutProgram = (props) => {
         <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
           DATA MENGIKUT KOD PROGRAM
         </h5>
-        {data.map((i, index) => (
+        {data.map((i, dataIndex) => (
           <>
             <div className='m-2 justify-center'>
               <h1>KOD PROGRAM: {i.kodProgram.toUpperCase()}</h1>
@@ -285,11 +309,23 @@ export const ModalDataIkutProgram = (props) => {
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {i.namaAktiviti}
+                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 flex'>
+                          {i.namaAktiviti}{' '}
+                          <FaInfoCircle
+                            className='ml-2 text-xl text-userBlack'
+                            onMouseEnter={(e) => {
+                              setShowInfo(true);
+                              setDataIndex(dataIndex);
+                              setInternalDataIndex(index);
+                            }}
+                            onMouseLeave={(e) => {
+                              setShowInfo(false);
+                            }}
+                          />
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {i.tarikhMula} - {i.tarikhAkhir}
+                          {moment(i.tarikhMula).format('DD-MM-YYYY')} -{' '}
+                          {moment(i.tarikhAkhir).format('DD-MM-YYYY')}
                         </td>
                       </tr>
                     </>
@@ -299,6 +335,29 @@ export const ModalDataIkutProgram = (props) => {
             </div>
           </>
         ))}
+        {showInfo && (
+          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-8'>
+            <div className='text-sm'>
+              <h2 className='font-semibold whitespace-nowrap'>INFO:</h2>
+              {Object.keys(data[dataIndex].data[internalDataIndex])
+                .filter(
+                  (i) =>
+                    i !== 'id' &&
+                    i !== 'tarikhMula' &&
+                    i !== 'tarikhAkhir' &&
+                    i !== 'namaAktiviti'
+                )
+                .map((key) => {
+                  return (
+                    <p className='whitespace-nowrap'>
+                      {InfoDecoder(key)} :{' '}
+                      {data[dataIndex].data[internalDataIndex][key]}
+                    </p>
+                  );
+                })}
+            </div>
+          </div>
+        )}
       </div>
       <div className='absolute inset-0 bg-user1 z-10 opacity-100' />
     </>

@@ -11,39 +11,66 @@ export default function Pemeriksaan(props) {
   return (
     <>
       <div className='pb-1 pr-2 pl-2'>
-        <article className='grid lg:grid-cols-2 border border-userBlack mb-2 pl-3 p-2 rounded-md'>
-          <h4
-            className='flex flex-row items-center pl-5 font-bold col-span-2  hover:cursor-pointer hover:text-user6'
-            onClick={() => setShow(!show)}
-          >
-            Pemeriksaan atau Rawatan Yang Tidak Diberikan
-            <FaInfoCircle
-              className='ml-2 text-xl text-userBlack'
-              title='Tanda jika pesakit sudah didaftar dan tidak diberi pemeriksaan/rawatan'
-            />
-          </h4>
-          <div
-            className={`flex items-center flex-row pl-5 transition-all ${
-              show ? 'max-h-min overflow-y-auto' : 'max-h-0 overflow-hidden'
-            }`}
-          >
-            <input
-              disabled={isDisabled}
-              type='checkbox'
-              name='tidak-hadir'
-              id='tidak-hadir'
-              checked={props.statusKehadiran}
-              onChange={() => {
-                props.setStatusKehadiran(!props.statusKehadiran);
-              }}
-              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-            />
-            <label htmlFor='tidak-hadir' className='m-2 text-sm font-m'>
-              pesakit yang tidak menjalani pemeriksaan atau rawatan
-            </label>
-          </div>
-        </article>
-        {props.statusKehadiran === false ? (
+        <div
+          className={`grid gap-2 ${
+            props.statusKehadiran === false ? 'lg:grid-cols-2' : 'grid-cols-1'
+          }`}
+        >
+          <article className='grid border border-userBlack mb-2 pl-3 p-2 rounded-md'>
+            <h4
+              className='flex flex-row items-center pl-5 font-bold col-span-2  hover:cursor-pointer hover:text-user6'
+              onClick={() => setShow(!show)}
+            >
+              Pemeriksaan atau Rawatan Yang Tidak Diberikan
+              <FaInfoCircle
+                className='ml-2 text-xl text-userBlack'
+                title='Tanda jika pesakit sudah didaftar dan tidak diberi pemeriksaan/rawatan'
+              />
+            </h4>
+            <div
+              className={`flex items-center flex-row pl-5 transition-all ${
+                show ? 'max-h-min overflow-y-auto' : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <input
+                disabled={isDisabled}
+                type='checkbox'
+                name='tidak-hadir'
+                id='tidak-hadir'
+                checked={props.statusKehadiran}
+                onChange={() => {
+                  props.setStatusKehadiran(!props.statusKehadiran);
+                }}
+                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+              />
+              <label htmlFor='tidak-hadir' className='m-2 text-sm font-m'>
+                pesakit yang tidak menjalani pemeriksaan atau rawatan
+              </label>
+            </div>
+          </article>
+          {props.statusKehadiran === false ? (
+            <article className='flex border border-userBlack mb-2 pl-3 p-2 rounded-md'>
+              <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                waktu dipanggil :
+              </p>
+              <span className='font-semibold text-user6'>*</span>
+              <input
+                required
+                disabled={isDisabled}
+                type='time'
+                name='waktu-dipanggil'
+                id='waktu-dipanggil'
+                value={props.waktuDipanggil}
+                onChange={(e) => {
+                  props.setWaktuDipanggil(e.target.value);
+                }}
+                className='appearance-none w-full lg:w-56 leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'
+              />
+            </article>
+          ) : null}
+        </div>
+        {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+        props.statusKehadiran === false ? (
           <div className=' grid grid-cols-2'>
             <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
               <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
