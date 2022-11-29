@@ -1,3 +1,5 @@
+import { FaInfoCircle } from 'react-icons/fa';
+
 export default function Pegawai(props) {
   if (props.data.length > 0) {
     return (
@@ -48,7 +50,40 @@ export default function Pegawai(props) {
                     {index + 1}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {o.nama}
+                    <div className='flex'>
+                      {o.nama}
+                      {o.tempatBertugasSebelumIni.length > 0 ? (
+                        <FaInfoCircle
+                          className='ml-2 text-xl text-userBlack'
+                          onMouseEnter={(e) => {
+                            props.setShowInfo(true);
+                            props.setDataIndex(index);
+                          }}
+                          onMouseLeave={(e) => {
+                            props.setShowInfo(false);
+                          }}
+                        />
+                      ) : null}
+                      {props.showInfo && (
+                        <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-8'>
+                          <div className='text-sm'>
+                            <h2 className='font-semibold whitespace-nowrap'>
+                              Tempat Bertugas Sebelum Ini:{' '}
+                              {props.data[
+                                props.dataIndex
+                              ].tempatBertugasSebelumIni.map((o, index) => {
+                                return (
+                                  <span key={index}>
+                                    {index + 1}. {o}{' '}
+                                  </span>
+                                );
+                              })}
+                            </h2>
+                            <p className='whitespace-nowrap'></p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </td>
                   {props.data[0].mdcNumber ? (
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>

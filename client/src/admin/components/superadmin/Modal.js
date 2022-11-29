@@ -24,6 +24,7 @@ const AddModal = ({
     masterDatePicker,
     toast,
     createData,
+    createDataForKp,
     readSekolahData,
     readKpData,
     readDpimsData,
@@ -80,43 +81,6 @@ const AddModal = ({
       handler: currentKp.current,
       statusPerkhidmatan: currentStatusPerkhidmatan.current,
     };
-    if (FType === 'pp') {
-      Data = {
-        nama: currentName.current,
-        email: currentEmail.current,
-        statusPegawai: 'pp',
-        mdcNumber: currentRegNumber.current,
-        gred: currentGred.current,
-        kpSkrg: currentKp.current,
-        role: currentRole.current,
-        activationStatus: true,
-      };
-    }
-    if (FType === 'jp') {
-      Data = {
-        nama: currentName.current,
-        email: currentEmail.current,
-        statusPegawai: 'jp',
-        mdtbNumber: currentRegNumber.current,
-        gred: currentGred.current,
-        kpSkrg: currentKp.current,
-        role: currentRole.current,
-        activationStatus: true,
-      };
-    }
-    if (FType === 'kp') {
-      if (currentRole.current === '') {
-        currentRole.current = 'klinik';
-      }
-      Data = {
-        kp: currentName.current,
-        accountType: 'kpUser',
-        email: currentEmail.current,
-        statusRoleKlinik: currentRole.current,
-        statusPerkhidmatan: currentStatusPerkhidmatan.current,
-        kodFasiliti: currentKodFasiliti.current,
-      };
-    }
     if (FType === 'program') {
       if (currentModPenyampaian.current.length < 1) {
         toast.error(
@@ -133,34 +97,84 @@ const AddModal = ({
         tarikh: currentTarikh.current,
         tempat: currentTempat.current,
       };
+      createDataForKp(FType, Data).then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          toast.info(`Data berjaya ditambah`);
+          setReload(!reload);
+        } else {
+          toast.error(`Data tidak berjaya ditambah`);
+        }
+        setShowAddModal(false);
+        setAddingData(false);
+      });
     }
-    if (FType === 'taska' || FType === 'tadika') {
-      Data = {
-        ...Data,
-        kodTastad: currentKodTastad.current,
-        alamatTastad: currentAlamatTastad.current,
-        enrolmenTastad: currentEnrolmenTastad.current,
-        govKe: currentGovKe.current,
-      };
-    }
-    if (FType === 'sr' || FType === 'sm') {
-      Data = {
-        ...Data,
-        kodSekolah: currentKodSekolah.current,
-        risikoSekolahPersis: currentRisiko.current,
-      };
-    }
-    createData(FType, Data).then((res) => {
-      console.log(res.data);
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        setReload(!reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
+    if (FType !== 'program') {
+      if (FType === 'pp') {
+        Data = {
+          nama: currentName.current,
+          email: currentEmail.current,
+          statusPegawai: 'pp',
+          mdcNumber: currentRegNumber.current,
+          gred: currentGred.current,
+          kpSkrg: currentKp.current,
+          role: currentRole.current,
+          activationStatus: true,
+        };
       }
-      setShowAddModal(false);
-      setAddingData(false);
-    });
+      if (FType === 'jp') {
+        Data = {
+          nama: currentName.current,
+          email: currentEmail.current,
+          statusPegawai: 'jp',
+          mdtbNumber: currentRegNumber.current,
+          gred: currentGred.current,
+          kpSkrg: currentKp.current,
+          role: currentRole.current,
+          activationStatus: true,
+        };
+      }
+      if (FType === 'kp') {
+        if (currentRole.current === '') {
+          currentRole.current = 'klinik';
+        }
+        Data = {
+          kp: currentName.current,
+          accountType: 'kpUser',
+          email: currentEmail.current,
+          statusRoleKlinik: currentRole.current,
+          statusPerkhidmatan: currentStatusPerkhidmatan.current,
+          kodFasiliti: currentKodFasiliti.current,
+        };
+      }
+      if (FType === 'taska' || FType === 'tadika') {
+        Data = {
+          ...Data,
+          kodTastad: currentKodTastad.current,
+          alamatTastad: currentAlamatTastad.current,
+          enrolmenTastad: currentEnrolmenTastad.current,
+          govKe: currentGovKe.current,
+        };
+      }
+      if (FType === 'sr' || FType === 'sm') {
+        Data = {
+          ...Data,
+          kodSekolah: currentKodSekolah.current,
+          risikoSekolahPersis: currentRisiko.current,
+        };
+      }
+      createData(FType, Data).then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          toast.info(`Data berjaya ditambah`);
+          setReload(!reload);
+        } else {
+          toast.error(`Data tidak berjaya ditambah`);
+        }
+        setShowAddModal(false);
+        setAddingData(false);
+      });
+    }
   };
 
   const eventModeChecker = (e) => {
@@ -1201,15 +1215,8 @@ const AddModal = ({
 };
 
 const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
-  const {
-    Dictionary,
-    toast,
-    readKpData,
-    readOneData,
-    updateData,
-    readOneDataForKp,
-    updateDataForKp,
-  } = useGlobalAdminAppContext();
+  const { Dictionary, toast, readKpData, readOneData, updateData } =
+    useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -1224,26 +1231,13 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const [loading, setLoading] = useState(true);
   const [editingData, setEditingData] = useState(false);
 
-  // event
-  const currentJenisEvent = useRef();
-  const currentModPenyampaian = useRef();
-  const currentTarikh = useRef();
-  const currentMasaMula = useRef();
-  const currentMasaTamat = useRef();
-  const currentTempat = useRef();
-
   useEffect(() => {
     if (FType === 'kp') {
       readOneData(FType, id).then((res) => {
         setEditedEntity(res.data);
       });
     }
-    if (FType === 'program') {
-      readOneDataForKp(FType, id).then((res) => {
-        setEditedEntity(res.data);
-      });
-    }
-    if (FType !== 'program') {
+    if (FType !== 'kp') {
       readKpData().then((res) => {
         setKlinik(res.data);
       });
@@ -1271,18 +1265,6 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         gred: currentGred.current,
         kpSkrg: currentKp.current,
         role: currentRole.current,
-      };
-    }
-    if (FType === 'program') {
-      Data = {
-        // nama: currentName.current,
-        createdByKp: kp,
-        jenisEvent: currentJenisEvent.current,
-        modPenyampaianPerkhidmatan: currentModPenyampaian.current,
-        tarikh: currentTarikh.current,
-        masaMula: currentMasaMula.current,
-        masaTamat: currentMasaTamat.current,
-        tempat: currentTempat.current,
       };
     }
     if (FType === 'kp') {
@@ -1790,6 +1772,300 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     );
   }
 
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      {FType === 'kp' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Klinik confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
+      {(FType === 'pp' || FType === 'jp') && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Pegawai confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
+      {FType === 'program' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <Event confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
+      {FType !== 'pp' &&
+        FType !== 'kp' &&
+        FType !== 'jp' &&
+        FType !== 'program' && (
+          <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+            {(confirm) => <Facility confirm={confirm} />}
+          </ConfirmModalForData>
+        )}
+    </>
+  );
+};
+
+const EditModalForKp = ({
+  setShowEditModal,
+  FType,
+  kp,
+  id,
+  reload,
+  setReload,
+}) => {
+  const { Dictionary, toast, readOneDataForKp, updateDataForKp } =
+    useGlobalAdminAppContext();
+
+  const currentKp = useRef();
+  const currentName = useRef();
+  const currentEmail = useRef();
+  const currentGred = useRef();
+  const currentRole = useRef();
+  const [editedEntity, setEditedEntity] = useState([]);
+  const [statusCscsp, setStatusCscsp] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [editingData, setEditingData] = useState(false);
+
+  // event
+  const currentJenisEvent = useRef();
+  const currentModPenyampaian = useRef();
+  const currentTarikh = useRef();
+  const currentMasaMula = useRef();
+  const currentMasaTamat = useRef();
+  const currentTempat = useRef();
+
+  useEffect(() => {
+    readOneDataForKp(FType, id).then((res) => {
+      console.log(id, res.data);
+      setEditedEntity(res.data);
+      setStatusCscsp(res.data.cscspVerified);
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
+
+  const handleSubmit = async (e) => {
+    setEditingData(true);
+    let Data = {};
+    Data = {
+      ...Data,
+      // nama: currentName.current,
+      handler: currentKp.current,
+    };
+    if (FType === 'program') {
+      Data = {
+        // nama: currentName.current,
+        createdByKp: kp,
+        jenisEvent: currentJenisEvent.current,
+        modPenyampaianPerkhidmatan: currentModPenyampaian.current,
+        tarikh: currentTarikh.current,
+        masaMula: currentMasaMula.current,
+        masaTamat: currentMasaTamat.current,
+        tempat: currentTempat.current,
+      };
+    }
+    if (FType === 'pp' || FType === 'jp') {
+      Data = {
+        // nama: currentName.current,
+        email: currentEmail.current,
+        gred: currentGred.current,
+        kpSkrg: currentKp.current,
+        role: currentRole.current,
+        cscspVerified: statusCscsp,
+      };
+    }
+    updateDataForKp(FType, id, Data).then((res) => {
+      console.log(res.data);
+      toast.info(`Data berjaya dikemaskini`);
+      setShowEditModal(false);
+      setEditingData(false);
+      setReload(!reload);
+    });
+  };
+
+  function Pegawai({ confirm }) {
+    return (
+      <form onSubmit={confirm(handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>UBAH {Dictionary[FType]}</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-input'>
+                <p>
+                  Nama Pegawai{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <div className='grid gap-1'>
+                  <input
+                    readOnly={true}
+                    defaultValue={editedEntity.nama}
+                    className='border-2'
+                    type='text'
+                    name='nama'
+                    id='nama'
+                    onChange={(e) => (currentName.current = e.target.value)}
+                  />
+                </div>
+                {FType === 'pp' && (
+                  <p>
+                    Nombor MDC{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                )}
+                {FType === 'jp' && (
+                  <p>
+                    Nombor MDTB{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                )}
+                <div className='grid gap-1'>
+                  <input
+                    readOnly={true}
+                    defaultValue={
+                      FType === 'pp'
+                        ? editedEntity.mdcNumber
+                        : editedEntity.mdtbNumber
+                    }
+                    className='border-2'
+                    type='text'
+                    name='mdc'
+                    id='mdc'
+                  />
+                </div>
+                <p>
+                  Emel{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <div className='grid gap-1'>
+                  <input
+                    required
+                    defaultValue={editedEntity.email}
+                    className='border-2'
+                    type='text'
+                    name='email'
+                    id='email'
+                    onChange={(e) => (currentEmail.current = e.target.value)}
+                  />
+                </div>
+                <div className='grid gap-1'>
+                  <p>
+                    Gred{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  {FType === 'pp' ? (
+                    <select
+                      readOnly={true}
+                      value={editedEntity.gred}
+                      className='border-2'
+                      // onChange={(e) => (currentGred.current = e.target.value)}
+                    >
+                      <option value=''>Pilih Gred</option>
+                      <option value='jusa'>JUSA</option>
+                      <option value='ug56'>UG56</option>
+                      <option value='ug54'>UG54</option>
+                      <option value='ug52'>UG52</option>
+                      <option value='ug48'>UG48</option>
+                      <option value='ug44'>UG44</option>
+                      <option value='ug41'>UG41</option>
+                    </select>
+                  ) : (
+                    <select
+                      defaultValue={editedEntity.gred}
+                      className='border-2'
+                      // onChange={(e) => (currentGred.current = e.target.value)}
+                    >
+                      <option value=''>Pilih Gred</option>
+                      <option value='u40'>U40</option>
+                      <option value='u38'>U38</option>
+                      <option value='u36'>U36</option>
+                      <option value='u32'>U32</option>
+                      <option value='u29'>U29</option>
+                    </select>
+                  )}
+                </div>
+                <div className='grid gap-1'>
+                  <p>
+                    Role{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    readOnly={true}
+                    value={editedEntity.role}
+                    className='border-2'
+                    onChange={(e) => (currentRole.current = e.target.value)}
+                  >
+                    <option value=''>Pilih Role</option>
+                    <option value='admin'>Admin</option>
+                    <option value='umum'>Umum</option>
+                  </select>
+                </div>
+                <p>CSCSP Verified</p>
+                <div className='grid grid-cols-2'>
+                  <label htmlFor='cscspYes'>Mempunyai Sijil CSCSP</label>
+                  <input
+                    checked={statusCscsp === true ? true : false}
+                    type='radio'
+                    name='statusAktif'
+                    value='true'
+                    onChange={(e) => {
+                      // setEditedEntity({
+                      //   ...editedEntity,
+                      //   cscspVerified: e.target.value,
+                      // });
+                      setStatusCscsp(true);
+                    }}
+                  />
+                  <label htmlFor='cscspNo'>Tidak Mempunyai Sijil CSCSP</label>
+                  <input
+                    checked={statusCscsp === false ? true : false}
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='false'
+                    onChange={(e) => {
+                      // setEditedEntity({
+                      //   ...editedEntity,
+                      //   cscspVerified: e.target.value,
+                      // });
+                      setStatusCscsp(false);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalActions}>
+            <div className={styles.actionsContainer}>
+              {editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+              <span
+                className={styles.cancelBtn}
+                onClick={() => setShowEditModal(false)}
+              >
+                Cancel
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    );
+  }
+
   function Event({ confirm }) {
     return (
       <>
@@ -1968,11 +2244,6 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
 
   return (
     <>
-      {FType === 'kp' && (
-        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Klinik confirm={confirm} />}
-        </ConfirmModalForData>
-      )}
       {(FType === 'pp' || FType === 'jp') && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <Pegawai confirm={confirm} />}
@@ -1983,14 +2254,6 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
           {(confirm) => <Event confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType !== 'pp' &&
-        FType !== 'kp' &&
-        FType !== 'jp' &&
-        FType !== 'program' && (
-          <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-            {(confirm) => <Facility confirm={confirm} />}
-          </ConfirmModalForData>
-        )}
     </>
   );
 };
@@ -2003,27 +2266,47 @@ const DeleteModal = ({
   reload,
   setReload,
 }) => {
-  const { toast, deleteData } = useGlobalAdminAppContext();
+  const { toast, deleteData, deleteDataForKp } = useGlobalAdminAppContext();
   const [deletingData, setDeletingData] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    deleteData(FType, id).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya dipadam`);
-        setShowDeleteModal(false);
-        setDeletingData(false);
-        setReload(!reload);
-        return;
-      }
-      if (res.response.status === 409) {
-        toast.error(
-          `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-        );
-        setShowDeleteModal(false);
-        setDeletingData(false);
-      }
-    });
+    if (FType === 'program') {
+      deleteDataForKp(FType, id).then((res) => {
+        if (res.status === 200) {
+          toast.info(`Data berjaya dipadam`);
+          setShowDeleteModal(false);
+          setDeletingData(false);
+          setReload(!reload);
+          return;
+        }
+        if (res.response.status !== 200) {
+          toast.error(
+            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+          );
+          setShowDeleteModal(false);
+          setDeletingData(false);
+        }
+      });
+    }
+    if (FType !== 'program') {
+      deleteData(FType, id).then((res) => {
+        if (res.status === 200) {
+          toast.info(`Data berjaya dipadam`);
+          setShowDeleteModal(false);
+          setDeletingData(false);
+          setReload(!reload);
+          return;
+        }
+        if (res.response.status !== 200) {
+          toast.error(
+            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+          );
+          setShowDeleteModal(false);
+          setDeletingData(false);
+        }
+      });
+    }
   };
 
   return (
@@ -2069,4 +2352,4 @@ const DeleteModal = ({
   );
 };
 
-export { AddModal, EditModal, DeleteModal };
+export { AddModal, EditModal, EditModalForKp, DeleteModal };

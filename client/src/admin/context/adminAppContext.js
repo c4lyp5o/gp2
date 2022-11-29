@@ -249,6 +249,7 @@ function AdminAppProvider({ children }) {
       FType: FType,
       token: adminToken,
     });
+    console.log(response);
     return response;
   };
   const readOneDataForKp = async (FType, id) => {
@@ -262,12 +263,13 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-  const updateDataForKp = async (id, data) => {
+  const updateDataForKp = async (FType, id, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
         apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'update',
+        FType: FType,
         Id: id,
         Data: data,
         token: adminToken,
@@ -278,12 +280,13 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-  const deleteDataForKp = async (id) => {
+  const deleteDataForKp = async (FType, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
         apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'delete',
+        FType: FType,
         Id: id,
         token: adminToken,
       });
@@ -551,32 +554,94 @@ function AdminAppProvider({ children }) {
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
   };
-  const DictionarySosMedParam = (key) => {
-    if (key.includes('bilAktivitiShareKurang10') === true) {
+  const DictionarySosMedParam = (data) => {
+    if (data.includes('bilAktivitiShareKurang10') === true) {
       return 'Bilangan aktiviti share kurang 10';
     }
-    if (key.includes('bilAktivitiShareLebih10') === true) {
+    if (data.includes('bilAktivitiShareLebih10') === true) {
       return 'Bilangan aktiviti share lebih 10';
     }
-    if (key.includes('bilPenonton') === true) {
+    if (data.includes('bilPenonton') === true) {
       return 'Bilangan penonton';
     }
-    if (key.includes('bilReach') === true) {
+    if (data.includes('bilReach') === true) {
       return 'Bilangan reach';
     }
-    if (key.includes('bilShare') === true) {
+    if (data.includes('bilShare') === true) {
       return 'Bilangan share';
     }
   };
-  const DictionarySosMedAcronym = (key) => {
-    if (key.includes('live') === true) {
+  const DictionarySosMedAcronym = (data) => {
+    if (data.includes('live') === true) {
       return 'GO LIVE!';
     }
-    if (key.includes('poster') === true) {
+    if (data.includes('poster') === true) {
       return 'POSTER';
     }
-    if (key.includes('video') === true) {
+    if (data.includes('video') === true) {
       return 'VIDEO';
+    }
+  };
+  const InfoDecoder = (data) => {
+    if (data.includes('Facebook')) {
+      data = data.replace('Facebook_', '');
+      data = data.replace('live_', 'Facebook LIVE: ');
+      data = data.replace('video_', 'Facebook Video: ');
+      data = data.replace('poster_', 'Facebook Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Instagram')) {
+      data = data.replace('Instagram_', '');
+      data = data.replace('live_', 'Instagram LIVE: ');
+      data = data.replace('video_', 'Instagram Video: ');
+      data = data.replace('poster_', 'Instagram Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Twitter')) {
+      data = data.replace('Twitter_', '');
+      data = data.replace('live_', 'Twitter LIVE: ');
+      data = data.replace('video_', 'Twitter Video: ');
+      data = data.replace('poster_', 'Twitter Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Youtube')) {
+      data = data.replace('Youtube_', '');
+      data = data.replace('live_', 'Youtube LIVE: ');
+      data = data.replace('video_', 'Youtube Video: ');
+      data = data.replace('poster_', 'Youtube Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Tiktok')) {
+      data = data.replace('Tiktok_', '');
+      data = data.replace('live_', 'Tiktok LIVE: ');
+      data = data.replace('video_', 'Tiktok Video: ');
+      data = data.replace('poster_', 'Tiktok Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
     }
   };
 
@@ -618,6 +683,7 @@ function AdminAppProvider({ children }) {
         Dictionary,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
+        InfoDecoder,
         navigate,
         toast,
         pingApdmServer,
