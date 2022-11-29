@@ -14,6 +14,6 @@ router.route('/umum/taska-tadika').get(umum.getTaskaTadikaList);
 
 router.route('/sekolah').get(sekolah.queryPersonSekolah);
 
-router.route('/promosi').get(promosi.getAktivitiPromosi);
+router.route('/promosi').get(promosi.queryAktivitiPromosi);
 
 module.exports = router;

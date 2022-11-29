@@ -15,6 +15,8 @@ function UserPromosi() {
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [kodProgram, setKodProgram] = useState('');
 
+  const [allAktivitiPromosi, setAllAktivitiPromosi] = useState([]);
+
   const [reloadState, setReloadState] = useState(false);
 
   const [showTambahAcara, setShowTambahAcara] = useState(false);
@@ -47,6 +49,27 @@ function UserPromosi() {
   const tambahAcara = () => {
     setShowTambahAcara(true);
   };
+
+  useEffect(() => {
+    const query = async () => {
+      try {
+        const { data } = await axios.get(
+          `/api/v1/query/promosi?kodProgram=${kodProgram}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
+        setAllAktivitiPromosi(data.aktivitiPromosiResultQuery);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    query();
+  }, [kodProgram]);
 
   return (
     <>
