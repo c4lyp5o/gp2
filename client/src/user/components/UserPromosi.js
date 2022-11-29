@@ -40,6 +40,10 @@ function UserPromosi() {
     fetchAllProgramPromosi();
   }, []);
 
+  const clearKodProgram = () => {
+    setKodProgram('');
+  };
+
   const tambahAcara = () => {
     setShowTambahAcara(true);
   };
@@ -50,6 +54,9 @@ function UserPromosi() {
         <div className='relative grid grid-cols-3 outline outline-1 outline-userBlack m-3'>
           <div className='col-span-2 grid grid-cols-2'>
             <div>
+              <h2 className='text-xl text-left ml-5 mt-2 font-semibold'>
+                PROGRAM PROMOSI
+              </h2>
               <div className='w-full flex'>
                 <label
                   htmlFor='kod-program'
@@ -82,15 +89,17 @@ function UserPromosi() {
                 >
                   jenis program :
                 </label>
-                <p className='w-full my-3 ml-2 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'>
-                  {kodProgram !== ''
-                    ? allProgramPromosi
-                        .filter((p) => p.kodProgram.includes(kodProgram))
-                        .map((p) => {
-                          return <h1>{p.jenisProgram}</h1>;
-                        })
-                    : 'Sila pilih..'}
-                </p>
+                <div className='w-full my-3 ml-2 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
+                  <p className='whitespace-nowrap overflow-y-auto'>
+                    {kodProgram !== ''
+                      ? allProgramPromosi
+                          .filter((p) => p.kodProgram.includes(kodProgram))
+                          .map((p) => {
+                            return <span>{p.jenisProgram}</span>;
+                          })
+                      : 'Sila pilih..'}
+                  </p>
+                </div>
               </div>
               <div className='flex'>
                 <label
@@ -99,30 +108,37 @@ function UserPromosi() {
                 >
                   nama program :
                 </label>
-                <p className='w-full my-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'>
-                  {kodProgram !== ''
-                    ? allProgramPromosi
-                        .filter((p) => p.kodProgram.includes(kodProgram))
-                        .map((p) => {
-                          return <h1>{p.namaProgram}</h1>;
-                        })
-                    : 'Sila pilih..'}
-                </p>
+                <div className='w-full my-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
+                  <p className='whitespace-nowrap overflow-y-auto'>
+                    {kodProgram !== ''
+                      ? allProgramPromosi
+                          .filter((p) => p.kodProgram.includes(kodProgram))
+                          .map((p) => {
+                            return <span>{p.namaProgram}</span>;
+                          })
+                      : 'Sila pilih..'}
+                  </p>
+                </div>
               </div>
             </div>
             <div className='relative'>
-              <button className='absolute left-5 top-3 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'>
-                cari
+              <button
+                onClick={clearKodProgram}
+                className='absolute left-5 top-11 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+              >
+                pilih semula
               </button>
             </div>
           </div>
           <div className='relative'>
-            <div
-              onClick={tambahAcara}
-              className='absolute right-5 top-5 text-4xl text-userWhite bg-user3 p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-user4'
-            >
-              <FaPlus />
-            </div>
+            {kodProgram && (
+              <div
+                onClick={tambahAcara}
+                className='absolute right-5 top-5 text-7xl text-userWhite bg-user3 p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-user4'
+              >
+                <FaPlus />
+              </div>
+            )}
           </div>
         </div>
         <div className='outline outline-1 outline-userBlack m-3 pt-1 pb-3'>
@@ -236,6 +252,7 @@ function UserPromosi() {
       {showTambahAcara && (
         <UserModalPromosi
           setShowTambahAcara={setShowTambahAcara}
+          kodProgram={kodProgram}
           toast={toast}
         />
       )}

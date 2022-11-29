@@ -7,6 +7,7 @@ function UserPilihNama() {
   const {
     userToken,
     setUsername,
+    setUserinfo,
     setDisplayLoginForm,
     setDisplayPilihNama,
     setDisplayPilihFasiliti,
@@ -61,6 +62,7 @@ function UserPilihNama() {
         localStorage.setItem('username', pilihanOperator.current.value);
         setUsername(pilihanOperator.current.value);
         localStorage.setItem('userinfo', JSON.stringify(userinfo));
+        setUserinfo(userinfo);
         setDisplayLoginForm(true);
         setDisplayPilihNama(false);
         navigate('/pengguna/landing');
@@ -69,6 +71,7 @@ function UserPilihNama() {
         localStorage.setItem('username', pilihanOperator.current.value);
         setUsername(pilihanOperator.current.value);
         localStorage.setItem('userinfo', JSON.stringify(userinfo));
+        setUserinfo(userinfo);
         setDisplayPilihNama(false);
         setDisplayPilihFasiliti(true);
       }
