@@ -161,7 +161,7 @@ const UserAppContext = React.createContext();
 function UserAppProvider({ children }) {
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
-  const [userinfo, setUserinfo] = useState(storageUserinfo);
+  const [userinfo, setUserinfo] = useState(JSON.parse(storageUserinfo));
   const [reliefUserToken, setReliefUserToken] = useState(
     storageReliefUserToken
   );
