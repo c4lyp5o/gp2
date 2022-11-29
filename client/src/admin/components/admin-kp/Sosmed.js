@@ -143,27 +143,8 @@ export default function Sosmed(props) {
           Senarai Media Sosial {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-          {/* <div className='flex flex-auto m-2'>
-            <SosmedCards />
-            <SosmedCards />
-            <SosmedCards />
-          </div>
-          <div className='flex flex-auto m-2'>
-            <SosmedCards />
-            <SosmedCards />
-          </div> */}
           <div className='flex flex-auto m-2'>{renderCards(props)}</div>
         </div>
-        {/* <div>
-          <button
-            className='bg-admin3 relative top-0 right-0 p-1 w-35 rounded-md text-white shadow-xl m-2'
-            onClick={() => {
-              props.setShowSosMedModal(true);
-            }}
-          >
-            Tambah Aktiviti Media Sosial
-          </button>
-        </div> */}
         <div className='m-3'>
           <button
             className='bg-user9 text-userWhite text-sm rounded-md px-2 py-1 hover:bg-user6 hover:cursor-pointer transition-all'
