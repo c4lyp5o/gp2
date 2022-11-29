@@ -56,7 +56,7 @@ const updatePersonUmum = async (req, res) => {
     params: { id: personUmumId },
   } = req;
 
-  // associate negeri, daerah & kp to each person sekolah for every update
+  // associate negeri, daerah & kp to each person umum for every update
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
@@ -110,6 +110,10 @@ const updatePersonUmum = async (req, res) => {
 
 // DELETE /:id
 const deletePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const {
     params: { id: personUmumId },
   } = req;
@@ -117,6 +121,10 @@ const deletePersonUmum = async (req, res) => {
   const deletedSinglePersonUmum = await Umum.findOneAndDelete({
     _id: personUmumId,
   });
+
+  if (!deletedSinglePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
 
   res.status(200).json({ deletedSinglePersonUmum });
 };

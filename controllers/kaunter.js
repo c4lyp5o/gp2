@@ -55,7 +55,7 @@ const createPersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // associate negeri, daerah & kp to each person sekolah for every creation
+  // associate negeri, daerah & kp to each person umum for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
@@ -206,6 +206,7 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
+// TODO to refactor for prefix /kaunter & recheck who else using this controller
 // query /events
 const getProjekKomuniti = async (req, res) => {
   logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
@@ -222,7 +223,7 @@ const getProjekKomuniti = async (req, res) => {
   res.status(200).json({ projekKomuniti });
 };
 
-// TODO to refactor not post, rearrange for query
+// TODO to refactor not POST, rearrange for query
 // check from cache if ic is same
 // POST /check
 const getPersonFromCache = async (req, res) => {
@@ -240,7 +241,7 @@ module.exports = {
   updatePersonKaunter,
   deletePersonKaunter,
   queryPersonKaunter,
-  getProjekKomuniti,
   getTaskaTadikaList,
+  getProjekKomuniti,
   getPersonFromCache,
 };
