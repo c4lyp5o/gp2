@@ -67,7 +67,10 @@ function UserAfterLogin() {
           />
 
           <Route path='promosi' element={<UserPromosi />} />
-          <Route path='promosi/form-promosi' element={<UserFormPromosi />} />
+          <Route
+            path='promosi/form-promosi/:aktivitiId'
+            element={<UserFormPromosi />}
+          />
 
           {reliefUserToken ? null : (
             <>

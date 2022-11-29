@@ -104,13 +104,13 @@ function UserUmum() {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti
+  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
   }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram]);
 
-  // clearprogram if change jenisFasiliti
+  // clear program if change jenisFasiliti
   useEffect(() => {
     setJenisProgram('');
   }, [jenisFasiliti]);
