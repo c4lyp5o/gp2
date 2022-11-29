@@ -13,10 +13,25 @@ const getAllProgramPromosi = async (req, res) => {
   res.status(200).json({ allProgramPromosi: program });
 };
 
+// not used
 // GET /aktviti
-// HERE..
+const getAllAktivitiPromosi = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
 
-// GET /akvtivit/:aktivitiId
+  const { negeri, daerah, kp } = req.user;
+
+  const allAktivitPromosi = await Promosi.find({
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKp: kp,
+  });
+
+  res.status(200).json({ allAktivitPromosi });
+};
+
+// GET /akvtiviti/:aktivitiId
 // HERE..
 
 // POST /aktiviti
@@ -38,18 +53,35 @@ const createAktivitiPromosi = async (req, res) => {
 // HERE..
 
 // query route /promosi
-const getAktivitiPromosi = async (req, res) => {
+const queryAktivitiPromosi = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const aktivitiPromosi = { yo: 'sup' };
+  const {
+    user: { negeri, daerah, kp },
+    query: { kodProgram },
+  } = req;
+  const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
 
-  res.status(200).json({ aktivitiPromosi });
+  if (kodProgram) {
+    queryObject.kodProgram = kodProgram;
+  }
+  if (!kodProgram) {
+    return res.status(200).json({ aktivitiPromosiResultQuery: [] });
+  }
+
+  const aktivitiPromosiResultQuery = await Promosi.find(queryObject);
+
+  res.status(200).json({ aktivitiPromosiResultQuery });
 };
 
 module.exports = {
   getAllProgramPromosi,
+  getAllAktivitiPromosi,
   createAktivitiPromosi,
-  getAktivitiPromosi,
+  queryAktivitiPromosi,
 };
