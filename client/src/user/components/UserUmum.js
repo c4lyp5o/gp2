@@ -160,7 +160,7 @@ function UserUmum() {
       <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
         <form className='text-left grid grid-cols-1 lg:grid-cols-3'>
           <h2 className='text-xl font-semibold flex flex-row px-2 lg:col-span-3'>
-            CARIAN
+            CARIAN PESAKIT UMUM
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
             <label htmlFor='nama-pesakit' className='flex flex-row my-2'>

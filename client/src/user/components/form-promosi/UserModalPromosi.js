@@ -6,8 +6,8 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-function UserModalPromosi({ setShowTambahAcara, toast }) {
-  const { userToken, reliefUserToken, masterDatePicker } =
+function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
+  const { userToken, reliefUserToken, username, userinfo, masterDatePicker } =
     useGlobalUserAppContext();
 
   const [namaAcara, setNamaAcara] = useState('');
@@ -21,7 +21,8 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
 
   const TarikhMula = () => {
     return masterDatePicker({
-      onchange: (tarikhMula) => {
+      selected: tarikhMulaDP,
+      onChange: (tarikhMula) => {
         const tempDate = moment(tarikhMula).format('YYYY-MM-DD');
         setTarikhMula(tempDate);
         setTarikhMulaDP(tarikhMula);
@@ -36,7 +37,8 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
 
   const TarikhAkhir = () => {
     return masterDatePicker({
-      onchange: (tarikhAkhir) => {
+      selected: tarikhAkhirDP,
+      onChange: (tarikhAkhir) => {
         const tempDate = moment(tarikhAkhir).format('YYYY-MM-DD');
         setTarikhAkhir(tempDate);
         setTarikhAkhirDP(tarikhAkhir);
@@ -49,6 +51,11 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
 
   const closeModal = () => {
     setShowTambahAcara(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // send
   };
 
   return (
@@ -66,6 +73,10 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
         <form>
           <div className='grid gap-3 mt-7'>
             <div className='flex m-auto'>
+              <p className='mr-1'>acara bagi kod program :</p>
+              <p>{kodProgram}</p>
+            </div>
+            <div className='flex m-auto'>
               <label htmlFor='nama-acara' className='mt-4'>
                 nama acara :
               </label>
@@ -73,18 +84,22 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
                 type='text'
                 id='nama-acara'
                 name='nama-acara'
+                value={namaAcara}
+                onChange={(e) => {
+                  setNamaAcara(e.target.value);
+                }}
                 className='my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
               />
             </div>
             <div className='flex m-auto'>
               <label htmlFor='tarikh-mula' className='whitespace-nowrap mr-3'>
-                tarikh mula :{' '}
+                tarikh mula :
               </label>
               <TarikhMula />
             </div>
             <div className='flex m-auto'>
               <label htmlFor='tarikh-akhir' className='whitespace-nowrap mr-3'>
-                tarikh akhir :{' '}
+                tarikh akhir :
               </label>
               <TarikhAkhir />
             </div>
@@ -93,6 +108,10 @@ function UserModalPromosi({ setShowTambahAcara, toast }) {
               <select
                 name='lokasi'
                 id='lokasi'
+                value={lokasi}
+                onChange={(e) => {
+                  setLokasi(e.target.value);
+                }}
                 className='w-1/2 my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih lokasi..</option>

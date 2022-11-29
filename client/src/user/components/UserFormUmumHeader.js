@@ -17,8 +17,15 @@ import Confirmation from './UserFormUmumConfirmation';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserFormUmumHeader() {
-  const { userToken, reliefUserToken, username, useParams, toast, Dictionary } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    userinfo,
+    useParams,
+    toast,
+    Dictionary,
+  } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
@@ -1761,14 +1768,14 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = async (e) => {
-    const userData = JSON.parse(localStorage.getItem('userinfo'));
     let mdcMdtbNum;
-    if (!userData.mdcNumber) {
-      mdcMdtbNum = userData.mdtbNumber;
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
     }
-    if (!userData.mdtbNumber) {
-      mdcMdtbNum = userData.mdcNumber;
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
     }
+    console.log(mdcMdtbNum);
     await toast
       .promise(
         axios.patch(
