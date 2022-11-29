@@ -10,7 +10,7 @@ import Institusi from './Institusi';
 
 import { ModalSosMed, ModalDataIkutProgram } from './modal-sosmed/Modal';
 
-import { AddModal, EditModal, DeleteModal } from '../superadmin/Modal';
+import { AddModal, EditModalForKp, DeleteModal } from '../superadmin/Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
 export default function DataKp({ FType }) {
@@ -30,6 +30,11 @@ export default function DataKp({ FType }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
+
+  // pp jp last place
+  const [showInfo, setShowInfo] = useState(false);
+  const [dataIndex, setDataIndex] = useState(null);
+  const [internalDataIndex, setInternalDataIndex] = useState(null);
 
   // shower
   const [show, setShow] = useState({});
@@ -88,6 +93,12 @@ export default function DataKp({ FType }) {
   }, [FType, reload]);
 
   const props = {
+    showInfo,
+    setShowInfo,
+    dataIndex,
+    setDataIndex,
+    internalDataIndex,
+    setInternalDataIndex,
     showModal,
     setShowModal,
     showAddModal,
@@ -136,7 +147,7 @@ export default function DataKp({ FType }) {
     return (
       <>
         {showAddModal ? <AddModal {...props} /> : null}
-        {showEditModal ? <EditModal {...props} /> : null}
+        {showEditModal ? <EditModalForKp {...props} /> : null}
         {showDeleteModal ? <DeleteModal {...props} /> : null}
       </>
     );

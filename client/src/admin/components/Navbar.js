@@ -46,6 +46,17 @@ export default function Navbar(props) {
                       ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                       : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                   }
+                  to='kp/sosmed'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  MEDIA SOSIAL
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
                   to='kp'
                   onClick={() => setShowLinks(!showLinks)}
                 >
@@ -224,17 +235,30 @@ export default function Navbar(props) {
           )}
           {(props.loginInfo.accountType === 'negeriSuperadmin' ||
             props.loginInfo.accountType === 'hqSuperadmin') && (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-              }
-              to='aq'
-              onClick={() => setShowLinks(!showLinks)}
-            >
-              AD-HOC QUERY
-            </NavLink>
+            <>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                }
+                to='aq'
+                onClick={() => setShowLinks(!showLinks)}
+              >
+                AD-HOC QUERY
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                }
+                to='kp/sosmed'
+                onClick={() => setShowLinks(!showLinks)}
+              >
+                MEDIA SOSIAL
+              </NavLink>
+            </>
           )}
         </div>
       </nav>

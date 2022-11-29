@@ -518,18 +518,6 @@ const getData = async (req, res) => {
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
-              console.log(sosmedDataByProgram);
-              const data = sosmedDataByProgram[0];
-              // let sosmedDataByProgramCounted = [];
-              // for (let i = 0; i < sosmedDataByProgram[0].data.length; i++) {
-              //   let obj = {};
-              //   Object.keys(sosmedDataByProgram[0].data[i]).forEach((key) => {
-              //     if (key.includes('bil')) {
-              //       obj[key] = sosmedDataByProgram[0].data[i][key];
-              //     }
-              //   });
-              //   sosmedDataByProgramCounted.push(obj);
-              // }
               res.status(200).json(sosmedDataByProgram);
               break;
             case 'tastad':
@@ -573,10 +561,18 @@ const getData = async (req, res) => {
           break;
         case 'readOne':
           console.log('readOne for kpcenter');
-          const oneEvent = await Event.findOne({
-            _id: Id,
-          });
-          res.status(200).json(oneEvent);
+          if (FType === 'program') {
+            const oneEvent = await Event.findOne({
+              _id: Id,
+            });
+            res.status(200).json(oneEvent);
+          }
+          if (FType === 'pp' || FType === 'jp') {
+            const onePP = await Operator.findOne({
+              _id: Id,
+            });
+            res.status(200).json(onePP);
+          }
           break;
         case 'update':
           console.log('update for kpcenter');
@@ -588,6 +584,14 @@ const getData = async (req, res) => {
                 { new: true }
               );
               res.status(200).json(updateEvent);
+              break;
+            case 'pp':
+              const updatePP = await Operator.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updatePP);
               break;
             default:
               console.log('default case for update');
