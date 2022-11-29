@@ -12,7 +12,7 @@ const optionsBahagianB = [
   { value: 'kursus-seminar-bengkel', label: 'Kursus / Seminar / Bengkel' },
   { value: 'pertunjukan-multimedia', label: 'Pertunjukan Multimedia' },
   { value: 'dental-buskers', label: 'Dental Buskers' },
-  { value: 'flashmob', label: 'flashmob' },
+  { value: 'flashmob', label: 'Flashmob' },
   { value: 'lawatan-ke-rumah', label: 'Lawatan Ke Rumah' },
 ];
 
