@@ -16,8 +16,23 @@ const getAllProgramPromosi = async (req, res) => {
 // GET /aktviti
 // HERE..
 
-// POST /aktiviti/:aktivitiId
+// GET /akvtivit/:aktivitiId
 // HERE..
+
+// POST /aktiviti
+const createAktivitiPromosi = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  req.body.createdByNegeri = req.user.negeri;
+  req.body.createdByDaerah = req.user.daerah;
+  req.body.createdByKp = req.user.kp;
+
+  const singleAktivitiPromosi = await Promosi.create(req.body);
+
+  res.status(201).json({ singleAktivitiPromosi });
+};
 
 // PATCH /aktviti/:aktivitiId
 // HERE..
@@ -35,5 +50,6 @@ const getAktivitiPromosi = async (req, res) => {
 
 module.exports = {
   getAllProgramPromosi,
+  createAktivitiPromosi,
   getAktivitiPromosi,
 };
