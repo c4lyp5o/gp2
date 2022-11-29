@@ -1,7 +1,7 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaInfoCircle } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
 import { AddModal, EditModal, DeleteModal } from './Modal';
@@ -22,6 +22,8 @@ export default function Data({ FType, kp }) {
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
   const [showPassword, setShowPassword] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
+  const [dataIndex, setDataIndex] = useState(null);
 
   // short circuit
   const [showKlinik, setShowKlinik] = useState(false);
@@ -332,7 +334,40 @@ export default function Data({ FType, kp }) {
                         {index + 1}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {o.nama}
+                        <div className='flex'>
+                          {o.nama}
+                          {o.tempatBertugasSebelumIni.length > 0 ? (
+                            <FaInfoCircle
+                              className='ml-2 text-md text-userBlack'
+                              onMouseEnter={(e) => {
+                                setShowInfo(true);
+                                setDataIndex(index);
+                              }}
+                              onMouseLeave={(e) => {
+                                setShowInfo(false);
+                              }}
+                            />
+                          ) : null}
+                          {showInfo && (
+                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+                              <div className='text-xs'>
+                                <h2 className='font-mono'>
+                                  Tempat Bertugas Sebelum Ini:{' '}
+                                  {data[dataIndex].tempatBertugasSebelumIni.map(
+                                    (o, indexPegawai) => {
+                                      return (
+                                        <div key={indexPegawai}>
+                                          {indexPegawai + 1}. {o}{' '}
+                                        </div>
+                                      );
+                                    }
+                                  )}
+                                </h2>
+                                <p className='whitespace-nowrap'></p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </td>
                       {FType === 'pp' && (
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>

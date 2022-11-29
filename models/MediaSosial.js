@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const socmedSchema = new Schema(
   {
+    belongsTo: { type: String, required: true },
     createdByNegeri: { type: String },
     createdByDaerah: { type: String },
     createdByKp: { type: String },

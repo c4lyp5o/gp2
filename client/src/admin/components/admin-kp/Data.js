@@ -30,11 +30,11 @@ export default function DataKp({ FType }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
+  const [accountType, setAccountType] = useState(null);
 
   // pp jp last place
   const [showInfo, setShowInfo] = useState(false);
   const [dataIndex, setDataIndex] = useState(null);
-  const [internalDataIndex, setInternalDataIndex] = useState(null);
 
   // shower
   const [show, setShow] = useState({});
@@ -43,18 +43,29 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser, readDataForKp } = useGlobalAdminAppContext();
+  const { getCurrentUser, readData, readDataForKp } =
+    useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
       const { data: userData } = await getCurrentUser();
+      setAccountType(userData.accountType);
       setUser(userData.nama);
       setKp(userData.kp);
       setDaerah(userData.daerah);
+      if (userData.daerah === '-') {
+        setDaerah();
+      }
       setNegeri(userData.negeri);
-      const { data } = await readDataForKp(FType);
-      setData(data);
+      if (userData.accountType === 'kpUser') {
+        const { data } = await readDataForKp(FType);
+        setData(data);
+      }
+      if (userData.accountType !== 'kpUser') {
+        const { data } = await readData(FType);
+        setData(data);
+      }
     };
     getData()
       .then(() => {
@@ -97,8 +108,6 @@ export default function DataKp({ FType }) {
     setShowInfo,
     dataIndex,
     setDataIndex,
-    internalDataIndex,
-    setInternalDataIndex,
     showModal,
     setShowModal,
     showAddModal,
@@ -125,6 +134,8 @@ export default function DataKp({ FType }) {
     setNegeri,
     user,
     setUser,
+    accountType,
+    setAccountType,
     reload,
     setReload,
     FType,
