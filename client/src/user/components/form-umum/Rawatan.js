@@ -37,24 +37,6 @@ export default function Rawatan(props) {
             <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               {props.statusKehadiran === false ? (
                 <>
-                  <article className='flex border border-userBlack mb-2 pl-3 p-2 rounded-md'>
-                    <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                      waktu dipanggil :
-                    </p>
-                    <span className='font-semibold text-user6'>*</span>
-                    <input
-                      required
-                      disabled={isDisabled}
-                      type='time'
-                      name='waktu-dipanggil'
-                      id='waktu-dipanggil'
-                      value={props.waktuDipanggil}
-                      onChange={(e) => {
-                        props.waktuDipanggil(e.target.value);
-                      }}
-                      className='appearance-none w-full lg:w-56 leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'
-                    />
-                  </article>
                   <article className='grid border border-userBlack pl-3 px-2 p-2 rounded-md lg:col-span-2'>
                     <h1 className='flex flex-row text-base font-semibold p-1'>
                       rawatan yang dijalankan hari ini

@@ -88,6 +88,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    waktuDipanggil: {
+      type: String,
+      default: '',
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -313,10 +317,6 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan umum
-    waktuDipanggil: {
-      type: String,
-      default: '',
-    },
     pesakitDibuatFissureSealant: {
       type: Boolean,
       default: false,
