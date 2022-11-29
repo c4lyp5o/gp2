@@ -249,7 +249,6 @@ function AdminAppProvider({ children }) {
       FType: FType,
       token: adminToken,
     });
-    console.log(response);
     return response;
   };
   const readOneDataForKp = async (FType, id) => {

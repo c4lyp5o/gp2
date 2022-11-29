@@ -29,12 +29,6 @@ export default function Pegawai(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Gred
                 </th>
-                {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Klinik Pergigian
-                </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Peranan
-                </th> */}
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Sijil CSCSP
                 </th>
@@ -54,7 +48,7 @@ export default function Pegawai(props) {
                       {o.nama}
                       {o.tempatBertugasSebelumIni.length > 0 ? (
                         <FaInfoCircle
-                          className='ml-2 text-xl text-userBlack'
+                          className='ml-2 text-md text-userBlack'
                           onMouseEnter={(e) => {
                             props.setShowInfo(true);
                             props.setDataIndex(index);
@@ -65,19 +59,21 @@ export default function Pegawai(props) {
                         />
                       ) : null}
                       {props.showInfo && (
-                        <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-8'>
-                          <div className='text-sm'>
-                            <h2 className='font-semibold whitespace-nowrap'>
+                        <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+                          <div className='text-xs'>
+                            <h2 className='font-mono'>
                               Tempat Bertugas Sebelum Ini:{' '}
                               {props.data[
                                 props.dataIndex
-                              ].tempatBertugasSebelumIni.map((o, index) => {
-                                return (
-                                  <span key={index}>
-                                    {index + 1}. {o}{' '}
-                                  </span>
-                                );
-                              })}
+                              ].tempatBertugasSebelumIni.map(
+                                (o, indexPegawai) => {
+                                  return (
+                                    <div key={indexPegawai}>
+                                      {indexPegawai + 1}. {o}{' '}
+                                    </div>
+                                  );
+                                }
+                              )}
                             </h2>
                             <p className='whitespace-nowrap'></p>
                           </div>
@@ -97,12 +93,6 @@ export default function Pegawai(props) {
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                     {o.gred}
                   </td>
-                  {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {o.kpSkrg}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {o.role}
-                  </td> */}
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                     {o.cscspVerified ? (
                       <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
