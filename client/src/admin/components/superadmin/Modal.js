@@ -117,6 +117,7 @@ const AddModal = ({
           mdcNumber: currentRegNumber.current,
           gred: currentGred.current,
           kpSkrg: currentKp.current,
+          kodFasiliti: currentKodFasiliti.current,
           role: currentRole.current,
           activationStatus: true,
         };
@@ -129,6 +130,7 @@ const AddModal = ({
           mdtbNumber: currentRegNumber.current,
           gred: currentGred.current,
           kpSkrg: currentKp.current,
+          kodFasiliti: currentKodFasiliti.current,
           role: currentRole.current,
           activationStatus: true,
         };
@@ -720,11 +722,18 @@ const AddModal = ({
                       <select
                         required
                         className='border-2'
-                        onChange={(e) => (currentKp.current = e.target.value)}
+                        onChange={(e) => {
+                          const selectedKlinik = klinik.find(
+                            (k) => k.kodFasiliti === e.target.value
+                          );
+                          currentKp.current = selectedKlinik.kp;
+                          currentKodFasiliti.current =
+                            selectedKlinik.kodFasiliti;
+                        }}
                       >
                         <option value=''>Pilih Klinik</option>
                         {klinik.map((k) => (
-                          <option className='capitalize' value={k.kp}>
+                          <option className='capitalize' value={k.kodFasiliti}>
                             {k.kp}
                           </option>
                         ))}
@@ -1218,6 +1227,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     useGlobalAdminAppContext();
 
   const currentKp = useRef();
+  const currentKodFasiliti = useRef();
   const currentName = useRef();
   const currentEmail = useRef();
   const currentStatusPerkhidmatan = useRef();
@@ -1263,6 +1273,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         email: currentEmail.current,
         gred: currentGred.current,
         kpSkrg: currentKp.current,
+        kodFasiliti: currentKodFasiliti.current,
         role: currentRole.current,
       };
     }
@@ -1594,13 +1605,19 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
                   <select
-                    defaultValue={editedEntity.kpSkrg}
+                    defaultValue={editedEntity.kodFasiliti}
                     className='border-2'
-                    onChange={(e) => (currentKp.current = e.target.value)}
+                    onChange={(e) => {
+                      const selectedKlinik = klinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
+                      currentKp.current = selectedKlinik.kp;
+                      currentKodFasiliti.current = selectedKlinik.kodFasiliti;
+                    }}
                   >
                     <option value=''>Pilih Klinik</option>
                     {klinik.map((k) => (
-                      <option className='capitalize' value={k.kp}>
+                      <option className='capitalize' value={k.kodFasiliti}>
                         {k.kp}
                       </option>
                     ))}

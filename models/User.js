@@ -30,11 +30,10 @@ const UserSchema = new mongoose.Schema({
   kp: {
     type: String,
   },
-  email: {
+  kodFasiliti: {
     type: String,
   },
-  // this is klinik
-  kodFasiliti: {
+  email: {
     type: String,
   },
   statusPerkhidmatan: {
@@ -117,11 +116,12 @@ UserSchema.methods.createJWT = function () {
     {
       userId: this._id,
       username: this.username,
-      kp: this.kp,
-      daerah: this.daerah,
-      negeri: this.negeri,
-      email: this.email,
       accountType: this.accountType,
+      negeri: this.negeri,
+      daerah: this.daerah,
+      kp: this.kp,
+      kodFasiliti: this.kodFasiliti,
+      email: this.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }
