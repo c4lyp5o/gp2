@@ -309,6 +309,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -327,6 +329,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -345,6 +349,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -363,6 +369,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -381,6 +389,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
@@ -399,6 +409,8 @@ export default function Promosi(props) {
                             e.target.value
                           );
                         }}
+                        min='0'
+                        max='10'
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       />
                     </div>
