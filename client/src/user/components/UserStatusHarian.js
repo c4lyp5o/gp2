@@ -148,7 +148,7 @@ export default function UserStatusHarian() {
               </p>
             </div>
           </div>
-          <div className='lg:col-span-2 lg:m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+          <div className='lg:col-span-2 overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-userWhite bg-user2'>
                 <tr>
