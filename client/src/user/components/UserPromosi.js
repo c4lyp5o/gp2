@@ -35,7 +35,6 @@ function UserPromosi() {
           },
         });
         setAllProgramPromosi(data.allProgramPromosi);
-
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -55,6 +54,7 @@ function UserPromosi() {
   useEffect(() => {
     const query = async () => {
       try {
+        setIsLoading(true);
         const { data } = await axios.get(
           `/api/v1/query/promosi?kodProgram=${kodProgram}`,
           {
@@ -66,12 +66,13 @@ function UserPromosi() {
           }
         );
         setAllAktivitiPromosi(data.aktivitiPromosiResultQuery);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     query();
-  }, [kodProgram]);
+  }, [kodProgram, reloadState]);
 
   useEffect(() => {
     const resultFilter = allAktivitiPromosi.filter((a) => {
@@ -85,6 +86,16 @@ function UserPromosi() {
     setPilih('');
     setResultPilih([]);
   }, [kodProgram]);
+
+  // on tab focus reload data
+  useEffect(() => {
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
+    setRefreshTimer(!refreshTimer);
+    return () => {
+      window.removeEventListener('focus', setReloadState);
+    };
+  }, []);
 
   return (
     <>
@@ -217,85 +228,179 @@ function UserPromosi() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className='bg-user4'>
-                  {allAktivitiPromosi.map((a, index) => {
+                {!isLoading &&
+                  allAktivitiPromosi.map((a, index) => {
                     return (
-                      <tr>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {index + 1}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {a.kodProgram}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {kodProgram !== '' &&
-                            allProgramPromosi
-                              .filter((p) => p.kodProgram.includes(kodProgram))
-                              .map((p) => {
-                                return <span>{p.namaProgram}</span>;
-                              })}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {a.namaAcara}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {moment(a.tarikhMula).format('DD/MM/YYYY')}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {a.statusReten}
-                        </td>
-                        <td
-                          onClick={() => {
-                            setPilih(a._id);
-                          }}
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                        >
-                          <u>pilih</u>
-                        </td>
-                        <td
-                          className={`${
-                            pilih === a._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                        >
-                          <u>hapus</u>
-                        </td>
-                      </tr>
+                      <tbody className='bg-user4'>
+                        <tr>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {index + 1}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {a.kodProgram}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {kodProgram !== '' &&
+                              allProgramPromosi
+                                .filter((p) =>
+                                  p.kodProgram.includes(kodProgram)
+                                )
+                                .map((p) => {
+                                  return <span>{p.namaProgram}</span>;
+                                })}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {a.namaAcara}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {moment(a.tarikhMula).format('DD/MM/YYYY')}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {a.statusReten}
+                          </td>
+                          <td
+                            onClick={() => {
+                              setPilih(a._id);
+                            }}
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                          >
+                            <u>pilih</u>
+                          </td>
+                          <td
+                            className={`${
+                              pilih === a._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                          >
+                            <u>hapus</u>
+                          </td>
+                        </tr>
+                      </tbody>
                     );
                   })}
-                </tbody>
+                {isLoading && (
+                  <tbody className='bg-user4'>
+                    <tr>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                )}
               </table>
             </div>
           </section>

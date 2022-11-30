@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Select from 'react-select';
 import { HiOutlineEmojiHappy, HiOutlineEmojiSad } from 'react-icons/hi';
+import moment from 'moment';
+
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 const optionsBahagianB = [
   { value: 'pameran-kempen', label: 'Pameran / Kempen' },
@@ -17,262 +21,95 @@ const optionsBahagianB = [
 ];
 
 function UserFormPromosi() {
-  // maklumat acara
-  const [mediaMassa, setMediaMassa] = useState('');
-  const [bilanganAktivitiTelevisyen, setBilanganAktivitiTelevisyen] =
-    useState(0);
-  const [bilanganPesertaTelevisyen, setBilanganPesertaTelevisyen] = useState(0);
-  const [bilanganAktivitiRadio, setBilanganAktivitiRadio] = useState(0);
-  const [bilanganPesertaRadio, setBilanganPesertaRadio] = useState(0);
-  // bahagian a
-  const [ceramahBahagianA, setCeramahBahagianA] = useState(false);
-  const [baruCeramahBahagianA, setBaruCeramahBahagianA] = useState(false);
-  const [
-    bilanganAktivitiBaruCeramahBahagianA,
-    setBilanganAktivitiBaruCeramahBahagianA,
-  ] = useState(0);
-  const [
-    bilanganPesertaBaruCeramahBahagianA,
-    setBilanganPesertaBaruCeramahBahagianA,
-  ] = useState(0);
-  const [ulangCeramahBahagianA, setUlangCeramahBahagianA] = useState(false);
-  const [
-    bilanganAktivitiUlangCeramahBahagianA,
-    setBilanganAktivitiUlangCeramahBahagianA,
-  ] = useState(0);
-  const [
-    bilanganPesertaUlangCeramahBahagianA,
-    setBilanganPesertaUlangCeramahBahagianA,
-  ] = useState(0);
-  const [latihanMemberusGigiBahagianA, setLatihanMemberusGigiBahagianA] =
-    useState(false);
-  const [
-    baruLatihanMemberusGigiBahagianA,
-    setBaruLatihanMemberusGigiBahagianA,
-  ] = useState(false);
-  const [
-    bilanganAktivitiBaruLatihanMemberusGigiBahagianA,
-    setBilanganAktivitiBaruLatihanMemberusGigiBahagianA,
-  ] = useState(0);
-  const [
-    bilanganPesertaBaruLatihanMemberusGigiBahagianA,
-    setBilanganPesertaBaruLatihanMemberusGigiBahagianA,
-  ] = useState(0);
-  const [
-    ulangLatihanMemberusGigiBahagianA,
-    setUlangLatihanMemberusGigiBahagianA,
-  ] = useState(false);
-  const [
-    bilanganAktivitiUlangLatihanMemberusGigiBahagianA,
-    setBilanganAktivitiUlangLatihanMemberusGigiBahagianA,
-  ] = useState(0);
-  const [
-    bilanganPesertaUlangLatihanMemberusGigiBahagianA,
-    setBilanganPesertaUlangLatihanMemberusGigiBahagianA,
-  ] = useState(0);
-  // bahagian b
+  const { userToken, reliefUserToken, useParams, toast } =
+    useGlobalUserAppContext();
+
+  const { aktivitiId } = useParams();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [allProgramPromosi, setAllProgramPromosi] = useState([]);
+  const [singleAktivitiPromosi, setSingleAktivitiPromosi] = useState([]);
+
   const [pilihanBahagianB, setPilihanBahagianB] = useState([]);
-  const [pameranKempenBahagianB, setPameranKempenBahagianB] = useState(false);
-  const [
-    bilanganAktivitiPameranKempenBahagianB,
-    setBilanganAktivitiPameranKempenBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPameranKempenBahagianB,
-    setBilanganPesertaPameranKempenBahagianB,
-  ] = useState(0);
-  const [pertunjukanBonekaBahagianB, setPertunjukanBonekaBahagianB] =
-    useState(false);
-  const [
-    bilanganAktivitiPertunjukanBonekaBahagianB,
-    setBilanganAktivitiPertunjukanBonekaBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPertunjukanBonekaBahagianB,
-    setBilanganPesertaPertunjukanBonekaBahagianB,
-  ] = useState(0);
-  const [mainPerananBahagianB, setMainPerananBahagianB] = useState(false);
-  const [
-    bilanganAktivitiMainPerananBahagianB,
-    setBilanganAktivitiMainPerananBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaMainPerananBahagianB,
-    setBilanganPesertaMainPerananBahagianB,
-  ] = useState(0);
-  const [berceritaBahagianB, setBerceritaBahagianB] = useState(false);
-  const [
-    bilanganAktivitiBerceritaBahagianB,
-    setBilanganAktivitiBerceritaBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaBerceritaBahagianB,
-    setBilanganPesertaBerceritaBahagianB,
-  ] = useState(0);
-  const [pertandinganBahagianB, setPertandinganBahagianB] = useState(false);
-  const [
-    bilanganAktivitiPertandinganBahagianB,
-    setBilanganAktivitiPertandinganBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPertandinganBahagianB,
-    setBilanganPesertaPertandinganBahagianB,
-  ] = useState(0);
-  const [permainanInteraktifBahagianB, setPermainanInteraktifBahagianB] =
-    useState(false);
-  const [
-    bilanganAktivitiPermainanInteraktifBahagianB,
-    setBilanganAktivitiPermainanInteraktifBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPermainanInteraktifBahagianB,
-    setBilanganPesertaPermainanInteraktifBahagianB,
-  ] = useState(0);
-  const [kursusSeminarBengkelBahagianB, setKursusSeminarBengkelBahagianB] =
-    useState(false);
-  const [
-    bilanganAktivitiKursusSeminarBengkelBahagianB,
-    setBilanganAktivitiKursusSeminarBengkelBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaKursusSeminarBengkelBahagianB,
-    setBilanganPesertaKursusSeminarBengkelBahagianB,
-  ] = useState(0);
-  const [pertunjukanMultimediaBahagianB, setPertunjukanMultimediaBahagianB] =
-    useState(false);
-  const [
-    bilanganAktivitiPertunjukanMultimediaBahagianB,
-    setBilanganAktivitiPertunjukanMultimediaBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPertunjukanMultimediaBahagianB,
-    setBilanganPesertaPertunjukanMultimediaBahagianB,
-  ] = useState(0);
-  const [dentalBuskerBahagianB, setDentalBuskerBahagianB] = useState(false);
-  const [
-    bilanganAktivitiDentalBuskerBahagianB,
-    setBilanganAktivitiDentalBuskerBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaDentalBuskerBahagianB,
-    setBilanganPesertaDentalBuskerBahagianB,
-  ] = useState(0);
-  const [flashmobBahagianB, setFlashmobBahagianB] = useState(false);
-  const [
-    bilanganAktivitiFlashmobBahagianB,
-    setBilanganAktivitiFlashmobBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaFlashmobBahagianB,
-    setBilanganPesertaFlashmobBahagianB,
-  ] = useState(0);
-  const [lawatanKeRumahBahagianB, setLawatanKeRumahBahagianB] = useState(false);
-  const [
-    bilanganAktivitiLawatanKeRumahBahagianB,
-    setBilanganAktivitiLawatanKeRumahBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaLawatanKeRumahBahagianB,
-    setBilanganPesertaLawatanKeRumahBahagianB,
-  ] = useState(0);
-  // nasihat kesihatan pergigian
-  const [
-    plakGigiNasihatKesihatanPergigianBahagianB,
-    setPlakGigiNasihatKesihatanPergigianBahagianB,
-  ] = useState(false);
-  const [
-    bilanganAktivitiPlakGigiBahagianB,
-    setBilanganAktivitiPlakGigiBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPlakGigiBahagianB,
-    setBilanganPesertaPlakGigiBahagianB,
-  ] = useState(0);
-  const [
-    dietPemakananNasihatKesihatanPergigianBahagianB,
-    setDietPemakananNasihatKesihatanPergigianBahagianB,
-  ] = useState(false);
-  const [
-    bilanganAktivitiDietPemakananBahagianB,
-    setBilanganAktivitiDietPemakananBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaDietPemakananBahagianB,
-    setBilanganPesertaDietPemakananBahagianB,
-  ] = useState(0);
-  const [
-    penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB,
-    setPenjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB,
-  ] = useState(false);
-  const [
-    bilanganAktivitiPenjagaanKesihatanMulutBahagianB,
-    setBilanganAktivitiPenjagaanKesihatanMulutBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaPenjagaanKesihatanMulutBahagianB,
-    setBilanganPesertaPenjagaanKesihatanMulutBahagianB,
-  ] = useState(0);
-  const [
-    kanserMulutNasihatKesihatanPergigianBahagianB,
-    setKanserMulutNasihatKesihatanPergigianBahagianB,
-  ] = useState(false);
-  const [
-    bilanganAktivitiKanserMulutBahagianB,
-    setBilanganAktivitiKanserMulutBahagianB,
-  ] = useState(0);
-  const [
-    bilanganPesertaKanserMulutBahagianB,
-    setBilanganPesertaKanserMulutBahagianB,
-  ] = useState(0);
-  // intervensi tabiat berisiko tinggi
-  const [
-    merokokIntervensiTabiatBerisikoTinggi,
-    setMerokokIntervensiTabiatBerisikoTinggi,
-  ] = useState(false);
-  const [
-    bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi,
-    setBilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi,
-    setBilanganPesertaMerokokIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    mengunyahSirihIntervensiTabiatBerisikoTinggi,
-    setMengunyahSirihIntervensiTabiatBerisikoTinggi,
-  ] = useState(false);
-  const [
-    bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi,
-    setBilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi,
-    setBilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    alkoholIntervensiTabiatBerisikoTinggi,
-    setAlkoholIntervensiTabiatBerisikoTinggi,
-  ] = useState(false);
-  const [
-    bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi,
-    setBilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi,
-    setBilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    lainLainIntervensiTabiatBerisikoTinggi,
-    setLainLainIntervensiTabiatBerisikoTinggi,
-  ] = useState(false);
-  const [
-    bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi,
-    setBilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
-  const [
-    bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi,
-    setBilanganPesertaLainLainIntervensiTabiatBerisikoTinggi,
-  ] = useState(0);
+
+  useEffect(() => {
+    const fetchAllProgramPromosi = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get('/api/v1/promosi', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setAllProgramPromosi(data.allProgramPromosi);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAllProgramPromosi();
+  }, []);
+
+  useEffect(() => {
+    const fetchSingleAktivitiPromosi = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `/api/v1/promosi/aktiviti/${aktivitiId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
+        setSingleAktivitiPromosi(data.singleAktivitiPromosi);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSingleAktivitiPromosi();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/promosi/aktiviti/${aktivitiId}`,
+          { ...singleAktivitiPromosi, statusReten: 'telah diisi' },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghantar...',
+          success: 'Maklumat acara berjaya dihantar',
+          error: 'Maklumat acara gagal dihantar',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
+      });
+  };
 
   return (
     <>
@@ -289,17 +126,33 @@ function UserFormPromosi() {
               <div className='grid grid-cols-2'>
                 <p className='text-sm flex flex-row items-center pl-5'>
                   jenis program :
+                  {allProgramPromosi
+                    .filter((p) =>
+                      p.kodProgram.includes(singleAktivitiPromosi.kodProgram)
+                    )
+                    .map((p) => {
+                      return <span className='ml-1'>{p.jenisProgram}</span>;
+                    })}
                 </p>
                 <p className='text-sm flex flex-row items-center pl-5'>
                   nama acara :
+                  <span className='ml-1'>
+                    {singleAktivitiPromosi.namaAcara}
+                  </span>
                 </p>
               </div>
               <div className='grid grid-cols-2'>
                 <p className='text-sm flex flex-row items-center pl-5'>
-                  tarikh mula :
+                  tarikh mula :{' '}
+                  {moment(singleAktivitiPromosi.tarikhMula).format(
+                    'DD/MM/YYYY'
+                  )}
                 </p>
                 <p className='text-sm flex flex-row items-center pl-5'>
-                  tarikh akhir :
+                  tarikh akhir :{' '}
+                  {moment(singleAktivitiPromosi.tarikhAkhir).format(
+                    'DD/MM/YYYY'
+                  )}
                 </p>
               </div>
             </div>
@@ -307,7 +160,7 @@ function UserFormPromosi() {
         </div>
         {/* form promosi */}
         <div className='grid h-full overflow-scroll overflow-x-hidden gap-2 px-1'>
-          <form>
+          <form onSubmit={handleSubmit}>
             <section className='grid grid-cols-1 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <div className='flex flex-col md:flex-row justify-start lg:col-span-2 items-center'>
@@ -322,8 +175,17 @@ function UserFormPromosi() {
                       name='media-massa'
                       id='media-massa-ya'
                       value='media-massa-ya'
-                      checked={mediaMassa === 'media-massa-ya' ? true : false}
-                      onChange={(e) => setMediaMassa(e.target.value)}
+                      checked={
+                        singleAktivitiPromosi.mediaMassa === 'media-massa-ya'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) =>
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          mediaMassa: e.target.value,
+                        })
+                      }
                       className='peer'
                     />
                     <label
@@ -341,9 +203,16 @@ function UserFormPromosi() {
                       id='media-massa-tidak'
                       value='media-massa-tidak'
                       checked={
-                        mediaMassa === 'media-massa-tidak' ? true : false
+                        singleAktivitiPromosi.mediaMassa === 'media-massa-tidak'
+                          ? true
+                          : false
                       }
-                      onChange={(e) => setMediaMassa(e.target.value)}
+                      onChange={(e) =>
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          mediaMassa: e.target.value,
+                        })
+                      }
                       className='peer'
                     />
                     <label
@@ -354,7 +223,7 @@ function UserFormPromosi() {
                     </label>
                   </div>
                 </div>
-                {mediaMassa === 'media-massa-ya' && (
+                {singleAktivitiPromosi.mediaMassa === 'media-massa-ya' && (
                   <div className='outline outline-1 outline-user1 rounded-md'>
                     <h1 className='flex flex-row text-base font-semibold pl-5'>
                       televisyen
@@ -368,9 +237,12 @@ function UserFormPromosi() {
                         name='bilangan-aktiviti-televisyen'
                         id='bilangan-aktiviti-televisyen'
                         min='0'
-                        value={bilanganAktivitiTelevisyen}
+                        value={singleAktivitiPromosi.bilanganAktivitiTelevisyen}
                         onChange={(e) =>
-                          setBilanganAktivitiTelevisyen(e.target.value)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiTelevisyen: e.target.value,
+                          })
                         }
                         className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
@@ -382,16 +254,19 @@ function UserFormPromosi() {
                         name='bilangan-peserta-televisyen'
                         id='bilangan-peserta-televisyen'
                         min='0'
-                        value={bilanganPesertaTelevisyen}
+                        value={singleAktivitiPromosi.bilanganPesertaTelevisyen}
                         onChange={(e) =>
-                          setBilanganPesertaTelevisyen(e.target.value)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaTelevisyen: e.target.value,
+                          })
                         }
                         className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                   </div>
                 )}
-                {mediaMassa === 'media-massa-ya' && (
+                {singleAktivitiPromosi.mediaMassa === 'media-massa-ya' && (
                   <div className='outline outline-1 outline-user1 rounded-md'>
                     <h1 className='flex flex-row text-base font-semibold pl-5'>
                       radio
@@ -405,9 +280,12 @@ function UserFormPromosi() {
                         name='bilangan-aktiviti-radio'
                         id='bilangan-aktiviti-radio'
                         min='0'
-                        value={bilanganAktivitiRadio}
+                        value={singleAktivitiPromosi.bilanganAktivitiRadio}
                         onChange={(e) =>
-                          setBilanganAktivitiRadio(e.target.value)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiRadio: e.target.value,
+                          })
                         }
                         className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
@@ -419,9 +297,12 @@ function UserFormPromosi() {
                         name='bilangan-peserta-radio'
                         id='bilangan-peserta-radio'
                         min='0'
-                        value={bilanganPesertaRadio}
+                        value={singleAktivitiPromosi.bilanganPesertaRadio}
                         onChange={(e) =>
-                          setBilanganPesertaRadio(e.target.value)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaRadio: e.target.value,
+                          })
                         }
                         className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
@@ -441,8 +322,14 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='ceramah-bahagian-a'
                       id='ceramah-bahagian-a'
-                      checked={ceramahBahagianA}
-                      onChange={() => setCeramahBahagianA(!ceramahBahagianA)}
+                      checked={singleAktivitiPromosi.ceramahBahagianA}
+                      onChange={() =>
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          ceramahBahagianA:
+                            !singleAktivitiPromosi.ceramahBahagianA,
+                        })
+                      }
                       className='hidden peer'
                     />
                     <label
@@ -452,7 +339,7 @@ function UserFormPromosi() {
                       Ceramah
                     </label>
                   </div>
-                  {ceramahBahagianA && (
+                  {singleAktivitiPromosi.ceramahBahagianA && (
                     <div className='flex flex-col justify-start col-span-2'>
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <div className='flex flex-row justify-end'>
@@ -466,9 +353,13 @@ function UserFormPromosi() {
                             type='checkbox'
                             name='baru-ceramah-bahagian-a'
                             id='baru-ceramah-bahagian-a'
-                            checked={baruCeramahBahagianA}
+                            checked={singleAktivitiPromosi.baruCeramahBahagianA}
                             onChange={() =>
-                              setBaruCeramahBahagianA(!baruCeramahBahagianA)
+                              setSingleAktivitiPromosi({
+                                ...singleAktivitiPromosi,
+                                baruCeramahBahagianA:
+                                  !singleAktivitiPromosi.baruCeramahBahagianA,
+                              })
                             }
                           />
                         </div>
@@ -485,11 +376,15 @@ function UserFormPromosi() {
                               name='bilangan-aktiviti-baru-ceramah-bahagian-a'
                               id='bilangan-aktiviti-baru-ceramah-bahagian-a'
                               min='0'
-                              value={bilanganAktivitiBaruCeramahBahagianA}
+                              value={
+                                singleAktivitiPromosi.bilanganAktivitiBaruCeramahBahagianA
+                              }
                               onChange={(e) =>
-                                setBilanganAktivitiBaruCeramahBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganAktivitiBaruCeramahBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -506,11 +401,15 @@ function UserFormPromosi() {
                               name='bilangan-peserta-baru-ceramah-bahagian-a'
                               id='bilangan-peserta-baru-ceramah-bahagian-a'
                               min='0'
-                              value={bilanganPesertaBaruCeramahBahagianA}
+                              value={
+                                singleAktivitiPromosi.bilanganPesertaBaruCeramahBahagianA
+                              }
                               onChange={(e) =>
-                                setBilanganPesertaBaruCeramahBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganPesertaBaruCeramahBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -529,9 +428,15 @@ function UserFormPromosi() {
                             type='checkbox'
                             name='ulang-ceramah-bahagian-a'
                             id='ulang-ceramah-bahagian-a'
-                            checked={ulangCeramahBahagianA}
+                            checked={
+                              singleAktivitiPromosi.ulangCeramahBahagianA
+                            }
                             onChange={() =>
-                              setUlangCeramahBahagianA(!ulangCeramahBahagianA)
+                              setSingleAktivitiPromosi({
+                                ...singleAktivitiPromosi,
+                                ulangCeramahBahagianA:
+                                  !singleAktivitiPromosi.ulangCeramahBahagianA,
+                              })
                             }
                           />
                         </div>
@@ -548,11 +453,15 @@ function UserFormPromosi() {
                               name='bilangan-aktiviti-ulang-ceramah-bahagian-a'
                               id='bilangan-aktiviti-ulang-ceramah-bahagian-a'
                               min='0'
-                              value={bilanganAktivitiUlangCeramahBahagianA}
+                              value={
+                                singleAktivitiPromosi.bilanganAktivitiUlangCeramahBahagianA
+                              }
                               onChange={(e) =>
-                                setBilanganAktivitiUlangCeramahBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganAktivitiUlangCeramahBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -569,11 +478,15 @@ function UserFormPromosi() {
                               name='bilangan-peserta-ulang-ceramah-bahagian-a'
                               id='bilangan-peserta-ulang-ceramah-bahagian-a'
                               min='0'
-                              value={bilanganPesertaUlangCeramahBahagianA}
+                              value={
+                                singleAktivitiPromosi.bilanganPesertaUlangCeramahBahagianA
+                              }
                               onChange={(e) =>
-                                setBilanganPesertaUlangCeramahBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganPesertaUlangCeramahBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -589,11 +502,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='latihan-memberus-gigi-bahagian-a'
                       id='latihan-memberus-gigi-bahagian-a'
-                      checked={latihanMemberusGigiBahagianA}
+                      checked={
+                        singleAktivitiPromosi.latihanMemberusGigiBahagianA
+                      }
                       onChange={() =>
-                        setLatihanMemberusGigiBahagianA(
-                          !latihanMemberusGigiBahagianA
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          latihanMemberusGigiBahagianA:
+                            !singleAktivitiPromosi.latihanMemberusGigiBahagianA,
+                        })
                       }
                       className='hidden peer'
                     />
@@ -604,7 +521,7 @@ function UserFormPromosi() {
                       Latihan Memberus Gigi
                     </label>
                   </div>
-                  {latihanMemberusGigiBahagianA && (
+                  {singleAktivitiPromosi.latihanMemberusGigiBahagianA && (
                     <div className='flex flex-col justify-start col-span-2'>
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <div className='flex flex-row justify-end'>
@@ -618,11 +535,15 @@ function UserFormPromosi() {
                             type='checkbox'
                             name='baru-latihan-memberus-gigi-bahagian-a'
                             id='baru-latihan-memberus-gigi-bahagian-a'
-                            checked={baruLatihanMemberusGigiBahagianA}
+                            checked={
+                              singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA
+                            }
                             onChange={() =>
-                              setBaruLatihanMemberusGigiBahagianA(
-                                !baruLatihanMemberusGigiBahagianA
-                              )
+                              setSingleAktivitiPromosi({
+                                ...singleAktivitiPromosi,
+                                baruLatihanMemberusGigiBahagianA:
+                                  !singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA,
+                              })
                             }
                           />
                         </div>
@@ -640,12 +561,14 @@ function UserFormPromosi() {
                               id='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
                               min='0'
                               value={
-                                bilanganAktivitiBaruLatihanMemberusGigiBahagianA
+                                singleAktivitiPromosi.bilanganAktivitiBaruLatihanMemberusGigiBahagianA
                               }
                               onChange={(e) =>
-                                setBilanganAktivitiBaruLatihanMemberusGigiBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganAktivitiBaruLatihanMemberusGigiBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -663,12 +586,14 @@ function UserFormPromosi() {
                               id='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
                               min='0'
                               value={
-                                bilanganPesertaBaruLatihanMemberusGigiBahagianA
+                                singleAktivitiPromosi.bilanganPesertaBaruLatihanMemberusGigiBahagianA
                               }
                               onChange={(e) =>
-                                setBilanganPesertaBaruLatihanMemberusGigiBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganPesertaBaruLatihanMemberusGigiBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -687,11 +612,15 @@ function UserFormPromosi() {
                             type='checkbox'
                             name='ulang-latihan-memberus-gigi-bahagian-a'
                             id='ulang-latihan-memberus-gigi-bahagian-a'
-                            checked={ulangLatihanMemberusGigiBahagianA}
+                            checked={
+                              singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA
+                            }
                             onChange={() =>
-                              setUlangLatihanMemberusGigiBahagianA(
-                                !ulangLatihanMemberusGigiBahagianA
-                              )
+                              setSingleAktivitiPromosi({
+                                ...singleAktivitiPromosi,
+                                ulangLatihanMemberusGigiBahagianA:
+                                  !singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA,
+                              })
                             }
                           />
                         </div>
@@ -709,12 +638,14 @@ function UserFormPromosi() {
                               id='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
                               min='0'
                               value={
-                                bilanganAktivitiUlangLatihanMemberusGigiBahagianA
+                                singleAktivitiPromosi.bilanganAktivitiUlangLatihanMemberusGigiBahagianA
                               }
                               onChange={(e) =>
-                                setBilanganAktivitiUlangLatihanMemberusGigiBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganAktivitiUlangLatihanMemberusGigiBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -732,12 +663,14 @@ function UserFormPromosi() {
                               id='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
                               min='0'
                               value={
-                                bilanganPesertaUlangLatihanMemberusGigiBahagianA
+                                singleAktivitiPromosi.bilanganPesertaUlangLatihanMemberusGigiBahagianA
                               }
                               onChange={(e) =>
-                                setBilanganPesertaUlangLatihanMemberusGigiBahagianA(
-                                  e.target.value
-                                )
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  bilanganPesertaUlangLatihanMemberusGigiBahagianA:
+                                    e.target.value,
+                                })
                               }
                               className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
@@ -776,9 +709,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='pameran-kempen-bahagian-b'
                         id='pameran-kempen-bahagian-b'
-                        checked={pameranKempenBahagianB}
+                        checked={singleAktivitiPromosi.pameranKempenBahagianB}
                         onChange={() =>
-                          setPameranKempenBahagianB(!pameranKempenBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            pameranKempenBahagianB:
+                              !singleAktivitiPromosi.pameranKempenBahagianB,
+                          })
                         }
                       />
                       <label
@@ -799,11 +736,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-pameran-kempen-bahagian-b'
                       id='bilangan-aktiviti-pameran-kempen-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiPameranKempenBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiPameranKempenBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiPameranKempenBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiPameranKempenBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -818,9 +759,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-pameran-kempen-bahagian-b'
                       id='bilangan-peserta-pameran-kempen-bahagian-b'
                       min='0'
-                      value={bilanganPesertaPameranKempenBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaPameranKempenBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaPameranKempenBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaPameranKempenBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -833,11 +779,15 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='pertunjukan-boneka-bahagian-b'
                         id='pertunjukan-boneka-bahagian-b'
-                        checked={pertunjukanBonekaBahagianB}
+                        checked={
+                          singleAktivitiPromosi.pertunjukanBonekaBahagianB
+                        }
                         onChange={() =>
-                          setPertunjukanBonekaBahagianB(
-                            !pertunjukanBonekaBahagianB
-                          )
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            pertunjukanBonekaBahagianB:
+                              !singleAktivitiPromosi.pertunjukanBonekaBahagianB,
+                          })
                         }
                       />
                       <label
@@ -858,11 +808,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-pertunjukan-boneka-bahagian-b'
                       id='bilangan-aktiviti-pertunjukan-boneka-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiPertunjukanBonekaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiPertunjukanBonekaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiPertunjukanBonekaBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiPertunjukanBonekaBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -877,11 +831,15 @@ function UserFormPromosi() {
                       name='bilangan-peserta-pertunjukan-boneka-bahagian-b'
                       id='bilangan-peserta-pertunjukan-boneka-bahagian-b'
                       min='0'
-                      value={bilanganPesertaPertunjukanBonekaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaPertunjukanBonekaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaPertunjukanBonekaBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaPertunjukanBonekaBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -894,9 +852,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='main-peranan-bahagian-b'
                         id='main-peranan-bahagian-b'
-                        checked={mainPerananBahagianB}
+                        checked={singleAktivitiPromosi.mainPerananBahagianB}
                         onChange={() =>
-                          setMainPerananBahagianB(!mainPerananBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            mainPerananBahagianB:
+                              !singleAktivitiPromosi.mainPerananBahagianB,
+                          })
                         }
                       />
                       <label
@@ -917,9 +879,14 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-main-peranan-bahagian-b'
                       id='bilangan-aktiviti-main-peranan-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiMainPerananBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiMainPerananBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiMainPerananBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiMainPerananBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -934,9 +901,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-main-peranan-bahagian-b'
                       id='bilangan-peserta-main-peranan-bahagian-b'
                       min='0'
-                      value={bilanganPesertaMainPerananBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaMainPerananBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaMainPerananBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaMainPerananBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -949,9 +921,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='bercerita-bahagian-b'
                         id='bercerita-bahagian-b'
-                        checked={berceritaBahagianB}
+                        checked={singleAktivitiPromosi.berceritaBahagianB}
                         onChange={() =>
-                          setBerceritaBahagianB(!berceritaBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            berceritaBahagianB:
+                              !singleAktivitiPromosi.berceritaBahagianB,
+                          })
                         }
                       />
                       <label
@@ -972,9 +948,14 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-bercerita-bahagian-b'
                       id='bilangan-aktiviti-bercerita-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiBerceritaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiBerceritaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiBerceritaBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiBerceritaBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -989,9 +970,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-bercerita-bahagian-b'
                       id='bilangan-peserta-bercerita-bahagian-b'
                       min='0'
-                      value={bilanganPesertaBerceritaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaBerceritaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaBerceritaBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaBerceritaBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1004,9 +990,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='pertandingan-bahagian-b'
                         id='pertandingan-bahagian-b'
-                        checked={pertandinganBahagianB}
+                        checked={singleAktivitiPromosi.pertandinganBahagianB}
                         onChange={() =>
-                          setPertandinganBahagianB(!pertandinganBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            pertandinganBahagianB:
+                              !singleAktivitiPromosi.pertandinganBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1027,9 +1017,14 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-pertandingan-bahagian-b'
                       id='bilangan-aktiviti-pertandingan-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiPertandinganBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiPertandinganBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiPertandinganBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiPertandinganBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1044,9 +1039,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-pertandingan-bahagian-b'
                       id='bilangan-peserta-pertandingan-bahagian-b'
                       min='0'
-                      value={bilanganPesertaPertandinganBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaPertandinganBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaPertandinganBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaPertandinganBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1059,11 +1059,15 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='permainan-interaktif-bahagian-b'
                         id='permainan-interaktif-bahagian-b'
-                        checked={permainanInteraktifBahagianB}
+                        checked={
+                          singleAktivitiPromosi.permainanInteraktifBahagianB
+                        }
                         onChange={() =>
-                          setPermainanInteraktifBahagianB(
-                            !permainanInteraktifBahagianB
-                          )
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            permainanInteraktifBahagianB:
+                              !singleAktivitiPromosi.permainanInteraktifBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1084,11 +1088,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-permainan-interaktif-bahagian-b'
                       id='bilangan-aktiviti-permainan-interaktif-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiPermainanInteraktifBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiPermainanInteraktifBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiPermainanInteraktifBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiPermainanInteraktifBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1103,11 +1111,15 @@ function UserFormPromosi() {
                       name='bilangan-peserta-permainan-interaktif-bahagian-b'
                       id='bilangan-peserta-permainan-interaktif-bahagian-b'
                       min='0'
-                      value={bilanganPesertaPermainanInteraktifBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaPermainanInteraktifBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaPermainanInteraktifBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaPermainanInteraktifBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1120,11 +1132,15 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='kursus-seminar-bengkel-bahagian-b'
                         id='kursus-seminar-bengkel-bahagian-b'
-                        checked={kursusSeminarBengkelBahagianB}
+                        checked={
+                          singleAktivitiPromosi.kursusSeminarBengkelBahagianB
+                        }
                         onChange={() =>
-                          setKursusSeminarBengkelBahagianB(
-                            !kursusSeminarBengkelBahagianB
-                          )
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            kursusSeminarBengkelBahagianB:
+                              !singleAktivitiPromosi.kursusSeminarBengkelBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1145,11 +1161,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-kursus-seminar-bengkel-bahagian-b'
                       id='bilangan-aktiviti-kursus-seminar-bengkel-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiKursusSeminarBengkelBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiKursusSeminarBengkelBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiKursusSeminarBengkelBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiKursusSeminarBengkelBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1164,11 +1184,15 @@ function UserFormPromosi() {
                       name='bilangan-peserta-kursus-seminar-bengkel-bahagian-b'
                       id='bilangan-peserta-kursus-seminar-bengkel-bahagian-b'
                       min='0'
-                      value={bilanganPesertaKursusSeminarBengkelBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaKursusSeminarBengkelBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaKursusSeminarBengkelBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaKursusSeminarBengkelBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1181,11 +1205,15 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='pertunjukan-multimedia-bahagian-b'
                         id='pertunjukan-multimedia-bahagian-b'
-                        checked={pertunjukanMultimediaBahagianB}
+                        checked={
+                          singleAktivitiPromosi.pertunjukanMultimediaBahagianB
+                        }
                         onChange={() =>
-                          setPertunjukanMultimediaBahagianB(
-                            !pertunjukanMultimediaBahagianB
-                          )
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            pertunjukanMultimediaBahagianB:
+                              !singleAktivitiPromosi.pertunjukanMultimediaBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1206,11 +1234,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-pertunjukan-multimedia-bahagian-b'
                       id='bilangan-aktiviti-pertunjukan-multimedia-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiPertunjukanMultimediaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiPertunjukanMultimediaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiPertunjukanMultimediaBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiPertunjukanMultimediaBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1225,11 +1257,15 @@ function UserFormPromosi() {
                       name='bilangan-peserta-pertunjukan-multimedia-bahagian-b'
                       id='bilangan-peserta-pertunjukan-multimedia-bahagian-b'
                       min='0'
-                      value={bilanganPesertaPertunjukanMultimediaBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaPertunjukanMultimediaBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaPertunjukanMultimediaBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaPertunjukanMultimediaBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1242,9 +1278,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='dental-busker-bahagian-b'
                         id='dental-busker-bahagian-b'
-                        checked={dentalBuskerBahagianB}
+                        checked={singleAktivitiPromosi.dentalBuskerBahagianB}
                         onChange={() =>
-                          setDentalBuskerBahagianB(!dentalBuskerBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            dentalBuskerBahagianB:
+                              !singleAktivitiPromosi.dentalBuskerBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1265,9 +1305,14 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-dental-busker-bahagian-b'
                       id='bilangan-aktiviti-dental-busker-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiDentalBuskerBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiDentalBuskerBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiDentalBuskerBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiDentalBuskerBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1282,9 +1327,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-dental-busker-bahagian-b'
                       id='bilangan-peserta-dental-busker-bahagian-b'
                       min='0'
-                      value={bilanganPesertaDentalBuskerBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaDentalBuskerBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaDentalBuskerBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaDentalBuskerBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1297,9 +1347,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='flashmob-bahagian-b'
                         id='flashmob-bahagian-b'
-                        checked={flashmobBahagianB}
+                        checked={singleAktivitiPromosi.flashmobBahagianB}
                         onChange={() =>
-                          setFlashmobBahagianB(!flashmobBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            flashmobBahagianB:
+                              !singleAktivitiPromosi.flashmobBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1320,9 +1374,14 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-flashmob-bahagian-b'
                       id='bilangan-aktiviti-flashmob-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiFlashmobBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiFlashmobBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiFlashmobBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiFlashmobBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1337,9 +1396,14 @@ function UserFormPromosi() {
                       name='bilangan-peserta-flashmob-bahagian-b'
                       id='bilangan-peserta-flashmob-bahagian-b'
                       min='0'
-                      value={bilanganPesertaFlashmobBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaFlashmobBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaFlashmobBahagianB(e.target.value)
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaFlashmobBahagianB: e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1352,9 +1416,13 @@ function UserFormPromosi() {
                         type='checkbox'
                         name='lawatan-ke-rumah-bahagian-b'
                         id='lawatan-ke-rumah-bahagian-b'
-                        checked={lawatanKeRumahBahagianB}
+                        checked={singleAktivitiPromosi.lawatanKeRumahBahagianB}
                         onChange={() =>
-                          setLawatanKeRumahBahagianB(!lawatanKeRumahBahagianB)
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            lawatanKeRumahBahagianB:
+                              !singleAktivitiPromosi.lawatanKeRumahBahagianB,
+                          })
                         }
                       />
                       <label
@@ -1375,11 +1443,15 @@ function UserFormPromosi() {
                       name='bilangan-aktiviti-lawatan-ke-rumah-bahagian-b'
                       id='bilangan-aktiviti-lawatan-ke-rumah-bahagian-b'
                       min='0'
-                      value={bilanganAktivitiLawatanKeRumahBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganAktivitiLawatanKeRumahBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganAktivitiLawatanKeRumahBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganAktivitiLawatanKeRumahBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1394,11 +1466,15 @@ function UserFormPromosi() {
                       name='bilangan-peserta-lawatan-ke-rumah-bahagian-b'
                       id='bilangan-peserta-lawatan-ke-rumah-bahagian-b'
                       min='0'
-                      value={bilanganPesertaLawatanKeRumahBahagianB}
+                      value={
+                        singleAktivitiPromosi.bilanganPesertaLawatanKeRumahBahagianB
+                      }
                       onChange={(e) =>
-                        setBilanganPesertaLawatanKeRumahBahagianB(
-                          e.target.value
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          bilanganPesertaLawatanKeRumahBahagianB:
+                            e.target.value,
+                        })
                       }
                       className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
@@ -1417,11 +1493,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
                       id='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={plakGigiNasihatKesihatanPergigianBahagianB}
+                      checked={
+                        singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB
+                      }
                       onChange={() =>
-                        setPlakGigiNasihatKesihatanPergigianBahagianB(
-                          !plakGigiNasihatKesihatanPergigianBahagianB
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          plakGigiNasihatKesihatanPergigianBahagianB:
+                            !singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB,
+                        })
                       }
                     />
                     <label
@@ -1442,9 +1522,14 @@ function UserFormPromosi() {
                     name='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganAktivitiPlakGigiBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganAktivitiPlakGigiBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganAktivitiPlakGigiBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiPlakGigiBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1459,9 +1544,14 @@ function UserFormPromosi() {
                     name='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganPesertaPlakGigiBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaPlakGigiBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaPlakGigiBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaPlakGigiBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1472,11 +1562,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
                       id='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={dietPemakananNasihatKesihatanPergigianBahagianB}
+                      checked={
+                        singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB
+                      }
                       onChange={() =>
-                        setDietPemakananNasihatKesihatanPergigianBahagianB(
-                          !dietPemakananNasihatKesihatanPergigianBahagianB
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          dietPemakananNasihatKesihatanPergigianBahagianB:
+                            !singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB,
+                        })
                       }
                     />
                     <label
@@ -1497,9 +1591,14 @@ function UserFormPromosi() {
                     name='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganAktivitiDietPemakananBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganAktivitiDietPemakananBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganAktivitiDietPemakananBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiDietPemakananBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1514,9 +1613,14 @@ function UserFormPromosi() {
                     name='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganPesertaDietPemakananBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaDietPemakananBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaDietPemakananBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaDietPemakananBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1528,12 +1632,14 @@ function UserFormPromosi() {
                       name='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                       id='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                       checked={
-                        penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB
+                        singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB
                       }
                       onChange={() =>
-                        setPenjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB(
-                          !penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB:
+                            !singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB,
+                        })
                       }
                     />
                     <label
@@ -1554,11 +1660,15 @@ function UserFormPromosi() {
                     name='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganAktivitiPenjagaanKesihatanMulutBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganAktivitiPenjagaanKesihatanMulutBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganAktivitiPenjagaanKesihatanMulutBahagianB(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiPenjagaanKesihatanMulutBahagianB:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1573,11 +1683,15 @@ function UserFormPromosi() {
                     name='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganPesertaPenjagaanKesihatanMulutBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaPenjagaanKesihatanMulutBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaPenjagaanKesihatanMulutBahagianB(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaPenjagaanKesihatanMulutBahagianB:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1588,11 +1702,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                       id='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={kanserMulutNasihatKesihatanPergigianBahagianB}
+                      checked={
+                        singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB
+                      }
                       onChange={() =>
-                        setKanserMulutNasihatKesihatanPergigianBahagianB(
-                          !kanserMulutNasihatKesihatanPergigianBahagianB
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          kanserMulutNasihatKesihatanPergigianBahagianB:
+                            !singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB,
+                        })
                       }
                     />
                     <label
@@ -1613,9 +1731,14 @@ function UserFormPromosi() {
                     name='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganAktivitiKanserMulutBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganAktivitiKanserMulutBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganAktivitiKanserMulutBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiKanserMulutBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1630,9 +1753,14 @@ function UserFormPromosi() {
                     name='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     id='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
                     min='0'
-                    value={bilanganPesertaKanserMulutBahagianB}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaKanserMulutBahagianB
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaKanserMulutBahagianB(e.target.value)
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaKanserMulutBahagianB: e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1650,11 +1778,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='merokok-intervensi-tabiat-berisiko-tinggi'
                       id='merokok-intervensi-tabiat-berisiko-tinggi'
-                      checked={merokokIntervensiTabiatBerisikoTinggi}
+                      checked={
+                        singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi
+                      }
                       onChange={() =>
-                        setMerokokIntervensiTabiatBerisikoTinggi(
-                          !merokokIntervensiTabiatBerisikoTinggi
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          merokokIntervensiTabiatBerisikoTinggi:
+                            !singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi,
+                        })
                       }
                     />
                     <label
@@ -1676,12 +1808,14 @@ function UserFormPromosi() {
                     id='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1696,11 +1830,15 @@ function UserFormPromosi() {
                     name='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
                     id='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
                     min='0'
-                    value={bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaMerokokIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1711,11 +1849,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
                       id='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                      checked={mengunyahSirihIntervensiTabiatBerisikoTinggi}
+                      checked={
+                        singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi
+                      }
                       onChange={() =>
-                        setMengunyahSirihIntervensiTabiatBerisikoTinggi(
-                          !mengunyahSirihIntervensiTabiatBerisikoTinggi
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          mengunyahSirihIntervensiTabiatBerisikoTinggi:
+                            !singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi,
+                        })
                       }
                     />
                     <label
@@ -1737,12 +1879,14 @@ function UserFormPromosi() {
                     id='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1758,12 +1902,14 @@ function UserFormPromosi() {
                     id='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1774,11 +1920,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='alkohol-intervensi-tabiat-berisiko-tinggi'
                       id='alkohol-intervensi-tabiat-berisiko-tinggi'
-                      checked={alkoholIntervensiTabiatBerisikoTinggi}
+                      checked={
+                        singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi
+                      }
                       onChange={() =>
-                        setAlkoholIntervensiTabiatBerisikoTinggi(
-                          !alkoholIntervensiTabiatBerisikoTinggi
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          alkoholIntervensiTabiatBerisikoTinggi:
+                            !singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi,
+                        })
                       }
                     />
                     <label
@@ -1800,12 +1950,14 @@ function UserFormPromosi() {
                     id='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1820,11 +1972,15 @@ function UserFormPromosi() {
                     name='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
                     id='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
                     min='0'
-                    value={bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi}
+                    value={
+                      singleAktivitiPromosi.bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi
+                    }
                     onChange={(e) =>
-                      setBilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1835,11 +1991,15 @@ function UserFormPromosi() {
                       type='checkbox'
                       name='lain-lain-intervensi-tabiat-berisiko-tinggi'
                       id='lain-lain-intervensi-tabiat-berisiko-tinggi'
-                      checked={lainLainIntervensiTabiatBerisikoTinggi}
+                      checked={
+                        singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi
+                      }
                       onChange={() =>
-                        setLainLainIntervensiTabiatBerisikoTinggi(
-                          !lainLainIntervensiTabiatBerisikoTinggi
-                        )
+                        setSingleAktivitiPromosi({
+                          ...singleAktivitiPromosi,
+                          lainLainIntervensiTabiatBerisikoTinggi:
+                            !singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi,
+                        })
                       }
                     />
                     <label
@@ -1861,12 +2021,14 @@ function UserFormPromosi() {
                     id='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
@@ -1882,12 +2044,14 @@ function UserFormPromosi() {
                     id='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
                     min='0'
                     value={
-                      bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi
+                      singleAktivitiPromosi.bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi
                     }
                     onChange={(e) =>
-                      setBilanganPesertaLainLainIntervensiTabiatBerisikoTinggi(
-                        e.target.value
-                      )
+                      setSingleAktivitiPromosi({
+                        ...singleAktivitiPromosi,
+                        bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi:
+                          e.target.value,
+                      })
                     }
                     className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   />
