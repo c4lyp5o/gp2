@@ -111,7 +111,7 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
 
   return (
     <>
-      <div className='absolute inset-10 lg:inset-16 lg:inset-x-96 2xl:inset-x-[40rem] bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-10 lg:inset-x-80 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <div className='sticky top-0 z-50'>
           <FaWindowClose
             onClick={closeModal}
