@@ -646,7 +646,7 @@ const makePG211 = async (payload) => {
   }
 };
 const makePG214 = async (payload) => {
-  console.log('PG211');
+  console.log('PG214');
   try {
     const { kp, daerah, negeri, bulan } = payload;
     //
@@ -690,29 +690,29 @@ const makePG214 = async (payload) => {
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(13 + i);
       if (data[i][0]) {
-        rowNew.getCell(3).value = results.jkbMelayu; //C13	Kategori Umur 60 Tahun
-        rowNew.getCell(4).value = results.jkbCina; //D13	Kategori Umur 60 Tahun
-        rowNew.getCell(5).value = results.jkbIndia; //E13	Kategori Umur 60 Tahun
-        rowNew.getCell(6).value = results.jkbBajau; //F13	Kategori Umur 60 Tahun
-        rowNew.getCell(7).value = results.jkbDusun; //G13	Kategori Umur 60 Tahun
-        rowNew.getCell(8).value = results.jkbKadazan; //H13 Kategori Umur 60 Tahun
-        rowNew.getCell(9).value = results.jkbMurut; //I13	Kategori Umur 60 Tahun
-        rowNew.getCell(10).value = results.jkbBSabahL; //J13 Kategori Umur 60 Tahun
-        rowNew.getCell(11).value = results.jkbMelanau; //K13 Kategori Umur 60 Tahun
-        rowNew.getCell(12).value = results.jkbKedayan; //L13 Kategori Umur 60 Tahun
-        rowNew.getCell(13).value = results.jkbIban; //M13 Kategori Umur 60 Tahun
-        rowNew.getCell(14).value = results.jkbBidayuh; //N13 Kategori Umur 60 Tahun
-        rowNew.getCell(15).value = results.jkbPenan; //O13 Kategori Umur 60 Tahun
-        rowNew.getCell(16).value = results.jkbBSwakLain; //P13 Kategori Umur 60 Tahun
-        rowNew.getCell(17).value = results.jkbOrangAsli; //Q13 Kategori Umur 60 Tahun
-        rowNew.getCell(18).value = results.jkbLain2; //R13 Kategori Umur 60 Tahun
-        rowNew.getCell(19).value = results.jkbWarganegara; //S13 Kategori Umur 60 Tahun
-        rowNew.getCell(20).value = results.jkbLelaki; //T13 Kategori Umur 60 Tahun
-        rowNew.getCell(21).value = results.jkbPerempuan; //U13 Kategori Umur 60 Tahun
-        rowNew.getCell(22).value = results.edentulous; //V13 Kategori Umur 60 Tahun
-        rowNew.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W13 Kategori Umur 60 Tahun
-        rowNew.getCell(24).value = results.gigiKurangDari20Batang; //X13 Kategori Umur 60 Tahun
-        rowNew.getCell(25).value = results.bilGigi; //Y13 Kategori Umur 60 Tahun
+        rowNew.getCell(3).value = data[i][0].jumlahMelayu; //C13	Kategori Umur 60 Tahun
+        rowNew.getCell(4).value = data[i][0].jumlahCina; //D13	Kategori Umur 60 Tahun
+        rowNew.getCell(5).value = data[i][0].jumlahIndia; //E13	Kategori Umur 60 Tahun
+        rowNew.getCell(6).value = data[i][0].jumlahBajau; //F13	Kategori Umur 60 Tahun
+        rowNew.getCell(7).value = data[i][0].jumlahDusun; //G13	Kategori Umur 60 Tahun
+        rowNew.getCell(8).value = data[i][0].jumlahKadazan; //H13 Kategori Umur 60 Tahun
+        rowNew.getCell(9).value = data[i][0].jumlahMurut; //I13	Kategori Umur 60 Tahun
+        rowNew.getCell(10).value = data[i][0].jumlahBMSL; //J13 Kategori Umur 60 Tahun
+        rowNew.getCell(11).value = data[i][0].jumlahMelanau; //K13 Kategori Umur 60 Tahun
+        rowNew.getCell(12).value = data[i][0].jumlahKedayan; //L13 Kategori Umur 60 Tahun
+        rowNew.getCell(13).value = data[i][0].jumlahIban; //M13 Kategori Umur 60 Tahun
+        rowNew.getCell(14).value = data[i][0].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
+        rowNew.getCell(15).value = data[i][0].jumlahPenan; //O13 Kategori Umur 60 Tahun
+        rowNew.getCell(16).value = data[i][0].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
+        rowNew.getCell(17).value = data[i][0].jumlahOAS; //Q13 Kategori Umur 60 Tahun
+        rowNew.getCell(18).value = data[i][0].jumlahLainlain; //R13 Kategori Umur 60 Tahun
+        rowNew.getCell(19).value = data[i][0].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
+        rowNew.getCell(20).value = data[i][0].jumlahLelaki; //T13 Kategori Umur 60 Tahun
+        rowNew.getCell(21).value = data[i][0].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
+        rowNew.getCell(22).value = data[i][0].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
+        rowNew.getCell(23).value = data[i][0].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(24).value = data[i][0].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
+        rowNew.getCell(25).value = data[i][0].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
       }
     }
 
@@ -1685,6 +1685,6 @@ exports.debug = async (req, res) => {
   // let tarikhMula = '2021-01-01';
   // let tarikhAkhir = '2021-01-31';
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await Helper.countPG211(kp, bulan);
+  const data = await Helper.countPG214(kp, bulan);
   res.status(200).json(data);
 };

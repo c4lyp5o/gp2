@@ -1103,7 +1103,7 @@ const countPG211 = async (klinik, bulan) => {
 const countPG214 = async (klinik, bulan) => {
   let match_stage = [];
 
-  const bage_60 = {
+  const age_60 = {
     $match: {
       umur: {
         $eq: 60,
@@ -1118,7 +1118,7 @@ const countPG214 = async (klinik, bulan) => {
       },
     },
   };
-  const bage_61_64 = {
+  const age_61_64 = {
     $match: {
       umur: {
         $gte: 61,
@@ -1134,7 +1134,7 @@ const countPG214 = async (klinik, bulan) => {
       },
     },
   };
-  const bage_65 = {
+  const age_65 = {
     $match: {
       umur: {
         $eq: 65,
@@ -1149,7 +1149,7 @@ const countPG214 = async (klinik, bulan) => {
       },
     },
   };
-  const bage_66_69 = {
+  const age_66_69 = {
     $match: {
       umur: {
         $gte: 66,
@@ -1165,7 +1165,7 @@ const countPG214 = async (klinik, bulan) => {
       },
     },
   };
-  const bage_70_74 = {
+  const age_70_74 = {
     $match: {
       umur: {
         $gte: 70,
@@ -1181,7 +1181,7 @@ const countPG214 = async (klinik, bulan) => {
       },
     },
   };
-  const bage_lebih_75 = {
+  const age_lebih_75 = {
     $match: {
       umur: {
         $gte: 75,
@@ -1197,16 +1197,16 @@ const countPG214 = async (klinik, bulan) => {
     },
   };
 
-  match_stage.push(bage_60);
-  match_stage.push(bage_61_64);
-  match_stage.push(bage_65);
-  match_stage.push(bage_66_69);
-  match_stage.push(bage_70_74);
-  match_stage.push(bage_lebih_75);
+  match_stage.push(age_60);
+  match_stage.push(age_61_64);
+  match_stage.push(age_65);
+  match_stage.push(age_66_69);
+  match_stage.push(age_70_74);
+  match_stage.push(age_lebih_75);
 
   const group_stage = {
     $group: {
-      _id: '$categoryId',
+      _id: '$createdByKp',
       count: { $sum: 1 },
       //
       jumlahMelayu: {
@@ -1353,17 +1353,17 @@ const countPG214 = async (klinik, bulan) => {
         },
       },
       //
-      // jumlahPenan: {
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$kumpulanEtnik', 'penan'],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
+      jumlahPenan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'penan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
       //
       jumlahBMSwL: {
         $sum: {
@@ -1494,10 +1494,6 @@ const countPG214 = async (klinik, bulan) => {
       //
       jumlahSemuaGigi: {
         $sum: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-      },
-      //
-      purataBilanganGigi: {
-        $avg: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
       },
       //
     },
