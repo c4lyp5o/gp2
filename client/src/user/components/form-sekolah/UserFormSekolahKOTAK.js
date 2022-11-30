@@ -23,6 +23,11 @@ function UserFormSekolahKOTAK() {
   const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
 
   const createdByUsername = username;
+  const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
+  const [statusM, setStatusM] = useState('');
+  const [inginMelakukanIntervensiMerokok, setInginMelakukanIntervensiMerokok] =
+    useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
   const [shishaKotak, setShishaKotak] = useState(false);
@@ -114,7 +119,6 @@ function UserFormSekolahKOTAK() {
         setTarikhQDP(date);
         setTarikhQ(moment(date).format('YYYY-MM-DD'));
       },
-      minDate: new Date(),
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
@@ -122,6 +126,14 @@ function UserFormSekolahKOTAK() {
 
   //reset value
   useEffect(() => {
+    if (
+      statusM === 'perokok-pasif' ||
+      statusM === 'bekas-perokok' ||
+      statusM === 'bukan-perokok' ||
+      statusM === ''
+    ) {
+      setInginMelakukanIntervensiMerokok('');
+    }
     if (adaTiadaQTarikh1 === 'ada-q-tarikh1') {
       setTarikh2('');
       setTarikhQ2DP(null);
@@ -169,6 +181,7 @@ function UserFormSekolahKOTAK() {
       setRujukGuruKaunseling('');
     }
   }, [
+    statusM,
     adaTiadaQTarikh1,
     adaTiadaQTarikh2,
     adaTiadaQTarikh3,
@@ -217,6 +230,19 @@ function UserFormSekolahKOTAK() {
 
         // map to form if kotakSekolahId exist
         if (kotakSekolahId !== 'tambah-kotak') {
+          setDalamPemantauanKohort(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .dalamPemantauanKohort
+          );
+          setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
+          setMenerimaNasihatRingkas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .menerimaNasihatRingkas
+          );
+          setInginMelakukanIntervensiMerokok(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .inginMelakukanIntervensiMerokok
+          );
           setRokokBiasaKotak(
             data.personSekolahWithPopulate.kotakSekolah.rokokBiasaKotak
           );
@@ -294,6 +320,10 @@ function UserFormSekolahKOTAK() {
             `/api/v1/sekolah/kotak/${personSekolahId}`,
             {
               createdByUsername,
+              dalamPemantauanKohort,
+              statusM,
+              menerimaNasihatRingkas,
+              inginMelakukanIntervensiMerokok,
               rokokBiasaKotak,
               elektronikVapeKotak,
               shishaKotak,
@@ -345,6 +375,10 @@ function UserFormSekolahKOTAK() {
             `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
             {
               createdByUsername,
+              dalamPemantauanKohort,
+              statusM,
+              menerimaNasihatRingkas,
+              inginMelakukanIntervensiMerokok,
               rokokBiasaKotak,
               elektronikVapeKotak,
               shishaKotak,
@@ -466,8 +500,193 @@ function UserFormSekolahKOTAK() {
               <p className='ml-3 text-xl font-semibold'>KOTAK</p>
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-              <article className='grid grid-cols-2 col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <h4 className='font-bold text-base flex flex-row pl-5 col-span-2'>
+              <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  Program KOTAK<span className='text-user6'>*</span>
+                </h4>
+                <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                  dalam pemantauan kohort
+                  <span className='text-user6'>*</span>
+                </p>
+                <div className='flex items-center justify-center'>
+                  <input
+                    required
+                    type='radio'
+                    name='dalam-pemantauan-kohort'
+                    id='ya-dalam-pemantauan-kohort'
+                    value='ya-dalam-pemantauan-kohort'
+                    checked={
+                      dalamPemantauanKohort === 'ya-dalam-pemantauan-kohort'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      setDalamPemantauanKohort(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='ya-dalam-pemantauan-kohort'
+                    className='m-2 text-sm font-m'
+                  >
+                    Ya
+                  </label>
+                  <input
+                    required
+                    type='radio'
+                    name='dalam-pemantauan-kohort'
+                    id='tidak-dalam-pemantauan-kohort'
+                    value='tidak-dalam-pemantauan-kohort'
+                    checked={
+                      dalamPemantauanKohort === 'tidak-dalam-pemantauan-kohort'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      setDalamPemantauanKohort(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='tidak-dalam-pemantauan-kohort'
+                    className='m-2 text-sm font-m'
+                  >
+                    Tidak
+                  </label>
+                </div>
+                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  status merokok<span className='text-user6'>*</span>
+                </h4>
+                <select
+                  required
+                  name='statusM'
+                  id='statusM'
+                  value={statusM}
+                  onChange={(e) => {
+                    setStatusM(e.target.value);
+                  }}
+                  className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                >
+                  <option value=''></option>
+                  <option value='perokok-semasa'>Perokok Semasa</option>
+                  <option value='bekas-perokok'>Bekas Perokok</option>
+                  <option value='perokok-pasif'>Perokok Pasif</option>
+                  <option value='bukan-perokok'>Bukan Perokok</option>
+                </select>
+                <div className='col-span-2'>
+                  <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
+                    adakah pesakit menerima nasihat ringkas?
+                    <span className='text-user6'>*</span>
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      required
+                      type='radio'
+                      name='menerima-nasihat-ringkas'
+                      id='ya-menerima-nasihat-ringkas'
+                      value='ya-menerima-nasihat-ringkas'
+                      checked={
+                        menerimaNasihatRingkas === 'ya-menerima-nasihat-ringkas'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        setMenerimaNasihatRingkas(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-menerima-nasihat-ringkas'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      required={statusM === 'perokok-semasa' ? true : false}
+                      type='radio'
+                      name='menerima-nasihat-ringkas'
+                      id='tidak-menerima-nasihat-ringkas'
+                      value='tidak-menerima-nasihat-ringkas'
+                      checked={
+                        menerimaNasihatRingkas ===
+                        'tidak-menerima-nasihat-ringkas'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        setMenerimaNasihatRingkas(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-menerima-nasihat-ringkas'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </div>
+                <div
+                  className={`${
+                    statusM === 'perokok-semasa' ? 'visible' : 'hidden'
+                  } col-span-2`}
+                >
+                  <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
+                    ingin melakukan intervensi merokok?
+                    <span className='text-user6'>*</span>
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      required={statusM === 'perokok-semasa' ? true : false}
+                      type='radio'
+                      name='ingin-melakukan-intervensi-merokok'
+                      id='ya-ingin-melakukan-intervensi-merokok'
+                      value='ya-ingin-melakukan-intervensi-merokok'
+                      checked={
+                        inginMelakukanIntervensiMerokok ===
+                        'ya-ingin-melakukan-intervensi-merokok'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        setInginMelakukanIntervensiMerokok(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-ingin-melakukan-intervensi-merokok'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      required={statusM === 'perokok-semasa' ? true : false}
+                      type='radio'
+                      name='ingin-melakukan-intervensi-merokok'
+                      id='tidak-ingin-melakukan-intervensi-merokok'
+                      value='tidak-ingin-melakukan-intervensi-merokok'
+                      checked={
+                        inginMelakukanIntervensiMerokok ===
+                        'tidak-ingin-melakukan-intervensi-merokok'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        setInginMelakukanIntervensiMerokok(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-ingin-melakukan-intervensi-merokok'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </div>
+              </article>
+              <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <h4 className='font-bold text-base flex flex-row pl-5'>
                   jenis rokok<span className='text-user6'>*</span>
                 </h4>
                 <div className='flex items-center flex-row pl-5'>
@@ -891,16 +1110,6 @@ function UserFormSekolahKOTAK() {
                     tarikh rancang berhenti merokok
                   </h4>
                   <TarikhQ />
-                  {/* <input
-                    type='date'
-                    name='tarikhQ'
-                    id='tarikhQ'
-                    value={tarikhQ}
-                    onChange={(e) => {
-                      setTarikhQ(e.target.value);
-                    }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m ml-3'
-                  /> */}
                 </article>
               ) : null}
               {adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
