@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Spinner } from 'react-awesome-spinners';
 import {
   BsFilePerson,
   BsFillFilePersonFill,
@@ -445,9 +444,6 @@ function UserUmum() {
                   );
                 })}
               {isLoading && (
-                // <p className='text-xl font-semibold flex justify-center p-4'>
-                //   <Spinner color='#1f315f' />
-                // </p>
                 <tbody className='bg-user4'>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>

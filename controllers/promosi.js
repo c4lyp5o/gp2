@@ -46,6 +46,8 @@ const getSingleAktivitiPromosi = async (req, res) => {
       .status(404)
       .json({ msg: `No aktiviti with id ${req.params.aktivitiId}` });
   }
+
+  res.status(200).json({ singleAktivitiPromosi });
 };
 
 // POST /aktiviti
