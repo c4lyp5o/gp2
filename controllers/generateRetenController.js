@@ -117,6 +117,42 @@ exports.downloader = async function (req, res) {
           break;
       }
       break;
+    case 'PG214':
+      const data214 = await makePG214(payload);
+      if (data214 === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
+      switch (formatFile) {
+        case 'xlsx':
+          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.status(200).send(data214);
+          break;
+        case 'pdf':
+          let excel214 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG214.xlsx'
+          );
+          let pdf214 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG214.pdf'
+          );
+          convertToPdf(excel214, pdf214);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf214));
+          res.setHeader('Content-Type', 'application/pdf');
+          res.status(200).send(pdfFile);
+          break;
+        default:
+          break;
+      }
+      break;
     case 'PG206':
       const data206 = await makePG206(payload);
       if (data206 === 'No data found') {
@@ -591,6 +627,101 @@ const makePG211 = async (payload) => {
       'public',
       'exports',
       'test-' + kp + '-PG211.xlsx'
+    );
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 30000);
+    // read file for returning
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    // return file
+    return file;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+const makePG214 = async (payload) => {
+  console.log('PG211');
+  try {
+    const { kp, daerah, negeri, bulan } = payload;
+    //
+    const data = await Helper.countPG214(kp, bulan);
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG214.xlsx'
+    );
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG214');
+
+    const monthName = moment(new Date()).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    let details = worksheet.getRow(5);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(6);
+    intro1.getCell(2).value = 'PRIMER';
+
+    let intro2 = worksheet.getRow(7);
+    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(8);
+    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+
+    let intro4 = worksheet.getRow(9);
+    intro4.getCell(2).value = `${negeri.toUpperCase()}`;
+    //
+    for (let i = 0; i < data.length; i++) {
+      let rowNew = worksheet.getRow(13 + i);
+      if (data[i][0]) {
+        rowNew.getCell(3).value = results.jkbMelayu; //C13	Kategori Umur 60 Tahun
+        rowNew.getCell(4).value = results.jkbCina; //D13	Kategori Umur 60 Tahun
+        rowNew.getCell(5).value = results.jkbIndia; //E13	Kategori Umur 60 Tahun
+        rowNew.getCell(6).value = results.jkbBajau; //F13	Kategori Umur 60 Tahun
+        rowNew.getCell(7).value = results.jkbDusun; //G13	Kategori Umur 60 Tahun
+        rowNew.getCell(8).value = results.jkbKadazan; //H13 Kategori Umur 60 Tahun
+        rowNew.getCell(9).value = results.jkbMurut; //I13	Kategori Umur 60 Tahun
+        rowNew.getCell(10).value = results.jkbBSabahL; //J13 Kategori Umur 60 Tahun
+        rowNew.getCell(11).value = results.jkbMelanau; //K13 Kategori Umur 60 Tahun
+        rowNew.getCell(12).value = results.jkbKedayan; //L13 Kategori Umur 60 Tahun
+        rowNew.getCell(13).value = results.jkbIban; //M13 Kategori Umur 60 Tahun
+        rowNew.getCell(14).value = results.jkbBidayuh; //N13 Kategori Umur 60 Tahun
+        rowNew.getCell(15).value = results.jkbPenan; //O13 Kategori Umur 60 Tahun
+        rowNew.getCell(16).value = results.jkbBSwakLain; //P13 Kategori Umur 60 Tahun
+        rowNew.getCell(17).value = results.jkbOrangAsli; //Q13 Kategori Umur 60 Tahun
+        rowNew.getCell(18).value = results.jkbLain2; //R13 Kategori Umur 60 Tahun
+        rowNew.getCell(19).value = results.jkbWarganegara; //S13 Kategori Umur 60 Tahun
+        rowNew.getCell(20).value = results.jkbLelaki; //T13 Kategori Umur 60 Tahun
+        rowNew.getCell(21).value = results.jkbPerempuan; //U13 Kategori Umur 60 Tahun
+        rowNew.getCell(22).value = results.edentulous; //V13 Kategori Umur 60 Tahun
+        rowNew.getCell(23).value = results.gigiSamaAtauLebihDari20Batang; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(24).value = results.gigiKurangDari20Batang; //X13 Kategori Umur 60 Tahun
+        rowNew.getCell(25).value = results.bilGigi; //Y13 Kategori Umur 60 Tahun
+      }
+    }
+
+    let newfile = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'test-' + kp + '-PG214.xlsx'
     );
 
     // Write the file
@@ -1554,6 +1685,6 @@ exports.debug = async (req, res) => {
   // let tarikhMula = '2021-01-01';
   // let tarikhAkhir = '2021-01-31';
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await Helper.countPG201(kp, bulan, sekolah);
+  const data = await Helper.countPG211(kp, bulan);
   res.status(200).json(data);
 };

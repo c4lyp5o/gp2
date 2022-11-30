@@ -1100,6 +1100,419 @@ const countPG211 = async (klinik, bulan) => {
 
   return data;
 };
+const countPG214 = async (klinik, bulan) => {
+  let match_stage = [];
+
+  const bage_60 = {
+    $match: {
+      umur: {
+        $eq: 60,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_61_64 = {
+    $match: {
+      umur: {
+        $gte: 61,
+        $lte: 64,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_65 = {
+    $match: {
+      umur: {
+        $eq: 65,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_66_69 = {
+    $match: {
+      umur: {
+        $gte: 66,
+        $lte: 69,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_70_74 = {
+    $match: {
+      umur: {
+        $gte: 70,
+        $lte: 74,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+  const bage_lebih_75 = {
+    $match: {
+      umur: {
+        $gte: 75,
+      },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      createdByKp: {
+        $eq: klinik,
+      },
+    },
+  };
+
+  match_stage.push(bage_60);
+  match_stage.push(bage_61_64);
+  match_stage.push(bage_65);
+  match_stage.push(bage_66_69);
+  match_stage.push(bage_70_74);
+  match_stage.push(bage_lebih_75);
+
+  const group_stage = {
+    $group: {
+      _id: '$categoryId',
+      count: { $sum: 1 },
+      //
+      jumlahMelayu: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'melayu'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahCina: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'cina'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIndia: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'india'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBajau: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bajau'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahDusun: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'dusun'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahKadazan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'kadazan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahMurut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'murut'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBMSL: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahMelanau: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'melanau'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahKedayan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'kedayan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIban: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'iban'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBidayuh: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bidayuh'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      // jumlahPenan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$kumpulanEtnik', 'penan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+      //
+      jumlahBMSwL: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahOAS: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahLainlain: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'lain-lain'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBukanWarganegara: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahLelaki: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'lelaki'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPerempuan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'perempuan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahEdentulous: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                0,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahGigiLebihAtauSama20: {
+        $sum: {
+          $cond: [
+            {
+              $gte: [
+                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                20,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahGigiKurang20: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $lt: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    20,
+                  ],
+                },
+                {
+                  $gt: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    0,
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahSemuaGigi: {
+        $sum: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+      },
+      //
+      purataBilanganGigi: {
+        $avg: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+      },
+      //
+    },
+  };
+
+  let data = [];
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const pipeline = [match_stage[i], group_stage];
+    const query = await Umum.aggregate(pipeline);
+    data.push(query);
+  }
+
+  return data;
+};
 //Reten Umum
 const countPG206 = async (klinik, bulan, juruterapi) => {
   let match_stage_pemeriksaan = [];
@@ -9403,6 +9816,7 @@ const countAdHocQuery = async (
 module.exports = {
   countPG101,
   countPG211,
+  countPG214,
   countPG206,
   countPG207,
   countPG201,

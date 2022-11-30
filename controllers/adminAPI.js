@@ -423,9 +423,8 @@ const getData = async (req, res) => {
           }
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for Data Center',
-          });
+          console.log('default case for DataCenter');
+          break;
       }
       break;
     case 'KpCenter':
@@ -810,9 +809,7 @@ const getData = async (req, res) => {
           console.log('delete for user');
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for User Center',
-          });
+          console.log('default case for UserCenter');
           break;
       }
       break;
