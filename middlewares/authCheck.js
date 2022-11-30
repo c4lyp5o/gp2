@@ -11,10 +11,11 @@ const authCheck = async (req, res, next) => {
     req.user = {
       userId: userTokenVerified.userId,
       username: userTokenVerified.username,
+      accountType: userTokenVerified.accountType,
       negeri: userTokenVerified.negeri,
       daerah: userTokenVerified.daerah,
       kp: userTokenVerified.kp,
-      accountType: userTokenVerified.accountType,
+      kodFasiliti: userTokenVerified.kodFasiliti,
     };
     next();
   } catch (error) {
