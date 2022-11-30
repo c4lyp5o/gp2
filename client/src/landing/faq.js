@@ -58,7 +58,7 @@ function Faq() {
       </div>
       {/* content */}
       <div className='absolute inset-0 -z-10 flex bg-user5 text-center justify-center items-center capitalize'>
-        <div className='w-full h-4/6 md:h-3/4 mx-2 mt-24 bg-userWhite outline outline-1 outline-use rounded-md shadow-xl'>
+        <div className='w-full h-4/6 md:h-3/4 mx-2 mt-24 bg-userWhite outline outline-1 outline-use rounded-md shadow-xl overflow-auto'>
           <div className='grid'>
             <div className='justify-center items-center text-xl font-bold mt-7'>
               <h1>Soalan Lazim Gi-Ret 2.0</h1>
@@ -644,7 +644,10 @@ function Faq() {
             </article>
             <article
               className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
-                showUnused
+                showUnused ||
+                (showPentadbir === false &&
+                  showPendaftaran === false &&
+                  showPengguna === false)
                   ? 'max-h-full overflow-y-auto'
                   : 'max-h-0 overflow-y-hidden'
               } `}
