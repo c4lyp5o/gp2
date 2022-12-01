@@ -56,13 +56,13 @@ function UserSekolahList() {
             });
           setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
         });
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchFasilitiSekolahs();
-    setRefreshTimer(!refreshTimer);
   }, []);
 
   const selesaiSekolah = async (idSekolah) => {
