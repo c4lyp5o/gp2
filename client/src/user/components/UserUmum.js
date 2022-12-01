@@ -21,6 +21,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function UserUmum() {
   const {
     userToken,
+    userinfo,
     reliefUserToken,
     dateToday,
     masterDatePicker,
@@ -32,7 +33,6 @@ function UserUmum() {
     setRefreshTimer,
   } = useGlobalUserAppContext();
 
-  const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
@@ -85,8 +85,6 @@ function UserUmum() {
         const desc = data.umumResultQuery.sort((a, b) =>
           a.statusReten > b.statusReten ? 1 : -1
         );
-        const userData = JSON.parse(localStorage.getItem('userinfo'));
-        setStatus(userData.role);
         setQueryResult(desc);
         setIsLoading(false);
       } catch (error) {
@@ -298,7 +296,7 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
-                  {status === 'admin' ? (
+                  {userinfo.role === 'admin' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       HAPUS
                     </th>
@@ -426,7 +424,7 @@ function UserUmum() {
                         >
                           <u>PILIH</u>
                         </td>
-                        {status === 'admin' ? (
+                        {userinfo.role === 'admin' ? (
                           <td
                             onClick={() => {
                               setOperasiHapus(true);
@@ -473,7 +471,7 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {status === 'admin' ? (
+                    {userinfo.role === 'admin' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
@@ -507,7 +505,7 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {status === 'admin' ? (
+                    {userinfo.role === 'admin' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
@@ -541,7 +539,7 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {status === 'admin' ? (
+                    {userinfo.role === 'admin' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
