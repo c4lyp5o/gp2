@@ -72,7 +72,7 @@ function UserPromosi() {
       }
     };
     query();
-  }, [kodProgram, reloadState]);
+  }, [kodProgram, showTambahAcara, reloadState]);
 
   useEffect(() => {
     const resultFilter = allAktivitiPromosi.filter((a) => {
