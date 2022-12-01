@@ -41,45 +41,51 @@ import { toast, ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
   const { getCurrentUser, adminToken, logOutUser } = useGlobalAdminAppContext();
+
   const [loginInfo, setLoginInfo] = useState(null);
-  const [kicker, setKicker] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
+  const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
-      (kickerNotiId.current = toast(
-        `Anda sudah tidak aktif selama ${
+      (kickerNotiId.current = toast.warning(
+        `Log keluar dalam masa ${
           process.env.REACT_APP_LOGOUT_TIME / 2
-        } minit. Proses log keluar akan dilakukan dalam masa ${
-          process.env.REACT_APP_LOGOUT_TIME / 2
-        } minit. Jika anda ingin log keluar sekarang, klik di sini`,
+        } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
         {
           autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
+          pauseOnHover: false,
           onClick: () => {
-            logOutUser();
-            clearTimeout(kicker);
+            window.location.reload();
           },
         }
       ));
+
     const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
 
     if (kicker && kickerNoti) {
-      dismissLogOut();
-      clearTimeout(kicker);
       clearTimeout(kickerNoti);
+      clearTimeout(kicker);
+      dismissLogOut();
     }
+
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
     }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+
     const kickerNumber = setTimeout(() => {
       logOutUser();
     }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
-    setKicker(kickerNumber);
+
     setKickerNoti(kickerNotiNumber);
+    setKicker(kickerNumber);
+
     const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
     const nowMinutes = new Date().getTime();
+
+    // waktu skrg + env minutes
     const real = nowMinutes + logOutTime;
     setTimer(real);
   };
