@@ -26,6 +26,9 @@ const operatorSchema = new Schema({
   kpSkrg: {
     type: String,
   },
+  kodFasiliti: {
+    type: String,
+  },
   role: {
     type: String,
   },
