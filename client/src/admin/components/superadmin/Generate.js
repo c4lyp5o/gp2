@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
-export default function UserGenerateKlinik() {
-  const { userToken, toast, masterDatePicker, refreshTimer, setRefreshTimer } =
-    useGlobalUserAppContext();
+const Generate = (props) => {
+  const {
+    toast,
+    masterDatePicker,
+    readAllDaerahInNegeri,
+    readAllKlinikInDaerah,
+  } = useGlobalAdminAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -16,6 +20,13 @@ export default function UserGenerateKlinik() {
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kp, setKp] = useState('');
+
+  // masalah negara
+  const [daerah, setDaerah] = useState([]);
+  const [klinik, setKlinik] = useState([]);
+  const [pilihanNegeri, setPilihanNegeri] = useState('');
+  const [pilihanDaerah, setPilihanDaerah] = useState('');
+  const [pilihanKlinik, setPilihanKlinik] = useState('');
 
   //datepicker range
   const [startDatePicker, setStartDatePicker] = useState(null);
@@ -64,40 +75,11 @@ export default function UserGenerateKlinik() {
     setEndDatePicker(null);
   }, [startDate]);
 
+  // reset daerah if change klinik
   useEffect(() => {
-    const fetchSekolah = async () => {
-      try {
-        const { data } = await axios.get('/api/v1/sekolah/populate', {
-          headers: { Authorization: `Bearer ${userToken}` },
-        });
-        const allPersonSekolahs = data.allPersonSekolahs;
-        const namaSekolahs = allPersonSekolahs.reduce(
-          (arrNamaSekolahs, singlePersonSekolah) => {
-            if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-              arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-            }
-            return arrNamaSekolahs.filter((valid) => valid);
-          },
-          ['']
-        );
-        setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs(namaSekolahs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchKp = async () => {
-      try {
-        const kpData = JSON.parse(localStorage.getItem('userinfo'));
-        setKp(kpData.kpSkrg);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSekolah();
-    fetchKp();
-    setRefreshTimer(!refreshTimer);
-  }, []);
+    setPilihanDaerah('');
+    setPilihanKlinik('');
+  }, [pilihanKlinik]);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
@@ -116,13 +98,12 @@ export default function UserGenerateKlinik() {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    console.log(pilihanNegeri, pilihanDaerah, pilihanKlinik);
     await toast
       .promise(
         axios.get(
-          // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${pilihanNegeri}&daerah=${pilihanDaerah}&klinik=${pilihanKlinik}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
-            headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
           }
         ),
@@ -137,6 +118,20 @@ export default function UserGenerateKlinik() {
         saveFile(blob.data);
       });
   };
+
+  useEffect(() => {
+    if (props.loginInfo.accountType === 'negeriSuperadmin') {
+      setPilihanNegeri(props.loginInfo.negeri);
+      readAllDaerahInNegeri().then((res) => {
+        setDaerah(res.data);
+      });
+    }
+    if (props.loginInfo.accountType === 'daerahSuperadmin') {
+      readAllKlinikInDaerah().then((res) => {
+        setKlinik(res.data);
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -161,6 +156,8 @@ export default function UserGenerateKlinik() {
                 <option value=''>Sila pilih reten</option>
                 <option value='PG101A'>PG101A</option>
                 <option value='PG101C'>PG101C</option>
+                <option value='PG206'>PG206</option>
+                <option value='PG207'>PG207</option>
                 <option value='PG211A'>PG211A</option>
                 <option value='PG211C'>PG211C</option>
                 <option value='PG214'>PG214</option>
@@ -212,7 +209,7 @@ export default function UserGenerateKlinik() {
                 })}
               </select>
             </div> */}
-            {jenisReten === 'PG101' && (
+            {(jenisReten === 'PG101A' || jenisReten === 'PG101C') && (
               <>
                 <div className='px-3 py-1'>
                   <label
@@ -247,9 +244,71 @@ export default function UserGenerateKlinik() {
                     className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   /> */}
                 </div>
+                {props.loginInfo.accountType === 'negeriSuperadmin' ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='daerah'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Daerah:
+                    </label>
+                    <select
+                      required
+                      name='klinik'
+                      id='klinik'
+                      onChange={async (e) => {
+                        setPilihanDaerah(e.target.value);
+                        await readAllKlinikInDaerah(e.target.value).then(
+                          (res) => {
+                            setKlinik(res.data);
+                          }
+                        );
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua daerah (Jana Negeri)</option>
+                      {daerah.map((d, index) => {
+                        return (
+                          <option value={d} key={index} className='capitalize'>
+                            {d}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
+                {props.loginInfo.accountType === 'daerahSuperadmin' ||
+                (pilihanDaerah !== '' && pilihanDaerah !== 'all') ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='klinik'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Klinik:
+                    </label>
+                    <select
+                      required
+                      name='klinik'
+                      id='klinik'
+                      onChange={(e) => setPilihanKlinik(e.target.value)}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua klinik (Jana Daerah)</option>
+                      {klinik.map((k, index) => {
+                        return (
+                          <option value={k} key={index} className='capitalize'>
+                            {k}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
               </>
             )}
-            {jenisReten === 'PG211' && (
+            {(jenisReten === 'PG211A' || jenisReten === 'PG211C') && (
               <div className='px-3 py-1'>
                 <label
                   htmlFor='bulanpg211'
@@ -326,4 +385,6 @@ export default function UserGenerateKlinik() {
       </div>
     </>
   );
-}
+};
+
+export default Generate;

@@ -7,47 +7,50 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 
 //Reten Kaunter
-const countPG101 = async (klinik, tarikhMula, tarikhAkhir) => {
+const countPG101 = async (payload) => {
   let match_stage = [];
   let project_stage = [];
   let sort_stage = [];
 
-  let match = {};
+  let match = { $match: getParams(payload) };
+  console.log('match', match);
 
-  if (!tarikhAkhir) {
-    console.log('tarikh akhir is null');
-    match = {
-      $match: {
-        tarikhKedatangan: {
-          $eq: tarikhMula,
-        },
-        createdByKp: {
-          $eq: klinik,
-        },
-        jenisFasiliti: {
-          $eq: 'kp',
-        },
-      },
-    };
-  }
+  // if (!tarikhAkhir) {
+  //   console.log('tarikh akhir is null');
+  //   match = {
+  //     $match: {
+  //       tarikhKedatangan: {
+  //         $eq: tarikhMula,
+  //       },
+  //       createdByKp: {
+  //         $eq: klinik,
+  //       },
+  //       jenisFasiliti: {
+  //         $eq: 'kp',
+  //       },
+  //     },
+  //   };
+  // }
 
-  if (tarikhAkhir) {
-    console.log('tarikh akhir is not null');
-    match = {
-      $match: {
-        tarikhKedatangan: {
-          $gte: tarikhMula,
-          $lte: tarikhAkhir,
-        },
-        createdByKp: {
-          $eq: klinik,
-        },
-        jenisFasiliti: {
-          $eq: 'kp',
-        },
-      },
-    };
-  }
+  // if (tarikhAkhir) {
+  //   console.log('tarikh akhir is not null');
+  //   match = {
+  //     $match: {
+  //       tarikhKedatangan: {
+  //         $gte: tarikhMula,
+  //         $lte: tarikhAkhir,
+  //       },
+  //       createdByKp: {
+  //         $eq: klinik,
+  //       },
+  //       jenisFasiliti: {
+  //         $eq: 'kp',
+  //       },
+  //     },
+  //   };
+  // }
+  // const params = getParams(payload);
+  // match = { $match: params };
 
   const project = {
     $project: {
@@ -90,9 +93,15 @@ const countPG101 = async (klinik, tarikhMula, tarikhAkhir) => {
 
   const data = await Umum.aggregate(pipeline);
 
+  console.log('data', data.length);
+
   return data;
 };
 const countPG211 = async (klinik, bulan) => {
+  //
+  klinik = 'Klinik Pergigian Arau';
+  let jenis = { $ne: 'kp' };
+  //
   let match_stage = [];
 
   const bage_below_1 = {
@@ -104,9 +113,10 @@ const countPG211 = async (klinik, bulan) => {
         $lt: 13,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -120,9 +130,11 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 4,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
+      kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
       },
@@ -135,9 +147,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 6,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -151,9 +164,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 9,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -167,9 +181,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 12,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -183,9 +198,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 14,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -199,9 +215,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 17,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -215,9 +232,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 19,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -231,9 +249,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 29,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -247,9 +266,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 39,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -263,9 +283,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 49,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -279,9 +300,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 59,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -294,9 +316,10 @@ const countPG211 = async (klinik, bulan) => {
         $eq: 60,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -310,9 +333,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 64,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -325,9 +349,10 @@ const countPG211 = async (klinik, bulan) => {
         $eq: 65,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -341,9 +366,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 69,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -357,9 +383,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 74,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -372,9 +399,10 @@ const countPG211 = async (klinik, bulan) => {
         $gte: 75,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -391,9 +419,10 @@ const countPG211 = async (klinik, bulan) => {
         $lt: 13,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -407,9 +436,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 4,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -423,9 +453,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 6,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -439,9 +470,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 9,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -455,9 +487,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 12,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -471,9 +504,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 14,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -487,9 +521,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 17,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -503,9 +538,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 19,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -519,9 +555,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 29,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -535,9 +572,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 39,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -551,9 +589,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 49,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -567,9 +606,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 59,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -582,9 +622,10 @@ const countPG211 = async (klinik, bulan) => {
         $eq: 60,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -598,9 +639,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 64,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -613,9 +655,10 @@ const countPG211 = async (klinik, bulan) => {
         $eq: 65,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -629,9 +672,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 69,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -645,9 +689,10 @@ const countPG211 = async (klinik, bulan) => {
         $lte: 74,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -660,9 +705,10 @@ const countPG211 = async (klinik, bulan) => {
         $gte: 75,
       },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $gte: '2022-10-18',
+        $lte: '2022-11-18',
       },
+      jenisFasiliti: jenis,
       kedatangan: { $eq: 'ulangan-kedatangan' },
       createdByKp: {
         $eq: klinik,
@@ -726,7 +772,7 @@ const countPG211 = async (klinik, bulan) => {
 
   const group_stage = {
     $group: {
-      _id: '$categoryId',
+      _id: '$createdByKlinik',
       count: { $sum: 1 },
       jumlahLelaki: {
         $sum: {
@@ -9806,6 +9852,110 @@ const countAdHocQuery = async (
     return query;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// helper function
+const getParams = (payload) => {
+  const { negeri, daerah, klinik, tarikhMula, tarikhAkhir } = payload;
+  const byKp = () => {
+    const noEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+      },
+      createdByKp: {
+        $eq: klinik,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    const withEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+        $lte: tarikhAkhir,
+      },
+      createdByKp: {
+        $eq: klinik,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    if (!tarikhAkhir) {
+      return noEndDate;
+    } else {
+      return withEndDate;
+    }
+  };
+  const byDaerah = () => {
+    const noEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+      },
+      createdByDaerah: {
+        $eq: daerah,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    const withEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+        $lte: tarikhAkhir,
+      },
+      createdByDaerah: {
+        $eq: daerah,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    if (!tarikhAkhir) {
+      return noEndDate;
+    } else {
+      return withEndDate;
+    }
+  };
+  const byNegeri = () => {
+    const noEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+      },
+      createdByNegeri: {
+        $eq: negeri,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    const withEndDate = {
+      tarikhKedatangan: {
+        $gte: tarikhMula,
+        $lte: tarikhAkhir,
+      },
+      createdByNegeri: {
+        $eq: negeri,
+      },
+      jenisFasiliti: {
+        $eq: 'kp',
+      },
+    };
+    if (!tarikhAkhir) {
+      return noEndDate;
+    } else {
+      return withEndDate;
+    }
+  };
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    return byNegeri(payload);
   }
 };
 

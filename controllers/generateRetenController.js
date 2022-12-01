@@ -16,22 +16,32 @@ exports.downloader = async function (req, res) {
   const { authorization, klinikid, klinikdaerah, kliniknegeri, pegawai, id } =
     req.headers;
   //
-  let kp, daerah, negeri, username;
+  let username;
   if (!authorization) {
-    kp = klinikid;
-    daerah = klinikdaerah;
-    negeri = kliniknegeri;
+    console.log('no authorization');
+    // kp = klinikid;
+    // daerah = klinikdaerah;
+    // negeri = kliniknegeri;
   }
   if (authorization) {
     const token = authorization.split(' ')[1];
-    kp = jwt.verify(token, process.env.JWT_SECRET).kp;
-    daerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
-    negeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
+    // kp = jwt.verify(token, process.env.JWT_SECRET).kp;
+    // daerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
+    // negeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
     username = jwt.verify(token, process.env.JWT_SECRET).username;
   }
-  const { jenisReten, formatFile, tarikhMula, tarikhAkhir, bulan } = req.query;
+  const {
+    jenisReten,
+    negeri,
+    daerah,
+    klinik,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    formatFile,
+  } = req.query;
   const payload = {
-    kp,
+    klinik,
     daerah,
     negeri,
     username,
@@ -43,9 +53,9 @@ exports.downloader = async function (req, res) {
     pegawai,
     id,
   };
-  logger.info(`${req.method} ${req.url} ${kp} Requesting ${jenisReten}`);
+  logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   switch (jenisReten) {
-    case 'PG101':
+    case 'PG101A':
       const data101 = await makePG101(payload);
       if (data101 === 'No data found') {
         return res.status(404).json({
@@ -63,14 +73,14 @@ exports.downloader = async function (req, res) {
             '..',
             'public',
             'exports',
-            'test-' + kp + '-PG101.xlsx'
+            'test-' + klinik + '-PG101.xlsx'
           );
           let pdf101 = path.join(
             __dirname,
             '..',
             'public',
             'exports',
-            'test-' + kp + '-PG101.pdf'
+            'test-' + klinik + '-PG101.pdf'
           );
           convertToPdf(excel101, pdf101);
           const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf101));
@@ -369,9 +379,9 @@ exports.aggFunction = async function (req, res) {
 const makePG101 = async (payload) => {
   console.log('PG101');
   try {
-    const { kp, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
+    const { klinik, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
     //
-    const data = await Helper.countPG101(kp, tarikhMula, tarikhAkhir);
+    const data = await Helper.countPG101(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -401,7 +411,7 @@ const makePG101 = async (payload) => {
     intro1.getCell(2).value = 'Servis: PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `Fasiliti: ${kp.toUpperCase()}`;
+    intro2.getCell(2).value = `Fasiliti: ${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `Daerah: ${daerah.toUpperCase()}`;
@@ -524,7 +534,7 @@ const makePG101 = async (payload) => {
       '..',
       'public',
       'exports',
-      'test-' + kp + '-PG101.xlsx'
+      'test-' + klinik + '-PG101.xlsx'
     );
 
     // Write the file
@@ -546,7 +556,11 @@ const makePG101 = async (payload) => {
 const makePG211 = async (payload) => {
   console.log('PG211');
   try {
-    const { kp, daerah, negeri, bulan } = payload;
+    // const { kp, daerah, negeri, bulan } = payload;
+    let kp = 'Klinik Pergigian Arau';
+    let daerah = 'Arau';
+    let negeri = 'Perlis';
+    let bulan = 'Januari';
     //
     const data = await Helper.countPG211(kp, bulan);
     //

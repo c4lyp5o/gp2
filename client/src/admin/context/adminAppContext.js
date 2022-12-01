@@ -296,6 +296,29 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // get all daerah in negeri
+  const readAllDaerahInNegeri = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'readDaerah',
+      token: adminToken,
+    });
+    return response;
+  };
+
+  // get all klinik in daerah
+  const readAllKlinikInDaerah = async (daerah) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'readKlinik',
+      daerah: daerah,
+      token: adminToken,
+    });
+    return response;
+  };
+
   // erkm
   const readSekolahData = async (FType) => {
     const response = await axios.get(
@@ -675,6 +698,8 @@ function AdminAppProvider({ children }) {
         readKpData,
         readSuperadminData,
         readKodProgramData,
+        readAllDaerahInNegeri,
+        readAllKlinikInDaerah,
         // misc
         getCurrentUser,
         saveCurrentUser,
