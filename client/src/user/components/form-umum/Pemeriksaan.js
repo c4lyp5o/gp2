@@ -44,7 +44,7 @@ export default function Pemeriksaan(props) {
                 className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
               />
               <label htmlFor='tidak-hadir' className='m-2 text-sm font-m'>
-                pesakit yang tidak menjalani pemeriksaan atau rawatan
+                Pesakit pulang sebelum sebarang pemeriksaan atau rawatan
               </label>
             </div>
           </article>
@@ -763,7 +763,7 @@ export default function Pemeriksaan(props) {
                           e.target.value
                         );
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       min='0'
                       max='32'
                     />
@@ -866,7 +866,7 @@ export default function Pemeriksaan(props) {
                           e.target.value
                         );
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       min='0'
                       max='32'
                     />
@@ -1256,7 +1256,7 @@ export default function Pemeriksaan(props) {
                             e.target.value
                           );
                         }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                   </article>
@@ -1326,7 +1326,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       {/* <div className='flex flex-row items-center pl-5'>
@@ -1366,7 +1366,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       {/* <div className='flex flex-row items-center pl-5'>
@@ -1406,7 +1406,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                     </div>
@@ -1483,7 +1483,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1503,7 +1503,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1523,7 +1523,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1543,7 +1543,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1563,7 +1563,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                     </div>
@@ -1834,7 +1834,7 @@ export default function Pemeriksaan(props) {
                             e.target.value
                           );
                         }}
-                        className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                     <div className='flex flex-row items-center pl-3'>
@@ -1859,7 +1859,7 @@ export default function Pemeriksaan(props) {
                             e.target.value
                           );
                         }}
-                        className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                     <div className='flex flex-row items-center pl-3'>
@@ -1884,7 +1884,7 @@ export default function Pemeriksaan(props) {
                             e.target.value
                           );
                         }}
-                        className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                     <div className='flex flex-row items-center pl-3'>
@@ -1909,7 +1909,7 @@ export default function Pemeriksaan(props) {
                             e.target.value
                           );
                         }}
-                        className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
                     {/* <div className='flex items-center justify-center'>
