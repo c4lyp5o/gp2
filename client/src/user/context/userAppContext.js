@@ -191,39 +191,45 @@ function UserAppProvider({ children }) {
   useEffect(() => {
     if (userToken) {
       if (kicker && kickerNoti) {
-        dismissLogOut();
-        clearTimeout(kicker);
         clearTimeout(kickerNoti);
+        clearTimeout(kicker);
+        dismissLogOut();
       }
+
       const logOutTime =
         parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
       const nowMinutes = new Date().getTime();
+
+      // waktu skrg + env minutes
       const real = nowMinutes + logOutTime;
       setTimer(real);
+
       const kickerNotiNumber = setTimeout(() => {
         notifyLogOut();
       }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+
       const kickerNumber = setTimeout(() => {
         logoutUser();
       }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
-      setKicker(kickerNumber);
+
       setKickerNoti(kickerNotiNumber);
+      setKicker(kickerNumber);
+
       console.log('user kicker started');
     }
   }, [refreshTimer]);
 
   const notifyLogOut = () =>
-    (kickerNotiId.current = toast(
-      `Anda sudah tidak aktif selama ${
+    (kickerNotiId.current = toast.warning(
+      `Log keluar dalam masa ${
         parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2
-      } minit. Proses log keluar akan dilakukan dalam masa ${
-        parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2
-      } minit. Jika anda ingin log keluar sekarang, klik di sini`,
+      } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
       {
         autoClose:
           1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2),
+        pauseOnHover: false,
         onClick: () => {
-          logoutUser();
+          window.location.reload();
         },
       }
     ));

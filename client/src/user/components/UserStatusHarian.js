@@ -14,7 +14,6 @@ export default function UserStatusHarian() {
     reliefUserToken,
     Dictionary,
     dateToday,
-    toast,
     refreshTimer,
     setRefreshTimer,
   } = useGlobalUserAppContext();
@@ -63,6 +62,7 @@ export default function UserStatusHarian() {
           a.statusReten > b.statusReten ? 1 : -1
         );
         setQueryResult(desc);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -112,7 +112,6 @@ export default function UserStatusHarian() {
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
     setReloadState(!reloadState);
-    setRefreshTimer(!refreshTimer);
     return () => {
       window.removeEventListener('focus', setReloadState);
     };
