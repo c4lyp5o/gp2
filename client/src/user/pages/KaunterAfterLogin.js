@@ -34,22 +34,19 @@ function KaunterAfterLogin() {
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
-      (kickerNotiId.current = toast(
-        `Anda sudah tidak aktif selama ${
-          parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2
-        } minit. Proses log keluar akan dilakukan dalam masa ${
-          parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2
-        } minit. Jika anda ingin log keluar sekarang, klik di sini`,
+      (kickerNotiId.current = toast.warning(
+        `Log keluar dalam masa ${
+          process.env.REACT_APP_LOGOUT_TIME / 2
+        } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
         {
-          autoClose:
-            1000 *
-            60 *
-            (parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2),
+          autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
+          pauseOnHover: false,
           onClick: () => {
-            logout();
+            window.location.reload();
           },
         }
       ));
+
     const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
 
     if (kicker && kickerNoti) {
@@ -57,17 +54,23 @@ function KaunterAfterLogin() {
       clearTimeout(kicker);
       clearTimeout(kickerNoti);
     }
+
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
     }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2));
+
     const kickerNumber = setTimeout(() => {
       logout();
     }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN));
-    setKicker(kickerNumber);
+
     setKickerNoti(kickerNotiNumber);
+    setKicker(kickerNumber);
+
     const logOutTime =
       parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) * 60 * 1000;
     const nowMinutes = new Date().getTime();
+
+    // waktu skrg + env minutes
     const real = nowMinutes + logOutTime;
     setTimer(real);
   };

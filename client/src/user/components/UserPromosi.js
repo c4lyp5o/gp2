@@ -66,6 +66,7 @@ function UserPromosi() {
           }
         );
         setAllAktivitiPromosi(data.aktivitiPromosiResultQuery);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -91,7 +92,6 @@ function UserPromosi() {
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
     setReloadState(!reloadState);
-    setRefreshTimer(!refreshTimer);
     return () => {
       window.removeEventListener('focus', setReloadState);
     };
