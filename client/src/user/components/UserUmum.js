@@ -86,6 +86,7 @@ function UserUmum() {
           a.statusReten > b.statusReten ? 1 : -1
         );
         setQueryResult(desc);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -116,7 +117,6 @@ function UserUmum() {
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
     setReloadState(!reloadState);
-    setRefreshTimer(!refreshTimer);
     return () => {
       window.removeEventListener('focus', setReloadState);
     };

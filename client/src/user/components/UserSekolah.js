@@ -31,6 +31,8 @@ function UserSekolah() {
   const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
 
+  const [reloadState, setReloadState] = useState(false);
+
   // init fetch allPersonSekolahs
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
@@ -55,14 +57,14 @@ function UserSekolah() {
         );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchAllPersonSekolahs();
-    setRefreshTimer(!refreshTimer);
-  }, []);
+  }, [reloadState]);
 
   useEffect(() => {
     const filteredSekolahs = allPersonSekolahs.filter((person) =>
@@ -140,42 +142,19 @@ function UserSekolah() {
     );
   }, [pilihanSekolah]);
 
-  const reloadData = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.get('/api/v1/sekolah/populate', {
-        headers: {
-          Authorization: `Bearer ${
-            reliefUserToken ? reliefUserToken : userToken
-          }`,
-        },
-      });
-      const allPersonSekolahs = data.allPersonSekolahs;
-      const namaSekolahs = allPersonSekolahs.reduce(
-        (arrNamaSekolahs, singlePersonSekolah) => {
-          if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-            arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-          }
-          return arrNamaSekolahs.filter((valid) => valid);
-        },
-        ['']
-      );
-      setAllPersonSekolahs(data.allPersonSekolahs);
-      setNamaSekolahs(namaSekolahs);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // on tab focus reload data
   useEffect(() => {
-    window.addEventListener('focus', reloadData);
-    reloadData();
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
     return () => {
-      window.removeEventListener('focus', reloadData);
+      window.removeEventListener('focus', setReloadState);
     };
   }, []);
+
+  // specific refreshTimer for this UserSekolah special case
+  useEffect(() => {
+    setRefreshTimer(!refreshTimer);
+  }, [pilihanSekolah, pilihanTahun, pilihanNamaKelas, filterNama]);
 
   return (
     <>
