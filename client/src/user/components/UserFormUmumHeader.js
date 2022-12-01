@@ -2086,14 +2086,12 @@ function UserFormUmumHeader() {
                               </div>
                             </div>
                           )}
-                        </div>
-                        <div className='relative'>
-                          <button
+                          <span
                             onClick={kemaskini}
-                            className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium'
+                            className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium cursor-pointer'
                           >
-                            kemaskini
-                          </button>
+                            Kemaskini
+                          </span>
                         </div>
                       </div>
                     </div>
