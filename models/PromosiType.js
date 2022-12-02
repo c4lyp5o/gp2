@@ -8,7 +8,14 @@ const PromosiTypeSchema = new Schema({
   },
   mediaSosial: {
     type: Array,
-    default: ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'],
+    default: [
+      'Facebook',
+      'Instagram',
+      'Twitter',
+      'Youtube',
+      'Tiktok',
+      'Lain-lain',
+    ],
   },
   program: {
     type: Array,
