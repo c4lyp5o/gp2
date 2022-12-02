@@ -16,6 +16,15 @@ import Twitter from '../../../assets/socmed/twitter.svg';
 import Tiktok from '../../../assets/socmed/tiktok.svg';
 import Youtube from '../../../assets/socmed/youtube.svg';
 
+import {
+  SiInstagram,
+  SiFacebook,
+  SiTiktok,
+  SiYoutube,
+  SiTwitter,
+  SiStackshare,
+} from 'react-icons/si';
+
 const CustomDatePicker = ({ jenis, setQuestionState }) => {
   const { masterDatePicker } = useGlobalAdminAppContext();
   const [date, setDate] = useState(null);
@@ -38,7 +47,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
       }
     },
     className:
-      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2',
   });
 };
 
@@ -47,11 +56,48 @@ export const ModalSosMed = (props) => {
     useGlobalAdminAppContext();
 
   const JenisMediaSosial = [
-    { id: 1, value: 'Facebook', label: 'Facebook', img: Facebook },
-    { id: 2, value: 'Instagram', label: 'Instagram', img: Instagram },
-    { id: 3, value: 'Youtube', label: 'Youtube', img: Youtube },
-    { id: 4, value: 'Tiktok', label: 'Tiktok', img: Tiktok },
-    { id: 5, value: 'Twitter', label: 'Twitter', img: Twitter },
+    {
+      id: 1,
+      value: 'Facebook',
+      label: 'Facebook',
+      img: Facebook,
+      logo: <SiFacebook />,
+    },
+    {
+      id: 2,
+      value: 'Instagram',
+      label: 'Instagram',
+      img: Instagram,
+      logo: <SiInstagram />,
+    },
+    {
+      id: 3,
+      value: 'Youtube',
+      label: 'Youtube',
+      img: Youtube,
+      logo: <SiYoutube />,
+    },
+    {
+      id: 4,
+      value: 'Tiktok',
+      label: 'Tiktok',
+      img: Tiktok,
+      logo: <SiTiktok />,
+    },
+    {
+      id: 5,
+      value: 'Twitter',
+      label: 'Twitter',
+      img: Twitter,
+      logo: <SiTwitter />,
+    },
+    {
+      id: 6,
+      value: 'Lain-lain',
+      label: 'Lain-lain',
+      img: <SiStackshare />,
+      logo: <SiStackshare />,
+    },
   ];
 
   const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
@@ -137,16 +183,19 @@ export const ModalSosMed = (props) => {
       <form onSubmit={handleSubmit}>
         <div className='absolute inset-x-10 inset-y-10 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
           <FaWindowClose
-            className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+            className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
             onClick={() => {
               props.setShowSosMedModal(false);
             }}
           />
-          <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
+          <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
             AKTIVITI MEDIA SOSIAL
           </h5>
           <div className='grid grid-row-3 mx-auto'>
             <div className='m-2'>
+              <p className='flex flex-row pl-1 text-sm font-semibold'>
+                Kod Program :
+              </p>
               <Select
                 className='basic-single'
                 classNamePrefix='select'
@@ -165,15 +214,15 @@ export const ModalSosMed = (props) => {
                 }}
               />
             </div>
-            <div className='flex justify-center mb-1'>
-              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+            <div className='flex justify-center mb-1 pl-3'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
                 tarikh mula: <span className='font-semibold text-user6'>*</span>
               </p>
               <CustomDatePicker
                 jenis='mula'
                 setQuestionState={setQuestionState}
               />
-              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
                 tarikh akhir:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
@@ -182,25 +231,28 @@ export const ModalSosMed = (props) => {
                 setQuestionState={setQuestionState}
               />
             </div>
-            <div className='flex mt-1'>
-              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+            <div className='flex mt-2'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
                 nama aktiviti:{' '}
                 <span className='font-semibold text-user6'>*</span>
-                <input
-                  className='appearance-none w-96 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-                  type='text'
-                  placeholder='Nama Aktiviti'
-                  onChange={(e) => {
-                    setQuestionState({
-                      ...questionState,
-                      namaAktiviti: e.target.value,
-                    });
-                  }}
-                />
               </p>
+              <input
+                className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
+                type='text'
+                placeholder='Nama Aktiviti'
+                onChange={(e) => {
+                  setQuestionState({
+                    ...questionState,
+                    namaAktiviti: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
-          <div className='mt-5 p-2'>
+          <div className='p-2'>
+            <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
+              Media Sosial : <span className='font-semibold text-user6'>*</span>
+            </p>
             <Select
               isMulti
               name='promosi'
@@ -214,14 +266,14 @@ export const ModalSosMed = (props) => {
             />
             {pilihanMediaSosial.map((item) => RenderSection(item, propsSosMed))}
           </div>
-          <div className='flex justify-center'>
+          <div className='flex justify-center mb-2'>
             {addingData ? (
               <BusyButton func='add' />
             ) : (
               <SubmitButton func='add' />
             )}
             <button
-              className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-1 m-3'
+              className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-2 mr-3 hover:bg-user8'
               onClick={() => {
                 props.setShowSosMedModal(false);
               }}
