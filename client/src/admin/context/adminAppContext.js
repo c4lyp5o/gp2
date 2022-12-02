@@ -642,6 +642,18 @@ function AdminAppProvider({ children }) {
       data = data.replace('bilShare', 'Share');
       return data;
     }
+    if (data.includes('Lain-lain')) {
+      data = data.replace('Lain-lain_', '');
+      data = data.replace('live_', 'Lain-lain LIVE: ');
+      data = data.replace('video_', 'Lain-lain Video: ');
+      data = data.replace('poster_', 'Lain-lain Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
   };
 
   return (
