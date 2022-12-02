@@ -5,6 +5,7 @@ import Instagram from '../../assets/socmed/instagram.png';
 import Twitter from '../../assets/socmed/twitter.svg';
 import Tiktok from '../../assets/socmed/tiktok.svg';
 import Youtube from '../../assets/socmed/youtube.svg';
+import Lain from '../../assets/socmed/lain-lain.svg';
 
 const socmed = [
   { name: 'Facebook', img: Facebook },
@@ -12,6 +13,7 @@ const socmed = [
   { name: 'Twitter', img: Twitter },
   { name: 'Tiktok', img: Tiktok },
   { name: 'Youtube', img: Youtube },
+  { name: 'Lain-lain', img: Lain },
 ];
 
 const SosmedCards = (current, props) => {
