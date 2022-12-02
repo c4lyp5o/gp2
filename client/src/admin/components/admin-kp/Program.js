@@ -8,7 +8,7 @@ export default function Program(props) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai Program {props.data[0].handler} {props.kp}
+          Senarai Program Outreach {props.data[0].handler} {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
