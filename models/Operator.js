@@ -32,6 +32,10 @@ const operatorSchema = new Schema({
   role: {
     type: String,
   },
+  rolePromosiKlinik: {
+    type: Boolean,
+    default: false,
+  },
   statusPegawai: {
     type: String,
   },
