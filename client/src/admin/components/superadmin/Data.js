@@ -317,6 +317,9 @@ export default function Data({ FType, kp }) {
                     Peranan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Pemegang Promosi Klink
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
                   </th>
                 </tr>
@@ -388,6 +391,9 @@ export default function Data({ FType, kp }) {
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {o.role === 'admin' && <span>Pentadbir Klinik</span>}
                         {o.role === 'umum' && <span>Pengguna</span>}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {o.rolePromosiKlinik ? 'Ya' : 'Tidak'}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
