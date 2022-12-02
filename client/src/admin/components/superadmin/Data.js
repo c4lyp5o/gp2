@@ -114,7 +114,7 @@ export default function Data({ FType, kp }) {
                     Status KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -194,7 +194,7 @@ export default function Data({ FType, kp }) {
                           setId(kp._id);
                         }}
                       >
-                        Ubah
+                        Kemaskini
                       </button>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
@@ -317,7 +317,7 @@ export default function Data({ FType, kp }) {
                     Peranan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -386,7 +386,8 @@ export default function Data({ FType, kp }) {
                         {o.kpSkrg}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {o.role}
+                        {o.role === 'admin' && <span>Pentadbir Klinik</span>}
+                        {o.role === 'umum' && <span>Pengguna</span>}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
@@ -396,7 +397,7 @@ export default function Data({ FType, kp }) {
                             setId(o._id);
                           }}
                         >
-                          Ubah
+                          Kemaskini
                         </button>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -496,7 +497,7 @@ export default function Data({ FType, kp }) {
                     </>
                   )}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -567,7 +568,7 @@ export default function Data({ FType, kp }) {
                             setId(f._id);
                           }}
                         >
-                          Ubah
+                          Kemaskini
                         </button>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -618,7 +619,7 @@ export default function Data({ FType, kp }) {
                     Kaedah Penyampaian Perkhidmatan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
