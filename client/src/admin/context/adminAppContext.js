@@ -642,11 +642,11 @@ function AdminAppProvider({ children }) {
       data = data.replace('bilShare', 'Share');
       return data;
     }
-    if (data.includes('Lain-lain')) {
-      data = data.replace('Lain-lain_', '');
-      data = data.replace('live_', 'Lain-lain LIVE: ');
-      data = data.replace('video_', 'Lain-lain Video: ');
-      data = data.replace('poster_', 'Lain-lain Poster: ');
+    if (data.includes('Lain')) {
+      data = data.replace('Lain_', '');
+      data = data.replace('live_', 'Lain LIVE: ');
+      data = data.replace('video_', 'Lain Video: ');
+      data = data.replace('poster_', 'Lain Poster: ');
       data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
       data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
       data = data.replace('bilPenonton', 'Penonton');

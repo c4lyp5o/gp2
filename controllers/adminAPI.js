@@ -39,7 +39,14 @@ const Dictionary = {
   sosmedByKodProgram: 'sosmedByKodProgram',
 };
 
-const socmed = ['Facebook', 'Instagram', 'Twitter', 'Youtube', 'Tiktok'];
+const socmed = [
+  'Facebook',
+  'Instagram',
+  'Twitter',
+  'Youtube',
+  'Tiktok',
+  'Lain',
+];
 
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
@@ -1564,6 +1571,21 @@ const sosmedDataCompactor = (data) => {
     Youtube_video_bilPenonton: 0,
     Youtube_video_bilReach: 0,
     Youtube_video_bilShare: 0,
+    Lain_live_bilAktivitiShareKurang10: 0,
+    Lain_live_bilAktivitiShareLebih10: 0,
+    Lain_live_bilPenonton: 0,
+    Lain_live_bilReach: 0,
+    Lain_live_bilShare: 0,
+    Lain_poster_bilAktivitiShareKurang10: 0,
+    Lain_poster_bilAktivitiShareLebih10: 0,
+    Lain_poster_bilPenonton: 0,
+    Lain_poster_bilReach: 0,
+    Lain_poster_bilShare: 0,
+    Lain_video_bilAktivitiShareKurang10: 0,
+    Lain_video_bilAktivitiShareLebih10: 0,
+    Lain_video_bilPenonton: 0,
+    Lain_video_bilReach: 0,
+    Lain_video_bilShare: 0,
   };
   for (let j = 0; j < data.length; j++) {
     for (let i = 0; i < data[j].data.length; i++) {
