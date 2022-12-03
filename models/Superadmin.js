@@ -3,17 +3,23 @@ const Schema = mongoose.Schema;
 const jwt = require('jsonwebtoken');
 
 const adminSchema = new Schema({
-  image: {
+  user_name: {
     type: String,
-    default:
-      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAA…UAq0UIMUZZlILtJYD+AfFJYv52yVUcQAAAABJRU5ErkJggg==',
+    required: true,
+    unique: true,
   },
-  user_name: { type: String, required: true },
-  nama: { type: String },
-  tarikhLahir: { type: String },
-  daerah: { type: String, required: true },
-  negeri: { type: String, required: true },
-  e_mail: { type: String },
+  negeri: {
+    type: String,
+    required: true,
+  },
+  daerah: {
+    type: String,
+    required: true,
+  },
+  e_mail: {
+    type: String,
+    required: true,
+  },
   accountType: {
     type: String,
     enum: {
@@ -27,15 +33,51 @@ const adminSchema = new Schema({
         '{VALUE} is not supported. Provide only "kpSuperadmin", "daerahSuperadmin", "negeriSuperadmin", "hqSuperadmin"',
     },
   },
-  tempKey: { type: String, default: '' },
-  // totp
-  totp: { type: Boolean, default: false },
-  ascii: { type: String, default: '' },
-  hex: { type: String, default: '' },
-  base32: { type: String, default: '' },
-  otpauth_url: { type: String, default: '' },
-  backup_codes: { type: Array, default: [] },
-  hashed_backup_codes: { type: Array, default: [] },
+  nama: {
+    type: String,
+    default: '',
+  },
+  tarikhLahir: {
+    type: String,
+    default: '',
+  },
+  image: {
+    type: String,
+    default:
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAA…UAq0UIMUZZlILtJYD+AfFJYv52yVUcQAAAABJRU5ErkJggg==',
+  },
+  tempKey: {
+    type: String,
+    default: '',
+  },
+  totp: {
+    type: Boolean,
+    default: false,
+  },
+  ascii: {
+    type: String,
+    default: '',
+  },
+  hex: {
+    type: String,
+    default: '',
+  },
+  base32: {
+    type: String,
+    default: '',
+  },
+  otpauth_url: {
+    type: String,
+    default: '',
+  },
+  backup_codes: {
+    type: Array,
+    default: [],
+  },
+  hashed_backup_codes: {
+    type: Array,
+    default: [],
+  },
 });
 
 adminSchema.pre('save', function (next) {
