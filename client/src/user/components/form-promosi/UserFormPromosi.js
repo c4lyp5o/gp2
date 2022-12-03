@@ -7,6 +7,8 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 const optionsBahagianB = [
+  { value: 'ceramah', label: 'Ceramah' },
+  { value: 'lmg', label: 'Latihan Memberus Gigi' },
   { value: 'pameran-kempen', label: 'Pameran / Kempen' },
   { value: 'pertunjukan-boneka', label: 'Pertunjukan Boneka' },
   { value: 'main-peranan', label: 'Main Peranan' },
@@ -18,6 +20,11 @@ const optionsBahagianB = [
   { value: 'dental-buskers', label: 'Dental Buskers' },
   { value: 'flashmob', label: 'Flashmob' },
   { value: 'lawatan-ke-rumah', label: 'Lawatan Ke Rumah' },
+  {
+    value: 'nasihat-kesihatan-pergigian',
+    label: 'Nasihat Kesihatan Pergigian',
+  },
+  { value: 'intervensi-tabiat', label: 'Intervensi Tabiat Berisiko Tinggi' },
 ];
 
 function UserFormPromosi() {
@@ -30,7 +37,7 @@ function UserFormPromosi() {
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [singleAktivitiPromosi, setSingleAktivitiPromosi] = useState([]);
 
-  const [pilihanBahagianB, setPilihanBahagianB] = useState([]);
+  const [pilihanPromosi, setPilihanPromosi] = useState([]);
 
   useEffect(() => {
     const fetchAllProgramPromosi = async () => {
@@ -113,42 +120,44 @@ function UserFormPromosi() {
 
   return (
     <>
-      <div className='h-full p-1 grid'>
+      <div className='h-full p-1 grid grid-rows-[1fr_7fr]'>
         {/* maklumat acara */}
         <div className='p-2'>
           <article className='outline outline-1 outline-userBlack'>
             <div className='flex flex-col'>
               <div>
-                <h1 className='text-base font-bold flex flex-row pl-5'>
+                <h1 className='text-sm lg:text-base font-bold flex flex-row pl-5'>
                   maklumat acara
                 </h1>
               </div>
-              <div className='grid grid-cols-2'>
-                <p className='text-sm flex flex-row items-center pl-5'>
+              <div className='grid grid-cols-1 lg:grid-cols-2'>
+                <p className='text-xs lg:text-sm flex flex-row items-center pl-5 whitespace-nowrap'>
                   jenis program :
-                  {allProgramPromosi
-                    .filter((p) =>
-                      p.kodProgram.includes(singleAktivitiPromosi.kodProgram)
-                    )
-                    .map((p) => {
-                      return <span className='ml-1'>{p.jenisProgram}</span>;
-                    })}
+                  <a className='whitespace-pre-wrap'>
+                    {allProgramPromosi
+                      .filter((p) =>
+                        p.kodProgram.includes(singleAktivitiPromosi.kodProgram)
+                      )
+                      .map((p) => {
+                        return <span className='ml-1'>{p.jenisProgram}</span>;
+                      })}
+                  </a>
                 </p>
-                <p className='text-sm flex flex-row items-center pl-5'>
+                <p className='text-xs lg:text-sm flex flex-row items-center pl-5 whitespace-nowrap'>
                   nama acara :
-                  <span className='ml-1'>
+                  <span className='ml-1 whitespace-pre-wrap'>
                     {singleAktivitiPromosi.namaAcara}
                   </span>
                 </p>
               </div>
-              <div className='grid grid-cols-2'>
-                <p className='text-sm flex flex-row items-center pl-5'>
+              <div className='grid grid-cols-1 lg:grid-cols-2'>
+                <p className='text-xs lg:text-sm flex flex-row items-center pl-5'>
                   tarikh mula :{' '}
                   {moment(singleAktivitiPromosi.tarikhMula).format(
                     'DD/MM/YYYY'
                   )}
                 </p>
-                <p className='text-sm flex flex-row items-center pl-5'>
+                <p className='text-xs lg:text-sm flex flex-row items-center pl-5'>
                   tarikh akhir :{' '}
                   {moment(singleAktivitiPromosi.tarikhAkhir).format(
                     'DD/MM/YYYY'
@@ -309,387 +318,42 @@ function UserFormPromosi() {
                     </div>
                   </div>
                 )}
-              </article>
-              <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div className='flex flex-row justify-start lg:col-span-2 items-center'>
-                  <h1 className='text-base font-bold flex flex-row lg:pl-5 mr-5'>
-                    Bahagian A
-                  </h1>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr]'>
-                  <div className='col-span-2 p-1 relative w-full'>
-                    <input
-                      type='checkbox'
-                      name='ceramah-bahagian-a'
-                      id='ceramah-bahagian-a'
-                      checked={singleAktivitiPromosi.ceramahBahagianA}
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          ceramahBahagianA:
-                            !singleAktivitiPromosi.ceramahBahagianA,
-                        })
-                      }
-                      className='hidden peer'
-                    />
-                    <label
-                      htmlFor='ceramah-bahagian-a'
-                      className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-32 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
-                    >
-                      Ceramah
-                    </label>
-                  </div>
-                  {singleAktivitiPromosi.ceramahBahagianA && (
-                    <div className='flex flex-col justify-start col-span-2'>
-                      <div className='grid grid-cols-[1fr_2fr]'>
-                        <div className='flex flex-row justify-end'>
-                          <label
-                            htmlFor='baru-ceramah-bahagian-a'
-                            className='ml-2 mr-5 text-sm flex items-center'
-                          >
-                            Baru
-                          </label>
-                          <input
-                            type='checkbox'
-                            name='baru-ceramah-bahagian-a'
-                            id='baru-ceramah-bahagian-a'
-                            checked={singleAktivitiPromosi.baruCeramahBahagianA}
-                            onChange={() =>
-                              setSingleAktivitiPromosi({
-                                ...singleAktivitiPromosi,
-                                baruCeramahBahagianA:
-                                  !singleAktivitiPromosi.baruCeramahBahagianA,
-                              })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan aktiviti
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                              id='bilangan-aktiviti-baru-ceramah-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganAktivitiBaruCeramahBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganAktivitiBaruCeramahBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-peserta-baru-ceramah-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan peserta
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-peserta-baru-ceramah-bahagian-a'
-                              id='bilangan-peserta-baru-ceramah-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganPesertaBaruCeramahBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganPesertaBaruCeramahBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className='grid grid-cols-[1fr_2fr]'>
-                        <div className='flex flex-row justify-end'>
-                          <label
-                            htmlFor='ulang-ceramah-bahagian-a'
-                            className='ml-2 mr-5 text-sm flex items-center'
-                          >
-                            Ulangan
-                          </label>
-                          <input
-                            type='checkbox'
-                            name='ulang-ceramah-bahagian-a'
-                            id='ulang-ceramah-bahagian-a'
-                            checked={
-                              singleAktivitiPromosi.ulangCeramahBahagianA
-                            }
-                            onChange={() =>
-                              setSingleAktivitiPromosi({
-                                ...singleAktivitiPromosi,
-                                ulangCeramahBahagianA:
-                                  !singleAktivitiPromosi.ulangCeramahBahagianA,
-                              })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan aktiviti
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                              id='bilangan-aktiviti-ulang-ceramah-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganAktivitiUlangCeramahBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganAktivitiUlangCeramahBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-peserta-ulang-ceramah-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan peserta
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-peserta-ulang-ceramah-bahagian-a'
-                              id='bilangan-peserta-ulang-ceramah-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganPesertaUlangCeramahBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganPesertaUlangCeramahBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </div>
-                      </div>
+                {singleAktivitiPromosi.mediaMassa === 'media-massa-ya' && (
+                  <div className='outline outline-1 outline-user1 rounded-md'>
+                    <h1 className='flex flex-row text-base font-semibold pl-5'>
+                      cetak
+                    </h1>
+                    <div className='grid grid-cols-[1fr_3fr]'>
+                      <p className='text-sm font-medium flex items-center justify-start pl-5'>
+                        Bil. Aktiviti :
+                      </p>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-cetak'
+                        id='bilangan-aktiviti-cetak'
+                        min='0'
+                        value={singleAktivitiPromosi.bilanganAktivitiCetak}
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiCetak: e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
                     </div>
-                  )}
-                </div>
-                <div className='grid grid-cols-[1fr_2fr]'>
-                  <div className='col-span-2 p-1 relative w-full'>
-                    <input
-                      type='checkbox'
-                      name='latihan-memberus-gigi-bahagian-a'
-                      id='latihan-memberus-gigi-bahagian-a'
-                      checked={
-                        singleAktivitiPromosi.latihanMemberusGigiBahagianA
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          latihanMemberusGigiBahagianA:
-                            !singleAktivitiPromosi.latihanMemberusGigiBahagianA,
-                        })
-                      }
-                      className='hidden peer'
-                    />
-                    <label
-                      htmlFor='latihan-memberus-gigi-bahagian-a'
-                      className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-20 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
-                    >
-                      Latihan Memberus Gigi
-                    </label>
                   </div>
-                  {singleAktivitiPromosi.latihanMemberusGigiBahagianA && (
-                    <div className='flex flex-col justify-start col-span-2'>
-                      <div className='grid grid-cols-[1fr_2fr]'>
-                        <div className='flex flex-row justify-end'>
-                          <label
-                            htmlFor='baru-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-5 text-sm flex items-center'
-                          >
-                            Baru
-                          </label>
-                          <input
-                            type='checkbox'
-                            name='baru-latihan-memberus-gigi-bahagian-a'
-                            id='baru-latihan-memberus-gigi-bahagian-a'
-                            checked={
-                              singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA
-                            }
-                            onChange={() =>
-                              setSingleAktivitiPromosi({
-                                ...singleAktivitiPromosi,
-                                baruLatihanMemberusGigiBahagianA:
-                                  !singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA,
-                              })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan aktiviti
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                              id='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganAktivitiBaruLatihanMemberusGigiBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganAktivitiBaruLatihanMemberusGigiBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan peserta
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                              id='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganPesertaBaruLatihanMemberusGigiBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganPesertaBaruLatihanMemberusGigiBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className='grid grid-cols-[1fr_2fr]'>
-                        <div className='flex flex-row justify-end'>
-                          <label
-                            htmlFor='ulang-latihan-memberus-gigi-bahagian-a'
-                            className='ml-2 mr-5 text-sm flex items-center'
-                          >
-                            Ulangan
-                          </label>
-                          <input
-                            type='checkbox'
-                            name='ulang-latihan-memberus-gigi-bahagian-a'
-                            id='ulang-latihan-memberus-gigi-bahagian-a'
-                            checked={
-                              singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA
-                            }
-                            onChange={() =>
-                              setSingleAktivitiPromosi({
-                                ...singleAktivitiPromosi,
-                                ulangLatihanMemberusGigiBahagianA:
-                                  !singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA,
-                              })
-                            }
-                          />
-                        </div>
-                        <div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan aktiviti
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                              id='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganAktivitiUlangLatihanMemberusGigiBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganAktivitiUlangLatihanMemberusGigiBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                              className='ml-2 mr-3 text-sm'
-                            >
-                              bilangan peserta
-                            </label>
-                            <input
-                              type='number'
-                              name='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                              id='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
-                              min='0'
-                              value={
-                                singleAktivitiPromosi.bilanganPesertaUlangLatihanMemberusGigiBahagianA
-                              }
-                              onChange={(e) =>
-                                setSingleAktivitiPromosi({
-                                  ...singleAktivitiPromosi,
-                                  bilanganPesertaUlangLatihanMemberusGigiBahagianA:
-                                    e.target.value,
-                                })
-                              }
-                              className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                )}
               </article>
               <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <div className='flex flex-row justify-start lg:col-span-2 items-center'>
                   <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
-                    Bahagian B
+                    aktiviti pendidikan kesihatan pergigian yang dijalankan
                   </h1>
                 </div>
                 <article className='grid border border-userBlack pl-3 px-2 p-2 rounded-md lg:col-span-2'>
                   <h1 className='flex flex-row text-base font-semibold p-1'>
-                    Aktiviti yang dijalankan
+                    Pilihan Aktiviti yang dijalankan
                   </h1>
                   <Select
                     isMulti
@@ -698,11 +362,385 @@ function UserFormPromosi() {
                     className='basic-multi-select'
                     classNamePrefix='select'
                     onChange={(e) => {
-                      setPilihanBahagianB(e.map((item) => item.value));
+                      setPilihanPromosi(e.map((item) => item.value));
                     }}
                   />
                 </article>
-                {pilihanBahagianB.includes('pameran-kempen') ? (
+                {pilihanPromosi.includes('ceramah') ? (
+                  <div className='grid grid-cols-[1fr_2fr] shadow-md'>
+                    <div className='col-span-2 p-1 relative w-full'>
+                      <input
+                        type='checkbox'
+                        name='ceramah-bahagian-a'
+                        id='ceramah-bahagian-a'
+                        checked={singleAktivitiPromosi.ceramahBahagianA}
+                        onChange={() =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            ceramahBahagianA:
+                              !singleAktivitiPromosi.ceramahBahagianA,
+                          })
+                        }
+                        className='hidden peer'
+                      />
+                      <label
+                        htmlFor='ceramah-bahagian-a'
+                        className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-32 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                      >
+                        Ceramah
+                      </label>
+                    </div>
+                    {singleAktivitiPromosi.ceramahBahagianA && (
+                      <div className='flex flex-col justify-start col-span-2'>
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <div className='flex flex-row justify-end m-2'>
+                            <label
+                              htmlFor='baru-ceramah-bahagian-a'
+                              className='ml-2 mr-5 text-sm flex items-center'
+                            >
+                              Baru
+                            </label>
+                            <input
+                              type='checkbox'
+                              name='baru-ceramah-bahagian-a'
+                              id='baru-ceramah-bahagian-a'
+                              checked={
+                                singleAktivitiPromosi.baruCeramahBahagianA
+                              }
+                              onChange={() =>
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  baruCeramahBahagianA:
+                                    !singleAktivitiPromosi.baruCeramahBahagianA,
+                                })
+                              }
+                            />
+                          </div>
+                          {singleAktivitiPromosi.baruCeramahBahagianA && (
+                            <div>
+                              <div>
+                                <label
+                                  htmlFor='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                                  className='ml-2 mr-3 text-sm'
+                                >
+                                  bilangan aktiviti
+                                </label>
+                                <input
+                                  type='number'
+                                  name='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                                  id='bilangan-aktiviti-baru-ceramah-bahagian-a'
+                                  min='0'
+                                  value={
+                                    singleAktivitiPromosi.bilanganAktivitiBaruCeramahBahagianA
+                                  }
+                                  onChange={(e) =>
+                                    setSingleAktivitiPromosi({
+                                      ...singleAktivitiPromosi,
+                                      bilanganAktivitiBaruCeramahBahagianA:
+                                        e.target.value,
+                                    })
+                                  }
+                                  className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor='bilangan-peserta-baru-ceramah-bahagian-a'
+                                  className='ml-2 mr-3 text-sm'
+                                >
+                                  bilangan peserta
+                                </label>
+                                <input
+                                  type='number'
+                                  name='bilangan-peserta-baru-ceramah-bahagian-a'
+                                  id='bilangan-peserta-baru-ceramah-bahagian-a'
+                                  min='0'
+                                  value={
+                                    singleAktivitiPromosi.bilanganPesertaBaruCeramahBahagianA
+                                  }
+                                  onChange={(e) =>
+                                    setSingleAktivitiPromosi({
+                                      ...singleAktivitiPromosi,
+                                      bilanganPesertaBaruCeramahBahagianA:
+                                        e.target.value,
+                                    })
+                                  }
+                                  className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <div className='flex flex-row justify-end m-2'>
+                            <label
+                              htmlFor='ulang-ceramah-bahagian-a'
+                              className='ml-2 mr-5 text-sm flex items-center'
+                            >
+                              Ulangan
+                            </label>
+                            <input
+                              type='checkbox'
+                              name='ulang-ceramah-bahagian-a'
+                              id='ulang-ceramah-bahagian-a'
+                              checked={
+                                singleAktivitiPromosi.ulangCeramahBahagianA
+                              }
+                              onChange={() =>
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  ulangCeramahBahagianA:
+                                    !singleAktivitiPromosi.ulangCeramahBahagianA,
+                                })
+                              }
+                            />
+                          </div>
+                          {singleAktivitiPromosi.ulangCeramahBahagianA && (
+                            <div>
+                              <div>
+                                <label
+                                  htmlFor='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                                  className='ml-2 mr-3 text-sm'
+                                >
+                                  bilangan aktiviti
+                                </label>
+                                <input
+                                  type='number'
+                                  name='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                                  id='bilangan-aktiviti-ulang-ceramah-bahagian-a'
+                                  min='0'
+                                  value={
+                                    singleAktivitiPromosi.bilanganAktivitiUlangCeramahBahagianA
+                                  }
+                                  onChange={(e) =>
+                                    setSingleAktivitiPromosi({
+                                      ...singleAktivitiPromosi,
+                                      bilanganAktivitiUlangCeramahBahagianA:
+                                        e.target.value,
+                                    })
+                                  }
+                                  className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor='bilangan-peserta-ulang-ceramah-bahagian-a'
+                                  className='ml-2 mr-3 text-sm'
+                                >
+                                  bilangan peserta
+                                </label>
+                                <input
+                                  type='number'
+                                  name='bilangan-peserta-ulang-ceramah-bahagian-a'
+                                  id='bilangan-peserta-ulang-ceramah-bahagian-a'
+                                  min='0'
+                                  value={
+                                    singleAktivitiPromosi.bilanganPesertaUlangCeramahBahagianA
+                                  }
+                                  onChange={(e) =>
+                                    setSingleAktivitiPromosi({
+                                      ...singleAktivitiPromosi,
+                                      bilanganPesertaUlangCeramahBahagianA:
+                                        e.target.value,
+                                    })
+                                  }
+                                  className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+                {pilihanPromosi.includes('lmg') ? (
+                  <div className='grid grid-cols-[1fr_2fr] shadow-md'>
+                    <div className='col-span-2 p-1 relative w-full'>
+                      <input
+                        type='checkbox'
+                        name='latihan-memberus-gigi-bahagian-a'
+                        id='latihan-memberus-gigi-bahagian-a'
+                        checked={
+                          singleAktivitiPromosi.latihanMemberusGigiBahagianA
+                        }
+                        onChange={() =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            latihanMemberusGigiBahagianA:
+                              !singleAktivitiPromosi.latihanMemberusGigiBahagianA,
+                          })
+                        }
+                        className='hidden peer'
+                      />
+                      <label
+                        htmlFor='latihan-memberus-gigi-bahagian-a'
+                        className='text-sm text-start peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 px-20 py-1 bg-user4 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                      >
+                        Latihan Memberus Gigi
+                      </label>
+                    </div>
+                    {singleAktivitiPromosi.latihanMemberusGigiBahagianA && (
+                      <div className='flex flex-col justify-start col-span-2'>
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <div className='flex flex-row justify-end'>
+                            <label
+                              htmlFor='baru-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-5 text-sm flex items-center'
+                            >
+                              Baru
+                            </label>
+                            <input
+                              type='checkbox'
+                              name='baru-latihan-memberus-gigi-bahagian-a'
+                              id='baru-latihan-memberus-gigi-bahagian-a'
+                              checked={
+                                singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA
+                              }
+                              onChange={() =>
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  baruLatihanMemberusGigiBahagianA:
+                                    !singleAktivitiPromosi.baruLatihanMemberusGigiBahagianA,
+                                })
+                              }
+                            />
+                          </div>
+                          <div>
+                            <div>
+                              <label
+                                htmlFor='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                                className='ml-2 mr-3 text-sm'
+                              >
+                                bilangan aktiviti
+                              </label>
+                              <input
+                                type='number'
+                                name='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                                id='bilangan-aktiviti-baru-latihan-memberus-gigi-bahagian-a'
+                                min='0'
+                                value={
+                                  singleAktivitiPromosi.bilanganAktivitiBaruLatihanMemberusGigiBahagianA
+                                }
+                                onChange={(e) =>
+                                  setSingleAktivitiPromosi({
+                                    ...singleAktivitiPromosi,
+                                    bilanganAktivitiBaruLatihanMemberusGigiBahagianA:
+                                      e.target.value,
+                                  })
+                                }
+                                className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                                className='ml-2 mr-3 text-sm'
+                              >
+                                bilangan peserta
+                              </label>
+                              <input
+                                type='number'
+                                name='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                                id='bilangan-peserta-baru-latihan-memberus-gigi-bahagian-a'
+                                min='0'
+                                value={
+                                  singleAktivitiPromosi.bilanganPesertaBaruLatihanMemberusGigiBahagianA
+                                }
+                                onChange={(e) =>
+                                  setSingleAktivitiPromosi({
+                                    ...singleAktivitiPromosi,
+                                    bilanganPesertaBaruLatihanMemberusGigiBahagianA:
+                                      e.target.value,
+                                  })
+                                }
+                                className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <div className='flex flex-row justify-end'>
+                            <label
+                              htmlFor='ulang-latihan-memberus-gigi-bahagian-a'
+                              className='ml-2 mr-5 text-sm flex items-center'
+                            >
+                              Ulangan
+                            </label>
+                            <input
+                              type='checkbox'
+                              name='ulang-latihan-memberus-gigi-bahagian-a'
+                              id='ulang-latihan-memberus-gigi-bahagian-a'
+                              checked={
+                                singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA
+                              }
+                              onChange={() =>
+                                setSingleAktivitiPromosi({
+                                  ...singleAktivitiPromosi,
+                                  ulangLatihanMemberusGigiBahagianA:
+                                    !singleAktivitiPromosi.ulangLatihanMemberusGigiBahagianA,
+                                })
+                              }
+                            />
+                          </div>
+                          <div>
+                            <div>
+                              <label
+                                htmlFor='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                                className='ml-2 mr-3 text-sm'
+                              >
+                                bilangan aktiviti
+                              </label>
+                              <input
+                                type='number'
+                                name='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                                id='bilangan-aktiviti-ulang-latihan-memberus-gigi-bahagian-a'
+                                min='0'
+                                value={
+                                  singleAktivitiPromosi.bilanganAktivitiUlangLatihanMemberusGigiBahagianA
+                                }
+                                onChange={(e) =>
+                                  setSingleAktivitiPromosi({
+                                    ...singleAktivitiPromosi,
+                                    bilanganAktivitiUlangLatihanMemberusGigiBahagianA:
+                                      e.target.value,
+                                  })
+                                }
+                                className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div>
+                              <label
+                                htmlFor='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                                className='ml-2 mr-3 text-sm'
+                              >
+                                bilangan peserta
+                              </label>
+                              <input
+                                type='number'
+                                name='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                                id='bilangan-peserta-ulang-latihan-memberus-gigi-bahagian-a'
+                                min='0'
+                                value={
+                                  singleAktivitiPromosi.bilanganPesertaUlangLatihanMemberusGigiBahagianA
+                                }
+                                onChange={(e) =>
+                                  setSingleAktivitiPromosi({
+                                    ...singleAktivitiPromosi,
+                                    bilanganPesertaUlangLatihanMemberusGigiBahagianA:
+                                      e.target.value,
+                                  })
+                                }
+                                className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+                {pilihanPromosi.includes('pameran-kempen') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -772,7 +810,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('pertunjukan-boneka') ? (
+                {pilihanPromosi.includes('pertunjukan-boneka') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -845,7 +883,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('main-peranan') ? (
+                {pilihanPromosi.includes('main-peranan') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -914,7 +952,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('bercerita') ? (
+                {pilihanPromosi.includes('bercerita') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -983,7 +1021,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('pertandingan') ? (
+                {pilihanPromosi.includes('pertandingan') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1052,7 +1090,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('permainan-interaktif') ? (
+                {pilihanPromosi.includes('permainan-interaktif') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1125,7 +1163,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('kursus-seminar-bengkel') ? (
+                {pilihanPromosi.includes('kursus-seminar-bengkel') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1198,7 +1236,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('pertunjukan-multimedia') ? (
+                {pilihanPromosi.includes('pertunjukan-multimedia') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1271,7 +1309,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('dental-buskers') ? (
+                {pilihanPromosi.includes('dental-buskers') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1340,7 +1378,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('flashmob') ? (
+                {pilihanPromosi.includes('flashmob') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1409,7 +1447,7 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-                {pilihanBahagianB.includes('lawatan-ke-rumah') ? (
+                {pilihanPromosi.includes('lawatan-ke-rumah') ? (
                   <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
                     <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
                       <input
@@ -1480,582 +1518,589 @@ function UserFormPromosi() {
                     />
                   </div>
                 ) : null}
-              </article>
-              <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div className='flex flex-row justify-start lg:col-span-2 items-center'>
-                  <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
-                    Nasihat Kesihatan Pergigian
-                  </h1>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                      id='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={
-                        singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          plakGigiNasihatKesihatanPergigianBahagianB:
-                            !singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Plak Gigi
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiPlakGigiBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiPlakGigiBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaPlakGigiBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaPlakGigiBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                      id='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={
-                        singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          dietPemakananNasihatKesihatanPergigianBahagianB:
-                            !singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Diet Pemakanan
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiDietPemakananBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiDietPemakananBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaDietPemakananBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaDietPemakananBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      id='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={
-                        singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB:
-                            !singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Penjagaan Kesihatan Mulut
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiPenjagaanKesihatanMulutBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiPenjagaanKesihatanMulutBahagianB:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaPenjagaanKesihatanMulutBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaPenjagaanKesihatanMulutBahagianB:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      id='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      checked={
-                        singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          kanserMulutNasihatKesihatanPergigianBahagianB:
-                            !singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Kanser Mulut
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiKanserMulutBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiKanserMulutBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    id='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaKanserMulutBahagianB
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaKanserMulutBahagianB: e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-              </article>
-              <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                <div className='flex flex-row justify-start lg:col-span-2 items-center'>
-                  <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
-                    Intervensi Tabiat Berisiko Tinggi
-                  </h1>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='merokok-intervensi-tabiat-berisiko-tinggi'
-                      id='merokok-intervensi-tabiat-berisiko-tinggi'
-                      checked={
-                        singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          merokokIntervensiTabiatBerisikoTinggi:
-                            !singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='merokok-intervensi-tabiat-berisiko-tinggi'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Merokok
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                      id='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                      checked={
-                        singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          mengunyahSirihIntervensiTabiatBerisikoTinggi:
-                            !singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Mengunyah Sirih
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='alkohol-intervensi-tabiat-berisiko-tinggi'
-                      id='alkohol-intervensi-tabiat-berisiko-tinggi'
-                      checked={
-                        singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          alkoholIntervensiTabiatBerisikoTinggi:
-                            !singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='alkohol-intervensi-tabiat-berisiko-tinggi'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Alkohol
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
-                  <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
-                    <input
-                      type='checkbox'
-                      name='lain-lain-intervensi-tabiat-berisiko-tinggi'
-                      id='lain-lain-intervensi-tabiat-berisiko-tinggi'
-                      checked={
-                        singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi
-                      }
-                      onChange={() =>
-                        setSingleAktivitiPromosi({
-                          ...singleAktivitiPromosi,
-                          lainLainIntervensiTabiatBerisikoTinggi:
-                            !singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi,
-                        })
-                      }
-                    />
-                    <label
-                      htmlFor='lain-lain-intervensi-tabiat-berisiko-tinggi'
-                      className='ml-2 mr-5 text-sm'
-                    >
-                      Lain-lain
-                    </label>
-                  </div>
-                  <label
-                    htmlFor='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan aktiviti
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                  <label
-                    htmlFor='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    className='ml-2 mr-3 text-sm flex items-center justify-end'
-                  >
-                    bilangan peserta
-                  </label>
-                  <input
-                    type='number'
-                    name='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    id='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
-                    min='0'
-                    value={
-                      singleAktivitiPromosi.bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi
-                    }
-                    onChange={(e) =>
-                      setSingleAktivitiPromosi({
-                        ...singleAktivitiPromosi,
-                        bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi:
-                          e.target.value,
-                      })
-                    }
-                    className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
+                {pilihanPromosi.includes('nasihat-kesihatan-pergigian') ? (
+                  <article className='grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div className='flex flex-row justify-start lg:col-span-2 items-center'>
+                      <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
+                        Nasihat Kesihatan Pergigian
+                      </h1>
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                          id='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                          checked={
+                            singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              plakGigiNasihatKesihatanPergigianBahagianB:
+                                !singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Plak Gigi
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-aktiviti-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiPlakGigiBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiPlakGigiBahagianB: e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-peserta-plak-gigi-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaPlakGigiBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaPlakGigiBahagianB: e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                          id='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                          checked={
+                            singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              dietPemakananNasihatKesihatanPergigianBahagianB:
+                                !singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Diet Pemakanan
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-aktiviti-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiDietPemakananBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiDietPemakananBahagianB:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-peserta-diet-pemakanan-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaDietPemakananBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaDietPemakananBahagianB:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          id='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          checked={
+                            singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB:
+                                !singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Penjagaan Kesihatan Mulut
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-aktiviti-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiPenjagaanKesihatanMulutBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiPenjagaanKesihatanMulutBahagianB:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-peserta-penjagaan-kesihatan-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaPenjagaanKesihatanMulutBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaPenjagaanKesihatanMulutBahagianB:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          id='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          checked={
+                            singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              kanserMulutNasihatKesihatanPergigianBahagianB:
+                                !singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Kanser Mulut
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-aktiviti-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiKanserMulutBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiKanserMulutBahagianB:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        id='bilangan-peserta-kanser-mulut-nasihat-kesihatan-pergigian-bahagian-b'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaKanserMulutBahagianB
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaKanserMulutBahagianB: e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                  </article>
+                ) : null}
+                {pilihanPromosi.includes('intervensi-tabiat') ? (
+                  <article className='grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div className='flex flex-row justify-start lg:col-span-2 items-center'>
+                      <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
+                        Intervensi Tabiat Berisiko Tinggi
+                      </h1>
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='merokok-intervensi-tabiat-berisiko-tinggi'
+                          id='merokok-intervensi-tabiat-berisiko-tinggi'
+                          checked={
+                            singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              merokokIntervensiTabiatBerisikoTinggi:
+                                !singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='merokok-intervensi-tabiat-berisiko-tinggi'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Merokok
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-aktiviti-merokok-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-peserta-merokok-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                          id='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                          checked={
+                            singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              mengunyahSirihIntervensiTabiatBerisikoTinggi:
+                                !singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Mengunyah Sirih
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-aktiviti-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-peserta-mengunyah-sirih-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='alkohol-intervensi-tabiat-berisiko-tinggi'
+                          id='alkohol-intervensi-tabiat-berisiko-tinggi'
+                          checked={
+                            singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              alkoholIntervensiTabiatBerisikoTinggi:
+                                !singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='alkohol-intervensi-tabiat-berisiko-tinggi'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Alkohol
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-aktiviti-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-peserta-alkohol-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                    <div className='grid grid-cols-[1fr_2fr] outline outline-1 outline-userBlack'>
+                      <div className='col-span-2 flex flex-row pl-5 pt-2 text-lg font-semibold'>
+                        <input
+                          type='checkbox'
+                          name='lain-lain-intervensi-tabiat-berisiko-tinggi'
+                          id='lain-lain-intervensi-tabiat-berisiko-tinggi'
+                          checked={
+                            singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi
+                          }
+                          onChange={() =>
+                            setSingleAktivitiPromosi({
+                              ...singleAktivitiPromosi,
+                              lainLainIntervensiTabiatBerisikoTinggi:
+                                !singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi,
+                            })
+                          }
+                        />
+                        <label
+                          htmlFor='lain-lain-intervensi-tabiat-berisiko-tinggi'
+                          className='ml-2 mr-5 text-sm'
+                        >
+                          Lain-lain
+                        </label>
+                      </div>
+                      <label
+                        htmlFor='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan aktiviti
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-aktiviti-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                      <label
+                        htmlFor='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        className='ml-2 mr-3 text-sm flex items-center justify-end'
+                      >
+                        bilangan peserta
+                      </label>
+                      <input
+                        type='number'
+                        name='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        id='bilangan-peserta-lain-lain-intervensi-tabiat-berisiko-tinggi'
+                        min='0'
+                        value={
+                          singleAktivitiPromosi.bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi
+                        }
+                        onChange={(e) =>
+                          setSingleAktivitiPromosi({
+                            ...singleAktivitiPromosi,
+                            bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi:
+                              e.target.value,
+                          })
+                        }
+                        className='appearance-none w-24 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </div>
+                  </article>
+                ) : null}
               </article>
             </section>
             <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
