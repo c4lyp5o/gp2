@@ -27,7 +27,7 @@ export default function Settings({ update }) {
   const email = useId();
   const totp = useId();
 
-  // tarikh lahir pengguna
+  // tarikh lahir pentadbir
   const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
 
   // const TarikhLahir = () => {
@@ -205,7 +205,7 @@ export default function Settings({ update }) {
                   htmlFor={nama}
                   className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
                 >
-                  Nama Pengguna
+                  Nama Pentadbir
                 </label>
               </div>
               <div className='relative border-b border-user1'>
