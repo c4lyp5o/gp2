@@ -1,7 +1,6 @@
 /node_modules
 .env
-multiSeederOperator.js
-multiSeederFasiliti.js
+/data
 
 # config file for graphql development
 graphql.config.json

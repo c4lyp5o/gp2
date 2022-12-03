@@ -13,8 +13,9 @@ import { SubmitButton, BusyButton } from '../Buttons';
 const AddModal = ({
   setShowAddModal,
   FType,
-  kp,
+  negeri,
   daerah,
+  kp,
   reload,
   setReload,
 }) => {
@@ -249,7 +250,7 @@ const AddModal = ({
       });
     }
     if (FType === 'kp') {
-      readFasilitiData().then((res) => {
+      readFasilitiData({ negeri, daerah }).then((res) => {
         setKlinik(res.data);
       });
     }
@@ -300,11 +301,11 @@ const AddModal = ({
                       >
                         <option value=''>Pilih Klinik</option>
                         {klinik
-                          .filter((ak) => {
-                            let upperCased =
-                              daerah[0].toUpperCase() + daerah.substring(1);
-                            return ak.daerah.includes(upperCased);
-                          })
+                          // .filter((ak) => {
+                          //   let upperCased =
+                          //     daerah[0].toUpperCase() + daerah.substring(1);
+                          //   return ak.daerah.includes(upperCased);
+                          // })
                           .map((k) => (
                             <option key={k.bil} value={k.kodFasiliti}>
                               {k.nama}
