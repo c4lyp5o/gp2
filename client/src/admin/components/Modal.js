@@ -41,6 +41,7 @@ const AddModal = ({
   const currentRegNumber = useRef();
   const currentGred = useRef();
   const currentRole = useRef('');
+  const currentRolePromosiKlinik = useRef();
   const currentRisiko = useRef();
   // taska
   const currentKodTastad = useRef();
@@ -119,6 +120,7 @@ const AddModal = ({
           kpSkrg: currentKp.current,
           kodFasiliti: currentKodFasiliti.current,
           role: currentRole.current,
+          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
           activationStatus: true,
         };
       }
@@ -132,6 +134,7 @@ const AddModal = ({
           kpSkrg: currentKp.current,
           kodFasiliti: currentKodFasiliti.current,
           role: currentRole.current,
+          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
           activationStatus: true,
         };
       }
@@ -752,9 +755,19 @@ const AddModal = ({
                         onChange={(e) => (currentRole.current = e.target.value)}
                       >
                         <option value=''>Pilih Peranan</option>
-                        <option value='admin'>Admin</option>
-                        <option value='umum'>Umum</option>
+                        <option value='admin'>Pentadbir Klinik</option>
+                        <option value='umum'>Pengguna</option>
                       </select>
+                    </div>
+                    <div className='mt-3'>
+                      <label htmlFor='role-promosi-klinik' className='mr-3'>
+                        Pemegang promosi klinik?
+                      </label>
+                      <input
+                        type='checkbox'
+                        id='role-promosi-klinik'
+                        ref={currentRolePromosiKlinik}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1233,6 +1246,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentStatusPerkhidmatan = useRef();
   const currentGred = useRef();
   const currentRole = useRef();
+  const currentRolePromosiKlinik = useRef();
   const currentRisiko = useRef();
   const [editedEntity, setEditedEntity] = useState([]);
   const [klinik, setKlinik] = useState([]);
@@ -1275,6 +1289,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         kpSkrg: currentKp.current,
         kodFasiliti: currentKodFasiliti.current,
         role: currentRole.current,
+        rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
       };
     }
     if (FType === 'kp') {
@@ -1634,9 +1649,26 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     onChange={(e) => (currentRole.current = e.target.value)}
                   >
                     <option value=''>Pilih Role</option>
-                    <option value='admin'>Admin</option>
-                    <option value='umum'>Umum</option>
+                    <option value='admin'>Pentadbir Klinik</option>
+                    <option value='umum'>Pengguna</option>
                   </select>
+                </div>
+                <div className='mt-3'>
+                  <label htmlFor='role-promosi-klinik' className='mr-3'>
+                    Pemegang promosi klinik?
+                  </label>
+                  <input
+                    type='checkbox'
+                    id='role-promosi-klinik'
+                    checked={editedEntity.rolePromosiKlinik}
+                    ref={currentRolePromosiKlinik}
+                    onChange={() => {
+                      setEditedEntity({
+                        ...editedEntity,
+                        rolePromosiKlinik: !editedEntity.rolePromosiKlinik,
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -2024,8 +2056,8 @@ const EditModalForKp = ({
                     onChange={(e) => (currentRole.current = e.target.value)}
                   >
                     <option value=''>Pilih Role</option>
-                    <option value='admin'>Admin</option>
-                    <option value='umum'>Umum</option>
+                    <option value='admin'>Pentadbir Klinik</option>
+                    <option value='umum'>Pengguna</option>
                   </select>
                 </div>
                 <p>CSCSP Verified</p>

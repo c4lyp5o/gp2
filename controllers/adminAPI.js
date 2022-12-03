@@ -88,10 +88,12 @@ const getData = async (req, res) => {
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
+              exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
+              exists.rolePromosiKlinik = Data.rolePromosiKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
@@ -113,10 +115,12 @@ const getData = async (req, res) => {
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
+              exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
+              exists.rolePromosiKlinik = Data.rolePromosiKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
