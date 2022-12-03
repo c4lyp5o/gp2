@@ -2009,7 +2009,7 @@ function UserFormUmumHeader() {
     <Confirmation callbackFunction={handleSubmit} data={masterForm}>
       {(confirm) => (
         <>
-          <div className='h-full p-1 grid'>
+          <div className='h-full p-1 grid grid-rows-[1fr_7fr]'>
             <div className='p-2'>
               <article className='outline outline-1 outline-userBlack flex flex-col pb-2'>
                 {!isLoading && (
