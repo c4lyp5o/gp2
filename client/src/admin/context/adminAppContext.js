@@ -179,16 +179,16 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-  // const readKpData = async () => {
-  //   const response = await axios.post(`/api/v1/superadmin/newroute`, {
-  //     apiKey: process.env.REACT_APP_API_KEY,
-  //     main: 'DataCenter',
-  //     Fn: 'read',
-  //     FType: 'kp',
-  //     token: adminToken,
-  //   });
-  //   return response;
-  // };
+  const readKpData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'DataCenter',
+      Fn: 'read',
+      FType: 'kp',
+      token: adminToken,
+    });
+    return response;
+  };
   const readOneData = async (type, id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       apiKey: process.env.REACT_APP_API_KEY,
@@ -325,8 +325,10 @@ function AdminAppProvider({ children }) {
   // };
 
   // read fasiliti data
-  const readFasilitiData = async () => {
-    const response = await axios.get('https://erkm.calypsocloud.one/fasiliti');
+  const readFasilitiData = async ({ negeri, daerah }) => {
+    const response = await axios.get(
+      `https://erkm.calypsocloud.one/fasiliti?negeri=${negeri}&daerah=${daerah}`
+    );
     console.log(response.data);
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
@@ -671,6 +673,7 @@ function AdminAppProvider({ children }) {
         // main data
         createData,
         readData,
+        readKpData,
         readOneData,
         updateData,
         deleteData,
@@ -686,7 +689,6 @@ function AdminAppProvider({ children }) {
         // readPegawaiData,
         readSekolahData,
         readFasilitiData,
-        // readKpData,
         readKodProgramData,
         // misc
         getCurrentUser,
