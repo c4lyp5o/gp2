@@ -13,7 +13,7 @@ const socmed = [
   { name: 'Twitter', img: Twitter },
   { name: 'Tiktok', img: Tiktok },
   { name: 'Youtube', img: Youtube },
-  { name: 'Lain-lain', img: Lain },
+  { name: 'Lain', img: Lain },
 ];
 
 const SosmedCards = (current, props) => {

@@ -100,13 +100,13 @@ function UserPromosi() {
   return (
     <>
       <div className='px-3 lg:px-3 h-full p-3 overflow-y-auto'>
-        <div className='relative grid grid-cols-3 outline outline-1 outline-userBlack m-3'>
-          <div className='col-span-2 grid grid-cols-2'>
+        <div className='relative grid  outline outline-1 outline-userBlack m-3 p-2'>
+          <div className=''>
             <div>
-              <h2 className='text-xl text-left ml-5 mt-2 font-semibold'>
+              <h2 className='text-xl text-left ml-5 mt-2 font-semibold flex flex-row'>
                 PROGRAM PROMOSI
               </h2>
-              <div className='w-full flex'>
+              <div className='w-full flex flex-col lg:flex-row items-center'>
                 <label
                   htmlFor='kod-program'
                   className='font-semibold whitespace-nowrap m-auto mx-5'
@@ -119,7 +119,7 @@ function UserPromosi() {
                   onChange={(e) => {
                     setKodProgram(e.target.value);
                   }}
-                  className='w-full my-3 ml-4 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='w-full my-3 mx-4 leading-7 px-3 py-2 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
                 >
                   <option value=''></option>
                   {allProgramPromosi.map((p) => {
@@ -130,6 +130,22 @@ function UserPromosi() {
                     );
                   })}
                 </select>
+                {kodProgram && (
+                  <div className='relative'>
+                    <span
+                      onClick={tambahAcara}
+                      className='uppercase text-xs text-user1 bg-user8 p-2 py-2 whitespace-nowrap rounded-l-lg shadow-md hover:cursor-pointer hover:bg-user1 hover:text-userWhite'
+                    >
+                      tambah acara
+                    </span>
+                    <span
+                      onClick={clearKodProgram}
+                      className='uppercase bg-user3 text-xs text-userWhite rounded-r-lg shadow-md p-2 py-2 whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
+                    >
+                      pilih semula
+                    </span>
+                  </div>
+                )}
               </div>
               <div className='flex'>
                 <label
@@ -138,15 +154,15 @@ function UserPromosi() {
                 >
                   jenis program :
                 </label>
-                <div className='w-full my-3 ml-2 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
-                  <p className='whitespace-nowrap overflow-y-auto'>
+                <div className='w-full my-3 ml-2 mr-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap bg-user1 bg-opacity-25'>
+                  <p className='whitespace-nowrap overflow-y-auto flex flex-row'>
                     {kodProgram !== ''
                       ? allProgramPromosi
                           .filter((p) => p.kodProgram.includes(kodProgram))
                           .map((p) => {
                             return <span>{p.jenisProgram}</span>;
                           })
-                      : 'Sila pilih..'}
+                      : '..'}
                   </p>
                 </div>
               </div>
@@ -157,37 +173,19 @@ function UserPromosi() {
                 >
                   nama program :
                 </label>
-                <div className='w-full my-3 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap'>
-                  <p className='whitespace-nowrap overflow-y-auto'>
+                <div className='w-full my-3 mr-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap bg-user1 bg-opacity-25'>
+                  <p className='whitespace-nowrap overflow-y-auto flex flex-row'>
                     {kodProgram !== ''
                       ? allProgramPromosi
                           .filter((p) => p.kodProgram.includes(kodProgram))
                           .map((p) => {
                             return <span>{p.namaProgram}</span>;
                           })
-                      : 'Sila pilih..'}
+                      : '..'}
                   </p>
                 </div>
               </div>
             </div>
-            <div className='relative'>
-              <button
-                onClick={clearKodProgram}
-                className='absolute left-5 top-11 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
-              >
-                pilih semula
-              </button>
-            </div>
-          </div>
-          <div className='relative'>
-            {kodProgram && (
-              <div
-                onClick={tambahAcara}
-                className='absolute right-5 top-5 text-7xl text-userWhite bg-user3 p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-user4'
-              >
-                <FaPlus />
-              </div>
-            )}
           </div>
         </div>
         <div className='outline outline-1 outline-userBlack m-3 pt-1 pb-3'>
