@@ -64,7 +64,7 @@ export default function Pemeriksaan(props) {
                 onChange={(e) => {
                   props.setWaktuDipanggil(e.target.value);
                 }}
-                className='appearance-none w-full lg:w-56 leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-full lg:w-56 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'
               />
             </article>
           ) : null}
