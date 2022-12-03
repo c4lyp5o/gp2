@@ -16,6 +16,7 @@ const optionsRawatan = [
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
   { value: 'kes-selesai', label: 'Kes Selesai' },
+  { value: 'lihat-semua', label: 'Lihat Semua' },
 ];
 
 export default function Rawatan(props) {
@@ -74,7 +75,8 @@ export default function Rawatan(props) {
                       />
                     ) : null}
                   </article>
-                  {pilihanRawatan.includes('pengapan-fisur') ? (
+                  {pilihanRawatan.includes('pengapan-fisur') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article
                       className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'
                       title='Fissure Sealant'
@@ -200,7 +202,8 @@ export default function Rawatan(props) {
                 </div> */}
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('sapuan-florida') ? (
+                  {pilihanRawatan.includes('sapuan-florida') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article
                       className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'
                       title='Fluoride Varnish'
@@ -320,7 +323,8 @@ export default function Rawatan(props) {
                 </div> */}
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('prr-jenis-1') ? (
+                  {pilihanRawatan.includes('prr-jenis-1') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         PRR Jenis 1
@@ -447,7 +451,8 @@ export default function Rawatan(props) {
                 </div> */}
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('cabutan') ? (
+                  {pilihanRawatan.includes('cabutan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         cabutan
@@ -531,7 +536,8 @@ export default function Rawatan(props) {
                       </div>
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('pembedahan-mulut') ? (
+                  {pilihanRawatan.includes('pembedahan-mulut') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 border border-userBlack rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Pembedahan Mulut
@@ -921,7 +927,8 @@ export default function Rawatan(props) {
                       ) : null}
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('sdf') ? (
+                  {pilihanRawatan.includes('sdf') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Silver Diamine Fluoride
@@ -977,7 +984,8 @@ export default function Rawatan(props) {
                       </div>
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('prostodontik') ? (
+                  {pilihanRawatan.includes('prostodontik') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Prostodontik
@@ -1236,135 +1244,8 @@ export default function Rawatan(props) {
                       </div>
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('periodontik') ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        rawatan periodontik
-                      </h4>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='penskaleran-rawatan-umum'
-                          id='penskaleran-rawatan-umum'
-                          checked={props.penskaleranRawatanUmum ? true : false}
-                          onChange={() => {
-                            props.setPenskaleranRawatanUmum(
-                              !props.penskaleranRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='penskaleran-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          penskaleran
-                        </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='rawatan-lain-periodontik-rawatan-umum'
-                          id='rawatan-lain-periodontik-rawatan-umum'
-                          checked={
-                            props.rawatanLainPeriodontikRawatanUmum
-                              ? true
-                              : false
-                          }
-                          onChange={() => {
-                            props.setRawatanLainPeriodontikRawatanUmum(
-                              !props.rawatanLainPeriodontikRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          rawatan lain
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
-                  {pilihanRawatan.includes('rawatan-lain') ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        rawatan lain
-                      </h4>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='rawatan-ortodontik-rawatan-umum'
-                          id='rawatan-ortodontik-rawatan-umum'
-                          checked={
-                            props.rawatanOrtodontikRawatanUmum ? true : false
-                          }
-                          onChange={() => {
-                            props.setRawatanOrtodontikRawatanUmum(
-                              !props.rawatanOrtodontikRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rawatan-ortodontik-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          rawatan ortodontik
-                        </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='kes-perubatan-mulut-rawatan-umum'
-                          id='kes-perubatan-mulut-rawatan-umum'
-                          checked={
-                            props.kesPerubatanMulutRawatanUmum ? true : false
-                          }
-                          onChange={() => {
-                            props.setKesPerubatanMulutRawatanUmum(
-                              !props.kesPerubatanMulutRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kes-perubatan-mulut-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          kes perubatan mulut
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
-                  {pilihanRawatan.includes('x-ray') ? (
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        bilangan x-ray yang diambil
-                      </h4>
-                      <input
-                        disabled={isDisabled}
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='bilangan-xray-yang-diambil-rawatan-umum'
-                        id='bilangan-xray-yang-diambil-rawatan-umum'
-                        value={props.bilanganXrayYangDiambilRawatanUmum}
-                        onChange={(e) => {
-                          props.setBilanganXrayYangDiambilRawatanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      />
-                    </article>
-                  ) : null}
-                  {pilihanRawatan.includes('tampalan') ? (
+                  {pilihanRawatan.includes('tampalan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Jumlah Tampalan Dibuat
@@ -1773,6 +1654,137 @@ export default function Rawatan(props) {
                       </div>
                     </article>
                   ) : null}
+                  {pilihanRawatan.includes('periodontik') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                        rawatan periodontik
+                      </h4>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='penskaleran-rawatan-umum'
+                          id='penskaleran-rawatan-umum'
+                          checked={props.penskaleranRawatanUmum ? true : false}
+                          onChange={() => {
+                            props.setPenskaleranRawatanUmum(
+                              !props.penskaleranRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='penskaleran-rawatan-umum'
+                          className='mx-2 text-sm font-m'
+                        >
+                          penskaleran
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rawatan-lain-periodontik-rawatan-umum'
+                          id='rawatan-lain-periodontik-rawatan-umum'
+                          checked={
+                            props.rawatanLainPeriodontikRawatanUmum
+                              ? true
+                              : false
+                          }
+                          onChange={() => {
+                            props.setRawatanLainPeriodontikRawatanUmum(
+                              !props.rawatanLainPeriodontikRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
+                          className='mx-2 text-sm font-m'
+                        >
+                          rawatan lain
+                        </label>
+                      </div>
+                    </article>
+                  ) : null}
+                  {pilihanRawatan.includes('rawatan-lain') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                        rawatan lain
+                      </h4>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rawatan-ortodontik-rawatan-umum'
+                          id='rawatan-ortodontik-rawatan-umum'
+                          checked={
+                            props.rawatanOrtodontikRawatanUmum ? true : false
+                          }
+                          onChange={() => {
+                            props.setRawatanOrtodontikRawatanUmum(
+                              !props.rawatanOrtodontikRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rawatan-ortodontik-rawatan-umum'
+                          className='mx-2 text-sm font-m'
+                        >
+                          rawatan ortodontik
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='kes-perubatan-mulut-rawatan-umum'
+                          id='kes-perubatan-mulut-rawatan-umum'
+                          checked={
+                            props.kesPerubatanMulutRawatanUmum ? true : false
+                          }
+                          onChange={() => {
+                            props.setKesPerubatanMulutRawatanUmum(
+                              !props.kesPerubatanMulutRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='kes-perubatan-mulut-rawatan-umum'
+                          className='mx-2 text-sm font-m'
+                        >
+                          kes perubatan mulut
+                        </label>
+                      </div>
+                    </article>
+                  ) : null}
+                  {pilihanRawatan.includes('x-ray') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        bilangan x-ray yang diambil
+                      </h4>
+                      <input
+                        disabled={isDisabled}
+                        min='0'
+                        max='32'
+                        type='number'
+                        name='bilangan-xray-yang-diambil-rawatan-umum'
+                        id='bilangan-xray-yang-diambil-rawatan-umum'
+                        value={props.bilanganXrayYangDiambilRawatanUmum}
+                        onChange={(e) => {
+                          props.setBilanganXrayYangDiambilRawatanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      />
+                    </article>
+                  ) : null}
                   {/* pink */}
                   {/* {props.kepp === true ? (
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -1851,7 +1863,8 @@ export default function Rawatan(props) {
                 </article>
               ) : null} */}
                   {/* pink */}
-                  {pilihanRawatan.includes('endodontik-selesai') ? (
+                  {pilihanRawatan.includes('endodontik-selesai') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-1 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold flex flex-row pl-3'>
                         kes endodontik selesai
@@ -2040,7 +2053,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {/* always show */}
-                  {pilihanRawatan.includes('kes-selesai') ? (
+                  {pilihanRawatan.includes('kes-selesai') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         status rawatan

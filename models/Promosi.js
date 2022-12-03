@@ -22,6 +22,7 @@ const PromosiSchema = new mongoose.Schema(
     bilanganPesertaTelevisyen: { type: Number, min: 0, default: 0 },
     bilanganAktivitiRadio: { type: Number, min: 0, default: 0 },
     bilanganPesertaRadio: { type: Number, min: 0, default: 0 },
+    bilanganAktivitiCetak: { type: Number, min: 0, default: 0 },
     //bahagian a
     ceramahBahagianA: { type: Boolean, default: false },
     baruCeramahBahagianA: { type: Boolean, default: false },
