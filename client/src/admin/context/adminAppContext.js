@@ -306,6 +306,29 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // get all daerah in negeri
+  const readAllDaerahInNegeri = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'readDaerah',
+      token: adminToken,
+    });
+    return response;
+  };
+
+  // get all klinik in daerah
+  const readAllKlinikInDaerah = async (daerah) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'readKlinik',
+      daerah: daerah,
+      token: adminToken,
+    });
+    return response;
+  };
+
   // // read pegawai data
   // const readPegawaiData = async () => {
   //   const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
@@ -690,6 +713,8 @@ function AdminAppProvider({ children }) {
         readSekolahData,
         readFasilitiData,
         readKodProgramData,
+        readAllDaerahInNegeri,
+        readAllKlinikInDaerah,
         // misc
         getCurrentUser,
         saveCurrentUser,

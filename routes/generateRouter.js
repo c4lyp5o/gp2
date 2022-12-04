@@ -11,6 +11,6 @@ router.post('/find', generator.findFunction);
 router.post('/agg', generator.aggFunction);
 
 // debug
-router.post('/debug', generator.debug);
+router.get('/debug', generator.debug);
 
 module.exports = router;

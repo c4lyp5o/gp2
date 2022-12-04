@@ -434,9 +434,8 @@ const getData = async (req, res) => {
           }
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for Data Center',
-          });
+          console.log('default case for DataCenter');
+          break;
       }
       break;
     case 'KpCenter':
@@ -689,6 +688,43 @@ const getData = async (req, res) => {
           }
           res.status(200).json(cleanData);
           break;
+        case 'readDaerah':
+          console.log('readDaerah for superadmincenter');
+          var u = await Superadmin.findById(
+            jwt.verify(token, process.env.JWT_SECRET).userId
+          );
+          const { negeri: currentNegeri } = u.getProfile();
+          const d = await User.find({
+            negeri: currentNegeri,
+          });
+          const presentDaerah = _.uniqBy(d, 'daerah');
+          const daerahOnly = presentDaerah.map((item) => item.daerah);
+          res.status(200).json(daerahOnly);
+          break;
+        case 'readKlinik':
+          console.log('readKlinik for superadmincenter');
+          var u = await Superadmin.findById(
+            jwt.verify(token, process.env.JWT_SECRET).userId
+          );
+          if (u.accountType === 'daerahSuperadmin') {
+            const { daerah: currentDaerah } = u.getProfile();
+            const k = await User.find({
+              daerah: currentDaerah,
+            });
+            const presentKlinik = _.uniqBy(k, 'kp');
+            const klinikOnly = presentKlinik.map((item) => item.kp);
+            res.status(200).json(klinikOnly);
+          }
+          if (u.accountType === 'negeriSuperadmin') {
+            const { daerah: currentDaerah } = req.body;
+            const k = await User.find({
+              daerah: currentDaerah,
+            });
+            const presentKlinik = _.uniqBy(k, 'kp');
+            const klinikOnly = presentKlinik.map((item) => item.kp);
+            res.status(200).json(klinikOnly);
+          }
+          break;
         case 'readOne':
           console.log('readOne for superadmincenter');
           break;
@@ -821,9 +857,7 @@ const getData = async (req, res) => {
           console.log('delete for user');
           break;
         default:
-          res.status(200).json({
-            message: 'This is the default case for User Center',
-          });
+          console.log('default case for UserCenter');
           break;
       }
       break;
