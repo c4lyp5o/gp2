@@ -56,9 +56,9 @@ const FlagsDictionary = {
   Terengganu: terengganu,
   Sabah: sabah,
   Sarawak: sarawak,
-  'Wilayah Persekutuan Kuala Lumpur': kualaLumpur,
-  'Wilayah Persekutuan Labuan': labuan,
-  'Wilayah Persekutuan Putrajaya': putrajaya,
+  'WP Kuala Lumpur': kualaLumpur,
+  'WP Labuan': labuan,
+  'WP Putrajaya': putrajaya,
 };
 
 function MainChart({ data, accountType }) {

@@ -130,13 +130,9 @@ function UserLoginForm() {
               <option value='Terengganu'>Terengganu</option>
               <option value='Sabah'>Sabah</option>
               <option value='Sarawak'>Sarawak</option>
-              <option value='Wilayah Persekutuan Kuala Lumpur'>
-                WP Kuala Lumpur
-              </option>
-              <option value='Wilayah Persekutuan Labuan'>WP Labuan</option>
-              <option value='Wilayah Persekutuan Putrajaya'>
-                WP Putrajaya
-              </option>
+              <option value='WP Kuala Lumpur'>WP Kuala Lumpur</option>
+              <option value='WP Labuan'>WP Labuan</option>
+              <option value='WP Putrajaya'>WP Putrajaya</option>
             </select>
           </div>
           {pilihanNegeri && listDaerah.length >= 1 && (
