@@ -4,7 +4,7 @@ import moment from 'moment';
 import { FaPlus, FaInfoCircle } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
-import { AddModal, EditModal, DeleteModal } from './Modal';
+import { AddModal, EditModal, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
 export default function Data({ FType, kp }) {
