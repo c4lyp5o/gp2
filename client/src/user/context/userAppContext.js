@@ -270,14 +270,14 @@ const dictionaryDaerah = {
     'Sibu',
     'Sri Aman',
   ],
-  'Wilayah Persekutuan Kuala Lumpur': [
+  'WP Kuala Lumpur': [
     'Zon Cheras',
     'Zon Kepong',
     'Zon Lembah Pantai',
     'Zon Titiwangsa',
   ],
-  'Wilayah Persekutuan Labuan': ['Wilayah Persekutuan Labuan'],
-  'Wilayah Persekutuan Putrajaya': ['Wilayah Persekutuan Putrajaya'],
+  'WP Labuan': ['WP Labuan'],
+  'WP Putrajaya': ['WP Putrajaya'],
 };
 
 const UserAppContext = React.createContext();
