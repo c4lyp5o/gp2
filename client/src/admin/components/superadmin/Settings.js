@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useId } from 'react';
+import { useState, useLayoutEffect, useEffect, useId } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
@@ -54,7 +54,6 @@ export default function Settings({ update }) {
 
   const TarikhLahir = () => {
     return masterDatePicker({
-      value: moment(loginInfo.tarikhLahir).format('DD/MM/YYYY'),
       selected: tarikhLahirDP,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
@@ -106,25 +105,32 @@ export default function Settings({ update }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      nama: e.target[nama].value,
-      tarikhLahir: tarikhLahir,
-      email: e.target[email].value,
-      totp: loginInfo.totp,
-      image: profileImageData,
-    };
-    if (!profileImageData) {
-      delete data.image;
+    try {
+      const data = {
+        nama: e.target[nama].value,
+        tarikhLahir: tarikhLahir,
+        email: e.target[email].value,
+        totp: loginInfo.totp,
+        image: profileImageData,
+      };
+      if (!profileImageData) {
+        delete data.image;
+      }
+      await saveCurrentUser(data);
+      toast.success('Profil berjaya dikemaskini');
+    } catch (error) {
+      toast.error('Profil gagal dikemaskini');
+      console.log(error);
     }
-    saveCurrentUser(data);
-    toast.success('Profil berjaya dikemaskini');
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
+      setTarikhLahir(res.data.tarikhLahir);
+      setTarikhLahirDP(new Date(res.data.tarikhLahir));
       setLoading(false);
     });
     if (!loginInfo.totp) {
