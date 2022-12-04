@@ -160,7 +160,7 @@ const dictionaryDaerah = {
     'Kuala Krai',
     'Machang',
     'Pasir Mas',
-    'Pasir Putih',
+    'Pasir Puteh',
     'Tanah Merah',
     'Tumpat',
   ],
