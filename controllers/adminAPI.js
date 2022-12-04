@@ -745,15 +745,20 @@ const getData = async (req, res) => {
         case 'create':
           console.log('create for user');
           const { user_name, daerah, negeri, e_mail, accountType } = req.body;
-          const regData = await Superadmin.create({
-            user_name: user_name,
-            daerah: daerah,
-            negeri: negeri,
-            e_mail: e_mail,
-            accountType: accountType,
-            totp: false,
-          });
-          res.status(200).json(regData);
+          // const regData = await Superadmin.create({
+          //   user_name: user_name,
+          //   daerah: daerah,
+          //   negeri: negeri,
+          //   e_mail: e_mail,
+          //   accountType: accountType,
+          //   totp: false,
+          // });
+          const SuperadminList = require('../data/Superadmin.json');
+          for (let s = 0; s < SuperadminList.length; s++) {
+            const regData = await Superadmin.create(SuperadminList);
+            return res.status(201).json(regData);
+          }
+          // res.status(200).json(regData);
           break;
         case 'read':
           console.log('read for user');

@@ -221,7 +221,9 @@ export default function AdminLoginForm() {
                       setPilihanNegeri(e.target.value);
                       setUserName({
                         ...userName,
-                        negeri: `negeri${e.target.value}`,
+                        negeri: `negeri${e.target.value
+                          .toLowerCase()
+                          .replace(/\s+/g, '')}`,
                       });
                     }}
                     className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'

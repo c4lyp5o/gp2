@@ -43,8 +43,7 @@ const adminSchema = new Schema({
   },
   image: {
     type: String,
-    default:
-      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAA…UAq0UIMUZZlILtJYD+AfFJYv52yVUcQAAAABJRU5ErkJggg==',
+    default: '',
   },
   tempKey: {
     type: String,
