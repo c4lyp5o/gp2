@@ -56,8 +56,8 @@ exports.downloader = async function (req, res) {
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   switch (jenisReten) {
     case 'PG101A':
-      const data101 = await makePG101(payload);
-      if (data101 === 'No data found') {
+      const data101A = await makePG101A(payload);
+      if (data101A === 'No data found') {
         return res.status(404).json({
           message: 'No data found',
         });
@@ -65,7 +65,7 @@ exports.downloader = async function (req, res) {
       switch (formatFile) {
         case 'xlsx':
           res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data101);
+          res.status(200).send(data101A);
           break;
         case 'pdf':
           let excel101 = path.join(
@@ -91,9 +91,9 @@ exports.downloader = async function (req, res) {
           break;
       }
       break;
-    case 'PG211':
-      const data211 = await makePG211(payload);
-      if (data211 === 'No data found') {
+    case 'PG101C':
+      const data101C = await makePG101C(payload);
+      if (data101C === 'No data found') {
         return res.status(404).json({
           message: 'No data found',
         });
@@ -101,7 +101,79 @@ exports.downloader = async function (req, res) {
       switch (formatFile) {
         case 'xlsx':
           res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data211);
+          res.status(200).send(data101C);
+          break;
+        case 'pdf':
+          let excel101 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + klinik + '-PG101.xlsx'
+          );
+          let pdf101 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + klinik + '-PG101.pdf'
+          );
+          convertToPdf(excel101, pdf101);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf101));
+          res.setHeader('Content-Type', 'application/pdf');
+          res.status(200).send(pdfFile);
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'PG211A':
+      const data211A = await makePG211A(payload);
+      if (data211A === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
+      switch (formatFile) {
+        case 'xlsx':
+          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.status(200).send(data211A);
+          break;
+        case 'pdf':
+          let excel211 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG211.xlsx'
+          );
+          let pdf211 = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-PG211.pdf'
+          );
+          convertToPdf(excel211, pdf211);
+          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf211));
+          res.setHeader('Content-Type', 'application/pdf');
+          res.status(200).send(pdfFile);
+          break;
+        default:
+          break;
+      }
+      break;
+    case 'PG211C':
+      const data211C = await makePG211C(payload);
+      if (data211C === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
+      switch (formatFile) {
+        case 'xlsx':
+          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.status(200).send(data211C);
           break;
         case 'pdf':
           let excel211 = path.join(
@@ -356,8 +428,7 @@ exports.downloader = async function (req, res) {
 // queries for frontend
 exports.findFunction = async function (req, res) {
   try {
-    const payload = req.body;
-    const data = await Umum.find(payload);
+    const data = await Umum.find(req.body);
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
@@ -366,8 +437,7 @@ exports.findFunction = async function (req, res) {
 };
 exports.aggFunction = async function (req, res) {
   try {
-    const payload = req.body;
-    const data = await Umum.aggregate(payload);
+    const data = await Umum.aggregate(req.body);
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
@@ -376,12 +446,12 @@ exports.aggFunction = async function (req, res) {
 };
 
 // functions
-const makePG101 = async (payload) => {
-  console.log('PG101');
+const makePG101A = async (payload) => {
+  console.log('PG101A');
   try {
-    const { klinik, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
+    const { klinik, daerah, negeri } = payload;
     //
-    const data = await Helper.countPG101(payload);
+    const data = await Helper.countPG101A(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -529,13 +599,30 @@ const makePG101 = async (payload) => {
       rowNew.getCell(35).value = data[i].catatan; //catatan
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + klinik + '-PG101.xlsx'
-    );
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber > 15) {
+        row.eachCell((cell, colNumber) => {
+          cell.alignment = {
+            vertical: 'middle',
+            horizontal: 'center',
+          };
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+          cell.font = {
+            name: 'Arial',
+            size: 10,
+          };
+        });
+      }
+    });
+
+    worksheet.name = 'PG101A';
+
+    const newfile = makeFile(payload, 'PG101A');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
@@ -543,7 +630,7 @@ const makePG101 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -553,16 +640,206 @@ const makePG101 = async (payload) => {
     res.status(500).json({ message: err.message });
   }
 };
-const makePG211 = async (payload) => {
-  console.log('PG211');
+const makePG101C = async (payload) => {
+  console.log('PG101C');
   try {
-    // const { kp, daerah, negeri, bulan } = payload;
-    let kp = 'Klinik Pergigian Arau';
-    let daerah = 'Arau';
-    let negeri = 'Perlis';
-    let bulan = 'Januari';
+    const { klinik, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
     //
-    const data = await Helper.countPG211(kp, bulan);
+    const data = await Helper.countPG101C(payload);
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG101.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG101');
+
+    const monthName = moment(tarikhMula).format('MMMM');
+    const yearNow = moment(tarikhMula).format('YYYY');
+
+    let details = worksheet.getRow(5);
+    details.getCell(
+      11
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(6);
+    intro1.getCell(2).value = 'Servis: PRIMER';
+
+    let intro2 = worksheet.getRow(7);
+    intro2.getCell(2).value = `Fasiliti: ${klinik.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(8);
+    intro3.getCell(2).value = `Daerah: ${daerah.toUpperCase()}`;
+
+    let intro4 = worksheet.getRow(9);
+    intro4.getCell(2).value = `Negeri: ${negeri.toUpperCase()}`;
+    //
+    for (let i = 0; i < data.length; i++) {
+      let rowNew = worksheet.getRow(16 + i);
+      // change tarikh kedatangan to local
+      const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
+      data[i].tarikhKedatangan = localDate;
+      // change tarikh kedatangan to local
+      rowNew.getCell(1).value = data[i].tarikhKedatangan;
+      rowNew.getCell(2).value = data[i].noSiri;
+      rowNew.getCell(3).value = data[i].waktuSampai;
+      if (data[i].noPendaftaranBaru) {
+        rowNew.getCell(4).value = data[i].noPendaftaranBaru;
+      }
+      if (data[i].noPendaftaranUlangan) {
+        rowNew.getCell(5).value = data[i].noPendaftaranUlangan;
+      }
+      // decrypt ic
+      const decryptedIc = cryptoJs.AES.decrypt(
+        data[i].ic,
+        process.env.CRYPTO_JS_SECRET
+      ).toString(cryptoJs.enc.Utf8);
+      data[i].ic = decryptedIc;
+      // decrypt ic
+      rowNew.getCell(6).value = data[i].ic;
+      rowNew.getCell(7).value = data[i].nama.toUpperCase();
+      rowNew.getCell(8).value = data[i].alamat.toUpperCase();
+      rowNew.getCell(9).value = data[i].umur;
+      if (data[i].jantina == 'lelaki') {
+        rowNew.getCell(10).value = '/';
+      }
+      if (data[i].jantina == 'perempuan') {
+        rowNew.getCell(11).value = '/';
+      }
+      switch (data[i].kumpulanEtnik) {
+        case 'melayu':
+          rowNew.getCell(12).value = '/';
+          break;
+        case 'cina':
+          rowNew.getCell(13).value = '/';
+          break;
+        case 'india':
+          rowNew.getCell(14).value = '/';
+          break;
+        case 'bajau':
+          rowNew.getCell(15).value = '/';
+          break;
+        case 'dusun':
+          rowNew.getCell(16).value = '/';
+          break;
+        case 'kadazan':
+          rowNew.getCell(17).value = '/';
+          break;
+        case 'murut':
+          rowNew.getCell(18).value = '/';
+          break;
+        case 'bumiputera sabah lain':
+          rowNew.getCell(19).value = '/';
+          break;
+        case 'melanau':
+          rowNew.getCell(20).value = '/';
+          break;
+        case 'kedayan':
+          rowNew.getCell(21).value = '/';
+          break;
+        case 'iban':
+          rowNew.getCell(22).value = '/';
+          break;
+        case 'bidayuh':
+          rowNew.getCell(23).value = '/';
+          break;
+        case 'penan':
+          rowNew.getCell(24).value = '/';
+          break;
+        case 'bumiputera sarawak lain':
+          rowNew.getCell(25).value = '/';
+          break;
+        case 'orang asli semenanjung':
+          rowNew.getCell(26).value = '/';
+          break;
+        case 'lain-lain':
+          rowNew.getCell(27).value = '/';
+          break;
+        case 'bukan warganegara':
+          rowNew.getCell(28).value = '/';
+          break;
+        default:
+          console.log('');
+      }
+      if (data[i].ibuMengandung) {
+        rowNew.getCell(29).value = '/';
+      }
+      if (data[i].bersekolah) {
+        rowNew.getCell(30).value = '/';
+      }
+      if (data[i].orangKurangUpaya) {
+        rowNew.getCell(31).value = '/';
+      }
+      switch (data[i].statusPesara) {
+        case 'pesara-kerajaan':
+          rowNew.getCell(32).value = '/';
+          break;
+        case 'pesara-atm':
+          rowNew.getCell(33).value = '/';
+          break;
+        default:
+          console.log('');
+      }
+      rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
+      rowNew.getCell(35).value = data[i].catatan; //catatan
+    }
+
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber > 15) {
+        row.eachCell((cell, colNumber) => {
+          cell.alignment = {
+            vertical: 'middle',
+            horizontal: 'center',
+          };
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+          cell.font = {
+            name: 'Arial',
+            size: 10,
+          };
+        });
+      }
+    });
+
+    worksheet.name = 'PG101C';
+
+    const newfile = makeFile(payload, 'PG101C');
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 1000);
+    // read file for returning
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    // return file
+    return file;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+const makePG211A = async (payload) => {
+  console.log('PG211A');
+  try {
+    const { klinik, daerah, negeri, bulan } = payload;
+    //
+    const data = await Helper.countPG211A(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -579,7 +856,7 @@ const makePG211 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG211');
 
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(5);
@@ -591,7 +868,7 @@ const makePG211 = async (payload) => {
     intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
@@ -635,13 +912,9 @@ const makePG211 = async (payload) => {
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG211.xlsx'
-    );
+    worksheet.name = 'PG211A';
+
+    const newfile = makeFile(payload, 'PG211A');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
@@ -649,7 +922,105 @@ const makePG211 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
+    // read file for returning
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    // return file
+    return file;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+const makePG211C = async (payload) => {
+  console.log('PG211C');
+  try {
+    const { klinik, daerah, negeri, bulan } = payload;
+    //
+    const data = await Helper.countPG211C(payload);
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG211.xlsx'
+    );
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PG211');
+
+    const monthName = moment(bulan).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    let details = worksheet.getRow(5);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+
+    let intro1 = worksheet.getRow(6);
+    intro1.getCell(2).value = 'PRIMER';
+
+    let intro2 = worksheet.getRow(7);
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
+
+    let intro3 = worksheet.getRow(8);
+    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+
+    let intro4 = worksheet.getRow(9);
+    intro4.getCell(2).value = `${negeri.toUpperCase()}`;
+    //
+    for (let i = 0; i < data.length; i++) {
+      let rowNew = worksheet.getRow(13 + i);
+      if (data[i][0]) {
+        rowNew.getCell(4).value = data[i][0].jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(5).value = data[i][0].jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(6).value = data[i][0].jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(7).value = data[i][0].jumlahCina; //G13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(8).value = data[i][0].jumlahIndia; //H13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(9).value = data[i][0].jumlahBajau; //I13	Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(10).value = data[i][0].jumlahDusun; //J13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(11).value = data[i][0].jumlahKadazan; //K13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(12).value = data[i][0].jumlahMurut; //L13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(13).value = data[i][0].jumlahBMSL; //M13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(14).value = data[i][0].jumlahMelanau; //N13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(15).value = data[i][0].jumlahKedayan; //O13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(16).value = data[i][0].jumlahIban; //P13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(17).value = data[i][0].jumlahBidayuh; //Q13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(18).value = data[i][0].jumlahPenan; //R13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(19).value = data[i][0].jumlahBMSwL; //R13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(20).value = data[i][0].jumlahOA; //S13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(21).value = data[i][0].jumlahLainlain; //T13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(22).value = data[i][0].jumlahBukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(23).value = data[i][0].jumlahIbuMengandung; //V13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(24).value = data[i][0].jumlahBersekolah; //W13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(25).value = data[i][0].jumlahOKU; //X13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(26).value = data[i][0].jumlahPesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(27).value = data[i][0].jumlahPesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(28).value = data[i][0].jumlahRujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(29).value = data[i][0].jumlahRujukanKP; //AB13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(30).value = data[i][0].jumlahRujukanKK; //AC13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(31).value = data[i][0].jumlahRujukanHospital; //AD13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(32).value = data[i][0].jumlahRujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
+        rowNew.getCell(33).value = data[i][0].jumlahRujukanLainlain; //AF13 Kategori bawah 1 Tahun (baru)
+      }
+    }
+
+    worksheet.name = 'PG211C';
+
+    const newfile = makeFile(payload, 'PG211C');
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -662,9 +1033,9 @@ const makePG211 = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    const { kp, daerah, negeri, bulan } = payload;
+    const { klinik, daerah, negeri, bulan } = payload;
     //
-    const data = await Helper.countPG214(kp, bulan);
+    const data = await Helper.countPG214(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -681,7 +1052,7 @@ const makePG214 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG214');
 
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(5);
@@ -689,16 +1060,16 @@ const makePG214 = async (payload) => {
       2
     ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
 
-    let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
+    // let intro1 = worksheet.getRow(6);
+    // intro1.getCell(2).value = 'PRIMER';
 
-    let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+    let intro2 = worksheet.getRow(6);
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
-    let intro3 = worksheet.getRow(8);
+    let intro3 = worksheet.getRow(7);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
 
-    let intro4 = worksheet.getRow(9);
+    let intro4 = worksheet.getRow(8);
     intro4.getCell(2).value = `${negeri.toUpperCase()}`;
     //
     for (let i = 0; i < data.length; i++) {
@@ -730,24 +1101,17 @@ const makePG214 = async (payload) => {
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG214.xlsx'
-    );
+    worksheet.name = 'PG214';
 
-    // Write the file
+    const newfile = makeFile(payload, 'PG214');
+
     await workbook.xlsx.writeFile(newfile);
     console.log('writing file');
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      fs.unlinkSync(newfile); // delete this file after 1 second
       console.log('deleting file');
-    }, 30000);
-    // read file for returning
+    }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
     console.log(err);
@@ -916,7 +1280,7 @@ const makePG206 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -1133,7 +1497,7 @@ const makePG207 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -1367,7 +1731,7 @@ const makePG201 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -1562,7 +1926,7 @@ const makePGS203 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -1680,7 +2044,7 @@ const makePGPR201 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -1701,4 +2065,28 @@ exports.debug = async (req, res) => {
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
   const data = await Helper.countPG214(kp, bulan);
   res.status(200).json(data);
+};
+
+// helper
+const makeFile = (payload, reten) => {
+  const { klinik, daerah, negeri } = payload;
+  if (daerah !== 'all' && klinik !== 'all') {
+    return fileName(klinik, reten);
+  }
+  if (daerah !== 'all' && klinik === 'all') {
+    return fileName(daerah, reten);
+  }
+  if (daerah === 'all') {
+    return fileName(negeri, reten);
+  }
+};
+
+const fileName = (params, reten) => {
+  return path.join(
+    __dirname,
+    '..',
+    'public',
+    'exports',
+    `test-${params}-${reten}.xlsx`
+  );
 };

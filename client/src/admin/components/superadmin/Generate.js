@@ -77,16 +77,34 @@ const Generate = (props) => {
 
   // reset daerah if change klinik
   useEffect(() => {
-    setPilihanDaerah('');
-    setPilihanKlinik('');
+    if (pilihanKlinik === '') {
+      setPilihanDaerah('');
+    }
   }, [pilihanKlinik]);
+
+  const fileName = () => {
+    let file = '';
+    if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
+      console.log('1');
+      file = `${jenisReten}-${pilihanKlinik}-${startDate}.${formatFile}`;
+    }
+    if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
+      console.log('2');
+      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${startDate}.${formatFile}`;
+    }
+    if (pilihanDaerah === 'all') {
+      console.log('3');
+      file = `${jenisReten}-${pilihanNegeri.toUpperCase()}-${startDate}.${formatFile}`;
+    }
+    // if (!endDate) {
+    //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
+    // }
+    return file;
+  };
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${kp}-${startDate}-${endDate}.${formatFile}`;
-    if (!endDate) {
-      link.download = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
-    }
+    link.download = fileName();
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -98,7 +116,6 @@ const Generate = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    console.log(pilihanNegeri, pilihanDaerah, pilihanKlinik);
     await toast
       .promise(
         axios.get(
@@ -308,38 +325,104 @@ const Generate = (props) => {
                 ) : null}
               </>
             )}
-            {(jenisReten === 'PG211A' || jenisReten === 'PG211C') && (
-              <div className='px-3 py-1'>
-                <label
-                  htmlFor='bulanpg211'
-                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                >
-                  Sila pilih bulan
-                </label>
-                <select
-                  required
-                  name='bulanpg211'
-                  id='bulanpg211'
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  onChange={(e) => {
-                    setMonth(e.target.value);
-                  }}
-                >
-                  <option value=''>Sila pilih bulan</option>
-                  <option value='01-01'>Januari</option>
-                  <option value='02-01'>Februari</option>
-                  <option value='03-01'>Mac</option>
-                  <option value='04-01'>April</option>
-                  <option value='05-01'>Mei</option>
-                  <option value='06-01'>Jun</option>
-                  <option value='07-01'>Julai</option>
-                  <option value='08-01'>Ogos</option>
-                  <option value='09-01'>September</option>
-                  <option value='10-01'>Oktober</option>
-                  <option value='11-01'>November</option>
-                  <option value='12-01'>Disember</option>
-                </select>
-              </div>
+            {(jenisReten === 'PG211A' ||
+              jenisReten === 'PG211C' ||
+              jenisReten === 'PG214') && (
+              <>
+                <div className='px-3 py-1'>
+                  <label
+                    htmlFor='bulanpg211'
+                    className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                  >
+                    Sila pilih bulan
+                  </label>
+                  <select
+                    required
+                    name='bulanpg211'
+                    id='bulanpg211'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    onChange={(e) => {
+                      setMonth(e.target.value);
+                    }}
+                  >
+                    <option value=''>Sila pilih bulan</option>
+                    <option value='01-01'>Januari</option>
+                    <option value='02-01'>Februari</option>
+                    <option value='03-01'>Mac</option>
+                    <option value='04-01'>April</option>
+                    <option value='05-01'>Mei</option>
+                    <option value='06-01'>Jun</option>
+                    <option value='07-01'>Julai</option>
+                    <option value='08-01'>Ogos</option>
+                    <option value='09-01'>September</option>
+                    <option value='10-01'>Oktober</option>
+                    <option value='11-01'>November</option>
+                    <option value='12-01'>Disember</option>
+                  </select>
+                </div>
+                {props.loginInfo.accountType === 'negeriSuperadmin' ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='daerah'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Daerah:
+                    </label>
+                    <select
+                      required
+                      name='klinik'
+                      id='klinik'
+                      onChange={async (e) => {
+                        setPilihanDaerah(e.target.value);
+                        await readAllKlinikInDaerah(e.target.value).then(
+                          (res) => {
+                            setKlinik(res.data);
+                          }
+                        );
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua daerah (Jana Negeri)</option>
+                      {daerah.map((d, index) => {
+                        return (
+                          <option value={d} key={index} className='capitalize'>
+                            {d}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
+                {props.loginInfo.accountType === 'daerahSuperadmin' ||
+                (pilihanDaerah !== '' && pilihanDaerah !== 'all') ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='klinik'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Klinik:
+                    </label>
+                    <select
+                      required
+                      name='klinik'
+                      id='klinik'
+                      onChange={(e) => setPilihanKlinik(e.target.value)}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua klinik (Jana Daerah)</option>
+                      {klinik.map((k, index) => {
+                        return (
+                          <option value={k} key={index} className='capitalize'>
+                            {k}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
+              </>
             )}
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>
