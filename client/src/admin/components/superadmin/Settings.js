@@ -28,7 +28,7 @@ export default function Settings({ update }) {
   const totp = useId();
 
   // tarikh lahir pentadbir
-  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date());
 
   // const TarikhLahir = () => {
   //   return (
@@ -129,8 +129,10 @@ export default function Settings({ update }) {
   useEffect(() => {
     getCurrentUser().then((res) => {
       setLoginInfo({ ...res.data });
-      setTarikhLahir(res.data.tarikhLahir);
-      setTarikhLahirDP(new Date(res.data.tarikhLahir));
+      if (res.data.tarikhLahir) {
+        setTarikhLahir(res.data.tarikhLahir);
+        setTarikhLahirDP(new Date(res.data.tarikhLahir));
+      }
       setLoading(false);
     });
     if (!loginInfo.totp) {
