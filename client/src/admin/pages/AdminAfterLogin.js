@@ -32,6 +32,9 @@ import DataKp from '../components/admin-kp/Data';
 // settings
 import Settings from '../components/superadmin/Settings';
 
+// generate
+import Generate from '../components/superadmin/Generate';
+
 //ad hoc query
 import AdHocQuery from '../components/superadmin/AdHocQuery';
 
@@ -142,6 +145,7 @@ export default function AdminAfterLogin() {
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mp' element={<Data FType='mp' />} />
               <Route path='tetapan' element={<Settings />} />
+              <Route path='generate' element={<Generate {...props} />} />
               {/* AdHoc Query thanks myhdw! */}
               <Route
                 path='aq'

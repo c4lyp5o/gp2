@@ -159,8 +159,11 @@ export default function UserGenerateKlinik() {
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih reten</option>
-                <option value='PG101'>PG101</option>
-                <option value='PG211'>PG211</option>
+                <option value='PG101A'>PG101A</option>
+                <option value='PG101C'>PG101C</option>
+                <option value='PG211A'>PG211A</option>
+                <option value='PG211C'>PG211C</option>
+                <option value='PG214'>PG214</option>
                 {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>

@@ -10,7 +10,7 @@ import Institusi from './Institusi';
 
 import { ModalSosMed, ModalDataIkutProgram } from './modal-sosmed/Modal';
 
-import { AddModal, EditModalForKp, DeleteModal } from '../superadmin/Modal';
+import { AddModal, EditModalForKp, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
 export default function DataKp({ FType }) {
