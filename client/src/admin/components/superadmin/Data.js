@@ -719,8 +719,9 @@ export default function Data({ FType, kp }) {
           <AddModal
             setShowAddModal={setShowAddModal}
             FType={FType}
-            kp={kp}
+            negeri={negeri}
             daerah={daerah}
+            kp={kp}
             setReload={setReload}
             reload={reload}
           />

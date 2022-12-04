@@ -18,6 +18,16 @@ function AdminAppProvider({ children }) {
   } = useToken();
   const navigate = useNavigate();
 
+  // read superadmin data
+  const readSuperadminData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      apiKey: process.env.REACT_APP_API_KEY,
+      main: 'SuperadminCenter',
+      Fn: 'read',
+    });
+    return response;
+  };
+
   // adhoc query
   const adhocQuery = async (y, x) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -319,86 +329,29 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // erkm
-  const readSekolahData = async (FType) => {
-    const response = await axios.get(
-      'https://erkm.calypsocloud.one/listsekolah'
-    );
-    switch (FType) {
-      case 'sr':
-        const currentSr = await readData(FType);
-        if (currentSr.data.length === 0) {
-          console.log('no sr');
-          console.log(response.data);
-          return response.data[1].sekolahRendah;
-        }
-        console.log('current sr', currentSr.data);
-        for (let j = 0; j < currentSr.data.length; j++) {
-          const deleteSr = response.data[1].sekolahRendah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSr.data[j].kodSekolah);
-          response.data[1].sekolahRendah.splice(deleteSr, 1);
-        }
-        return response.data[1].sekolahRendah;
-      case 'sm':
-        const currentSm = await readData(FType);
-        if (currentSm.data.length === 0) {
-          console.log('no sm');
-          return response.data[2].sekolahMenengah;
-        }
-        console.log('current sm', currentSm.data);
-        for (let j = 0; j < currentSm.data.length; j++) {
-          const deleteSm = response.data[2].sekolahMenengah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSm.data[j].kodSekolah);
-          response.data[2].sekolahMenengah.splice(deleteSm, 1);
-        }
-        return response.data[2].sekolahMenengah;
-      default:
-        console.log('there was no request');
-    }
-  };
-
-  // read pegawai data
-  const readPegawaiData = async () => {
-    const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
-    const currentPegawai = await readData('pp');
-    if (currentPegawai.data.length === 0) {
-      console.log('no pegawai');
-      return response.data;
-    }
-    console.log('current pegawai', currentPegawai.data);
-    for (let j = 0; j < currentPegawai.data.length; j++) {
-      const deletePegawai = response.data
-        .map((e) => e.mdcNumber)
-        .indexOf(parseInt(currentPegawai.data[j].mdcNumber));
-      response.data.splice(deletePegawai, 1);
-    }
-    return response.data;
-  };
-
-  // get mdtb data
-  const readMdtbData = async () => {
-    const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
-    console.log(response.data);
-    const currentJp = await readData('jp');
-    if (currentJp.data.length === 0) {
-      console.log('no jp');
-      return response.data;
-    }
-    console.log('current jp', currentJp.data);
-    for (let j = 0; j < currentJp.data.length; j++) {
-      const deleteJp = response.data
-        .map((e) => e.registrationnumber)
-        .indexOf(currentJp.data[j].mdtbNumber);
-      response.data.splice(deleteJp, 1);
-    }
-    return response.data;
-  };
+  // // read pegawai data
+  // const readPegawaiData = async () => {
+  //   const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
+  //   const currentPegawai = await readData('pp');
+  //   if (currentPegawai.data.length === 0) {
+  //     console.log('no pegawai');
+  //     return response.data;
+  //   }
+  //   console.log('current pegawai', currentPegawai.data);
+  //   for (let j = 0; j < currentPegawai.data.length; j++) {
+  //     const deletePegawai = response.data
+  //       .map((e) => e.mdcNumber)
+  //       .indexOf(parseInt(currentPegawai.data[j].mdcNumber));
+  //     response.data.splice(deletePegawai, 1);
+  //   }
+  //   return response.data;
+  // };
 
   // read fasiliti data
-  const readFasilitiData = async () => {
-    const response = await axios.get('https://erkm.calypsocloud.one/fasiliti');
+  const readFasilitiData = async ({ negeri, daerah }) => {
+    const response = await axios.get(
+      `https://erkm.calypsocloud.one/fasiliti?negeri=${negeri}&daerah=${daerah}`
+    );
     console.log(response.data);
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
@@ -444,14 +397,63 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // read superadmin data
-  const readSuperadminData = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'SuperadminCenter',
-      Fn: 'read',
-    });
-    return response;
+  // get mdtb data
+  const readMdtbData = async () => {
+    const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
+    console.log(response.data);
+    const currentJp = await readData('jp');
+    if (currentJp.data.length === 0) {
+      console.log('no jp');
+      return response.data;
+    }
+    console.log('current jp', currentJp.data);
+    for (let j = 0; j < currentJp.data.length; j++) {
+      const deleteJp = response.data
+        .map((e) => e.registrationnumber)
+        .indexOf(currentJp.data[j].mdtbNumber);
+      response.data.splice(deleteJp, 1);
+    }
+    return response.data;
+  };
+
+  // erkm
+  const readSekolahData = async (FType) => {
+    const response = await axios.get(
+      'https://erkm.calypsocloud.one/listsekolah'
+    );
+    switch (FType) {
+      case 'sr':
+        const currentSr = await readData(FType);
+        if (currentSr.data.length === 0) {
+          console.log('no sr');
+          console.log(response.data);
+          return response.data[1].sekolahRendah;
+        }
+        console.log('current sr', currentSr.data);
+        for (let j = 0; j < currentSr.data.length; j++) {
+          const deleteSr = response.data[1].sekolahRendah
+            .map((e) => e.kodSekolah)
+            .indexOf(currentSr.data[j].kodSekolah);
+          response.data[1].sekolahRendah.splice(deleteSr, 1);
+        }
+        return response.data[1].sekolahRendah;
+      case 'sm':
+        const currentSm = await readData(FType);
+        if (currentSm.data.length === 0) {
+          console.log('no sm');
+          return response.data[2].sekolahMenengah;
+        }
+        console.log('current sm', currentSm.data);
+        for (let j = 0; j < currentSm.data.length; j++) {
+          const deleteSm = response.data[2].sekolahMenengah
+            .map((e) => e.kodSekolah)
+            .indexOf(currentSm.data[j].kodSekolah);
+          response.data[2].sekolahMenengah.splice(deleteSm, 1);
+        }
+        return response.data[2].sekolahMenengah;
+      default:
+        console.log('there was no request');
+    }
   };
 
   // read kod program data
@@ -689,9 +691,12 @@ function AdminAppProvider({ children }) {
         saveTotpToken,
         removeAdminToken,
         removeTotpToken,
+        // start
+        readSuperadminData,
         // main data
         createData,
         readData,
+        readKpData,
         readOneData,
         updateData,
         deleteData,
@@ -703,12 +708,10 @@ function AdminAppProvider({ children }) {
         deleteDataForKp,
         // misc data
         readDpimsData,
-        readSekolahData,
-        readPegawaiData,
         readMdtbData,
+        // readPegawaiData,
+        readSekolahData,
         readFasilitiData,
-        readKpData,
-        readSuperadminData,
         readKodProgramData,
         readAllDaerahInNegeri,
         readAllKlinikInDaerah,

@@ -151,9 +151,9 @@ const dictionaryDaerah = {
   Terengganu: [],
   Sabah: [],
   Sarawak: [],
-  'Kuala Lumpur': [],
-  Labuan: [],
-  Putrajaya: [],
+  'Wilayah Persekutuan Kuala Lumpur': [],
+  'Wilayah Persekutuan Labuan': [],
+  'Wilayah Persekutuan Putrajaya': [],
 };
 
 const UserAppContext = React.createContext();
