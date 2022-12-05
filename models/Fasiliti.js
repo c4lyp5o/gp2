@@ -23,6 +23,10 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  kodFasilitiHandler: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   jenisFasiliti: {
     type: String,
   },
