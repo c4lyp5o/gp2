@@ -51,6 +51,85 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
   });
 };
 
+//modal add followers
+export const ModalAddFollowers = (props) => {
+  const { DictionarySosMedParam, DictionarySosMedAcronym } =
+    useGlobalAdminAppContext();
+
+  return (
+    <>
+      <form>
+        <div className='absolute inset-36 inset-x-96 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <FaWindowClose
+            className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
+            onClick={() => {
+              props.setShowFollowersModal(false);
+            }}
+          />
+          <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
+            <i>FOLLOWERS</i> MEDIA SOSIAL
+          </h5>
+          <div className='grid mx-auto items-center justify-center'>
+            <div className='grid grid-cols-1'>
+              <div className='flex flex-row justify-center items-center m-2'>
+                <label className='text-sm font-semibold text-admin2'>
+                  Jenis Media Sosial :
+                </label>
+                <select className='appearance-none w-56 text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2'>
+                  <option value='facebook'>Facebook</option>
+                  <option value='instagram'>Instagram</option>
+                  <option value='youtube'>Youtube</option>
+                  <option value='tiktok'>TikTok</option>
+                  <option value='twitter'>Twitter</option>
+                  <option value='lain-lain'>Lain-lain</option>
+                </select>
+              </div>
+              <div className='grid grid-cols-[2fr_1fr] gap-2 mx-auto items-center mb-3'>
+                <p>bilangan followers bulan terdahulu</p>
+                <input
+                  type='number'
+                  name='past-followers'
+                  id='past-followers'
+                  className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
+                />
+                <p>bilangan followers bulan terkini</p>
+                <input
+                  type='number'
+                  name='current-followers'
+                  id='current-followers'
+                  className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
+                />
+              </div>
+              <div className='flex justify-center mb-2'>
+                <button
+                  type='submit'
+                  className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-2 mr-3 hover:bg-user8'
+                >
+                  Hantar
+                </button>
+                <button
+                  className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-2 mr-3 hover:bg-user8'
+                  onClick={() => {
+                    props.setShowFollowersModal(false);
+                  }}
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className='absolute inset-0 bg-user1 z-10 bg-opacity-50'
+          onClick={() => {
+            props.setShowFollowersModal(false);
+          }}
+        />
+      </form>
+    </>
+  );
+};
+
 export const ModalSosMed = (props) => {
   const { toast, createData, createDataForKp, readKodProgramData } =
     useGlobalAdminAppContext();
@@ -79,8 +158,8 @@ export const ModalSosMed = (props) => {
     },
     {
       id: 4,
-      value: 'Tiktok',
-      label: 'Tiktok',
+      value: 'TikTok',
+      label: 'TikTok',
       img: Tiktok,
       logo: <SiTiktok />,
     },

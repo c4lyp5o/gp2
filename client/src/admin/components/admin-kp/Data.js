@@ -4,11 +4,16 @@ import { FaPlus } from 'react-icons/fa';
 
 import Program from './Program';
 import Sosmed from './Sosmed';
+import Followers from './Followers';
 import Tastad from './Tastad';
 import Pegawai from './Pegawai';
 import Institusi from './Institusi';
 
-import { ModalSosMed, ModalDataIkutProgram } from './modal-sosmed/Modal';
+import {
+  ModalSosMed,
+  ModalDataIkutProgram,
+  ModalAddFollowers,
+} from './modal-sosmed/Modal';
 
 import { AddModal, EditModalForKp, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
@@ -19,6 +24,7 @@ export default function DataKp({ FType }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSosMedModal, setShowSosMedModal] = useState(false);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showSosMedDataModal, setShowSosMedDataModal] = useState(false);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState(null);
@@ -76,6 +82,9 @@ export default function DataKp({ FType }) {
           case 'sosmed':
             setShow({ sosmed: true });
             break;
+          case 'followers':
+            setShow({ followers: true });
+            break;
           case 'tastad':
             setShow({ tastad: true });
             break;
@@ -92,6 +101,7 @@ export default function DataKp({ FType }) {
             setShow({ program: true });
             break;
         }
+        setShowFollowersModal(false);
         setShowSosMedModal(false);
         setLoading(false);
       })
@@ -116,6 +126,8 @@ export default function DataKp({ FType }) {
     setShowSosMedModal,
     showSosMedDataModal,
     setShowSosMedDataModal,
+    showFollowersModal,
+    setShowFollowersModal,
     showEditModal,
     setShowEditModal,
     showDeleteModal,
@@ -146,6 +158,7 @@ export default function DataKp({ FType }) {
       <>
         {show.program ? <Program {...props} /> : null}
         {show.sosmed ? <Sosmed {...props} /> : null}
+        {show.followers ? <Followers {...props} /> : null}
         {show.tastad ? <Tastad {...props} /> : null}
         {show.pp ? <Pegawai {...props} /> : null}
         {show.jp ? <Pegawai {...props} /> : null}
@@ -168,6 +181,9 @@ export default function DataKp({ FType }) {
     if (FType === 'sosmed') {
       setShowSosMedModal(true);
     }
+    if (FType === 'followers') {
+      setShowFollowersModal(true);
+    }
     if (FType === 'program') {
       setShowAddModal(true);
     }
@@ -181,7 +197,7 @@ export default function DataKp({ FType }) {
     <>
       {data.length === 0 ? <NothingHereBoi FType={FType} /> : <RenderSection />}
       <RenderModal />
-      {FType === 'program' || FType === 'sosmed' ? (
+      {FType === 'program' || FType === 'sosmed' || FType === 'followers' ? (
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={handleAdd}
@@ -192,6 +208,7 @@ export default function DataKp({ FType }) {
         </button>
       ) : null}
       {showSosMedModal ? <ModalSosMed {...props} /> : null}
+      {showFollowersModal ? <ModalAddFollowers {...props} /> : null}
       {showSosMedDataModal ? <ModalDataIkutProgram {...props} /> : null}
     </>
   );
