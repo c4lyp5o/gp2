@@ -126,7 +126,7 @@ export default function Navbar(props) {
                   to='kpb'
                   onClick={() => setShowLinks(!showLinks)}
                 >
-                  KP BERGERAK
+                  KLINIK PERGIGIAN BERGERAK
                 </NavLink>
                 <NavLink
                   className={({ isActive }) =>
