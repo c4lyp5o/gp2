@@ -83,6 +83,7 @@ const AddModal = ({
       ...Data,
       nama: currentName.current,
       handler: currentKp.current,
+      kodFasilitiHandler: currentKodFasiliti.current,
       statusPerkhidmatan: currentStatusPerkhidmatan.current,
     };
     if (FType === 'program') {
@@ -204,25 +205,6 @@ const AddModal = ({
     }
   };
 
-  // const CustomDatePicker = () => {
-  //   return (
-  //     <DatePicker
-  //       dateFormat='dd/MM/yyyy'
-  //       selected={date}
-  //       onChange={(date) => {
-  //         const tempDate = moment(date).format('YYYY-MM-DD');
-  //         setDate(date);
-  //         currentTarikh.current = tempDate;
-  //       }}
-  //       peekNextMonth
-  //       showMonthDropdown
-  //       showYearDropdown
-  //       dropdownMode='select'
-  //       className='border-2'
-  //     />
-  //   );
-  // };
-
   const CustomDatePicker = () => {
     return masterDatePicker({
       selected: date,
@@ -300,47 +282,21 @@ const AddModal = ({
                       <select
                         onChange={(e) => {
                           const selectedKlinik = klinik.find(
-                            (k) => k.kodFasiliti === e.target.value
+                            (k) => k.kodFasilitiGiret === e.target.value
                           );
                           currentName.current = selectedKlinik.nama;
                           currentKodFasiliti.current =
-                            selectedKlinik.kodFasiliti;
+                            selectedKlinik.kodFasilitiGiret; // PROBABLY ONE OF THE MOST IMPORTANT CODE EVER. PLEASE DON'T TOUCH OR CHANGE THIS AT THE LATER POINT IN LIFE. CAUSE THE ORIGINAL NAME OF PROPERTIES LATER ON IS JUST kodFasiliti
                         }}
                         className='border-2 max-w-sm'
                       >
                         <option value=''>Pilih Klinik</option>
-                        {klinik
-                          // .filter((ak) => {
-                          //   let upperCased =
-                          //     daerah[0].toUpperCase() + daerah.substring(1);
-                          //   return ak.daerah.includes(upperCased);
-                          // })
-                          .map((k) => (
-                            <option key={k.bil} value={k.kodFasiliti}>
-                              {k.nama}
-                            </option>
-                          ))}
+                        {klinik.map((k) => (
+                          <option key={k.bil} value={k.kodFasilitiGiret}>
+                            {k.nama}
+                          </option>
+                        ))}
                       </select>
-                      {/* <label htmlFor='nama'>Nama Klinik</label>
-                      <input
-                        required
-                        className='border-2'
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        onChange={(e) => (currentName.current = e.target.value)}
-                      />
-                      <label htmlFor='nama'>Kod Fasiliti</label>
-                      <input
-                        required
-                        className='border-2'
-                        type='text'
-                        name='kod'
-                        id='kod'
-                        onChange={(e) =>
-                          (currentKodFasiliti.current = e.target.value)
-                        }
-                      /> */}
                       <label htmlFor='nama'>Emel</label>
                       <input
                         required
@@ -755,43 +711,6 @@ const AddModal = ({
                         }
                       />
                     </div>
-                    {/* {FType === 'pp' && (
-                      <>
-                        <p>
-                          Nombor MDC{' '}
-                          <span className='font-semibold text-lg text-user6'>
-                            *
-                          </span>
-                        </p>
-                        <div className='grid gap-1'>
-                          <input
-                            required
-                            className='border-2'
-                            type='text'
-                            name='mdc'
-                            id='mdc'
-                            onChange={(e) =>
-                              (currentRegNumber.current = e.target.value)
-                            }
-                          />
-                        </div>
-                      </>
-                    )} */}
-                    {/* {FType === 'jp' && mdtbMembers && (
-                      <>
-                        <p>
-                          Nombor MDTB{' '}
-                          <span className='font-semibold text-lg text-user6'>
-                            *
-                          </span>
-                        </p>
-                        <select className='border-2'>
-                          {mdtbMembers.map((m) => (
-                            <option value={m.id}>{m.name}</option>
-                          ))}
-                        </select>
-                      </>
-                    )} */}
                     <p>
                       Gred{' '}
                       <span className='font-semibold text-lg text-user6'>
@@ -1084,7 +1003,7 @@ const AddModal = ({
                             (currentKategoriInstitusi.current = e.target.value)
                           }
                         >
-                          <option value=''>Pilih Gred</option>
+                          <option value=''>Pilih Jenis Institusi</option>
                           <option value='kolej-komuniti'>Kolej Komuniti</option>
                           <option value='kolej-vokasional'>
                             Kolej Vokasional
@@ -1128,18 +1047,24 @@ const AddModal = ({
                     />
                   </div>
                   <p>
-                    Klinik Bertugas{' '}
+                    Klinik Bertanggungjawab{' '}
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
                   <div className='grid gap-1'>
                     <select
                       required
                       className='border-2'
-                      onChange={(e) => (currentKp.current = e.target.value)}
+                      onChange={(e) => {
+                        const selectedKlinik = klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        currentKp.current = selectedKlinik.kp;
+                        currentKodFasiliti.current = selectedKlinik.kodFasiliti;
+                      }}
                     >
                       <option value=''>Pilih Klinik</option>
                       {klinik.map((k) => (
-                        <option className='capitalize' value={k.kp}>
+                        <option className='capitalize' value={k.kodFasiliti}>
                           {k.kp}
                         </option>
                       ))}
@@ -1435,6 +1360,8 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
       ...Data,
       // nama: currentName.current,
       handler: currentKp.current,
+      kodFasilitiHandler: currentKodFasiliti.current,
+      statusPerkhidmatan: editedEntity.statusPerkhidmatan,
     };
     if (FType === 'pp' || FType === 'jp') {
       Data = {
@@ -1879,18 +1806,24 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 )}
                 <br />
                 <p>
-                  Klinik Bertugas{' '}
+                  Klinik Bertanggungjawab{' '}
                   <span className='font-semibold text-lg text-admin3'>*</span>
                 </p>
                 <select
                   required
-                  defaultValue={editedEntity.handler}
+                  defaultValue={editedEntity.kodFasilitiHandler}
                   className='border-2'
-                  onChange={(e) => (currentKp.current = e.target.value)}
+                  onChange={(e) => {
+                    const selectedKlinik = klinik.find(
+                      (k) => k.kodFasiliti === e.target.value
+                    );
+                    currentKp.current = selectedKlinik.kp;
+                    currentKodFasiliti.current = selectedKlinik.kodFasiliti;
+                  }}
                 >
                   <option value=''>Pilih Klinik Baru..</option>
                   {klinik.map((k) => (
-                    <option className='capitalize' value={k.kp}>
+                    <option className='capitalize' value={k.kodFasiliti}>
                       {k.kp}
                     </option>
                   ))}
