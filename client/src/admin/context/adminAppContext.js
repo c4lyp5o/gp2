@@ -373,7 +373,7 @@ function AdminAppProvider({ children }) {
     try {
       const response = await axios.get(`/dpims?nama=${nama}`);
       const currentPegawai = await readData('ppall');
-      if (currentPegawai.data === 0) {
+      if (currentPegawai.data.length === 0) {
         return response.data.matches;
       }
       if (response.data.matches.length === 1) {
@@ -398,22 +398,34 @@ function AdminAppProvider({ children }) {
   };
 
   // get mdtb data
-  const readMdtbData = async () => {
-    const response = await axios.get('https://erkm.calypsocloud.one/mdtb');
-    console.log(response.data);
-    const currentJp = await readData('jp');
-    if (currentJp.data.length === 0) {
-      console.log('no jp');
+  const readMdtbData = async (nama) => {
+    try {
+      const response = await axios.get(
+        `https://erkm.calypsocloud.one/mdtb?nama=${nama}`
+      );
+      const currentJp = await readData('jpall');
+      if (currentJp.data.length === 0) {
+        return response.data;
+      }
+      if (response.data.length === 1) {
+        const match = currentJp.data
+          .map((e) => e.mdtbNumber)
+          .includes(response.data[0].mdtbNumber);
+        if (match) {
+          return false;
+        }
+        return response.data;
+      }
+      for (let j = 0; j < currentJp.data.length; j++) {
+        const deleteJp = response.data
+          .map((e) => e.mdtbNumber)
+          .indexOf(currentJp.data[j].mdtbNumber);
+        response.data.splice(deleteJp, 1);
+      }
       return response.data;
+    } catch (error) {
+      return false;
     }
-    console.log('current jp', currentJp.data);
-    for (let j = 0; j < currentJp.data.length; j++) {
-      const deleteJp = response.data
-        .map((e) => e.registrationnumber)
-        .indexOf(currentJp.data[j].mdtbNumber);
-      response.data.splice(deleteJp, 1);
-    }
-    return response.data;
   };
 
   // erkm
