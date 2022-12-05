@@ -25,10 +25,10 @@ const AddModal = ({
     toast,
     createData,
     createDataForKp,
+    pingApdmServer,
     readSekolahData,
     readKpData,
     readDpimsData,
-    pingApdmServer,
     readMdtbData,
     readFasilitiData,
   } = useGlobalAdminAppContext();
@@ -66,12 +66,13 @@ const AddModal = ({
   const [addingData, setAddingData] = useState(false);
   // MDTB
   const [mdtbMembers, setMdtbMembers] = useState([]);
-  // pp sedia ada
+  // pp & jp sedia ada
   const [allPegawai, setAllPegawai] = useState([]);
-  // dpims nama
+  const [allJp, setAllJp] = useState([]);
+  // dpims & jp nama
   const [carianNama, setCarianNama] = useState('');
   const [searching, setSearching] = useState(false);
-  const [noPp, setNoPp] = useState('');
+  const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
     setAddingData(true);
@@ -244,11 +245,11 @@ const AddModal = ({
     //     setAllPegawai(res);
     //   });
     // }
-    if (FType === 'jp') {
-      readMdtbData().then((res) => {
-        setMdtbMembers(res);
-      });
-    }
+    // if (FType === 'jp') {
+    //   readMdtbData().then((res) => {
+    //     setMdtbMembers(res);
+    //   });
+    // }
     if (FType === 'kp') {
       readFasilitiData({ negeri, daerah }).then((res) => {
         setKlinik(res.data);
@@ -476,7 +477,7 @@ const AddModal = ({
                         *
                       </span>
                     </p>
-                    {FType === 'pp' ? (
+                    {FType === 'pp' && (
                       <div className='grid gap-1'>
                         <label
                           for='default-search'
@@ -519,8 +520,12 @@ const AddModal = ({
                               className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
                               onClick={async (e) => {
                                 e.preventDefault();
+                                if (!carianNama) {
+                                  toast.error('Sila isi nama pegawai');
+                                  return;
+                                }
                                 setSearching(true);
-                                setNoPp('');
+                                setNoPpJp('');
                                 setAllPegawai([]);
                                 const res = await readDpimsData(
                                   currentName.current
@@ -529,7 +534,7 @@ const AddModal = ({
                                   setAllPegawai(res);
                                 }
                                 if (!res) {
-                                  setNoPp('Tiada pegawai dijumpai');
+                                  setNoPpJp('Tiada pegawai dijumpai');
                                 }
                                 setSearching(false);
                               }}
@@ -569,6 +574,7 @@ const AddModal = ({
                         </div>
                         {allPegawai.length > 0 ? (
                           <select
+                            required
                             className='border-2 max-w-sm'
                             onChange={(e) => {
                               const selectedPp = allPegawai.find(
@@ -584,7 +590,6 @@ const AddModal = ({
                             {allPegawai.map((p) => (
                               <option
                                 className='capitalize'
-                                key={p.bil}
                                 value={p.nomborMdc}
                               >
                                 {p.nama}
@@ -592,31 +597,136 @@ const AddModal = ({
                             ))}
                           </select>
                         ) : (
-                          <span>{noPp}</span>
+                          <span>{noPpJp}</span>
                         )}
                       </div>
-                    ) : (
+                    )}
+                    {FType === 'jp' && (
                       <div className='grid gap-1'>
-                        <select
-                          className='border-2 max-w-sm'
-                          onChange={(e) => {
-                            const selectedJp = mdtbMembers.find(
-                              (m) => m.registrationnumber === e.target.value
-                            );
-                            currentName.current = selectedJp.name;
-                            currentRegNumber.current =
-                              selectedJp.registrationnumber;
-                          }}
+                        <label
+                          for='default-search'
+                          className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          <option key='no-value' value=''>
-                            Pilih JP...
-                          </option>
-                          {mdtbMembers.map((m) => (
-                            <option key={m.number} value={m.registrationnumber}>
-                              {m.name}
+                          Search
+                        </label>
+                        <div className='relative'>
+                          <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                            <svg
+                              aria-hidden='true'
+                              className='w-5 h-3 text-gray-500 dark:text-gray-400'
+                              fill='none'
+                              stroke='currentColor'
+                              viewBox='0 0 24 24'
+                              xmlns='http://www.w3.org/2000/svg'
+                            >
+                              <path
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                                strokeWidth='2'
+                                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                              ></path>
+                            </svg>
+                          </div>
+                          <input
+                            autoFocus
+                            value={carianNama}
+                            type='search'
+                            className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Cari juruterapi pergigian...'
+                            onChange={(e) => {
+                              currentName.current = e.target.value;
+                              setCarianNama(e.target.value);
+                            }}
+                          />
+                          {searching === false ? (
+                            <button
+                              type='button'
+                              className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                if (!carianNama) {
+                                  toast.error(
+                                    'Sila isi nama juruterapi pergigian'
+                                  );
+                                  return;
+                                }
+                                setSearching(true);
+                                setNoPpJp('');
+                                setAllJp([]);
+                                const res = await readMdtbData(
+                                  currentName.current
+                                );
+                                if (res) {
+                                  setAllJp(res);
+                                }
+                                if (!res) {
+                                  setNoPpJp(
+                                    'Tiada juruterapi pergigian dijumpai'
+                                  );
+                                }
+                                setSearching(false);
+                              }}
+                            >
+                              Search
+                            </button>
+                          ) : (
+                            <>
+                              <button
+                                type='button'
+                                className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                                disabled={true}
+                              >
+                                <svg
+                                  className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  fill='none'
+                                  viewBox='0 0 24 24'
+                                >
+                                  <circle
+                                    className='opacity-25'
+                                    cx='12'
+                                    cy='12'
+                                    r='10'
+                                    stroke='currentColor'
+                                    strokeWidth='4'
+                                  ></circle>
+                                  <path
+                                    className='opacity-75'
+                                    fill='currentColor'
+                                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                  ></path>
+                                </svg>
+                              </button>
+                            </>
+                          )}
+                        </div>
+                        {allJp.length > 0 ? (
+                          <select
+                            required
+                            className='border-2 max-w-sm'
+                            onChange={(e) => {
+                              const selectedJp = allJp.find(
+                                (p) => p.mdtbNumber === e.target.value
+                              );
+                              currentName.current = selectedJp.nama;
+                              currentRegNumber.current = selectedJp.mdtbNumber;
+                            }}
+                          >
+                            <option key='no-value' value=''>
+                              Pilih Juruterapi Pergigian...
                             </option>
-                          ))}
-                        </select>
+                            {allJp.map((p) => (
+                              <option
+                                className='capitalize'
+                                value={p.mdtbNumber}
+                              >
+                                {p.nama}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span>{noPpJp}</span>
+                        )}
                       </div>
                     )}
                     <p>
