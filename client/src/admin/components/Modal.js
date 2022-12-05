@@ -1128,7 +1128,7 @@ const AddModal = ({
           <div className={styles.centered}>
             <div className={styles.modalEvent}>
               <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah Program / Aktiviti</h5>
+                <h5 className={styles.heading}>Tambah Program Komuniti</h5>
               </div>
               <span
                 className={styles.closeBtn}
@@ -1139,12 +1139,12 @@ const AddModal = ({
               <div className={styles.modalContent}>
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
-                    <p>
-                      Tarikh Program / Aktiviti{' '}
+                    {/* <p>
+                      Tarikh Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
-                    </p>
+                    </p> */}
                     {/* <input
                         required
                         className='border-2'
@@ -1155,9 +1155,9 @@ const AddModal = ({
                           (currentTarikh.current = e.target.value)
                         }
                       /> */}
-                    <CustomDatePicker />
+                    {/* <CustomDatePicker /> */}
                     <p>
-                      Nama Program
+                      Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -1173,7 +1173,7 @@ const AddModal = ({
                         id='jenisEvent'
                       >
                         <option value=''>Jenis Program / Aktiviti</option>
-                        <option value='projek-komuniti'>Projek Komuniti</option>
+                        {/* <option value='projek-komuniti'>Projek Komuniti</option>
                         <option value='ppkps'>
                           Program Pemasyarakatan Perkhidmatan Klinik Pergigian
                           Sekolah
@@ -1186,13 +1186,60 @@ const AddModal = ({
                         <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
+                        </option> */}
+                        <option value='program-dewasa-muda'>
+                          Program Dewasa Muda
+                        </option>
+                        <option value='kampung-angkat-pergigian'>
+                          Kampung Angkat Pergigian
+                        </option>
+                        <option value='projek-perumahan-rakyat'>
+                          Projek Perumahan Rakyat
+                        </option>
+                        <option value='institusi-warga-emas'>
+                          Institusi Warga Emas
+                        </option>
+                        <option value='institusi-oku-pdk'>
+                          Institusi OKU / PDK
                         </option>
                       </select>
                     </div>
-                    <p className='mt-3 font-semibold'>
+                    {currentJenisEvent.current === 'program-dewasa-muda' && (
+                      <div className='grid gap-1'>
+                        <p>
+                          Jenis Institusi
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </p>
+                        <select
+                          required
+                          className='border-2'
+                          onChange={(e) =>
+                            (currentKategoriInstitusi.current = e.target.value)
+                          }
+                        >
+                          <option value=''>Pilih Institusi</option>
+                          <option value='kolej-komuniti'>Kolej Komuniti</option>
+                          <option value='kolej-vokasional'>
+                            Kolej Vokasional
+                          </option>
+                          <option value='ipg'>
+                            Institusi Pendidikan Guru (IPG)
+                          </option>
+                          <option value='ipta'>
+                            Institusi Pengajian Tinggi Awam
+                          </option>
+                          <option value='lain-lain'>
+                            Lain-lain Institusi Pengajian
+                          </option>
+                        </select>
+                      </div>
+                    )}
+                    {/* <p className='mt-3 font-semibold'>
                       Mod Penyampaian Perkhidmatan
-                    </p>
-                    <div className='grid grid-cols-2 gap-1'>
+                    </p> */}
+                    {/* <div className='grid grid-cols-2 gap-1'>
                       <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                       <input
                         type='checkbox'
@@ -1220,9 +1267,9 @@ const AddModal = ({
                           eventModeChecker(e.target.value);
                         }}
                       />
-                    </div>
+                    </div> */}
                     <p>
-                      Nama Program / Aktiviti
+                      Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -1256,6 +1303,51 @@ const AddModal = ({
                           }
                         />
                       </div>
+                    </div>
+                    <p>Status {Dictionary[FType]}</p>
+                    <div className='grid grid-cols-2'>
+                      <label htmlFor='nama'>Aktif</label>
+                      <input
+                        required
+                        type='radio'
+                        id='act-stat'
+                        name='checkbox'
+                        value='active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
+                      />
+                      <label htmlFor='nama'>Tidak Aktif</label>
+                      <input
+                        required
+                        type='radio'
+                        id='act-stat'
+                        name='checkbox'
+                        value='non-active'
+                        onChange={(e) =>
+                          (currentStatusPerkhidmatan.current = e.target.value)
+                        }
+                      />
+                    </div>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) => (currentKp.current = e.target.value)}
+                      >
+                        <option value=''>Pilih Klinik</option>
+                        {klinik.map((k) => (
+                          <option className='capitalize' value={k.kp}>
+                            {k.kp}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                 </div>

@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 export default function Navbar(props) {
   const [showLinks, setShowLinks] = useState(false);
+  const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
+
+  const toggleSubMenuMedSos = () => {
+    setShowMedSosSubMenu(!showMedSosSubMenu);
+  };
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
@@ -112,10 +117,11 @@ export default function Navbar(props) {
                       ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                       : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                   }
-                  to='ins'
+                  // to='ins'
+                  to='program'
                   onClick={() => setShowLinks(!showLinks)}
                 >
-                  INSTITUSI
+                  PROGRAM KOMUNITI
                 </NavLink>
                 <NavLink
                   className={({ isActive }) =>
@@ -139,17 +145,51 @@ export default function Navbar(props) {
                 >
                   MAKMAL PERGIGIAN BERGERAK
                 </NavLink>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='sosmed'
-                  onClick={() => setShowLinks(!showLinks)}
-                >
-                  MEDIA SOSIAL
-                </NavLink>
+                <div>
+                  <div
+                    className={`${
+                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={toggleSubMenuMedSos}
+                  >
+                    <span>MEDIA SOSIAL</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showMedSosSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='sosmed'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      AKTIVITI MEDIA SOSIAL
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='followers'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      <i>FOLLOWERS</i> MEDIA SOSIAL
+                    </NavLink>
+                  </div>
+                </div>
                 <NavLink
                   className={({ isActive }) =>
                     isActive
@@ -185,7 +225,7 @@ export default function Navbar(props) {
                 to='kp/program'
                 onClick={() => setShowLinks(!showLinks)}
               >
-                PROGRAM
+                PROGRAM KOMUNITI
               </NavLink>
               <NavLink
                 className={({ isActive }) =>
