@@ -174,7 +174,7 @@ function UserLoginForm() {
               >
                 <option value=''></option>
                 {listKlinik.map((k) => {
-                  return <option value={k.kodFasiliti}>{k.nama}</option>;
+                  return <option value={k.kodFasilitiGiret}>{k.nama}</option>;
                 })}
               </select>
             </div>
