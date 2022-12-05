@@ -1121,9 +1121,9 @@ const makePG214 = async (payload) => {
 const makePG206 = async (payload) => {
   console.log('PG206');
   try {
-    const { kp, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai } = payload;
     //
-    const data = await Helper.countPG206(kp, bulan, pegawai);
+    const data = await Helper.countPG206(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1150,7 +1150,7 @@ const makePG206 = async (payload) => {
     ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = `${kp.toUpperCase()}`;
+    intro1.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${daerah.toUpperCase()}`;
@@ -1158,8 +1158,10 @@ const makePG206 = async (payload) => {
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${negeri.toUpperCase()}`;
 
-    let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
+    if (pegawai) {
+      let intro4 = worksheet.getRow(9);
+      intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
+    }
     //
     let j = 0;
     for (let i = 0; i < data[0].length; i++) {
@@ -1266,13 +1268,9 @@ const makePG206 = async (payload) => {
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG206.xlsx'
-    );
+    worksheet.name = 'PG206';
+
+    const newfile = makeFile(payload, 'PG206');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
@@ -1293,9 +1291,9 @@ const makePG206 = async (payload) => {
 const makePG207 = async (payload) => {
   console.log('PG207');
   try {
-    let { kp, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai } = payload;
     //
-    const data = await Helper.countPG207(kp, bulan, pegawai);
+    const data = await Helper.countPG207(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1322,7 +1320,7 @@ const makePG207 = async (payload) => {
     ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
 
     let intro1 = worksheet.getRow(7);
-    intro1.getCell(2).value = `${kp.toUpperCase()}`;
+    intro1.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro2 = worksheet.getRow(8);
     intro2.getCell(2).value = `${daerah.toUpperCase()}`;
@@ -1330,8 +1328,10 @@ const makePG207 = async (payload) => {
     let intro3 = worksheet.getRow(9);
     intro3.getCell(2).value = `${negeri.toUpperCase()}`;
 
-    let intro4 = worksheet.getRow(10);
-    intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
+    if (pegawai) {
+      let intro4 = worksheet.getRow(10);
+      intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
+    }
     //
     let j = 0;
     for (let i = 0; i < data[0].length; i++) {
@@ -1483,13 +1483,9 @@ const makePG207 = async (payload) => {
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG207.xlsx'
-    );
+    worksheet.name = 'PG207';
+
+    const newfile = makeFile(payload, 'PG207');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
@@ -2069,7 +2065,10 @@ exports.debug = async (req, res) => {
 
 // helper
 const makeFile = (payload, reten) => {
-  const { klinik, daerah, negeri } = payload;
+  const { pegawai, klinik, daerah, negeri } = payload;
+  if (pegawai) {
+    return fileName(pegawai, reten);
+  }
   if (daerah !== 'all' && klinik !== 'all') {
     return fileName(klinik, reten);
   }

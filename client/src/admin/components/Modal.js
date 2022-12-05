@@ -44,6 +44,8 @@ const AddModal = ({
   const currentRole = useRef('');
   const currentRolePromosiKlinik = useRef();
   const currentRisiko = useRef();
+  // institusi
+  const currentKategoriInstitusi = useRef();
   // taska
   const currentKodTastad = useRef();
   const currentAlamatTastad = useRef();
@@ -167,6 +169,12 @@ const AddModal = ({
           ...Data,
           kodSekolah: currentKodSekolah.current,
           risikoSekolahPersis: currentRisiko.current,
+        };
+      }
+      if (FType === 'ins') {
+        Data = {
+          ...Data,
+          kategoriInstitusi: currentKategoriInstitusi.current,
         };
       }
       createData(FType, Data).then((res) => {
@@ -994,7 +1002,7 @@ const AddModal = ({
                       </div>
                     )}
                   </div>
-                  {(FType === 'taska' || FType === 'tadika') && (
+                  {FType === 'taska' || FType === 'tadika' ? (
                     <>
                       <div>
                         <p>
@@ -1057,7 +1065,43 @@ const AddModal = ({
                         </div>
                       </div>
                     </>
-                  )}
+                  ) : null}
+                  {FType === 'ins' ? (
+                    <>
+                      <div>
+                        <p>
+                          Jenis {Dictionary[FType]}
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </p>
+                      </div>
+                      <div className='grid gap-1'>
+                        <select
+                          required
+                          className='border-2'
+                          onChange={(e) =>
+                            (currentKategoriInstitusi.current = e.target.value)
+                          }
+                        >
+                          <option value=''>Pilih Gred</option>
+                          <option value='kolej-komuniti'>Kolej Komuniti</option>
+                          <option value='kolej-vokasional'>
+                            Kolej Vokasional
+                          </option>
+                          <option value='ipg'>
+                            Institusi Pendidikan Guru (IPG)
+                          </option>
+                          <option value='ipta'>
+                            Institusi Pengajian Tinggi Awam
+                          </option>
+                          <option value='lain-lain'>
+                            Lain-lain Institusi Pengajian
+                          </option>
+                        </select>
+                      </div>
+                    </>
+                  ) : null}
                   <p>Status {Dictionary[FType]}</p>
                   <div className='grid grid-cols-2'>
                     <label htmlFor='nama'>Aktif</label>
