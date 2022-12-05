@@ -502,6 +502,16 @@ export default function Data({ FType, kp }) {
                       </th>
                     </>
                   )}
+                  {FType === 'ins' && (
+                    <>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Kategori
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Status
+                      </th>
+                    </>
+                  )}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
                   </th>
@@ -562,6 +572,24 @@ export default function Data({ FType, kp }) {
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                             {f.risikoSekolahPersis}
+                          </td>
+                        </>
+                      )}
+                      {FType === 'ins' && (
+                        <>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {f.kategoriInstitusi}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
                           </td>
                         </>
                       )}

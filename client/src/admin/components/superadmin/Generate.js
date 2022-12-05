@@ -15,7 +15,7 @@ const Generate = (props) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [month, setMonth] = useState('');
-  const [formatFile, setFormatFile] = useState('');
+  const [formatFile, setFormatFile] = useState('xlsx');
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
@@ -75,12 +75,21 @@ const Generate = (props) => {
     setEndDatePicker(null);
   }, [startDate]);
 
-  // reset daerah if change klinik
+  // reset stuff
   useEffect(() => {
     if (pilihanKlinik === '') {
       setPilihanDaerah('');
     }
   }, [pilihanKlinik]);
+
+  useEffect(() => {
+    setPilihanKlinik('');
+  }, [pilihanDaerah]);
+
+  useEffect(() => {
+    setPilihanDaerah('');
+    setPilihanKlinik('');
+  }, [jenisReten]);
 
   const fileName = () => {
     let file = '';
@@ -327,7 +336,9 @@ const Generate = (props) => {
             )}
             {(jenisReten === 'PG211A' ||
               jenisReten === 'PG211C' ||
-              jenisReten === 'PG214') && (
+              jenisReten === 'PG214' ||
+              jenisReten === 'PG206' ||
+              jenisReten === 'PG207') && (
               <>
                 <div className='px-3 py-1'>
                   <label
@@ -429,7 +440,7 @@ const Generate = (props) => {
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
             </button> */}
-            <div className='col-start-2 lg:col-start-3 px-3 py-1'>
+            {/* <div className='col-start-2 lg:col-start-3 px-3 py-1'>
               <label
                 htmlFor='formatFile'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
@@ -445,9 +456,9 @@ const Generate = (props) => {
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                {/* <option value='pdf'>PDF</option> */}
+                <option value='pdf'>PDF</option>
               </select>
-            </div>
+            </div> */}
             <button
               className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3'
               type='submit'
