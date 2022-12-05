@@ -58,6 +58,11 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  // institusi
+  kategoriInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
 });
 
 const Fasiliti = mongoose.model('Fasiliti', fasilitiSchema);

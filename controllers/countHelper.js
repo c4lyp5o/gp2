@@ -3057,7 +3057,7 @@ const countPG207 = async (payload) => {
   const match_bukanWarganegara = {
     $match: {
       ...getParams206207(payload),
-      bukanWarganegara: true,
+      kumpulanEtnik: 'bukan warganegara',
     },
   };
 
