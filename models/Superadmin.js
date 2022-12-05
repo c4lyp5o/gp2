@@ -15,6 +15,7 @@ const adminSchema = new Schema({
   daerah: {
     type: String,
     required: true,
+    unique: true,
   },
   e_mail: {
     type: String,
@@ -22,6 +23,7 @@ const adminSchema = new Schema({
   },
   accountType: {
     type: String,
+    required: true,
     enum: {
       values: [
         'kpSuperadmin',

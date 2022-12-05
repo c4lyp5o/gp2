@@ -165,6 +165,30 @@ const getData = async (req, res) => {
                 password: 'temporary',
               });
               console.log('tempKaunter:', tempKaunter);
+              // creating generic 5 JP when creating clinic
+              for (let ojp = 1; ojp < 6; ojp++) {
+                const ojpGen = {
+                  nama: 'JP' + ojp,
+                  email: '-',
+                  mdtbNumber:
+                    'MDTBAUTOGEN' +
+                    emailGen[negeri].kodNegeri +
+                    emailGen[negeri].daerah[daerah] +
+                    ojp,
+                  gred: '',
+                  createdByNegeri: negeri,
+                  createdByDaerah: daerah,
+                  kpSkrg: Data.kp,
+                  kodFasiliti: Data.kodFasiliti,
+                  role: 'umum',
+                  rolePromosiKlinik: false,
+                  statusPegawai: 'jp',
+                  cscspVerified: false,
+                  activationStatus: true,
+                };
+                const ojpGenCreated = await Operator.create(ojpGen);
+                console.log(ojpGenCreated);
+              }
             });
             return res.status(200).json(data);
           }
