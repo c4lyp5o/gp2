@@ -405,24 +405,24 @@ function AdminAppProvider({ children }) {
       );
       const currentJp = await readData('jpall');
       if (currentJp.data.length === 0) {
-        return response.data;
+        return response.data.data;
       }
-      if (response.data.length === 1) {
+      if (response.data.data.length === 1) {
         const match = currentJp.data
           .map((e) => e.mdtbNumber)
-          .includes(response.data[0].mdtbNumber);
+          .includes(response.data.data[0].mdtbNumber);
         if (match) {
           return false;
         }
-        return response.data;
+        return response.data.data;
       }
       for (let j = 0; j < currentJp.data.length; j++) {
-        const deleteJp = response.data
+        const deleteJp = response.data.data
           .map((e) => e.mdtbNumber)
           .indexOf(currentJp.data[j].mdtbNumber);
-        response.data.splice(deleteJp, 1);
+        response.data.data.splice(deleteJp, 1);
       }
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return false;
     }
