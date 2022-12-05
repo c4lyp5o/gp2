@@ -26,6 +26,7 @@ const Dictionary = {
   pp: 'pegawai',
   ppall: 'pegawai-all',
   jp: 'juruterapi pergigian',
+  jpall: 'jp-all',
   taska: 'taska',
   tadika: 'tadika',
   sr: 'sekolah-rendah',
@@ -165,6 +166,30 @@ const getData = async (req, res) => {
                 password: 'temporary',
               });
               console.log('tempKaunter:', tempKaunter);
+              // creating generic 5 JP when creating clinic
+              for (let ojp = 1; ojp < 6; ojp++) {
+                const ojpGen = {
+                  nama: 'JP' + ojp,
+                  email: '-',
+                  mdtbNumber:
+                    'MDTBAUTOGEN' +
+                    emailGen[negeri].kodNegeri +
+                    emailGen[negeri].daerah[daerah] +
+                    ojp,
+                  gred: '',
+                  createdByNegeri: negeri,
+                  createdByDaerah: daerah,
+                  kpSkrg: Data.kp,
+                  kodFasiliti: Data.kodFasiliti,
+                  role: 'umum',
+                  rolePromosiKlinik: false,
+                  statusPegawai: 'jp',
+                  cscspVerified: false,
+                  activationStatus: true,
+                };
+                const ojpGenCreated = await Operator.create(ojpGen);
+                console.log(ojpGenCreated);
+              }
             });
             return res.status(200).json(data);
           }
@@ -214,6 +239,7 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'pegawai-all' &&
             theType !== 'juruterapi pergigian' &&
+            theType !== 'jp-all' &&
             theType !== 'klinik' &&
             theType !== 'sosmed' &&
             theType !== 'sosmedByKodProgram'
@@ -245,6 +271,13 @@ const getData = async (req, res) => {
             const data = await Operator.find({
               createdByDaerah: daerah,
               createdByNegeri: negeri,
+              statusPegawai: 'jp',
+              activationStatus: true,
+            });
+            return res.status(200).json(data);
+          }
+          if (theType === 'jp-all') {
+            const data = await Operator.find({
               statusPegawai: 'jp',
               activationStatus: true,
             });
