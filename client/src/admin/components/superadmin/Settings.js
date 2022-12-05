@@ -24,33 +24,11 @@ export default function Settings({ update }) {
   const uploadImage = useId();
   const nama = useId();
   const [tarikhLahir, setTarikhLahir] = useState('');
-  const email = useId();
+  const e_mail = useId();
   const totp = useId();
 
   // tarikh lahir pentadbir
   const [tarikhLahirDP, setTarikhLahirDP] = useState(new Date());
-
-  // const TarikhLahir = () => {
-  //   return (
-  //     <DatePicker
-  //       showPopperArrow={false}
-  //       peekNextMonth
-  //       showMonthDropdown
-  //       showYearDropdown
-  //       dropdownMode='select'
-  //       value={moment(loginInfo.tarikhLahir).format('DD/MM/YYYY')}
-  //       selected={tarikhLahirDP}
-  //       onChange={(tarikhLahir) => {
-  //         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
-  //         setTarikhLahirDP(tarikhLahir);
-  //         setTarikhLahir(tempDate);
-  //         setLoginInfo({ ...loginInfo, tarikhLahir: tempDate });
-  //       }}
-  //       dateFormat='dd/MM/yyyy'
-  //       className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
-  //     />
-  //   );
-  // };
 
   const TarikhLahir = () => {
     return masterDatePicker({
@@ -111,7 +89,7 @@ export default function Settings({ update }) {
       const data = {
         nama: e.target[nama].value,
         tarikhLahir: tarikhLahir,
-        email: e.target[email].value,
+        e_mail: e.target[e_mail].value,
         totp: loginInfo.totp,
         image: profileImageData,
       };
@@ -228,16 +206,16 @@ export default function Settings({ update }) {
               <div className='relative border-b border-user1'>
                 <input
                   type='text'
-                  name='email'
-                  id={email}
+                  name='e_mail'
+                  id={e_mail}
                   className='mt-5 w-full appearance-none px-3 py-1 focus:outline-none peer'
                   value={loginInfo.e_mail}
                   onChange={(e) =>
-                    setLoginInfo({ ...loginInfo, email: e.target.value })
+                    setLoginInfo({ ...loginInfo, e_mail: e.target.value })
                   }
                 />
                 <label
-                  htmlFor={email}
+                  htmlFor={e_mail}
                   className='absolute left-3 bottom-8 text-xs text-user1 bg-userWhite peer-placeholder-shown:text-user1 peer-placeholder-shown:bottom-1 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
                 >
                   Emel
