@@ -129,6 +129,7 @@ export default function AdminAfterLogin() {
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
           <Route path='sosmed' element={<DataKp FType='sosmed' />} />
+          <Route path='followers' element={<DataKp FType='followers' />} />
           {/* daerah, negeri, hq superadmin */}
           {loginInfo.accountType !== 'kpUser' ? (
             <>
@@ -141,7 +142,7 @@ export default function AdminAfterLogin() {
               <Route path='tadika' element={<Data FType='tadika' />} />
               <Route path='sr' element={<Data FType='sr' />} />
               <Route path='sm' element={<Data FType='sm' />} />
-              <Route path='ins' element={<Data FType='ins' />} />
+              <Route path='program' element={<Data FType='program' />} />
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mp' element={<Data FType='mp' />} />
               <Route path='tetapan' element={<Settings />} />

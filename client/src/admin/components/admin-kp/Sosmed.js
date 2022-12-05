@@ -142,7 +142,8 @@ export default function Sosmed(props) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai Media Sosial {props.kp}
+          Senarai Aktiviti Promosi / Pendidikan Kesihatan Pergigian Media Sosial{' '}
+          {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <div className='flex flex-auto m-2'>{renderCards(props)}</div>
