@@ -157,13 +157,15 @@ const getData = async (req, res) => {
               const negeriNum = emailGen[negeri].kodNegeri;
               const daerahNum = emailGen[negeri].daerah[daerah];
               const tempKaunter = await User.create({
-                username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
+                username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+                  Data.kodFasiliti
+                }`,
                 negeri: Data.negeri,
                 daerah: Data.daerah,
                 kp: Data.kp,
                 kodFasiliti: Data.kodFasiliti,
                 accountType: 'kaunterUser',
-                password: 'temporary',
+                password: `${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
               });
               console.log('tempKaunter:', tempKaunter);
               // creating generic 5 JP when creating clinic
@@ -172,10 +174,11 @@ const getData = async (req, res) => {
                   nama: 'JP' + ojp,
                   email: '-',
                   mdtbNumber:
-                    'MDTBAUTOGEN' +
+                    'MDTBAUTO' +
                     emailGen[negeri].kodNegeri +
                     emailGen[negeri].daerah[daerah] +
-                    ojp,
+                    ojp +
+                    Data.kodFasiliti,
                   gred: '',
                   createdByNegeri: negeri,
                   createdByDaerah: daerah,
