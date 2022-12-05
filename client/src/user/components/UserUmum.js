@@ -1,22 +1,43 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Spinner } from 'react-awesome-spinners';
-import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  BsFilePerson,
+  BsFillFilePersonFill,
+  BsFillCircleFill,
+  BsFillCheckCircleFill,
+  BsPersonCircle,
+  BsCalendarPlusFill,
+  BsFillCaretDownFill,
+} from 'react-icons/bs';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+import UserUmumDeleteModal from './UserUmumDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-import DeleteModal from './UserUmumDeleteModal';
-
 function UserUmum() {
-  const { userToken, reliefUserToken, Dictionary, dateToday, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    userinfo,
+    reliefUserToken,
+    dateToday,
+    masterDatePicker,
+    formatTime,
+    noPendaftaranSplitter,
+    statusPesakit,
+    toast,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
 
-  const [status, setStatus] = useState('pengguna');
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [jenisFasiliti, setJenisFasiliti] = useState('kp');
+  const [jenisProgram, setJenisProgram] = useState('');
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
@@ -25,12 +46,33 @@ function UserUmum() {
 
   const [reloadState, setReloadState] = useState(false);
 
+  // datepicker issues
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
+    new Date(dateToday)
+  );
+  const TarikhKedatangan = () => {
+    return masterDatePicker({
+      selected: tarikhKedatanganDP,
+      onChange: (tarikhKedatangan) => {
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDP(tarikhKedatangan);
+      },
+      className:
+        'appearance-none w-64 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
   useEffect(() => {
     const query = async () => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${tarikhKedatangan}&jenisFasiliti=${jenisFasiliti}`,
+          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
+            tarikhKedatangan
+          ).format(
+            'YYYY-MM-DD'
+          )}&jenisFasiliti=${jenisFasiliti}&jenisProgram=${jenisProgram}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -39,16 +81,19 @@ function UserUmum() {
             },
           }
         );
-        const userData = JSON.parse(localStorage.getItem('userinfo'));
-        setStatus(userData.role);
-        setQueryResult(data.umumResultQuery);
+        // 👇️ sort by String property ASCENDING (A - Z)
+        const desc = data.umumResultQuery.sort((a, b) =>
+          a.statusReten > b.statusReten ? 1 : -1
+        );
+        setQueryResult(desc);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     query();
-  }, [nama, tarikhKedatangan, jenisFasiliti, reloadState]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -56,6 +101,17 @@ function UserUmum() {
     });
     setResultPilih(resultFilter);
   }, [pilih]);
+
+  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram
+  useEffect(() => {
+    setPilih('');
+    setResultPilih([]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram]);
+
+  // clear program if change jenisFasiliti
+  useEffect(() => {
+    setJenisProgram('');
+  }, [jenisFasiliti]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -72,85 +128,132 @@ function UserUmum() {
       return;
     }
     if (modalHapus) {
-      try {
-        await axios.delete(`/api/v1/umum/${singlePerson}`, {
+      await toast.promise(
+        axios.delete(`/api/v1/umum/${singlePerson}`, {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
-        });
-        setModalHapus(false);
-        toast.success('Data berjaya dihapus');
-        setReloadState(!reloadState);
-      } catch (error) {
-        console.log(error);
-      }
+        }),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+      setPilih('');
+      setResultPilih([]);
     }
   };
 
   return (
     <>
       <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
-        <form className='text-left grid grid-cols-2'>
-          <h2 className='text-xl font-semibold flex flex-row p-2 col-span-2'>
-            CARIAN
+        <form className='text-left grid grid-cols-1 lg:grid-cols-3'>
+          <h2 className='text-xl font-semibold flex flex-row px-2 lg:col-span-3'>
+            CARIAN PESAKIT UMUM
           </h2>
-          <label
-            htmlFor='nama-pesakit'
-            className='flex flex-row p-2 col-span-2'
-          >
-            nama pesakit
-          </label>
-          <input
-            onChange={(e) => {
-              setNama(e.target.value);
-            }}
-            value={nama}
-            type='text'
-            name='nama-pesakit'
-            id='nama-pesakit'
-            className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 mb-2'
-          />
-          <div className='m-2 col-span-2 lg:col-span-1'>
-            <label htmlFor='kad-pengenalan'>tarikh kedatangan :</label>
+          <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
+            <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
+              nama pesakit :
+            </label>
             <input
               onChange={(e) => {
-                setTarikhKedatangan(e.target.value);
+                setNama(e.target.value);
               }}
-              value={tarikhKedatangan}
-              type='date'
-              name='tarikh-kedatangan'
-              id='tarikh-kedatangan'
-              className='outline outline-1 outline-user1 ml-3 rounded-md p-1'
+              value={nama}
+              type='text'
+              name='nama-pesakit'
+              id='nama-pesakit'
+              className='appearance-none leading-7 py-1 px-3 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
             />
+            <span className='absolute text-user3 bottom-4 lg:bottom-6 text-xl right-2'>
+              <BsPersonCircle />
+            </span>
           </div>
-          <div className='m-2 col-span-2 lg:col-span-1'>
-            <label className='' htmlFor='jenis-fasiliti'>
+          <div className='mx-2 flex flex-col mb-2'>
+            <label
+              htmlFor='kad-pengenalan'
+              className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
+            >
+              tarikh kedatangan :
+            </label>
+            <div className='relative w-64'>
+              <TarikhKedatangan />
+              <span className='absolute top-2 right-3 lg:right-2 text-user3'>
+                <BsCalendarPlusFill />
+              </span>
+            </div>
+          </div>
+          <div className='mx-2 flex flex-col mb-2'>
+            <label
+              className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
+              htmlFor='jenis-fasiliti'
+            >
               pilih jenis fasiliti:
             </label>
-            <select
-              name='jenis-fasiliti'
-              id='jenis-fasiliti'
-              value={jenisFasiliti}
-              onChange={(e) => {
-                setJenisFasiliti(e.target.value);
-              }}
-              className='ml-3 border border-adminBlack rounded-md p-1'
-            >
-              <option value='kp'>Klinik Pergigian</option>
-              <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
-              <option value='taska-tadika'>Taska / Tadika</option>
-              <option value='ipt-kolej'>IPT / KOLEJ</option>
-              <option value='orang-asli'>Orang asli</option>
-              <option value='ppr'>PPR</option>
-              <option value='institusi-warga-emas'>Institusi warga emas</option>
-              <option value='institusi-oku'>Institusi OKU</option>
-              <option value='kampung-angkat'>Kampung angkat</option>
-              <option value='projek-komuniti-lain'>Projek komuniti lain</option>
-              {/* <option value='rtc-kelantan'>RTC (Kelantan sahaja)</option> */}
-            </select>
+            <div className='relative w-64'>
+              <select
+                name='jenis-fasiliti'
+                id='jenis-fasiliti'
+                value={jenisFasiliti}
+                onChange={(e) => {
+                  setJenisFasiliti(e.target.value);
+                }}
+                className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+              >
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+                <option value='taska-tadika'>Taska / Tadika</option>
+                <option value='ipt-kolej'>IPT / KOLEJ</option>
+                <option value='projek-komuniti-lain'>
+                  Projek komuniti lain
+                </option>
+              </select>
+              <span>
+                <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
+              </span>
+            </div>
           </div>
+          {jenisFasiliti === 'projek-komuniti-lain' && (
+            <div className='mx-2 flex flex-col mb-2'>
+              <label
+                className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
+                htmlFor='jenis-program'
+              >
+                jenis program:
+              </label>
+              <div className='relative w-64'>
+                <select
+                  name='jenis-program'
+                  id='jenis-program'
+                  value={jenisProgram}
+                  onChange={(e) => {
+                    setJenisProgram(e.target.value);
+                  }}
+                  className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+                >
+                  <option value=''>Jenis Program / Aktiviti</option>
+                  <option value='projek-komuniti'>Projek Komuniti</option>
+                  <option value='ppkps'>Program Pemasyarakatan</option>
+                  <option value='kgangkat'>Kampung Angkat Pergigian</option>
+                  <option value='ppr'>Projek Perumahan Rakyat</option>
+                  <option value='we'>Institusi Warga Emas</option>
+                  <option value='oku'>Institusi OKU / PDK</option>
+                  <option value='oap'>Program Orang Asli dan Penan</option>
+                </select>
+                <span>
+                  <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
+                </span>
+              </div>
+            </div>
+          )}
         </form>
         <section className='my-5 p-1 outline outline-1 outline-user1'>
           <h2 className='text-xl font-semibold flex flex-row pl-12 p-2'>
@@ -163,31 +266,37 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    NO. SIRI
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    MASA DAFTAR
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     NO. PENDAFTARAN
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                     NAMA PESAKIT
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    JENIS FASILITI
-                  </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     KAD PENGENALAN
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    TARIKH LAWATAN TERAKHIR
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    STATUS PESAKIT
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  {jenisFasiliti !== 'projek-komuniti-lain' ? (
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      OPERATOR
+                    </th>
+                  ) : (
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      EVENT
+                    </th>
+                  )}
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     STATUS PENGISIAN RETEN
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
-                  {status === 'admin' ? (
+                  {userinfo.role === 'admin' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       HAPUS
                     </th>
@@ -211,7 +320,7 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.noSiri}
+                          {formatTime(singlePersonUmum.waktuSampai)}
                         </td>
                         {singlePersonUmum.noPendaftaranBaru ? (
                           <td
@@ -219,7 +328,13 @@ function UserUmum() {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.noPendaftaranBaru}
+                            {noPendaftaranSplitter(
+                              singlePersonUmum.noPendaftaranBaru
+                            )}
+                            <BsPersonCircle
+                              className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
+                              title='Baru'
+                            />
                           </td>
                         ) : (
                           <td
@@ -227,7 +342,13 @@ function UserUmum() {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.noPendaftaranUlangan}
+                            {noPendaftaranSplitter(
+                              singlePersonUmum.noPendaftaranUlangan
+                            )}
+                            <BsPersonCircle
+                              className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
+                              title='Ulangan'
+                            />
                           </td>
                         )}
                         <td
@@ -242,13 +363,6 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {Dictionary[singlePersonUmum.jenisFasiliti]}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
                           {singlePersonUmum.ic.toUpperCase()}
                         </td>
                         <td
@@ -256,14 +370,48 @@ function UserUmum() {
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.tarikhKedatangan}
+                          {statusPesakit(singlePersonUmum)}
                         </td>
+                        {jenisFasiliti !== 'projek-komuniti-lain' ? (
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.createdByUsername === 'kaunter'
+                              ? null
+                              : singlePersonUmum.createdByUsername}
+                          </td>
+                        ) : (
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.namaProgram}
+                          </td>
+                        )}
                         <td
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {singlePersonUmum.statusReten}
+                          {singlePersonUmum.statusReten === 'belum diisi' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Belum Diisi</span>
+                              <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : singlePersonUmum.statusKehadiran === true ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>data tiada</strike>
+                              <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
+                            </div>
+                          ) : (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Selesai Diisi</span>
+                              <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                            </div>
+                          )}
                         </td>
                         <td
                           onClick={() => {
@@ -276,7 +424,7 @@ function UserUmum() {
                         >
                           <u>PILIH</u>
                         </td>
-                        {status === 'admin' ? (
+                        {userinfo.role === 'admin' ? (
                           <td
                             onClick={() => {
                               setOperasiHapus(true);
@@ -293,13 +441,114 @@ function UserUmum() {
                     </tbody>
                   );
                 })}
+              {isLoading && (
+                <tbody className='bg-user4'>
+                  <tr>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    {userinfo.role === 'admin' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                  </tr>
+                  <tr>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    {userinfo.role === 'admin' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                  </tr>
+                  <tr>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                    </td>
+                    {userinfo.role === 'admin' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                  </tr>
+                </tbody>
+              )}
             </table>
           </div>
-          {isLoading && (
-            <p className='text-xl font-semibold flex justify-center p-4'>
-              <Spinner color='#1f315f' />
-            </p>
-          )}
         </section>
         <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
           {resultPilih.map((singlePersonUmum) => {
@@ -346,7 +595,7 @@ function UserUmum() {
                   </div>
                   {operasiHapus ? (
                     <button
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 capitalize bg-user9 hover:bg-user1 hover:text-userWhite transition-all'
                       onClick={() => {
                         setModalHapus(true);
                       }}
@@ -364,7 +613,7 @@ function UserUmum() {
                   )}
                 </div>
                 {modalHapus ? (
-                  <DeleteModal
+                  <UserUmumDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}

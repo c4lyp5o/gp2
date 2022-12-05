@@ -3,11 +3,15 @@ const Runningnumber = require('./Runningnumber');
 
 const UmumSchema = new mongoose.Schema(
   {
+    // soft delete
+    deleted: { type: Boolean, default: false },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
+    createdByMdcMdtb: { type: String, default: '' },
+    // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
     uniqueId: { type: String },
@@ -21,6 +25,8 @@ const UmumSchema = new mongoose.Schema(
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
+    nomborTelefon: { type: String, default: '' },
+    emel: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
@@ -30,8 +36,8 @@ const UmumSchema = new mongoose.Schema(
     daerahAlamat: { type: String, default: '' },
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
-    // kategoriPesakit: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
+    episodeMengandung: { type: String, default: '' },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
@@ -52,13 +58,9 @@ const UmumSchema = new mongoose.Schema(
     labelMakmalPergigianBergerak: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
-    // jenisTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
     enrolmenTaskaTadika: { type: Boolean, default: false },
-    // engganTaskaTadika: { type: Boolean, default: false },
-    // tidakHadirTaskaTadika: { type: Boolean, default: false },
-    // pemeriksaanTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },
@@ -77,8 +79,19 @@ const UmumSchema = new mongoose.Schema(
     institusiOku: { type: String, default: '' },
     // kampung angkat
     kgAngkat: { type: String, default: '' },
+    // program based
+    jenisProgram: { type: String, default: 'NOT APPLICABLE' },
+    namaProgram: { type: String, default: 'NOT APPLICABLE' },
     // end of kaunter -------------------------------------------
     //pemeriksaan
+    statusKehadiran: {
+      type: Boolean,
+      default: false,
+    },
+    waktuDipanggil: {
+      type: String,
+      default: '',
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,

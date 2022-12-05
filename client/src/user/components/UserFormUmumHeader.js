@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 import { Spinner } from 'react-awesome-spinners';
-
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import moment from 'moment';
 
 import Kemaskini from './form-umum/Kemaskini';
 // import FasilitiPerkhidmatan from './form-umum/FasilitiPerkhidmatan';
@@ -13,15 +12,19 @@ import Rawatan from './form-umum/Rawatan';
 import Promosi from './form-umum/Promosi';
 // import Kotak from './form-umum/Kotak';
 
+import Confirmation from './UserFormUmumConfirmation';
+
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 function UserFormUmumHeader() {
   const {
     userToken,
     reliefUserToken,
     username,
-    navigate,
-    catchAxiosErrorAndLogout,
+    userinfo,
     useParams,
     toast,
+    Dictionary,
   } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
@@ -35,6 +38,8 @@ function UserFormUmumHeader() {
   const masterForm = {};
   masterForm.createdByUsername = username;
   const [statusReten, setStatusReten] = useState('');
+  masterForm.statusReten = statusReten;
+  masterForm.setStatusReten = setStatusReten;
   //fasiliti perkhidmatan
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   masterForm.jenisFasiliti = jenisFasiliti;
@@ -219,6 +224,12 @@ function UserFormUmumHeader() {
   masterForm.swastaInstitusiWargaEmas = swastaInstitusiWargaEmas;
   masterForm.setSwastaInstitusiWargaEmas = setSwastaInstitusiWargaEmas;
   //pemeriksaan
+  const [statusKehadiran, setStatusKehadiran] = useState(false);
+  masterForm.statusKehadiran = statusKehadiran;
+  masterForm.setStatusKehadiran = setStatusKehadiran;
+  const [waktuDipanggil, setWaktuDipanggil] = useState('');
+  masterForm.waktuDipanggil = waktuDipanggil;
+  masterForm.setWaktuDipanggil = setWaktuDipanggil;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -383,11 +394,11 @@ function UserFormUmumHeader() {
   masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
   masterForm.setDAdaGigiDesidusPemeriksaanUmum =
     setDAdaGigiDesidusPemeriksaanUmum;
-  const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setMAdaGigiDesidusPemeriksaanUmum =
-    setMAdaGigiDesidusPemeriksaanUmum;
+  // const [mAdaGigiDesidusPemeriksaanUmum, setMAdaGigiDesidusPemeriksaanUmum] =
+  //   useState('');
+  // masterForm.mAdaGigiDesidusPemeriksaanUmum = mAdaGigiDesidusPemeriksaanUmum;
+  // masterForm.setMAdaGigiDesidusPemeriksaanUmum =
+  //   setMAdaGigiDesidusPemeriksaanUmum;
   const [fAdaGigiDesidusPemeriksaanUmum, setFAdaGigiDesidusPemeriksaanUmum] =
     useState('');
   masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
@@ -1056,12 +1067,12 @@ function UserFormUmumHeader() {
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
   //promosi
-  const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
-  masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
-  masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
-  const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
-  masterForm.lmgPromosiUmum = lmgPromosiUmum;
-  masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
+  // const [ceramahPromosiUmum, setCeramahPromosiUmum] = useState('');
+  // masterForm.ceramahPromosiUmum = ceramahPromosiUmum;
+  // masterForm.setCeramahPromosiUmum = setCeramahPromosiUmum;
+  // const [lmgPromosiUmum, setLmgPromosiUmum] = useState('');
+  // masterForm.lmgPromosiUmum = lmgPromosiUmum;
+  // masterForm.setLmgPromosiUmum = setLmgPromosiUmum;
   const [
     melaksanakanAktivitiBeginPromosiUmum,
     setMelaksanakanAktivitiBeginPromosiUmum,
@@ -1201,18 +1212,16 @@ function UserFormUmumHeader() {
   useEffect(() => {
     setSumDMFXDesidusUmum(
       parseInt(dAdaGigiDesidusPemeriksaanUmum) +
-        parseInt(mAdaGigiDesidusPemeriksaanUmum) +
         parseInt(fAdaGigiDesidusPemeriksaanUmum) +
         parseInt(xAdaGigiDesidusPemeriksaanUmum)
     );
   }, [
     dAdaGigiDesidusPemeriksaanUmum,
-    mAdaGigiDesidusPemeriksaanUmum,
     fAdaGigiDesidusPemeriksaanUmum,
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
 
-  // calculate total DMFEX
+  // calculate total DMFXE
   useEffect(() => {
     setSumDMFXKekalUmum(
       parseInt(dAdaGigiKekalPemeriksaanUmum) +
@@ -1313,6 +1322,8 @@ function UserFormUmumHeader() {
           data.singlePersonUmum.swastaInstitusiWargaEmas
         );
         //map pemeriksaan
+        setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
+        setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
         setAdaCleftLipPemeriksaanUmum(
           data.singlePersonUmum.adaCleftLipPemeriksaanUmum
         );
@@ -1366,7 +1377,7 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum
         );
-        // kotak masuk sini
+        //kotak masuk sini
         setStatusMPemeriksaanUmum(data.singlePersonUmum.statusMPemeriksaanUmum);
         setJenisRPemeriksaanUmum(data.singlePersonUmum.jenisRPemeriksaanUmum);
         setKebersihanMulutOralHygienePemeriksaanUmum(
@@ -1387,9 +1398,9 @@ function UserFormUmumHeader() {
         setDAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
         );
-        setMAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
-        );
+        // setMAdaGigiDesidusPemeriksaanUmum(
+        //   data.singlePersonUmum.mAdaGigiDesidusPemeriksaanUmum
+        // );
         setFAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
         );
@@ -1469,7 +1480,7 @@ function UserFormUmumHeader() {
         setTampalanKesEndodontikDiperlukanPemeriksaanUmum(
           data.singlePersonUmum.tampalanKesEndodontikDiperlukanPemeriksaanUmum
         );
-        //map rawatan umum
+        //map rawatan
         setPesakitDibuatFissureSealant(
           data.singlePersonUmum.pesakitDibuatFissureSealant
         );
@@ -1686,8 +1697,8 @@ function UserFormUmumHeader() {
         );
         setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
         //map promosi
-        setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
-        setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
+        // setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
+        // setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
         setMelaksanakanAktivitiBeginPromosiUmum(
           data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
         );
@@ -1757,15 +1768,22 @@ function UserFormUmumHeader() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    let mdcMdtbNum;
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
     await toast
       .promise(
         axios.patch(
           `/api/v1/umum/${personUmumId}`,
           {
             createdByUsername: masterForm.createdByUsername,
+            createdByMdcMdtb: mdcMdtbNum,
             statusReten: 'telah diisi',
-            // fasiliti perkhidmatan
+            //fasiliti perkhidmatan
             jenisFasiliti,
             kepp,
             jenisProgramKomuniti,
@@ -1802,7 +1820,9 @@ function UserFormUmumHeader() {
             institusiWargaEmas,
             kerajaanInstitusiWargaEmas,
             swastaInstitusiWargaEmas,
-            // pemeriksaan
+            //pemeriksaan
+            statusKehadiran,
+            waktuDipanggil,
             adaCleftLipPemeriksaanUmum,
             rujukCleftLipPemeriksaanUmum,
             yaTidakSediaAdaStatusDenturePemeriksaanUmum,
@@ -1821,7 +1841,7 @@ function UserFormUmumHeader() {
             prrJenis1PemeriksaanUmum,
             baruJumlahGigiKekalPerluPRRJenis1RawatanUmum,
             yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum,
-            // kotak masuk sini
+            //kotak masuk sini
             statusMPemeriksaanUmum,
             jenisRPemeriksaanUmum,
             kebersihanMulutOralHygienePemeriksaanUmum,
@@ -1830,7 +1850,7 @@ function UserFormUmumHeader() {
             perluPenskaleranPemeriksaanUmum,
             adaDesidusPemeriksaanUmum,
             dAdaGigiDesidusPemeriksaanUmum,
-            mAdaGigiDesidusPemeriksaanUmum,
+            // mAdaGigiDesidusPemeriksaanUmum,
             fAdaGigiDesidusPemeriksaanUmum,
             // smAdaGigiDesidusPemeriksaanUmum,
             xAdaGigiDesidusPemeriksaanUmum,
@@ -1928,8 +1948,8 @@ function UserFormUmumHeader() {
             komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
             kesSelesaiRawatanUmum,
             //promosi
-            ceramahPromosiUmum,
-            lmgPromosiUmum,
+            // ceramahPromosiUmum,
+            // lmgPromosiUmum,
             melaksanakanAktivitiBeginPromosiUmum,
             lawatanKeRumahPromosiUmum,
             plakGigiNasihatPergigianIndividuPromosiUmum,
@@ -1986,167 +2006,186 @@ function UserFormUmumHeader() {
   };
 
   return (
-    <>
-      <div className='h-full p-1 grid'>
-        <div className='p-2'>
-          <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pb-2'>
-            {!isLoading && (
-              <div>
-                <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                  <h1>MAKLUMAT AM PESAKIT</h1>
-                  <FaInfoCircle
-                    className='hover:cursor-pointer m-1 text-lg'
-                    onMouseEnter={() => setIsShown(true)}
-                    onMouseLeave={() => setIsShown(false)}
-                  />
-                  <button
-                    onClick={kemaskini}
-                    className='float-left px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-md text-xs font-medium'
-                  >
-                    kemaskini
-                  </button>
-                </div>
-                {isShown && (
-                  <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
-                    <div className='flex flex-row text-sm'>
-                      <h2 className='font-semibold'>NAMA :</h2>
-                      <p className='ml-1'>{singlePersonUmum.nama}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>IC/PASSPORT :</h2>
-                      <p className='ml-1'>{singlePersonUmum.ic}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>JANTINA :</h2>
-                      <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                      <p className='ml-1'>{singlePersonUmum.tarikhLahir}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>UMUR :</h2>
-                      <p className='ml-1'>
-                        {singlePersonUmum.umur} tahun{' '}
-                        {singlePersonUmum.umurBulan} bulan
-                      </p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
-                      <p className='ml-1'>{singlePersonUmum.kumpulanEtnik}</p>
-                    </div>
-                    <div className='text-sm flex flex-row '>
-                      <h2 className='font-semibold'>KEDATANGAN :</h2>
-                      <p className='ml-1'>{singlePersonUmum.kedatangan}</p>
+    <Confirmation callbackFunction={handleSubmit} data={masterForm}>
+      {(confirm) => (
+        <>
+          <div className='h-full p-1 grid grid-rows-[1fr_7fr]'>
+            <div className='p-2'>
+              <article className='outline outline-1 outline-userBlack flex flex-col pb-2'>
+                {!isLoading && (
+                  <div>
+                    <div className='text-l font-bold flex flex-col md:flex-row pl-5 p-2'>
+                      <h1 className='flex flex-row'>MAKLUMAT AM PESAKIT</h1>
+                      <div className='flex flex-row'>
+                        <div className='relative md:ml-2'>
+                          <span
+                            className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-l-md px-2 py-1 capitalize transition-all whitespace-nowrap'
+                            onMouseEnter={() => setIsShown(true)}
+                            onMouseLeave={() => setIsShown(false)}
+                          >
+                            Fasiliti :{' '}
+                            {Dictionary[singlePersonUmum.jenisFasiliti]}
+                          </span>
+                          {isShown && (
+                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
+                              <div className='flex flex-row text-sm'>
+                                <h2 className='font-semibold  whitespace-nowrap'>
+                                  NAMA :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.nama}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold whitespace-nowrap'>
+                                  IC/PASSPORT :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.ic}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>JANTINA :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.jantina}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>
+                                  TARIKH LAHIR :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {moment(singlePersonUmum.tarikhLahir).format(
+                                    'DD/MM/YYYY'
+                                  )}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>UMUR :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.umur} tahun{' '}
+                                  {singlePersonUmum.umurBulan} bulan
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>
+                                  KUMPULAN ETNIK :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.kumpulanEtnik}
+                                </p>
+                              </div>
+                              <div className='text-sm flex flex-row '>
+                                <h2 className='font-semibold'>KEDATANGAN :</h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {singlePersonUmum.kedatangan ===
+                                  'baru-kedatangan'
+                                    ? 'Baru'
+                                    : 'Ulangan'}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                          <span
+                            onClick={kemaskini}
+                            className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium cursor-pointer'
+                          >
+                            Kemaskini
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
-                <div className='text-s flex flex-row pl-5'>
-                  <h2 className='font-semibold text-xs'>NAMA :</h2>
-                  <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
-                </div>
-              </div>
-            )}
-            {!isLoading && (
-              <>
-                <div className='md:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>JANTINA :</h2>
-                    <p className='ml-1 text-xs'>{singlePersonUmum.jantina}</p>
+                {!isLoading && (
+                  <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
+                    <div className='text-s flex flex-row pl-5'>
+                      <h2 className='font-semibold text-xs  whitespace-nowrap'>
+                        NAMA :
+                      </h2>
+                      <p className='ml-1 text-xs'>{singlePersonUmum.nama}</p>
+                    </div>
+                    <div className=''>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>JANTINA :</h2>
+                        <p className='ml-1 text-xs'>
+                          {singlePersonUmum.jantina}
+                        </p>
+                      </div>
+                    </div>
+                    <div className=''>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>IC/Passport :</h2>
+                        <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
+                      </div>
+                    </div>
+                    <div className=''>
+                      <div className='text-s flex flex-row pl-5'>
+                        <h2 className='font-semibold text-xs'>UMUR :</h2>
+                        <p className='ml-1 text-xs'>
+                          {singlePersonUmum.umur} tahun{' '}
+                          {singlePersonUmum.umurBulan} bulan
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className='lg:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>IC/Passport :</h2>
-                    <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
-                  </div>
-                </div>
-                <div className='lg:pt-11'>
-                  <div className='text-s flex flex-row pl-5'>
-                    <h2 className='font-semibold text-xs'>UMUR :</h2>
-                    <p className='ml-1 text-xs'>
-                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
-                      bulan
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
-            {isLoading && (
-              <p className='col-span-3 py-[15px] text-base font-semibold'>
-                <Spinner color='#1f315f' />
-              </p>
-            )}
-          </article>
-        </div>
-        {statusReten === 'belum diisi' && (
-          <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
-            <form onSubmit={handleSubmit}>
-              {/* <FasilitiPerkhidmatan {...masterForm} /> */}
-              {/* <MaklumatLanjut {...masterForm} /> */}
-              {singlePersonUmum.kedatangan !== 'ulangan-kedatangan' && (
+                )}
+                {isLoading && (
+                  <p className='col-span-3 py-[15px] text-base font-semibold'>
+                    <Spinner color='#1f315f' />
+                  </p>
+                )}
+              </article>
+            </div>
+            <div className='grid h-full overflow-scroll overflow-x-hidden gap-2'>
+              <form onSubmit={confirm(handleSubmit)}>
+                {/* <FasilitiPerkhidmatan {...masterForm} /> */}
+                {/* <MaklumatLanjut {...masterForm} /> */}
                 <Pemeriksaan
                   {...masterForm}
                   singlePersonUmum={singlePersonUmum}
                 />
-              )}
-              <Rawatan {...masterForm} />
-              <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
-              {/* <Kotak {...masterForm} /> */}
-              <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-                <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
-                  <span
-                    onClick={() => {
-                      window.opener = null;
-                      window.open('', '_self');
-                      window.close();
-                    }}
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  >
-                    tutup
-                  </span>
-                  <input
-                    type='reset'
-                    value='reset'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  />
-                  <button
-                    type='submit'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    hantar
-                  </button>
+                <Rawatan {...masterForm} />
+                <Promosi {...masterForm} singlePersonUmum={singlePersonUmum} />
+                {/* <Kotak {...masterForm} /> */}
+                <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
+                  <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                    <span
+                      onClick={() => {
+                        window.opener = null;
+                        window.open('', '_self');
+                        window.close();
+                      }}
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    >
+                      tutup
+                    </span>
+                    <input
+                      type='reset'
+                      value='reset'
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    />
+                    <button
+                      type='submit'
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      hantar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        )}
-        {statusReten === 'telah diisi' && (
-          <>
-            <div>
-              reten telah diisi
-              <span
-                onClick={() => {
-                  window.opener = null;
-                  window.open('', '_self');
-                  window.close();
-                }}
-                className='flex bg-user3 p-2 w-1/12 m-auto capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-              >
-                tutup
-              </span>
+              </form>
             </div>
-          </>
-        )}
-        {showKemaskini && (
-          <Kemaskini
-            showKemaskini={showKemaskini}
-            setShowKemaskini={setShowKemasKini}
-            toast={toast}
-          />
-        )}
-      </div>
-    </>
+            {showKemaskini && (
+              <Kemaskini
+                showKemaskini={showKemaskini}
+                setShowKemaskini={setShowKemasKini}
+                toast={toast}
+              />
+            )}
+          </div>
+        </>
+      )}
+    </Confirmation>
   );
 }
 

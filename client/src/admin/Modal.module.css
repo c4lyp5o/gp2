@@ -9,11 +9,29 @@
   position: absolute;
 }
 
+.superdarkBG {
+  background-color: rgb(0, 0, 0);
+  width: 100vw;
+  height: 100%;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
 .centered {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.imagesCentered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 .modal {
@@ -49,6 +67,26 @@
 .modalDelete {
   width: 25rem;
   height: 20rem;
+  background: white;
+  color: white;
+  z-index: 50;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
+.modalEvent {
+  width: 25rem;
+  height: 30rem;
+  background: white;
+  color: white;
+  z-index: 50;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
+.modalPromosi {
+  width: 88rem;
+  height: 40rem;
   background: white;
   color: white;
   z-index: 50;

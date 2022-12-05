@@ -1,13 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 function UserDashboard() {
+  const { refreshTimer, setRefreshTimer, kicker, kickerNoti } =
+    useGlobalUserAppContext();
   const [showAccordian1, setShowAccordian1] = useState(true);
   const [showAccordian2, setShowAccordian2] = useState(true);
   const [showAccordian3, setShowAccordian3] = useState(true);
 
   const [rankingSekolahRendah, setRankingSekolahRendah] = useState(true);
   const [rankingSekolahMenengah, setRankingSekolahMenengah] = useState(false);
+
+  useEffect(() => {
+    setRefreshTimer(!refreshTimer);
+  }, []);
 
   return (
     <>

@@ -2,12 +2,20 @@ import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahRawatan() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    dateToday,
+    username,
+    useParams,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -17,38 +25,18 @@ function UserFormSekolahRawatan() {
 
   const createdByUsername = username;
   const [tarikhRawatanSemasa, setTarikhRawatanSemasa] = useState('');
+  const [engganTidakHadirRawatan, setEngganTidakHadirRawatan] = useState('');
   const [muridDibuatFs, setMuridDibuatFs] = useState(false);
   const [baruJumlahGigiKekalDibuatFs, setBaruJumlahGigiKekalDibuatFs] =
     useState(0);
-  // const [semulaJumlahGigiKekalDibuatFs, setSemulaJumlahGigiKekalDibuatFs] =
-  //   useState(0);
-  // const [baruJumlahMuridDibuatFs, setBaruJumlahMuridDibuatFs] = useState(0);
-  // const [semulaJumlahMuridDibuatFs, setSemulaJumlahMuridDibuatFs] = useState(0);
-  // const [sumDibuatFs, setSumDibuatFs] = useState(0);
   const [muridDiberiFv, setMuridDiberiFv] = useState(false);
   const [baruJumlahGigiKekalDiberiFv, setBaruJumlahGigiKekalDiberiFv] =
     useState(0);
-  // const [semulaJumlahGigiKekalDiberiFv, setSemulaJumlahGigiKekalDiberiFv] =
-  //   useState(0);
-  // const [sumDiberiFv, setSumDiberiFv] = useState(0);
-  // const [baruJumlahMuridDiberiFv, setBaruJumlahMuridDiberiFv] = useState(0);
-  // const [semulaJumlahMuridDiberiFv, setSemulaJumlahMuridDiberiFv] = useState(0);
   const [muridDiberiPrrJenis1, setMuridDiberiPrrJenis1] = useState(false);
   const [
     baruJumlahGigiKekalDiberiPrrJenis1,
     setBaruJumlahGigiKekalDiberiPrrJenis1,
   ] = useState(0);
-  // const [
-  //   semulaJumlahGigiKekalDiberiPrrJenis1,
-  //   setSemulaJumlahGigiKekalDiberiPrrJenis1,
-  // ] = useState(0);
-  // const [sumDiberiPrr, setSumDiberiPrr] = useState(0);
-  // const [baruJumlahMuridDiberiPrrJenis1, setBaruJumlahMuridDiberiPrrJenis1] =
-  //   useState(0);
-  // const [
-  //   semulaJumlahMuridDiberiPrrJenis1,
-  //   setSemulaJumlahMuridDiberiPrrJenis1,
-  // ] = useState(0);
   const [baruJumlahGigiYangDiberiSdf, setBaruJumlahGigiYangDiberiSdf] =
     useState(0);
   const [semulaJumlahGigiYangDiberiSdf, setSemulaJumlahGigiYangDiberiSdf] =
@@ -117,9 +105,28 @@ function UserFormSekolahRawatan() {
   const [kesSelesaiIcdasSekolahRawatan, setKesSelesaiIcdasSekolahRawatan] =
     useState(false);
   const [rujukSekolahRawatan, setRujukSekolahRawatan] = useState(false);
-  const [ceramahPromosiSekolahRawatan, setCeramahPromosiSekolahRawatan] =
-    useState('');
-  const [lmgPromosiSekolahRawatan, setLmgPromosiSekolahRawatan] = useState('');
+  const [
+    rujukCabutanGigiKekalSekolahRawatan,
+    setRujukCabutanGigiKekalSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanEndodontikSekolahRawatan,
+    setRujukRawatanEndodontikSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanOrtodontikSekolahRawatan,
+    setRujukRawatanOrtodontikSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukRawatanPeriodontikSekolahRawatan,
+    setRujukRawatanPeriodontikSekolahRawatan,
+  ] = useState(false);
+  const [rujukLainLainSekolahRawatan, setRujukLainLainSekolahRawatan] =
+    useState(false);
+  const [
+    rujukLainLainTulisSekolahRawatan,
+    setRujukLainLainTulisSekolahRawatan,
+  ] = useState('');
   const [
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
@@ -145,32 +152,24 @@ function UserFormSekolahRawatan() {
     setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
   ] = useState(false);
 
-  // calculate total dibuat FS
-  // useEffect(() => {
-  //   setSumDibuatFs(
-  //     parseInt(baruJumlahGigiKekalDibuatFs) +
-  //       parseInt(semulaJumlahGigiKekalDibuatFs)
-  //   );
-  // }, [baruJumlahGigiKekalDibuatFs, semulaJumlahGigiKekalDibuatFs]);
-
-  // calculate total diberi FV
-  // useEffect(() => {
-  //   setSumDiberiFv(
-  //     parseInt(baruJumlahGigiKekalDiberiFv) +
-  //       parseInt(semulaJumlahGigiKekalDiberiFv)
-  //   );
-  // }, [baruJumlahGigiKekalDiberiFv, semulaJumlahGigiKekalDiberiFv]);
-
-  // calculate total diberi PRR
-  // useEffect(() => {
-  //   setSumDiberiPrr(
-  //     parseInt(baruJumlahGigiKekalDiberiPrrJenis1) +
-  //       parseInt(semulaJumlahGigiKekalDiberiPrrJenis1)
-  //   );
-  // }, [
-  //   baruJumlahGigiKekalDiberiPrrJenis1,
-  //   semulaJumlahGigiKekalDiberiPrrJenis1,
-  // ]);
+  // tarikh rawatan
+  const [tarikhRawatanSemasaDatePicker, setTarikhRawatanSemasaDatePicker] =
+    useState(null);
+  const TarikhRawatanSemasa = () => {
+    return masterDatePicker({
+      selected: tarikhRawatanSemasaDatePicker,
+      onChange: (tarikhRawatanSemasa) => {
+        const tempDate = moment(tarikhRawatanSemasa).format('YYYY-MM-DD');
+        setTarikhRawatanSemasa(tempDate);
+        setTarikhRawatanSemasaDatePicker(tarikhRawatanSemasa);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+    });
+  };
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -198,24 +197,6 @@ function UserFormSekolahRawatan() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (sumDibuatFs > 16) {
-    //   toast.error('Jumlah dibuat FS tidak boleh lebih dari 16', {
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
-    // if (sumDiberiFv > 16) {
-    //   toast.error('Jumlah diberi FV tidak boleh lebih dari 16', {
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
-    // if (sumDiberiPrr > 16) {
-    //   toast.error('Jumlah diberi PRR tidak boleh lebih dari 16', {
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
     let statusRawatan = '';
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';
@@ -233,19 +214,10 @@ function UserFormSekolahRawatan() {
             tarikhRawatanSemasa,
             baruJumlahGigiKekalDibuatFs,
             muridDibuatFs,
-            // semulaJumlahGigiKekalDibuatFs,
-            // baruJumlahMuridDibuatFs,
-            // semulaJumlahMuridDibuatFs,
             muridDiberiFv,
             baruJumlahGigiKekalDiberiFv,
-            // semulaJumlahGigiKekalDiberiFv,
-            // baruJumlahMuridDiberiFv,
-            // semulaJumlahMuridDiberiFv,
             muridDiberiPrrJenis1,
             baruJumlahGigiKekalDiberiPrrJenis1,
-            // semulaJumlahGigiKekalDiberiPrrJenis1,
-            // baruJumlahMuridDiberiPrrJenis1,
-            // semulaJumlahMuridDiberiPrrJenis1,
             baruJumlahGigiYangDiberiSdf,
             semulaJumlahGigiYangDiberiSdf,
             gdBaruAnteriorSewarnaJumlahTampalanDibuat,
@@ -270,8 +242,12 @@ function UserFormSekolahRawatan() {
             kesSelesaiSekolahRawatan,
             kesSelesaiIcdasSekolahRawatan,
             rujukSekolahRawatan,
-            ceramahPromosiSekolahRawatan,
-            lmgPromosiSekolahRawatan,
+            rujukCabutanGigiKekalSekolahRawatan,
+            rujukRawatanEndodontikSekolahRawatan,
+            rujukRawatanOrtodontikSekolahRawatan,
+            rujukRawatanPeriodontikSekolahRawatan,
+            rujukLainLainSekolahRawatan,
+            rujukLainLainTulisSekolahRawatan,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
             yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -383,24 +359,58 @@ function UserFormSekolahRawatan() {
             </span>
             <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
-                <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                  tarikh rawatan
+                <h4 className='font-bold flex flex-row pl-5 col-span-2 pb-2'>
+                  kedatangan
                 </h4>
-                <div className='grid grid-cols-2'>
-                  <p className='flex items-center justify-center text-m font-m'>
+                <div className='flex flex-row'>
+                  <p className='flex items-center flex-row text-m font-m px-5 '>
                     tarikh:<span className='text-user6'>*</span>
                   </p>
+                  <TarikhRawatanSemasa />
+                </div>
+                <div className='flex items-center flex-row pl-5'>
                   <input
-                    required
-                    type='date'
-                    name='tarikh-rawatan'
-                    id='tarikh-rawatan'
-                    value={tarikhRawatanSemasa}
+                    type='radio'
+                    name='enggan-tidak-hadir-rawatan'
+                    id='enggan-rawatan'
+                    value='enggan-rawatan'
+                    checked={
+                      engganTidakHadirRawatan === 'enggan-rawatan'
+                        ? true
+                        : false
+                    }
                     onChange={(e) => {
-                      setTarikhRawatanSemasa(e.target.value);
+                      setEngganTidakHadirRawatan(e.target.value);
                     }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m'
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
+                  <label
+                    htmlFor='enggan-rawatan'
+                    className='m-2 text-xs sm:text-sm font-m'
+                  >
+                    enggan
+                  </label>
+                  <input
+                    type='radio'
+                    name='enggan-tidak-hadir-rawatan'
+                    id='tidak-hadir-rawatan'
+                    value='tidak-hadir-rawatan'
+                    checked={
+                      engganTidakHadirRawatan === 'tidak-hadir-rawatan'
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      setEngganTidakHadirRawatan(e.target.value);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='tidak-hadir-rawatan'
+                    className='m-2 text-xs sm:text-sm font-m'
+                  >
+                    tidak hadir
+                  </label>
                 </div>
               </article>
               <div className='grid gap-1 auto-rows-min'>
@@ -427,7 +437,7 @@ function UserFormSekolahRawatan() {
                       murid dibuat pengapan fisur
                     </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
                     <label
                       htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                       className='text-sm font-m'
@@ -448,78 +458,10 @@ function UserFormSekolahRawatan() {
                       required
                     />
                   </div>
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-gigi-kekal-dibuat-fs'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-gigi-kekal-dibuat-fs'
-                      id='semula-jumlah-gigi-kekal-dibuat-fs'
-                      value={semulaJumlahGigiKekalDibuatFs}
-                      onChange={(e) => {
-                        setSemulaJumlahGigiKekalDibuatFs(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
-                  {/* {sumDibuatFs > 16 && (
-                    <p className='col-span-2 text-user6 font-semibold'>
-                      jumlah baru & semula FS tidak boleh melebihi 16
-                    </p>
-                  )} */}
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='baru-jumlah-murid-dibuat-fs'
-                      className='text-sm font-m'
-                    >
-                      Baru
-                    </label>
-                    <input
-                      type='number'
-                      name='baru-jumlah-murid-dibuat-fs'
-                      id='baru-jumlah-murid-dibuat-fs'
-                      value={baruJumlahMuridDibuatFs}
-                      onChange={(e) => {
-                        setBaruJumlahMuridDibuatFs(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-murid-dibuat-fs'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-murid-dibuat-fs'
-                      id='semula-jumlah-murid-dibuat-fs'
-                      value={semulaJumlahMuridDibuatFs}
-                      onChange={(e) => {
-                        setSemulaJumlahMuridDibuatFs(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Sapuan Fluorida{' '}
+                    Sapuan Fluorida(FV)
                     <FaInfoCircle
                       title='Fluoride Varnish Application'
                       className='m-2'
@@ -537,105 +479,13 @@ function UserFormSekolahRawatan() {
                       className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
                     />
                     <label htmlFor='murid-diberi-fv' className='text-sm font-m'>
-                      murid diberi sapuan fluorida
+                      murid diberi Sapuan Fluorida(FV)
                     </label>
                   </div>
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='baru-jumlah-gigi-kekal-diberi-fv'
-                      className='text-sm font-m'
-                    >
-                      jumlah gigi kekal diberi sapuan fluorida
-                    </label>
-                    <input
-                      type='number'
-                      name='baru-jumlah-gigi-kekal-diberi-fv'
-                      id='baru-jumlah-gigi-kekal-diberi-fv'
-                      value={baruJumlahGigiKekalDiberiFv}
-                      onChange={(e) => {
-                        setBaruJumlahGigiKekalDiberiFv(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-gigi-kekal-diberi-fv'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-gigi-kekal-diberi-fv'
-                      id='semula-jumlah-gigi-kekal-diberi-fv'
-                      value={semulaJumlahGigiKekalDiberiFv}
-                      onChange={(e) => {
-                        setSemulaJumlahGigiKekalDiberiFv(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
-                  {/* {sumDiberiFv > 16 && (
-                    <p className='col-span-2 text-user6 font-semibold'>
-                      jumlah baru & semula FV tidak boleh melebihi 16
-                    </p>
-                  )} */}
-                  {/* <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    murid diberi FV
-                  </p>
-                  <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='baru-jumlah-murid-diberi-fv'
-                      className='text-sm font-m'
-                    >
-                      Baru
-                    </label>
-                    <input
-                      type='number'
-                      name='baru-jumlah-murid-diberi-fv'
-                      id='baru-jumlah-murid-diberi-fv'
-                      value={baruJumlahMuridDiberiFv}
-                      onChange={(e) => {
-                        setBaruJumlahMuridDiberiFv(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-murid-diberi-fv'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-murid-diberi-fv'
-                      id='semula-jumlah-murid-diberi-fv'
-                      value={semulaJumlahMuridDiberiFv}
-                      onChange={(e) => {
-                        setSemulaJumlahMuridDiberiFv(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
                 </article>
                 <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    PRR Jenis 1
+                    Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
                   </h4>
                   <div className='flex flex-row items-center pl-11 col-span-2'>
                     <input
@@ -652,10 +502,18 @@ function UserFormSekolahRawatan() {
                       htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
                       className='text-sm font-m'
                     >
-                      murid diberi PRR Jenis 1
+                      murid diberi Tampalan Resin Pencegahan Jenis 1 (PRR Type
+                      I)
                     </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5'>
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
+                    <label
+                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                      className='text-sm font-m'
+                    >
+                      jumlah gigi kekal perlu Tampalan Resin Pencegahan Jenis 1
+                      (PRR Type I)
+                    </label>
                     <input
                       type='number'
                       name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
@@ -669,81 +527,7 @@ function UserFormSekolahRawatan() {
                       max='16'
                       required
                     />
-                    <label
-                      htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                      className='text-sm font-m'
-                    >
-                      jumlah gigi kekal perlu PRR jenis 1
-                    </label>
                   </div>
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                      id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                      value={semulaJumlahGigiKekalDiberiPrrJenis1}
-                      onChange={(e) => {
-                        setSemulaJumlahGigiKekalDiberiPrrJenis1(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
-                  {/* {sumDiberiPrr > 16 && (
-                    <p className='col-span-2 text-user6 font-semibold'>
-                      jumlah baru & semula PRR tidak boleh melebihi 16
-                    </p>
-                  )} */}
-                  {/* <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
-                      className='text-sm font-m'
-                    >
-                      Baru
-                    </label>
-                    <input
-                      type='number'
-                      name='baru-jumlah-murid-diberi-prr-jenis-1'
-                      id='baru-jumlah-murid-diberi-prr-jenis-1'
-                      value={baruJumlahMuridDiberiPrrJenis1}
-                      onChange={(e) => {
-                        setBaruJumlahMuridDiberiPrrJenis1(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <label
-                      htmlFor='semula-jumlah-murid-diberi-prr-jenis-1'
-                      className='text-sm font-m'
-                    >
-                      Semula
-                    </label>
-                    <input
-                      type='number'
-                      name='semula-jumlah-murid-diberi-prr-jenis-1'
-                      id='semula-jumlah-murid-diberi-prr-jenis-1'
-                      value={semulaJumlahMuridDiberiPrrJenis1}
-                      onChange={(e) => {
-                        setSemulaJumlahMuridDiberiPrrJenis1(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      min='0'
-                      max='16'
-                      required
-                    />
-                  </div> */}
                 </article>
               </div>
               <div className='grid gap-1 auto-rows-min'>
@@ -1212,6 +996,7 @@ function UserFormSekolahRawatan() {
                       }}
                       className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
                       min='0'
+                      max='4'
                     />
                   </div>
                 </article>
@@ -1279,6 +1064,142 @@ function UserFormSekolahRawatan() {
                       rujuk
                     </label>
                   </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      id='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      checked={rujukCabutanGigiKekalSekolahRawatan}
+                      onChange={() => {
+                        setRujukCabutanGigiKekalSekolahRawatan(
+                          !rujukCabutanGigiKekalSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      cabutan gigi kekal
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      id='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      checked={rujukRawatanEndodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanEndodontikSekolahRawatan(
+                          !rujukRawatanEndodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-rawatan-endodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan endodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rawatan-ortodontik-penyata-akhir-2'
+                      id='rawatan-ortodontik-penyata-akhir-2'
+                      checked={rujukRawatanOrtodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanOrtodontikSekolahRawatan(
+                          !rujukRawatanOrtodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rawatan-ortodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan ortodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      id='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      checked={rujukRawatanPeriodontikSekolahRawatan}
+                      onChange={() => {
+                        setRujukRawatanPeriodontikSekolahRawatan(
+                          !rujukRawatanPeriodontikSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-rawatan-periodontik-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      rawatan periodontik
+                    </label>
+                  </div>
+                  <div
+                    className={`${
+                      !rujukSekolahRawatan && 'hidden'
+                    } flex flex-row items-center pl-5 m-2`}
+                  >
+                    <input
+                      type='checkbox'
+                      name='rujuk-lain-lain-penyata-akhir-2'
+                      id='rujuk-lain-lain-penyata-akhir-2'
+                      checked={rujukLainLainSekolahRawatan}
+                      onChange={() => {
+                        setRujukLainLainSekolahRawatan(
+                          !rujukLainLainSekolahRawatan
+                        );
+                      }}
+                      className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='rujuk-lain-lain-penyata-akhir-2'
+                      className='mx-2 text-sm font-m'
+                    >
+                      lain-lain
+                    </label>
+                    <div
+                      className={`${
+                        !rujukSekolahRawatan && 'hidden'
+                      } flex flex-row items-center`}
+                    >
+                      <input
+                        type='text'
+                        name='rujuk-lain-lain-tulis-rawatan'
+                        id='rujuk-lain-lain-tulis-rawatan'
+                        value={rujukLainLainTulisSekolahRawatan}
+                        onChange={(e) => {
+                          setRujukLainLainTulisSekolahRawatan(e.target.value);
+                        }}
+                        className='ml-4 px-2 py-1 ring-1 ring-user3 rounded-md focus:ring-2 focus:ring-user3 focus:outline-none'
+                      />
+                    </div>
+                  </div>
                 </article>
               </div>
               <div className='grid gap-2 auto-rows-min'>
@@ -1286,47 +1207,6 @@ function UserFormSekolahRawatan() {
                   <h4 className='font-bold flex flex-row pl-5'>
                     promosi & pendidikan kesihatan pergigian
                   </h4>
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      menyertai aktiviti
-                    </h4>
-                    <div className='grid grid-cols-1 lg:grid-cols-2'>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m'>Ceramah: </p>
-                        <select
-                          name='ceramah-promosi-penyata-akhir-2'
-                          id='ceramah-promosi-penyata-akhir-2'
-                          value={ceramahPromosiSekolahRawatan}
-                          onChange={(e) => {
-                            setCeramahPromosiSekolahRawatan(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                        >
-                          <option value=''></option>
-                          <option value='tiada'>Tiada</option>
-                          <option value='baru'>Baru</option>
-                          <option value='ulangan'>Ulangan</option>
-                        </select>
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m'>LMG: </p>
-                        <select
-                          name='lmg-promosi-penyata-akhir-2'
-                          id='lmg-promosi-penyata-akhir-2'
-                          value={lmgPromosiSekolahRawatan}
-                          onChange={(e) => {
-                            setLmgPromosiSekolahRawatan(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                        >
-                          <option value=''></option>
-                          <option value='tiada'>Tiada</option>
-                          <option value='baru'>Baru</option>
-                          <option value='ulangan'>Ulangan</option>
-                        </select>
-                      </div>
-                    </div>
-                  </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
                       melaksanakan aktiviti
@@ -1389,63 +1269,6 @@ function UserFormSekolahRawatan() {
                         </label>
                       </div>
                     </div>
-                    {/* <div className='flex items-center flex-row pl-5'>
-                      <p className='text-sm font-semibold flex items-center justify-center pr-3'>
-                        lawatan ke rumah :{' '}
-                      </p>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='radio'
-                          name='lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          id='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          value='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          checked={
-                            yaTidakLawatanKeRumahPromosiSekolahRawatan ===
-                            'ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setYaTidakLawatanKeRumahPromosiSekolahRawatan(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          required
-                        />
-                        <label
-                          htmlFor='ya-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-
-                        <input
-                          type='radio'
-                          name='lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          id='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          value='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          checked={
-                            yaTidakLawatanKeRumahPromosiSekolahRawatan ===
-                            'tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setYaTidakLawatanKeRumahPromosiSekolahRawatan(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-lawatan-ke-rumah-promosi-penyata-akhir-2'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                    </div> */}
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
@@ -1471,7 +1294,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penyakit pergigian
+                          nasihat berkaitan plak gigi
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1493,7 +1316,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          diet pemakanan
+                          nasihat berkaitan diet pemakanan
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1515,7 +1338,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          penjagaan kesihatan mulut
+                          nasihat berkaitan penjagaan kesihatan oral
                         </label>
                       </div>
                       <div className='flex items-center flex-row pl-5'>
@@ -1537,7 +1360,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
                           className='m-2 text-sm font-m'
                         >
-                          kanser mulut
+                          nasihat berkaitan kanser mulut
                         </label>
                       </div>
                     </div>

@@ -1,21 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolah() {
-  const { userToken, reliefUserToken, navigate } = useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    navigate,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
+  const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
+  const [dahFilterTahun, setDahFilterTahun] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahun, setTahun] = useState([]);
   const [namaKelas, setNamaKelas] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanTahun, setPilihanTahun] = useState([]);
-  const [pilihanNamaKelas, setPilihanNamaKelas] = useState([]);
+  const [pilihanTahun, setPilihanTahun] = useState('');
+  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [filterNama, setFilterNama] = useState('');
+
+  const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
+  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
+
+  const [reloadState, setReloadState] = useState(false);
 
   // init fetch allPersonSekolahs
   useEffect(() => {
@@ -39,98 +55,106 @@ function UserSekolah() {
           },
           ['']
         );
-        const tahun = allPersonSekolahs.reduce(
-          (arrTahun, singlePersonSekolah) => {
-            if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-              arrTahun.push(singlePersonSekolah.tahun);
-            }
-            return arrTahun.filter((valid) => valid);
-          },
-          ['']
-        );
-        const namaKelas = allPersonSekolahs.reduce(
-          (arrNamaKelas, singlePersonSekolah) => {
-            if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-              arrNamaKelas.push(singlePersonSekolah.namaKelas);
-            }
-            return arrNamaKelas.filter((valid) => valid);
-          },
-          ['']
-        );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(namaSekolahs);
-        setTahun(tahun);
-        setNamaKelas(namaKelas);
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchAllPersonSekolahs();
-  }, []);
+  }, [reloadState]);
+
+  useEffect(() => {
+    const filteredSekolahs = allPersonSekolahs.filter((person) =>
+      person.namaSekolah.includes(pilihanSekolah)
+    );
+    const tahun = filteredSekolahs.reduce(
+      (arrTahun, singlePersonSekolah) => {
+        if (!arrTahun.includes(singlePersonSekolah.tahun)) {
+          arrTahun.push(singlePersonSekolah.tahun);
+        }
+        return arrTahun.filter((valid) => valid);
+      },
+      ['']
+    );
+    setTahun(tahun);
+    setDahFilterSekolahs(filteredSekolahs);
+  }, [pilihanSekolah]);
+
+  useEffect(() => {
+    const filteredTahun = dahFilterSekolahs.filter((person) =>
+      person.tahun.includes(pilihanTahun)
+    );
+    const namaKelas = filteredTahun.reduce(
+      (arrNamaKelas, singlePersonSekolah) => {
+        if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
+          arrNamaKelas.push(singlePersonSekolah.namaKelas);
+        }
+        return arrNamaKelas.filter((valid) => valid);
+      },
+      ['']
+    );
+    setNamaKelas(namaKelas);
+    setDahFilterTahun(filteredTahun);
+  }, [pilihanTahun]);
 
   // reset value
   useEffect(() => {
     setPilihanTahun('');
     setPilihanNamaKelas('');
+    setFilterNama('');
   }, [pilihanSekolah]);
 
-  const reloadData = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.get('/api/v1/sekolah/populate', {
-        headers: {
-          Authorization: `Bearer ${
-            reliefUserToken ? reliefUserToken : userToken
-          }`,
-        },
-      });
-      const allPersonSekolahs = data.allPersonSekolahs;
-      const namaSekolahs = allPersonSekolahs.reduce(
-        (arrNamaSekolahs, singlePersonSekolah) => {
-          if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-            arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-          }
-          return arrNamaSekolahs.filter((valid) => valid);
-        },
-        ['']
-      );
-      const tahun = allPersonSekolahs.reduce(
-        (arrTahun, singlePersonSekolah) => {
-          if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-            arrTahun.push(singlePersonSekolah.tahun);
-          }
-          return arrTahun.filter((valid) => valid);
-        },
-        ['']
-      );
-      const namaKelas = allPersonSekolahs.reduce(
-        (arrNamaKelas, singlePersonSekolah) => {
-          if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-            arrNamaKelas.push(singlePersonSekolah.namaKelas);
-          }
-          return arrNamaKelas.filter((valid) => valid);
-        },
-        ['']
-      );
-      setAllPersonSekolahs(data.allPersonSekolahs);
-      setNamaSekolahs(namaSekolahs);
-      setTahun(tahun);
-      setNamaKelas(namaKelas);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    setPilihanNamaKelas('');
+    setFilterNama('');
+  }, [pilihanTahun]);
+
+  useEffect(() => {
+    setFilterNama('');
+  }, [pilihanNamaKelas]);
+
+  // fetch fasiliti sekolah to determine selesai reten
+  useEffect(() => {
+    const fetchFasilitiSekolahs = async () => {
+      try {
+        const { data } = await axios.get('/api/v1/sekolah', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setFasilitiSekolah(data.fasilitiSekolahs);
+        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchFasilitiSekolahs();
+  }, []);
+
+  useEffect(() => {
+    setFilteredFasilitiSekolah(
+      fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
+    );
+  }, [pilihanSekolah]);
 
   // on tab focus reload data
   useEffect(() => {
-    window.addEventListener('focus', reloadData);
-    reloadData();
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
     return () => {
-      window.removeEventListener('focus', reloadData);
+      window.removeEventListener('focus', setReloadState);
     };
   }, []);
+
+  // specific refreshTimer for this UserSekolah special case
+  useEffect(() => {
+    setRefreshTimer(!refreshTimer);
+  }, [pilihanSekolah, pilihanTahun, pilihanNamaKelas, filterNama]);
 
   return (
     <>
@@ -145,7 +169,7 @@ function UserSekolah() {
             onChange={(e) => {
               setPilihanSekolah(e.target.value);
             }}
-            className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+            className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
           >
             <option value=''>Sila pilih..</option>
             {namaSekolahs.map((singleNamaSekolah, index) => {
@@ -168,7 +192,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanTahun(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {tahun.map((singleTahun, index) => {
@@ -193,7 +217,7 @@ function UserSekolah() {
                 onChange={(e) => {
                   setPilihanNamaKelas(e.target.value);
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
+                className='w-11/12 leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {namaKelas.map((singleNamaKelas, index) => {
@@ -210,112 +234,19 @@ function UserSekolah() {
               </select>
             </>
           )}
-          {/* {!pilihanSekolah.includes('menengah') && pilihanSekolah !== '' && (
+          {pilihanNamaKelas && (
             <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Darjah</p>
-              <select
-                value={pilihanDarjah}
+              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Pelajar</p>
+              <input
+                type='text'
+                value={filterNama}
                 onChange={(e) => {
-                  setPilihanDarjah(e.target.value);
+                  setFilterNama(e.target.value.toUpperCase());
                 }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {darjah.map((singleDarjah, index) => {
-                  return (
-                    <option
-                      value={singleDarjah}
-                      key={index}
-                      className='capitalize'
-                    >
-                      {singleDarjah}
-                    </option>
-                  );
-                })}
-              </select>
+                className='lowercase w-11/12 appearance-none leading-7 px-3 py-1 mb-3 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              />
             </>
           )}
-          {pilihanSekolah.includes('menengah') && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Tingkatan</p>
-              <select
-                value={pilihanTingkatan}
-                onChange={(e) => {
-                  setPilihanTingkatan(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {tingkatan.map((singleTingkatan, index) => {
-                  return (
-                    <option
-                      value={singleTingkatan}
-                      key={index}
-                      className='capitalize'
-                    >
-                      {singleTingkatan}
-                    </option>
-                  );
-                })}
-              </select>
-            </>
-          )}
-          {pilihanDarjah && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Darjah</p>
-              <select
-                value={pilihanKelasDarjah}
-                onChange={(e) => {
-                  setPilihanKelasDarjah(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {namaKelasDarjah
-                  .filter((kelasDarjah) => kelasDarjah.includes(pilihanDarjah))
-                  .map((singleNamaKelas, index) => {
-                    return (
-                      <option
-                        value={singleNamaKelas}
-                        key={index}
-                        className='capitalize'
-                      >
-                        {singleNamaKelas}
-                      </option>
-                    );
-                  })}
-              </select>
-            </>
-          )}
-          {pilihanTingkatan && (
-            <>
-              <p className='flex flex-row pl-5 lg:pl-12 p-2'>Kelas Tingkatan</p>
-              <select
-                value={pilihanKelasTingkatan}
-                onChange={(e) => {
-                  setPilihanKelasTingkatan(e.target.value);
-                }}
-                className='capitalize m-auto mb-3 w-11/12 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                {namaKelasTingkatan
-                  .filter((kelasTingkatan) =>
-                    kelasTingkatan.includes(pilihanTingkatan)
-                  )
-                  .map((singleNamaKelas, index) => {
-                    return (
-                      <option
-                        value={singleNamaKelas}
-                        key={index}
-                        className='capitalize'
-                      >
-                        {singleNamaKelas}
-                      </option>
-                    );
-                  })}
-              </select>
-            </>
-          )} */}
           <div className='flex justify-end px-12 '>
             <button
               onClick={() => {
@@ -325,14 +256,16 @@ function UserSekolah() {
             >
               kembali ke senarai sekolah
             </button>
-            {/* <button
-              onClick={reloadData}
-              className='capitalize bg-user3 text-sm text-userWhite rounded-md shadow-xl p-1 mb-2 hover:bg-user1 transition-all'
-            >
-              refresh pelajar
-            </button> */}
           </div>
         </div>
+        {pilihanSekolah &&
+          filteredFasilitiSekolah[0].sekolahSelesaiReten === true && (
+            <div>reten sekolah telah ditutup</div>
+          )}
+        {pilihanSekolah &&
+          filteredFasilitiSekolah[0].sekolahSelesaiReten === false && (
+            <div>reten sekolah masih dibuka</div>
+          )}
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
@@ -367,17 +300,14 @@ function UserSekolah() {
                   (person) =>
                     person.namaSekolah.includes(pilihanSekolah) &&
                     person.tahun.includes(pilihanTahun) &&
-                    person.namaKelas.includes(pilihanNamaKelas)
-                  // person.kelas.includes(pilihanTingkatan) &&
-                  // person.kelas.includes(pilihanDarjah) &&
-                  // person.kelas.includes(pilihanKelasDarjah) &&
-                  // person.kelas.includes(pilihanKelasTingkatan)
+                    person.namaKelas.includes(pilihanNamaKelas) &&
+                    person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {
                   return (
                     <>
                       <tbody className='bg-user4'>
-                        <tr>
+                        <tr key={singlePersonSekolah._id}>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                             {index + 1}
                           </td>
@@ -424,8 +354,206 @@ function UserSekolah() {
                                   : 'bg-user3 hover:bg-user2'
                               } text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
                             >
-                              tambah rawatan
+                              {singlePersonSekolah.statusRawatan === 'selesai'
+                                ? 'selesai rawatan'
+                                : 'tambah rawatan'}
                             </Link>
+                            {/* keluar berapa rawatan & rawatan apa */}
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 && (
+                              <div className='relative inline-flex'>
+                                <span
+                                  className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                  onMouseEnter={() => {
+                                    setIsShown({
+                                      ...isShown,
+                                      [singlePersonSekolah._id]: true,
+                                    });
+                                  }}
+                                  onMouseLeave={() => {
+                                    setIsShown({
+                                      ...isShown,
+                                      [singlePersonSekolah._id]: false,
+                                    });
+                                  }}
+                                >
+                                  {singlePersonSekolah.rawatanSekolah.length}
+                                </span>
+                                <div
+                                  className={`${
+                                    isShown[singlePersonSekolah._id]
+                                      ? 'block p-2'
+                                      : 'hidden '
+                                  } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
+                                >
+                                  {singlePersonSekolah.rawatanSekolah.map(
+                                    (rawatan) => {
+                                      // sum rawatan
+                                      const semuaGD = [
+                                        rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                        rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                      ];
+                                      const semuaGK = [
+                                        rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                        rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                        rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                      ];
+                                      const semuaICDAS = [
+                                        rawatan.baruJumlahGigiKekalDibuatFs,
+                                        rawatan.baruJumlahGigiKekalDiberiFv,
+                                        rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
+                                      ];
+                                      let sumGigiDesidus = 0;
+                                      semuaGD.forEach((rawatan) => {
+                                        sumGigiDesidus += rawatan;
+                                      });
+                                      let sumGigiKekal = 0;
+                                      semuaGK.forEach((rawatan) => {
+                                        sumGigiKekal += rawatan;
+                                      });
+                                      let sumICDAS = 0;
+                                      semuaICDAS.forEach((rawatan) => {
+                                        sumICDAS += rawatan;
+                                      });
+                                      return (
+                                        <div
+                                          key={rawatan._id}
+                                          className='flex flex-col'
+                                        >
+                                          <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
+                                            {moment(
+                                              rawatan.tarikhRawatanSemasa
+                                            ).format('DD/MM/YYYY')}
+                                          </span>
+                                          <span className='text-xs font-semibold text-start'>
+                                            {rawatan.createdByUsername}
+                                          </span>
+                                          {rawatan.cabutDesidusSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              cabut desidus :
+                                              {
+                                                rawatan.cabutDesidusSekolahRawatan
+                                              }
+                                            </span>
+                                          )}
+                                          {rawatan.cabutKekalSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              cabut desidus :
+                                              {rawatan.cabutKekalSekolahRawatan}
+                                            </span>
+                                          )}
+                                          {sumGigiDesidus >= 1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              tampalan gigi desidus :{' '}
+                                              {sumGigiDesidus}
+                                            </span>
+                                          )}
+                                          {sumGigiKekal >= 1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              tampalan gigi kekal :{' '}
+                                              {sumGigiKekal}
+                                            </span>
+                                          )}
+                                          {sumICDAS >= 1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              ICDAS : {sumICDAS}
+                                            </span>
+                                          )}
+                                          {rawatan.jumlahTampalanSementaraSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              tampalan sementara :{' '}
+                                              {
+                                                rawatan.jumlahTampalanSementaraSekolahRawatan
+                                              }
+                                            </span>
+                                          )}
+                                          {rawatan.pulpotomiSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              pulpotomi :{' '}
+                                              {rawatan.pulpotomiSekolahRawatan}
+                                            </span>
+                                          )}
+                                          {rawatan.endodontikSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              endodontik :{' '}
+                                              {rawatan.endodontikSekolahRawatan}
+                                            </span>
+                                          )}
+                                          {rawatan.absesSekolahRawatan >= 1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              abses :{' '}
+                                              {rawatan.absesSekolahRawatan}
+                                            </span>
+                                          )}
+                                          {rawatan.penskaleranSekolahRawatan >=
+                                            1 && (
+                                            <span className='text-xs font-medium text-start'>
+                                              penskaleran :{' '}
+                                              {
+                                                rawatan.penskaleranSekolahRawatan
+                                              }
+                                            </span>
+                                          )}
+                                          {rawatan.rujukSekolahRawatan ===
+                                            true && (
+                                            <span className='text-xs font-medium text-start flex items-center flex-wrap'>
+                                              Dirujuk{' '}
+                                              <FaCheckCircle className='text-user7 text-center mx-1' />
+                                              untuk{' '}
+                                              {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
+                                              true
+                                                ? 'cabutan ,'
+                                                : ''}
+                                              {rawatan.rujukRawatanEndodontikSekolahRawatan ===
+                                              true
+                                                ? 'rawatan endodontik ,'
+                                                : ''}
+                                              {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                              true
+                                                ? 'rawatan penskaleran ,'
+                                                : ''}
+                                              {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
+                                              true
+                                                ? 'rawatan periodontik ,'
+                                                : ''}
+                                              {rawatan.rujukLainLainSekolahRawatan ===
+                                              true
+                                                ? rawatan.rujukLainLainTulisSekolahRawatan
+                                                : ''}
+                                            </span>
+                                          )}
+                                          {rawatan.kesSelesaiSekolahRawatan ===
+                                            true && (
+                                            <span className='text-xs font-medium text-start flex items-center'>
+                                              kes selesai{' '}
+                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                            </span>
+                                          )}
+                                          {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                                            true && (
+                                            <span className='text-xs font-medium text-start flex items-center'>
+                                              kes selesai ICDAS{' '}
+                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                            </span>
+                                          )}
+                                        </div>
+                                      );
+                                    }
+                                  )}
+                                </div>
+                              </div>
+                            )}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <Link
@@ -441,29 +569,29 @@ function UserSekolah() {
                                 !singlePersonSekolah.kotakSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah &&
                                 singlePersonSekolah.pemeriksaanSekolah
-                                  .inginMelakukanIntervensiMerokok ===
-                                  'ya-ingin-melakukan-intervensi-merokok'
-                                  ? 'bg-user6'
+                                  ? // .inginMelakukanIntervensiMerokok ===
+                                    // 'ya-ingin-melakukan-intervensi-merokok'
+                                    'bg-user6'
                                   : singlePersonSekolah.kotakSekolah &&
                                     singlePersonSekolah.pemeriksaanSekolah &&
                                     singlePersonSekolah.pemeriksaanSekolah
-                                      .inginMelakukanIntervensiMerokok ===
-                                      'ya-ingin-melakukan-intervensi-merokok'
-                                  ? 'bg-user7'
+                                  ? // .inginMelakukanIntervensiMerokok ===
+                                    // 'ya-ingin-melakukan-intervensi-merokok'
+                                    'bg-user7'
                                   : 'pointer-events-none bg-user4'
                               } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
                             >
                               {!singlePersonSekolah.kotakSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah &&
                               singlePersonSekolah.pemeriksaanSekolah
-                                .inginMelakukanIntervensiMerokok ===
-                                'ya-ingin-melakukan-intervensi-merokok'
-                                ? 'tambah KOTAK'
+                                ? // .inginMelakukanIntervensiMerokok ===
+                                  // 'ya-ingin-melakukan-intervensi-merokok'
+                                  'tambah KOTAK'
                                 : singlePersonSekolah.kotakSekolah &&
                                   singlePersonSekolah.pemeriksaanSekolah &&
-                                  singlePersonSekolah.pemeriksaanSekolah
-                                    .inginMelakukanIntervensiMerokok ===
-                                    'ya-ingin-melakukan-intervensi-merokok'
+                                  // singlePersonSekolah.pemeriksaanSekolah
+                                  //   .inginMelakukanIntervensiMerokok ===
+                                  'ya-ingin-melakukan-intervensi-merokok'
                                 ? 'ubah KOTAK'
                                 : 'tidak perlu KOTAK'}
                             </Link>
@@ -473,12 +601,60 @@ function UserSekolah() {
                     </>
                   );
                 })}
+            {isLoading && (
+              // <p className='text-xl font-semibold'>
+              //   <Spinner color='#1f315f' />
+              // </p>
+              <tbody className='bg-user4'>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+              </tbody>
+            )}
           </table>
-          {isLoading && (
-            <p className='text-xl font-semibold'>
-              <Spinner color='#1f315f' />
-            </p>
-          )}
         </div>
       </div>
     </>

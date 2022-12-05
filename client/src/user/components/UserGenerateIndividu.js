@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateIndividu() {
-  const { userToken, toast, catchAxiosErrorAndLogout, navigate } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    toast,
+    catchAxiosErrorAndLogout,
+    navigate,
+    masterDatePicker,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -15,6 +23,47 @@ export default function UserGenerateIndividu() {
   const [nama, setNama] = useState('');
   const [kp, setKp] = useState('');
   const [id, setId] = useState('');
+
+  //datepicker range
+  const [startDatePicker, setStartDatePicker] = useState(null);
+  const [endDatePicker, setEndDatePicker] = useState(null);
+
+  const TarikhAwal = () => {
+    return masterDatePicker({
+      selectsStart: startDatePicker,
+      startDate: startDatePicker,
+      endDate: endDatePicker,
+      selected: startDatePicker,
+      onChange: (startDate) => {
+        setStartDatePicker(startDate);
+        setStartDate(moment(startDate).format('YYYY-MM-DD'));
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
+
+  const TarikhAkhir = () => {
+    return masterDatePicker({
+      selectsEnd: endDatePicker,
+      startDate: startDatePicker,
+      endDate: endDatePicker,
+      selected: endDatePicker,
+      minDate: startDatePicker,
+      onChange: (endDate) => {
+        setEndDatePicker(endDate);
+        setEndDate(moment(endDate).format('YYYY-MM-DD'));
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userinfo'));
@@ -31,6 +80,7 @@ export default function UserGenerateIndividu() {
     if (!userData.numberMdc) {
       setId(userData.numberMdtb);
     }
+    setRefreshTimer(!refreshTimer);
   }, []);
 
   const saveFile = (blob) => {

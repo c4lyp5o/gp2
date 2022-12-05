@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
 const LRU = require('lru-cache');
@@ -38,11 +39,11 @@ const getSinglePersonKaunter = async (req, res) => {
   }
 
   // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonKaunter.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonKaunter.ic = decryptedIc;
+  // const decryptedIc = cryptoJs.AES.decrypt(
+  //   singlePersonKaunter.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString(cryptoJs.enc.Utf8);
+  // singlePersonKaunter.ic = decryptedIc;
 
   res.status(201).json({ singlePersonKaunter });
 };
@@ -54,101 +55,32 @@ const createPersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // associate negeri, daerah & kp to each person sekolah for every creation
+  // associate negeri, daerah & kp to each person umum for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
 
-  // generate unique id
-  let uniqueId = '';
-  const simplifiedKp = req.body.createdByKp.split(' ');
-  for (let i = 0; i < simplifiedKp.length; i++) {
-    uniqueId += simplifiedKp[i].charAt(0);
-  }
-  uniqueId += '-';
-  const simplifiedName = req.body.nama.split(' ');
-  for (let i = 0; i < simplifiedName.length; i++) {
-    uniqueId += simplifiedName[i].charAt(0);
-  }
-  uniqueId += '-';
-  const dateOfBirth = req.body.tarikhLahir.split('-').join('');
-  uniqueId += dateOfBirth;
-
-  // tagging unique id
-  req.body.uniqueId = uniqueId;
-  logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-
-  // find if person already exist using unique id
+  // find if person already exist using ic
   const personExist = await Umum.findOne({
-    uniqueId: uniqueId,
+    ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
   });
 
   // tagging person according to their status
   if (personExist) {
-    logger.info(
-      `${req.method} ${req.url} unique id yang sama telah wujud. check ic sama atau tidak`
-    );
-    console.log('unique id yang sama telah wujud. check ic sama atau tidak');
-    const decryptedIc = cryptoJs.AES.decrypt(
-      personExist.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    console.log('ic', decryptedIc);
-    if (decryptedIc === req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic sama. tagging ulangan`);
-      console.log('ic sama. tagging ulangan');
-      req.body.kedatangan = 'ulangan-kedatangan';
-      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    }
-    if (decryptedIc !== req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic tidak sama`);
-      console.log('ic tidak sama');
-      const last4digitIc = req.body.ic.slice(-4);
-      console.log('last4digitIc', last4digitIc);
-      uniqueId += '-' + last4digitIc;
-      logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-      console.log('uniqueId', uniqueId);
-      // check person with new unique id
-      const personExistWithNewUniqueId = await Umum.findOne({
-        uniqueId: uniqueId,
-        jenisFasiliti: req.body.jenisFasiliti,
-      });
-      if (personExistWithNewUniqueId) {
-        logger.info(
-          `${req.method} ${req.url} unique id yang sama telah wujud. tagging ulangan`
-        );
-        console.log('unique id baru yang sama telah wujud. tagging ulangan');
-        req.body.kedatangan = 'ulangan-kedatangan';
-        req.body.noPendaftaranUlangan =
-          personExistWithNewUniqueId.noPendaftaranBaru;
-      }
-      if (!personExistWithNewUniqueId) {
-        console.log('unique id baru yang sama tidak wujud. tagging baru');
-        req.body.uniqueId = uniqueId;
-        req.body.kedatangan = 'baru-kedatangan';
-      }
-    }
+    logger.info(`${req.method} ${req.url} ic telah wujud. tagging ulangan`);
+    req.body.kedatangan = 'ulangan-kedatangan';
+    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
   }
 
   if (!personExist) {
-    logger.info(`${req.method} ${req.url} unique id tidak wujud. tagging baru`);
+    logger.info(`${req.method} ${req.url} ic tidak wujud. tagging baru`);
     console.log('belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
 
-  // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-
-  // send to cache before encrypting
   logger.info(`${req.method} ${req.url} sending to cache`);
   cache.set(req.body.ic, req.body);
-
-  // replace ic with encrypted ic
-  req.body.ic = encryptedIc;
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -163,11 +95,11 @@ const updatePersonKaunter = async (req, res) => {
   }
 
   // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-  req.body.ic = encryptedIc;
+  // const encryptedIc = cryptoJs.AES.encrypt(
+  //   req.body.ic,
+  //   process.env.CRYPTO_JS_SECRET
+  // ).toString();
+  // req.body.ic = encryptedIc;
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     { _id: req.params.personKaunterId },
@@ -206,19 +138,28 @@ const deletePersonKaunter = async (req, res) => {
   });
 };
 
-// query route
+// query /kaunter
 const queryPersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const {
-    user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    user: { kp, daerah, negeri },
+    query: {
+      nama,
+      tarikhKedatangan,
+      jenisFasiliti,
+      ic,
+      jenisProgram,
+      namaProgram,
+    },
   } = req;
 
   const queryObject = {};
   queryObject.createdByKp = kp;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByNegeri = negeri;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -232,21 +173,24 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject);
+  if (ic) {
+    queryObject.ic = ic;
+  }
 
-  // decrypt
-  kaunterResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
+  }
+
+  if (namaProgram) {
+    queryObject.namaProgram = namaProgram;
+  }
+
+  const kaunterResultQuery = await Umum.find(queryObject);
 
   res.status(200).json({ kaunterResultQuery });
 };
 
-// query /taska-tadika
+// query /kaunter/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -262,7 +206,26 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
-// get from cache if ic is same
+// TODO to refactor for prefix /kaunter & recheck who else using this controller
+// query /events
+const getProjekKomuniti = async (req, res) => {
+  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const projekKomuniti = await Event.find({
+    createdByKp: req.user.kp,
+    createdByDaerah: req.user.daerah,
+    createdByNegeri: req.user.negeri,
+  });
+
+  res.status(200).json({ projekKomuniti });
+};
+
+// TODO to refactor not POST, rearrange for query
+// check from cache if ic is same
+// POST /check
 const getPersonFromCache = async (req, res) => {
   const { ic } = req.body;
   const person = await cache.get(ic.toString());
@@ -279,5 +242,6 @@ module.exports = {
   deletePersonKaunter,
   queryPersonKaunter,
   getTaskaTadikaList,
+  getProjekKomuniti,
   getPersonFromCache,
 };

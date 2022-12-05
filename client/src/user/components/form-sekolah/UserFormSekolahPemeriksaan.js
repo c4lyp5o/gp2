@@ -2,18 +2,28 @@ import { useState, useEffect } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserFormSekolahPemeriksaan() {
-  const { userToken, reliefUserToken, username, useParams, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    username,
+    useParams,
+    masterDatePicker,
+    toast,
+  } = useGlobalUserAppContext();
 
   const { personSekolahId, pemeriksaanSekolahId } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+
+  const [showCleftLip, setShowCleftLip] = useState(false);
+  const [showTrauma, setShowTrauma] = useState(false);
 
   const createdByUsername = username;
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
@@ -38,11 +48,6 @@ function UserFormSekolahPemeriksaan() {
     useState('');
   const [separaPenuhBawahPerluDenture, setSeparaPenuhBawahPerluDenture] =
     useState('');
-  const [statusM, setStatusM] = useState('');
-  const [inginMelakukanIntervensiMerokok, setInginMelakukanIntervensiMerokok] =
-    useState('');
-  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
-  // const [jenisR, setJenisR] = useState('');
   const [kebersihanMulutOralHygiene, setKebersihanMulutOralHygiene] =
     useState('');
   const [skorBpeOralHygiene, setSkorBpeOralHygiene] = useState('');
@@ -56,7 +61,6 @@ function UserFormSekolahPemeriksaan() {
   const [mAdaGigiDesidus, setMAdaGigiDesidus] = useState(0);
   const [fAdaGigiDesidus, setFAdaGigiDesidus] = useState(0);
   const [xAdaGigiDesidus, setXAdaGigiDesidus] = useState(0);
-  // const [smAdaGigiDesidus, setSmAdaGigiDesidus] = useState(0);
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
   const [adaKekal, setAdaKekal] = useState(false);
   const [dAdaGigiKekal, setDAdaGigiKekal] = useState(0);
@@ -68,7 +72,6 @@ function UserFormSekolahPemeriksaan() {
   const [jumlahFaktorRisiko, setJumlahFaktorRisiko] = useState('');
   const [adaCleftLip, setAdaCleftLip] = useState(false);
   const [rujukCleftLip, setRujukCleftLip] = useState(false);
-  // const [toothSurfaceLossTrauma, setToothSurfaceLossTrauma] = useState(false);
   const [kecederaanGigiAnteriorTrauma, setKecederaanGigiAnteriorTrauma] =
     useState(false);
   const [tisuLembutTrauma, setTisuLembutTrauma] = useState(false);
@@ -111,12 +114,8 @@ function UserFormSekolahPemeriksaan() {
   const [sumClassF, setSumClassF] = useState(0);
   const [baruJumlahGigiKekalPerluFs, setBaruJumlahGigiKekalPerluFs] =
     useState(0);
-  // const [semulaJumlahGigiKekalPerluFs, setSemulaJumlahGigiKekalPerluFs] =
-  //   useState(0);
   const [sumPerluFs, setSumPerluFs] = useState(0);
-  // const [jumlahGigiFsGagal, setJumlahGigiFsGagal] = useState(0);
   const [baruJumlahMuridPerluFs, setBaruJumlahMuridPerluFs] = useState(false);
-  // const [semulaJumlahMuridPerluFs, setSemulaJumlahMuridPerluFs] = useState(0);
   const [baruJumlahGigiKekalPerluFv, setBaruJumlahGigiKekalPerluFv] =
     useState(0);
   const [semulaJumlahGigiKekalPerluFv, setSemulaJumlahGigiKekalPerluFv] =
@@ -189,9 +188,29 @@ function UserFormSekolahPemeriksaan() {
     semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
     setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
   ] = useState(0);
+  const [sumGigiDesidus, setSumGigiDesidus] = useState(0);
+  const [sumGigiKekal, setSumGigiKekal] = useState(0);
+  const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
 
-  const [showCleftLip, setShowCleftLip] = useState(false);
-  const [showTrauma, setShowTrauma] = useState(false);
+  // datepicker issue
+  const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
+    useState(null);
+
+  const TarikhPemeriksaanSemasa = () => {
+    return masterDatePicker({
+      selected: tarikhPemeriksaanSemasaDP,
+      onChange: (tarikhPemeriksaanSemasa) => {
+        const tempDate = moment(tarikhPemeriksaanSemasa).format('YYYY-MM-DD');
+        setTarikhPemeriksaanSemasa(tempDate);
+        setTarikhPemeriksaanSemasaDP(tarikhPemeriksaanSemasa);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
+    });
+  };
 
   // calculate total dmfx + sm desidus
   useEffect(() => {
@@ -244,6 +263,63 @@ function UserFormSekolahPemeriksaan() {
     );
   }, [baruJumlahGigiKekalPerluPrrJenis1, semulaJumlahGigiKekalPerluPrrJenis1]);
 
+  //calculate gigi desidus
+  useEffect(() => {
+    setSumGigiDesidus(
+      parseInt(baruGDAnteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(semulaGDAnteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(baruGDPosteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(semulaGDPosteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(baruGDPosteriorAmalgamJumlahTampalanDiperlukan) +
+        parseInt(semulaGDPosteriorAmalgamJumlahTampalanDiperlukan)
+    );
+  }, [
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+  ]);
+
+  //calculate gigi kekal
+  useEffect(() => {
+    setSumGigiKekal(
+      parseInt(baruGKAnteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(semulaGKAnteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(baruGKPosteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(semulaGKPosteriorSewarnaJumlahTampalanDiperlukan) +
+        parseInt(baruGKPosteriorAmalgamJumlahTampalanDiperlukan) +
+        parseInt(semulaGKPosteriorAmalgamJumlahTampalanDiperlukan)
+    );
+  }, [
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+  ]);
+
+  //calculate gigi kekal E
+  useEffect(() => {
+    setSumGigiKekalE(
+      parseInt(baruJumlahGigiKekalPerluFs) +
+        parseInt(baruJumlahGigiKekalPerluPrrJenis1)
+    );
+  }, [baruJumlahGigiKekalPerluFs, baruJumlahGigiKekalPerluPrrJenis1]);
+
+  //useEffect needed for change classname color & synchronous
+  useEffect(() => {
+    setEAdaGigiKekal(parseInt(eAdaGigiKekal));
+  }, [eAdaGigiKekal]);
+  useEffect(() => {
+    setDAdaGigiDesidus(parseInt(dAdaGigiDesidus));
+  }, [dAdaGigiDesidus]);
+  useEffect(() => {
+    setDAdaGigiKekal(parseInt(dAdaGigiKekal));
+  }, [dAdaGigiKekal]);
+
   //reset value
   useEffect(() => {
     if (statikBergerak === 'klinik-pergigian-statik' || statikBergerak === '') {
@@ -257,15 +333,6 @@ function UserFormSekolahPemeriksaan() {
     if (yaTidakPerluStatusDenture === 'tidak-perlu-status-denture') {
       setSeparaPenuhAtasPerluDenture('');
       setSeparaPenuhBawahPerluDenture('');
-    }
-    if (
-      statusM === 'perokok-pasif' ||
-      statusM === 'bekas-perokok' ||
-      statusM === 'bukan-perokok' ||
-      statusM === ''
-    ) {
-      // setJenisR('');
-      setInginMelakukanIntervensiMerokok('');
     }
     if (!adaDesidus) {
       setDAdaGigiDesidus(0);
@@ -284,7 +351,6 @@ function UserFormSekolahPemeriksaan() {
     statikBergerak,
     yaTidakSediaAdaStatusDenture,
     yaTidakPerluStatusDenture,
-    statusM,
     adaDesidus,
     adaKekal,
   ]);
@@ -367,16 +433,6 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .separaPenuhBawahPerluDenture
           );
-          setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
-          setMenerimaNasihatRingkas(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .menerimaNasihatRingkas
-          );
-          // setJenisR(data.personSekolahWithPopulate.pemeriksaanSekolah.jenisR);
-          setInginMelakukanIntervensiMerokok(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .inginMelakukanIntervensiMerokok
-          );
           setKebersihanMulutOralHygiene(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .kebersihanMulutOralHygiene
@@ -411,9 +467,6 @@ function UserFormSekolahPemeriksaan() {
           setXAdaGigiDesidus(
             data.personSekolahWithPopulate.pemeriksaanSekolah.xAdaGigiDesidus
           );
-          // setSmAdaGigiDesidus(
-          //   data.personSekolahWithPopulate.pemeriksaanSekolah.smAdaGigiDesidus
-          // );
           setAdaKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.adaKekal
           );
@@ -441,10 +494,6 @@ function UserFormSekolahPemeriksaan() {
           setRujukCleftLip(
             data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
           );
-          // setToothSurfaceLossTrauma(
-          //   data.personSekolahWithPopulate.pemeriksaanSekolah
-          //     .toothSurfaceLossTrauma
-          // );
           setKecederaanGigiAnteriorTrauma(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .kecederaanGigiAnteriorTrauma
@@ -499,21 +548,10 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFs
           );
-          // setSemulaJumlahGigiKekalPerluFs(
-          //   data.personSekolahWithPopulate.pemeriksaanSekolah
-          //     .semulaJumlahGigiKekalPerluFs
-          // );
-          // setJumlahGigiFsGagal(
-          //   data.personSekolahWithPopulate.pemeriksaanSekolah.jumlahGigiFsGagal
-          // );
           setBaruJumlahMuridPerluFs(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahMuridPerluFs
           );
-          // setSemulaJumlahMuridPerluFs(
-          //   data.personSekolahWithPopulate.pemeriksaanSekolah
-          //     .semulaJumlahMuridPerluFs
-          // );
           setBaruJumlahGigiKekalPerluFv(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFv
@@ -598,6 +636,12 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
+          // datepicker issue
+          setTarikhPemeriksaanSemasaDP(
+            new Date(
+              data.personSekolahWithPopulate.pemeriksaanSekolah.tarikhPemeriksaanSemasa
+            )
+          );
         }
         setIsLoading(false);
       } catch (error) {
@@ -651,6 +695,33 @@ function UserFormSekolahPemeriksaan() {
       });
       return;
     }
+    if (sumGigiDesidus !== dAdaGigiDesidus) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi desidus tidak sama dengan jumlah d gigi desidus',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if (sumGigiKekal !== dAdaGigiKekal) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal tidak sama dengan jumlah D gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if (sumGigiKekalE !== eAdaGigiKekal) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
@@ -671,10 +742,6 @@ function UserFormSekolahPemeriksaan() {
               yaTidakPerluStatusDenture,
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
-              statusM,
-              menerimaNasihatRingkas,
-              // jenisR,
-              inginMelakukanIntervensiMerokok,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
               saringanKanserMulutOralHygiene,
@@ -685,7 +752,6 @@ function UserFormSekolahPemeriksaan() {
               mAdaGigiDesidus,
               fAdaGigiDesidus,
               xAdaGigiDesidus,
-              // smAdaGigiDesidus,
               adaKekal,
               dAdaGigiKekal,
               mAdaGigiKekal,
@@ -695,7 +761,6 @@ function UserFormSekolahPemeriksaan() {
               jumlahFaktorRisiko,
               adaCleftLip,
               rujukCleftLip,
-              // toothSurfaceLossTrauma,
               kecederaanGigiAnteriorTrauma,
               tisuLembutTrauma,
               tisuKerasTrauma,
@@ -712,10 +777,7 @@ function UserFormSekolahPemeriksaan() {
               classIF,
               classIIF,
               baruJumlahGigiKekalPerluFs,
-              // semulaJumlahGigiKekalPerluFs,
-              // jumlahGigiFsGagal,
               baruJumlahMuridPerluFs,
-              // semulaJumlahMuridPerluFs,
               baruJumlahGigiKekalPerluFv,
               semulaJumlahGigiKekalPerluFv,
               baruJumlahMuridPerluFv,
@@ -786,10 +848,6 @@ function UserFormSekolahPemeriksaan() {
               yaTidakPerluStatusDenture,
               separaPenuhAtasPerluDenture,
               separaPenuhBawahPerluDenture,
-              statusM,
-              menerimaNasihatRingkas,
-              // jenisR,
-              inginMelakukanIntervensiMerokok,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
               saringanKanserMulutOralHygiene,
@@ -800,7 +858,6 @@ function UserFormSekolahPemeriksaan() {
               mAdaGigiDesidus,
               fAdaGigiDesidus,
               xAdaGigiDesidus,
-              // smAdaGigiDesidus,
               adaKekal,
               dAdaGigiKekal,
               mAdaGigiKekal,
@@ -810,7 +867,6 @@ function UserFormSekolahPemeriksaan() {
               jumlahFaktorRisiko,
               adaCleftLip,
               rujukCleftLip,
-              // toothSurfaceLossTrauma,
               kecederaanGigiAnteriorTrauma,
               tisuLembutTrauma,
               tisuKerasTrauma,
@@ -827,10 +883,7 @@ function UserFormSekolahPemeriksaan() {
               classIF,
               classIIF,
               baruJumlahGigiKekalPerluFs,
-              // semulaJumlahGigiKekalPerluFs,
-              // jumlahGigiFsGagal,
               baruJumlahMuridPerluFs,
-              // semulaJumlahMuridPerluFs,
               baruJumlahGigiKekalPerluFv,
               semulaJumlahGigiKekalPerluFv,
               baruJumlahMuridPerluFv,
@@ -885,7 +938,7 @@ function UserFormSekolahPemeriksaan() {
 
   return (
     <>
-      <div className='h-full p-1 px-2 md:px-10 grid gap-2 pb-2'>
+      <div className='h-full p-1 px-2 md:px-10 grid grid-rows-[1fr_7fr] gap-2 pb-2'>
         <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
           {!isLoading && (
             <div>
@@ -962,77 +1015,11 @@ function UserFormSekolahPemeriksaan() {
                   Kedatangan<span className='text-user6'>*</span>
                 </h4>
                 <div>
-                  <p className='flex items-center justify-center text-m font-m'>
-                    tarikh:<span className='text-user6'>*</span>
+                  <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
+                    tarikh pemeriksaan:<span className='text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    type='date'
-                    name='tarikh-pemeriksaan'
-                    id='tarikh-pemeriksaan'
-                    value={tarikhPemeriksaanSemasa}
-                    onChange={(e) => {
-                      setTarikhPemeriksaanSemasa(e.target.value);
-                    }}
-                    className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                  />
+                  <TarikhPemeriksaanSemasa />
                 </div>
-                {/* <div className='grid grid-rows-2 col-span-2 lg:col-span-1'>
-                  <div className='flex items-center flex-row pl-5 '>
-                    <input
-                      // required
-                      type='radio'
-                      name='kedatangan'
-                      id='baru-kedatangan-pendaftaran'
-                      value='baru-kedatangan-pendaftaran'
-                      checked={
-                        baruUlanganKedatanganPendaftaran ===
-                        'baru-kedatangan-pendaftaran'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        setBaruUlanganKedatanganPendaftaran(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='baru-kedatangan-pendaftaran'
-                      className='m-2 text-sm font-m'
-                    >
-                      Baru
-                    </label>
-                  </div>
-                  <div className='flex items-center flex-row pl-5'>
-                    <input
-                      // required
-                      type='radio'
-                      name='kedatangan'
-                      id='ulangan-kedatangan-pendaftaran'
-                      value='ulangan-kedatangan-pendaftaran'
-                      checked={
-                        baruUlanganKedatanganPendaftaran ===
-                        'ulangan-kedatangan-pendaftaran'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        setBaruUlanganKedatanganPendaftaran(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='ulangan-kedatangan-pendaftaran'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ulangan
-                    </label>
-                  </div>
-                </div> */}
                 <div className='grid grid-rows-2'>
                   <div className='flex items-center flex-row pl-5'>
                     <input
@@ -1170,13 +1157,7 @@ function UserFormSekolahPemeriksaan() {
                   </select>
                   <span className='text-user6'>*</span>
                 </div>
-                <div
-                  className={`${
-                    statikBergerak === 'pasukan-pergigian-bergerak'
-                      ? 'visible'
-                      : 'hidden'
-                  } flex flex-row items-center pl-5`}
-                >
+                <div className='flex flex-row items-center pl-5'>
                   <input
                     type='checkbox'
                     name='kp-bergerak'
@@ -1214,594 +1195,738 @@ function UserFormSekolahPemeriksaan() {
               </article>
             </section>
             {adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? null : (
-              <section className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2 '>
-                <div className='grid gap-2 col-span-2 sm:col-span-1'>
-                  <article className='row-span-1 sm:row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
-                      Status denture
-                    </h4>
-                    <div className='grid grid-rows-2 gap-2 auto-rows-min'>
-                      <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-semibold'>
-                          Sedia Ada?<span className='text-user6'>*</span>
-                        </h4>
-                        <div className='flex items-center justify-center'>
-                          <input
-                            required
-                            type='radio'
-                            name='sedia-ada-status-denture'
-                            id='ya-sedia-ada-status-denture'
-                            value='ya-sedia-ada-status-denture'
-                            checked={
-                              yaTidakSediaAdaStatusDenture ===
-                              'ya-sedia-ada-status-denture'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setYaTidakSediaAdaStatusDenture(e.target.value);
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-sedia-ada-status-denture'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            required
-                            type='radio'
-                            name='sedia-ada-status-denture'
-                            id='tidak-sedia-ada-status-denture'
-                            value='tidak-sedia-ada-status-denture'
-                            checked={
-                              yaTidakSediaAdaStatusDenture ===
-                              'tidak-sedia-ada-status-denture'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setYaTidakSediaAdaStatusDenture(e.target.value);
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-sedia-ada-status-denture'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                        {yaTidakSediaAdaStatusDenture ===
-                          'ya-sedia-ada-status-denture' && (
-                          <div className='flex items-center flex-row pl-5'>
-                            <label
-                              htmlFor='atas-sedia-ada-denture'
-                              className='m-2 text-sm font-m'
-                            >
-                              Atas
-                            </label>
-                          </div>
-                        )}
-                        {yaTidakSediaAdaStatusDenture ===
-                          'ya-sedia-ada-status-denture' && (
-                          <div className='grid grid-cols-2'>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-atas-sedia-ada-denture'
-                                id='separa-atas-sedia-ada-denture'
-                                value='separa-atas-sedia-ada-denture'
-                                checked={
-                                  separaPenuhAtasSediaAdaDenture ===
-                                  'separa-atas-sedia-ada-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhAtasSediaAdaDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='separa-atas-sedia-ada-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Separa
-                              </label>
-                            </div>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-atas-sedia-ada-denture'
-                                id='penuh-atas-sedia-ada-denture'
-                                value='penuh-atas-sedia-ada-denture'
-                                checked={
-                                  separaPenuhAtasSediaAdaDenture ===
-                                  'penuh-atas-sedia-ada-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhAtasSediaAdaDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='penuh-atas-sedia-ada-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Penuh
-                              </label>
-                            </div>
-                          </div>
-                        )}
-                        {yaTidakSediaAdaStatusDenture ===
-                          'ya-sedia-ada-status-denture' && (
-                          <div className='flex items-center flex-row pl-5'>
-                            <label
-                              htmlFor='bawah-sedia-ada-denture'
-                              className='m-2 text-sm font-m'
-                            >
-                              Bawah
-                            </label>
-                          </div>
-                        )}
-                        {yaTidakSediaAdaStatusDenture ===
-                          'ya-sedia-ada-status-denture' && (
-                          <div className='grid grid-cols-2'>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-bawah-sedia-ada-denture'
-                                id='separa-bawah-sedia-ada-denture'
-                                value='separa-bawah-sedia-ada-denture'
-                                checked={
-                                  separaPenuhBawahSediaAdaDenture ===
-                                  'separa-bawah-sedia-ada-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhBawahSediaAdaDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='separa-bawah-sedia-ada-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Separa
-                              </label>
-                            </div>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-bawah-sedia-ada-denture'
-                                id='penuh-bawah-sedia-ada-denture'
-                                value='penuh-bawah-sedia-ada-denture'
-                                checked={
-                                  separaPenuhBawahSediaAdaDenture ===
-                                  'penuh-bawah-sedia-ada-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhBawahSediaAdaDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='penuh-bawah-sedia-ada-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Penuh
-                              </label>
-                            </div>
-                          </div>
-                        )}
-                      </article>
-                      <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-semibold'>
-                          Perlu<span className='text-user6'>*</span>
-                        </h4>
-                        <div className='flex items-center justify-center'>
-                          <input
-                            required
-                            type='radio'
-                            name='perlu-status-denture'
-                            id='ya-perlu-status-denture'
-                            value='ya-perlu-status-denture'
-                            checked={
-                              yaTidakPerluStatusDenture ===
-                              'ya-perlu-status-denture'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setYaTidakPerluStatusDenture(e.target.value);
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-perlu-status-denture'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            required
-                            type='radio'
-                            name='perlu-status-denture'
-                            id='tidak-perlu-status-denture'
-                            value='tidak-perlu-status-denture'
-                            checked={
-                              yaTidakPerluStatusDenture ===
-                              'tidak-perlu-status-denture'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setYaTidakPerluStatusDenture(e.target.value);
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-perlu-status-denture'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                        {yaTidakPerluStatusDenture ===
-                          'ya-perlu-status-denture' && (
-                          <div className='flex items-center flex-row pl-5'>
-                            <label
-                              htmlFor='atas-perlu-denture'
-                              className='m-2 text-sm font-m'
-                            >
-                              Atas
-                            </label>
-                          </div>
-                        )}
-                        {yaTidakPerluStatusDenture ===
-                          'ya-perlu-status-denture' && (
-                          <div className='grid grid-cols-2'>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-atas-perlu-denture'
-                                id='separa-atas-perlu-denture'
-                                value='separa-atas-perlu-denture'
-                                checked={
-                                  separaPenuhAtasPerluDenture ===
-                                  'separa-atas-perlu-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhAtasPerluDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='separa-atas-perlu-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Separa
-                              </label>
-                            </div>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-atas-perlu-denture'
-                                id='penuh-atas-perlu-denture'
-                                value='penuh-atas-perlu-denture'
-                                checked={
-                                  separaPenuhAtasPerluDenture ===
-                                  'penuh-atas-perlu-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhAtasPerluDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='penuh-atas-perlu-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Penuh
-                              </label>
-                            </div>
-                          </div>
-                        )}
-                        {yaTidakPerluStatusDenture ===
-                          'ya-perlu-status-denture' && (
-                          <div className='flex items-center flex-row pl-5'>
-                            <label
-                              htmlFor='bawah-perlu-denture'
-                              className='m-2 text-sm font-m'
-                            >
-                              Bawah
-                            </label>
-                          </div>
-                        )}
-                        {yaTidakPerluStatusDenture ===
-                          'ya-perlu-status-denture' && (
-                          <div className='grid grid-cols-2'>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-bawah-perlu-denture'
-                                id='separa-bawah-perlu-denture'
-                                value='separa-bawah-perlu-denture'
-                                checked={
-                                  separaPenuhBawahPerluDenture ===
-                                  'separa-bawah-perlu-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhBawahPerluDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='separa-bawah-perlu-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Separa
-                              </label>
-                            </div>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                type='radio'
-                                name='separa-penuh-bawah-perlu-denture'
-                                id='penuh-bawah-perlu-denture'
-                                value='penuh-bawah-perlu-denture'
-                                checked={
-                                  separaPenuhBawahPerluDenture ===
-                                  'penuh-bawah-perlu-denture'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setSeparaPenuhBawahPerluDenture(
-                                    e.target.value
-                                  );
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='penuh-bawah-perlu-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Penuh
-                              </label>
-                            </div>
-                          </div>
-                        )}
-                      </article>
-                    </div>
-                  </article>
-                  <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      status merokok<span className='text-user6'>*</span>
-                    </h4>
-                    <select
-                      required
-                      name='statusM'
-                      id='statusM'
-                      value={statusM}
-                      onChange={(e) => {
-                        setStatusM(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='perokok-semasa'>Perokok Semasa</option>
-                      <option value='bekas-perokok'>Bekas Perokok</option>
-                      <option value='perokok-pasif'>Perokok Pasif</option>
-                      <option value='bukan-perokok'>Bukan Perokok</option>
-                    </select>
-                    <div className='col-span-2'>
-                      <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
-                        adakah pesakit menerima nasihat ringkas?
-                        <span className='text-user6'>*</span>
-                      </p>
+              <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full  '>
+                <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Status dentur
+                  </h4>
+                  <div className='grid grid-rows-2 gap-2 auto-rows-min'>
+                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-semibold'>
+                        Sedia Ada?<span className='text-user6'>*</span>
+                      </h4>
                       <div className='flex items-center justify-center'>
                         <input
                           required
                           type='radio'
-                          name='menerima-nasihat-ringkas'
-                          id='ya-menerima-nasihat-ringkas'
-                          value='ya-menerima-nasihat-ringkas'
+                          name='sedia-ada-status-denture'
+                          id='ya-sedia-ada-status-denture'
+                          value='ya-sedia-ada-status-denture'
                           checked={
-                            menerimaNasihatRingkas ===
-                            'ya-menerima-nasihat-ringkas'
+                            yaTidakSediaAdaStatusDenture ===
+                            'ya-sedia-ada-status-denture'
                               ? true
                               : false
                           }
                           onChange={(e) => {
-                            setMenerimaNasihatRingkas(e.target.value);
+                            setYaTidakSediaAdaStatusDenture(e.target.value);
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
-                          htmlFor='ya-menerima-nasihat-ringkas'
+                          htmlFor='ya-sedia-ada-status-denture'
                           className='m-2 text-sm font-m'
                         >
                           Ya
                         </label>
                         <input
-                          required={statusM == 'perokok-semasa' ? true : false}
+                          required
                           type='radio'
-                          name='menerima-nasihat-ringkas'
-                          id='tidak-menerima-nasihat-ringkas'
-                          value='tidak-menerima-nasihat-ringkas'
+                          name='sedia-ada-status-denture'
+                          id='tidak-sedia-ada-status-denture'
+                          value='tidak-sedia-ada-status-denture'
                           checked={
-                            menerimaNasihatRingkas ===
-                            'tidak-menerima-nasihat-ringkas'
+                            yaTidakSediaAdaStatusDenture ===
+                            'tidak-sedia-ada-status-denture'
                               ? true
                               : false
                           }
                           onChange={(e) => {
-                            setMenerimaNasihatRingkas(e.target.value);
+                            setYaTidakSediaAdaStatusDenture(e.target.value);
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
-                          htmlFor='tidak-menerima-nasihat-ringkas'
+                          htmlFor='tidak-sedia-ada-status-denture'
                           className='m-2 text-sm font-m'
                         >
                           Tidak
                         </label>
                       </div>
-                    </div>
-                    {/* <article
-                      className={`${
-                        statusM == 'perokok-semasa' ? 'visible' : 'hidden'
-                      } grid grid-cols-2 col-span-2 `}
-                    >
-                      <h4 className='font-semibold text-base flex flex-row pl-5 col-span-2'>
-                        jenis rokok<span className='text-user6'>*</span>
+                      {yaTidakSediaAdaStatusDenture ===
+                        'ya-sedia-ada-status-denture' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label
+                            htmlFor='atas-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Atas
+                          </label>
+                        </div>
+                      )}
+                      {yaTidakSediaAdaStatusDenture ===
+                        'ya-sedia-ada-status-denture' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-atas-sedia-ada-denture'
+                              id='separa-atas-sedia-ada-denture'
+                              value='separa-atas-sedia-ada-denture'
+                              checked={
+                                separaPenuhAtasSediaAdaDenture ===
+                                'separa-atas-sedia-ada-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhAtasSediaAdaDenture(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-atas-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-atas-sedia-ada-denture'
+                              id='penuh-atas-sedia-ada-denture'
+                              value='penuh-atas-sedia-ada-denture'
+                              checked={
+                                separaPenuhAtasSediaAdaDenture ===
+                                'penuh-atas-sedia-ada-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhAtasSediaAdaDenture(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-atas-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {yaTidakSediaAdaStatusDenture ===
+                        'ya-sedia-ada-status-denture' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label
+                            htmlFor='bawah-sedia-ada-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Bawah
+                          </label>
+                        </div>
+                      )}
+                      {yaTidakSediaAdaStatusDenture ===
+                        'ya-sedia-ada-status-denture' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-bawah-sedia-ada-denture'
+                              id='separa-bawah-sedia-ada-denture'
+                              value='separa-bawah-sedia-ada-denture'
+                              checked={
+                                separaPenuhBawahSediaAdaDenture ===
+                                'separa-bawah-sedia-ada-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhBawahSediaAdaDenture(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-bawah-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-bawah-sedia-ada-denture'
+                              id='penuh-bawah-sedia-ada-denture'
+                              value='penuh-bawah-sedia-ada-denture'
+                              checked={
+                                separaPenuhBawahSediaAdaDenture ===
+                                'penuh-bawah-sedia-ada-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhBawahSediaAdaDenture(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-bawah-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </article>
+                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-semibold'>
+                        Perlu<span className='text-user6'>*</span>
                       </h4>
-                      <select
-                        required={statusM == 'perokok-semasa' ? true : false}
-                        name='jenisR'
-                        id='jenisR'
-                        value={jenisR}
-                        onChange={(e) => {
-                          setJenisR(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='rokok-biasa'>Rokok Biasa</option>
-                        <option value='elektronik'>Elektronik</option>
-                        <option value='shisha'>Shisha</option>
-                        <option value='lain-lain'>Lain-lain</option>
-                      </select>
-                    </article> */}
-                    <div
-                      className={`${
-                        statusM == 'perokok-semasa' ? 'visible' : 'hidden'
-                      } col-span-2`}
-                    >
-                      <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
-                        ingin melakukan intervensi merokok?
-                        <span className='text-user6'>*</span>
-                      </p>
                       <div className='flex items-center justify-center'>
                         <input
-                          required={statusM == 'perokok-semasa' ? true : false}
+                          required
                           type='radio'
-                          name='ingin-melakukan-intervensi-merokok'
-                          id='ya-ingin-melakukan-intervensi-merokok'
-                          value='ya-ingin-melakukan-intervensi-merokok'
+                          name='perlu-status-denture'
+                          id='ya-perlu-status-denture'
+                          value='ya-perlu-status-denture'
                           checked={
-                            inginMelakukanIntervensiMerokok ===
-                            'ya-ingin-melakukan-intervensi-merokok'
+                            yaTidakPerluStatusDenture ===
+                            'ya-perlu-status-denture'
                               ? true
                               : false
                           }
                           onChange={(e) => {
-                            setInginMelakukanIntervensiMerokok(e.target.value);
+                            setYaTidakPerluStatusDenture(e.target.value);
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
-                          htmlFor='ya-ingin-melakukan-intervensi-merokok'
+                          htmlFor='ya-perlu-status-denture'
                           className='m-2 text-sm font-m'
                         >
                           Ya
                         </label>
                         <input
-                          required={statusM == 'perokok-semasa' ? true : false}
+                          required
                           type='radio'
-                          name='ingin-melakukan-intervensi-merokok'
-                          id='tidak-ingin-melakukan-intervensi-merokok'
-                          value='tidak-ingin-melakukan-intervensi-merokok'
+                          name='perlu-status-denture'
+                          id='tidak-perlu-status-denture'
+                          value='tidak-perlu-status-denture'
                           checked={
-                            inginMelakukanIntervensiMerokok ===
-                            'tidak-ingin-melakukan-intervensi-merokok'
+                            yaTidakPerluStatusDenture ===
+                            'tidak-perlu-status-denture'
                               ? true
                               : false
                           }
                           onChange={(e) => {
-                            setInginMelakukanIntervensiMerokok(e.target.value);
+                            setYaTidakPerluStatusDenture(e.target.value);
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
                         <label
-                          htmlFor='tidak-ingin-melakukan-intervensi-merokok'
+                          htmlFor='tidak-perlu-status-denture'
                           className='m-2 text-sm font-m'
                         >
                           Tidak
                         </label>
                       </div>
+                      {yaTidakPerluStatusDenture ===
+                        'ya-perlu-status-denture' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label
+                            htmlFor='atas-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Atas
+                          </label>
+                        </div>
+                      )}
+                      {yaTidakPerluStatusDenture ===
+                        'ya-perlu-status-denture' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-atas-perlu-denture'
+                              id='separa-atas-perlu-denture'
+                              value='separa-atas-perlu-denture'
+                              checked={
+                                separaPenuhAtasPerluDenture ===
+                                'separa-atas-perlu-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhAtasPerluDenture(e.target.value);
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-atas-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-atas-perlu-denture'
+                              id='penuh-atas-perlu-denture'
+                              value='penuh-atas-perlu-denture'
+                              checked={
+                                separaPenuhAtasPerluDenture ===
+                                'penuh-atas-perlu-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhAtasPerluDenture(e.target.value);
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-atas-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {yaTidakPerluStatusDenture ===
+                        'ya-perlu-status-denture' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label
+                            htmlFor='bawah-perlu-denture'
+                            className='m-2 text-sm font-m'
+                          >
+                            Bawah
+                          </label>
+                        </div>
+                      )}
+                      {yaTidakPerluStatusDenture ===
+                        'ya-perlu-status-denture' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-bawah-perlu-denture'
+                              id='separa-bawah-perlu-denture'
+                              value='separa-bawah-perlu-denture'
+                              checked={
+                                separaPenuhBawahPerluDenture ===
+                                'separa-bawah-perlu-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhBawahPerluDenture(e.target.value);
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-bawah-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              type='radio'
+                              name='separa-penuh-bawah-perlu-denture'
+                              id='penuh-bawah-perlu-denture'
+                              value='penuh-bawah-perlu-denture'
+                              checked={
+                                separaPenuhBawahPerluDenture ===
+                                'penuh-bawah-perlu-denture'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setSeparaPenuhBawahPerluDenture(e.target.value);
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-bawah-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </article>
+                  </div>
+                </article>
+                <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Kebersihan Mulut
+                  </h4>
+                  <div className='flex items-center '>
+                    <p className='flex flex-row pl-5 text-sm font-m'>
+                      Gred Skor Plak<span className='text-user6'>*</span>
+                    </p>
+                    <select
+                      required
+                      name='kebersihan-mulut'
+                      id='kebersihan-mulut'
+                      value={kebersihanMulutOralHygiene}
+                      onChange={(e) => {
+                        setKebersihanMulutOralHygiene(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='A'>A</option>
+                      <option value='C'>C</option>
+                      <option value='E'>E</option>
+                    </select>
+                  </div>
+                  <div
+                    className={`${
+                      singlePersonSekolah.umur < 15 && 'hidden'
+                    } flex items-center flex-row pl-5`}
+                  >
+                    <p className='text-sm font-m'>
+                      Skor BPE<span className='text-user6'>*</span>
+                    </p>
+                    <select
+                      required={singlePersonSekolah.umur < 15 ? false : true}
+                      name='skor-bpe'
+                      id='skor-bpe'
+                      value={skorBpeOralHygiene}
+                      onChange={(e) => {
+                        setSkorBpeOralHygiene(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                    </select>
+                  </div>
+                  <div
+                    className={`${
+                      singlePersonSekolah.umur < 15 && 'hidden'
+                    } flex items-center flex-row pl-5`}
+                  >
+                    <label
+                      htmlFor='saringan-kanser-mulut'
+                      className='text-sm font-m'
+                    >
+                      Saringan Kanser Mulut
+                    </label>
+                    <input
+                      type='checkbox'
+                      name='saringan-kanser-mulut'
+                      id='saringan-kanser-mulut'
+                      checked={saringanKanserMulutOralHygiene}
+                      onChange={() => {
+                        setSaringanKanserMulutOralHygiene(
+                          !saringanKanserMulutOralHygiene
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='flex text-sm font-m'>
+                      Skor GIS<span className='text-user6'>*</span>
+                    </p>
+                    <select
+                      required
+                      name='skor-gis'
+                      id='skor-gis'
+                      value={skorGisMulutOralHygiene}
+                      onChange={(e) => {
+                        setSkorGisMulutOralHygiene(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                    </select>
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <input
+                      type='checkbox'
+                      name='perlu-penskaleran'
+                      id='perlu-penskaleran'
+                      checked={perluPenskaleranOralHygiene}
+                      onChange={() => {
+                        setPerluPenskaleranOralHygiene(
+                          !perluPenskaleranOralHygiene
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='perlu-penskaleran'
+                      className='m-2 text-sm font-m'
+                    >
+                      Perlu Penskaleran
+                    </label>
+                  </div>
+                </article>
+                <article className=' border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Status Gigi Desidus
+                  </h4>
+                  <div className='grid gap-1'>
+                    <div className='flex items-center justify-center'>
+                      <input
+                        type='checkbox'
+                        name='ada-desidus'
+                        id='ada-desidus'
+                        checked={adaDesidus}
+                        onChange={() => {
+                          setAdaDesidus(!adaDesidus);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='ada-desidus'
+                        className='m-2 text-sm font-m'
+                      >
+                        ada gigi desidus
+                      </label>
                     </div>
-                  </article>
-                </div>
-                <div className='grid gap-2 auto-rows-min'>
-                  <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                    <div
+                      className={`${!adaDesidus && 'hidden'} grid grid-cols-2`}
+                    >
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m lowercase'>d: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='20'
+                          type='number'
+                          name='d-ada-status-gigi-desidus'
+                          id='d-ada-status-gigi-desidus'
+                          value={dAdaGigiDesidus}
+                          onChange={(e) => {
+                            setDAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m lowercase'>m: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='20'
+                          type='number'
+                          name='m-ada-status-gigi-desidus'
+                          id='m-ada-status-gigi-desidus'
+                          value={mAdaGigiDesidus}
+                          onChange={(e) => {
+                            setMAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m lowercase'>f: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='20'
+                          type='number'
+                          name='f-ada-status-gigi-desidus'
+                          id='f-ada-status-gigi-desidus'
+                          value={fAdaGigiDesidus}
+                          onChange={(e) => {
+                            setFAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m lowercase'>x: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='20'
+                          type='number'
+                          name='x-ada-status-gigi-desidus'
+                          id='x-ada-status-gigi-desidus'
+                          value={xAdaGigiDesidus}
+                          onChange={(e) => {
+                            setXAdaGigiDesidus(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {sumDMFXDesidus > 20 && (
+                    <p className='text-user6 font-semibold'>
+                      jumlah <span className='lowercase'>dmfx</span>
+                      tidak boleh melebihi 20
+                    </p>
+                  )}
+                </article>
+                <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Status Gigi Kekal
+                  </h4>
+                  <div className='grid grid-cols-1'>
+                    <div className='flex items-center justify-center peer-active:bg-user3'>
+                      <input
+                        type='checkbox'
+                        name='ada-kekal'
+                        id='ada-kekal'
+                        checked={adaKekal}
+                        onChange={() => {
+                          setAdaKekal(!adaKekal);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
+                      />
+                      <label htmlFor='ada-kekal' className='m-2 text-sm font-m'>
+                        ada gigi kekal
+                      </label>
+                    </div>
+                    <div
+                      className={`${
+                        !adaKekal && 'hidden'
+                      } grid grid-cols-2 gap-2`}
+                    >
+                      <div className='flex flex-row items-center  pl-5'>
+                        <p className='text-sm font-m '>D: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='d-ada-status-gigi-kekal'
+                          id='d-ada-status-gigi-kekal'
+                          value={dAdaGigiKekal}
+                          onChange={(e) => setDAdaGigiKekal(e.target.value)}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m '>M: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='m-ada-status-gigi-kekal'
+                          id='m-ada-status-gigi-kekal'
+                          value={mAdaGigiKekal}
+                          onChange={(e) => {
+                            setMAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m '>F: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='f-ada-status-gigi-kekal'
+                          id='f-ada-status-gigi-kekal'
+                          value={fAdaGigiKekal}
+                          onChange={(e) => {
+                            setFAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m '>E: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='e-ada-status-gigi-kekal'
+                          id='e-ada-status-gigi-kekal'
+                          value={eAdaGigiKekal}
+                          onChange={(e) => {
+                            setEAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                      <div className='flex flex-row items-center pl-5'>
+                        <p className='text-sm font-m '>X: </p>
+                        <span className='text-user6'>*</span>
+                        <input
+                          required
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='x-ada-status-gigi-kekal'
+                          id='x-ada-status-gigi-kekal'
+                          value={xAdaGigiKekal}
+                          onChange={(e) => {
+                            setXAdaGigiKekal(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {sumDMFXKekal > 32 && (
+                    <p className='text-user6 font-semibold'>
+                      jumlah DMFX tidak boleh melebihi 32
+                    </p>
+                  )}
+                </article>
+                <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                  <div className='grid grid-cols-1'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      Oral Hygiene
+                      Risiko Karies{' '}
+                      <span className='text-user6 text-xl'>*</span>
                     </h4>
-                    <div className='flex items-center '>
-                      <p className='flex flex-row pl-5 text-sm font-m'>
-                        Kebersihan Mulut<span className='text-user6'>*</span>
+                    <div className='flex flex-row'>
+                      <p className='flex items-center flex-row pl-5'>
+                        Jumlah Faktor Risiko:
                       </p>
                       <select
                         required
-                        name='kebersihan-mulut'
-                        id='kebersihan-mulut'
-                        value={kebersihanMulutOralHygiene}
+                        name='jumlah-faktor-risiko'
+                        id='jumlah-faktor-risiko'
+                        value={jumlahFaktorRisiko}
                         onChange={(e) => {
-                          setKebersihanMulutOralHygiene(e.target.value);
+                          setJumlahFaktorRisiko(e.target.value);
                         }}
                         className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='A'>A</option>
-                        <option value='C'>C</option>
-                        <option value='E'>E</option>
-                      </select>
-                    </div>
-                    <div
-                      className={`${
-                        singlePersonSekolah.umur < 15 && 'hidden'
-                      } flex items-center flex-row pl-5`}
-                    >
-                      <p className='text-sm font-m'>
-                        Skor BPE<span className='text-user6'>*</span>
-                      </p>
-                      <select
-                        required={singlePersonSekolah.umur < 15 ? false : true}
-                        name='skor-bpe'
-                        id='skor-bpe'
-                        value={skorBpeOralHygiene}
-                        onChange={(e) => {
-                          setSkorBpeOralHygiene(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                       >
                         <option value=''></option>
                         <option value='0'>0</option>
@@ -1809,752 +1934,324 @@ function UserFormSekolahPemeriksaan() {
                         <option value='2'>2</option>
                         <option value='3'>3</option>
                         <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
                       </select>
                     </div>
-                    <div
-                      className={`${
-                        singlePersonSekolah.umur < 15 && 'hidden'
-                      } flex items-center flex-row pl-5`}
-                    >
-                      <label
-                        htmlFor='saringan-kanser-mulut'
-                        className='text-sm font-m'
-                      >
-                        Saringan Kanser Mulut
-                      </label>
+                  </div>
+                </article>
+                <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'>
+                    Cleft Lip/Palate
+                  </h4>
+                  <div className='grid grid-cols-2'>
+                    <div className='flex flex-row items-center pl-5 pt-1'>
                       <input
                         type='checkbox'
-                        name='saringan-kanser-mulut'
-                        id='saringan-kanser-mulut'
-                        checked={saringanKanserMulutOralHygiene}
+                        name='ada-cleft-lip'
+                        id='ada-cleft-lip'
+                        checked={adaCleftLip}
                         onChange={() => {
-                          setSaringanKanserMulutOralHygiene(
-                            !saringanKanserMulutOralHygiene
-                          );
+                          setAdaCleftLip(!adaCleftLip);
                         }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                       />
-                    </div>
-                    <div className='flex items-center flex-row pl-5'>
-                      <p className='flex text-sm font-m'>
-                        Skor GIS<span className='text-user6'>*</span>
-                      </p>
-                      <select
-                        required
-                        name='skor-gis'
-                        id='skor-gis'
-                        value={skorGisMulutOralHygiene}
-                        onChange={(e) => {
-                          setSkorGisMulutOralHygiene(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      <label
+                        htmlFor='ada-cleft-lip'
+                        className='mx-2 text-sm font-m'
                       >
-                        <option value=''></option>
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                      </select>
+                        Ada
+                      </label>
                     </div>
+                    <div className='flex flex-row items-center pl-5 pt-1'>
+                      <input
+                        type='checkbox'
+                        name='rujuk-cleft-lip-palate'
+                        id='rujuk-cleft-lip-palate'
+                        checked={rujukCleftLip}
+                        onChange={() => {
+                          setRujukCleftLip(!rujukCleftLip);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='rujuk-cleft-lip-palate'
+                        className='mx-2 text-sm font-m'
+                      >
+                        Rujuk
+                      </label>
+                    </div>
+                  </div>
+                </article>
+                <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
+                  <div className='grid grid-cols-1 lg:grid-cols-2'>
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='checkbox'
-                        name='perlu-penskaleran'
-                        id='perlu-penskaleran'
-                        checked={perluPenskaleranOralHygiene}
+                        name='kecederaan-gigi-anterior'
+                        id='kecederaan-gigi-anterior'
+                        checked={kecederaanGigiAnteriorTrauma}
                         onChange={() => {
-                          setPerluPenskaleranOralHygiene(
-                            !perluPenskaleranOralHygiene
+                          setKecederaanGigiAnteriorTrauma(
+                            !kecederaanGigiAnteriorTrauma
                           );
                         }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
                       <label
-                        htmlFor='perlu-penskaleran'
+                        htmlFor='kecederaan-gigi-anterior'
                         className='m-2 text-sm font-m'
                       >
-                        Perlu Penskaleran
+                        Kecederaan Gigi Anterior
                       </label>
                     </div>
-                  </article>
-                  <article className=' border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
-                      Status Gigi Desidus
-                    </h4>
-                    <div className='grid gap-1'>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          type='checkbox'
-                          name='ada-desidus'
-                          id='ada-desidus'
-                          checked={adaDesidus}
-                          onChange={() => {
-                            setAdaDesidus(!adaDesidus);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='ada-desidus'
-                          className='m-2 text-sm font-m'
-                        >
-                          ada gigi desidus
-                        </label>
-                      </div>
-                      {/* <div className='flex items-center flex-row pl-5 col-span-2'>
-                    <span
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
-                      onClick={(e) =>
-                        !statusGigiDecidus
-                          ? setStatusGigiDecidus(true)
-                          : setStatusGigiDecidus(false)
-                      }
-                    >
-                      {statusGigiDecidus ? 'Ada' : 'Tiada'}
-                    </span>
-                    <p className='text-xs font-m whitespace-normal'>
-                      {statusGigiDecidus
-                        ? 'Klik sekali lagi jika tiada data'
-                        : 'Klik butang jika ada gigi desidus'}
-                    </p>
-                  </div> */}
-                      <div
-                        className={`${
-                          !adaDesidus && 'hidden'
-                        } grid grid-cols-2`}
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='tisu-lembut'
+                        id='tisu-lembut'
+                        checked={tisuLembutTrauma}
+                        onChange={() => {
+                          setTisuLembutTrauma(!tisuLembutTrauma);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='tisu-lembut'
+                        className='m-2 text-sm font-m'
                       >
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m lowercase'>d: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='d-ada-status-gigi-desidus'
-                            id='d-ada-status-gigi-desidus'
-                            value={dAdaGigiDesidus}
-                            onChange={(e) => {
-                              setDAdaGigiDesidus(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m lowercase'>m: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='m-ada-status-gigi-desidus'
-                            id='m-ada-status-gigi-desidus'
-                            value={mAdaGigiDesidus}
-                            onChange={(e) => {
-                              setMAdaGigiDesidus(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m lowercase'>f: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='f-ada-status-gigi-desidus'
-                            id='f-ada-status-gigi-desidus'
-                            value={fAdaGigiDesidus}
-                            onChange={(e) => {
-                              setFAdaGigiDesidus(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m lowercase'>x: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='x-ada-status-gigi-desidus'
-                            id='x-ada-status-gigi-desidus'
-                            value={xAdaGigiDesidus}
-                            onChange={(e) => {
-                              setXAdaGigiDesidus(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        {/* <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m'>SM: </p>
-                          <input
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='sm-ada-status-gigi-desidus'
-                            id='sm-ada-status-gigi-desidus'
-                            value={smAdaGigiDesidus}
-                            onChange={(e) => {
-                              setSmAdaGigiDesidus(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div> */}
-                      </div>
+                        Tisu Lembut
+                      </label>
                     </div>
-                    {sumDMFXDesidus > 20 && (
-                      <p className='text-user6 font-semibold'>
-                        jumlah <span className='lowercase'>dmfx</span>
-                        tidak boleh melebihi 20
-                      </p>
-                    )}
-                  </article>
-                  <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
-                      Status Gigi Kekal
-                    </h4>
-                    <div className='grid grid-cols-1'>
-                      <div className='flex items-center justify-center peer-active:bg-user3'>
-                        <input
-                          type='checkbox'
-                          name='ada-kekal'
-                          id='ada-kekal'
-                          checked={adaKekal}
-                          onChange={() => {
-                            setAdaKekal(!adaKekal);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
-                        />
-                        <label
-                          htmlFor='ada-kekal'
-                          className='m-2 text-sm font-m'
-                        >
-                          ada gigi kekal
-                        </label>
-                      </div>
-                      {/* <div className='flex items-center flex-row pl-5 col-span-2'>
-                    <span
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m bg-user1 text-userWhite hover:cursor-pointer'
-                      onClick={(e) =>
-                        !statusGigiKekal
-                          ? setStatusGigiKekal(true)
-                          : setStatusGigiKekal(false)
-                      }
-                    >
-                      {statusGigiKekal ? 'Ada' : 'Tiada'}
-                    </span>
-                    <p className='text-xs font-m whitespace-normal'>
-                      {statusGigiKekal
-                        ? 'Klik sekali lagi jika tiada data'
-                        : 'Klik butang jika ada gigi kekal'}
-                    </p>
-                  </div> */}
-                      <div
-                        className={`${
-                          !adaKekal && 'hidden'
-                        } grid grid-cols-2 gap-2`}
+                    <div className='flex items-center flex-row pl-5'>
+                      <input
+                        type='checkbox'
+                        name='tisu-keras'
+                        id='tisu-keras'
+                        checked={tisuKerasTrauma}
+                        onChange={() => {
+                          setTisuKerasTrauma(!tisuKerasTrauma);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='tisu-keras'
+                        className='m-2 text-sm font-m'
                       >
-                        <div className='flex flex-row items-center  pl-5'>
-                          <p className='text-sm font-m '>D: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='32'
-                            type='number'
-                            name='d-ada-status-gigi-kekal'
-                            id='d-ada-status-gigi-kekal'
-                            value={dAdaGigiKekal}
-                            onChange={(e) => {
-                              setDAdaGigiKekal(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m '>M: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='32'
-                            type='number'
-                            name='m-ada-status-gigi-kekal'
-                            id='m-ada-status-gigi-kekal'
-                            value={mAdaGigiKekal}
-                            onChange={(e) => {
-                              setMAdaGigiKekal(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m '>F: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='32'
-                            type='number'
-                            name='f-ada-status-gigi-kekal'
-                            id='f-ada-status-gigi-kekal'
-                            value={fAdaGigiKekal}
-                            onChange={(e) => {
-                              setFAdaGigiKekal(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m '>E: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='32'
-                            type='number'
-                            name='e-ada-status-gigi-kekal'
-                            id='e-ada-status-gigi-kekal'
-                            value={eAdaGigiKekal}
-                            onChange={(e) => {
-                              setEAdaGigiKekal(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m '>X: </p>
-                          <span className='text-user6'>*</span>
-                          <input
-                            required
-                            min='0'
-                            max='32'
-                            type='number'
-                            name='x-ada-status-gigi-kekal'
-                            id='x-ada-status-gigi-kekal'
-                            value={xAdaGigiKekal}
-                            onChange={(e) => {
-                              setXAdaGigiKekal(e.target.value);
-                            }}
-                            className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                          />
-                        </div>
-                      </div>
+                        Tisu Keras
+                      </label>
                     </div>
-                    {sumDMFXKekal > 32 && (
-                      <p className='text-user6 font-semibold'>
-                        jumlah DMFX tidak boleh melebihi 32
-                      </p>
-                    )}
-                  </article>
-                  <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                    <div className='grid grid-cols-1'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Risiko Karies{' '}
-                        <span className='text-user6 text-xl'>*</span>
-                      </h4>
-                      <div className='flex flex-row'>
-                        <p className='flex items-center flex-row pl-5'>
-                          Jumlah Faktor Risiko:
-                        </p>
-                        <select
-                          required
-                          name='jumlah-faktor-risiko'
-                          id='jumlah-faktor-risiko'
-                          value={jumlahFaktorRisiko}
-                          onChange={(e) => {
-                            setJumlahFaktorRisiko(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                        >
-                          <option value=''></option>
-                          <option value='0'>0</option>
-                          <option value='1'>1</option>
-                          <option value='2'>2</option>
-                          <option value='3'>3</option>
-                          <option value='4'>4</option>
-                          <option value='5'>5</option>
-                          <option value='6'>6</option>
-                          <option value='7'>7</option>
-                          <option value='8'>8</option>
-                        </select>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-1 gap-2 auto-rows-min col-span-2 2xl:col-span-1'>
-                  <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
-                    <h4
-                      className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'
-                      onClick={() => setShowCleftLip(!showCleftLip)}
-                    >
-                      Cleft Lip/Palate
-                    </h4>
-                    <div
-                      className={`grid grid-cols-2 transition-all ${
-                        showCleftLip
-                          ? 'max-h-min overflow-y-auto'
-                          : 'max-h-0 overflow-hidden'
-                      }`}
-                    >
-                      <div className='flex flex-row items-center pl-5 pt-1'>
-                        <input
-                          type='checkbox'
-                          name='ada-cleft-lip'
-                          id='ada-cleft-lip'
-                          checked={adaCleftLip}
-                          onChange={() => {
-                            setAdaCleftLip(!adaCleftLip);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='ada-cleft-lip'
-                          className='mx-2 text-sm font-m'
-                        >
-                          Ada
-                        </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 pt-1'>
-                        <input
-                          type='checkbox'
-                          name='rujuk-cleft-lip-palate'
-                          id='rujuk-cleft-lip-palate'
-                          checked={rujukCleftLip}
-                          onChange={() => {
-                            setRujukCleftLip(!rujukCleftLip);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='rujuk-cleft-lip-palate'
-                          className='mx-2 text-sm font-m'
-                        >
-                          Rujuk
-                        </label>
-                      </div>
-                    </div>
-                  </article>
-                  <article className='grid grid-cols-1 xl:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4
-                      className='font-bold flex flex-row pl-5 col-span-1 xl:col-span-2 hover:cursor-pointer'
-                      onClick={() => {
-                        setShowTrauma(!showTrauma);
+                  </div>
+                </article>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Bilangan FS Dibuat 3 Tahun Lepas
+                  </h4>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>GIC: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                      id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                      value={gicBilanganFsDibuat3TahunLepas}
+                      onChange={(e) => {
+                        setGicBilanganFsDibuat3TahunLepas(e.target.value);
                       }}
-                    >
-                      Trauma
-                    </h4>
-                    <div
-                      className={`grid grid-cols-1 xl:grid-cols-2 col-span-1 xl:col-span-2 transition-all ${
-                        showTrauma
-                          ? 'max-h-min overflow-y-auto'
-                          : 'max-h-0 overflow-hidden'
-                      }`}
-                    >
-                      {/* <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='tooth-surface-loss'
-                          id='tooth-surface-loss'
-                          checked={toothSurfaceLossTrauma}
-                          onChange={() => {
-                            setToothSurfaceLossTrauma(!toothSurfaceLossTrauma);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='tooth-surface-loss'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tooth Surface Loss
-                        </label>
-                      </div> */}
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='kecederaan-gigi-anterior'
-                          id='kecederaan-gigi-anterior'
-                          checked={kecederaanGigiAnteriorTrauma}
-                          onChange={() => {
-                            setKecederaanGigiAnteriorTrauma(
-                              !kecederaanGigiAnteriorTrauma
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='kecederaan-gigi-anterior'
-                          className='m-2 text-sm font-m'
-                        >
-                          Kecederaan Gigi Anterior
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='tisu-lembut'
-                          id='tisu-lembut'
-                          checked={tisuLembutTrauma}
-                          onChange={() => {
-                            setTisuLembutTrauma(!tisuLembutTrauma);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='tisu-lembut'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tisu Lembut
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='tisu-keras'
-                          id='tisu-keras'
-                          checked={tisuKerasTrauma}
-                          onChange={() => {
-                            setTisuKerasTrauma(!tisuKerasTrauma);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='tisu-keras'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tisu Keras
-                        </label>
-                      </div>
-                    </div>
-                  </article>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      Bilangan FS Dibuat 3 Tahun Lepas
-                    </h4>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>GIC: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                        id='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                        value={gicBilanganFsDibuat3TahunLepas}
-                        onChange={(e) => {
-                          setGicBilanganFsDibuat3TahunLepas(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>Resin: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                        id='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                        value={resinBilanganFsDibuat3TahunLepas}
-                        onChange={(e) => {
-                          setResinBilanganFsDibuat3TahunLepas(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
-                      <p className='text-sm font-m '>Lain-lain: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                        id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                        value={lainLainBilanganFsDibuat3TahunLepas}
-                        onChange={(e) => {
-                          setLainLainBilanganFsDibuat3TahunLepas(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                  </article>
-                  <article className='grid grid-cols-2 md:grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2 md:col-span-3'>
-                      Bilangan FS Dibuat 3 Tahun Lepas Terjadi
-                    </h4>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>D: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        value={dBilanganFsDibuat3TahunLepasTerjadi}
-                        onChange={(e) => {
-                          setDBilanganFsDibuat3TahunLepasTerjadi(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>M: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        value={mBilanganFsDibuat3TahunLepasTerjadi}
-                        onChange={(e) => {
-                          setMBilanganFsDibuat3TahunLepasTerjadi(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>F: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        value={fBilanganFsDibuat3TahunLepasTerjadi}
-                        onChange={(e) => {
-                          setFBilanganFsDibuat3TahunLepasTerjadi(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>E: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        value={eBilanganFsDibuat3TahunLepasTerjadi}
-                        onChange={(e) => {
-                          setEBilanganFsDibuat3TahunLepasTerjadi(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>X: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                        value={xBilanganFsDibuat3TahunLepasTerjadi}
-                        onChange={(e) => {
-                          setXBilanganFsDibuat3TahunLepasTerjadi(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                  </article>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      D
-                    </h4>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>Class I: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='class-1-d'
-                        id='class-1-d'
-                        value={classID}
-                        onChange={(e) => {
-                          setClassID(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>Class II: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='class-2-d'
-                        id='class-2-d'
-                        value={classIID}
-                        onChange={(e) => {
-                          setClassIID(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    {sumClassD > dAdaGigiKekal && (
-                      <p className='col-span-2 text-user6 font-semibold'>
-                        jumlah class I + class II D tidak boleh melebihi D
-                      </p>
-                    )}
-                  </article>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      F
-                    </h4>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>Class I: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='class-1-f'
-                        id='class-1-f'
-                        value={classIF}
-                        onChange={(e) => {
-                          setClassIF(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    <div className='flex flex-row pl-5 items-center'>
-                      <p className='text-sm font-m '>Class II: </p>
-                      <input
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='class-2-f'
-                        id='class-2-f'
-                        value={classIIF}
-                        onChange={(e) => {
-                          setClassIIF(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div>
-                    {sumClassF > fAdaGigiKekal && (
-                      <p className='col-span-2 text-user6 font-semibold'>
-                        jumlah class I + class II F tidak boleh melebihi F
-                      </p>
-                    )}
-                  </article>
-                </div>
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>Resin: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                      id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                      value={resinBilanganFsDibuat3TahunLepas}
+                      onChange={(e) => {
+                        setResinBilanganFsDibuat3TahunLepas(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
+                    <p className='text-sm font-m '>Lain-lain: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                      id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                      value={lainLainBilanganFsDibuat3TahunLepas}
+                      onChange={(e) => {
+                        setLainLainBilanganFsDibuat3TahunLepas(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                </article>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2 md:col-span-3'>
+                    Bilangan FS Dibuat 3 Tahun Lepas Terjadi
+                  </h4>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>D: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      value={dBilanganFsDibuat3TahunLepasTerjadi}
+                      onChange={(e) => {
+                        setDBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>M: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      value={mBilanganFsDibuat3TahunLepasTerjadi}
+                      onChange={(e) => {
+                        setMBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>F: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      value={fBilanganFsDibuat3TahunLepasTerjadi}
+                      onChange={(e) => {
+                        setFBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>E: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      value={eBilanganFsDibuat3TahunLepasTerjadi}
+                      onChange={(e) => {
+                        setEBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>X: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                      value={xBilanganFsDibuat3TahunLepasTerjadi}
+                      onChange={(e) => {
+                        setXBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                </article>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>D</h4>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>Class I: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='class-1-d'
+                      id='class-1-d'
+                      value={classID}
+                      onChange={(e) => {
+                        setClassID(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>Class II: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='class-2-d'
+                      id='class-2-d'
+                      value={classIID}
+                      onChange={(e) => {
+                        setClassIID(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  {sumClassD > dAdaGigiKekal && (
+                    <p className='col-span-2 text-user6 font-semibold'>
+                      jumlah class I + class II D tidak boleh melebihi D
+                    </p>
+                  )}
+                </article>
+                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>F</h4>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>Class I: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='class-1-f'
+                      id='class-1-f'
+                      value={classIF}
+                      onChange={(e) => {
+                        setClassIF(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  <div className='flex flex-row pl-5 items-center'>
+                    <p className='text-sm font-m '>Class II: </p>
+                    <input
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='class-2-f'
+                      id='class-2-f'
+                      value={classIIF}
+                      onChange={(e) => {
+                        setClassIIF(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    />
+                  </div>
+                  {sumClassF > fAdaGigiKekal && (
+                    <p className='col-span-2 text-user6 font-semibold'>
+                      jumlah class I + class II F tidak boleh melebihi F
+                    </p>
+                  )}
+                </article>
               </section>
             )}
             {adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? null : (
@@ -2566,10 +2263,26 @@ function UserFormSekolahPemeriksaan() {
               <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                 <div className='grid gap-2'>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                      Pengapan Fisur{' '}
-                      <FaInfoCircle title='Fissure Sealant' className='m-2' />
-                    </h4>
+                    <div className='font-bold flex flex-row items-center pl-5 col-span-2'>
+                      <h4>
+                        Pengapan Fisur{' '}
+                        <FaInfoCircle
+                          title='Fissure Sealant'
+                          className='m-2 inline-flex'
+                        />
+                      </h4>
+                      <span
+                        className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
+                          sumGigiKekalE !== eAdaGigiKekal
+                            ? 'bg-user9'
+                            : 'bg-user7'
+                        } `}
+                      >
+                        E : {eAdaGigiKekal}{' '}
+                        {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                        {sumGigiKekalE}
+                      </span>
+                    </div>
                     <div className='flex flex-row items-center pl-11 col-span-2'>
                       <input
                         type='checkbox'
@@ -2588,7 +2301,7 @@ function UserFormSekolahPemeriksaan() {
                         murid perlu pengapan fisur
                       </label>
                     </div>
-                    <div className='flex flex-row items-center pl-5'>
+                    <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                       <input
                         min='0'
                         max='16'
@@ -2608,84 +2321,21 @@ function UserFormSekolahPemeriksaan() {
                         jumlah gigi kekal perlu Pengapan Fisur
                       </label>
                     </div>
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-gigi-kekal-perlu-fs'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-gigi-kekal-perlu-fs'
-                        id='semula-jumlah-gigi-kekal-perlu-fs'
-                        value={semulaJumlahGigiKekalPerluFs}
-                        onChange={(e) => {
-                          setSemulaJumlahGigiKekalPerluFs(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
-                    {/* <div className='flex flex-row items-center pl-5 col-span-2'>
-                      <label
-                        htmlFor='jumlah-gigi-kekal-gagal-fs'
-                        className='text-sm font-m'
-                      >
-                        Jumlah gigi FS gagal
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='jumlah-gigi-kekal-gagal-fs'
-                        id='jumlah-gigi-kekal-gagal-fs'
-                        value={jumlahGigiFsGagal}
-                        onChange={(e) => {
-                          setJumlahGigiFsGagal(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                     {sumPerluFs > 16 && (
                       <p className='col-span-2 text-user6 font-semibold'>
                         jumlah baru & semula FS tidak boleh melebihi 16
                       </p>
                     )}
-                    {/* <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                      murid perlu FS
-                    </p>
-                    <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-murid-perlu-fs'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-murid-perlu-fs'
-                        id='semula-jumlah-murid-perlu-fs'
-                        value={semulaJumlahMuridPerluFs}
-                        onChange={(e) => {
-                          setSemulaJumlahMuridPerluFs(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                   </article>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                      Sapuan Fluorida{' '}
+                      Sapuan Fluorida(FV)
                       <FaInfoCircle
                         title='Fluoride Varnish Application'
                         className='m-2'
                       />
                     </h4>
-                    <div className='flex flex-row items-center pl-11 col-span-2'>
+                    <div className='flex flex-row items-center pl-11 col-span-2 pb-2'>
                       <input
                         type='checkbox'
                         name='baru-jumlah-murid-perlu-fv'
@@ -2700,79 +2350,32 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-murid-perlu-fv'
                         className='text-sm font-m'
                       >
-                        murid perlu sapuan fluorida
+                        murid perlu Sapuan Fluorida(FV)
                       </label>
                     </div>
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='baru-jumlah-gigi-kekal-perlu-fv'
-                        id='baru-jumlah-gigi-kekal-perlu-fv'
-                        value={baruJumlahGigiKekalPerluFv}
-                        onChange={(e) => {
-                          setBaruJumlahGigiKekalPerluFv(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 mr-3 text-sm font-m'
-                      />
-                      <label
-                        htmlFor='baru-jumlah-gigi-kekal-perlu-fv'
-                        className='text-sm font-m'
-                      >
-                        jumlah gigi kekal perlu sapuan fluorida
-                      </label>
-                    </div> */}
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-gigi-kekal-perlu-fv'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-gigi-kekal-perlu-fv'
-                        id='semula-jumlah-gigi-kekal-perlu-fv'
-                        value={semulaJumlahGigiKekalPerluFv}
-                        onChange={(e) => {
-                          setSemulaJumlahGigiKekalPerluFv(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                     {sumPerluFv > 16 && (
                       <p className='col-span-2 text-user6 font-semibold'>
                         jumlah baru & semula FV tidak boleh melebihi 16
                       </p>
                     )}
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-murid-perlu-fv'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-murid-perlu-fv'
-                        id='semula-jumlah-murid-perlu-fv'
-                        value={semulaJumlahMuridPerluFv}
-                        onChange={(e) => {
-                          setSemulaJumlahMuridPerluFv(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                   </article>
                   <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row items-center pl-5 col-span-2'>
-                      PRR Jenis 1
-                    </h4>
+                    <div className='flex flex-row items-center font-bold md:pl-5 col-span-2'>
+                      <h4 className='text-sm md:text-base'>
+                        Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
+                      </h4>
+                      <span
+                        className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
+                          sumGigiKekalE !== eAdaGigiKekal
+                            ? 'bg-user9'
+                            : 'bg-user7'
+                        } `}
+                      >
+                        E : {eAdaGigiKekal}{' '}
+                        {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                        {sumGigiKekalE}
+                      </span>
+                    </div>
                     <div className='flex flex-row items-center pl-11 col-span-2'>
                       <input
                         type='checkbox'
@@ -2790,10 +2393,11 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-murid-perlu-prr-jenis-1'
                         className='text-sm font-m'
                       >
-                        murid perlu PRR Jenis 1
+                        murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR Type
+                        I)
                       </label>
                     </div>
-                    <div className='flex flex-row items-center pl-5'>
+                    <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                       <input
                         min='0'
                         max='16'
@@ -2810,56 +2414,15 @@ function UserFormSekolahPemeriksaan() {
                         htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                         className='text-sm font-m'
                       >
-                        jumlah gigi kekal perlu PRR Jenis 1
+                        jumlah gigi kekal perlu Tampalan Resin Pencegahan Jenis
+                        1 (PRR Type I)
                       </label>
                     </div>
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                        id='semula-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                        value={semulaJumlahGigiKekalPerluPrrJenis1}
-                        onChange={(e) => {
-                          setSemulaJumlahGigiKekalPerluPrrJenis1(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                     {sumPerluPrr > 16 && (
                       <p className='col-span-2 text-user6 font-semibold'>
                         jumlah baru & semula PRR tidak boleh melebihi 16
                       </p>
                     )}
-                    {/* <div className='flex flex-row items-center pl-5'>
-                      <label
-                        htmlFor='semula-jumlah-murid-perlu-prr-jenis-1'
-                        className='text-sm font-m'
-                      >
-                        Semula
-                      </label>
-                      <input
-                        min='0'
-                        max='16'
-                        type='number'
-                        name='semula-jumlah-murid-perlu-prr-jenis-1'
-                        id='semula-jumlah-murid-perlu-prr-jenis-1'
-                        value={semulaJumlahMuridPerluPrrJenis1}
-                        onChange={(e) => {
-                          setSemulaJumlahMuridPerluPrrJenis1(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      />
-                    </div> */}
                   </article>
                 </div>
                 <div className='grid auto-rows-min gap-2'>
@@ -2924,9 +2487,35 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </article>
                   <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      Jumlah Tampalan Diperlukan
-                    </h4>
+                    <div className='font-bold flex flex-col lg:flex-row lg:pl-5 col-span-2'>
+                      <h4 className='flex items-center justify-center'>
+                        Jumlah Tampalan Diperlukan
+                      </h4>
+                      <div className='m-1 flex items-center justify-center'>
+                        <span
+                          className={`text-xs text-userWhite font-mono px-2 py-1 text-center lowercase rounded-lg mr-1 ${
+                            sumGigiDesidus !== dAdaGigiDesidus
+                              ? 'bg-user9'
+                              : 'bg-user7'
+                          } `}
+                        >
+                          d : {dAdaGigiDesidus}{' '}
+                          {dAdaGigiDesidus !== sumGigiDesidus ? '≠' : '='}{' '}
+                          {sumGigiDesidus}
+                        </span>
+                        <span
+                          className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ${
+                            sumGigiKekal !== dAdaGigiKekal
+                              ? 'bg-user9'
+                              : 'bg-user7'
+                          } `}
+                        >
+                          D : {dAdaGigiKekal}{' '}
+                          {dAdaGigiKekal !== sumGigiKekal ? '≠' : '='}{' '}
+                          {sumGigiKekal}
+                        </span>
+                      </div>
+                    </div>
                     <div className='grid grid-rows-2 gap-2'>
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <h4 className='font-semibold flex flex-row pl-5 col-span-2'>

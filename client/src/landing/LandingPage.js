@@ -1,9 +1,25 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowAltCircleUp } from 'react-icons/fa';
+import { FaArrowAltCircleUp, FaBell } from 'react-icons/fa';
 
 function LandingPage() {
   const [showKlinikSubMenu, setShowKlinikSubMenu] = useState(false);
+
+  const [showUpdate, setShowUpdate] = useState(false);
+  // dropdown notification
+  let notificationRef = useRef();
+
+  useEffect(() => {
+    let tutupNotification = (e) => {
+      if (!notificationRef.current.contains(e.target)) {
+        setShowUpdate(false);
+      }
+    };
+    document.addEventListener('mousedown', tutupNotification);
+    return () => {
+      document.removeEventListener('mousedown', tutupNotification);
+    };
+  });
 
   return (
     <>
@@ -29,6 +45,64 @@ function LandingPage() {
         </div>
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
+        </div>
+      </div>
+      <div ref={notificationRef}>
+        <div className='absolute top-10 right-6'>
+          <div className='relative'>
+            <FaBell
+              className='transition-colors hover:text-user hover:scale-110 duration-500 text-3xl text-userWhite cursor-pointer'
+              onClick={() => {
+                setShowUpdate(!showUpdate);
+              }}
+            />
+            <span className='absolute top-0.5 right-0.5 -mr-1 -mt-1 w-3 h-3 rounded-full bg-user9 animate-ping'></span>
+            <span className='absolute top-0.5 right-0.5 -mr-1 -mt-1 w-3 h-3 rounded-full bg-user9'></span>
+            <div
+              className={`absolute w-48 z-50 shadow-md bg-userWhite text-user1 top-9 right-1 transition-all duration-500 ${
+                showUpdate
+                  ? 'max-h-96 translate-y-1'
+                  : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {/* content */}
@@ -93,12 +167,9 @@ function LandingPage() {
       <div className='absolute bottom-0 left-0 right-0 grid grid-cols-2 bg-user3 uppercase'>
         <p className='text-left ml-1 my-1 text-xs'>hak cipta kkm</p>
         <p className='text-right mr-1 my-1 text-xs whitespace-nowrap overflow-x-auto'>
-          <a
-            className='text-admin2 underline'
-            href='https://forms.gle/v9P7w9qweTX86Nxn8'
-          >
-            helpdesk: borang maklumbalas
-          </a>
+          <Link target='_blank' to='/faq' className='underline'>
+            bantuan perkhidmatan: soalan lazim giret 2.0
+          </Link>
         </p>
       </div>
     </>

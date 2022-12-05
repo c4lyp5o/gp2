@@ -4,48 +4,59 @@ const Schema = mongoose.Schema;
 const operatorSchema = new Schema({
   nama: {
     type: String,
-    // required: true
   },
-  e_mail: {
+  email: {
     type: String,
-    // required: true
   },
   mdcNumber: {
     type: String,
-    // required: true
   },
-  // jp
   mdtbNumber: {
     type: String,
-    // required: true
   },
   gred: {
     type: String,
-    // required: true
   },
   createdByNegeri: {
     type: String,
-    // required: true
   },
   createdByDaerah: {
     type: String,
-    // required: true
   },
   kpSkrg: {
     type: String,
-    // required: true
+  },
+  kodFasiliti: {
+    type: String,
   },
   role: {
     type: String,
-    // required: true
+  },
+  rolePromosiKlinik: {
+    type: Boolean,
+    default: false,
   },
   statusPegawai: {
     type: String,
-    // required: true
+  },
+  cscspVerified: {
+    type: Boolean,
+    default: false,
   },
   tempKey: {
     type: String,
-    // required: true
+  },
+  activationStatus: {
+    type: Boolean,
+    default: false,
+  },
+  summary: {
+    type: Array,
+    default: [],
+  },
+  tempatBertugasSebelumIni: {
+    type: Array,
+    default: [],
   },
 });
 

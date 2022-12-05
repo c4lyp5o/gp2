@@ -30,12 +30,10 @@ const UserSchema = new mongoose.Schema({
   kp: {
     type: String,
   },
-  email: {
+  kodFasiliti: {
     type: String,
   },
-
-  // this is klinik
-  kodFasiliti: {
+  email: {
     type: String,
   },
   statusPerkhidmatan: {
@@ -49,6 +47,9 @@ const UserSchema = new mongoose.Schema({
       message:
         '{VALUE} is not supported. Provide only "klinik", "kepp", "utc", "rtc", "visiting"',
     },
+  },
+  lastLogin: {
+    type: Date,
   },
 });
 
@@ -115,10 +116,12 @@ UserSchema.methods.createJWT = function () {
     {
       userId: this._id,
       username: this.username,
+      accountType: this.accountType,
       negeri: this.negeri,
       daerah: this.daerah,
       kp: this.kp,
-      accountType: this.accountType,
+      kodFasiliti: this.kodFasiliti,
+      email: this.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }

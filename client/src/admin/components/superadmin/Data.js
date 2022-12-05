@@ -1,15 +1,13 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
-import Add from './Add';
-import Edit from './Edit';
-import Delete from './Delete';
-import { FaPlus } from 'react-icons/fa';
+import moment from 'moment';
+import { FaPlus, FaInfoCircle } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
-import { Ring } from 'react-awesome-spinners';
 
-import nothinghere from '../assets/nothinghere.png';
+import { AddModal, EditModal, DeleteModal } from '../Modal';
+import { Loading, NothingHereBoi } from '../Screens';
 
-export default function Data({ FType }) {
+export default function Data({ FType, kp }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -23,12 +21,15 @@ export default function Data({ FType }) {
   const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [user, setUser] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
+  const [dataIndex, setDataIndex] = useState(null);
 
   // short circuit
   const [showKlinik, setShowKlinik] = useState(false);
   const [showOperators, setShowOperators] = useState(false);
   const [showFacilities, setShowFacilities] = useState(false);
+  const [showEvent, setShowEvent] = useState(false);
 
   // reloader workaround
   const [reload, setReload] = useState(false);
@@ -48,7 +49,13 @@ export default function Data({ FType }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
+      console.log(res.data);
       setData(res.data);
+      setShowPassword({
+        ...showPassword,
+        [res.data.username]: false,
+        [res.data.kaunterUsername]: false,
+      });
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
       }
@@ -67,6 +74,7 @@ export default function Data({ FType }) {
       setShowFacilities(false);
       setShowOperators(false);
       setShowKlinik(false);
+      setShowEvent(false);
     };
   }, [FType, reload]);
 
@@ -97,16 +105,16 @@ export default function Data({ FType }) {
                     Emel KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Nama Pengguna KP
+                    Akaun Pengguna KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Kata Laluan KP
+                    Akaun Pendaftaran KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Status KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -129,16 +137,39 @@ export default function Data({ FType }) {
                       {encryptEmail(kp.email)}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
-                      {kp.username}
-                    </td>
-                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.username}</div>
                       <div id={index}>
-                        {showPassword === true
+                        {showPassword[kp.username] === true
                           ? kp.password
                           : encryptPassword(kp.password)}
                         <button
                           className='ml-1'
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() => {
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.username]: !showPassword[kp.username],
+                            });
+                          }}
+                        >
+                          <AiOutlineEye />
+                        </button>
+                      </div>
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div>{kp.kaunterUsername}</div>
+                      <div id={index}>
+                        {showPassword[kp.kaunterUsername] === true
+                          ? kp.kaunterPassword
+                          : encryptPassword(kp.kaunterPassword)}
+                        <button
+                          className='ml-1'
+                          onClick={() =>
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.kaunterUsername]:
+                                !showPassword[kp.kaunterUsername],
+                            })
+                          }
                         >
                           <AiOutlineEye />
                         </button>
@@ -163,7 +194,7 @@ export default function Data({ FType }) {
                           setId(kp._id);
                         }}
                       >
-                        Ubah
+                        Kemaskini
                       </button>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
@@ -286,7 +317,10 @@ export default function Data({ FType }) {
                     Peranan
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Pemegang Promosi Klink
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -303,7 +337,40 @@ export default function Data({ FType }) {
                         {index + 1}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {o.nama}
+                        <div className='flex'>
+                          {o.nama}
+                          {o.tempatBertugasSebelumIni.length > 0 ? (
+                            <FaInfoCircle
+                              className='ml-2 text-md text-userBlack'
+                              onMouseEnter={(e) => {
+                                setShowInfo(true);
+                                setDataIndex(index);
+                              }}
+                              onMouseLeave={(e) => {
+                                setShowInfo(false);
+                              }}
+                            />
+                          ) : null}
+                          {showInfo && (
+                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+                              <div className='text-xs'>
+                                <h2 className='font-mono'>
+                                  Tempat Bertugas Sebelum Ini:{' '}
+                                  {data[dataIndex].tempatBertugasSebelumIni.map(
+                                    (o, indexPegawai) => {
+                                      return (
+                                        <div key={indexPegawai}>
+                                          {indexPegawai + 1}. {o}{' '}
+                                        </div>
+                                      );
+                                    }
+                                  )}
+                                </h2>
+                                <p className='whitespace-nowrap'></p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </td>
                       {FType === 'pp' && (
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -322,7 +389,11 @@ export default function Data({ FType }) {
                         {o.kpSkrg}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {o.role}
+                        {o.role === 'admin' && <span>Pentadbir Klinik</span>}
+                        {o.role === 'umum' && <span>Pengguna</span>}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {o.rolePromosiKlinik ? 'Ya' : 'Tidak'}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
@@ -332,7 +403,7 @@ export default function Data({ FType }) {
                             setId(o._id);
                           }}
                         >
-                          Ubah
+                          Kemaskini
                         </button>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -431,8 +502,18 @@ export default function Data({ FType }) {
                       </th>
                     </>
                   )}
+                  {FType === 'ins' && (
+                    <>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Kategori
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Status
+                      </th>
+                    </>
+                  )}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Urus
+                    Tindakan
                   </th>
                 </tr>
               </thead>
@@ -494,6 +575,24 @@ export default function Data({ FType }) {
                           </td>
                         </>
                       )}
+                      {FType === 'ins' && (
+                        <>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {f.kategoriInstitusi}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {f.statusPerkhidmatan === 'active' ? (
+                              <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                                Aktif
+                              </span>
+                            ) : (
+                              <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Tidak Aktif
+                              </span>
+                            )}
+                          </td>
+                        </>
+                      )}
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -503,7 +602,7 @@ export default function Data({ FType }) {
                             setId(f._id);
                           }}
                         >
-                          Ubah
+                          Kemaskini
                         </button>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
@@ -527,54 +626,111 @@ export default function Data({ FType }) {
     }
   }
 
-  function NothingHereBoi() {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto rounded-md grid'>
-          <div className='rounded-lg shadow-lg bg-white max-w-sm'>
-            <img
-              className='rounded-t-lg'
-              src={nothinghere}
-              alt='There is nothing here'
-            />
-            <div className='p-6'>
-              <h5 className='text-gray-900 text-xl font-medium mb-2'>
-                Tiada Data
-              </h5>
-              <p className='text-gray-700 text-base mb-4'>
-                Data{' '}
-                {FType === 'kp' ? `Klinik Pergigian` : `${Dictionary[FType]}`}{' '}
-                belum di isi...
-              </p>
-            </div>
+  function Event() {
+    if (data.length > 0) {
+      return (
+        <div className='flex flex-col items-center gap-5'>
+          <h1 className='text-3xl font-bold mt-10 mb-10'>
+            Senarai Program {kp}
+          </h1>
+          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+            <table className='table-auto'>
+              <thead className='text-adminWhite bg-admin3'>
+                <tr>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Bil.
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nama Program
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Nama Aktiviti
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Tarikh Aktiviti
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Kaedah Penyampaian Perkhidmatan
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Tindakan
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='bg-admin4'>
+                {data.map((f, index) => (
+                  <tr key={f._id}>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {index + 1}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {Dictionary[f.jenisEvent]}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.nama}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {moment(f.tarikh).format('DD/MM/YYYY')}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {/* {f.modPenyampaianPerkhidmatan[0] === 'ppb'
+                        ? 'Pasukan Pergigian Bergerak'
+                        : f.modPenyampaianPerkhidmatan[0] === 'kpb'
+                        ? 'Klinik Pergigian Bergerak'
+                        : 'Makmal Pergigian Bergerak'} */}
+                      <div className='grid gap-1'>
+                        {f.modPenyampaianPerkhidmatan.map((f) => (
+                          <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            {Dictionary[f]}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowEditModal(true);
+                          setId(f._id);
+                        }}
+                      >
+                        Kemaskini
+                      </button>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          setShowDeleteModal(true);
+                          setId(f._id);
+                          setDeleteCandidate(f.nama);
+                        }}
+                      >
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   if (loading) {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-          <div className='flex justify-center mb-2'>
-            <Ring color='#c44058' />
-          </div>
-          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat...
-          </span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!loading) {
     return (
       <>
-        {data.length === 0 && <NothingHereBoi />}
+        {data.length === 0 && <NothingHereBoi FType={FType} />}
         {showKlinik && <Klinik />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
+        {showEvent && <Event />}
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
           onClick={() => {
@@ -588,25 +744,28 @@ export default function Data({ FType }) {
           </div>
         </button>
         {showAddModal && (
-          <Add
+          <AddModal
             setShowAddModal={setShowAddModal}
             FType={FType}
+            negeri={negeri}
             daerah={daerah}
+            kp={kp}
             setReload={setReload}
             reload={reload}
           />
         )}
         {showEditModal && (
-          <Edit
+          <EditModal
             setShowEditModal={setShowEditModal}
             FType={FType}
+            kp={kp}
             id={id}
             setReload={setReload}
             reload={reload}
           />
         )}
         {showDeleteModal && (
-          <Delete
+          <DeleteModal
             setShowDeleteModal={setShowDeleteModal}
             FType={FType}
             deleteCandidate={deleteCandidate}
