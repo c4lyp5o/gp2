@@ -165,7 +165,7 @@ const getData = async (req, res) => {
                 kp: Data.kp,
                 kodFasiliti: Data.kodFasiliti,
                 accountType: 'kaunterUser',
-                password: `${acronym.toLowerCase()}${negeriNum}${daerahNum}`,
+                password: generateRandomString(8),
               });
               console.log('tempKaunter:', tempKaunter);
               // creating generic 5 JP when creating clinic
