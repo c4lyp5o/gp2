@@ -556,7 +556,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.nomborMdc}
                               >
-                                {p.nama}
+                                {p.nama} | MDC {p.nomborMdc}
                               </option>
                             ))}
                           </select>
@@ -684,7 +684,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.mdtbNumber}
                               >
-                                {p.nama}
+                                {p.nama} | {p.mdtbNumber}
                               </option>
                             ))}
                           </select>
