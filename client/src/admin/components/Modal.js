@@ -43,6 +43,7 @@ const AddModal = ({
   const currentGred = useRef();
   const currentRole = useRef('');
   const currentRolePromosiKlinik = useRef();
+  const currentRoleMediaSosialKlinik = useRef();
   const currentRisiko = useRef();
   // institusi
   const currentKategoriInstitusi = useRef();
@@ -77,7 +78,20 @@ const AddModal = ({
   const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
-    setAddingData(true);
+    if (FType === 'pp' || FType === 'jp') {
+      if (
+        !carianNama ||
+        noPpJp === 'Tiada pegawai dijumpai' ||
+        noPpJp === 'Tiada juruterapi pergigian dijumpai'
+      ) {
+        toast.error('Tiada nama');
+        return;
+      }
+      if (!currentRegNumber.current) {
+        toast.error('Klik pada butang cari');
+        return;
+      }
+    }
     let Data = {};
     Data = {
       ...Data,
@@ -447,7 +461,7 @@ const AddModal = ({
                           for='default-search'
                           className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          Search
+                          Cari
                         </label>
                         <div className='relative'>
                           <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
@@ -503,7 +517,7 @@ const AddModal = ({
                                 setSearching(false);
                               }}
                             >
-                              Search
+                              Cari
                             </button>
                           ) : (
                             <>
@@ -556,7 +570,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.nomborMdc}
                               >
-                                {p.nama}
+                                {p.nama} | MDC {p.nomborMdc}
                               </option>
                             ))}
                           </select>
@@ -571,7 +585,7 @@ const AddModal = ({
                           for='default-search'
                           className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          Search
+                          Cari
                         </label>
                         <div className='relative'>
                           <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
@@ -631,7 +645,7 @@ const AddModal = ({
                                 setSearching(false);
                               }}
                             >
-                              Search
+                              Cari
                             </button>
                           ) : (
                             <>
@@ -684,7 +698,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.mdtbNumber}
                               >
-                                {p.nama}
+                                {p.nama} | {p.mdtbNumber}
                               </option>
                             ))}
                           </select>
@@ -799,7 +813,7 @@ const AddModal = ({
                     </div>
                     <div className='mt-3'>
                       <label htmlFor='role-promosi-klinik' className='mr-3'>
-                        Pemegang promosi klinik?
+                        Pegawai promosi fasiliti?
                       </label>
                       <input
                         type='checkbox'
@@ -807,6 +821,19 @@ const AddModal = ({
                         ref={currentRolePromosiKlinik}
                       />
                     </div>
+                    {/* <div className='mt-3'>
+                      <label
+                        htmlFor='role-media-sosial-klinik'
+                        className='mr-3'
+                      >
+                        Pegawai media sosial fasiliti?
+                      </label>
+                      <input
+                        type='checkbox'
+                        id='role-media-sosial-klinik'
+                        ref={currentRoleMediaSosialKlinik}
+                      />
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1139,12 +1166,12 @@ const AddModal = ({
               <div className={styles.modalContent}>
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
-                    {/* <p>
+                    <p>
                       Tarikh Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
-                    </p> */}
+                    </p>
                     {/* <input
                         required
                         className='border-2'
@@ -1155,7 +1182,7 @@ const AddModal = ({
                           (currentTarikh.current = e.target.value)
                         }
                       /> */}
-                    {/* <CustomDatePicker /> */}
+                    <CustomDatePicker />
                     <p>
                       Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -1173,7 +1200,7 @@ const AddModal = ({
                         id='jenisEvent'
                       >
                         <option value=''>Jenis Program / Aktiviti</option>
-                        {/* <option value='projek-komuniti'>Projek Komuniti</option>
+                        <option value='projek-komuniti'>Projek Komuniti</option>
                         <option value='ppkps'>
                           Program Pemasyarakatan Perkhidmatan Klinik Pergigian
                           Sekolah
@@ -1186,8 +1213,8 @@ const AddModal = ({
                         <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
-                        </option> */}
-                        <option value='program-dewasa-muda'>
+                        </option>
+                        {/* <option value='program-dewasa-muda'>
                           Program Dewasa Muda
                         </option>
                         <option value='kampung-angkat-pergigian'>
@@ -1201,10 +1228,10 @@ const AddModal = ({
                         </option>
                         <option value='institusi-oku-pdk'>
                           Institusi OKU / PDK
-                        </option>
+                        </option> */}
                       </select>
                     </div>
-                    {currentJenisEvent.current === 'program-dewasa-muda' && (
+                    {/* {currentJenisEvent.current === 'program-dewasa-muda' && (
                       <div className='grid gap-1'>
                         <p>
                           Jenis Institusi
@@ -1235,11 +1262,11 @@ const AddModal = ({
                           </option>
                         </select>
                       </div>
-                    )}
-                    {/* <p className='mt-3 font-semibold'>
+                    )} */}
+                    <p className='mt-3 font-semibold'>
                       Mod Penyampaian Perkhidmatan
-                    </p> */}
-                    {/* <div className='grid grid-cols-2 gap-1'>
+                    </p>
+                    <div className='grid grid-cols-2 gap-1'>
                       <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                       <input
                         type='checkbox'
@@ -1267,7 +1294,7 @@ const AddModal = ({
                           eventModeChecker(e.target.value);
                         }}
                       />
-                    </div> */}
+                    </div>
                     <p>
                       Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -1304,7 +1331,7 @@ const AddModal = ({
                         />
                       </div>
                     </div>
-                    <p>Status {Dictionary[FType]}</p>
+                    {/* <p>Status {Dictionary[FType]}</p>
                     <div className='grid grid-cols-2'>
                       <label htmlFor='nama'>Aktif</label>
                       <input
@@ -1328,8 +1355,8 @@ const AddModal = ({
                           (currentStatusPerkhidmatan.current = e.target.value)
                         }
                       />
-                    </div>
-                    <p>
+                    </div> */}
+                    {/* <p>
                       Klinik Bertugas{' '}
                       <span className='font-semibold text-lg text-user6'>
                         *
@@ -1348,7 +1375,7 @@ const AddModal = ({
                           </option>
                         ))}
                       </select>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className={styles.modalActions}>
@@ -1419,6 +1446,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentGred = useRef();
   const currentRole = useRef();
   const currentRolePromosiKlinik = useRef();
+  const currentRoleMediaSosialKlinik = useRef();
   const currentRisiko = useRef();
   const [editedEntity, setEditedEntity] = useState([]);
   const [klinik, setKlinik] = useState([]);
@@ -1829,7 +1857,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 </div>
                 <div className='mt-3'>
                   <label htmlFor='role-promosi-klinik' className='mr-3'>
-                    Pemegang promosi klinik?
+                    Pegawai promosi fasiliti?
                   </label>
                   <input
                     type='checkbox'
@@ -1843,6 +1871,23 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       });
                     }}
                   />
+                  {/* <div className='mt-3'>
+                    <label htmlFor='role-promosi-klinik' className='mr-3'>
+                      Pegawai media sosial fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-promosi-klinik'
+                      checked={editedEntity.rolePromosiKlinik}
+                      ref={currentRolePromosiKlinik}
+                      onChange={() => {
+                        setEditedEntity({
+                          ...editedEntity,
+                          rolePromosiKlinik: !editedEntity.rolePromosiKlinik,
+                        });
+                      }}
+                    />
+                  </div> */}
                 </div>
               </div>
             </div>
