@@ -18,7 +18,7 @@ const socmed = [
 
 function Followers() {
   const { state } = useGlobalAdminAppContext();
-  const { followers } = state;
+  // const { followers } = state;
 
   return (
     <>

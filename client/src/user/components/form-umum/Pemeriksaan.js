@@ -872,7 +872,8 @@ export default function Pemeriksaan(props) {
                     />
                   </div>
                 </article>
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                {/* SDF akan digunakan masa hadapan */}
+                {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Silver Diamine Fluoride
                   </h4>
@@ -931,7 +932,7 @@ export default function Pemeriksaan(props) {
                       Tidak
                     </label>
                   </div>
-                </article>
+                </article> */}
                 {/* <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                 <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                   status merokok<span className='text-user6'>*</span>
@@ -1018,7 +1019,7 @@ export default function Pemeriksaan(props) {
                       className='text-lg m-1'
                     />
                   </div>
-                  <div
+                  {/* <div
                     className={`${
                       props.singlePersonUmum.umur <= 15 && 'hidden'
                     } flex items-center flex-row pl-5`}
@@ -1054,7 +1055,7 @@ export default function Pemeriksaan(props) {
                       title='Tanda (-) jika tidak berkenaan'
                       className='text-lg m-1'
                     />
-                  </div>
+                  </div> */}
                   <div
                     className={`${
                       props.singlePersonUmum.umur >= 17 && 'hidden'
@@ -1807,112 +1808,111 @@ export default function Pemeriksaan(props) {
                     </label>
                   </div>
                 </article>
-                {props.kepp === true ? (
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-semibold flex flex-row pl-3'>
-                      kes endodontik diperlukan
-                    </h4>
-                    <div className='flex flex-row items-center pl-3'>
-                      <label
-                        htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
-                      >
-                        anterior :
-                      </label>
-                      <input
-                        disabled={isDisabled}
-                        min='0'
-                        max='12'
-                        type='number'
-                        name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        value={
-                          props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
-                        }
-                        onChange={(e) => {
-                          props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center pl-3'>
-                      <label
-                        htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
-                      >
-                        premolar :
-                      </label>
-                      <input
-                        disabled={isDisabled}
-                        min='0'
-                        max='8'
-                        type='number'
-                        name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        value={
-                          props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
-                        }
-                        onChange={(e) => {
-                          props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center pl-3'>
-                      <label
-                        htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
-                      >
-                        molar :
-                      </label>
-                      <input
-                        disabled={isDisabled}
-                        min='0'
-                        max='12'
-                        type='number'
-                        name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        value={
-                          props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
-                        }
-                        onChange={(e) => {
-                          props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      />
-                    </div>
-                    <div className='flex flex-row items-center pl-3'>
-                      <label
-                        htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
-                      >
-                        rawatan semula endodontik :
-                      </label>
-                      <input
-                        disabled={isDisabled}
-                        min='0'
-                        max='32'
-                        type='number'
-                        name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        value={
-                          props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
-                        }
-                        onChange={(e) => {
-                          props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      />
-                    </div>
-                    {/* <div className='flex items-center justify-center'>
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    kes endodontik diperlukan
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-left flex justify-start items-center text-sm pl-3'
+                    >
+                      anterior :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='12'
+                      type='number'
+                      name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      premolar :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='8'
+                      type='number'
+                      name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      molar :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='12'
+                      type='number'
+                      name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      rawatan semula endodontik :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  {/* <div className='flex items-center justify-center'>
                     <p className='flex items-center justify-center text-sm font-m mr-3'>
                       perlu rawatan lain
                     </p>
@@ -2017,8 +2017,228 @@ export default function Pemeriksaan(props) {
                       className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
                     />
                   </div> */}
+                </article>
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    BPE & Pencartaan Poket Implan
+                  </h4>
+                  <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
+                    <label
+                      htmlFor='punca-rujukan'
+                      className='text-left flex justify-start items-center text-sm pl-3'
+                    >
+                      Punca Rujukan T2DM
+                    </label>
+                    <select
+                      disabled={isDisabled}
+                      name='punca-rujukan'
+                      id='punca-rujukan'
+                      value={props.puncaRujukan}
+                      onChange={(e) => {
+                        props.setPuncaRujukan(e.target.value);
+                      }}
+                      className='outline outline-1 outline-userBlack w-full text-sm font-m'
+                    >
+                      <option value=''>Pilih</option>
+                      <option value='klinik-kesihatan'>Klinik Kesihatan</option>
+                      <option value='lain-lain'>Lain-lain</option>
+                      <option value='tiada'>Tiada</option>
+                    </select>
+                    <label
+                      htmlFor='faktor-risiko-bpe'
+                      className='text-left flex justify-start items-center text-sm pl-3'
+                    >
+                      Faktor Risiko
+                    </label>
+                    <div>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='diabetes-faktor-risiko-bpe'
+                        id='diabetes-faktor-risiko-bpe'
+                        value='diabetes-faktor-risiko-bpe'
+                        checked={props.diabetesFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setDiabetesFaktorRisikoBpe(
+                            !props.diabetesFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='diabetes-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Diabetes
+                      </label>
+
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='perokok-faktor-risiko-bpe'
+                        id='perokok-faktor-risiko-bpe'
+                        value='perokok-faktor-risiko-bpe'
+                        checked={props.perokokFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setPerokokFaktorRisikoBpe(
+                            !props.perokokFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='perokok-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Perokok
+                      </label>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='lain-lain-faktor-risiko-bpe'
+                        id='lain-lain-faktor-risiko-bpe'
+                        value='lain-lain-faktor-risiko-bpe'
+                        checked={props.lainLainFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setLainLainFaktorRisikoBpe(
+                            !props.lainLainFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='lain-lain-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Lain-lain
+                      </label>
+                    </div>
                   </article>
-                ) : null}
+                  <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
+                    <label
+                      htmlFor='saringan-penyakit-periodontium-dan-peri-implan'
+                      className='text-left flex justify-start items-center text-sm pl-3'
+                    >
+                      Saringan Penyakit Periodontium Dan Peri Implan
+                    </label>
+                    <div
+                      className={`${
+                        props.singlePersonUmum.umur <= 15 && 'hidden'
+                      } flex items-center flex-row pl-5`}
+                    >
+                      <p className='text-sm font-m'>
+                        Skor BPE:
+                        <span className='text-user6'>*</span>
+                      </p>
+                      <select
+                        disabled={isDisabled}
+                        required={
+                          props.singlePersonUmum.umur <= 15 ? false : true
+                        }
+                        name='skor-bpe-pemeriksaan-umum'
+                        id='skor-bpe-pemeriksaan-umum'
+                        value={props.skorBpeOralHygienePemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setSkorBpeOralHygienePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      >
+                        <option value=''></option>
+                        <option value='tiada'>-</option>
+                        <option value='0'>0</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                      </select>
+                      <FaInfoCircle
+                        title='Tanda (-) jika tidak berkenaan'
+                        className='text-lg m-1'
+                      />
+                    </div>
+                  </article>
+                  <label
+                    htmlFor='pesakit-mempunyai-implan-pergigian'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    Pesakit Mempunyai Implan Pergigian
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='pesakit-mempunyai-implan-pergigian'
+                    id='pesakit-mempunyai-implan-pergigian'
+                    value='pesakit-mempunyai-implan-pergigian'
+                    checked={
+                      props.pesakitMempunyaiImplanPergigian ? true : false
+                    }
+                    onChange={() => {
+                      props.setPesakitMempunyaiImplanPergigian(
+                        !props.pesakitMempunyaiImplanPergigian
+                      );
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 mr-6'
+                  />
+                  <label
+                    htmlFor='peri-implantitis'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    Peri-Implantitis ≥ 6mm
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='peri-implantitis'
+                    id='peri-implantitis'
+                    value='peri-implantitis'
+                    checked={props.periImplantitis ? true : false}
+                    onChange={() => {
+                      props.setPeriImplantitis(!props.periImplantitis);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='peri-implant-mucositis'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    <i>Peri-Implant Mucositis </i>
+                    {` < `} 6 mm
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='peri-implant-mucositis'
+                    id='peri-implant-mucositis'
+                    value='peri-implant-mucositis'
+                    checked={props.periImplantMucositis ? true : false}
+                    onChange={() => {
+                      props.setPeriImplantMucositis(
+                        !props.periImplantMucositis
+                      );
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='enggan-bpe-implan'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    enggan
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='enggan-bpe-implan'
+                    id='enggan-bpe-implan'
+                    value='enggan-bpe-implan'
+                    checked={props.engganBpeImplan ? true : false}
+                    onChange={() => {
+                      props.setEngganBpeImplan(!props.engganBpeImplan);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                </article>
               </div>
             </section>
           </div>
