@@ -8,6 +8,13 @@ const eventSchema = new Schema({
   createdByDaerah: {
     type: String,
   },
+  tarikhStart: {
+    type: String,
+    // required: true
+  },
+  tarikhEnd: {
+    type: String,
+  },
   createdByKp: {
     type: String,
   },
@@ -16,6 +23,10 @@ const eventSchema = new Schema({
   },
   nama: {
     type: String,
+  },
+  kategoriInstitusi: {
+    type: String,
+    // required: true
   },
   tarikh: {
     type: String,
