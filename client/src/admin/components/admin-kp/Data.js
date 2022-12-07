@@ -38,6 +38,11 @@ export default function DataKp({ FType }) {
   const [user, setUser] = useState(null);
   const [accountType, setAccountType] = useState(null);
 
+  // follower
+  const [namaPlatform, setNamaPlatform] = useState(null);
+  const [jumlahBulanTerdahulu, setJumlahBulanTerdahulu] = useState(null);
+  const [jumlahBulanIni, setJumlahBulanIni] = useState(null);
+
   // pp jp last place
   const [showInfo, setShowInfo] = useState(false);
   const [dataIndex, setDataIndex] = useState(null);
@@ -134,6 +139,12 @@ export default function DataKp({ FType }) {
     setShowDeleteModal,
     deleteCandidate,
     setDeleteCandidate,
+    namaPlatform,
+    setNamaPlatform,
+    jumlahBulanTerdahulu,
+    setJumlahBulanTerdahulu,
+    jumlahBulanIni,
+    setJumlahBulanIni,
     id,
     setId,
     data,
