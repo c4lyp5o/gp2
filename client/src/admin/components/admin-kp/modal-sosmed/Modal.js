@@ -53,12 +53,42 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
 
 //modal add followers
 export const ModalAddFollowers = (props) => {
-  const { DictionarySosMedParam, DictionarySosMedAcronym } =
+  const { DictionarySosMedParam, DictionarySosMedAcronym, createData } =
     useGlobalAdminAppContext();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let Data;
+    Data = {
+      ...Data,
+      bulan: props.bulan,
+      createdByNegeri: props.negeri,
+      createdByDaerah: props.daerah,
+      namaPlatform: props.namaPlatform,
+      jumlahFollowerBulanTerdahulu: props.jumlahBulanTerdahulu,
+      jumlahFollowerBulanIni: props.jumlahBulanIni,
+    };
+    if (!props.kp) {
+      Data = {
+        ...Data,
+        belongsTo: props.daerah,
+      };
+    }
+    if (!props.daerah) {
+      Data = {
+        ...Data,
+        belongsTo: props.negeri,
+      };
+    }
+    console.log(Data);
+    createData('followers', Data).then((res) => {
+      console.log(res);
+      props.setShowFollowersModal(false);
+    });
+  };
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='absolute inset-36 inset-x-96 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
           <FaWindowClose
             className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
@@ -75,7 +105,12 @@ export const ModalAddFollowers = (props) => {
                 <label className='text-sm font-semibold text-admin2'>
                   Jenis Media Sosial :
                 </label>
-                <select className='appearance-none w-56 text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2'>
+                <select
+                  className='appearance-none w-56 text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2'
+                  onChange={(e) => {
+                    props.setNamaPlatform(e.target.value);
+                  }}
+                >
                   <option value='facebook'>Facebook</option>
                   <option value='instagram'>Instagram</option>
                   <option value='youtube'>Youtube</option>
@@ -91,6 +126,9 @@ export const ModalAddFollowers = (props) => {
                   name='past-followers'
                   id='past-followers'
                   className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
+                  onChange={(e) => {
+                    props.setJumlahBulanTerdahulu(e.target.value);
+                  }}
                 />
                 <p>bilangan followers bulan terkini</p>
                 <input
@@ -98,6 +136,9 @@ export const ModalAddFollowers = (props) => {
                   name='current-followers'
                   id='current-followers'
                   className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
+                  onChange={(e) => {
+                    props.setJumlahBulanIni(e.target.value);
+                  }}
                 />
               </div>
               <div className='flex justify-center mb-2'>
