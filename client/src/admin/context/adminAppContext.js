@@ -588,7 +588,7 @@ function AdminAppProvider({ children }) {
     rtc: 'RTC',
     ppkps: 'PPKPS',
     kgangkat: 'Kampung Angkat',
-    ppr: 'PPR',
+    ppr: 'Projek Perumahan Rakyat',
     we: 'Institusi Warga Emas',
     oku: 'Institusi OKU / PDK',
     oap: 'Program Orang Asli dan Penan',
@@ -597,6 +597,8 @@ function AdminAppProvider({ children }) {
     program: 'Program',
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
+    programDewasaMuda: 'Program Dewasa Muda',
+    kampungAngkatPergigian: 'Kampung Angkat Pergigian',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {

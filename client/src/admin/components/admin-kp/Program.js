@@ -7,8 +7,8 @@ export default function Program(props) {
   if (props.data.length > 0) {
     return (
       <div className='flex flex-col items-center gap-5'>
-        <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai Program Outreach {props.data[0].handler} {props.kp}
+        <h1 className='text-2xl font-bold mt-10 mb-10'>
+          Senarai Program Komuniti {props.data[0].handler} {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
@@ -47,7 +47,8 @@ export default function Program(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {moment(f.tarikh).format('DD/MM/YYYY')}
+                    {moment(f.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                    {moment(f.tarikhEnd).format('DD/MM/YYYY')}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <div className='grid gap-1'>

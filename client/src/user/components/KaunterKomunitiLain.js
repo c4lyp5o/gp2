@@ -46,7 +46,7 @@ export default function KomunitiLain({
             className='appearance-none border-2 border-user6 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md'
           >
             <option value=''>Jenis Program / Aktiviti</option>
-            <option value='projek-komuniti'>Projek Komuniti</option>
+            {/* <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='ppkps'>
               Program Pemasyarakatan Klinik Pergigian Sekolah
             </option>
@@ -54,7 +54,14 @@ export default function KomunitiLain({
             <option value='ppr'>Projek Perumahan Rakyat</option>
             <option value='we'>Institusi Warga Emas</option>
             <option value='oku'>Institusi OKU / PDK</option>
-            <option value='oap'>Program Orang Asli dan Penan</option>
+            <option value='oap'>Program Orang Asli dan Penan</option> */}
+            <option value='programDewasaMuda'>Program Dewasa Muda</option>
+            <option value='kampungAngkatPergigian'>
+              Kampung Angkat Pergigian
+            </option>
+            <option value='ppr'>Projek Perumahan Rakyat</option>
+            <option value='we'>Institusi Warga Emas</option>
+            <option value='oku'>Institusi OKU / PDK</option>
           </select>
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
