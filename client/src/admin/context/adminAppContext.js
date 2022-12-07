@@ -416,13 +416,17 @@ function AdminAppProvider({ children }) {
         }
         return response.data.data;
       }
-      for (let j = 0; j < currentJp.data.length; j++) {
-        const deleteJp = response.data.data
-          .map((e) => e.mdtbNumber)
-          .indexOf(currentJp.data[j].mdtbNumber);
-        response.data.data.splice(deleteJp, 1);
+      if (response.data.data.length > 1) {
+        for (let j = 0; j < currentJp.data.length; j++) {
+          const deleteJp = response.data.data
+            .map((e) => e.mdtbNumber)
+            .indexOf(currentJp.data[j].mdtbNumber);
+          if (deleteJp !== -1) {
+            response.data.data.splice(deleteJp, 1);
+          }
+        }
+        return response.data.data;
       }
-      return response.data.data;
     } catch (error) {
       return false;
     }

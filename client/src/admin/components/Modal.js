@@ -43,6 +43,7 @@ const AddModal = ({
   const currentGred = useRef();
   const currentRole = useRef('');
   const currentRolePromosiKlinik = useRef();
+  const currentRoleMediaSosialKlinik = useRef();
   const currentRisiko = useRef();
   // institusi
   const currentKategoriInstitusi = useRef();
@@ -77,7 +78,20 @@ const AddModal = ({
   const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
-    setAddingData(true);
+    if (FType === 'pp' || FType === 'jp') {
+      if (
+        !carianNama ||
+        noPpJp === 'Tiada pegawai dijumpai' ||
+        noPpJp === 'Tiada juruterapi pergigian dijumpai'
+      ) {
+        toast.error('Tiada nama');
+        return;
+      }
+      if (!currentRegNumber.current) {
+        toast.error('Klik pada butang cari');
+        return;
+      }
+    }
     let Data = {};
     Data = {
       ...Data,
@@ -447,7 +461,7 @@ const AddModal = ({
                           for='default-search'
                           className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          Search
+                          Cari
                         </label>
                         <div className='relative'>
                           <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
@@ -503,7 +517,7 @@ const AddModal = ({
                                 setSearching(false);
                               }}
                             >
-                              Search
+                              Cari
                             </button>
                           ) : (
                             <>
@@ -556,7 +570,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.nomborMdc}
                               >
-                                {p.nama}
+                                {p.nama} | MDC {p.nomborMdc}
                               </option>
                             ))}
                           </select>
@@ -571,7 +585,7 @@ const AddModal = ({
                           for='default-search'
                           className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                         >
-                          Search
+                          Cari
                         </label>
                         <div className='relative'>
                           <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
@@ -631,7 +645,7 @@ const AddModal = ({
                                 setSearching(false);
                               }}
                             >
-                              Search
+                              Cari
                             </button>
                           ) : (
                             <>
@@ -684,7 +698,7 @@ const AddModal = ({
                                 className='capitalize'
                                 value={p.mdtbNumber}
                               >
-                                {p.nama}
+                                {p.nama} | {p.mdtbNumber}
                               </option>
                             ))}
                           </select>
@@ -799,7 +813,7 @@ const AddModal = ({
                     </div>
                     <div className='mt-3'>
                       <label htmlFor='role-promosi-klinik' className='mr-3'>
-                        Pemegang promosi klinik?
+                        Pegawai promosi fasiliti?
                       </label>
                       <input
                         type='checkbox'
@@ -807,6 +821,19 @@ const AddModal = ({
                         ref={currentRolePromosiKlinik}
                       />
                     </div>
+                    {/* <div className='mt-3'>
+                      <label
+                        htmlFor='role-media-sosial-klinik'
+                        className='mr-3'
+                      >
+                        Pegawai media sosial fasiliti?
+                      </label>
+                      <input
+                        type='checkbox'
+                        id='role-media-sosial-klinik'
+                        ref={currentRoleMediaSosialKlinik}
+                      />
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1419,6 +1446,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
   const currentGred = useRef();
   const currentRole = useRef();
   const currentRolePromosiKlinik = useRef();
+  const currentRoleMediaSosialKlinik = useRef();
   const currentRisiko = useRef();
   const [editedEntity, setEditedEntity] = useState([]);
   const [klinik, setKlinik] = useState([]);
@@ -1829,7 +1857,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                 </div>
                 <div className='mt-3'>
                   <label htmlFor='role-promosi-klinik' className='mr-3'>
-                    Pemegang promosi klinik?
+                    Pegawai promosi fasiliti?
                   </label>
                   <input
                     type='checkbox'
@@ -1843,6 +1871,23 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       });
                     }}
                   />
+                  {/* <div className='mt-3'>
+                    <label htmlFor='role-promosi-klinik' className='mr-3'>
+                      Pegawai media sosial fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-promosi-klinik'
+                      checked={editedEntity.rolePromosiKlinik}
+                      ref={currentRolePromosiKlinik}
+                      onChange={() => {
+                        setEditedEntity({
+                          ...editedEntity,
+                          rolePromosiKlinik: !editedEntity.rolePromosiKlinik,
+                        });
+                      }}
+                    />
+                  </div> */}
                 </div>
               </div>
             </div>
