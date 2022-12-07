@@ -385,13 +385,17 @@ function AdminAppProvider({ children }) {
         }
         return response.data.matches;
       }
-      for (let j = 0; j < currentPegawai.data.length; j++) {
-        const deletePegawai = response.data.matches
-          .map((e) => e.nomborMdc)
-          .indexOf(currentPegawai.data[j].mdcNumber);
-        response.data.matches.splice(deletePegawai, 1);
+      if (response.data.matches.length > 1) {
+        for (let j = 0; j < currentPegawai.data.length; j++) {
+          const deletePegawai = response.data.matches
+            .map((e) => e.nomborMdc)
+            .indexOf(currentPegawai.data[j].mdcNumber);
+          if (deletePegawai !== -1) {
+            response.data.matches.splice(deletePegawai, 1);
+          }
+        }
+        return response.data.matches;
       }
-      return response.data.matches;
     } catch (err) {
       return false;
     }

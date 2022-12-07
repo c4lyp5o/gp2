@@ -15,6 +15,7 @@ const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const Sosmed = require('../models/MediaSosial');
+const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const emailGen = require('../lib/emailgen');
 
@@ -38,6 +39,7 @@ const Dictionary = {
   'sa-a': 'superadmin-all',
   sosmed: 'sosmed',
   sosmedByKodProgram: 'sosmedByKodProgram',
+  followers: 'followers',
 };
 
 const socmed = [
@@ -76,7 +78,8 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'klinik' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'sosmed'
+            theType !== 'sosmed' &&
+            theType !== 'followers'
           ) {
             Data = {
               ...Data,
@@ -234,6 +237,10 @@ const getData = async (req, res) => {
               );
               res.status(200).json(updatedSosmed);
             }
+          }
+          if (theType === 'followers') {
+            const createFollowerData = await Followers.create(Data);
+            res.status(200).json(createFollowerData);
           }
           break;
         case 'read':
