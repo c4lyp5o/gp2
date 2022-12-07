@@ -983,30 +983,30 @@ function UserFormUmumHeader() {
     jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum;
   masterForm.setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum =
     setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum;
-  // const [
-  //   jumlahAnteriorRawatanSemulaKeppRawatanUmum,
-  //   setJumlahAnteriorRawatanSemulaKeppRawatanUmum,
-  // ] = useState('');
-  // masterForm.jumlahAnteriorRawatanSemulaKeppRawatanUmum =
-  //   jumlahAnteriorRawatanSemulaKeppRawatanUmum;
-  // masterForm.setJumlahAnteriorRawatanSemulaKeppRawatanUmum =
-  //   setJumlahAnteriorRawatanSemulaKeppRawatanUmum;
-  // const [
-  //   jumlahPremolarRawatanSemulaKeppRawatanUmum,
-  //   setJumlahPremolarRawatanSemulaKeppRawatanUmum,
-  // ] = useState('');
-  // masterForm.jumlahPremolarRawatanSemulaKeppRawatanUmum =
-  //   jumlahPremolarRawatanSemulaKeppRawatanUmum;
-  // masterForm.setJumlahPremolarRawatanSemulaKeppRawatanUmum =
-  //   setJumlahPremolarRawatanSemulaKeppRawatanUmum;
-  // const [
-  //   jumlahMolarRawatanSemulaKeppRawatanUmum,
-  //   setJumlahMolarRawatanSemulaKeppRawatanUmum,
-  // ] = useState('');
-  // masterForm.jumlahMolarRawatanSemulaKeppRawatanUmum =
-  //   jumlahMolarRawatanSemulaKeppRawatanUmum;
-  // masterForm.setJumlahMolarRawatanSemulaKeppRawatanUmum =
-  //   setJumlahMolarRawatanSemulaKeppRawatanUmum;
+  const [
+    jumlahAnteriorRawatanSemulaKeppRawatanUmum,
+    setJumlahAnteriorRawatanSemulaKeppRawatanUmum,
+  ] = useState('');
+  masterForm.jumlahAnteriorRawatanSemulaKeppRawatanUmum =
+    jumlahAnteriorRawatanSemulaKeppRawatanUmum;
+  masterForm.setJumlahAnteriorRawatanSemulaKeppRawatanUmum =
+    setJumlahAnteriorRawatanSemulaKeppRawatanUmum;
+  const [
+    jumlahPremolarRawatanSemulaKeppRawatanUmum,
+    setJumlahPremolarRawatanSemulaKeppRawatanUmum,
+  ] = useState('');
+  masterForm.jumlahPremolarRawatanSemulaKeppRawatanUmum =
+    jumlahPremolarRawatanSemulaKeppRawatanUmum;
+  masterForm.setJumlahPremolarRawatanSemulaKeppRawatanUmum =
+    setJumlahPremolarRawatanSemulaKeppRawatanUmum;
+  const [
+    jumlahMolarRawatanSemulaKeppRawatanUmum,
+    setJumlahMolarRawatanSemulaKeppRawatanUmum,
+  ] = useState('');
+  masterForm.jumlahMolarRawatanSemulaKeppRawatanUmum =
+    jumlahMolarRawatanSemulaKeppRawatanUmum;
+  masterForm.setJumlahMolarRawatanSemulaKeppRawatanUmum =
+    setJumlahMolarRawatanSemulaKeppRawatanUmum;
   const [
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum,
     setJumlahAnteriorKesEndodontikSelesaiRawatanUmum,
