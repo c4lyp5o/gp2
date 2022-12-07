@@ -423,9 +423,12 @@ const getData = async (req, res) => {
             const klinik = await User.findOne({ _id: Id });
             const fasilitiUnderKlinik = await Fasiliti.find({
               handler: klinik.kp,
+              kodFasilitiHandler: klinik.kodFasiliti,
             });
             const operatorUnderKlinik = await Operator.find({
-              kp: klinik.kp,
+              kpSkrg: klinik.kp,
+              kodFasiliti: klinik.kodFasiliti,
+              activationStatus: true,
             });
             if (
               fasilitiUnderKlinik.length > 0 ||
@@ -454,8 +457,12 @@ const getData = async (req, res) => {
             // deleting kaunter and klinik
             const data = await User.findByIdAndDelete({ _id: Id }).then(
               async () => {
+                const negeriNum = emailGen[data.negeri].kodNegeri;
+                const daerahNum = emailGen[data.negeri].daerah[klinik.daerah];
                 await User.findOneAndDelete({
-                  username: `kaunter${acronym.toLowerCase()}`,
+                  username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+                    Data.kodFasiliti
+                  }`,
                 });
               }
             );
@@ -464,11 +471,12 @@ const getData = async (req, res) => {
               createdByKp: data.kp,
               createdByDaerah: data.daerah,
               createdByNegeri: data.negeri,
+              createdByKodFasiliti: data.kodFasiliti,
             }).then(async () => {
               if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
                   await Event.findOneAndDelete({
-                    nama: events[i].nama,
+                    _id: events[i]._id,
                   });
                 }
               }
@@ -482,7 +490,10 @@ const getData = async (req, res) => {
       }
       break;
     case 'KpCenter':
-      var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      var { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+        token,
+        process.env.JWT_SECRET
+      );
       console.log(FType);
       switch (Fn) {
         case 'create':
@@ -492,6 +503,7 @@ const getData = async (req, res) => {
               Data = {
                 ...Data,
                 createdByKp: kp,
+                createdByKodFasiliti: kodFasiliti,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               };
@@ -541,6 +553,7 @@ const getData = async (req, res) => {
             case 'program':
               const eventData = await Event.find({
                 createdByKp: kp,
+                createdByKodFasiliti: kodFasiliti,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
@@ -568,10 +581,12 @@ const getData = async (req, res) => {
               const allTastad = await Fasiliti.find({
                 jenisFasiliti: ['taska', 'tadika'],
                 handler: kp,
+                kodFasilitiHandler: kodFasiliti,
               });
               const studentCount = await Umum.countDocuments({
                 jenisFasiliti: ['taska', 'tadika'],
                 createdByKp: kp,
+                createdByKodFasiliti: kodFasiliti,
               });
               console.log(allTastad, studentCount);
               res.status(200).json(tastadData);
@@ -580,6 +595,8 @@ const getData = async (req, res) => {
               const ppData = await Operator.find({
                 statusPegawai: 'pp',
                 kpSkrg: kp,
+                kodFasiliti: kodFasiliti,
+                activationStatus: true,
               });
               res.status(200).json(ppData);
               break;
@@ -587,6 +604,8 @@ const getData = async (req, res) => {
               const jpData = await Operator.find({
                 statusPegawai: 'jp',
                 kpSkrg: kp,
+                kodFasiliti: kodFasiliti,
+                activationStatus: true,
               });
               res.status(200).json(jpData);
               break;
@@ -594,6 +613,7 @@ const getData = async (req, res) => {
               const institusiData = await Fasiliti.find({
                 jenisFasiliti: Dictionary[FType],
                 handler: kp,
+                kodFasilitiHandler: kodFasiliti,
               });
               res.status(200).json(institusiData);
               break;
