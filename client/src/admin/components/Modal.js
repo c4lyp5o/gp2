@@ -77,6 +77,8 @@ const AddModal = ({
   const [searching, setSearching] = useState(false);
   const [noPpJp, setNoPpJp] = useState('');
 
+  const [jenisEvent, setJenisEvent] = useState(null);
+
   const handleSubmit = async () => {
     if (FType === 'pp' || FType === 'jp') {
       if (
@@ -1193,14 +1195,16 @@ const AddModal = ({
                       <select
                         required
                         className='border-2 w-full'
-                        onChange={(e) =>
-                          (currentJenisEvent.current = e.target.value)
-                        }
+                        onChange={(e) => {
+                          currentJenisEvent.current = e.target.value;
+                          setJenisEvent(e.target.value);
+                          console.log(e.target.value);
+                        }}
                         name='jenisEvent'
                         id='jenisEvent'
                       >
                         <option value=''>Jenis Program / Aktiviti</option>
-                        <option value='projek-komuniti'>Projek Komuniti</option>
+                        {/* <option value='projek-komuniti'>Projek Komuniti</option>
                         <option value='ppkps'>
                           Program Pemasyarakatan Perkhidmatan Klinik Pergigian
                           Sekolah
@@ -1213,8 +1217,8 @@ const AddModal = ({
                         <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
-                        </option>
-                        {/* <option value='program-dewasa-muda'>
+                        </option> */}
+                        <option value='program-dewasa-muda'>
                           Program Dewasa Muda
                         </option>
                         <option value='kampung-angkat-pergigian'>
@@ -1228,10 +1232,10 @@ const AddModal = ({
                         </option>
                         <option value='institusi-oku-pdk'>
                           Institusi OKU / PDK
-                        </option> */}
+                        </option>
                       </select>
                     </div>
-                    {/* {currentJenisEvent.current === 'program-dewasa-muda' && (
+                    {jenisEvent === 'program-dewasa-muda' && (
                       <div className='grid gap-1'>
                         <p>
                           Jenis Institusi
@@ -1262,7 +1266,7 @@ const AddModal = ({
                           </option>
                         </select>
                       </div>
-                    )} */}
+                    )}
                     <p className='mt-3 font-semibold'>
                       Mod Penyampaian Perkhidmatan
                     </p>
