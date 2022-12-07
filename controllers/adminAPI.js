@@ -92,7 +92,7 @@ const getData = async (req, res) => {
               mdcNumber: Data.mdcNumber,
             });
             if (exists) {
-              console.log('exists?');
+              console.log('exists pegawai?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
@@ -119,7 +119,7 @@ const getData = async (req, res) => {
               mdtbNumber: Data.mdtbNumber,
             });
             if (exists) {
-              console.log('exists?');
+              console.log('exists jp?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
