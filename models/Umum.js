@@ -9,6 +9,7 @@ const UmumSchema = new mongoose.Schema(
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
+    createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMdtb: { type: String, default: '' },
     // status reten umum ----------------------------------------
