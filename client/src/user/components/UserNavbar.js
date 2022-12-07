@@ -137,7 +137,7 @@ function UserNavbar() {
                   SEKOLAH
                 </NavLink>
                 <NavLink
-                  to='promosi'
+                  to='promosi-individu'
                   onClick={() => {
                     setShowLinks(!showLinks);
                     setShowGenerateSubMenu(false);
@@ -148,7 +148,21 @@ function UserNavbar() {
                       : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
                 >
-                  PROMOSI
+                  PROMOSI INDIVIDU
+                </NavLink>
+                <NavLink
+                  to='promosi-klinik'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowGenerateSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PROMOSI KLINIK
                 </NavLink>
               </div>
             </div>

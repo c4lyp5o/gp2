@@ -66,9 +66,9 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
-          <Route path='promosi' element={<UserPromosi />} />
+          <Route path='promosi-individu' element={<UserPromosi />} />
           <Route
-            path='promosi/form-promosi/:aktivitiId'
+            path='promosi-individu/form-promosi/:aktivitiId'
             element={<UserFormPromosi />}
           />
 
