@@ -211,7 +211,7 @@ function UserUmum() {
                 <option value='kp'>Klinik Pergigian</option>
                 <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
                 <option value='taska-tadika'>Taska / Tadika</option>
-                <option value='ipt-kolej'>IPT / KOLEJ</option>
+                {/* <option value='ipt-kolej'>IPT / KOLEJ</option> */}
                 <option value='projek-komuniti-lain'>
                   Projek komuniti lain
                 </option>
@@ -239,6 +239,7 @@ function UserUmum() {
                   }}
                   className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
                 >
+                  <option value=''>Sila Pilih..</option>
                   <option value='projek-komuniti'>Projek Komuniti</option>
                   <option value='programDewasaMuda'>Program Dewasa Muda</option>
                   <option value='kgangkat'>Kampung Angkat Pergigian</option>

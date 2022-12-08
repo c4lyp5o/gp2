@@ -47,7 +47,7 @@ export default function Rawatan(props) {
                       <Select
                         isMulti
                         name='rawatan'
-                        defaultValue={optionsRawatan[11]}
+                        defaultValue={optionsRawatan[12]}
                         options={optionsRawatan}
                         className='basic-multi-select'
                         classNamePrefix='select'
@@ -1969,58 +1969,61 @@ export default function Rawatan(props) {
                             Tidak
                           </label>
                         </div>
-                        <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='enggan-lain-lain-rujukan-pakar-periodontik'
-                            id='enggan-rujukan-pakar-periodontik'
-                            value='enggan-rujukan-pakar-periodontik'
-                            checked={
-                              props.engganLainRujukanPakarPeriodontik ===
-                              'enggan-rujukan-pakar-periodontik'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setEngganLainRujukanPakarPeriodontik(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='enggan-rujukan-pakar-periodontik'
-                            className='text-left flex justify-start items-center text-sm px-3'
-                          >
-                            Enggan
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='enggan-lain-lain-rujukan-pakar-periodontik'
-                            id='lain-lain-rujukan-pakar-periodontik'
-                            value='lain-lain-rujukan-pakar-periodontik'
-                            checked={
-                              props.engganLainRujukanPakarPeriodontik ===
-                              'lain-lain-rujukan-pakar-periodontik'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setEngganLainRujukanPakarPeriodontik(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='lain-lain-rujukan-pakar-periodontik'
-                            className='text-left flex justify-start items-center text-sm px-3'
-                          >
-                            Lain-lain
-                          </label>
-                        </div>
+                        {props.rujukanPakarPeriodontik ===
+                          'ya-rujukan-pakar-periodontik' && (
+                          <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='enggan-lain-lain-rujukan-pakar-periodontik'
+                              id='enggan-rujukan-pakar-periodontik'
+                              value='enggan-rujukan-pakar-periodontik'
+                              checked={
+                                props.engganLainRujukanPakarPeriodontik ===
+                                'enggan-rujukan-pakar-periodontik'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setEngganLainRujukanPakarPeriodontik(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='enggan-rujukan-pakar-periodontik'
+                              className='text-left flex justify-start items-center text-sm px-3'
+                            >
+                              Enggan
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='enggan-lain-lain-rujukan-pakar-periodontik'
+                              id='lain-lain-rujukan-pakar-periodontik'
+                              value='lain-lain-rujukan-pakar-periodontik'
+                              checked={
+                                props.engganLainRujukanPakarPeriodontik ===
+                                'lain-lain-rujukan-pakar-periodontik'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setEngganLainRujukanPakarPeriodontik(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='lain-lain-rujukan-pakar-periodontik'
+                              className='text-left flex justify-start items-center text-sm px-3'
+                            >
+                              Lain-lain
+                            </label>
+                          </div>
+                        )}
                         <label
                           htmlFor='rujukan-pakar-scd'
                           className='text-left flex justify-start items-center text-sm pl-3'
