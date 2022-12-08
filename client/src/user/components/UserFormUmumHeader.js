@@ -2222,10 +2222,10 @@ function UserFormUmumHeader() {
                             </div>
                           )}
                           <span
-                            onClick={kemaskini}
+                            // onClick={kemaskini}
                             className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium cursor-pointer'
                           >
-                            Kemaskini
+                            -
                           </span>
                         </div>
                       </div>
