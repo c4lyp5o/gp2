@@ -55,10 +55,13 @@ const AddModal = ({
   // event
   const currentJenisEvent = useRef();
   const currentModPenyampaian = useRef([]);
-  const currentTarikh = useRef(moment(new Date()).format('YYYY-MM-DD'));
+  const currentTarikhStart = useRef(moment(new Date()).format('YYYY-MM-DD'));
+  const currentTarikhEnd = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentTempat = useRef();
   //datepicker
-  const [date, setDate] = useState(new Date());
+  // const [date, setDate] = useState(new Date());
+  const [startDateDP, setStartDateDP] = useState(new Date());
+  const [endDateDP, setEndDateDP] = useState(new Date());
 
   // APDM
   const statusApdm = useRef();
@@ -103,19 +106,14 @@ const AddModal = ({
       statusPerkhidmatan: currentStatusPerkhidmatan.current,
     };
     if (FType === 'program') {
-      if (currentModPenyampaian.current.length < 1) {
-        toast.error(
-          'Sila pilih sekurang-kurangnya 1 kaedah penyampaian perkhidmatan'
-        );
-        setAddingData(false);
-        return;
-      }
       Data = {
         nama: currentName.current,
         createdByKp: kp,
         jenisEvent: currentJenisEvent.current,
+        kategoriInstitusi: currentKategoriInstitusi.current,
         modPenyampaianPerkhidmatan: currentModPenyampaian.current,
-        tarikh: currentTarikh.current,
+        tarikhStart: currentTarikhStart.current,
+        tarikhEnd: currentTarikhEnd.current,
         tempat: currentTempat.current,
       };
       createDataForKp(FType, Data).then((res) => {
@@ -223,11 +221,23 @@ const AddModal = ({
 
   const CustomDatePicker = () => {
     return masterDatePicker({
-      selected: date,
+      selected: startDateDP,
       onChange: (date) => {
         const tempDate = moment(date).format('YYYY-MM-DD');
-        setDate(date);
-        currentTarikh.current = tempDate;
+        setStartDateDP(date);
+        currentTarikhStart.current = tempDate;
+      },
+      className: 'border-2 w-full',
+    });
+  };
+
+  const CustomDatePicker2 = () => {
+    return masterDatePicker({
+      selected: endDateDP,
+      onChange: (date) => {
+        const tempDate = moment(date).format('YYYY-MM-DD');
+        setEndDateDP(date);
+        currentTarikhEnd.current = tempDate;
       },
       className: 'border-2 w-full',
     });
@@ -1185,8 +1195,9 @@ const AddModal = ({
                         }
                       /> */}
                     <CustomDatePicker />
+                    <CustomDatePicker2 />
                     <p>
-                      Nama Program Komuniti
+                      Jenis Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -1198,7 +1209,6 @@ const AddModal = ({
                         onChange={(e) => {
                           currentJenisEvent.current = e.target.value;
                           setJenisEvent(e.target.value);
-                          console.log(e.target.value);
                         }}
                         name='jenisEvent'
                         id='jenisEvent'
@@ -1218,24 +1228,18 @@ const AddModal = ({
                         <option value='oap'>
                           Program Orang Asli dan Penan
                         </option> */}
-                        <option value='program-dewasa-muda'>
+                        <option value='programDewasaMuda'>
                           Program Dewasa Muda
                         </option>
-                        <option value='kampung-angkat-pergigian'>
+                        <option value='kampungAngkatPergigian'>
                           Kampung Angkat Pergigian
                         </option>
-                        <option value='projek-perumahan-rakyat'>
-                          Projek Perumahan Rakyat
-                        </option>
-                        <option value='institusi-warga-emas'>
-                          Institusi Warga Emas
-                        </option>
-                        <option value='institusi-oku-pdk'>
-                          Institusi OKU / PDK
-                        </option>
+                        <option value='ppr'>Projek Perumahan Rakyat</option>
+                        <option value='we'>Institusi Warga Emas</option>
+                        <option value='oku'>Institusi OKU / PDK</option>
                       </select>
                     </div>
-                    {jenisEvent === 'program-dewasa-muda' && (
+                    {jenisEvent === 'programDewasaMuda' && (
                       <div className='grid gap-1'>
                         <p>
                           Jenis Institusi
@@ -1335,31 +1339,6 @@ const AddModal = ({
                         />
                       </div>
                     </div>
-                    {/* <p>Status {Dictionary[FType]}</p>
-                    <div className='grid grid-cols-2'>
-                      <label htmlFor='nama'>Aktif</label>
-                      <input
-                        required
-                        type='radio'
-                        id='act-stat'
-                        name='checkbox'
-                        value='active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
-                      />
-                      <label htmlFor='nama'>Tidak Aktif</label>
-                      <input
-                        required
-                        type='radio'
-                        id='act-stat'
-                        name='checkbox'
-                        value='non-active'
-                        onChange={(e) =>
-                          (currentStatusPerkhidmatan.current = e.target.value)
-                        }
-                      />
-                    </div> */}
                     {/* <p>
                       Klinik Bertugas{' '}
                       <span className='font-semibold text-lg text-user6'>
@@ -1370,11 +1349,18 @@ const AddModal = ({
                       <select
                         required
                         className='border-2'
-                        onChange={(e) => (currentKp.current = e.target.value)}
+                        onChange={(e) => {
+                          const selectedKlinik = klinik.find(
+                            (k) => k.kodFasiliti === e.target.value
+                          );
+                          currentKp.current = selectedKlinik.kp;
+                          currentKodFasiliti.current =
+                            selectedKlinik.kodFasiliti;
+                        }}
                       >
                         <option value=''>Pilih Klinik</option>
                         {klinik.map((k) => (
-                          <option className='capitalize' value={k.kp}>
+                          <option className='capitalize' value={k.kodFasiliti}>
                             {k.kp}
                           </option>
                         ))}
@@ -2090,8 +2076,13 @@ const EditModalForKp = ({
   reload,
   setReload,
 }) => {
-  const { Dictionary, toast, readOneDataForKp, updateDataForKp } =
-    useGlobalAdminAppContext();
+  const {
+    Dictionary,
+    toast,
+    readOneDataForKp,
+    updateDataForKp,
+    masterDatePicker,
+  } = useGlobalAdminAppContext();
 
   const currentKp = useRef();
   const currentName = useRef();
@@ -2106,10 +2097,41 @@ const EditModalForKp = ({
   // event
   const currentJenisEvent = useRef();
   const currentModPenyampaian = useRef();
-  const currentTarikh = useRef();
+  const currentTarikhStart = useRef(moment(new Date()).format('YYYY-MM-DD'));
+  const currentTarikhEnd = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentMasaMula = useRef();
   const currentMasaTamat = useRef();
   const currentTempat = useRef();
+
+  //datepicker
+  const [startDateDP, setStartDateDP] = useState(null);
+  const [endDateDP, setEndDateDP] = useState(null);
+
+  const StartDate = (date) => {
+    return masterDatePicker({
+      value: moment(editedEntity.tarikStart).format('DD/MM/YYYY'),
+      selected: startDateDP,
+      onChange: (date) => {
+        const startDateDP = moment(date).format('YYYY-MM-DD');
+        setStartDateDP(startDateDP);
+        currentTarikhStart.current = startDateDP;
+      },
+      className: 'border-2 w-full',
+    });
+  };
+
+  const EndDate = (date) => {
+    return masterDatePicker({
+      value: moment(editedEntity.tarikhEnd).format('DD/MM/YYYY'),
+      selected: endDateDP,
+      onChange: (date) => {
+        const endDateDP = moment(date).format('YYYY-MM-DD');
+        setEndDateDP(date);
+        currentTarikhEnd.current = endDateDP;
+      },
+      className: 'border-2 w-full',
+    });
+  };
 
   useEffect(() => {
     readOneDataForKp(FType, id).then((res) => {
@@ -2136,7 +2158,8 @@ const EditModalForKp = ({
         createdByKp: kp,
         jenisEvent: currentJenisEvent.current,
         modPenyampaianPerkhidmatan: currentModPenyampaian.current,
-        tarikh: currentTarikh.current,
+        tarikhStart: currentTarikhStart.current,
+        tarikhEnd: currentTarikhEnd.current,
         masaMula: currentMasaMula.current,
         masaTamat: currentMasaTamat.current,
         tempat: currentTempat.current,
@@ -2366,21 +2389,23 @@ const EditModalForKp = ({
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
                     <p>
-                      Tarikh Program / Aktiviti{' '}
+                      Tarikh Program Komuniti{' '}
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
                     </p>
-                    <input
+                    {/* <input
                       readOnly
                       className='border-2'
                       type='date'
                       name='tarikh'
                       id='tarikh'
                       value={editedEntity.tarikh}
-                    />
+                    /> */}
+                    <StartDate />
+                    <EndDate />
                     <p>
-                      Nama Program
+                      Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
@@ -2388,15 +2413,15 @@ const EditModalForKp = ({
                     <div className='grid gap-1'>
                       <select
                         readOnly
-                        className='border-2 w-fit overflow-x-hidden'
+                        className='border-2 w-full overflow-x-hidden'
                         value={editedEntity.jenisEvent}
-                        onChange={(e) => {
-                          currentJenisEvent.current = e.target.value;
-                          setEditedEntity({
-                            ...editedEntity,
-                            jenisEvent: e.target.value,
-                          });
-                        }}
+                        // onChange={(e) => {
+                        //   currentJenisEvent.current = e.target.value;
+                        //   setEditedEntity({
+                        //     ...editedEntity,
+                        //     jenisEvent: e.target.value,
+                        //   });
+                        // }}
                         name='jenisEvent'
                         id='jenisEvent'
                       >
@@ -2406,14 +2431,11 @@ const EditModalForKp = ({
                           Program Pemasyarakatan Perkhidmatan Klinik Pergigian
                           Sekolah
                         </option>
-                        <option value='kgangkat'>
-                          Kampung Angkat Pergigian
-                        </option>
-                        <option value='ppr'>Projek Perumahan Rakyat</option>
-                        <option value='we'>Institusi Warga Emas</option>
-                        <option value='oku'>Institusi OKU / PDK</option>
                         <option value='oap'>
                           Program Orang Asli dan Penan
+                        </option>
+                        <option value='pps20'>
+                          program pergigian sekolah sesi 2022/2023
                         </option>
                       </select>
                     </div>
@@ -2450,7 +2472,7 @@ const EditModalForKp = ({
                       />
                     </div>
                     <p>
-                      Nama Program / Aktiviti
+                      Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>

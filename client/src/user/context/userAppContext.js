@@ -122,6 +122,8 @@ const Dictionary = {
   we: 'Institusi Warga Emas',
   oku: 'Institusi OKU / PDK',
   oap: 'Program Orang Asli dan Penan',
+  programDewasaMuda: 'Program Dewasa Muda',
+  kampungAngkatPergigian: 'Kampung Angkat Pergigian',
 
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
