@@ -239,13 +239,15 @@ function UserUmum() {
                   }}
                   className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
                 >
-                  <option value=''>Jenis Program / Aktiviti</option>
                   <option value='projek-komuniti'>Projek Komuniti</option>
-                  <option value='ppkps'>Program Pemasyarakatan</option>
+                  <option value='programDewasaMuda'>Program Dewasa Muda</option>
                   <option value='kgangkat'>Kampung Angkat Pergigian</option>
                   <option value='ppr'>Projek Perumahan Rakyat</option>
                   <option value='we'>Institusi Warga Emas</option>
                   <option value='oku'>Institusi OKU / PDK</option>
+                  <option value='ppkps'>
+                    Program Pemasyarakatan Klinik Pergigian Sekolah
+                  </option>
                   <option value='oap'>Program Orang Asli dan Penan</option>
                 </select>
                 <span>
@@ -602,7 +604,7 @@ function UserUmum() {
                     >
                       hapus pesakit?
                     </button>
-                  ) : (
+                  ) : singlePersonUmum.statusReten === 'belum diisi' ? (
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
@@ -610,7 +612,15 @@ function UserUmum() {
                     >
                       masukkan reten
                     </Link>
-                  )}
+                  ) : singlePersonUmum.statusReten === 'telah diisi' ? (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      lihat reten
+                    </Link>
+                  ) : null}
                 </div>
                 {modalHapus ? (
                   <UserUmumDeleteModal
