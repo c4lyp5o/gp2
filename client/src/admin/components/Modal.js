@@ -80,8 +80,6 @@ const AddModal = ({
   const [searching, setSearching] = useState(false);
   const [noPpJp, setNoPpJp] = useState('');
 
-  const [jenisEvent, setJenisEvent] = useState(null);
-
   const handleSubmit = async () => {
     if (FType === 'pp' || FType === 'jp') {
       if (
@@ -1157,6 +1155,7 @@ const AddModal = ({
   }
 
   function Event({ confirm }) {
+    const [jenisEventDd, setJenisEventDd] = useState('');
     return (
       <>
         <form onSubmit={confirm(handleSubmit)}>
@@ -1208,7 +1207,9 @@ const AddModal = ({
                         className='border-2 w-full'
                         onChange={(e) => {
                           currentJenisEvent.current = e.target.value;
-                          setJenisEvent(e.target.value);
+                          setJenisEventDd(e.target.value);
+                          console.log(jenisEventDd);
+                          console.log(currentJenisEvent.current);
                         }}
                         name='jenisEvent'
                         id='jenisEvent'
@@ -1239,7 +1240,7 @@ const AddModal = ({
                         <option value='oku'>Institusi OKU / PDK</option>
                       </select>
                     </div>
-                    {jenisEvent === 'programDewasaMuda' && (
+                    {jenisEventDd === 'programDewasaMuda' && (
                       <div className='grid gap-1'>
                         <p>
                           Jenis Institusi
