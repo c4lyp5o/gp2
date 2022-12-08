@@ -422,31 +422,31 @@ export default function Data({ FType, kp }) {
                           </>
                         )}
                         {FType === 'jp' &&
-                        o.mdtbNumber &&
-                        !o.mdtbNumber.includes('MDTBAUTO') ? (
-                          <>
-                            <button
-                              className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                              onClick={() => {
-                                setShowEditModal(true);
-                                setId(o._id);
-                              }}
-                            >
-                              Kemaskini
-                            </button>
-                            <button
-                              className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                              id={o._id}
-                              onClick={(e) => {
-                                setShowDeleteModal(true);
-                                setId(o._id);
-                                setDeleteCandidate(o.nama);
-                              }}
-                            >
-                              Hapus
-                            </button>
-                          </>
-                        ) : null}
+                          o.mdtbNumber &&
+                          !o.mdtbNumber.includes('MDTBAUTO') && (
+                            <>
+                              <button
+                                className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                                onClick={() => {
+                                  setShowEditModal(true);
+                                  setId(o._id);
+                                }}
+                              >
+                                Kemaskini
+                              </button>
+                              <button
+                                className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                                id={o._id}
+                                onClick={(e) => {
+                                  setShowDeleteModal(true);
+                                  setId(o._id);
+                                  setDeleteCandidate(o.nama);
+                                }}
+                              >
+                                Hapus
+                              </button>
+                            </>
+                          )}
                       </td>
                     </tr>
                   ))}

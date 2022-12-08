@@ -1777,11 +1777,12 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     Gred{' '}
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
-                  {FType === 'pp' ? (
+                  {FType === 'pp' && (
                     <select
+                      required
                       defaultValue={editedEntity.gred}
                       className='border-2'
-                      // onChange={(e) => (currentGred.current = e.target.value)}
+                      onChange={(e) => (currentGred.current = e.target.value)}
                     >
                       <option value=''>Pilih Gred</option>
                       <option value='jusa'>JUSA</option>
@@ -1792,11 +1793,13 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       <option value='ug44'>UG44</option>
                       <option value='ug41'>UG41</option>
                     </select>
-                  ) : (
+                  )}
+                  {FType === 'jp' && (
                     <select
+                      required
                       defaultValue={editedEntity.gred}
                       className='border-2'
-                      // onChange={(e) => (currentGred.current = e.target.value)}
+                      onChange={(e) => (currentGred.current = e.target.value)}
                     >
                       <option value=''>Pilih Gred</option>
                       <option value='u40'>U40</option>
@@ -1837,7 +1840,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
                   <select
-                  required
+                    required
                     defaultValue={editedEntity.role}
                     className='border-2'
                     onChange={(e) => (currentRole.current = e.target.value)}
