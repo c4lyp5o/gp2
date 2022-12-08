@@ -95,7 +95,8 @@ export default function KomunitiLain({
                         {e.nama}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                        {moment(e.tarikh).format('DD/MM/YYYY')}
+                        {moment(e.tarikhStart).format('DD/MM/YYYY')}-
+                        {moment(e.tarikhEnd).format('DD/MM/YYYY')}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                         <button
