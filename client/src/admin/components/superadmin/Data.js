@@ -273,7 +273,8 @@ export default function Data({ FType, kp }) {
               <option value=''>Peranan..</option>
               {namaRoles.map((k, index) => (
                 <option key={index} value={k}>
-                  {k}
+                  {k === 'admin' && 'Pentadbir Klinik'}
+                  {k === 'umum' && 'Pengguna'}
                 </option>
               ))}
             </select>
