@@ -9,12 +9,13 @@ const getAllPersonUmum = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { negeri, daerah, kp } = req.user;
+  const { negeri, daerah, kp, kodFasiliti } = req.user;
 
   const allPersonUmum = await Umum.find({
     createdByNegeri: negeri,
     createdByDaerah: daerah,
     createdByKp: kp,
+    createdByKodFasiliti: kodFasiliti,
   });
 
   res.status(200).json({ allPersonUmum });
@@ -60,6 +61,7 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
   // encrypt KIV
   // if (req.body.ic) {
@@ -136,13 +138,14 @@ const queryPersonUmum = async (req, res) => {
   }
 
   const {
-    user: { negeri, daerah, kp },
+    user: { negeri, daerah, kp, kodFasiliti },
     query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
   queryObject.createdByNegeri = negeri;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -184,6 +187,7 @@ const getTaskaTadikaList = async (req, res) => {
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
     handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
   });
 

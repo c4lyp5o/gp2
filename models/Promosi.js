@@ -6,8 +6,12 @@ const PromosiSchema = new mongoose.Schema(
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
+    createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMtdb: { type: String, required: true },
+    // individu or klinik ?
+    promosiIndividu: { type: Boolean, default: false },
+    promosiKlinik: { type: Boolean, default: false },
     // modal promosi
     kodProgram: { type: String, required: true },
     namaAcara: { type: String, default: '' },
