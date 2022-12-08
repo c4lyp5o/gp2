@@ -2222,7 +2222,7 @@ function UserFormUmumHeader() {
                             </div>
                           )}
                           <span
-                            // onClick={kemaskini}
+                            // onClick={kemaskini} tutup kemaskini untuk sementara waktu
                             className='px-2 py-1 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all rounded-r-md text-xs font-medium cursor-pointer'
                           >
                             -
@@ -2296,15 +2296,31 @@ function UserFormUmumHeader() {
                       tutup
                     </span>
                     <input
+                      disabled={
+                        singlePersonUmum.statusReten === 'telah diisi' && true
+                      }
                       type='reset'
-                      value='reset'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                      value='set semula'
+                      className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                        singlePersonUmum.statusReten === 'belum diisi' &&
+                        'hover:bg-user1 hover:text-userWhite'
+                      }`}
                     />
                     <button
+                      disabled={
+                        singlePersonUmum.statusReten === 'telah diisi' && true
+                      }
                       type='submit'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                        singlePersonUmum.statusReten === 'belum diisi' &&
+                        'hover:bg-user1 hover:text-userWhite'
+                      }`}
                     >
-                      hantar
+                      {singlePersonUmum.statusReten === 'belum diisi' &&
+                        'hantar'}
+                      {singlePersonUmum.statusReten === 'telah diisi' && (
+                        <s>hantar</s>
+                      )}
                     </button>
                   </div>
                 </div>
