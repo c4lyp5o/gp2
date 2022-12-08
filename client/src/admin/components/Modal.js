@@ -1837,6 +1837,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
                   <select
+                  required
                     defaultValue={editedEntity.role}
                     className='border-2'
                     onChange={(e) => (currentRole.current = e.target.value)}

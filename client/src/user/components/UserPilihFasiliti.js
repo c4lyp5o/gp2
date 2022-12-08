@@ -15,7 +15,8 @@ function UserPilihFasiliti() {
   } = useGlobalUserAppContext();
 
   const [listPilihFasiliti, setListPilihFasiliti] = useState([]);
-  const pilihanFasiliti = useRef(null);
+  const pilihanKodFasiliti = useRef(null);
+  const [pilihanFasiliti, setPilihanFasiliti] = useState([]);
   const [pilihanDaerah, setPilihanDaerah] = useState([]);
 
   useEffect(() => {
@@ -39,13 +40,14 @@ function UserPilihFasiliti() {
       const { data } = await axios.post('/api/v1/auth/login', {
         apiKey: process.env.REACT_APP_API_KEY,
         userToken,
-        pilihanFasiliti: pilihanFasiliti.current.value,
+        pilihanKodFasiliti: pilihanKodFasiliti.current.value,
+        pilihanFasiliti,
         pilihanDaerah,
       });
       localStorage.setItem('reliefUserToken', data.reliefUserToken);
       setReliefUserToken(data.reliefUserToken);
-      localStorage.setItem('fasilitiRelief', pilihanFasiliti.current.value);
-      setFasilitiRelief(pilihanFasiliti.current.value);
+      localStorage.setItem('fasilitiRelief', pilihanFasiliti);
+      setFasilitiRelief(pilihanFasiliti);
       setDisplayLoginForm(true);
       setDisplayPilihFasiliti(false);
       navigate('/pengguna/landing');
@@ -61,22 +63,24 @@ function UserPilihFasiliti() {
       </h3>
       <form onSubmit={handleSubmit}>
         <select
-          ref={pilihanFasiliti}
+          ref={pilihanKodFasiliti}
           onChange={(e) => {
             const indexFasiliti = listPilihFasiliti
-              .map((f) => f.kp)
-              .indexOf(pilihanFasiliti.current.value);
+              .map((f) => f.kodFasiliti)
+              .indexOf(pilihanKodFasiliti.current.value);
             const arrFasilitis = listPilihFasiliti.filter(
               (f, i) => i === indexFasiliti
             );
+            setPilihanFasiliti(arrFasilitis[0].kp);
             setPilihanDaerah(arrFasilitis[0].daerah);
           }}
           className='mt-12 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
           required
         >
+          <option value=''>Pilih fasiliti relief anda..</option>
           {listPilihFasiliti.map((singleFasiliti, index) => {
             return (
-              <option key={index} value={`${singleFasiliti.kp}`}>
+              <option key={index} value={`${singleFasiliti.kodFasiliti}`}>
                 {singleFasiliti.kp}
               </option>
             );
