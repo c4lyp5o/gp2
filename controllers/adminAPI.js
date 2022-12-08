@@ -40,6 +40,7 @@ const Dictionary = {
   sosmed: 'sosmed',
   sosmedByKodProgram: 'sosmedByKodProgram',
   followers: 'followers',
+  program: 'program',
 };
 
 const socmed = [
@@ -79,7 +80,8 @@ const getData = async (req, res) => {
             theType !== 'klinik' &&
             theType !== 'juruterapi pergigian' &&
             theType !== 'sosmed' &&
-            theType !== 'followers'
+            theType !== 'followers' &&
+            theType !== 'program'
           ) {
             Data = {
               ...Data,
@@ -242,6 +244,16 @@ const getData = async (req, res) => {
             const createFollowerData = await Followers.create(Data);
             res.status(200).json(createFollowerData);
           }
+          if (theType === 'program') {
+            if (negeri) {
+              Data.createdByNegeri = negeri;
+            }
+            if (daerah) {
+              Data.createdByDaerah = daerah;
+            }
+            const createProgramData = await Event.create(Data);
+            res.status(200).json(createProgramData);
+          }
           break;
         case 'read':
           console.log('read for', theType);
@@ -252,7 +264,8 @@ const getData = async (req, res) => {
             theType !== 'jp-all' &&
             theType !== 'klinik' &&
             theType !== 'sosmed' &&
-            theType !== 'sosmedByKodProgram'
+            theType !== 'sosmedByKodProgram' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.find({
               jenisFasiliti: theType,
@@ -345,13 +358,29 @@ const getData = async (req, res) => {
             });
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.find({
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+            });
+            // data.forEach((i) => {
+            //   if (i.createdByKp) {
+            //     const kpPunya = _.findIndex(data, {
+            //       createdByKp: i.createdByKp,
+            //     });
+            //     data.splice(kpPunya, 1);
+            //   }
+            // });
+            return res.status(200).json(data);
+          }
           break;
         case 'readOne':
           console.log('readOne for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findById({
               _id: Id,
@@ -370,13 +399,20 @@ const getData = async (req, res) => {
             });
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.findById({
+              _id: Id,
+            });
+            return res.status(200).json(data);
+          }
           break;
         case 'update':
           console.log('update for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findByIdAndUpdate(
               { _id: Id },
@@ -401,13 +437,22 @@ const getData = async (req, res) => {
             );
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.findByIdAndUpdate(
+              { _id: Id },
+              { $set: Data },
+              { new: true }
+            );
+            return res.status(200).json(data);
+          }
           break;
         case 'delete':
           console.log('delete for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
@@ -481,6 +526,10 @@ const getData = async (req, res) => {
                 }
               }
             });
+            return res.status(200).json(data);
+          }
+          if (theType === 'program') {
+            const data = await Event.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
           }
           break;
@@ -583,13 +632,10 @@ const getData = async (req, res) => {
                 handler: kp,
                 kodFasilitiHandler: kodFasiliti,
               });
-              const studentCount = await Umum.countDocuments({
-                jenisFasiliti: ['taska', 'tadika'],
-                createdByKp: kp,
-                createdByKodFasiliti: kodFasiliti,
+              allTastad.sort((a, b) => {
+                return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
               });
-              console.log(allTastad, studentCount);
-              res.status(200).json(tastadData);
+              res.status(200).json(allTastad);
               break;
             case 'pp':
               const ppData = await Operator.find({
@@ -636,6 +682,12 @@ const getData = async (req, res) => {
             });
             res.status(200).json(onePP);
           }
+          if (FType === 'tastad') {
+            const oneTastad = await Fasiliti.findOne({
+              _id: Id,
+            });
+            res.status(200).json(oneTastad);
+          }
           break;
         case 'update':
           console.log('update for kpcenter');
@@ -655,6 +707,14 @@ const getData = async (req, res) => {
                 { new: true }
               );
               res.status(200).json(updatePP);
+              break;
+            case 'tastad':
+              const updateTastad = await Fasiliti.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateTastad);
               break;
             default:
               console.log('default case for update');
