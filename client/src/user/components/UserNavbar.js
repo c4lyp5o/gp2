@@ -6,7 +6,7 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserNavbar() {
-  const { reliefUserToken, userinfo } = useGlobalUserAppContext();
+  const { userinfo, reliefUserToken } = useGlobalUserAppContext();
 
   const [showLinks, setShowLinks] = useState(false);
   const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
@@ -150,20 +150,22 @@ function UserNavbar() {
                 >
                   PROMOSI INDIVIDU
                 </NavLink>
-                <NavLink
-                  to='promosi-klinik'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  PROMOSI KLINIK
-                </NavLink>
+                {userinfo.rolePromosiKlinik === true && (
+                  <NavLink
+                    to='promosi-klinik'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                      setShowGenerateSubMenu(false);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    PROMOSI KLINIK
+                  </NavLink>
+                )}
               </div>
             </div>
             {reliefUserToken ? null : (

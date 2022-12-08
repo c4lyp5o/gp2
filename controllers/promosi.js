@@ -116,13 +116,23 @@ const queryAktivitiPromosi = async (req, res) => {
 
   const {
     user: { negeri, daerah, kp, kodFasiliti },
-    query: { kodProgram },
+    query: { kodProgram, individuOrKlinik },
   } = req;
   const queryObject = {};
   queryObject.createdByNegeri = negeri;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
   queryObject.createdByKodFasiliti = kodFasiliti;
+
+  if (individuOrKlinik === 'promosi-individu') {
+    queryObject.promosiIndividu = true;
+    queryObject.promosiKlinik = false;
+  }
+
+  if (individuOrKlinik === 'promosi-klinik') {
+    queryObject.promosiIndividu = false;
+    queryObject.promosiKlinik = true;
+  }
 
   if (kodProgram) {
     queryObject.kodProgram = kodProgram;
