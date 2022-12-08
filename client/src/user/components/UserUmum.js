@@ -604,7 +604,7 @@ function UserUmum() {
                     >
                       hapus pesakit?
                     </button>
-                  ) : (
+                  ) : singlePersonUmum.statusReten === 'belum diisi' ? (
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
@@ -612,7 +612,15 @@ function UserUmum() {
                     >
                       masukkan reten
                     </Link>
-                  )}
+                  ) : singlePersonUmum.statusReten === 'telah diisi' ? (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      lihat reten
+                    </Link>
+                  ) : null}
                 </div>
                 {modalHapus ? (
                   <UserUmumDeleteModal
