@@ -22,11 +22,17 @@ const authFind = async (req, res) => {
 
 // POST /login
 const authLogin = async (req, res) => {
-  const { username, password, pilihanFasiliti, pilihanDaerah } = req.body;
+  const {
+    username,
+    password,
+    pilihanKodFasiliti,
+    pilihanFasiliti,
+    pilihanDaerah,
+  } = req.body;
 
   let user = '';
 
-  if (pilihanFasiliti) {
+  if (pilihanKodFasiliti) {
     const { userToken } = req.body;
 
     if (!userToken) {
@@ -45,6 +51,7 @@ const authLogin = async (req, res) => {
 
     // replacing...
     user.kp = pilihanFasiliti;
+    user.kodFasiliti = pilihanKodFasiliti;
     user.daerah = pilihanDaerah;
 
     const reliefUserToken = user.createJWT();
