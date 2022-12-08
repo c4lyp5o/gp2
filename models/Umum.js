@@ -180,10 +180,6 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    skorBpeOralHygienePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
     skorGisMulutOralHygienePemeriksaanUmum: {
       type: String,
       default: '',
@@ -303,19 +299,55 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
+    // rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    // cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    puncaRujukan: {
       type: String,
       default: '',
     },
-    cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+    diabetesFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
     },
-    tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+    perokokFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
+    },
+    lainLainFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
+    },
+    skorBpeOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    pesakitMempunyaiImplanPergigian: {
+      type: Boolean,
+      default: false,
+    },
+    periImplantitis: {
+      type: Boolean,
+      default: false,
+    },
+    periImplantMucositis: {
+      type: Boolean,
+      default: false,
+    },
+    engganBpeImplan: {
+      type: Boolean,
+      default: false,
     },
     //rawatan umum
     pesakitDibuatFissureSealant: {
@@ -603,21 +635,21 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // jumlahPremolarRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // jumlahMolarRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
+    jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahPremolarRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahMolarRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum: {
       type: Number,
       min: 0,
