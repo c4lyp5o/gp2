@@ -8,7 +8,7 @@ import UserModalPromosi from './form-promosi/UserModalPromosi';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-function UserPromosi() {
+function UserPromosi({ individuOrKlinik }) {
   const { userToken, reliefUserToken, toast, refreshTimer, setRefreshTimer } =
     useGlobalUserAppContext();
 
@@ -56,7 +56,7 @@ function UserPromosi() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/promosi?kodProgram=${kodProgram}`,
+          `/api/v1/query/promosi?kodProgram=${kodProgram}&individuOrKlinik=${individuOrKlinik}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -73,7 +73,7 @@ function UserPromosi() {
       }
     };
     query();
-  }, [kodProgram, showTambahAcara, reloadState]);
+  }, [individuOrKlinik, kodProgram, showTambahAcara, reloadState]);
 
   useEffect(() => {
     const resultFilter = allAktivitiPromosi.filter((a) => {
@@ -82,11 +82,11 @@ function UserPromosi() {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  // clear pilihan if change kodProgram
+  // clear pilihan if change kodProgram & individuOrKlinik
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
-  }, [kodProgram]);
+  }, [kodProgram, individuOrKlinik]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -104,7 +104,10 @@ function UserPromosi() {
           <div className=''>
             <div>
               <h2 className='text-xl text-left ml-5 mt-2 font-semibold flex flex-row'>
-                PROGRAM PROMOSI
+                PROGRAM PROMOSI{' '}
+                {individuOrKlinik === 'promosi-individu'
+                  ? 'INDIVIDU'
+                  : 'KLINIK'}
               </h2>
               <div className='w-full flex flex-col lg:flex-row items-center'>
                 <label
@@ -457,6 +460,7 @@ function UserPromosi() {
       </div>
       {showTambahAcara && (
         <UserModalPromosi
+          individuOrKlinik={individuOrKlinik}
           setShowTambahAcara={setShowTambahAcara}
           kodProgram={kodProgram}
           toast={toast}

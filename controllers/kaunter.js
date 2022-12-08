@@ -59,6 +59,7 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
   // find if person already exist using ic
   const personExist = await Umum.findOne({
@@ -145,7 +146,7 @@ const queryPersonKaunter = async (req, res) => {
   }
 
   const {
-    user: { kp, daerah, negeri },
+    user: { kp, kodFasiliti, daerah, negeri },
     query: {
       nama,
       tarikhKedatangan,
@@ -160,6 +161,7 @@ const queryPersonKaunter = async (req, res) => {
   queryObject.createdByKp = kp;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByNegeri = negeri;
+  queryObject.createdByKodFasiliti = kodFasiliti;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -200,6 +202,7 @@ const getTaskaTadikaList = async (req, res) => {
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
     handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
   });
 
@@ -216,6 +219,7 @@ const getProjekKomuniti = async (req, res) => {
 
   const projekKomuniti = await Event.find({
     createdByKp: req.user.kp,
+    createdByKodFasiliti: req.user.kodFasiliti,
     createdByDaerah: req.user.daerah,
     createdByNegeri: req.user.negeri,
   });
