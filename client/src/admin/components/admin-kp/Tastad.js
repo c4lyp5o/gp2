@@ -16,9 +16,12 @@ export default function Tastad(props) {
                   Nama Fasiliti
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Klinik Pergigian
+                  Jenis Fasiliti
                 </th>
                 {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Nama Klinik Pergigian
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Kod Fasiliti
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -45,9 +48,12 @@ export default function Tastad(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.jenisFasiliti}
+                  </td>
+                  {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.handler}
                   </td>
-                  {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                     {f.kodTastad}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -65,7 +71,9 @@ export default function Tastad(props) {
                     {f.alamatTastad}
                   </td> */}
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.enrolmenTastad}
+                    {f.enrolmenTastad === 'NOT APPLICABLE'
+                      ? 'Belum di isi'
+                      : f.enrolmenTastad}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <button
@@ -77,17 +85,6 @@ export default function Tastad(props) {
                       }}
                     >
                       Ubah
-                    </button>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                      id={f._id}
-                      onClick={(e) => {
-                        props.setShowDeleteModal(true);
-                        props.setId(f._id);
-                        props.setDeleteCandidate(f.nama);
-                      }}
-                    >
-                      Hapus
                     </button>
                   </td>
                 </tr>
