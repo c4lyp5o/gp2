@@ -898,7 +898,8 @@ function UserFormUmumHeader() {
   const [cabutanPengurusanFaktorSetempat, setCabutanPengurusanFaktorSetempat] =
     useState(false);
   masterForm.cabutanPengurusanFaktorSetempat = cabutanPengurusanFaktorSetempat;
-  masterForm.setCabutanPengurusanFaktorSetempat = setCabutan;
+  masterForm.setCabutanPengurusanFaktorSetempat =
+    setCabutanPengurusanFaktorSetempat;
   const [ektiparsiPulpa, setEktiparsiPulpa] = useState(false);
   masterForm.ektiparsiPulpa = ektiparsiPulpa;
   masterForm.setEktiparsiPulpa = setEktiparsiPulpa;
@@ -914,13 +915,13 @@ function UserFormUmumHeader() {
   masterForm.rujukanPakarPeriodontik = rujukanPakarPeriodontik;
   masterForm.setRujukanPakarPeriodontik = setRujukanPakarPeriodontik;
   const [
-    engganLainrujukanPakarPeriodontik,
-    setEngganLainrujukanPakarPeriodontik,
+    engganLainRujukanPakarPeriodontik,
+    setEngganLainRujukanPakarPeriodontik,
   ] = useState('');
   masterForm.engganLainrujukanPakarPeriodontik =
-    engganLainrujukanPakarPeriodontik;
-  masterForm.setEngganLainrujukanPakarPeriodontik =
-    setEngganLainrujukanPakarPeriodontik;
+    engganLainRujukanPakarPeriodontik;
+  masterForm.setEngganLainRujukanPakarPeriodontik =
+    setEngganLainRujukanPakarPeriodontik;
   const [rujukanPakarScd, setRujukanPakarScd] = useState(false);
   masterForm.rujukanPakarScd = rujukanPakarScd;
   masterForm.setRujukanPakarScd = setRujukanPakarScd;
