@@ -598,7 +598,13 @@ function AdminAppProvider({ children }) {
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
     programDewasaMuda: 'Program Dewasa Muda',
-    kampungAngkatPergigian: 'Kampung Angkat Pergigian',
+    kampungAngkatPergigian: 'Progam Kampung Angkat Pergigian',
+    incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
+    'kolej-komuniti': 'Kolej Komuniti',
+    'kolej-vokasional': 'Kolej Vokasional',
+    ipg: 'Institusi Pendidikan Guru (IPG)',
+    ipta: 'Institusi Pengajian Tinggi Awam (IPTA)',
+    'lain-lain': 'Lain-lain Institusi Pengajian',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {

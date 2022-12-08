@@ -47,7 +47,7 @@ export default function Rawatan(props) {
                       <Select
                         isMulti
                         name='rawatan'
-                        defaultValue={optionsRawatan[11]}
+                        defaultValue={optionsRawatan[12]}
                         options={optionsRawatan}
                         className='basic-multi-select'
                         classNamePrefix='select'
