@@ -6,7 +6,12 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
+function UserModalPromosi({
+  individuOrKlinik,
+  setShowTambahAcara,
+  kodProgram,
+  toast,
+}) {
   const { userToken, reliefUserToken, username, userinfo, masterDatePicker } =
     useGlobalUserAppContext();
 
@@ -66,6 +71,7 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let mdcMdtbNum;
     if (!userinfo.mdcNumber) {
       mdcMdtbNum = userinfo.mdtbNumber;
@@ -73,6 +79,18 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
     if (!userinfo.mdtbNumber) {
       mdcMdtbNum = userinfo.mdcNumber;
     }
+
+    let promosiIndividu = false;
+    let promosiKlinik = false;
+    if (individuOrKlinik === 'promosi-individu') {
+      promosiIndividu = true;
+      promosiKlinik = false;
+    }
+    if (individuOrKlinik === 'promosi-klinik') {
+      promosiIndividu = false;
+      promosiKlinik = true;
+    }
+
     await toast
       .promise(
         axios.post(
@@ -80,6 +98,8 @@ function UserModalPromosi({ setShowTambahAcara, kodProgram, toast }) {
           {
             createdByUsername: username,
             createdByMdcMtdb: mdcMdtbNum,
+            promosiIndividu,
+            promosiKlinik,
             //modal promosi
             kodProgram,
             namaAcara,
