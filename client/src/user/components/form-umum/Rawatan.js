@@ -15,6 +15,7 @@ const optionsRawatan = [
   { value: 'x-ray', label: 'Bilangan X-Ray Yang Diambil' },
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
+  { value: 'uppr', label: 'UPPR' },
   { value: 'kes-selesai', label: 'Kes Selesai' },
   { value: 'lihat-semua', label: 'Lihat Semua' },
 ];
@@ -1976,13 +1977,15 @@ export default function Rawatan(props) {
                             id='enggan-rujukan-pakar-periodontik'
                             value='enggan-rujukan-pakar-periodontik'
                             checked={
-                              props.rujukanPakarPeriodontik ===
+                              props.engganLainRujukanPakarPeriodontik ===
                               'enggan-rujukan-pakar-periodontik'
                                 ? true
                                 : false
                             }
                             onChange={(e) => {
-                              props.setRujukanPakarPeriodontik(e.target.value);
+                              props.setEngganLainRujukanPakarPeriodontik(
+                                e.target.value
+                              );
                             }}
                             className='w-4 h-4 rounded flex items-center'
                           />
@@ -1999,13 +2002,15 @@ export default function Rawatan(props) {
                             id='lain-lain-rujukan-pakar-periodontik'
                             value='lain-lain-rujukan-pakar-periodontik'
                             checked={
-                              props.rujukanPakarPeriodontik ===
+                              props.engganLainRujukanPakarPeriodontik ===
                               'lain-lain-rujukan-pakar-periodontik'
                                 ? true
                                 : false
                             }
                             onChange={(e) => {
-                              props.setRujukanPakarPeriodontik(e.target.value);
+                              props.setEngganLainRujukanPakarPeriodontik(
+                                e.target.value
+                              );
                             }}
                             className='w-4 h-4 rounded flex items-center'
                           />
@@ -2341,7 +2346,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {/* pink */}
-                  {props.kepp === true ? (
+                  {pilihanRawatan.includes('uppr') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-semibold flex flex-row pl-3'>
                         kes rujuk Unit Pakar Pergigian Restoratif
