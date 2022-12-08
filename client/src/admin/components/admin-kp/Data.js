@@ -15,7 +15,7 @@ import {
   ModalAddFollowers,
 } from './modal-sosmed/Modal';
 
-import { AddModal, EditModalForKp, DeleteModal } from '../Modal';
+import { AddModalForKp, EditModalForKp, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
 export default function DataKp({ FType }) {
@@ -54,8 +54,7 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser, readData, readDataForKp } =
-    useGlobalAdminAppContext();
+  const { getCurrentUser, readDataForKp } = useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
@@ -69,14 +68,9 @@ export default function DataKp({ FType }) {
         setDaerah();
       }
       setNegeri(userData.negeri);
-      if (userData.accountType === 'kpUser') {
-        const { data } = await readDataForKp(FType);
-        setData(data);
-      }
-      if (userData.accountType !== 'kpUser') {
-        const { data } = await readData(FType);
-        setData(data);
-      }
+      const { data } = await readDataForKp(FType);
+      console.log(data);
+      setData(data);
     };
     getData()
       .then(() => {
@@ -181,7 +175,7 @@ export default function DataKp({ FType }) {
   const RenderModal = () => {
     return (
       <>
-        {showAddModal ? <AddModal {...props} /> : null}
+        {showAddModal ? <AddModalForKp {...props} /> : null}
         {showEditModal ? <EditModalForKp {...props} /> : null}
         {showDeleteModal ? <DeleteModal {...props} /> : null}
       </>

@@ -70,6 +70,7 @@ function Kaunter({
           const { data } = await axios.get(`/api/v1/query/events`, {
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
+          console.log(data.projekKomuniti);
           setSemuaProgram(data.projekKomuniti);
           setIsLoading(false);
         } catch (error) {
