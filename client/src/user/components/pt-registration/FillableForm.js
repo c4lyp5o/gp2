@@ -1049,6 +1049,7 @@ export default function FillableForm({
                     </div>
                     {jenisIc === 'mykad-mykid' && (
                       <input
+                        disabled={editId ? true : false}
                         required
                         type='text'
                         name='ic'
