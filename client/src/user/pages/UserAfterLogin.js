@@ -30,7 +30,8 @@ import UserFooter from '../components/UserFooter';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserAfterLogin() {
-  const { reliefUserToken, ToastContainer } = useGlobalUserAppContext();
+  const { userinfo, reliefUserToken, ToastContainer } =
+    useGlobalUserAppContext();
 
   return (
     <>
@@ -66,11 +67,26 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
-          <Route path='promosi' element={<UserPromosi />} />
           <Route
-            path='promosi/form-promosi/:aktivitiId'
-            element={<UserFormPromosi />}
+            path='promosi-individu'
+            element={<UserPromosi individuOrKlinik='promosi-individu' />}
           />
+          <Route
+            path='promosi-individu/form-promosi/:aktivitiId'
+            element={<UserFormPromosi individuOrKlinik='promosi-individu' />}
+          />
+          {userinfo.rolePromosiKlinik === true && (
+            <>
+              <Route
+                path='promosi-klinik'
+                element={<UserPromosi individuOrKlinik='promosi-klinik' />}
+              />
+              <Route
+                path='promosi-klinik/form-promosi/:aktivitiId'
+                element={<UserPromosi individuOrKlinik='promosi-klinik' />}
+              />
+            </>
+          )}
 
           {reliefUserToken ? null : (
             <>
