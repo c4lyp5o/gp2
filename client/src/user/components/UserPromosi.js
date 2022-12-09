@@ -444,13 +444,23 @@ function UserPromosi({ individuOrKlinik }) {
                     </div>
                   </div>
                   <div className='absolute right-3 bottom-5'>
-                    <Link
-                      target='_blank'
-                      to={`form-promosi/${a._id}`}
-                      className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
-                    >
-                      masukkan reten promosi
-                    </Link>
+                    {a.statusReten === 'belum diisi' ? (
+                      <Link
+                        target='_blank'
+                        to={`form-promosi/${a._id}`}
+                        className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                      >
+                        masukkan reten promosi
+                      </Link>
+                    ) : a.statusReten === 'telah diisi' ? (
+                      <Link
+                        target='_blank'
+                        to={`form-promosi/${a._id}`}
+                        className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                      >
+                        lihat reten promosi
+                      </Link>
+                    ) : null}
                   </div>
                 </>
               );
