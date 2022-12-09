@@ -219,7 +219,7 @@ function KaunterNavbar() {
             >
               TASKA / TADIKA
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to='ipt-kolej'
               onClick={() => {
                 outreachOff();
@@ -231,7 +231,7 @@ function KaunterNavbar() {
               }
             >
               IPT / KOLEJ
-            </NavLink>
+            </NavLink> */}
             {/* <div>
               <div
                 className={`${

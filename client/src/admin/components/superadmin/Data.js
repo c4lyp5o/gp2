@@ -671,7 +671,7 @@ export default function Data({ FType, kp }) {
       return (
         <div className='flex flex-col items-center gap-5'>
           <h1 className='text-3xl font-bold mt-10 mb-10'>
-            Senarai Program {daerah}
+            Senarai Program Komuniti {daerah}
           </h1>
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
@@ -680,21 +680,24 @@ export default function Data({ FType, kp }) {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Bil.
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     Nama Program
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Nama Aktiviti
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    Jenis Aktiviti
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tarikh Aktiviti
+                  </th> */}
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                    Institusi
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     Klinik Bertugas
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Kaedah Penyampaian Perkhidmatan
-                  </th>
+                  </th> */}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
                   </th>
@@ -712,18 +715,16 @@ export default function Data({ FType, kp }) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.nama}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {moment(f.tarikh).format('DD/MM/YYYY')}
+                    </td> */}
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {Dictionary[f.kategoriInstitusi]}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.createdByKp}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {/* {f.modPenyampaianPerkhidmatan[0] === 'ppb'
-                        ? 'Pasukan Pergigian Bergerak'
-                        : f.modPenyampaianPerkhidmatan[0] === 'kpb'
-                        ? 'Klinik Pergigian Bergerak'
-                        : 'Makmal Pergigian Bergerak'} */}
+                    {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <div className='grid gap-1'>
                         {f.modPenyampaianPerkhidmatan.map((f) => (
                           <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
@@ -731,9 +732,9 @@ export default function Data({ FType, kp }) {
                           </span>
                         ))}
                       </div>
-                    </td>
+                    </td> */}
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      <button
+                      {/* <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                         id={f._id}
                         onClick={() => {
@@ -742,7 +743,7 @@ export default function Data({ FType, kp }) {
                         }}
                       >
                         Kemaskini
-                      </button>
+                      </button> */}
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                         id={f._id}
