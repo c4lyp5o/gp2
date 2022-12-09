@@ -2867,29 +2867,39 @@ const EditModalForKp = ({
     });
   };
 
+  // const eventModeChecker = (e) => {
+  //   if (currentModPenyampaian.current.includes(e)) {
+  //     currentModPenyampaian.current.splice(
+  //       currentModPenyampaian.current.indexOf(e),
+  //       1
+  //     );
+  //     modPenyampaian.splice(modPenyampaian.indexOf(e), 1);
+  //     editedEntity.modPenyampaianPerkhidmatan.splice(
+  //       editedEntity.modPenyampaianPerkhidmatan.indexOf(e),
+  //       1
+  //     );
+  //     setModPenyampaian([...modPenyampaian]);
+  //     return;
+  //   }
+  //   if (!currentModPenyampaian.current.includes(e)) {
+  //     currentModPenyampaian.current = [...currentModPenyampaian.current, e];
+  //     setEditedEntity({
+  //       ...editedEntity,
+  //       modPenyampaianPerkhidmatan: [
+  //         ...editedEntity.modPenyampaianPerkhidmatan,
+  //         e,
+  //       ],
+  //     });
+  //     setModPenyampaian([...modPenyampaian, e]);
+  //   }
+  // };
+
   const eventModeChecker = (e) => {
-    if (currentModPenyampaian.current.includes(e)) {
-      currentModPenyampaian.current.splice(
-        currentModPenyampaian.current.indexOf(e),
-        1
-      );
+    if (modPenyampaian.includes(e)) {
       modPenyampaian.splice(modPenyampaian.indexOf(e), 1);
-      editedEntity.modPenyampaianPerkhidmatan.splice(
-        editedEntity.modPenyampaianPerkhidmatan.indexOf(e),
-        1
-      );
-      setModPenyampaian([...modPenyampaian]);
       return;
     }
-    if (!currentModPenyampaian.current.includes(e)) {
-      currentModPenyampaian.current = [...currentModPenyampaian.current, e];
-      setEditedEntity({
-        ...editedEntity,
-        modPenyampaianPerkhidmatan: [
-          ...editedEntity.modPenyampaianPerkhidmatan,
-          e,
-        ],
-      });
+    if (!modPenyampaian.includes(e)) {
       setModPenyampaian([...modPenyampaian, e]);
     }
   };
