@@ -114,7 +114,7 @@ const Dictionary = {
   ppr: 'Projek Perumahan Rakyat',
   'institusi-warga-emas': 'Institusi Warga Emas',
   'institusi-oku': 'Institusi OKU',
-  'kampung-angkat': 'Kampung Angkat',
+  'kampung-angkat': 'Program Kampung Angkat Pergigian',
   'projek-komuniti-lain': 'Projek Komuniti Lain',
   'projek-komuniti': 'Projek Komuniti',
   ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
@@ -122,7 +122,8 @@ const Dictionary = {
   we: 'Institusi Warga Emas',
   oku: 'Institusi OKU / PDK',
   oap: 'Program Orang Asli dan Penan',
-
+  programDewasaMuda: 'Program Dewasa Muda',
+  incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
 

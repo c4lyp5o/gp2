@@ -15,6 +15,7 @@ const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
 const Sosmed = require('../models/MediaSosial');
+const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const emailGen = require('../lib/emailgen');
 
@@ -38,6 +39,8 @@ const Dictionary = {
   'sa-a': 'superadmin-all',
   sosmed: 'sosmed',
   sosmedByKodProgram: 'sosmedByKodProgram',
+  followers: 'followers',
+  program: 'program',
 };
 
 const socmed = [
@@ -59,6 +62,133 @@ const transporter = mailer.createTransport({
   },
 });
 
+const getDataRoute = async (req, res) => {
+  console.log('getRoute');
+  // 1st phase
+  const { auth } = req.headers;
+  const currentUser = await Superadmin.findById(
+    jwt.verify(auth, process.env.JWT_SECRET).userId
+  );
+  const { negeri, daerah } = currentUser.getProfile();
+  const { FType } = req.query;
+  const type = Dictionary[FType];
+  // 2nd phase
+  let data, countedData, owner;
+  switch (type) {
+    case 'klinik':
+      data = await User.find({
+        negeri,
+        daerah,
+        statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
+      });
+      const kaunter = await User.find({
+        negeri,
+        daerah,
+        accountType: 'kaunterUser',
+      });
+      for (const i in data) {
+        for (const j in kaunter) {
+          if (data[i].kp === kaunter[j].kp) {
+            data[i] = {
+              ...data[i]._doc,
+              kaunterUsername: kaunter[j].username,
+              kaunterPassword: kaunter[j].password,
+            };
+          }
+        }
+      }
+      break;
+    case 'pegawai-all':
+      data = await Operator.find({
+        statusPegawai: 'pp',
+        activationStatus: true,
+      });
+      break;
+    case 'pegawai':
+      data = await Operator.find({
+        statusPegawai: 'pp',
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+        activationStatus: true,
+      });
+      break;
+    case 'jp-all':
+      data = await Operator.find({
+        statusPegawai: 'jp',
+        activationStatus: true,
+      });
+      break;
+    case 'juruterapi pergigian':
+      data = await Operator.find({
+        statusPegawai: 'jp',
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+        activationStatus: true,
+      });
+      break;
+    case 'program':
+      data = await Event.find({
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+    case 'sosmed':
+      countedData = [];
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      sosMeddata = await Sosmed.find({
+        belongsTo: owner,
+      });
+      countedData = sosmedDataCompactor(sosMeddata);
+      data = countedData;
+      break;
+    case 'sosmedByKodProgram':
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      data = await Sosmed.find({
+        belongsTo: owner,
+      });
+      break;
+    default:
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+  }
+  // 3rd phase
+  res.status(200).json(data);
+};
+
+const getDataKpRoute = async (req, res) => {
+  console.log('getRoute');
+  // 1st phase
+  const { auth } = req.headers;
+};
+
+const postRoute = async (req, res) => {
+  console.log('postRoute');
+};
+
+const patchRoute = async (req, res) => {
+  console.log('patchRoute');
+};
+
+const deleteRoute = async (req, res) => {
+  console.log('deleteRoute');
+};
+
 const getData = async (req, res) => {
   let { main, Fn, token, FType, Id } = req.body;
   let { Data } = req.body;
@@ -76,7 +206,9 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'klinik' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'sosmed'
+            theType !== 'sosmed' &&
+            theType !== 'followers' &&
+            theType !== 'program'
           ) {
             Data = {
               ...Data,
@@ -92,7 +224,7 @@ const getData = async (req, res) => {
               mdcNumber: Data.mdcNumber,
             });
             if (exists) {
-              console.log('exists?');
+              console.log('exists pegawai?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
@@ -119,7 +251,7 @@ const getData = async (req, res) => {
               mdtbNumber: Data.mdtbNumber,
             });
             if (exists) {
-              console.log('exists?');
+              console.log('exists jp?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
@@ -235,6 +367,20 @@ const getData = async (req, res) => {
               res.status(200).json(updatedSosmed);
             }
           }
+          if (theType === 'followers') {
+            const createFollowerData = await Followers.create(Data);
+            res.status(200).json(createFollowerData);
+          }
+          if (theType === 'program') {
+            if (negeri) {
+              Data.createdByNegeri = negeri;
+            }
+            if (daerah) {
+              Data.createdByDaerah = daerah;
+            }
+            const createProgramData = await Event.create(Data);
+            res.status(200).json(createProgramData);
+          }
           break;
         case 'read':
           console.log('read for', theType);
@@ -245,7 +391,8 @@ const getData = async (req, res) => {
             theType !== 'jp-all' &&
             theType !== 'klinik' &&
             theType !== 'sosmed' &&
-            theType !== 'sosmedByKodProgram'
+            theType !== 'sosmedByKodProgram' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.find({
               jenisFasiliti: theType,
@@ -338,13 +485,30 @@ const getData = async (req, res) => {
             });
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.find({
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+            });
+            data.forEach((i) => {
+              if (i.createdByKp) {
+                const kpPunya = _.findIndex(data, {
+                  createdByKp: i.createdByKp,
+                });
+                data.splice(kpPunya, 1);
+              }
+            });
+            console.log(data);
+            return res.status(200).json(data);
+          }
           break;
         case 'readOne':
           console.log('readOne for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findById({
               _id: Id,
@@ -363,13 +527,20 @@ const getData = async (req, res) => {
             });
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.findById({
+              _id: Id,
+            });
+            return res.status(200).json(data);
+          }
           break;
         case 'update':
           console.log('update for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findByIdAndUpdate(
               { _id: Id },
@@ -394,13 +565,22 @@ const getData = async (req, res) => {
             );
             return res.status(200).json(data);
           }
+          if (theType === 'program') {
+            const data = await Event.findByIdAndUpdate(
+              { _id: Id },
+              { $set: Data },
+              { new: true }
+            );
+            return res.status(200).json(data);
+          }
           break;
         case 'delete':
           console.log('delete for', theType);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik'
+            theType !== 'klinik' &&
+            theType !== 'program'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
@@ -416,9 +596,12 @@ const getData = async (req, res) => {
             const klinik = await User.findOne({ _id: Id });
             const fasilitiUnderKlinik = await Fasiliti.find({
               handler: klinik.kp,
+              kodFasilitiHandler: klinik.kodFasiliti,
             });
             const operatorUnderKlinik = await Operator.find({
-              kp: klinik.kp,
+              kpSkrg: klinik.kp,
+              kodFasiliti: klinik.kodFasiliti,
+              activationStatus: true,
             });
             if (
               fasilitiUnderKlinik.length > 0 ||
@@ -447,8 +630,12 @@ const getData = async (req, res) => {
             // deleting kaunter and klinik
             const data = await User.findByIdAndDelete({ _id: Id }).then(
               async () => {
+                const negeriNum = emailGen[data.negeri].kodNegeri;
+                const daerahNum = emailGen[data.negeri].daerah[klinik.daerah];
                 await User.findOneAndDelete({
-                  username: `kaunter${acronym.toLowerCase()}`,
+                  username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+                    Data.kodFasiliti
+                  }`,
                 });
               }
             );
@@ -457,15 +644,20 @@ const getData = async (req, res) => {
               createdByKp: data.kp,
               createdByDaerah: data.daerah,
               createdByNegeri: data.negeri,
+              createdByKodFasiliti: data.kodFasiliti,
             }).then(async () => {
               if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
                   await Event.findOneAndDelete({
-                    nama: events[i].nama,
+                    _id: events[i]._id,
                   });
                 }
               }
             });
+            return res.status(200).json(data);
+          }
+          if (theType === 'program') {
+            const data = await Event.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
           }
           break;
@@ -475,7 +667,10 @@ const getData = async (req, res) => {
       }
       break;
     case 'KpCenter':
-      var { kp, daerah, negeri } = jwt.verify(token, process.env.JWT_SECRET);
+      var { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+        token,
+        process.env.JWT_SECRET
+      );
       console.log(FType);
       switch (Fn) {
         case 'create':
@@ -485,6 +680,7 @@ const getData = async (req, res) => {
               Data = {
                 ...Data,
                 createdByKp: kp,
+                createdByKodFasiliti: kodFasiliti,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               };
@@ -534,6 +730,7 @@ const getData = async (req, res) => {
             case 'program':
               const eventData = await Event.find({
                 createdByKp: kp,
+                createdByKodFasiliti: kodFasiliti,
                 createdByDaerah: daerah,
                 createdByNegeri: negeri,
               });
@@ -561,18 +758,19 @@ const getData = async (req, res) => {
               const allTastad = await Fasiliti.find({
                 jenisFasiliti: ['taska', 'tadika'],
                 handler: kp,
+                kodFasilitiHandler: kodFasiliti,
               });
-              const studentCount = await Umum.countDocuments({
-                jenisFasiliti: ['taska', 'tadika'],
-                createdByKp: kp,
+              allTastad.sort((a, b) => {
+                return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
               });
-              console.log(allTastad, studentCount);
-              res.status(200).json(tastadData);
+              res.status(200).json(allTastad);
               break;
             case 'pp':
               const ppData = await Operator.find({
                 statusPegawai: 'pp',
                 kpSkrg: kp,
+                kodFasiliti: kodFasiliti,
+                activationStatus: true,
               });
               res.status(200).json(ppData);
               break;
@@ -580,6 +778,8 @@ const getData = async (req, res) => {
               const jpData = await Operator.find({
                 statusPegawai: 'jp',
                 kpSkrg: kp,
+                kodFasiliti: kodFasiliti,
+                activationStatus: true,
               });
               res.status(200).json(jpData);
               break;
@@ -587,6 +787,7 @@ const getData = async (req, res) => {
               const institusiData = await Fasiliti.find({
                 jenisFasiliti: Dictionary[FType],
                 handler: kp,
+                kodFasilitiHandler: kodFasiliti,
               });
               res.status(200).json(institusiData);
               break;
@@ -609,6 +810,12 @@ const getData = async (req, res) => {
             });
             res.status(200).json(onePP);
           }
+          if (FType === 'tastad') {
+            const oneTastad = await Fasiliti.findOne({
+              _id: Id,
+            });
+            res.status(200).json(oneTastad);
+          }
           break;
         case 'update':
           console.log('update for kpcenter');
@@ -628,6 +835,14 @@ const getData = async (req, res) => {
                 { new: true }
               );
               res.status(200).json(updatePP);
+              break;
+            case 'tastad':
+              const updateTastad = await Fasiliti.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateTastad);
               break;
             default:
               console.log('default case for update');

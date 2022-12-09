@@ -169,17 +169,6 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                      }
-                      to='sosmed'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      AKTIVITI MEDIA SOSIAL
-                    </NavLink>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
                           ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                           : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                       }
@@ -187,6 +176,17 @@ export default function Navbar(props) {
                       onClick={() => setShowLinks(!showLinks)}
                     >
                       <i>FOLLOWERS</i> MEDIA SOSIAL
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                      }
+                      to='sosmed'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      AKTIVITI MEDIA SOSIAL
                     </NavLink>
                   </div>
                 </div>
@@ -222,43 +222,10 @@ export default function Navbar(props) {
                     ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                     : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                 }
-                to='kp/program'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                PROGRAM KOMUNITI
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='sosmed'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                MEDIA SOSIAL
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='kp/tastad'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                TASKA/TADIKA
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
                 to='kp/pp'
                 onClick={() => setShowLinks(!showLinks)}
               >
-                PEGAWAI
+                PEGAWAI PERGIGIAN
               </NavLink>
               <NavLink
                 className={({ isActive }) =>
@@ -277,11 +244,78 @@ export default function Navbar(props) {
                     ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                     : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                 }
+                to='kp/tastad'
+                onClick={() => setShowLinks(!showLinks)}
+              >
+                TASKA/TADIKA
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                }
+                to='kp/program'
+                onClick={() => setShowLinks(!showLinks)}
+              >
+                PROGRAM KOMUNITI
+              </NavLink>
+              <div>
+                <div
+                  className={`${
+                    showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                  } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                  onClick={toggleSubMenuMedSos}
+                >
+                  <span>MEDIA SOSIAL</span>
+                  <span className='inline-flex ml-2'>
+                    <FaArrowAltCircleUp
+                      className={`transition-all ${
+                        showMedSosSubMenu && 'rotate-180'
+                      }`}
+                    />
+                  </span>
+                </div>
+                <div
+                  className={`grid transition-all ${
+                    showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                    }
+                    to='followers'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    <i>FOLLOWERS</i> MEDIA SOSIAL
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                    }
+                    to='sosmed'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    AKTIVITI MEDIA SOSIAL
+                  </NavLink>
+                </div>
+              </div>
+              {/* <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                }
                 to='kp/institusi'
                 onClick={() => setShowLinks(!showLinks)}
               >
                 INSTITUSI
-              </NavLink>
+              </NavLink> */}
             </>
           )}
           {(props.loginInfo.accountType === 'negeriSuperadmin' ||
@@ -309,17 +343,51 @@ export default function Navbar(props) {
               >
                 PENJANAAN RETEN
               </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='sosmed'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                MEDIA SOSIAL
-              </NavLink>
+              <div>
+                <div
+                  className={`${
+                    showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                  } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                  onClick={toggleSubMenuMedSos}
+                >
+                  <span>MEDIA SOSIAL</span>
+                  <span className='inline-flex ml-2'>
+                    <FaArrowAltCircleUp
+                      className={`transition-all ${
+                        showMedSosSubMenu && 'rotate-180'
+                      }`}
+                    />
+                  </span>
+                </div>
+                <div
+                  className={`grid transition-all ${
+                    showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                    }
+                    to='followers'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    <i>FOLLOWERS</i> MEDIA SOSIAL
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                    }
+                    to='sosmed'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    AKTIVITI MEDIA SOSIAL
+                  </NavLink>
+                </div>
+              </div>
             </>
           )}
         </div>

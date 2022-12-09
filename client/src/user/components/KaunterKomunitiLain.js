@@ -47,14 +47,18 @@ export default function KomunitiLain({
           >
             <option value=''>Jenis Program / Aktiviti</option>
             <option value='projek-komuniti'>Projek Komuniti</option>
-            <option value='ppkps'>
-              Program Pemasyarakatan Klinik Pergigian Sekolah
-            </option>
-            <option value='kgangkat'>Kampung Angkat Pergigian</option>
+            <option value='programDewasaMuda'>Program Dewasa Muda</option>
+            <option value='kgangkat'>Program Kampung Angkat Pergigian</option>
             <option value='ppr'>Projek Perumahan Rakyat</option>
             <option value='we'>Institusi Warga Emas</option>
             <option value='oku'>Institusi OKU / PDK</option>
+            <option value='ppkps'>
+              Program Pemasyarakatan Klinik Pergigian Sekolah
+            </option>
             <option value='oap'>Program Orang Asli dan Penan</option>
+            <option value='incremental'>
+              Program Pergigian Sekolah sesi 2022/2023
+            </option>
           </select>
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -88,7 +92,8 @@ export default function KomunitiLain({
                         {e.nama}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                        {moment(e.tarikh).format('DD/MM/YYYY')}
+                        {moment(e.tarikhStart).format('DD/MM/YYYY')}-
+                        {moment(e.tarikhEnd).format('DD/MM/YYYY')}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                         <button

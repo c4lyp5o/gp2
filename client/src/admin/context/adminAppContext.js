@@ -385,13 +385,17 @@ function AdminAppProvider({ children }) {
         }
         return response.data.matches;
       }
-      for (let j = 0; j < currentPegawai.data.length; j++) {
-        const deletePegawai = response.data.matches
-          .map((e) => e.nomborMdc)
-          .indexOf(currentPegawai.data[j].mdcNumber);
-        response.data.matches.splice(deletePegawai, 1);
+      if (response.data.matches.length > 1) {
+        for (let j = 0; j < currentPegawai.data.length; j++) {
+          const deletePegawai = response.data.matches
+            .map((e) => e.nomborMdc)
+            .indexOf(currentPegawai.data[j].mdcNumber);
+          if (deletePegawai !== -1) {
+            response.data.matches.splice(deletePegawai, 1);
+          }
+        }
+        return response.data.matches;
       }
-      return response.data.matches;
     } catch (err) {
       return false;
     }
@@ -416,13 +420,17 @@ function AdminAppProvider({ children }) {
         }
         return response.data.data;
       }
-      for (let j = 0; j < currentJp.data.length; j++) {
-        const deleteJp = response.data.data
-          .map((e) => e.mdtbNumber)
-          .indexOf(currentJp.data[j].mdtbNumber);
-        response.data.data.splice(deleteJp, 1);
+      if (response.data.data.length > 1) {
+        for (let j = 0; j < currentJp.data.length; j++) {
+          const deleteJp = response.data.data
+            .map((e) => e.mdtbNumber)
+            .indexOf(currentJp.data[j].mdtbNumber);
+          if (deleteJp !== -1) {
+            response.data.data.splice(deleteJp, 1);
+          }
+        }
+        return response.data.data;
       }
-      return response.data.data;
     } catch (error) {
       return false;
     }
@@ -580,7 +588,7 @@ function AdminAppProvider({ children }) {
     rtc: 'RTC',
     ppkps: 'PPKPS',
     kgangkat: 'Kampung Angkat',
-    ppr: 'PPR',
+    ppr: 'Projek Perumahan Rakyat',
     we: 'Institusi Warga Emas',
     oku: 'Institusi OKU / PDK',
     oap: 'Program Orang Asli dan Penan',
@@ -589,6 +597,14 @@ function AdminAppProvider({ children }) {
     program: 'Program',
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
+    programDewasaMuda: 'Program Dewasa Muda',
+    kampungAngkatPergigian: 'Progam Kampung Angkat Pergigian',
+    incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
+    'kolej-komuniti': 'Kolej Komuniti',
+    'kolej-vokasional': 'Kolej Vokasional',
+    ipg: 'Institusi Pendidikan Guru (IPG)',
+    ipta: 'Institusi Pengajian Tinggi Awam (IPTA)',
+    'lain-lain': 'Lain-lain Institusi Pengajian',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
