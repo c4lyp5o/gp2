@@ -62,6 +62,133 @@ const transporter = mailer.createTransport({
   },
 });
 
+const getDataRoute = async (req, res) => {
+  console.log('getRoute');
+  // 1st phase
+  const { auth } = req.headers;
+  const currentUser = await Superadmin.findById(
+    jwt.verify(auth, process.env.JWT_SECRET).userId
+  );
+  const { negeri, daerah } = currentUser.getProfile();
+  const { FType } = req.query;
+  const type = Dictionary[FType];
+  // 2nd phase
+  let data, countedData, owner;
+  switch (type) {
+    case 'klinik':
+      data = await User.find({
+        negeri,
+        daerah,
+        statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
+      });
+      const kaunter = await User.find({
+        negeri,
+        daerah,
+        accountType: 'kaunterUser',
+      });
+      for (const i in data) {
+        for (const j in kaunter) {
+          if (data[i].kp === kaunter[j].kp) {
+            data[i] = {
+              ...data[i]._doc,
+              kaunterUsername: kaunter[j].username,
+              kaunterPassword: kaunter[j].password,
+            };
+          }
+        }
+      }
+      break;
+    case 'pegawai-all':
+      data = await Operator.find({
+        statusPegawai: 'pp',
+        activationStatus: true,
+      });
+      break;
+    case 'pegawai':
+      data = await Operator.find({
+        statusPegawai: 'pp',
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+        activationStatus: true,
+      });
+      break;
+    case 'jp-all':
+      data = await Operator.find({
+        statusPegawai: 'jp',
+        activationStatus: true,
+      });
+      break;
+    case 'juruterapi pergigian':
+      data = await Operator.find({
+        statusPegawai: 'jp',
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+        activationStatus: true,
+      });
+      break;
+    case 'program':
+      data = await Event.find({
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+    case 'sosmed':
+      countedData = [];
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      sosMeddata = await Sosmed.find({
+        belongsTo: owner,
+      });
+      countedData = sosmedDataCompactor(sosMeddata);
+      data = countedData;
+      break;
+    case 'sosmedByKodProgram':
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      data = await Sosmed.find({
+        belongsTo: owner,
+      });
+      break;
+    default:
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+  }
+  // 3rd phase
+  res.status(200).json(data);
+};
+
+const getDataKpRoute = async (req, res) => {
+  console.log('getRoute');
+  // 1st phase
+  const { auth } = req.headers;
+};
+
+const postRoute = async (req, res) => {
+  console.log('postRoute');
+};
+
+const patchRoute = async (req, res) => {
+  console.log('patchRoute');
+};
+
+const deleteRoute = async (req, res) => {
+  console.log('deleteRoute');
+};
+
 const getData = async (req, res) => {
   let { main, Fn, token, FType, Id } = req.body;
   let { Data } = req.body;
@@ -363,14 +490,15 @@ const getData = async (req, res) => {
               createdByDaerah: daerah,
               createdByNegeri: negeri,
             });
-            // data.forEach((i) => {
-            //   if (i.createdByKp) {
-            //     const kpPunya = _.findIndex(data, {
-            //       createdByKp: i.createdByKp,
-            //     });
-            //     data.splice(kpPunya, 1);
-            //   }
-            // });
+            data.forEach((i) => {
+              if (i.createdByKp) {
+                const kpPunya = _.findIndex(data, {
+                  createdByKp: i.createdByKp,
+                });
+                data.splice(kpPunya, 1);
+              }
+            });
+            console.log(data);
             return res.status(200).json(data);
           }
           break;
