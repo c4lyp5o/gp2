@@ -539,11 +539,71 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    // penskaleranRawatanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // rawatanLainPeriodontikRawatanUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    kaunselingDiet: {
+      type: Boolean,
+      default: false,
+    },
+    nasihatBerhentiMerokok: {
+      type: Boolean,
+      default: false,
+    },
+    lainLainPengurusanFaktorRisiko: {
+      type: Boolean,
+      default: false,
+    },
+    ohePengurusanFaktorSetempat: {
+      type: Boolean,
+      default: false,
+    },
     penskaleranRawatanUmum: {
       type: Boolean,
       default: false,
     },
+    pengilapanTampalanRungkup: {
+      type: Boolean,
+      default: false,
+    },
+    adjustasiOklusi: {
+      type: Boolean,
+      default: false,
+    },
+    cabutanPengurusanFaktorSetempat: {
+      type: Boolean,
+      default: false,
+    },
+    ektiparsiPulpa: {
+      type: Boolean,
+      default: false,
+    },
     rawatanLainPeriodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    engganLainRujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    rujukanPakarScd: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarUpkka: {
+      type: Boolean,
+      default: false,
+    },
+    kesSelesaiPeriodontium: {
       type: Boolean,
       default: false,
     },
