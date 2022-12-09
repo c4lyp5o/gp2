@@ -172,9 +172,81 @@ const getDataRoute = async (req, res) => {
 };
 
 const getDataKpRoute = async (req, res) => {
-  console.log('getRoute');
+  console.log('getRouteKp');
   // 1st phase
   const { auth } = req.headers;
+  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+    auth,
+    process.env.JWT_SECRET
+  );
+  const { FType } = req.query;
+  const type = Dictionary[FType];
+  // 2nd phase
+  let data, countedData, owner;
+  switch (type) {
+    case 'program':
+      data = await Event.find({
+        createdByKp: kp,
+        createdByKodFasiliti: kodFasiliti,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+    case 'sosmed':
+      countedData = [];
+      data = await Sosmed.find({
+        belongsTo: kp,
+      });
+      if (data.length === 0) {
+        return res.status(200).json(data);
+      }
+      countedData = sosmedDataCompactor(data);
+      data = countedData;
+      break;
+    case 'sosmedByKodProgram':
+      data = await Sosmed.find({
+        belongsTo: kp,
+      });
+      break;
+    case 'tastad':
+      data = await Tastad.find({
+        jenisFasiliti: ['taska', 'tadika'],
+        handler: kp,
+        kodFasilitiHandler: kodFasiliti,
+      });
+      data.sort((a, b) => {
+        return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
+      });
+      break;
+    case 'pp':
+      data = await Operator.find({
+        statusPegawai: 'pp',
+        kpSkrg: kp,
+        kodFasiliti: kodFasiliti,
+        activationStatus: true,
+      });
+      break;
+    case 'jp':
+      data = await Operator.find({
+        statusPegawai: 'jp',
+        kpSkrg: kp,
+        kodFasiliti: kodFasiliti,
+        activationStatus: true,
+      });
+      break;
+    case 'ins':
+      data = await Fasiliti.find({
+        jenisFasiliti: Dictionary[FType],
+        handler: kp,
+        kodFasilitiHandler: kodFasiliti,
+      });
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+  // 3rd phase
+  res.status(200).json(data);
 };
 
 const postRoute = async (req, res) => {
@@ -496,6 +568,13 @@ const getData = async (req, res) => {
                   createdByKp: i.createdByKp,
                 });
                 data.splice(kpPunya, 1);
+              }
+              // splice if event name is incremental
+              if (i.jenisEvent.includes('incremental')) {
+                const incrementalEvent = _.findIndex(data, {
+                  jenisEvent: i.jenisEvent,
+                });
+                data.splice(incrementalEvent, 1);
               }
             });
             console.log(data);
@@ -2132,4 +2211,10 @@ const html = (nama, key) =>
 </body>
 </html>`;
 
-module.exports = { generateRandomString, getData, getCipher };
+module.exports = {
+  generateRandomString,
+  getData,
+  getDataRoute,
+  getDataKpRoute,
+  getCipher,
+};
