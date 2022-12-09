@@ -48,7 +48,7 @@ export default function KomunitiLain({
             <option value=''>Jenis Program / Aktiviti</option>
             <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='programDewasaMuda'>Program Dewasa Muda</option>
-            <option value='kgangkat'>Kampung Angkat Pergigian</option>
+            <option value='kgangkat'>Program Kampung Angkat Pergigian</option>
             <option value='ppr'>Projek Perumahan Rakyat</option>
             <option value='we'>Institusi Warga Emas</option>
             <option value='oku'>Institusi OKU / PDK</option>

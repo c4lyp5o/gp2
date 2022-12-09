@@ -204,29 +204,29 @@ const AddModal = ({
     }
   };
 
-  const CustomDatePicker = () => {
-    return masterDatePicker({
-      selected: startDateDP,
-      onChange: (date) => {
-        const tempDate = moment(date).format('YYYY-MM-DD');
-        setStartDateDP(date);
-        currentTarikhStart.current = tempDate;
-      },
-      className: 'border-2 w-full',
-    });
-  };
+  // const CustomDatePicker = () => {
+  //   return masterDatePicker({
+  //     selected: startDateDP,
+  //     onChange: (date) => {
+  //       const tempDate = moment(date).format('YYYY-MM-DD');
+  //       setStartDateDP(date);
+  //       currentTarikhStart.current = tempDate;
+  //     },
+  //     className: 'border-2 w-full',
+  //   });
+  // };
 
-  const CustomDatePicker2 = () => {
-    return masterDatePicker({
-      selected: endDateDP,
-      onChange: (date) => {
-        const tempDate = moment(date).format('YYYY-MM-DD');
-        setEndDateDP(date);
-        currentTarikhEnd.current = tempDate;
-      },
-      className: 'border-2 w-full',
-    });
-  };
+  // const CustomDatePicker2 = () => {
+  //   return masterDatePicker({
+  //     selected: endDateDP,
+  //     onChange: (date) => {
+  //       const tempDate = moment(date).format('YYYY-MM-DD');
+  //       setEndDateDP(date);
+  //       currentTarikhEnd.current = tempDate;
+  //     },
+  //     className: 'border-2 w-full',
+  //   });
+  // };
 
   useEffect(() => {
     if (FType === 'sr' || FType === 'sm') {
@@ -1164,12 +1164,12 @@ const AddModal = ({
               <div className={styles.modalContent}>
                 <div className='admin-pegawai-handler-container'>
                   <div className='mb-3'>
-                    <p>
+                    {/* <p>
                       Tarikh Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
-                    </p>
+                    </p> */}
                     {/* <input
                         required
                         className='border-2'
@@ -1180,8 +1180,8 @@ const AddModal = ({
                           (currentTarikh.current = e.target.value)
                         }
                       /> */}
-                    <CustomDatePicker />
-                    <CustomDatePicker2 />
+                    {/* <CustomDatePicker />
+                    <CustomDatePicker2 /> */}
                     <p>
                       Jenis Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -1259,7 +1259,7 @@ const AddModal = ({
                         </select>
                       </div>
                     )}
-                    <p className='mt-3 font-semibold'>
+                    {/* <p className='mt-3 font-semibold'>
                       Mod Penyampaian Perkhidmatan
                     </p>
                     <div className='grid grid-cols-2 gap-1'>
@@ -1290,7 +1290,7 @@ const AddModal = ({
                           eventModeChecker(e.target.value);
                         }}
                       />
-                    </div>
+                    </div> */}
                     <p>
                       Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -1708,8 +1708,9 @@ const AddModalForKp = ({
                         <option value='oap'>
                           Program Orang Asli dan Penan
                         </option>
+                        {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
                         <option value='incremental'>
-                          Program Pergigian Sekolah sesi 2022/2023
+                          Program Pergigian Sekolah Sesi 2022/2023
                         </option>
                       </select>
                     </div>
@@ -2497,7 +2498,7 @@ const EditModalForKp = ({
 
   // event
   const currentJenisEvent = useRef();
-  const currentModPenyampaian = useRef();
+  const currentModPenyampaian = useRef([]);
   const currentTarikhStart = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentTarikhEnd = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentMasaMula = useRef();
@@ -2508,30 +2509,28 @@ const EditModalForKp = ({
   const currentEnrolment = useRef();
 
   //datepicker
-  const [startDateDP, setStartDateDP] = useState(null);
-  const [endDateDP, setEndDateDP] = useState(null);
+  const [startDateDP, setStartDateDP] = useState(new Date());
+  const [endDateDP, setEndDateDP] = useState(new Date());
 
-  const StartDate = (date) => {
+  const StartDate = () => {
     return masterDatePicker({
-      value: moment(editedEntity.tarikStart).format('DD/MM/YYYY'),
       selected: startDateDP,
       onChange: (date) => {
-        const startDateDP = moment(date).format('YYYY-MM-DD');
-        setStartDateDP(startDateDP);
-        currentTarikhStart.current = startDateDP;
+        const tempDate = moment(date).format('YYYY-MM-DD');
+        setStartDateDP(date);
+        currentTarikhStart.current = tempDate;
       },
       className: 'border-2 w-full',
     });
   };
 
-  const EndDate = (date) => {
+  const EndDate = () => {
     return masterDatePicker({
-      value: moment(editedEntity.tarikhEnd).format('DD/MM/YYYY'),
       selected: endDateDP,
       onChange: (date) => {
-        const endDateDP = moment(date).format('YYYY-MM-DD');
+        const tempDate = moment(date).format('YYYY-MM-DD');
         setEndDateDP(date);
-        currentTarikhEnd.current = endDateDP;
+        currentTarikhEnd.current = tempDate;
       },
       className: 'border-2 w-full',
     });
@@ -2596,6 +2595,19 @@ const EditModalForKp = ({
       setEditingData(false);
       setReload(!reload);
     });
+  };
+
+  const eventModeChecker = (e) => {
+    if (currentModPenyampaian.current.includes(e)) {
+      currentModPenyampaian.current.splice(
+        currentModPenyampaian.current.indexOf(e),
+        1
+      );
+      return;
+    }
+    if (!currentModPenyampaian.current.includes(e)) {
+      currentModPenyampaian.current = [...currentModPenyampaian.current, e];
+    }
   };
 
   function Pegawai({ confirm }) {
@@ -2888,7 +2900,17 @@ const EditModalForKp = ({
                       </span>
                     </p>
                     <div className='grid gap-1'>
-                      <select
+                      <input
+                        disabled={true}
+                        type='text'
+                        name='jenisEvent'
+                        id='jenisEvent'
+                        readOnly
+                        className='border-2 w-full overflow-x-hidden'
+                        value={Dictionary[editedEntity.jenisEvent]}
+                      />
+                      {/* <select
+                        disabled={true}
                         readOnly
                         className='border-2 w-full overflow-x-hidden'
                         value={editedEntity.jenisEvent}
@@ -2914,7 +2936,7 @@ const EditModalForKp = ({
                         <option value='pps20'>
                           program pergigian sekolah sesi 2022/2023
                         </option>
-                      </select>
+                      </select> */}
                     </div>
                     <p className='mt-3 font-semibold'>
                       Mod Penyampaian Perkhidmatan
@@ -2922,30 +2944,36 @@ const EditModalForKp = ({
                     <div className='grid grid-cols-2 gap-1'>
                       <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                       <input
-                        readOnly
                         type='checkbox'
                         name='mod'
                         checked={editedEntity.modPenyampaianPerkhidmatan.includes(
                           'ppb'
                         )}
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
                       />
                       <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
                       <input
-                        readOnly
                         type='checkbox'
                         name='mod'
                         checked={editedEntity.modPenyampaianPerkhidmatan.includes(
                           'kpb'
                         )}
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
                       />
                       <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
                       <input
-                        readOnly
                         type='checkbox'
                         name='mod'
                         checked={editedEntity.modPenyampaianPerkhidmatan.includes(
                           'mpb'
                         )}
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
                       />
                     </div>
                     <p>
