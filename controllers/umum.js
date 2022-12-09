@@ -90,12 +90,13 @@ const updatePersonUmum = async (req, res) => {
     const singlePersonInfo = await Umum.findById({ _id: personUmumId });
     summary = { ...singlePersonInfo._doc, ...shortened };
     let regNum = {};
-    if (req.body.createdByMdcMdtb.includes('MDTB')) {
-      console.log('is jp');
-      regNum = { mdtbNumber: req.body.createdByMdcMdtb };
-    } else {
+    if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
       console.log('is pp');
       regNum = { mdcNumber: req.body.createdByMdcMdtb };
+    }
+    if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+      console.log('is jp');
+      regNum = { mdtbNumber: req.body.createdByMdcMdtb };
     }
     const updatedOfficerSummary = await Operator.findOneAndUpdate(
       regNum,
