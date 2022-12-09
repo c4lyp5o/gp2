@@ -78,6 +78,7 @@ const updatePersonUmum = async (req, res) => {
     Object.keys(req.body).forEach((key) => {
       if (
         key !== '' ||
+        key !== '' ||
         key !== null ||
         key !== undefined ||
         key !== 0 ||
@@ -88,10 +89,17 @@ const updatePersonUmum = async (req, res) => {
     });
     const singlePersonInfo = await Umum.findById({ _id: personUmumId });
     summary = { ...singlePersonInfo._doc, ...shortened };
+    let regNum = {};
+    if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
+      console.log('is pp');
+      regNum = { mdcNumber: req.body.createdByMdcMdtb };
+    }
+    if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+      console.log('is jp');
+      regNum = { mdtbNumber: req.body.createdByMdcMdtb };
+    }
     const updatedOfficerSummary = await Operator.findOneAndUpdate(
-      {
-        nomborMdc: req.body.createdByMdcMdtb,
-      },
+      regNum,
       { $push: { summary } },
       { new: true }
     );

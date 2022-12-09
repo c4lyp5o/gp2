@@ -83,7 +83,7 @@ function UserAfterLogin() {
               />
               <Route
                 path='promosi-klinik/form-promosi/:aktivitiId'
-                element={<UserPromosi individuOrKlinik='promosi-klinik' />}
+                element={<UserFormPromosi individuOrKlinik='promosi-klinik' />}
               />
             </>
           )}

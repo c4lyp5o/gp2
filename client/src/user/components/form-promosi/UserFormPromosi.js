@@ -27,7 +27,7 @@ const optionsBahagianB = [
   { value: 'intervensi-tabiat', label: 'Intervensi Tabiat Berisiko Tinggi' },
 ];
 
-function UserFormPromosi() {
+function UserFormPromosi({ individuOrKlinik }) {
   const { userToken, reliefUserToken, useParams, toast } =
     useGlobalUserAppContext();
 
@@ -2115,15 +2115,31 @@ function UserFormPromosi() {
                 tutup
               </span>
               <input
+                disabled={
+                  singleAktivitiPromosi.statusReten === 'telah diisi' && true
+                }
                 type='reset'
-                value='reset'
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                value='set semula'
+                className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                  singleAktivitiPromosi.statusReten === 'belum diisi' &&
+                  'hover:bg-user1 hover:text-userWhite'
+                }`}
               />
               <button
+                disabled={
+                  singleAktivitiPromosi.statusReten === 'telah diisi' && true
+                }
                 type='submit'
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                  singleAktivitiPromosi.statusReten === 'belum diisi' &&
+                  'hover:bg-user1 hover:text-userWhite'
+                }`}
               >
-                hantar
+                {singleAktivitiPromosi.statusReten === 'belum diisi' &&
+                  'hantar'}
+                {singleAktivitiPromosi.statusReten === 'telah diisi' && (
+                  <s>hantar</s>
+                )}
               </button>
             </div>
           </form>
