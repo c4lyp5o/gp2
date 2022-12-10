@@ -253,14 +253,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readDataForKp = async (type) => {
-    // const response = await axios.post(`/api/v1/superadmin/newroute`, {
-    //   apiKey: process.env.REACT_APP_API_KEY,
-    //   main: 'KpCenter',
-    //   Fn: 'read',
-    //   FType: FType,
-    //   token: adminToken,
-    // });
-    // return response;
     const response = await axios.get(
       `/api/v1/superadmin/getkpdata?FType=${type}`,
       {
