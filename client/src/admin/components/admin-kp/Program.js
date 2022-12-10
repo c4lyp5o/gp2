@@ -27,6 +27,9 @@ export default function Program(props) {
                   Tarikh Aktiviti
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Tempat Aktiviti
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Kaedah Penyampaian Perkhidmatan
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -51,12 +54,23 @@ export default function Program(props) {
                     {moment(f.tarikhEnd).format('DD/MM/YYYY')}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    <div className='grid gap-1'>
-                      {f.modPenyampaianPerkhidmatan.map((f) => (
-                        <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                          {Dictionary[f]}
+                    {f.tempat}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    <div>
+                      {f.modPenyampaianPerkhidmatan.length > 0 ? (
+                        <div>
+                          {f.modPenyampaianPerkhidmatan.map((f) => (
+                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              {Dictionary[f]}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Tidak Berkenaan
                         </span>
-                      ))}
+                      )}
                     </div>
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
