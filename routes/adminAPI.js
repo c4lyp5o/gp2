@@ -2,6 +2,10 @@
 const express = require('express');
 const router = express.Router();
 
+// Middlewares
+const apiKeyVerifier = require('../middlewares/apiKeyVerifier');
+const adminAuth = require('../middlewares/adminAuth');
+
 // Controller
 const {
   getCipher,
@@ -12,8 +16,8 @@ const {
 
 // Routes
 router.get('/getcipher', getCipher);
-router.get('/getdata', getDataRoute);
-router.get('/getkpdata', getDataKpRoute);
-router.post('/newroute', getData);
+router.get('/getdata', adminAuth, getDataRoute);
+router.get('/getkpdata', adminAuth, getDataKpRoute);
+router.post('/newroute', apiKeyVerifier, getData);
 
 module.exports = router;
