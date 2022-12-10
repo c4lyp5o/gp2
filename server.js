@@ -100,7 +100,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 app.use('/api/v1/kaunter', authCheck, kaunter);
 
 // admin route
-app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
+app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);

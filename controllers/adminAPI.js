@@ -30,6 +30,7 @@ const Dictionary = {
   jpall: 'jp-all',
   taska: 'taska',
   tadika: 'tadika',
+  tastad: 'tastad',
   sr: 'sekolah-rendah',
   sm: 'sekolah-menengah',
   ins: 'institusi',
@@ -65,9 +66,9 @@ const transporter = mailer.createTransport({
 const getDataRoute = async (req, res) => {
   console.log('getRoute');
   // 1st phase
-  const { auth } = req.headers;
+  const authKey = req.headers.authorization;
   const currentUser = await Superadmin.findById(
-    jwt.verify(auth, process.env.JWT_SECRET).userId
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
   const { negeri, daerah } = currentUser.getProfile();
   const { FType } = req.query;
@@ -174,13 +175,14 @@ const getDataRoute = async (req, res) => {
 const getDataKpRoute = async (req, res) => {
   console.log('getRouteKp');
   // 1st phase
-  const { auth } = req.headers;
+  const authKey = req.headers.authorization;
   const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
-    auth,
+    authKey,
     process.env.JWT_SECRET
   );
   const { FType } = req.query;
   const type = Dictionary[FType];
+  console.log(type);
   // 2nd phase
   let data, countedData, owner;
   switch (type) {
@@ -208,8 +210,13 @@ const getDataKpRoute = async (req, res) => {
         belongsTo: kp,
       });
       break;
+    case 'followers':
+      data = await Followers.find({
+        belongsTo: kp,
+      });
+      break;
     case 'tastad':
-      data = await Tastad.find({
+      data = await Fasiliti.find({
         jenisFasiliti: ['taska', 'tadika'],
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
@@ -218,7 +225,7 @@ const getDataKpRoute = async (req, res) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
       break;
-    case 'pp':
+    case 'pegawai':
       data = await Operator.find({
         statusPegawai: 'pp',
         kpSkrg: kp,
@@ -226,7 +233,7 @@ const getDataKpRoute = async (req, res) => {
         activationStatus: true,
       });
       break;
-    case 'jp':
+    case 'juruterapi pergigian':
       data = await Operator.find({
         statusPegawai: 'jp',
         kpSkrg: kp,
@@ -798,6 +805,10 @@ const getData = async (req, res) => {
                 res.status(200).json(updatedSosmed);
               }
               break;
+            case 'followers':
+              const createFollowerData = await Followers.create(Data);
+              res.status(200).json(createFollowerData);
+              break;
             default:
               console.log('default case for kpcenter');
               break;
@@ -1144,7 +1155,7 @@ const getData = async (req, res) => {
             }
             return res.status(200).json({
               status: 'success',
-              adminToken: kpUser.createJWT(),
+              adminToken: kpUser.createAdminJWT(),
             });
           }
           // if kp
