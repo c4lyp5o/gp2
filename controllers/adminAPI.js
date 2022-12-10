@@ -63,6 +63,158 @@ const transporter = mailer.createTransport({
   },
 });
 
+const initialData = async (req, res) => {
+  const all = await Superadmin.find({});
+  const allKlinik = await User.find({
+    role: 'klinik',
+  });
+  let allData = [];
+  let cleanData = [];
+  for (let i = 0; i < all.length; i++) {
+    let location = {
+      daerah: all[i].daerah,
+      negeri: all[i].negeri,
+      username: all[i].user_name,
+    };
+    allData.push(location);
+  }
+  const num = _.findIndex(allData, { negeri: '-' });
+  allData.splice(num, 1);
+  const negeri = _.uniqBy(allData, 'negeri');
+  const daerah = _.uniqBy(allData, 'daerah');
+  const username = _.uniqBy(allData, 'username');
+  for (let i = 0; i < negeri.length; i++) {
+    let temp = [];
+    let usernames = [];
+    let klinik = [];
+    for (let j = 0; j < daerah.length; j++) {
+      if (negeri[i].negeri === daerah[j].negeri && daerah[j].daerah !== '-') {
+        let tempDaerah = {
+          daerah: daerah[j].daerah,
+          username: daerah[j].username,
+          klinik: [],
+        };
+        for (let k = 0; k < allKlinik.length; k++) {
+          if (
+            daerah[j].daerah === allKlinik[k].daerah &&
+            allKlinik[k].accountType !== 'kaunterUser'
+          ) {
+            let tempKlinik = {
+              username: allKlinik[k].username,
+              nama: allKlinik[k].kp,
+            };
+            tempDaerah.klinik.push(tempKlinik);
+          }
+        }
+        temp.push(tempDaerah);
+      }
+    }
+    for (let j = 0; j < username.length; j++) {
+      if (
+        negeri[i].negeri === username[j].negeri &&
+        username[j].daerah === '-'
+      ) {
+        let tempUser = { username: username[j].username };
+        usernames.push(tempUser);
+      }
+    }
+    let temp2 = {
+      negeri: negeri[i].negeri,
+      usernames: usernames,
+      daerah: temp,
+    };
+    cleanData.push(temp2);
+  }
+  res.status(200).json(cleanData);
+};
+
+const checkUser = async (req, res) => {
+  const { username } = req.query;
+  const tempUser = await Superadmin.findOne({ user_name: username });
+  // if no superadmin
+  if (!tempUser) {
+    // check kp user
+    const tempKpUser = await User.findOne({ username: username });
+    if (!tempKpUser && !tempUser) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Tiada user ini di dalam sistem',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      accountType: 'kpSuperadmin',
+    });
+  }
+  // if yes superadmin
+  // check if using totp
+  if (tempUser.totp) {
+    return res.status(200).json({
+      status: 'success',
+      totp: true,
+    });
+  }
+  // if not using totp
+  const currentMail = await sendVerificationEmail(tempUser._id);
+  return res.status(200).json({
+    status: 'success',
+    email: currentMail,
+    totp: false,
+  });
+};
+
+const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  const adminUser = await Superadmin.findOne({ user_name: username });
+  // if kp
+  if (!adminUser) {
+    console.log('kp user');
+    const kpUser = await User.findOne({ username: username });
+    if (password !== kpUser.password) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Password anda salah. Sila isi sekali lagi',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      adminToken: kpUser.createJWT(),
+    });
+  }
+  // if kp
+  // check if using totp or not
+  if (adminUser.totp) {
+    console.log('totp');
+    const verified = speakeasy.totp.verify({
+      secret: adminUser.hex,
+      encoding: 'hex',
+      token: password,
+      window: 1,
+    });
+    if (!verified) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Nombor TOTP anda salah. Sila isi sekali lagi',
+      });
+    }
+    return res.status(200).json({
+      status: 'success',
+      adminToken: adminUser.createJWT(),
+    });
+  }
+  // using tempKey
+  if (password !== adminUser.tempKey) {
+    return res.status(401).json({
+      status: 'error',
+      message: 'Kunci verifikasi anda salah. Sila isi sekali lagi',
+    });
+  }
+  return res.status(200).json({
+    status: 'success',
+    adminToken: adminUser.createJWT(),
+  });
+};
+
 const getDataRoute = async (req, res) => {
   console.log('getRoute');
   // 1st phase
@@ -250,6 +402,67 @@ const getDataKpRoute = async (req, res) => {
       break;
     default:
       console.log('default');
+      break;
+  }
+  // 3rd phase
+  res.status(200).json(data);
+};
+
+const getOneDataRoute = async (req, res) => {
+  console.log('getOneDataRoute');
+  // 1st phase
+  const authKey = req.headers.authorization;
+  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+    authKey,
+    process.env.JWT_SECRET
+  );
+  const { FType, Id } = req.query;
+  const type = Dictionary[FType];
+  console.log(type);
+  // 2nd phase
+  let data;
+  switch (type) {
+    case 'pegawai':
+    case 'juruterapi pergigian':
+      data = await Operator.findById(Id);
+      break;
+    case 'klinik':
+      data = await User.findById(Id);
+      break;
+    case 'program':
+      data = await Event.findById(Id);
+      break;
+    default:
+      data = await Fasiliti.findById(Id);
+      break;
+  }
+  // 3rd phase
+  res.status(200).json(data);
+};
+
+const getOneDataKpRoute = async (req, res) => {
+  console.log('getOneDataKpRoute');
+  // 1st phase
+  const authKey = req.headers.authorization;
+  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+    authKey,
+    process.env.JWT_SECRET
+  );
+  const { FType, Id } = req.query;
+  const type = Dictionary[FType];
+  console.log(type);
+  // 2nd phase
+  let data;
+  switch (type) {
+    case 'program':
+      data = await Event.findById(Id);
+      break;
+    case 'pegawai':
+    case 'juruterapi pergigian':
+      data = await Operator.findById(Id);
+      break;
+    default:
+      data = await Fasiliti.findById(Id);
       break;
   }
   // 3rd phase
@@ -918,6 +1131,7 @@ const getData = async (req, res) => {
               );
               res.status(200).json(updateEvent);
               break;
+            case 'jp':
             case 'pp':
               const updatePP = await Operator.findByIdAndUpdate(
                 { _id: Id },
@@ -1155,7 +1369,7 @@ const getData = async (req, res) => {
             }
             return res.status(200).json({
               status: 'success',
-              adminToken: kpUser.createAdminJWT(),
+              adminToken: kpUser.createJWT(),
             });
           }
           // if kp
@@ -2224,8 +2438,13 @@ const html = (nama, key) =>
 
 module.exports = {
   generateRandomString,
+  initialData,
+  checkUser,
+  loginUser,
   getData,
   getDataRoute,
   getDataKpRoute,
+  getOneDataRoute,
+  getOneDataKpRoute,
   getCipher,
 };
