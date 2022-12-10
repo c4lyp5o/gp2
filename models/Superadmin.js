@@ -110,7 +110,6 @@ adminSchema.methods.createJWT = function () {
       userId: this._id.toString(),
       username: this.nama,
       accountType: this.accountType,
-      apiKey: process.env.API_KEY,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }

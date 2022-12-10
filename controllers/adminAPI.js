@@ -184,7 +184,7 @@ const getDataKpRoute = async (req, res) => {
   const type = Dictionary[FType];
   console.log(type);
   // 2nd phase
-  let data, countedData, owner;
+  let data, countedData;
   switch (type) {
     case 'program':
       data = await Event.find({
