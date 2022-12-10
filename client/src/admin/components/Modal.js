@@ -24,10 +24,8 @@ const AddModal = ({
     toast,
     createData,
     readData,
-    readOneData,
     pingApdmServer,
     readSekolahData,
-    readKpData,
     readFasilitiData,
   } = useGlobalAdminAppContext();
 
@@ -216,7 +214,7 @@ const AddModal = ({
       });
     }
     if (FType !== 'kp') {
-      readKpData().then((res) => {
+      readData('kp').then((res) => {
         setKlinik(res.data);
       });
     }
@@ -359,39 +357,23 @@ const AddModalForKp = ({
   reload,
   setReload,
 }) => {
-  const {
-    Dictionary,
-    masterDatePicker,
-    toast,
-    createData,
-    createDataForKp,
-    pingApdmServer,
-    readSekolahData,
-    readKpData,
-    readDpimsData,
-    readMdtbData,
-    readFasilitiData,
-  } = useGlobalAdminAppContext();
+  const { masterDatePicker, toast, createDataForKp } =
+    useGlobalAdminAppContext();
 
   const currentName = useRef();
-  const currentEmail = useRef();
+  // const currentEmail = useRef();
   const currentStatusPerkhidmatan = useRef();
-  const currentKodSekolah = useRef();
+  // const currentKodSekolah = useRef();
   const currentKp = useRef();
   const currentKodFasiliti = useRef();
-  const currentRegNumber = useRef();
-  const currentGred = useRef();
-  const currentRole = useRef('');
-  const currentRolePromosiKlinik = useRef();
-  const currentRoleMediaSosialKlinik = useRef();
-  const currentRisiko = useRef();
+  // const currentRegNumber = useRef();
+  // const currentGred = useRef();
+  // const currentRole = useRef('');
+  // const currentRolePromosiKlinik = useRef();
+  // const currentRoleMediaSosialKlinik = useRef();
+  // const currentRisiko = useRef();
   // institusi
   const currentKategoriInstitusi = useRef();
-  // taska
-  const currentKodTastad = useRef();
-  const currentAlamatTastad = useRef();
-  const currentEnrolmenTastad = useRef();
-  const currentGovKe = useRef();
   // event
   const currentJenisEvent = useRef();
   const currentModPenyampaian = useRef([]);
@@ -399,42 +381,12 @@ const AddModalForKp = ({
   const currentTarikhEnd = useRef(moment(new Date()).format('YYYY-MM-DD'));
   const currentTempat = useRef();
   //datepicker
-  // const [date, setDate] = useState(new Date());
   const [startDateDP, setStartDateDP] = useState(new Date());
   const [endDateDP, setEndDateDP] = useState(new Date());
-
-  // APDM
-  const statusApdm = useRef();
-  // data
-  const [klinik, setKlinik] = useState([]);
-  const [sekolah, setSekolah] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingData, setAddingData] = useState(false);
-  // MDTB
-  const [mdtbMembers, setMdtbMembers] = useState([]);
-  // pp & jp sedia ada
-  const [allPegawai, setAllPegawai] = useState([]);
-  const [allJp, setAllJp] = useState([]);
-  // dpims & jp nama
-  const [carianNama, setCarianNama] = useState('');
-  const [searching, setSearching] = useState(false);
-  const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
-    if (FType === 'pp' || FType === 'jp') {
-      if (
-        !carianNama ||
-        noPpJp === 'Tiada pegawai dijumpai' ||
-        noPpJp === 'Tiada juruterapi pergigian dijumpai'
-      ) {
-        toast.error('Tiada nama');
-        return;
-      }
-      if (!currentRegNumber.current) {
-        toast.error('Klik pada butang cari');
-        return;
-      }
-    }
     let Data = {};
     Data = {
       ...Data,
@@ -454,94 +406,18 @@ const AddModalForKp = ({
         tarikhEnd: currentTarikhEnd.current,
         tempat: currentTempat.current,
       };
-      createDataForKp(FType, Data).then((res) => {
-        console.log(res.data);
-        if (res.status === 200) {
-          toast.info(`Data berjaya ditambah`);
-          setReload(!reload);
-        } else {
-          toast.error(`Data tidak berjaya ditambah`);
-        }
-        setShowAddModal(false);
-        setAddingData(false);
-      });
     }
-    if (FType !== 'program') {
-      if (FType === 'pp') {
-        Data = {
-          nama: currentName.current,
-          email: currentEmail.current,
-          statusPegawai: 'pp',
-          mdcNumber: currentRegNumber.current,
-          gred: currentGred.current,
-          kpSkrg: currentKp.current,
-          kodFasiliti: currentKodFasiliti.current,
-          role: currentRole.current,
-          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
-          activationStatus: true,
-        };
+    createDataForKp(FType, Data).then((res) => {
+      console.log(res.data);
+      if (res.status === 200) {
+        toast.info(`Data berjaya ditambah`);
+        setReload(!reload);
+      } else {
+        toast.error(`Data tidak berjaya ditambah`);
       }
-      if (FType === 'jp') {
-        Data = {
-          nama: currentName.current,
-          email: currentEmail.current,
-          statusPegawai: 'jp',
-          mdtbNumber: currentRegNumber.current,
-          gred: currentGred.current,
-          kpSkrg: currentKp.current,
-          kodFasiliti: currentKodFasiliti.current,
-          role: currentRole.current,
-          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
-          activationStatus: true,
-        };
-      }
-      if (FType === 'kp') {
-        if (currentRole.current === '') {
-          currentRole.current = 'klinik';
-        }
-        Data = {
-          kp: currentName.current,
-          accountType: 'kpUser',
-          email: currentEmail.current,
-          statusRoleKlinik: currentRole.current,
-          statusPerkhidmatan: currentStatusPerkhidmatan.current,
-          kodFasiliti: currentKodFasiliti.current,
-        };
-      }
-      if (FType === 'taska' || FType === 'tadika') {
-        Data = {
-          ...Data,
-          kodTastad: currentKodTastad.current,
-          alamatTastad: currentAlamatTastad.current,
-          enrolmenTastad: currentEnrolmenTastad.current,
-          govKe: currentGovKe.current,
-        };
-      }
-      if (FType === 'sr' || FType === 'sm') {
-        Data = {
-          ...Data,
-          kodSekolah: currentKodSekolah.current,
-          risikoSekolahPersis: currentRisiko.current,
-        };
-      }
-      if (FType === 'ins') {
-        Data = {
-          ...Data,
-          kategoriInstitusi: currentKategoriInstitusi.current,
-        };
-      }
-      createData(FType, Data).then((res) => {
-        console.log(res.data);
-        if (res.status === 200) {
-          toast.info(`Data berjaya ditambah`);
-          setReload(!reload);
-        } else {
-          toast.error(`Data tidak berjaya ditambah`);
-        }
-        setShowAddModal(false);
-        setAddingData(false);
-      });
-    }
+      setShowAddModal(false);
+      setAddingData(false);
+    });
   };
 
   const eventModeChecker = (e) => {
@@ -761,7 +637,7 @@ const AddModalForKp = ({
 };
 
 const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
-  const { Dictionary, toast, readKpData, readOneData, updateData } =
+  const { Dictionary, toast, readData, readOneData, updateData } =
     useGlobalAdminAppContext();
 
   const currentKp = useRef();
@@ -795,7 +671,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
       });
     }
     if (FType !== 'kp') {
-      readKpData().then((res) => {
+      readData('kp').then((res) => {
         setKlinik(res.data);
       });
       readOneData(FType, id).then((res) => {
