@@ -38,7 +38,6 @@ function UserPilihFasiliti() {
     e.preventDefault();
     try {
       const { data } = await axios.post('/api/v1/auth/login', {
-        apiKey: process.env.REACT_APP_API_KEY,
         userToken,
         pilihanKodFasiliti: pilihanKodFasiliti.current.value,
         pilihanFasiliti,

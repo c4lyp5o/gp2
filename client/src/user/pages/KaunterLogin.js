@@ -64,10 +64,7 @@ function KaunterLogin() {
       setIsLoading(true);
       try {
         const { data } = await axios.get(
-          `/api/v1/auth/find?kodFasiliti=${pilihanKlinik}&accountType=kaunterUser`,
-          {
-            headers: { Authorization: `${process.env.REACT_APP_API_KEY}` },
-          }
+          `/api/v1/auth/find?kodFasiliti=${pilihanKlinik}&accountType=kaunterUser`
         );
         setUsername(data.username);
         setShowPasswordBox(true);

@@ -365,7 +365,6 @@ function UserAppProvider({ children }) {
     setLoggingInUser(true);
     try {
       const { data } = await axios.post('/api/v1/auth/login', {
-        apiKey: process.env.REACT_APP_API_KEY,
         username,
         password,
       });
@@ -396,7 +395,6 @@ function UserAppProvider({ children }) {
     setLoggingInKaunter(true);
     try {
       const { data } = await axios.post('/api/v1/auth/kaunter/login', {
-        apiKey: process.env.REACT_APP_API_KEY,
         username,
         password,
       });
