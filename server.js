@@ -13,7 +13,6 @@ const erkm = require('./routes/erkm');
 const dpims = require('./routes/dpims');
 
 // user import
-const authRegister = require('./routes/authRegister');
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
@@ -35,7 +34,6 @@ const genRouter = require('./routes/generateRouter');
 const getotp = require('./routes/getotp');
 
 // IMPORT MIDDLEWARES ------------------------------------------
-const apiKeyVerifier = require('./middlewares/apiKeyVerifier');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
@@ -85,7 +83,7 @@ app.use('/erkm', authCheck, erkm);
 // }, 5000);
 
 // user route
-app.use('/api/v1/auth', apiKeyVerifier, authLogin, authRegister);
+app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
