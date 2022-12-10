@@ -128,6 +128,24 @@ UserSchema.methods.createJWT = function () {
   );
 };
 
+UserSchema.methods.createAdminJWT = function () {
+  return jwt.sign(
+    {
+      userId: this._id,
+      username: this.username,
+      accountType: this.accountType,
+      negeri: this.negeri,
+      daerah: this.daerah,
+      kp: this.kp,
+      kodFasiliti: this.kodFasiliti,
+      email: this.email,
+      apiKey: process.env.API_KEY,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_LIFETIME }
+  );
+};
+
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcryptjs.compare(candidatePassword, this.password);
   return isMatch;
