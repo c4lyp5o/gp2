@@ -53,7 +53,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
 
 //modal add followers
 export const ModalAddFollowers = (props) => {
-  const { DictionarySosMedParam, DictionarySosMedAcronym, createData } =
+  const { DictionarySosMedParam, DictionarySosMedAcronym, createDataForKp } =
     useGlobalAdminAppContext();
 
   const handleSubmit = (e) => {
@@ -62,12 +62,19 @@ export const ModalAddFollowers = (props) => {
     Data = {
       ...Data,
       bulan: props.bulan,
+      createdByKp: props.kp,
       createdByNegeri: props.negeri,
       createdByDaerah: props.daerah,
       namaPlatform: props.namaPlatform,
       jumlahFollowerBulanTerdahulu: props.jumlahBulanTerdahulu,
       jumlahFollowerBulanIni: props.jumlahBulanIni,
     };
+    if (props.kp) {
+      Data = {
+        ...Data,
+        belongsTo: props.kp,
+      };
+    }
     if (!props.kp) {
       Data = {
         ...Data,
@@ -81,7 +88,7 @@ export const ModalAddFollowers = (props) => {
       };
     }
     console.log(Data);
-    createData('followers', Data).then((res) => {
+    createDataForKp('followers', Data).then((res) => {
       console.log(res);
       props.setShowFollowersModal(false);
     });
@@ -111,6 +118,7 @@ export const ModalAddFollowers = (props) => {
                     props.setNamaPlatform(e.target.value);
                   }}
                 >
+                  <option value=''>Pilih Media Sosial...</option>
                   <option value='facebook'>Facebook</option>
                   <option value='instagram'>Instagram</option>
                   <option value='youtube'>Youtube</option>

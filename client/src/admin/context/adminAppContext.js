@@ -170,13 +170,14 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'read',
-      FType: type,
-      token: adminToken,
-    });
+    const response = await axios.get(
+      `/api/v1/superadmin/getdata?FType=${type}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
   const readKpData = async () => {
@@ -251,14 +252,23 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-  const readDataForKp = async (FType) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'KpCenter',
-      Fn: 'read',
-      FType: FType,
-      token: adminToken,
-    });
+  const readDataForKp = async (type) => {
+    // const response = await axios.post(`/api/v1/superadmin/newroute`, {
+    //   apiKey: process.env.REACT_APP_API_KEY,
+    //   main: 'KpCenter',
+    //   Fn: 'read',
+    //   FType: FType,
+    //   token: adminToken,
+    // });
+    // return response;
+    const response = await axios.get(
+      `/api/v1/superadmin/getkpdata?FType=${type}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
   const readOneDataForKp = async (FType, id) => {
@@ -352,7 +362,6 @@ function AdminAppProvider({ children }) {
     const response = await axios.get(
       `https://erkm.calypsocloud.one/fasiliti?negeri=${negeri}&daerah=${daerah}`
     );
-    console.log(response.data);
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
       console.log('no fasiliti');

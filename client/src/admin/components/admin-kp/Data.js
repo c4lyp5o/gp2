@@ -69,7 +69,7 @@ export default function DataKp({ FType }) {
       }
       setNegeri(userData.negeri);
       const { data } = await readDataForKp(FType);
-      console.log(data);
+      console.log(FType);
       setData(data);
     };
     getData()
