@@ -1,6 +1,5 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
 import { FaPlus, FaInfoCircle } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
