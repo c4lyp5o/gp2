@@ -531,28 +531,19 @@ export function InputPegawai(props) {
                     <input
                       type='checkbox'
                       id='role-promosi-klinik'
-                      //   onChange={(e) => {
-                      //     props.setRolePromosiKlinik(e.target.value);
-                      //     setTimeout(() => {
-                      //       console.log(props.rolePromosiKlinik);
-                      //     }, 2000);
-                      //   }}
                       ref={props.currentRolePromosiKlinik}
                     />
                   </div>
-                  {/* <div className='mt-3'>
-                      <label
-                        htmlFor='role-media-sosial-klinik'
-                        className='mr-3'
-                      >
-                        Pegawai media sosial fasiliti?
-                      </label>
-                      <input
-                        type='checkbox'
-                        id='role-media-sosial-klinik'
-                        ref={currentRoleMediaSosialKlinik}
-                      />
-                    </div> */}
+                  <div className='mt-3'>
+                    <label htmlFor='role-media-sosial-klinik' className='mr-3'>
+                      Pegawai media sosial fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-media-sosial-klinik'
+                      ref={props.currentRoleMediaSosialKlinik}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -327,6 +327,9 @@ export default function Data({ FType, kp }) {
                     Pemegang Promosi Klink
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Pemegang Media Sosial Klink
+                  </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
                   </th>
                 </tr>
@@ -401,6 +404,9 @@ export default function Data({ FType, kp }) {
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {o.rolePromosiKlinik ? 'Ya' : 'Tidak'}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {o.roleMediaSosialKlinik ? 'Ya' : 'Tidak'}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {FType === 'pp' && (
