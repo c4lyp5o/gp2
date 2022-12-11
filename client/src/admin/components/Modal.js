@@ -134,7 +134,7 @@ const AddModal = ({
         kpSkrg: kp,
         kodFasiliti,
         role,
-        rolePromosiKlinik,
+        rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
         activationStatus: true,
       };
     }
