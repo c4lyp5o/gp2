@@ -238,6 +238,21 @@ function UserNavbar() {
             >
               CARIAN
             </NavLink>
+            <NavLink
+              to='summary'
+              onClick={() => {
+                setShowLinks(!showLinks);
+                setShowRetenSubMenu(false);
+                setShowGenerateSubMenu(false);
+              }}
+              className={({ isActive }) =>
+                isActive
+                  ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                  : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+              }
+            >
+              REKOD PEGAWAI
+            </NavLink>
           </div>
         </nav>
         <div className='absolute w-60 top-0 left-0 flex text-center h-28 lg:justify-center pl-5 lg:pl-0'>

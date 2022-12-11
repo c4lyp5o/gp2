@@ -342,30 +342,38 @@ function AdminAppProvider({ children }) {
   // read dpims data
   const readDpimsData = async (nama) => {
     try {
-      const response = await axios.get(`/dpims?nama=${nama}`);
+      const response = await axios.get(
+        `https://erkm.calypsocloud.one/pegawai?nama=${nama}`
+      );
       const currentPegawai = await readData('ppall');
+      console.log('current pegawai', currentPegawai.data);
       if (currentPegawai.data.length === 0) {
-        return response.data.matches;
+        return response.data.data;
       }
-      if (response.data.matches.length === 1) {
+      if (response.data.data.length === 1) {
         const match = currentPegawai.data
-          .map((e) => e.mdcNumber)
-          .includes(response.data.matches[0].nomborMdc);
+          .map((e) => (e.mdcNumber ? parseInt(e.mdcNumber) : ''))
+          .includes(response.data.data[0].mdcNumber);
+        console.log(match);
         if (match) {
           return false;
         }
-        return response.data.matches;
+        return response.data.data;
       }
-      if (response.data.matches.length > 1) {
+      if (response.data.data.length > 1) {
         for (let j = 0; j < currentPegawai.data.length; j++) {
-          const deletePegawai = response.data.matches
-            .map((e) => e.nomborMdc)
-            .indexOf(currentPegawai.data[j].mdcNumber);
+          const deletePegawai = response.data.data
+            .map((e) => e.mdcNumber)
+            .indexOf(
+              currentPegawai.data[j].mdcNumber
+                ? parseInt(currentPegawai.data[j].mdcNumber)
+                : ''
+            );
           if (deletePegawai !== -1) {
-            response.data.matches.splice(deletePegawai, 1);
+            response.data.data.splice(deletePegawai, 1);
           }
         }
-        return response.data.matches;
+        return response.data.data;
       }
     } catch (err) {
       return false;
