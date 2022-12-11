@@ -102,7 +102,21 @@ const initialData = async (req, res) => {
             let tempKlinik = {
               username: allKlinik[k].username,
               nama: allKlinik[k].kp,
+              admins: [],
             };
+            const admins = await Operator.find({
+              kodFasiliti: allKlinik[k].kodFasiliti,
+              role: 'admin',
+            });
+            for (let l = 0; l < admins.length; l++) {
+              let tempAdmin = {};
+              tempAdmin.nama = admins[l].nama;
+              if (admins[l].mdcNumber)
+                tempAdmin.mdcNumber = admins[l].mdcNumber;
+              if (admins[l].mdtbNumber)
+                tempAdmin.mdtbNumber = admins[l].mdtbNumber;
+              tempKlinik.admins.push(tempAdmin);
+            }
             tempDaerah.klinik.push(tempKlinik);
           }
         }
@@ -134,15 +148,24 @@ const checkUser = async (req, res) => {
   // if no superadmin
   if (!tempUser) {
     // check kp user
-    const tempKpUser = await User.findOne({ username: username });
-    if (!tempKpUser && !tempUser) {
+    // const tempKpUser = await User.findOne({ username: username });
+    let regNumber = {};
+    if (username.includes('MDTB')) {
+      regNumber.mdtbNumber = username;
+    } else {
+      regNumber.mdcNumber = username;
+    }
+    const admins = await Operator.find(regNumber);
+    if (!admins && !tempUser) {
       return res.status(401).json({
         status: 'error',
         message: 'Tiada user ini di dalam sistem',
       });
     }
+    const kpemail = await sendVerificationEmail(admins[0]._id);
     return res.status(200).json({
       status: 'success',
+      email: kpemail,
       accountType: 'kpSuperadmin',
     });
   }
@@ -169,11 +192,20 @@ const loginUser = async (req, res) => {
   // if kp
   if (!adminUser) {
     console.log('kp user');
-    const kpUser = await User.findOne({ username: username });
-    if (password !== kpUser.password) {
+    let regNumber = {};
+    if (username.includes('MDTB')) {
+      regNumber.mdtbNumber = username;
+    } else {
+      regNumber.mdcNumber = username;
+    }
+    const superOperator = await Operator.findOne(regNumber);
+    const kpUser = await User.findOne({
+      kodFasiliti: superOperator.kodFasiliti,
+    });
+    if (password !== superOperator.tempKey) {
       return res.status(401).json({
         status: 'error',
-        message: 'Password anda salah. Sila isi sekali lagi',
+        message: 'Kunci verifikasi anda salah. Sila isi sekali lagi',
       });
     }
     return res.status(200).json({
@@ -2009,26 +2041,53 @@ const getCipher = async (req, res) => {
 };
 
 const sendVerificationEmail = async (userId) => {
-  const key = generateRandomString(8);
-  const { nama, e_mail } = await Superadmin.findByIdAndUpdate(
-    userId,
-    { tempKey: key },
-    { new: true }
-  );
-  const mailOptions = {
-    from: process.env.EMAILER_ACCT,
-    to: e_mail,
-    subject: 'Kunci Verifikasi Anda',
-    html: html(nama, key),
-  };
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-      return err;
+  const mailOptions = (admin, key) => {
+    if (admin.e_mail) {
+      return {
+        from: process.env.EMAILER_ACCT,
+        to: admin.e_mail,
+        subject: 'Kunci Verifikasi Anda',
+        html: html(admin.nama, key),
+      };
+    } else {
+      return {
+        from: process.env.EMAILER_ACCT,
+        to: admin.email,
+        subject: 'Kunci Verifikasi Anda',
+        html: html(admin.nama, key),
+      };
     }
-    console.log('done');
-  });
-  return e_mail;
+  };
+  const key = generateRandomString(8);
+  // const superadmin = await Superadmin.findByIdAndUpdate(
+  //   userId,
+  //   { tempKey: key },
+  //   { new: true }
+  // );
+  // if (!superadmin) {
+  //   const superoperator = await Operator.findByIdAndUpdate(
+  //     userId,
+  //     { tempKey: key },
+  //     { new: true }
+  //   );
+  // }
+  try {
+    const superadmin = await Superadmin.findByIdAndUpdate(
+      userId,
+      { tempKey: key },
+      { new: true }
+    );
+    const e_mail = await transporter.sendMail(mailOptions(superadmin, key));
+    return e_mail;
+  } catch (err) {
+    const superoperator = await Operator.findByIdAndUpdate(
+      userId,
+      { tempKey: key },
+      { new: true }
+    );
+    const e_mail = await transporter.sendMail(mailOptions(superoperator, key));
+    return e_mail;
+  }
 };
 
 const readUserData = async (token) => {
