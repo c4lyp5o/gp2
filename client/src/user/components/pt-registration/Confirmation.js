@@ -69,7 +69,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
               onClick={hide}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
             />
-            <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
+            <h5 className='bg-kaunter1 text-userWhite font-semibold text-xl'>
               PERHATIAN
             </h5>
             <div className='mt-3 p-1'>
@@ -85,28 +85,30 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                 </p>
               )}
               <div className='grid grid-cols-[1fr_2fr] mt-3'>
-                <p className='text-sm p-1 flex justify-end text-right'>Nama:</p>
-                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5 uppercase'>
+                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Nama:
+                </p>
+                <p className='text-sm p-1 flex justify-start text-left uppercase'>
                   {data.nama}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                <p className='text-sm p-1 flex justify-end text-right'>
                   No. Pengenalan Diri:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left'>
+                <p className='text-sm p-1 flex justify-start text-left  bg-user1 bg-opacity-5'>
                   {data.ic}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right'>
+                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
                   MySejahtera ID:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5 normal-case'>
+                <p className='text-sm p-1 flex justify-start text-left normal-case'>
                   {data.nomborTelefon ? `${data.nomborTelefon}` : null}
                   {''}
                   {data.emel ? `/${data.emel}` : null}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                <p className='text-sm p-1 flex justify-end text-right'>
                   Tarikh Lahir:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left'>
+                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5'>
                   {moment(data.tarikhLahir).format('DD/MM/YYYY')}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
@@ -186,13 +188,15 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                     {data.rujukDaripada}
                   </p>
                 ) : null}
-                {data.catatan ? (
+                {data.catatan || data.noBayaran || data.noResit ? (
                   <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 my-1'>
                     Catatan:
                   </p>
                 ) : null}
-                {data.catatan ? (
+                {data.catatan || data.noBayaran || data.noResit ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
+                    {data.noBayaran}
+                    {data.noResit}
                     {data.catatan}
                   </p>
                 ) : null}
@@ -220,7 +224,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
             ) : null}
             <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
               <button
-                className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
+                className='capitalize bg-kaunter1 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
                 onClick={confirm}
               >
                 YA
