@@ -39,7 +39,6 @@ const AddModal = ({
   const [gred, setGred] = useState('');
   const [role, setRole] = useState('');
   const currentRolePromosiKlinik = useRef();
-  const [rolePromosiKlinik, setRolePromosiKlinik] = useState('');
   const currentRoleMediaSosialKlinik = useRef();
   const [risiko, setRisiko] = useState('');
   // institusi
@@ -121,6 +120,7 @@ const AddModal = ({
         kodFasiliti,
         role,
         rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
         activationStatus: true,
       };
     }
@@ -135,6 +135,7 @@ const AddModal = ({
         kodFasiliti,
         role,
         rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
         activationStatus: true,
       };
     }
@@ -276,8 +277,8 @@ const AddModal = ({
     gred,
     setKp,
     kp,
-    setRolePromosiKlinik,
-    rolePromosiKlinik,
+    currentRolePromosiKlinik,
+    currentRoleMediaSosialKlinik,
     // facility
     setKodSekolah,
     kodSekolah,
@@ -312,7 +313,6 @@ const AddModal = ({
     sekolah,
     handleSubmit,
     // ref
-    currentRolePromosiKlinik,
   };
 
   if (loading) {
@@ -703,6 +703,7 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         kodFasiliti: currentKodFasiliti.current,
         role: currentRole.current,
         rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
       };
     }
     if (FType === 'kp') {
@@ -1098,23 +1099,24 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
                       });
                     }}
                   />
-                  {/* <div className='mt-3'>
-                    <label htmlFor='role-promosi-klinik' className='mr-3'>
+                  <div className='mt-3'>
+                    <label htmlFor='role-media-sosial-klinik' className='mr-3'>
                       Pegawai media sosial fasiliti?
                     </label>
                     <input
                       type='checkbox'
-                      id='role-promosi-klinik'
-                      checked={editedEntity.rolePromosiKlinik}
-                      ref={currentRolePromosiKlinik}
+                      id='role-media-sosial-klinik'
+                      checked={editedEntity.roleMediaSosialKlinik}
+                      ref={currentRoleMediaSosialKlinik}
                       onChange={() => {
                         setEditedEntity({
                           ...editedEntity,
-                          rolePromosiKlinik: !editedEntity.rolePromosiKlinik,
+                          roleMediaSosialKlinik:
+                            !editedEntity.roleMediaSosialKlinik,
                         });
                       }}
                     />
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </div>
