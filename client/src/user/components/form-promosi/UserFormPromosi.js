@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-import { HiOutlineEmojiHappy, HiOutlineEmojiSad } from 'react-icons/hi';
 import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -20,6 +19,19 @@ const optionsBahagianB = [
   { value: 'dental-buskers', label: 'Dental Buskers' },
   { value: 'flashmob', label: 'Flashmob' },
   { value: 'lawatan-ke-rumah', label: 'Lawatan Ke Rumah' },
+  {
+    value: 'nasihat-kesihatan-pergigian',
+    label: 'Nasihat Kesihatan Pergigian',
+  },
+  { value: 'intervensi-tabiat', label: 'Intervensi Tabiat Berisiko Tinggi' },
+];
+
+const optionsIndividu = [
+  { value: 'ceramah', label: 'Ceramah' },
+  { value: 'lmg', label: 'Latihan Memberus Gigi' },
+  { value: 'pameran-kempen', label: 'Pameran / Kempen' },
+  { value: 'pertunjukan-boneka', label: 'Pertunjukan Boneka' },
+  { value: 'main-peranan', label: 'Main Peranan' },
   {
     value: 'nasihat-kesihatan-pergigian',
     label: 'Nasihat Kesihatan Pergigian',
@@ -358,7 +370,11 @@ function UserFormPromosi({ individuOrKlinik }) {
                   <Select
                     isMulti
                     name='bahagian-b'
-                    options={optionsBahagianB}
+                    options={
+                      individuOrKlinik === 'promosi-individu'
+                        ? optionsIndividu
+                        : optionsBahagianB
+                    }
                     className='basic-multi-select'
                     classNamePrefix='select'
                     onChange={(e) => {
