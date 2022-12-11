@@ -14,7 +14,6 @@ import {
   ModalDataIkutProgram,
   ModalAddFollowers,
 } from './modal-sosmed/Modal';
-
 import { AddModalForKp, EditModalForKp, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
@@ -69,7 +68,7 @@ export default function DataKp({ FType }) {
       }
       setNegeri(userData.negeri);
       const { data } = await readDataForKp(FType);
-      console.log(data);
+      console.log(FType);
       setData(data);
     };
     getData()

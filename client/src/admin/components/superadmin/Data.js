@@ -1,6 +1,5 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
-import moment from 'moment';
 import { FaPlus, FaInfoCircle } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
@@ -49,8 +48,6 @@ export default function Data({ FType, kp }) {
       setUser(res.data.nama);
     });
     readData(FType).then((res) => {
-      console.log(FType);
-      console.log(res.data);
       setData(res.data);
       setShowPassword({
         ...showPassword,
@@ -719,7 +716,13 @@ export default function Data({ FType, kp }) {
                       {moment(f.tarikh).format('DD/MM/YYYY')}
                     </td> */}
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {Dictionary[f.kategoriInstitusi]}
+                      {f.kategoriInstitusi ? (
+                        <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          {Dictionary[f.kategoriInstitusi]}
+                        </span>
+                      ) : (
+                        'Tidak Berkaitan'
+                      )}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.createdByKp}

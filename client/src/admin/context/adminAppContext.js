@@ -20,18 +20,13 @@ function AdminAppProvider({ children }) {
 
   // read superadmin data
   const readSuperadminData = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'SuperadminCenter',
-      Fn: 'read',
-    });
+    const response = await axios.get('/api/v1/superadmin/initialdata');
     return response;
   };
 
   // adhoc query
   const adhocQuery = async (y, x) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'AQManager',
       Fn: 'read',
       y: y,
@@ -75,7 +70,6 @@ function AdminAppProvider({ children }) {
   // user
   const getCurrentUser = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
       Fn: 'read',
       token: adminToken,
@@ -84,7 +78,6 @@ function AdminAppProvider({ children }) {
   };
   const saveCurrentUser = async (data) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'UserCenter',
       Fn: 'updateOne',
       token: adminToken,
@@ -101,7 +94,6 @@ function AdminAppProvider({ children }) {
   // totp
   async function generateSecret() {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'create',
       token: adminToken,
@@ -111,7 +103,6 @@ function AdminAppProvider({ children }) {
   }
   async function verifyInitialSecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'update',
       token: adminToken,
@@ -122,7 +113,6 @@ function AdminAppProvider({ children }) {
   }
   async function verifySecret(secret) {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'TotpManager',
       Fn: 'update',
       token: adminToken,
@@ -134,7 +124,6 @@ function AdminAppProvider({ children }) {
   // hq functions
   const getAllNegeriAndDaerah = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'HqCenter',
       Fn: 'read',
       token: adminToken,
@@ -143,7 +132,6 @@ function AdminAppProvider({ children }) {
   };
   const getKlinikData = async (id) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'HqCenter',
       Fn: 'readOne',
       token: adminToken,
@@ -156,7 +144,6 @@ function AdminAppProvider({ children }) {
   const createData = async (type, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'DataCenter',
         Fn: 'create',
         FType: type,
@@ -170,40 +157,30 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'read',
-      FType: type,
-      token: adminToken,
-    });
-    return response;
-  };
-  const readKpData = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'read',
-      FType: 'kp',
-      token: adminToken,
-    });
+    const response = await axios.get(
+      `/api/v1/superadmin/getdata?FType=${type}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
   const readOneData = async (type, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'DataCenter',
-      Fn: 'readOne',
-      FType: type,
-      Id: id,
-      token: adminToken,
-    });
+    const response = await axios.get(
+      `/api/v1/superadmin/getonedata?FType=${type}&Id=${id}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
   const updateData = async (type, id, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'DataCenter',
         Fn: 'update',
         FType: type,
@@ -220,7 +197,6 @@ function AdminAppProvider({ children }) {
   const deleteData = async (type, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'DataCenter',
         Fn: 'delete',
         FType: type,
@@ -238,7 +214,6 @@ function AdminAppProvider({ children }) {
   const createDataForKp = async (FType, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'create',
         FType: FType,
@@ -251,31 +226,31 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
-  const readDataForKp = async (FType) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'KpCenter',
-      Fn: 'read',
-      FType: FType,
-      token: adminToken,
-    });
+  const readDataForKp = async (type) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getkpdata?FType=${type}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
-  const readOneDataForKp = async (FType, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      main: 'KpCenter',
-      Fn: 'readOne',
-      FType: FType,
-      Id: id,
-      token: adminToken,
-    });
+  const readOneDataForKp = async (type, id) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getonekpdata?FType=${type}&Id=${id}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
     return response;
   };
   const updateDataForKp = async (FType, id, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'update',
         FType: FType,
@@ -292,7 +267,6 @@ function AdminAppProvider({ children }) {
   const deleteDataForKp = async (FType, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        apiKey: process.env.REACT_APP_API_KEY,
         main: 'KpCenter',
         Fn: 'delete',
         FType: FType,
@@ -309,7 +283,6 @@ function AdminAppProvider({ children }) {
   // get all daerah in negeri
   const readAllDaerahInNegeri = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'SuperadminCenter',
       Fn: 'readDaerah',
       token: adminToken,
@@ -320,7 +293,6 @@ function AdminAppProvider({ children }) {
   // get all klinik in daerah
   const readAllKlinikInDaerah = async (daerah) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'SuperadminCenter',
       Fn: 'readKlinik',
       daerah: daerah,
@@ -352,7 +324,6 @@ function AdminAppProvider({ children }) {
     const response = await axios.get(
       `https://erkm.calypsocloud.one/fasiliti?negeri=${negeri}&daerah=${daerah}`
     );
-    console.log(response.data);
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
       console.log('no fasiliti');
@@ -479,21 +450,18 @@ function AdminAppProvider({ children }) {
   // read kod program data
   const readKodProgramData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'PromosiManager',
       Fn: 'read',
+      token: adminToken,
     });
     return response;
   };
 
   // auth
   async function loginUser(credentials) {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
+    const response = await axios.post(`/api/v1/superadmin/login`, {
       username: credentials.username,
       password: credentials.password,
-      main: 'UserCenter',
-      Fn: 'update',
     });
     if (response.data.adminToken) {
       saveAdminToken(response.data.adminToken);
@@ -501,12 +469,9 @@ function AdminAppProvider({ children }) {
     return response;
   }
   async function checkUser(username) {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      apiKey: process.env.REACT_APP_API_KEY,
-      username,
-      main: 'UserCenter',
-      Fn: 'readOne',
-    });
+    const response = await axios.get(
+      `/api/v1/superadmin/check?username=${username}`
+    );
     return response;
   }
 
@@ -522,9 +487,9 @@ function AdminAppProvider({ children }) {
     const response = await axios.post('/api/v1/superadmin/newroute', {
       image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
       type: data.type,
-      apiKey: process.env.REACT_APP_API_KEY,
       main: 'ImageResizer',
       Fn: 'resize',
+      token: adminToken,
     });
     return response;
   }
@@ -724,7 +689,6 @@ function AdminAppProvider({ children }) {
         // main data
         createData,
         readData,
-        readKpData,
         readOneData,
         updateData,
         deleteData,
