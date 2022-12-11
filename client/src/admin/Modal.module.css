@@ -22,7 +22,7 @@
 
 .centered {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -56,7 +56,7 @@
 
 .modalAdd {
   width: 25rem;
-  height: 30rem;
+  height: 33rem;
   background: white;
   color: white;
   z-index: 50;
@@ -75,9 +75,8 @@
 }
 
 .modalEvent {
-  margin-top: 5rem;
   width: 25rem;
-  height: 35rem;
+  height: 33rem;
   background: white;
   color: white;
   z-index: 50;
@@ -113,7 +112,8 @@
 }
 
 .modalContent {
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-size: 14px;
   color: #2c3e50;
   text-align: center;

@@ -36,6 +36,10 @@ const operatorSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  roleMediaSosialKlinik: {
+    type: Boolean,
+    default: false,
+  },
   statusPegawai: {
     type: String,
   },
