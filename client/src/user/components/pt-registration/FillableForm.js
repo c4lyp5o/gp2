@@ -46,6 +46,7 @@ export default function FillableForm({
   // core
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
+  const [temujanji, setTemujanji] = useState(false);
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
@@ -70,7 +71,10 @@ export default function FillableForm({
   const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
+  const [noPesara, setNoPesara] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
+  const [noBayaran, setNoBayaran] = useState('');
+  const [noResit, setNoResit] = useState('');
   const [catatan, setCatatan] = useState('');
 
   // kepp
@@ -428,6 +432,7 @@ export default function FillableForm({
         bersekolah,
         noOku,
         statusPesara,
+        noPesara,
       });
       toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
       return true;
@@ -462,6 +467,7 @@ export default function FillableForm({
               jenisFasiliti,
               tarikhKedatangan,
               waktuSampai,
+              temujanji,
               kedatangan,
               noPendaftaranBaru,
               noPendaftaranUlangan,
@@ -486,7 +492,10 @@ export default function FillableForm({
               bersekolah,
               noOku,
               statusPesara,
+              noPesara,
               rujukDaripada,
+              noBayaran,
+              noResit,
               catatan,
               // kepp
               kepp,
@@ -549,6 +558,7 @@ export default function FillableForm({
             {
               tarikhKedatangan,
               waktuSampai,
+              temujanji,
               kedatangan,
               noPendaftaranBaru,
               noPendaftaranUlangan,
@@ -573,7 +583,10 @@ export default function FillableForm({
               bersekolah,
               noOku,
               statusPesara,
+              noPesara,
               rujukDaripada,
+              noBayaran,
+              noResit,
               catatan,
               // kepp
               kepp,
@@ -631,6 +644,7 @@ export default function FillableForm({
   useEffect(() => {
     setTarikhKedatangan(dateToday);
     setWaktuSampai('');
+    setTemujanji(false);
     setKedatangan('');
     setNoPendaftaranBaru('');
     setNoPendaftaranUlangan('');
@@ -655,7 +669,10 @@ export default function FillableForm({
     setBersekolah(false);
     setNoOku('');
     setStatusPesara('');
+    setNoPesara('');
     setRujukDaripada('');
+    setNoBayaran('');
+    setNoResit('');
     setCatatan('');
     // kepp
     setKepp(false);
@@ -765,6 +782,7 @@ export default function FillableForm({
           // core
           setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
           setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setTemujanji(data.singlePersonKaunter.temujanji);
           setKedatangan(data.singlePersonKaunter.kedatangan);
           setNoPendaftaranBaru(data.singlePersonKaunter.noPendaftaranBaru);
           setNoPendaftaranUlangan(
@@ -791,7 +809,10 @@ export default function FillableForm({
           setBersekolah(data.singlePersonKaunter.bersekolah);
           setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
+          setNoPesara(data.singlePersonKaunter.noPesara);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          setNoBayaran(data.singlePersonKaunter.noBayaran);
+          setNoResit(data.singlePersonKaunter.noResit);
           setCatatan(data.singlePersonKaunter.catatan);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
@@ -883,6 +904,7 @@ export default function FillableForm({
             bersekolah: data.singlePersonKaunter.bersekolah,
             noOku: data.singlePersonKaunter.noOku,
             statusPesara: data.singlePersonKaunter.statusPersara,
+            noPesara: data.singlePersonKaunter.noPesara,
           });
           setIsEditLoading(false);
         } catch (error) {
@@ -919,7 +941,7 @@ export default function FillableForm({
       <>
         <button
           type='button'
-          className='inline-flex items-center text-center justify-center m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
+          className='inline-flex items-center text-center justify-center m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
           disabled=''
         >
           <svg
@@ -952,7 +974,7 @@ export default function FillableForm({
     return (
       <button
         type='submit'
-        className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+        className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
       >
         Tambah Data
       </button>
@@ -995,7 +1017,7 @@ export default function FillableForm({
                 </div>
               </div>
               <div className='grid lg:grid-cols-2'>
-                <div className='grid grid-cols-[1fr_2fr] m-2 '>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh kedatangan:{' '}
                     <span className='font-semibold text-user6'>*</span>
@@ -1012,14 +1034,35 @@ export default function FillableForm({
                     waktu tiba:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
-                  <input
-                    required
-                    value={waktuSampai}
-                    onChange={(e) => setWaktuSampai(e.target.value)}
-                    type='time'
-                    name='waktuSampai'
-                    className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                  />
+                  <div className='flex flex-col justify-start'>
+                    <input
+                      required
+                      value={waktuSampai}
+                      onChange={(e) => setWaktuSampai(e.target.value)}
+                      type='time'
+                      name='waktuSampai'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    />
+                    <div className='flex justify-start mt-2'>
+                      <input
+                        type='checkbox'
+                        name='temujanji'
+                        id='temujanji'
+                        value='temujanji'
+                        checked={temujanji}
+                        onChange={() => {
+                          setTemujanji(!temujanji);
+                        }}
+                        className='mr-2'
+                      />
+                      <label
+                        htmlFor='temujanji'
+                        className='inline-flex text-sm'
+                      >
+                        Pesakit Temujanji
+                      </label>
+                    </div>
+                  </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
@@ -1591,23 +1634,23 @@ export default function FillableForm({
                       </label>
                     </div>
                   </div>
-                </div>
-                {orangKurangUpaya === true && (
-                  <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
-                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
+                  {orangKurangUpaya === true && (
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5 mt-2'>
                       no. OKU:{' '}
                       <span className='font-semibold text-user6'>*</span>
                     </p>
+                  )}
+                  {orangKurangUpaya === true && (
                     <input
                       required
                       value={noOku}
                       onChange={(e) => setNoOku(e.target.value)}
                       type='text'
                       name='no-oku'
-                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
                     />
-                  </div>
-                )}
+                  )}
+                </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     status pesara:
@@ -1634,6 +1677,22 @@ export default function FillableForm({
                       <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
                     </span>
                   </div>
+                  {statusPesara !== '' && (
+                    <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5 mt-2'>
+                      No. PESARA:{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                  )}
+                  {statusPesara !== '' && (
+                    <input
+                      required
+                      value={noPesara}
+                      onChange={(e) => setNoPesara(e.target.value)}
+                      type='text'
+                      name='no-pesara'
+                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
+                    />
+                  )}
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
@@ -1671,36 +1730,98 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <div className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     <p>catatan </p>
-                    <FaInfoCircle
-                      className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
-                      title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
-                    />
-                    <p>
-                      :
-                      {statusPesara !== '' && (
-                        <span className='font-semibold text-user6'>*</span>
-                      )}
-                    </p>
+                    <p>:</p>
                   </div>
-                  <div className='relative w-full'>
-                    <input
-                      type='text'
-                      name='catatan'
-                      id='catatan'
-                      value={catatan}
-                      required={statusPesara !== '' ? true : false}
-                      onChange={(e) => {
-                        setCatatan(e.target.value);
-                        setConfirmData({
-                          ...confirmData,
-                          catatan: e.target.value,
-                        });
-                      }}
-                      className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                    />
-                    <span>
-                      <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
-                    </span>
+                  <div>
+                    <div className='flex flex-col justify-start'>
+                      <div
+                        className='relative w-full md:w-56 my-2'
+                        title='Bayaran / Pengecualian bayaran'
+                      >
+                        <input
+                          value={noBayaran}
+                          type='text'
+                          name='no-bayaran'
+                          id='no-bayaran'
+                          placeholder=' '
+                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                          onChange={(e) => {
+                            setNoBayaran(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              noBayaran: e.target.value,
+                            });
+                          }}
+                        />
+                        <label
+                          htmlFor='no-bayaran'
+                          className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                        >
+                          Bayaran
+                        </label>
+                        <span>
+                          <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      className='relative w-full md:w-56 my-2'
+                      title='No. Resit / No. GL'
+                    >
+                      <input
+                        type='text'
+                        name='no-resit'
+                        id='no-resit'
+                        placeholder=' '
+                        value={noResit}
+                        onChange={(e) => {
+                          setNoResit(e.target.value);
+                          setConfirmData({
+                            ...confirmData,
+                            noResit: e.target.value,
+                          });
+                        }}
+                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                      />
+                      <label
+                        htmlFor='no-resit'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                      >
+                        No. Resit / No. GL
+                      </label>
+                      <span>
+                        <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                      </span>
+                    </div>
+                    <div
+                      className='relative w-full mt-4'
+                      title='No. Slip Cuti Sakit/Lain-lain Catatan Penting'
+                    >
+                      <input
+                        type='text'
+                        name='catatan'
+                        id='catatan'
+                        placeholder=' '
+                        value={catatan}
+                        onChange={(e) => {
+                          setCatatan(e.target.value);
+                          setConfirmData({
+                            ...confirmData,
+                            catatan: e.target.value,
+                          });
+                        }}
+                        className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                      />
+                      <label
+                        htmlFor='catatan'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                      >
+                        Lain-lain
+                      </label>
+                      <span>
+                        <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                      </span>
+                    </div>
                   </div>
                 </div>
                 {jenisFasiliti === 'kp' && (
@@ -2478,12 +2599,12 @@ export default function FillableForm({
                   </article>
                 )}
               </div>
-              <span
+              <button
                 onClick={() => setShowForm(false)}
-                className='m-2 p-2 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+                className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
               >
                 kembali
-              </span>
+              </button>
               {addingData ? <BusyButton /> : <SubmitButtton />}
             </form>
           </>

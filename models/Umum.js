@@ -20,6 +20,7 @@ const UmumSchema = new mongoose.Schema(
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
+    temujanji: { type: Boolean, default: false },
     kedatangan: { type: String, default: '' },
     noPendaftaranBaru: { type: String, default: '' },
     noPendaftaranUlangan: { type: String, default: '' },
@@ -43,7 +44,10 @@ const UmumSchema = new mongoose.Schema(
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
+    noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    noBayaran: { type: String, default: '' },
+    noResit: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
