@@ -24,7 +24,11 @@ export default function Rawatan(props) {
   const [pilihanRawatan, setPilihanRawatan] = useState([]);
   const [showKesSelesai, setShowKesSelesai] = useState(false);
   let isDisabled = false;
-  if (props.statusReten === 'telah diisi') {
+  if (
+    props.statusReten === 'telah diisi' ||
+    (props.singlePersonUmum.rawatanDibuatOperatorLain === true &&
+      !props.operatorLain)
+  ) {
     isDisabled = true;
   }
 
@@ -100,7 +104,10 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
-                        <label className='mx-2 text-sm font-m'>
+                        <label
+                          htmlFor='pesakit-dibuat-fissure-sealant'
+                          className='mx-2 text-sm font-m'
+                        >
                           pesakit dibuat Pengapan Fisur
                         </label>
                       </div>
@@ -345,7 +352,10 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
-                        <label className='mx-2 text-sm font-m'>
+                        <label
+                          htmlFor='pesakit-dibuat-prr-jenis-1'
+                          className='mx-2 text-sm font-m'
+                        >
                           pesakit diberi PRR jenis 1
                         </label>
                       </div>
@@ -2458,8 +2468,7 @@ export default function Rawatan(props) {
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      rawatan ada dibuat oleh operator lain pada hari yang sama
-                      sahaja
+                      Rawatan dibuat oleh operator lain
                     </h4>
                     <div className='flex flex-row items-center pl-5 m-1'>
                       <input
@@ -2479,7 +2488,8 @@ export default function Rawatan(props) {
                         htmlFor='rawatan-dibuat-operator-lain-umum'
                         className='mx-2 text-sm font-m'
                       >
-                        Rawatan dibuat oleh operator lain
+                        Rawatan ada dibuat oleh operator lain pada hari yang
+                        sama sahaja
                       </label>
                     </div>
                   </article>

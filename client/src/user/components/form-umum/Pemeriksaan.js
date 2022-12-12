@@ -4,7 +4,10 @@ import { FaInfoCircle } from 'react-icons/fa';
 export default function Pemeriksaan(props) {
   const [show, setShow] = useState(false);
   let isDisabled = false;
-  if (props.statusReten === 'telah diisi') {
+  if (
+    props.statusReten === 'telah diisi' ||
+    props.singlePersonUmum.rawatanDibuatOperatorLain === true
+  ) {
     isDisabled = true;
   }
 

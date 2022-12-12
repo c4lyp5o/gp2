@@ -178,9 +178,7 @@ export default function PatientData({
             <p className='text-xs text-user9 lowercase'>
               * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
               pengguna
-              <i className='mr-1'>
-                <b> 'Pentadbir'</b>
-              </i>
+              <b className='mr-1 uppercase'> 'pentadbir'</b>
               klinik pergigian anda
             </p>
             <button
