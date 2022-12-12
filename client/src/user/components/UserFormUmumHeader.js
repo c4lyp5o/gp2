@@ -230,6 +230,12 @@ function UserFormUmumHeader() {
   const [waktuDipanggil, setWaktuDipanggil] = useState('');
   masterForm.waktuDipanggil = waktuDipanggil;
   masterForm.setWaktuDipanggil = setWaktuDipanggil;
+  const [systolicTekananDarah, setSystolicTekananDarah] = useState('');
+  masterForm.systolicTekananDarah = systolicTekananDarah;
+  masterForm.setSystolicTekananDarah = setSystolicTekananDarah;
+  const [diastolicTekananDarah, setDiastolicTekananDarah] = useState('');
+  masterForm.diastolicTekananDarah = diastolicTekananDarah;
+  masterForm.setDiastolicTekananDarah = setDiastolicTekananDarah;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -722,14 +728,6 @@ function UserFormUmumHeader() {
     yaTidakAbsesPembedahanRawatanUmum;
   masterForm.setYaTidakAbsesPembedahanRawatanUmum =
     setYaTidakAbsesPembedahanRawatanUmum;
-  // const [
-  //   baruSemulaAbsesPembedahanRawatanUmum,
-  //   setBaruSemulaAbsesPembedahanRawatanUmum,
-  // ] = useState('');
-  // masterForm.baruSemulaAbsesPembedahanRawatanUmum =
-  //   baruSemulaAbsesPembedahanRawatanUmum;
-  // masterForm.setBaruSemulaAbsesPembedahanRawatanUmum =
-  //   setBaruSemulaAbsesPembedahanRawatanUmum;
   const [
     cabutanSurgikalPembedahanMulutRawatanUmum,
     setCabutanSurgikalPembedahanMulutRawatanUmum,
@@ -983,13 +981,6 @@ function UserFormUmumHeader() {
     jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum;
   masterForm.setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum =
     setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum;
-  // const [penskaleranRawatanUmum, setPenskaleranRawatanUmum] = useState(false);
-  // masterForm.penskaleranRawatanUmum = penskaleranRawatanUmum;
-  // masterForm.setPenskaleranRawatanUmum = setPenskaleranRawatanUmum;
-  // const [
-  //   rawatanLainPeriodontikRawatanUmum,
-  //   setRawatanLainPeriodontikRawatanUmum,
-  // ] = useState(false);
   const [kaunselingDiet, setKaunselingDiet] = useState(false);
   masterForm.kaunselingDiet = kaunselingDiet;
   masterForm.setKaunselingDiet = setKaunselingDiet;
@@ -1126,7 +1117,7 @@ function UserFormUmumHeader() {
   const [
     memenuhiRditnKod3KesRujukUpprRawatanUmum,
     setMemenuhiRditnKod3KesRujukUpprRawatanUmum,
-  ] = useState(0);
+  ] = useState(false);
   masterForm.memenuhiRditnKod3KesRujukUpprRawatanUmum =
     memenuhiRditnKod3KesRujukUpprRawatanUmum;
   masterForm.setMemenuhiRditnKod3KesRujukUpprRawatanUmum =
@@ -1134,7 +1125,7 @@ function UserFormUmumHeader() {
   const [
     restorasiPascaEndodontikKesRujukUpprRawatanUmum,
     setRestorasiPascaEndodontikKesRujukUpprRawatanUmum,
-  ] = useState(0);
+  ] = useState(false);
   masterForm.restorasiPascaEndodontikKesRujukUpprRawatanUmum =
     restorasiPascaEndodontikKesRujukUpprRawatanUmum;
   masterForm.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum =
@@ -1142,7 +1133,7 @@ function UserFormUmumHeader() {
   const [
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
     setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
-  ] = useState(0);
+  ] = useState(false);
   masterForm.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum =
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum;
   masterForm.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum =
@@ -2066,7 +2057,6 @@ function UserFormUmumHeader() {
               komplikasiSelepasCabutanRawatanUmum,
               cabutanDisebabkanPeriodontitisRawatanUmum,
               yaTidakAbsesPembedahanRawatanUmum,
-              // baruSemulaAbsesPembedahanRawatanUmum,
               cabutanSurgikalPembedahanMulutRawatanUmum,
               yaTidakFrakturPembedahanRawatanUmum,
               yaTidakPembedahanKecilMulutPembedahanRawatanUmum,
@@ -2101,8 +2091,6 @@ function UserFormUmumHeader() {
               baruInlayOnlayJumlahTampalanDibuatRawatanUmum,
               semulaInlayOnlayJumlahTampalanDibuatRawatanUmum,
               jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum,
-              // penskaleranRawatanUmum,
-              // rawatanLainPeriodontikRawatanUmum,
               kaunselingDiet,
               nasihatBerhentiMerokok,
               lainLainPengurusanFaktorRisiko,
@@ -2341,7 +2329,7 @@ function UserFormUmumHeader() {
                             {Dictionary[singlePersonUmum.jenisFasiliti]}
                           </span>
                           {isShown && (
-                            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
+                            <div className='z-50 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
                               <div className='flex flex-row text-sm'>
                                 <h2 className='font-semibold  whitespace-nowrap'>
                                   NAMA :
