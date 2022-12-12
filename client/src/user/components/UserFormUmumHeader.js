@@ -592,7 +592,7 @@ function UserFormUmumHeader() {
   const [
     baruJumlahGigiKekalDibuatFSRawatanUmum,
     setBaruJumlahGigiKekalDibuatFSRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruJumlahGigiKekalDibuatFSRawatanUmum =
     baruJumlahGigiKekalDibuatFSRawatanUmum;
   masterForm.setBaruJumlahGigiKekalDibuatFSRawatanUmum =
@@ -600,7 +600,7 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahGigiKekalDibuatFSRawatanUmum,
   //   setSemulaJumlahGigiKekalDibuatFSRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahGigiKekalDibuatFSRawatanUmum =
   //   semulaJumlahGigiKekalDibuatFSRawatanUmum;
   // masterForm.setSemulaJumlahGigiKekalDibuatFSRawatanUmum =
@@ -608,7 +608,7 @@ function UserFormUmumHeader() {
   // const [
   //   baruJumlahMuridDibuatFsRawatanUmum,
   //   setBaruJumlahMuridDibuatFsRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.baruJumlahMuridDibuatFsRawatanUmum =
   //   baruJumlahMuridDibuatFsRawatanUmum;
   // masterForm.setBaruJumlahMuridDibuatFsRawatanUmum =
@@ -616,7 +616,7 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahMuridDibuatFsRawatanUmum,
   //   setSemulaJumlahMuridDibuatFsRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahMuridDibuatFsRawatanUmum =
   //   semulaJumlahMuridDibuatFsRawatanUmum;
   // masterForm.setSemulaJumlahMuridDibuatFsRawatanUmum =
@@ -628,7 +628,7 @@ function UserFormUmumHeader() {
   // const [
   //   baruJumlahGigiKekalDiberiFVRawatanUmum,
   //   setBaruJumlahGigiKekalDiberiFVRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.baruJumlahGigiKekalDiberiFVRawatanUmum =
   //   baruJumlahGigiKekalDiberiFVRawatanUmum;
   // masterForm.setBaruJumlahGigiKekalDiberiFVRawatanUmum =
@@ -636,7 +636,7 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahGigiKekalDiberiFVRawatanUmum,
   //   setSemulaJumlahGigiKekalDiberiFVRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahGigiKekalDiberiFVRawatanUmum =
   //   semulaJumlahGigiKekalDiberiFVRawatanUmum;
   // masterForm.setSemulaJumlahGigiKekalDiberiFVRawatanUmum =
@@ -644,7 +644,7 @@ function UserFormUmumHeader() {
   // const [
   //   baruJumlahMuridDibuatFVRawatanUmum,
   //   setBaruJumlahMuridDibuatFVRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.baruJumlahMuridDibuatFVRawatanUmum =
   //   baruJumlahMuridDibuatFVRawatanUmum;
   // masterForm.setBaruJumlahMuridDibuatFVRawatanUmum =
@@ -652,7 +652,7 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahMuridDibuatFVRawatanUmum,
   //   setSemulaJumlahMuridDibuatFVRawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahMuridDibuatFVRawatanUmum =
   //   semulaJumlahMuridDibuatFVRawatanUmum;
   // masterForm.setSemulaJumlahMuridDibuatFVRawatanUmum =
@@ -663,7 +663,7 @@ function UserFormUmumHeader() {
   const [
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
     setBaruJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum =
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum;
   masterForm.setBaruJumlahGigiKekalDiberiPRRJenis1RawatanUmum =
@@ -671,7 +671,7 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
   //   setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum =
   //   semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum;
   // masterForm.setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum =
@@ -679,7 +679,7 @@ function UserFormUmumHeader() {
   // const [
   //   baruJumlahMuridDiberiPrrJenis1RawatanUmum,
   //   setBaruJumlahMuridDiberiPrrJenis1RawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.baruJumlahMuridDiberiPrrJenis1RawatanUmum =
   //   baruJumlahMuridDiberiPrrJenis1RawatanUmum;
   // masterForm.setBaruJumlahMuridDiberiPrrJenis1RawatanUmum =
@@ -687,21 +687,21 @@ function UserFormUmumHeader() {
   // const [
   //   semulaJumlahMuridDiberiPrrJenis1RawatanUmum,
   //   setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum,
-  // ] = useState('');
+  // ] = useState(0);
   // masterForm.semulaJumlahMuridDiberiPrrJenis1RawatanUmum =
   //   semulaJumlahMuridDiberiPrrJenis1RawatanUmum;
   // masterForm.setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum =
   //   setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum;
-  const [cabutDesidusRawatanUmum, setCabutDesidusRawatanUmum] = useState('');
+  const [cabutDesidusRawatanUmum, setCabutDesidusRawatanUmum] = useState(0);
   masterForm.cabutDesidusRawatanUmum = cabutDesidusRawatanUmum;
   masterForm.setCabutDesidusRawatanUmum = setCabutDesidusRawatanUmum;
-  const [cabutKekalRawatanUmum, setCabutKekalRawatanUmum] = useState('');
+  const [cabutKekalRawatanUmum, setCabutKekalRawatanUmum] = useState(0);
   masterForm.cabutKekalRawatanUmum = cabutKekalRawatanUmum;
   masterForm.setCabutKekalRawatanUmum = setCabutKekalRawatanUmum;
   const [
     komplikasiSelepasCabutanRawatanUmum,
     setKomplikasiSelepasCabutanRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.komplikasiSelepasCabutanRawatanUmum =
     komplikasiSelepasCabutanRawatanUmum;
   masterForm.setKomplikasiSelepasCabutanRawatanUmum =
@@ -709,7 +709,7 @@ function UserFormUmumHeader() {
   const [
     cabutanDisebabkanPeriodontitisRawatanUmum,
     setCabutanDisebabkanPeriodontitisRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.cabutanDisebabkanPeriodontitisRawatanUmum =
     cabutanDisebabkanPeriodontitisRawatanUmum;
   masterForm.setCabutanDisebabkanPeriodontitisRawatanUmum =
@@ -733,7 +733,7 @@ function UserFormUmumHeader() {
   const [
     cabutanSurgikalPembedahanMulutRawatanUmum,
     setCabutanSurgikalPembedahanMulutRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.cabutanSurgikalPembedahanMulutRawatanUmum =
     cabutanSurgikalPembedahanMulutRawatanUmum;
   masterForm.setCabutanSurgikalPembedahanMulutRawatanUmum =
@@ -776,7 +776,7 @@ function UserFormUmumHeader() {
   const [
     baruJumlahGigiYangDiberiSdfRawatanUmum,
     setBaruJumlahGigiYangDiberiSdfRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruJumlahGigiYangDiberiSdfRawatanUmum =
     baruJumlahGigiYangDiberiSdfRawatanUmum;
   masterForm.setBaruJumlahGigiYangDiberiSdfRawatanUmum =
@@ -784,7 +784,7 @@ function UserFormUmumHeader() {
   const [
     semulaJumlahGigiYangDiberiSdfRawatanUmum,
     setSemulaJumlahGigiYangDiberiSdfRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.semulaJumlahGigiYangDiberiSdfRawatanUmum =
     semulaJumlahGigiYangDiberiSdfRawatanUmum;
   masterForm.setSemulaJumlahGigiYangDiberiSdfRawatanUmum =
@@ -792,7 +792,7 @@ function UserFormUmumHeader() {
   const [
     baruJumlahCrownBridgeRawatanUmum,
     setBaruJumlahCrownBridgeRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruJumlahCrownBridgeRawatanUmum =
     baruJumlahCrownBridgeRawatanUmum;
   masterForm.setBaruJumlahCrownBridgeRawatanUmum =
@@ -800,25 +800,25 @@ function UserFormUmumHeader() {
   const [
     semulaJumlahCrownBridgeRawatanUmum,
     setSemulaJumlahCrownBridgeRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.semulaJumlahCrownBridgeRawatanUmum =
     semulaJumlahCrownBridgeRawatanUmum;
   masterForm.setSemulaJumlahCrownBridgeRawatanUmum =
     setSemulaJumlahCrownBridgeRawatanUmum;
   const [baruJumlahPostCoreRawatanUmum, setBaruJumlahPostCoreRawatanUmum] =
-    useState('');
+    useState(0);
   masterForm.baruJumlahPostCoreRawatanUmum = baruJumlahPostCoreRawatanUmum;
   masterForm.setBaruJumlahPostCoreRawatanUmum =
     setBaruJumlahPostCoreRawatanUmum;
   const [semulaJumlahPostCoreRawatanUmum, setSemulaJumlahPostCoreRawatanUmum] =
-    useState('');
+    useState(0);
   masterForm.semulaJumlahPostCoreRawatanUmum = semulaJumlahPostCoreRawatanUmum;
   masterForm.setSemulaJumlahPostCoreRawatanUmum =
     setSemulaJumlahPostCoreRawatanUmum;
   const [
     baruPenuhJumlahDenturProstodontikRawatanUmum,
     setBaruPenuhJumlahDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruPenuhJumlahDenturProstodontikRawatanUmum =
     baruPenuhJumlahDenturProstodontikRawatanUmum;
   masterForm.setBaruPenuhJumlahDenturProstodontikRawatanUmum =
@@ -826,7 +826,7 @@ function UserFormUmumHeader() {
   const [
     semulaPenuhJumlahDenturProstodontikRawatanUmum,
     setSemulaPenuhJumlahDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.semulaPenuhJumlahDenturProstodontikRawatanUmum =
     semulaPenuhJumlahDenturProstodontikRawatanUmum;
   masterForm.setSemulaPenuhJumlahDenturProstodontikRawatanUmum =
@@ -834,7 +834,7 @@ function UserFormUmumHeader() {
   const [
     baruSeparaJumlahDenturProstodontikRawatanUmum,
     setBaruSeparaJumlahDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruSeparaJumlahDenturProstodontikRawatanUmum =
     baruSeparaJumlahDenturProstodontikRawatanUmum;
   masterForm.setBaruSeparaJumlahDenturProstodontikRawatanUmum =
@@ -842,7 +842,7 @@ function UserFormUmumHeader() {
   const [
     semulaSeparaJumlahDenturProstodontikRawatanUmum,
     setSemulaSeparaJumlahDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.semulaSeparaJumlahDenturProstodontikRawatanUmum =
     semulaSeparaJumlahDenturProstodontikRawatanUmum;
   masterForm.setSemulaSeparaJumlahDenturProstodontikRawatanUmum =
@@ -850,7 +850,7 @@ function UserFormUmumHeader() {
   const [
     immediateDenturProstodontikRawatanUmum,
     setImmediateDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.immediateDenturProstodontikRawatanUmum =
     immediateDenturProstodontikRawatanUmum;
   masterForm.setImmediateDenturProstodontikRawatanUmum =
@@ -858,7 +858,7 @@ function UserFormUmumHeader() {
   const [
     pembaikanDenturProstodontikRawatanUmum,
     setPembaikanDenturProstodontikRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.pembaikanDenturProstodontikRawatanUmum =
     pembaikanDenturProstodontikRawatanUmum;
   masterForm.setPembaikanDenturProstodontikRawatanUmum =
@@ -866,7 +866,7 @@ function UserFormUmumHeader() {
   const [
     gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -874,7 +874,7 @@ function UserFormUmumHeader() {
   const [
     gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -882,7 +882,7 @@ function UserFormUmumHeader() {
   const [
     gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -890,7 +890,7 @@ function UserFormUmumHeader() {
   const [
     gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -898,7 +898,7 @@ function UserFormUmumHeader() {
   const [
     gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -906,7 +906,7 @@ function UserFormUmumHeader() {
   const [
     gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -914,7 +914,7 @@ function UserFormUmumHeader() {
   const [
     gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -922,7 +922,7 @@ function UserFormUmumHeader() {
   const [
     gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
     setGkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
     gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum =
@@ -930,7 +930,7 @@ function UserFormUmumHeader() {
   const [
     gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
     setGdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
     gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
@@ -938,7 +938,7 @@ function UserFormUmumHeader() {
   const [
     gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
     setGdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
     gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum;
   masterForm.setGdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
@@ -946,7 +946,7 @@ function UserFormUmumHeader() {
   const [
     gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
     setGkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
     gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
@@ -954,7 +954,7 @@ function UserFormUmumHeader() {
   const [
     gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
     setGkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
     gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum;
   masterForm.setGkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum =
@@ -962,7 +962,7 @@ function UserFormUmumHeader() {
   const [
     baruInlayOnlayJumlahTampalanDibuatRawatanUmum,
     setBaruInlayOnlayJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.baruInlayOnlayJumlahTampalanDibuatRawatanUmum =
     baruInlayOnlayJumlahTampalanDibuatRawatanUmum;
   masterForm.setBaruInlayOnlayJumlahTampalanDibuatRawatanUmum =
@@ -970,7 +970,7 @@ function UserFormUmumHeader() {
   const [
     semulaInlayOnlayJumlahTampalanDibuatRawatanUmum,
     setSemulaInlayOnlayJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.semulaInlayOnlayJumlahTampalanDibuatRawatanUmum =
     semulaInlayOnlayJumlahTampalanDibuatRawatanUmum;
   masterForm.setSemulaInlayOnlayJumlahTampalanDibuatRawatanUmum =
@@ -978,7 +978,7 @@ function UserFormUmumHeader() {
   const [
     jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum,
     setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum =
     jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum;
   masterForm.setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum =
@@ -1062,7 +1062,7 @@ function UserFormUmumHeader() {
   const [
     bilanganXrayYangDiambilRawatanUmum,
     setBilanganXrayYangDiambilRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.bilanganXrayYangDiambilRawatanUmum =
     bilanganXrayYangDiambilRawatanUmum;
   masterForm.setBilanganXrayYangDiambilRawatanUmum =
@@ -1070,7 +1070,7 @@ function UserFormUmumHeader() {
   const [
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum,
     setJumlahAnteriorKesEndodontikSelesaiRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahAnteriorKesEndodontikSelesaiRawatanUmum =
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum;
   masterForm.setJumlahAnteriorKesEndodontikSelesaiRawatanUmum =
@@ -1078,7 +1078,7 @@ function UserFormUmumHeader() {
   const [
     jumlahPremolarKesEndodontikSelesaiRawatanUmum,
     setJumlahPremolarKesEndodontikSelesaiRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahPremolarKesEndodontikSelesaiRawatanUmum =
     jumlahPremolarKesEndodontikSelesaiRawatanUmum;
   masterForm.setJumlahPremolarKesEndodontikSelesaiRawatanUmum =
@@ -1086,7 +1086,7 @@ function UserFormUmumHeader() {
   const [
     jumlahMolarKesEndodontikSelesaiRawatanUmum,
     setJumlahMolarKesEndodontikSelesaiRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahMolarKesEndodontikSelesaiRawatanUmum =
     jumlahMolarKesEndodontikSelesaiRawatanUmum;
   masterForm.setJumlahMolarKesEndodontikSelesaiRawatanUmum =
@@ -1094,7 +1094,7 @@ function UserFormUmumHeader() {
   const [
     rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum,
     setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum =
     rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum;
   masterForm.setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum =
@@ -1102,7 +1102,7 @@ function UserFormUmumHeader() {
   const [
     jumlahAnteriorRawatanSemulaKeppRawatanUmum,
     setJumlahAnteriorRawatanSemulaKeppRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahAnteriorRawatanSemulaKeppRawatanUmum =
     jumlahAnteriorRawatanSemulaKeppRawatanUmum;
   masterForm.setJumlahAnteriorRawatanSemulaKeppRawatanUmum =
@@ -1110,7 +1110,7 @@ function UserFormUmumHeader() {
   const [
     jumlahPremolarRawatanSemulaKeppRawatanUmum,
     setJumlahPremolarRawatanSemulaKeppRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahPremolarRawatanSemulaKeppRawatanUmum =
     jumlahPremolarRawatanSemulaKeppRawatanUmum;
   masterForm.setJumlahPremolarRawatanSemulaKeppRawatanUmum =
@@ -1118,7 +1118,7 @@ function UserFormUmumHeader() {
   const [
     jumlahMolarRawatanSemulaKeppRawatanUmum,
     setJumlahMolarRawatanSemulaKeppRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.jumlahMolarRawatanSemulaKeppRawatanUmum =
     jumlahMolarRawatanSemulaKeppRawatanUmum;
   masterForm.setJumlahMolarRawatanSemulaKeppRawatanUmum =
@@ -1126,7 +1126,7 @@ function UserFormUmumHeader() {
   const [
     memenuhiRditnKod3KesRujukUpprRawatanUmum,
     setMemenuhiRditnKod3KesRujukUpprRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.memenuhiRditnKod3KesRujukUpprRawatanUmum =
     memenuhiRditnKod3KesRujukUpprRawatanUmum;
   masterForm.setMemenuhiRditnKod3KesRujukUpprRawatanUmum =
@@ -1134,7 +1134,7 @@ function UserFormUmumHeader() {
   const [
     restorasiPascaEndodontikKesRujukUpprRawatanUmum,
     setRestorasiPascaEndodontikKesRujukUpprRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.restorasiPascaEndodontikKesRujukUpprRawatanUmum =
     restorasiPascaEndodontikKesRujukUpprRawatanUmum;
   masterForm.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum =
@@ -1142,7 +1142,7 @@ function UserFormUmumHeader() {
   const [
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
     setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
-  ] = useState('');
+  ] = useState(0);
   masterForm.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum =
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum;
   masterForm.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum =
@@ -1583,256 +1583,270 @@ function UserFormUmumHeader() {
         setPeriImplantMucositis(data.singlePersonUmum.periImplantMucositis);
         setEngganBpeImplan(data.singlePersonUmum.engganBpeImplan);
         //map rawatan -----------------------------------------------------------------
-        setPesakitDibuatFissureSealant(
-          data.singlePersonUmum.pesakitDibuatFissureSealant
-        );
-        setBaruJumlahGigiKekalDibuatFSRawatanUmum(
-          data.singlePersonUmum.baruJumlahGigiKekalDibuatFSRawatanUmum
-        );
-        // setSemulaJumlahGigiKekalDibuatFSRawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahGigiKekalDibuatFSRawatanUmum
-        // );
-        // setBaruJumlahMuridDibuatFsRawatanUmum(
-        //   data.singlePersonUmum.baruJumlahMuridDibuatFsRawatanUmum
-        // );
-        // setSemulaJumlahMuridDibuatFsRawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahMuridDibuatFsRawatanUmum
-        // );
-        setPesakitDibuatFluorideVarnish(
-          data.singlePersonUmum.pesakitDibuatFluorideVarnish
-        );
-        // setBaruJumlahGigiKekalDiberiFVRawatanUmum(
-        //   data.singlePersonUmum.baruJumlahGigiKekalDiberiFVRawatanUmum
-        // );
-        // setSemulaJumlahGigiKekalDiberiFVRawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahGigiKekalDiberiFVRawatanUmum
-        // );
-        // setBaruJumlahMuridDibuatFVRawatanUmum(
-        //   data.singlePersonUmum.baruJumlahMuridDibuatFVRawatanUmum
-        // );
-        // setSemulaJumlahMuridDibuatFVRawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahMuridDibuatFVRawatanUmum
-        // );
-        setPesakitDibuatPRRJenis1(data.singlePersonUmum.pesakitDibuatPRRJenis1);
-        setBaruJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
-          data.singlePersonUmum.baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum
-        );
-        // setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum
-        // );
-        // setBaruJumlahMuridDiberiPrrJenis1RawatanUmum(
-        //   data.singlePersonUmum.baruJumlahMuridDiberiPrrJenis1RawatanUmum
-        // );
-        // setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum(
-        //   data.singlePersonUmum.semulaJumlahMuridDiberiPrrJenis1RawatanUmum
-        // );
-        setCabutDesidusRawatanUmum(
-          data.singlePersonUmum.cabutDesidusRawatanUmum
-        );
-        setCabutKekalRawatanUmum(data.singlePersonUmum.cabutKekalRawatanUmum);
-        setKomplikasiSelepasCabutanRawatanUmum(
-          data.singlePersonUmum.komplikasiSelepasCabutanRawatanUmum
-        );
-        setCabutanDisebabkanPeriodontitisRawatanUmum(
-          data.singlePersonUmum.cabutanDisebabkanPeriodontitisRawatanUmum
-        );
-        setYaTidakAbsesPembedahanRawatanUmum(
-          data.singlePersonUmum.yaTidakAbsesPembedahanRawatanUmum
-        );
-        // setBaruSemulaAbsesPembedahanRawatanUmum(
-        //   data.singlePersonUmum.baruSemulaAbsesPembedahanRawatanUmum
-        // );
-        setCabutanSurgikalPembedahanMulutRawatanUmum(
-          data.singlePersonUmum.cabutanSurgikalPembedahanMulutRawatanUmum
-        );
-        setYaTidakFrakturPembedahanRawatanUmum(
-          data.singlePersonUmum.yaTidakFrakturPembedahanRawatanUmum
-        );
-        setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
-          data.singlePersonUmum.yaTidakPembedahanKecilMulutPembedahanRawatanUmum
-        );
-        setYaTidakTraumaPembedahanRawatanUmum(
-          data.singlePersonUmum.yaTidakTraumaPembedahanRawatanUmum
-        );
-        setKecederaanTulangMukaUmum(
-          data.singlePersonUmum.kecederaanTulangMukaUmum
-        );
-        setKecederaanGigiUmum(data.singlePersonUmum.kecederaanGigiUmum);
-        setKecederaanTisuLembutUmum(
-          data.singlePersonUmum.kecederaanTisuLembutUmum
-        );
-        setBaruJumlahGigiYangDiberiSdfRawatanUmum(
-          data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
-        );
-        setSemulaJumlahGigiYangDiberiSdfRawatanUmum(
-          data.singlePersonUmum.semulaJumlahGigiYangDiberiSdfRawatanUmum
-        );
-        setBaruJumlahCrownBridgeRawatanUmum(
-          data.singlePersonUmum.baruJumlahCrownBridgeRawatanUmum
-        );
-        setSemulaJumlahCrownBridgeRawatanUmum(
-          data.singlePersonUmum.semulaJumlahCrownBridgeRawatanUmum
-        );
-        setBaruJumlahPostCoreRawatanUmum(
-          data.singlePersonUmum.baruJumlahPostCoreRawatanUmum
-        );
-        setSemulaJumlahPostCoreRawatanUmum(
-          data.singlePersonUmum.semulaJumlahPostCoreRawatanUmum
-        );
-        setBaruPenuhJumlahDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.baruPenuhJumlahDenturProstodontikRawatanUmum
-        );
-        setSemulaPenuhJumlahDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.semulaPenuhJumlahDenturProstodontikRawatanUmum
-        );
-        setBaruSeparaJumlahDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.baruseparaJumlahDenturProstodontikRawatanUmum
-        );
-        setSemulaSeparaJumlahDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.semulaSeparaJumlahDenturProstodontikRawatanUmum
-        );
-        setImmediateDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.immediateDenturProstodontikRawatanUmum
-        );
-        setPembaikanDenturProstodontikRawatanUmum(
-          data.singlePersonUmum.pembaikanDenturProstodontikRawatanUmum
-        );
-        setGdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
-        );
-        setGdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
-        );
-        setGdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
-        );
-        setGkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
-        );
-        setGkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
-        );
-        setBaruInlayOnlayJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum.baruInlayOnlayJumlahTampalanDibuatRawatanUmum
-        );
-        setSemulaInlayOnlayJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum.semulaInlayOnlayJumlahTampalanDibuatRawatanUmum
-        );
-        setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum(
-          data.singlePersonUmum
-            .jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum
-        );
-        // setPenskaleranRawatanUmum(data.singlePersonUmum.penskaleranRawatanUmum);
-        // setRawatanLainPeriodontikRawatanUmum(
-        //   data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
-        // );
-        setKaunselingDiet(data.singlePersonUmum.kaunselingDiet);
-        setNasihatBerhentiMerokok(data.singlePersonUmum.nasihatBerhentiMerokok);
-        setLainLainPengurusanFaktorRisiko(
-          data.singlePersonUmum.lainLainPengurusanFaktorRisiko
-        );
-        setOhePengurusanFaktorSetempat(
-          data.singlePersonUmum.ohePengurusanFaktorSetempat
-        );
-        setPenskaleranRawatanUmum(data.singlePersonUmum.penskaleranRawatanUmum);
-        setPengilapanTampalanRungkup(
-          data.singlePersonUmum.pengilapanTampalanRungkup
-        );
-        setAdjustasiOklusi(data.singlePersonUmum.adjustasiOklusi);
-        setCabutanPengurusanFaktorSetempat(
-          data.singlePersonUmum.cabutanPengurusanFaktorSetempat
-        );
-        setEktiparsiPulpa(data.singlePersonUmum.ektiparsiPulpa);
-        setRawatanLainPeriodontikRawatanUmum(
-          data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
-        );
-        setRujukanPakarPeriodontik(
-          data.singlePersonUmum.rujukanPakarPeriodontik
-        );
-        setEngganLainRujukanPakarPeriodontik(
-          data.singlePersonUmum.engganLainRujukanPakarPeriodontik
-        );
-        setRujukanPakarScd(data.singlePersonUmum.rujukanPakarScd);
-        setRujukanPakarUpkka(data.singlePersonUmum.rujukanPakarUpkka);
-        setKesSelesaiPeriodontium(data.singlePersonUmum.kesSelesaiPeriodontium);
-        setRawatanOrtodontikRawatanUmum(
-          data.singlePersonUmum.rawatanOrtodontikRawatanUmum
-        );
-        setKesPerubatanMulutRawatanUmum(
-          data.singlePersonUmum.kesPerubatanMulutRawatanUmum
-        );
-        setBilanganXrayYangDiambilRawatanUmum(
-          data.singlePersonUmum.bilanganXrayYangDiambilRawatanUmum
-        );
-        setJumlahAnteriorKesEndodontikSelesaiRawatanUmum(
-          data.singlePersonUmum.jumlahAnteriorKesEndodontikSelesaiRawatanUmum
-        );
-        setJumlahPremolarKesEndodontikSelesaiRawatanUmum(
-          data.singlePersonUmum.jumlahPremolarKesEndodontikSelesaiRawatanUmum
-        );
-        setJumlahMolarKesEndodontikSelesaiRawatanUmum(
-          data.singlePersonUmum.jumlahMolarKesEndodontikSelesaiRawatanUmum
-        );
-        setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum(
-          data.singlePersonUmum
-            .rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum
-        );
-        setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
-          data.singlePersonUmum.jumlahAnteriorRawatanSemulaKeppRawatanUmum
-        );
-        setJumlahPremolarRawatanSemulaKeppRawatanUmum(
-          data.singlePersonUmum.jumlahPremolarRawatanSemulaKeppRawatanUmum
-        );
-        setJumlahMolarRawatanSemulaKeppRawatanUmum(
-          data.singlePersonUmum.jumlahMolarRawatanSemulaKeppRawatanUmum
-        );
-        setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
-          data.singlePersonUmum.memenuhiRditnKod3KesRujukUpprRawatanUmum
-        );
-        setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
-          data.singlePersonUmum.restorasiPascaEndodontikKesRujukUpprRawatanUmum
-        );
-        setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
-          data.singlePersonUmum
-            .komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
-        );
-        setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
-        setRawatanDibuatOperatorLain(
-          data.singlePersonUmum.rawatanDibuatOperatorLain
-        );
+        if (!operatorLain) {
+          setPesakitDibuatFissureSealant(
+            data.singlePersonUmum.pesakitDibuatFissureSealant
+          );
+          setBaruJumlahGigiKekalDibuatFSRawatanUmum(
+            data.singlePersonUmum.baruJumlahGigiKekalDibuatFSRawatanUmum
+          );
+          // setSemulaJumlahGigiKekalDibuatFSRawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahGigiKekalDibuatFSRawatanUmum
+          // );
+          // setBaruJumlahMuridDibuatFsRawatanUmum(
+          //   data.singlePersonUmum.baruJumlahMuridDibuatFsRawatanUmum
+          // );
+          // setSemulaJumlahMuridDibuatFsRawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahMuridDibuatFsRawatanUmum
+          // );
+          setPesakitDibuatFluorideVarnish(
+            data.singlePersonUmum.pesakitDibuatFluorideVarnish
+          );
+          // setBaruJumlahGigiKekalDiberiFVRawatanUmum(
+          //   data.singlePersonUmum.baruJumlahGigiKekalDiberiFVRawatanUmum
+          // );
+          // setSemulaJumlahGigiKekalDiberiFVRawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahGigiKekalDiberiFVRawatanUmum
+          // );
+          // setBaruJumlahMuridDibuatFVRawatanUmum(
+          //   data.singlePersonUmum.baruJumlahMuridDibuatFVRawatanUmum
+          // );
+          // setSemulaJumlahMuridDibuatFVRawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahMuridDibuatFVRawatanUmum
+          // );
+          setPesakitDibuatPRRJenis1(
+            data.singlePersonUmum.pesakitDibuatPRRJenis1
+          );
+          setBaruJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
+            data.singlePersonUmum.baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum
+          );
+          // setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum
+          // );
+          // setBaruJumlahMuridDiberiPrrJenis1RawatanUmum(
+          //   data.singlePersonUmum.baruJumlahMuridDiberiPrrJenis1RawatanUmum
+          // );
+          // setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahMuridDiberiPrrJenis1RawatanUmum
+          // );
+          setCabutDesidusRawatanUmum(
+            data.singlePersonUmum.cabutDesidusRawatanUmum
+          );
+          setCabutKekalRawatanUmum(data.singlePersonUmum.cabutKekalRawatanUmum);
+          setKomplikasiSelepasCabutanRawatanUmum(
+            data.singlePersonUmum.komplikasiSelepasCabutanRawatanUmum
+          );
+          setCabutanDisebabkanPeriodontitisRawatanUmum(
+            data.singlePersonUmum.cabutanDisebabkanPeriodontitisRawatanUmum
+          );
+          setYaTidakAbsesPembedahanRawatanUmum(
+            data.singlePersonUmum.yaTidakAbsesPembedahanRawatanUmum
+          );
+          // setBaruSemulaAbsesPembedahanRawatanUmum(
+          //   data.singlePersonUmum.baruSemulaAbsesPembedahanRawatanUmum
+          // );
+          setCabutanSurgikalPembedahanMulutRawatanUmum(
+            data.singlePersonUmum.cabutanSurgikalPembedahanMulutRawatanUmum
+          );
+          setYaTidakFrakturPembedahanRawatanUmum(
+            data.singlePersonUmum.yaTidakFrakturPembedahanRawatanUmum
+          );
+          setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
+            data.singlePersonUmum
+              .yaTidakPembedahanKecilMulutPembedahanRawatanUmum
+          );
+          setYaTidakTraumaPembedahanRawatanUmum(
+            data.singlePersonUmum.yaTidakTraumaPembedahanRawatanUmum
+          );
+          setKecederaanTulangMukaUmum(
+            data.singlePersonUmum.kecederaanTulangMukaUmum
+          );
+          setKecederaanGigiUmum(data.singlePersonUmum.kecederaanGigiUmum);
+          setKecederaanTisuLembutUmum(
+            data.singlePersonUmum.kecederaanTisuLembutUmum
+          );
+          setBaruJumlahGigiYangDiberiSdfRawatanUmum(
+            data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
+          );
+          setSemulaJumlahGigiYangDiberiSdfRawatanUmum(
+            data.singlePersonUmum.semulaJumlahGigiYangDiberiSdfRawatanUmum
+          );
+          setBaruJumlahCrownBridgeRawatanUmum(
+            data.singlePersonUmum.baruJumlahCrownBridgeRawatanUmum
+          );
+          setSemulaJumlahCrownBridgeRawatanUmum(
+            data.singlePersonUmum.semulaJumlahCrownBridgeRawatanUmum
+          );
+          setBaruJumlahPostCoreRawatanUmum(
+            data.singlePersonUmum.baruJumlahPostCoreRawatanUmum
+          );
+          setSemulaJumlahPostCoreRawatanUmum(
+            data.singlePersonUmum.semulaJumlahPostCoreRawatanUmum
+          );
+          setBaruPenuhJumlahDenturProstodontikRawatanUmum(
+            data.singlePersonUmum.baruPenuhJumlahDenturProstodontikRawatanUmum
+          );
+          setSemulaPenuhJumlahDenturProstodontikRawatanUmum(
+            data.singlePersonUmum.semulaPenuhJumlahDenturProstodontikRawatanUmum
+          );
+          setBaruSeparaJumlahDenturProstodontikRawatanUmum(
+            data.singlePersonUmum.baruseparaJumlahDenturProstodontikRawatanUmum
+          );
+          setSemulaSeparaJumlahDenturProstodontikRawatanUmum(
+            data.singlePersonUmum
+              .semulaSeparaJumlahDenturProstodontikRawatanUmum
+          );
+          setImmediateDenturProstodontikRawatanUmum(
+            data.singlePersonUmum.immediateDenturProstodontikRawatanUmum
+          );
+          setPembaikanDenturProstodontikRawatanUmum(
+            data.singlePersonUmum.pembaikanDenturProstodontikRawatanUmum
+          );
+          setGdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum
+          );
+          setGdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+          );
+          setGdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+          );
+          setGkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+          );
+          setGkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum
+          );
+          setBaruInlayOnlayJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum.baruInlayOnlayJumlahTampalanDibuatRawatanUmum
+          );
+          setSemulaInlayOnlayJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .semulaInlayOnlayJumlahTampalanDibuatRawatanUmum
+          );
+          setJumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum(
+            data.singlePersonUmum
+              .jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum
+          );
+          // setPenskaleranRawatanUmum(data.singlePersonUmum.penskaleranRawatanUmum);
+          // setRawatanLainPeriodontikRawatanUmum(
+          //   data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
+          // );
+          setKaunselingDiet(data.singlePersonUmum.kaunselingDiet);
+          setNasihatBerhentiMerokok(
+            data.singlePersonUmum.nasihatBerhentiMerokok
+          );
+          setLainLainPengurusanFaktorRisiko(
+            data.singlePersonUmum.lainLainPengurusanFaktorRisiko
+          );
+          setOhePengurusanFaktorSetempat(
+            data.singlePersonUmum.ohePengurusanFaktorSetempat
+          );
+          setPenskaleranRawatanUmum(
+            data.singlePersonUmum.penskaleranRawatanUmum
+          );
+          setPengilapanTampalanRungkup(
+            data.singlePersonUmum.pengilapanTampalanRungkup
+          );
+          setAdjustasiOklusi(data.singlePersonUmum.adjustasiOklusi);
+          setCabutanPengurusanFaktorSetempat(
+            data.singlePersonUmum.cabutanPengurusanFaktorSetempat
+          );
+          setEktiparsiPulpa(data.singlePersonUmum.ektiparsiPulpa);
+          setRawatanLainPeriodontikRawatanUmum(
+            data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
+          );
+          setRujukanPakarPeriodontik(
+            data.singlePersonUmum.rujukanPakarPeriodontik
+          );
+          setEngganLainRujukanPakarPeriodontik(
+            data.singlePersonUmum.engganLainRujukanPakarPeriodontik
+          );
+          setRujukanPakarScd(data.singlePersonUmum.rujukanPakarScd);
+          setRujukanPakarUpkka(data.singlePersonUmum.rujukanPakarUpkka);
+          setKesSelesaiPeriodontium(
+            data.singlePersonUmum.kesSelesaiPeriodontium
+          );
+          setRawatanOrtodontikRawatanUmum(
+            data.singlePersonUmum.rawatanOrtodontikRawatanUmum
+          );
+          setKesPerubatanMulutRawatanUmum(
+            data.singlePersonUmum.kesPerubatanMulutRawatanUmum
+          );
+          setBilanganXrayYangDiambilRawatanUmum(
+            data.singlePersonUmum.bilanganXrayYangDiambilRawatanUmum
+          );
+          setJumlahAnteriorKesEndodontikSelesaiRawatanUmum(
+            data.singlePersonUmum.jumlahAnteriorKesEndodontikSelesaiRawatanUmum
+          );
+          setJumlahPremolarKesEndodontikSelesaiRawatanUmum(
+            data.singlePersonUmum.jumlahPremolarKesEndodontikSelesaiRawatanUmum
+          );
+          setJumlahMolarKesEndodontikSelesaiRawatanUmum(
+            data.singlePersonUmum.jumlahMolarKesEndodontikSelesaiRawatanUmum
+          );
+          setRawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum(
+            data.singlePersonUmum
+              .rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum
+          );
+          setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
+            data.singlePersonUmum.jumlahAnteriorRawatanSemulaKeppRawatanUmum
+          );
+          setJumlahPremolarRawatanSemulaKeppRawatanUmum(
+            data.singlePersonUmum.jumlahPremolarRawatanSemulaKeppRawatanUmum
+          );
+          setJumlahMolarRawatanSemulaKeppRawatanUmum(
+            data.singlePersonUmum.jumlahMolarRawatanSemulaKeppRawatanUmum
+          );
+          setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
+            data.singlePersonUmum.memenuhiRditnKod3KesRujukUpprRawatanUmum
+          );
+          setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
+            data.singlePersonUmum
+              .restorasiPascaEndodontikKesRujukUpprRawatanUmum
+          );
+          setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
+            data.singlePersonUmum
+              .komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
+          );
+          setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
+          setRawatanDibuatOperatorLain(
+            data.singlePersonUmum.rawatanDibuatOperatorLain
+          );
+        }
         //map promosi ----------------------------------------------------------------
         // setCeramahPromosiUmum(data.singlePersonUmum.ceramahPromosiUmum);
         // setLmgPromosiUmum(data.singlePersonUmum.lmgPromosiUmum);
@@ -1912,13 +1926,15 @@ function UserFormUmumHeader() {
     if (!userinfo.mdcNumber) {
       mdcMdtbNum = userinfo.mdtbNumber;
     }
+
     let statusReten = '';
-    if (rawatanDibuatOperatorLain === true) {
-      statusReten = 'belum diisi';
-    }
     if (rawatanDibuatOperatorLain === false) {
       statusReten = 'telah diisi';
     }
+    if (rawatanDibuatOperatorLain === true) {
+      statusReten = 'belum diisi';
+    }
+
     // default initial reten
     if (!operatorLain) {
       await toast
@@ -2176,9 +2192,130 @@ function UserFormUmumHeader() {
     }
     // rawatan tambahan sekiranya ada operator lain pada hari yang sama
     if (operatorLain === 'rawatan-operator-lain') {
-      // await toast.promise(
-      //   axios.patch()
-      // )
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/umum/${personUmumId}?operatorLain=${operatorLain}`,
+            {
+              createdByUsername: masterForm.createdByUsername,
+              createdByMdcMdtb: mdcMdtbNum,
+              statusReten,
+              //rawatan ----------------------------------------------------------------
+              pesakitDibuatFissureSealant,
+              baruJumlahGigiKekalDibuatFSRawatanUmum,
+              // semulaJumlahGigiKekalDibuatFSRawatanUmum,
+              // baruJumlahMuridDibuatFsRawatanUmum,
+              // semulaJumlahMuridDibuatFsRawatanUmum,
+              pesakitDibuatFluorideVarnish,
+              // baruJumlahGigiKekalDiberiFVRawatanUmum,
+              // semulaJumlahGigiKekalDiberiFVRawatanUmum,
+              // baruJumlahMuridDibuatFVRawatanUmum,
+              // semulaJumlahMuridDibuatFVRawatanUmum,
+              pesakitDibuatPRRJenis1,
+              baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
+              // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum,
+              // baruJumlahMuridDiberiPrrJenis1RawatanUmum,
+              // semulaJumlahMuridDiberiPrrJenis1RawatanUmum,
+              cabutDesidusRawatanUmum,
+              cabutKekalRawatanUmum,
+              komplikasiSelepasCabutanRawatanUmum,
+              cabutanDisebabkanPeriodontitisRawatanUmum,
+              yaTidakAbsesPembedahanRawatanUmum,
+              // baruSemulaAbsesPembedahanRawatanUmum,
+              cabutanSurgikalPembedahanMulutRawatanUmum,
+              yaTidakFrakturPembedahanRawatanUmum,
+              yaTidakPembedahanKecilMulutPembedahanRawatanUmum,
+              yaTidakTraumaPembedahanRawatanUmum,
+              kecederaanTulangMukaUmum,
+              kecederaanGigiUmum,
+              kecederaanTisuLembutUmum,
+              baruJumlahGigiYangDiberiSdfRawatanUmum,
+              semulaJumlahGigiYangDiberiSdfRawatanUmum,
+              baruJumlahCrownBridgeRawatanUmum,
+              semulaJumlahCrownBridgeRawatanUmum,
+              baruJumlahPostCoreRawatanUmum,
+              semulaJumlahPostCoreRawatanUmum,
+              baruPenuhJumlahDenturProstodontikRawatanUmum,
+              semulaPenuhJumlahDenturProstodontikRawatanUmum,
+              baruSeparaJumlahDenturProstodontikRawatanUmum,
+              semulaSeparaJumlahDenturProstodontikRawatanUmum,
+              immediateDenturProstodontikRawatanUmum,
+              pembaikanDenturProstodontikRawatanUmum,
+              gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+              gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+              gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+              gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+              gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+              baruInlayOnlayJumlahTampalanDibuatRawatanUmum,
+              semulaInlayOnlayJumlahTampalanDibuatRawatanUmum,
+              jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum,
+              // penskaleranRawatanUmum,
+              // rawatanLainPeriodontikRawatanUmum,
+              kaunselingDiet,
+              nasihatBerhentiMerokok,
+              lainLainPengurusanFaktorRisiko,
+              ohePengurusanFaktorSetempat,
+              penskaleranRawatanUmum,
+              pengilapanTampalanRungkup,
+              adjustasiOklusi,
+              cabutanPengurusanFaktorSetempat,
+              ektiparsiPulpa,
+              rawatanLainPeriodontikRawatanUmum,
+              rujukanPakarPeriodontik,
+              engganLainRujukanPakarPeriodontik,
+              rujukanPakarScd,
+              rujukanPakarUpkka,
+              kesSelesaiPeriodontium,
+              rawatanOrtodontikRawatanUmum,
+              kesPerubatanMulutRawatanUmum,
+              bilanganXrayYangDiambilRawatanUmum,
+              jumlahAnteriorKesEndodontikSelesaiRawatanUmum,
+              jumlahPremolarKesEndodontikSelesaiRawatanUmum,
+              jumlahMolarKesEndodontikSelesaiRawatanUmum,
+              rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum,
+              jumlahAnteriorRawatanSemulaKeppRawatanUmum,
+              jumlahPremolarRawatanSemulaKeppRawatanUmum,
+              jumlahMolarRawatanSemulaKeppRawatanUmum,
+              memenuhiRditnKod3KesRujukUpprRawatanUmum,
+              restorasiPascaEndodontikKesRujukUpprRawatanUmum,
+              komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
+              kesSelesaiRawatanUmum,
+              rawatanDibuatOperatorLain,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
+            }
+          ),
+          {
+            pending: 'Menghantar...',
+            success: 'Maklumat pesakit berjaya dihantar',
+            error: 'Maklumat pesakit gagal dihantar',
+          },
+          {
+            autoClose: 2000,
+          }
+        )
+        .then(() => {
+          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 3000);
+        });
     }
   };
 
@@ -2324,7 +2461,11 @@ function UserFormUmumHeader() {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                     />
-                    <Rawatan {...masterForm} />
+                    <Rawatan
+                      {...masterForm}
+                      singlePersonUmum={singlePersonUmum}
+                      operatorLain={operatorLain}
+                    />
                     <Promosi
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
@@ -2332,11 +2473,15 @@ function UserFormUmumHeader() {
                   </>
                 )}
                 {operatorLain === 'rawatan-operator-lain' && (
-                  <Rawatan {...masterForm} />
+                  <Rawatan
+                    {...masterForm}
+                    singlePersonUmum={singlePersonUmum}
+                    operatorLain={operatorLain}
+                  />
                 )}
                 {/* <Kotak {...masterForm} /> */}
                 <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
-                  <div className='grid grid-cols-3 gap-3 lg:col-start-2'>
+                  <div className='grid grid-cols-2 gap-3 lg:col-start-2'>
                     <span
                       onClick={() => {
                         window.opener = null;
@@ -2347,7 +2492,7 @@ function UserFormUmumHeader() {
                     >
                       tutup
                     </span>
-                    <input
+                    {/* <input
                       disabled={
                         singlePersonUmum.statusReten === 'telah diisi' && true
                       }
@@ -2357,10 +2502,19 @@ function UserFormUmumHeader() {
                         singlePersonUmum.statusReten === 'belum diisi' &&
                         'hover:bg-user1 hover:text-userWhite'
                       }`}
-                    />
+                    /> */}
                     <button
                       disabled={
-                        singlePersonUmum.statusReten === 'telah diisi' && true
+                        singlePersonUmum.statusReten === 'telah diisi'
+                          ? true
+                          : singlePersonUmum.statusReten === 'belum diisi' &&
+                            operatorLain === 'rawatan-operator-lain'
+                          ? false
+                          : singlePersonUmum.statusReten === 'belum diisi' &&
+                            singlePersonUmum.rawatanDibuatOperatorLain === true
+                          ? true
+                          : singlePersonUmum.statusReten === 'belum diisi' &&
+                            false
                       }
                       type='submit'
                       className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
@@ -2368,10 +2522,17 @@ function UserFormUmumHeader() {
                         'hover:bg-user1 hover:text-userWhite'
                       }`}
                     >
-                      {singlePersonUmum.statusReten === 'belum diisi' &&
-                        'hantar'}
-                      {singlePersonUmum.statusReten === 'telah diisi' && (
+                      {singlePersonUmum.statusReten === 'telah diisi' ? (
                         <s>hantar</s>
+                      ) : singlePersonUmum.statusReten === 'belum diisi' &&
+                        operatorLain === 'rawatan-operator-lain' ? (
+                        'hantar'
+                      ) : singlePersonUmum.statusReten === 'belum diisi' &&
+                        singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                        <s>hantar</s>
+                      ) : (
+                        singlePersonUmum.statusReten === 'belum diisi' &&
+                        'hantar'
                       )}
                     </button>
                   </div>
