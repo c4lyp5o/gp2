@@ -193,6 +193,7 @@ const loginUser = async (req, res) => {
   if (!adminUser) {
     console.log('kp user');
     let regNumber = {};
+    let userData = {};
     if (username.includes('MDTB')) {
       regNumber.mdtbNumber = username;
     } else {
@@ -208,12 +209,35 @@ const loginUser = async (req, res) => {
         message: 'Kunci verifikasi anda salah. Sila isi sekali lagi',
       });
     }
+    if (superOperator.role === 'admin') {
+      userData.role = 'admin';
+    }
+    if (
+      superOperator.role !== 'admin' &&
+      superOperator.roleMediaSosialKlinik === true
+    ) {
+      userData.role = 'sosmedadmin';
+    }
+    userData = {
+      userId: kpUser._id,
+      username: kpUser.username,
+      officername: superOperator.nama,
+      ...userData,
+      kodFasiliti: kpUser.kodFasiliti,
+      accountType: 'kpUser',
+      negeri: kpUser.negeri,
+      daerah: kpUser.daerah,
+      kp: kpUser.kp,
+    };
+    const token = jwt.sign(userData, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_LIFETIME,
+    });
     return res.status(200).json({
       status: 'success',
-      adminToken: kpUser.createJWT(),
+      adminToken: token,
     });
   }
-  // if kp
+  // if admin
   // check if using totp or not
   if (adminUser.totp) {
     console.log('totp');
@@ -2078,7 +2102,7 @@ const sendVerificationEmail = async (userId) => {
       { new: true }
     );
     const e_mail = await transporter.sendMail(mailOptions(superadmin, key));
-    return e_mail;
+    return e_mail.accepted[0];
   } catch (err) {
     const superoperator = await Operator.findByIdAndUpdate(
       userId,
@@ -2086,7 +2110,7 @@ const sendVerificationEmail = async (userId) => {
       { new: true }
     );
     const e_mail = await transporter.sendMail(mailOptions(superoperator, key));
-    return e_mail;
+    return e_mail.accepted[0];
   }
 };
 
@@ -2101,6 +2125,9 @@ const readUserData = async (token) => {
     userData = {
       userId: jwt.verify(token, process.env.JWT_SECRET).userId,
       username: jwt.verify(token, process.env.JWT_SECRET).username,
+      officername: jwt.verify(token, process.env.JWT_SECRET).officername,
+      role: jwt.verify(token, process.env.JWT_SECRET).role,
+      kodFasiliti: jwt.verify(token, process.env.JWT_SECRET).kodFasiliti,
       kp: jwt.verify(token, process.env.JWT_SECRET).kp,
       daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
       negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
