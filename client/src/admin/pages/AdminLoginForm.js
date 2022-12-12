@@ -146,16 +146,25 @@ export default function AdminLoginForm() {
       currentUser.current = userName.admin;
     }
 
-    if (showPasswordBox === false || pilihanAdmin === '') {
+    if (
+      showPasswordBox === false &&
+      pilihanNegeri !== '' &&
+      pilihanDaerah !== '' &&
+      pilihanKlinik !== '' &&
+      pilihanAdmin === ''
+    ) {
+      return toast.error('Sila pilih pentadbir klinik');
+    }
+
+    if (showPasswordBox === false) {
       try {
         setLoggingIn(true);
         const response = await checkUser(currentUser.current);
         setLoggingIn(false);
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
-          setAdmins(response.data.admins);
           toast.info(
-            `Key Verifikasi telah dihantar ke ${response.data.email.accepted[0]}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+            `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
           );
           setShowPasswordBox(true);
           return;
