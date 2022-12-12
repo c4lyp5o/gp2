@@ -10294,12 +10294,12 @@ const getParams2 = (payload, reten) => {
   }
 };
 const getParams206207 = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai } = payload;
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKp: klinik,
-      createdByUsername: pegawai,
+      createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
         $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),

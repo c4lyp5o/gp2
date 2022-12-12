@@ -5,13 +5,19 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateKlinik() {
-  const { userToken, toast, masterDatePicker, refreshTimer, setRefreshTimer } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    userinfo,
+    toast,
+    masterDatePicker,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [month, setMonth] = useState('');
-  const [formatFile, setFormatFile] = useState('');
+  const [formatFile, setFormatFile] = useState('xlsx');
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
@@ -88,8 +94,7 @@ export default function UserGenerateKlinik() {
     };
     const fetchKp = async () => {
       try {
-        const kpData = JSON.parse(localStorage.getItem('userinfo'));
-        setKp(kpData.kpSkrg);
+        setKp(userinfo.kpSkrg);
       } catch (error) {
         console.log(error);
       }
@@ -119,8 +124,11 @@ export default function UserGenerateKlinik() {
     await toast
       .promise(
         axios.get(
-          // `/api/v1/generate/download?jenisReten=${jenisReten}&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
+            userinfo.createdByNegeri
+          }&daerah=${userinfo.createdByDaerah}&klinik=${
+            userinfo.kpSkrg
+          }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
             headers: { Authorization: `Bearer ${userToken}` },
             responseType: 'blob',
@@ -212,7 +220,7 @@ export default function UserGenerateKlinik() {
                 })}
               </select>
             </div> */}
-            {jenisReten === 'PG101' && (
+            {(jenisReten === 'PG101A' || jenisReten === 'PG101C') && (
               <>
                 <div className='px-3 py-1'>
                   <label
@@ -249,45 +257,49 @@ export default function UserGenerateKlinik() {
                 </div>
               </>
             )}
-            {jenisReten === 'PG211' && (
-              <div className='px-3 py-1'>
-                <label
-                  htmlFor='bulanpg211'
-                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                >
-                  Sila pilih bulan
-                </label>
-                <select
-                  required
-                  name='bulanpg211'
-                  id='bulanpg211'
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  onChange={(e) => {
-                    setMonth(e.target.value);
-                  }}
-                >
-                  <option value=''>Sila pilih bulan</option>
-                  <option value='01-01'>Januari</option>
-                  <option value='02-01'>Februari</option>
-                  <option value='03-01'>Mac</option>
-                  <option value='04-01'>April</option>
-                  <option value='05-01'>Mei</option>
-                  <option value='06-01'>Jun</option>
-                  <option value='07-01'>Julai</option>
-                  <option value='08-01'>Ogos</option>
-                  <option value='09-01'>September</option>
-                  <option value='10-01'>Oktober</option>
-                  <option value='11-01'>November</option>
-                  <option value='12-01'>Disember</option>
-                </select>
-              </div>
+            {(jenisReten === 'PG211A' ||
+              jenisReten === 'PG211C' ||
+              jenisReten === 'PG214') && (
+              <>
+                <div className='px-3 py-1'>
+                  <label
+                    htmlFor='bulanpg211'
+                    className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                  >
+                    Sila pilih bulan
+                  </label>
+                  <select
+                    required
+                    name='bulanpg211'
+                    id='bulanpg211'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    onChange={(e) => {
+                      setMonth(e.target.value);
+                    }}
+                  >
+                    <option value=''>Sila pilih bulan</option>
+                    <option value='01-01'>Januari</option>
+                    <option value='02-01'>Februari</option>
+                    <option value='03-01'>Mac</option>
+                    <option value='04-01'>April</option>
+                    <option value='05-01'>Mei</option>
+                    <option value='06-01'>Jun</option>
+                    <option value='07-01'>Julai</option>
+                    <option value='08-01'>Ogos</option>
+                    <option value='09-01'>September</option>
+                    <option value='10-01'>Oktober</option>
+                    <option value='11-01'>November</option>
+                    <option value='12-01'>Disember</option>
+                  </select>
+                </div>
+              </>
             )}
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
             </button> */}
-            <div className='col-start-2 lg:col-start-3 px-3 py-1'>
+            {/* <div className='col-start-2 lg:col-start-3 px-3 py-1'>
               <label
                 htmlFor='formatFile'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
@@ -303,9 +315,9 @@ export default function UserGenerateKlinik() {
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                {/* <option value='pdf'>PDF</option> */}
+                <option value='pdf'>PDF</option>
               </select>
-            </div>
+            </div> */}
             <button
               className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3'
               type='submit'
