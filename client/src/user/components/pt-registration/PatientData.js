@@ -166,22 +166,22 @@ export default function PatientData({
         >
           Daftar Pesakit
         </button>
-        <button
+        {/* <button
           type='button'
           className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
           onClick={handleJana}
         >
           Jana Laporan PG101
-        </button>
+        </button> */}
         <div className='mt-2'>
           <div className='justify-center items-center'>
             <p className='text-xs text-user9 lowercase'>
               * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
               pengguna
               <i className='mr-1'>
-                <b> 'admin'</b>
+                <b> 'Pentadbir'</b>
               </i>
-              di klinik
+              klinik pergigian anda
             </p>
             <button
               onClick={reloadData}

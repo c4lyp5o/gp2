@@ -37,13 +37,6 @@ const getSinglePersonUmum = async (req, res) => {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
   }
 
-  // decrypt KIV
-  // const decryptedIc = cryptoJs.AES.decrypt(
-  //   singlePersonUmum.ic,
-  //   process.env.CRYPTO_JS_SECRET
-  // ).toString(cryptoJs.enc.Utf8);
-  // singlePersonUmum.ic = decryptedIc;
-
   res.status(200).json({ singlePersonUmum });
 };
 
@@ -63,47 +56,36 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
-  // encrypt KIV
-  // if (req.body.ic) {
-  //   const encryptedIc = cryptoJs.AES.encrypt(
-  //     req.body.ic,
-  //     process.env.CRYPTO_JS_SECRET
-  //   ).toString();
-  //   req.body.ic = encryptedIc;
-  // }
-
-  if (req.body.statusReten === 'telah diisi') {
-    let summary = {};
-    let shortened = {};
-    Object.keys(req.body).forEach((key) => {
-      if (
-        key !== '' ||
-        key !== '' ||
-        key !== null ||
-        key !== undefined ||
-        key !== 0 ||
-        key !== false
-      ) {
-        shortened[key] = req.body[key];
-      }
-    });
-    const singlePersonInfo = await Umum.findById({ _id: personUmumId });
-    summary = { ...singlePersonInfo._doc, ...shortened };
-    let regNum = {};
-    if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
-      console.log('is pp');
-      regNum = { mdcNumber: req.body.createdByMdcMdtb };
+  let summary = {};
+  let shortened = {};
+  Object.keys(req.body).forEach((key) => {
+    if (
+      key !== '' ||
+      key !== '' ||
+      key !== null ||
+      key !== undefined ||
+      key !== 0 ||
+      key !== false
+    ) {
+      shortened[key] = req.body[key];
     }
-    if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
-      console.log('is jp');
-      regNum = { mdtbNumber: req.body.createdByMdcMdtb };
-    }
-    const updatedOfficerSummary = await Operator.findOneAndUpdate(
-      regNum,
-      { $push: { summary } },
-      { new: true }
-    );
+  });
+  const singlePersonInfo = await Umum.findById({ _id: personUmumId });
+  summary = { ...singlePersonInfo._doc, ...shortened };
+  let regNum = {};
+  if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
+    console.log('is pp');
+    regNum = { mdcNumber: req.body.createdByMdcMdtb };
   }
+  if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+    console.log('is jp');
+    regNum = { mdtbNumber: req.body.createdByMdcMdtb };
+  }
+  const updatedOfficerSummary = await Operator.findOneAndUpdate(
+    regNum,
+    { $push: { summary } },
+    { new: true }
+  );
 
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
     { _id: personUmumId },
@@ -172,15 +154,6 @@ const queryPersonUmum = async (req, res) => {
   }
 
   const umumResultQuery = await Umum.find(queryObject);
-
-  // decrypt KIV
-  // umumResultQuery.forEach((p) => {
-  //   const decryptedIc = cryptoJs.AES.decrypt(
-  //     p.ic,
-  //     process.env.CRYPTO_JS_SECRET
-  //   ).toString(cryptoJs.enc.Utf8);
-  //   p.ic = decryptedIc;
-  // });
 
   res.status(200).json({ umumResultQuery });
 };

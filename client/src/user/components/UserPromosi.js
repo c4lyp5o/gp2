@@ -82,11 +82,11 @@ function UserPromosi({ individuOrKlinik }) {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  // clear pilihan if change kodProgram & individuOrKlinik
+  // clear pilihan if change individuOrKlinik, kodProgram, reloadState
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
-  }, [kodProgram, individuOrKlinik]);
+  }, [individuOrKlinik, kodProgram, reloadState]);
 
   // on tab focus reload data
   useEffect(() => {

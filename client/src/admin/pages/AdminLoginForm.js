@@ -13,7 +13,41 @@ import { LoadingSuperDark } from '../components/Screens';
 
 import CountdownTimer from '../context/countdownTimer';
 
-function passwordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
+function AdminBox({
+  setPilihanAdmin,
+  pilihanAdmin,
+  admins,
+  setUserName,
+  userName,
+}) {
+  return (
+    <div className='flex flex-col justify-center items-center'>
+      <select
+        required
+        value={pilihanAdmin}
+        onChange={(e) => {
+          setPilihanAdmin(e.target.value);
+          setUserName({
+            ...userName,
+            admin: e.target.value,
+          });
+        }}
+        className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+      >
+        <option value=''>Sila Pilih Pentadbir Klinik...</option>
+        {admins.map((i) => {
+          return (
+            <option key={i._id} value={i.email} className='capitalize'>
+              {i.nama}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+  );
+}
+
+function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
   const fiveMinutes = 5 * 60 * 1000;
   const nowMinutes = new Date().getTime();
   const realCountdown = nowMinutes + fiveMinutes;
@@ -64,6 +98,7 @@ export default function AdminLoginForm() {
     negeri: null,
     daerah: null,
     klinik: null,
+    admin: null,
     klinikName: null,
   });
   const [password, setPassword] = useState(null);
@@ -73,11 +108,21 @@ export default function AdminLoginForm() {
   const [kicker, setKicker] = useState(null);
 
   const [data, setData] = useState(null);
+  const [admins, setAdmins] = useState(null);
   const [pilihanNegeri, setPilihanNegeri] = useState('');
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [pilihanKlinik, setPilihanKlinik] = useState('');
+  const [pilihanAdmin, setPilihanAdmin] = useState('');
 
   const currentUser = useRef();
+
+  const props = {
+    setPilihanAdmin,
+    pilihanAdmin,
+    setUserName,
+    userName,
+    admins,
+  };
 
   const buttonProps = {
     pilihanDaerah,
@@ -98,15 +143,29 @@ export default function AdminLoginForm() {
     } else if (pilihanKlinik === '') {
       currentUser.current = userName.daerah;
     } else {
-      currentUser.current = userName.klinik;
+      currentUser.current = userName.admin;
+    }
+
+    if (
+      showPasswordBox === false &&
+      pilihanNegeri !== '' &&
+      pilihanDaerah !== '' &&
+      pilihanKlinik !== '' &&
+      pilihanAdmin === ''
+    ) {
+      return toast.error('Sila pilih pentadbir klinik');
     }
 
     if (showPasswordBox === false) {
       try {
+        setLoggingIn(true);
         const response = await checkUser(currentUser.current);
+        setLoggingIn(false);
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
-          toast.info(`Sila isi password`);
+          toast.info(
+            `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+          );
           setShowPasswordBox(true);
           return;
         }
@@ -178,20 +237,36 @@ export default function AdminLoginForm() {
       ...userName,
       daerah: null,
       klinik: null,
+      admin: null,
       klinikName: null,
     });
     setPilihanDaerah('');
     setPilihanKlinik('');
+    setPilihanAdmin('');
+    setShowPasswordBox(false);
   }, [pilihanNegeri]);
 
   useEffect(() => {
     setUserName({
       ...userName,
       klinik: null,
+      admin: null,
       klinikName: null,
     });
     setPilihanKlinik('');
+    setPilihanAdmin('');
+    setShowPasswordBox(false);
   }, [pilihanDaerah]);
+
+  useEffect(() => {
+    setUserName({
+      ...userName,
+      admin: null,
+    });
+    setPilihanAdmin('');
+    setAdmins(null);
+    setShowPasswordBox(false);
+  }, [pilihanKlinik]);
 
   if (!data) {
     return <LoadingSuperDark />;
@@ -321,7 +396,7 @@ export default function AdminLoginForm() {
                                     key={k.username}
                                     data-key={k.nama}
                                     id='klinik'
-                                    value={k.username}
+                                    value={k.nama}
                                     className='capitalize'
                                   >
                                     {k.nama}
@@ -335,7 +410,59 @@ export default function AdminLoginForm() {
                     </select>
                   </div>
                 )}
-                {passwordBox({
+                {pilihanNegeri &&
+                  pilihanDaerah &&
+                  pilihanKlinik &&
+                  pilihanKlinik !== '' && (
+                    <div className='w-60 flex'>
+                      <label htmlFor='klinik' className='mr-7'>
+                        Pentadbir:
+                      </label>
+                      <select
+                        name='pentadbir'
+                        id='pentadbir'
+                        value={pilihanAdmin}
+                        onChange={(e) => {
+                          setPilihanAdmin(e.target.value);
+                          setUserName({
+                            ...userName,
+                            admin: e.target.value,
+                          });
+                        }}
+                        className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md'
+                      >
+                        <option value=''>Sila Pilih Pentadbir</option>
+                        {data.map((d) => {
+                          if (d.negeri === pilihanNegeri) {
+                            return d.daerah.map((i) => {
+                              if (i.daerah === pilihanDaerah) {
+                                return i.klinik.map((k) => {
+                                  if (k.nama === pilihanKlinik) {
+                                    return k.admins.map((a) => {
+                                      return (
+                                        <option
+                                          key={a.mdcNumber}
+                                          id='admin'
+                                          value={a.mdcNumber}
+                                          className='capitalize'
+                                        >
+                                          {a.nama.toUpperCase()}
+                                        </option>
+                                      );
+                                    });
+                                  }
+                                });
+                              }
+                            });
+                          }
+                        })}
+                      </select>
+                    </div>
+                  )}
+                {/* {pilihanNegeri && pilihanDaerah && pilihanKlinik && admins ? (
+                  <AdminBox {...props} />
+                ) : null} */}
+                {PasswordBox({
                   setPassword,
                   showPasswordBox,
                   showPassword,

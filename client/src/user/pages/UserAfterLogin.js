@@ -23,6 +23,8 @@ import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
 import UserStatusHarian from '../components/UserStatusHarian';
 
+import UserSummary from '../components/UserSummary';
+
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
 import UserFooter from '../components/UserFooter';
@@ -49,6 +51,10 @@ function UserAfterLogin() {
           <Route path='umum' element={<UserUmum />} />
           <Route
             path='umum/form-umum/:personUmumId'
+            element={<UserFormUmumHeader />}
+          />
+          <Route
+            path='umum/form-umum/:personUmumId/:operatorLain'
             element={<UserFormUmumHeader />}
           />
 
@@ -99,6 +105,8 @@ function UserAfterLogin() {
           )}
 
           {/* <Route path='carian' element={<UserCarian />} /> */}
+
+          <Route path='summary' element={<UserSummary />} />
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>

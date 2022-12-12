@@ -289,18 +289,18 @@ export function InputPegawai(props) {
                           className='border-2 max-w-sm'
                           onChange={(e) => {
                             const selectedPp = props.allPegawai.find(
-                              (p) => p.nomborMdc === e.target.value
+                              (p) => p.mdcNumber === parseInt(e.target.value)
                             );
                             props.setName(selectedPp.nama);
-                            props.setRegNumber(selectedPp.nomborMdc);
+                            props.setRegNumber(selectedPp.mdcNumber);
                           }}
                         >
                           <option key='no-value' value=''>
                             Pilih Pegawai...
                           </option>
                           {props.allPegawai.map((p) => (
-                            <option className='capitalize' value={p.nomborMdc}>
-                              {p.nama} | MDC {p.nomborMdc}
+                            <option className='capitalize' value={p.mdcNumber}>
+                              {p.nama} | MDC {p.mdcNumber}
                             </option>
                           ))}
                         </select>
@@ -531,28 +531,19 @@ export function InputPegawai(props) {
                     <input
                       type='checkbox'
                       id='role-promosi-klinik'
-                      //   onChange={(e) => {
-                      //     props.setRolePromosiKlinik(e.target.value);
-                      //     setTimeout(() => {
-                      //       console.log(props.rolePromosiKlinik);
-                      //     }, 2000);
-                      //   }}
                       ref={props.currentRolePromosiKlinik}
                     />
                   </div>
-                  {/* <div className='mt-3'>
-                      <label
-                        htmlFor='role-media-sosial-klinik'
-                        className='mr-3'
-                      >
-                        Pegawai media sosial fasiliti?
-                      </label>
-                      <input
-                        type='checkbox'
-                        id='role-media-sosial-klinik'
-                        ref={currentRoleMediaSosialKlinik}
-                      />
-                    </div> */}
+                  <div className='mt-3'>
+                    <label htmlFor='role-media-sosial-klinik' className='mr-3'>
+                      Pegawai media sosial fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-media-sosial-klinik'
+                      ref={props.currentRoleMediaSosialKlinik}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

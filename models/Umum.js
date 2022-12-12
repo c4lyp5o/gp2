@@ -20,6 +20,7 @@ const UmumSchema = new mongoose.Schema(
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
+    temujanji: { type: Boolean, default: false },
     kedatangan: { type: String, default: '' },
     noPendaftaranBaru: { type: String, default: '' },
     noPendaftaranUlangan: { type: String, default: '' },
@@ -43,7 +44,10 @@ const UmumSchema = new mongoose.Schema(
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
+    noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    noBayaran: { type: String, default: '' },
+    noResit: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
@@ -349,7 +353,7 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    //rawatan umum
+    //rawatan ---------------------------------------------------------------------------
     pesakitDibuatFissureSealant: {
       type: Boolean,
       default: false,
@@ -539,6 +543,81 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    baruInlayOnlayJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    semulaInlayOnlayJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     // penskaleranRawatanUmum: {
     //   type: Boolean,
     //   default: false,
@@ -620,96 +699,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruInlayOnlayJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaInlayOnlayJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahPremolarRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahMolarRawatanSemulaKeppRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum: {
       type: Number,
       min: 0,
@@ -726,6 +715,21 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahPremolarRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahMolarRawatanSemulaKeppRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
@@ -749,7 +753,15 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    //promosi
+    rawatanDibuatOperatorLain: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanOperatorLain: {
+      type: Array,
+      default: [],
+    },
+    //promosi ----------------------------------------------------------------------------
     ceramahPromosiUmum: {
       type: String,
       default: '',
