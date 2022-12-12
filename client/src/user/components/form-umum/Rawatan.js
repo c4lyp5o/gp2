@@ -2456,6 +2456,33 @@ export default function Rawatan(props) {
                       </label>
                     </div>
                   </article>
+                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                    <h4 className='font-bold flex flex-row pl-5'>
+                      rawatan ada dibuat oleh operator lain pada hari yang sama
+                      sahaja
+                    </h4>
+                    <div className='flex flex-row items-center pl-5 m-1'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='rawatan-dibuat-operator-lain-umum'
+                        id='rawatan-dibuat-operator-lain-umum'
+                        checked={props.rawatanDibuatOperatorLain ? true : false}
+                        onChange={() => {
+                          props.setRawatanDibuatOperatorLain(
+                            !props.rawatanDibuatOperatorLain
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                      />
+                      <label
+                        htmlFor='rawatan-dibuat-operator-lain-umum'
+                        className='mx-2 text-sm font-m'
+                      >
+                        Rawatan dibuat oleh operator lain
+                      </label>
+                    </div>
+                  </article>
                 </>
               ) : null}
             </section>
