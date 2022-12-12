@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const operator = require('../controllers/operator');
 const kaunter = require('../controllers/kaunter');
 const umum = require('../controllers/umum');
 const sekolah = require('../controllers/sekolah');
 const promosi = require('../controllers/promosi');
+
+router.route('/operator').get(operator.queryPersonOperator);
 
 router.route('/kaunter').get(kaunter.queryPersonKaunter);
 router.route('/kaunter/taska-tadika').get(kaunter.getTaskaTadikaList);

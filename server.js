@@ -24,6 +24,9 @@ const allQueryRoute = require('./routes/allQueryRoute');
 // kaunter
 const kaunter = require('./routes/kaunter');
 
+// operator
+const operator = require('./routes/operator');
+
 // admin import
 const adminAPI = require('./routes/adminAPI');
 
@@ -96,6 +99,9 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
+
+// operator route
+app.use('/api/v1/operator', authCheck, operator);
 
 // admin route
 app.use('/api/v1/superadmin', adminAPI);
