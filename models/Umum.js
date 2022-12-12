@@ -450,10 +450,6 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // baruSemulaAbsesPembedahanRawatanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
     cabutanSurgikalPembedahanMulutRawatanUmum: {
       type: Number,
       min: 0,
@@ -618,14 +614,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // penskaleranRawatanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // rawatanLainPeriodontikRawatanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     kaunselingDiet: {
       type: Boolean,
       default: false,
@@ -735,19 +723,16 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     memenuhiRditnKod3KesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     restorasiPascaEndodontikKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     kesSelesaiRawatanUmum: {
       type: Boolean,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 
 export default function Pemeriksaan(props) {
@@ -10,6 +10,11 @@ export default function Pemeriksaan(props) {
   ) {
     isDisabled = true;
   }
+
+  useEffect(() => {
+    props.setSystolicTekananDarah(parseInt(props.systolicTekananDarah));
+    props.setDiastolicTekananDarah(parseInt(props.diastolicTekananDarah));
+  }, [props.systolicTekananDarah, props.diastolicTekananDarah]);
 
   return (
     <>
@@ -52,23 +57,82 @@ export default function Pemeriksaan(props) {
             </div>
           </article>
           {props.statusKehadiran === false ? (
-            <article className='flex border border-userBlack mb-2 pl-3 p-2 rounded-md'>
-              <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                waktu dipanggil :
-              </p>
-              <span className='font-semibold text-user6'>*</span>
-              <input
-                required
-                disabled={isDisabled}
-                type='time'
-                name='waktu-dipanggil'
-                id='waktu-dipanggil'
-                value={props.waktuDipanggil}
-                onChange={(e) => {
-                  props.setWaktuDipanggil(e.target.value);
-                }}
-                className='appearance-none w-full lg:w-56 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md'
-              />
+            <article className='flex flex-wrap border border-userBlack mb-2 pl-3 p-2 rounded-md'>
+              <div className='flex flex-row items-center mb-2'>
+                <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                  waktu dipanggil :
+                </p>
+                <span className='font-semibold text-user6'>*</span>
+                <input
+                  required
+                  disabled={isDisabled}
+                  type='time'
+                  name='waktu-dipanggil'
+                  id='waktu-dipanggil'
+                  value={props.waktuDipanggil}
+                  onChange={(e) => {
+                    props.setWaktuDipanggil(e.target.value);
+                  }}
+                  className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                />
+              </div>
+              {props.singlePersonUmum.umur >= 18 ? (
+                <div className='flex flex-row border border-userBlack py-2 items-center'>
+                  <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                    Tekanan Darah :{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <input
+                    required
+                    disabled={isDisabled}
+                    type='number'
+                    name='systolic-tekanan-darah'
+                    id='systolic-tekanan-darah'
+                    value={props.systolicTekananDarah}
+                    onChange={(e) => {
+                      props.setSystolicTekananDarah(e.target.value);
+                    }}
+                    className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                  />
+                  <p className='font-bold text-2xl'> / </p>
+                  <input
+                    required
+                    disabled={isDisabled}
+                    type='number'
+                    name='diastolic-tekanan-darah'
+                    id='diastolic-tekanan-darah'
+                    value={props.diastolicTekananDarah}
+                    onChange={(e) => {
+                      props.setDiastolicTekananDarah(e.target.value);
+                    }}
+                    className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                  />
+                  {(props.systolicTekananDarah > 140 &&
+                    props.diastolicTekananDarah > 90) ||
+                  (props.systolicTekananDarah < 90 &&
+                    props.diastolicTekananDarah < 60) ? (
+                    <div className='flex items-center text-left'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='rujuk-ke-klinik'
+                        id='rujuk-ke-klinik'
+                        checked={props.rujukKeKlinik}
+                        onChange={() => {
+                          props.setRujukKeKlinik(!props.rujukKeKlinik);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='rujuk-ke-klinik'
+                        className='m-2 text-sm font-m text-left'
+                      >
+                        Dirujuk ke klinik kesihatan kerana masalah tekanan darah
+                      </label>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
             </article>
           ) : null}
         </div>
