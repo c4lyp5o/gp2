@@ -32,6 +32,7 @@ const UmumSchema = new mongoose.Schema(
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
+    umurHari: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
     kumpulanEtnik: { type: String, default: '' },
     alamat: { type: String, default: '' },
@@ -46,7 +47,8 @@ const UmumSchema = new mongoose.Schema(
     statusPesara: { type: String, default: '' },
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
-    noBayaran: { type: String, default: '' },
+    kakitanganKerajaan: { type: Boolean, default: false },
+    noBayaran: { type: Number, default: 0 },
     noResit: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
