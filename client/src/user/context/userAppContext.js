@@ -139,6 +139,7 @@ const dictionaryDaerah = {
     'Muar',
     'Pontian',
     'Segamat',
+    'Tangkak',
   ],
   Kedah: [
     'Baling',
