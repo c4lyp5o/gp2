@@ -21,7 +21,7 @@ const getSinglePersonOperator = async (req, res) => {
   res.status(201).json({ singlePersonOperator });
 };
 
-// POST /:operatorId
+// PATCH /:personOperatorId
 const updateSinglePersonOperator = async (req, res) => {
   logger.info(`${req.method} ${req.url} updateSinglePersonOperator called`);
   if (req.user.accountType !== 'kpUser') {
