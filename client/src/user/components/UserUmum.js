@@ -605,6 +605,15 @@ function UserUmum() {
                     >
                       hapus pesakit?
                     </button>
+                  ) : singlePersonUmum.statusReten === 'telah diisi' ||
+                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      lihat reten
+                    </Link>
                   ) : singlePersonUmum.statusReten === 'belum diisi' ? (
                     <Link
                       target='_blank'
@@ -612,14 +621,6 @@ function UserUmum() {
                       className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
                     >
                       masukkan reten
-                    </Link>
-                  ) : singlePersonUmum.statusReten === 'telah diisi' ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
-                    >
-                      lihat reten
                     </Link>
                   ) : null}
                   {singlePersonUmum.statusReten === 'belum diisi' &&
