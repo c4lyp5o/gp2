@@ -102,11 +102,11 @@ function UserUmum() {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram
+  // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
-  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram]);
+  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   // clear program if change jenisFasiliti
   useEffect(() => {
@@ -622,6 +622,16 @@ function UserUmum() {
                       lihat reten
                     </Link>
                   ) : null}
+                  {singlePersonUmum.statusReten === 'belum diisi' &&
+                    singlePersonUmum.rawatanDibuatOperatorLain === true && (
+                      <Link
+                        target='_blank'
+                        to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
+                        className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      >
+                        masukkan reten bagi operator tambahan
+                      </Link>
+                    )}
                 </div>
                 {modalHapus ? (
                   <UserUmumDeleteModal
