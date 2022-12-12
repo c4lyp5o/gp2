@@ -13,7 +13,7 @@ const Helper = require('../controllers/countHelper');
 
 // gateway
 exports.downloader = async function (req, res) {
-  const { authorization, klinikid, klinikdaerah, kliniknegeri, pegawai, id } =
+  const { authorization, klinikid, klinikdaerah, kliniknegeri, pegawai } =
     req.headers;
   //
   let username;
@@ -38,6 +38,7 @@ exports.downloader = async function (req, res) {
     tarikhMula,
     tarikhAkhir,
     bulan,
+    id,
     formatFile,
   } = req.query;
   const payload = {

@@ -204,7 +204,7 @@ function KaunterNavbar() {
                   : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
               }
             >
-              KK / KD
+              KKIA / KD
             </NavLink>
             <NavLink
               to='taska-tadika'

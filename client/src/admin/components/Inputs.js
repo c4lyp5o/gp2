@@ -289,7 +289,7 @@ export function InputPegawai(props) {
                           className='border-2 max-w-sm'
                           onChange={(e) => {
                             const selectedPp = props.allPegawai.find(
-                              (p) => p.mdcNumber === e.target.value
+                              (p) => p.mdcNumber === parseInt(e.target.value)
                             );
                             props.setName(selectedPp.nama);
                             props.setRegNumber(selectedPp.mdcNumber);
