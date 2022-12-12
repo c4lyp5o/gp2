@@ -53,6 +53,10 @@ function UserAfterLogin() {
             path='umum/form-umum/:personUmumId'
             element={<UserFormUmumHeader />}
           />
+          <Route
+            path='umum/form-umum/:personUmumId/:operatorLain'
+            element={<UserFormUmumHeader />}
+          />
 
           <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
           <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
