@@ -765,7 +765,7 @@ export function InputFacility(props) {
                     name='checkbox'
                     value='active'
                     onChange={(e) =>
-                      props.setStatusPerkhidmatan(e.target.value)
+                      props.props.setStatusPerkhidmatan(e.target.value)
                     }
                   />
                   <label htmlFor='nama'>Tidak Aktif</label>
@@ -776,7 +776,7 @@ export function InputFacility(props) {
                     name='checkbox'
                     value='non-active'
                     onChange={(e) =>
-                      props.setStatusPerkhidmatan(e.target.value)
+                      props.props.setStatusPerkhidmatan(e.target.value)
                     }
                   />
                 </div>
@@ -792,8 +792,11 @@ export function InputFacility(props) {
                       const selectedKlinik = props.klinik.find(
                         (k) => k.kodFasiliti === e.target.value
                       );
-                      props.setKp(selectedKlinik.kp);
-                      props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        kodFasiliti: selectedKlinik.kodFasiliti,
+                        handler: selectedKlinik.kp,
+                      });
                     }}
                   >
                     <option value=''>Pilih Klinik</option>
@@ -1061,6 +1064,726 @@ export function InputEvent(props) {
                   <span
                     className={styles.cancelBtn}
                     onClick={() => props.setShowAddModal(false)}
+                  >
+                    Kembali
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+export function InputEditKlinik(props) {
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>KEMASKINI KLINIK PERGIGIAN</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <div className='grid gap-1'>
+                    <label htmlFor='nama'>Nama Klinik</label>
+                    <div className='grid gap-1 font-bold'>
+                      {props.editedEntity.kp}
+                    </div>
+                    <label htmlFor='nama'>Kod Fasiliti</label>
+                    <div className='grid gap-1 font-bold'>
+                      {props.editedEntity.kodFasiliti}
+                    </div>
+                    <label htmlFor='nama'>Perkhidmatan Klinik</label>
+                    <div className='grid gap-1 font-bold'>
+                      {props.editedEntity.statusRoleKlinik}
+                    </div>
+                    <label htmlFor='nama'>Email</label>
+                    <input
+                      value={props.editedEntity.email}
+                      className='border-2 mb-2'
+                      type='text'
+                      name='email'
+                      id='email'
+                      onChange={(e) =>
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <label htmlFor='nama'>Status Klinik Pergigian</label>
+                  <div className='grid grid-cols-2'>
+                    <label htmlFor='statusAktif'>Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusAktif'
+                      value='active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                        props.setStatusPerkhidmatan(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'non-active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusTidakAktif'
+                      value='non-active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                        props.setStatusPerkhidmatan(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.editingData ? (
+                  <BusyButton func='edit' />
+                ) : (
+                  <SubmitButton func='edit' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowEditModal(false)}
+                >
+                  Cancel
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+export function InputEditPegawai(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalAdd}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              KEMASKINI {Dictionary[props.FType]}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='admin-pegawai-handler-input'>
+              <p>Nama Pegawai</p>
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.nama}
+              </div>
+              {props.FType === 'pp' && <p>Nombor MDC</p>}
+              {props.FType === 'jp' && <p>Nombor MDTB</p>}
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.mdcNumber ? (
+                  <span>{props.editedEntity.mdcNumber}</span>
+                ) : (
+                  <span>{props.editedEntity.mdtbNumber}</span>
+                )}
+              </div>
+              <p>
+                Emel <span className='font-semibold text-lg text-user6'>*</span>
+              </p>
+              <div className='grid gap-1'>
+                <input
+                  required
+                  defaultValue={props.editedEntity.email}
+                  className='border-2'
+                  type='text'
+                  name='email'
+                  id='email'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      email: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className='grid gap-1'>
+                <p>
+                  Gred{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                {props.FType === 'pp' && (
+                  <select
+                    required
+                    defaultValue={props.editedEntity.gred}
+                    className='border-2'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        gred: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value=''>Pilih Gred</option>
+                    <option value='jusa'>JUSA</option>
+                    <option value='ug56'>UG56</option>
+                    <option value='ug54'>UG54</option>
+                    <option value='ug52'>UG52</option>
+                    <option value='ug48'>UG48</option>
+                    <option value='ug44'>UG44</option>
+                    <option value='ug41'>UG41</option>
+                  </select>
+                )}
+                {props.FType === 'jp' && (
+                  <select
+                    required
+                    defaultValue={props.editedEntity.gred}
+                    className='border-2'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        gred: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value=''>Pilih Gred</option>
+                    <option value='u40'>U40</option>
+                    <option value='u38'>U38</option>
+                    <option value='u36'>U36</option>
+                    <option value='u32'>U32</option>
+                    <option value='u29'>U29</option>
+                  </select>
+                )}
+              </div>
+              <div className='grid gap-1'>
+                <p>
+                  Klinik Bertugas{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <select
+                  required
+                  value={props.editedEntity.kodFasiliti}
+                  className='border-2'
+                  onChange={(e) => {
+                    const selectedKlinik = props.klinik.find(
+                      (k) => k.kodFasiliti === e.target.value
+                    );
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      kodFasiliti: selectedKlinik.kodFasiliti,
+                      kpSkrg: selectedKlinik.kp,
+                    });
+                  }}
+                >
+                  <option value=''>Pilih Klinik</option>
+                  {props.klinik.map((k) => (
+                    <option className='capitalize' value={k.kodFasiliti}>
+                      {k.kp}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='grid gap-1'>
+                <p>
+                  Role{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <select
+                  required
+                  defaultValue={props.editedEntity.role}
+                  className='border-2'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      role: e.target.value,
+                    });
+                  }}
+                >
+                  <option value=''>Pilih Role</option>
+                  <option value='admin'>Pentadbir Klinik</option>
+                  <option value='umum'>Pengguna</option>
+                </select>
+              </div>
+              <div className='mt-3'>
+                <label htmlFor='role-promosi-klinik' className='mr-3'>
+                  Pegawai promosi fasiliti?
+                </label>
+                <input
+                  type='checkbox'
+                  id='role-promosi-klinik'
+                  checked={props.editedEntity.rolePromosiKlinik}
+                  ref={props.currentRolePromosiKlinik}
+                  onChange={() => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      rolePromosiKlinik: !props.editedEntity.rolePromosiKlinik,
+                    });
+                  }}
+                />
+                <div className='mt-3'>
+                  <label htmlFor='role-media-sosial-klinik' className='mr-3'>
+                    Pegawai media sosial fasiliti?
+                  </label>
+                  <input
+                    type='checkbox'
+                    id='role-media-sosial-klinik'
+                    checked={props.editedEntity.roleMediaSosialKlinik}
+                    ref={props.currentRoleMediaSosialKlinik}
+                    onChange={() => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        roleMediaSosialKlinik:
+                          !props.editedEntity.roleMediaSosialKlinik,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.modalActions}>
+          <div className={styles.actionsContainer}>
+            {props.editingData ? (
+              <BusyButton func='edit' />
+            ) : (
+              <SubmitButton func='edit' />
+            )}
+            <span
+              className={styles.cancelBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              Cancel
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function InputEditFacility(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalEdit}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              KEMASKINI {Dictionary[props.FType]}{' '}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='grid gap-1'>
+              {props.FType !== 'kpb' && props.FType !== 'mp' ? (
+                <p>
+                  Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+                </p>
+              ) : (
+                <p>
+                  Nombor Plat {Dictionary[props.FType]}:{' '}
+                  {props.editedEntity.nama}{' '}
+                </p>
+              )}
+              <br />
+              <p>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </p>
+              <select
+                readOnly={true}
+                value={props.editedEntity.kodFasilitiHandler}
+                className='border-2'
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+              >
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
+              {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                <p>
+                  Risiko Sekolah (PERSiS){' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+              )}
+              {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                <select
+                  required
+                  className='border-2'
+                  value={props.editedEntity.risikoSekolahPersis}
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      risikoSekolahPersis: e.target.value,
+                    });
+                  }}
+                >
+                  <option value=''>Pilih Risiko</option>
+                  <option value='rendah'>Rendah</option>
+                  <option value='tinggi'>Tinggi</option>
+                </select>
+              )}
+              <p>Status {Dictionary[props.FType]}</p>
+              <div className='grid grid-cols-2'>
+                <label htmlFor='statusAktif'>Aktif</label>
+                <input
+                  checked={
+                    props.editedEntity.statusPerkhidmatan === 'active'
+                      ? true
+                      : false
+                  }
+                  type='radio'
+                  name='statusAktif'
+                  value='active'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      statusPerkhidmatan: e.target.value,
+                    });
+                    props.setStatusPerkhidmatan(e.target.value);
+                  }}
+                />
+                <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
+                <input
+                  checked={
+                    props.editedEntity.statusPerkhidmatan === 'non-active'
+                      ? true
+                      : false
+                  }
+                  type='radio'
+                  name='statusTidakAktif'
+                  value='non-active'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      statusPerkhidmatan: e.target.value,
+                    });
+                    props.setStatusPerkhidmatan(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalActions}>
+            <div className={styles.actionsContainer}>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+              <span
+                className={styles.cancelBtn}
+                onClick={() => props.setShowEditModal(false)}
+              >
+                Cancel
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function InputEditEvent(props) {
+  const [jenisEventDd, setJenisEventDd] = useState('');
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalEvent}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah Program Komuniti</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='mb-3'>
+                  {/* <p>
+                      Tarikh Program Komuniti
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p> */}
+                  {/* <input
+                        required
+                        className='border-2'
+                        type='date'
+                        name='tarikh'
+                        id='tarikh'
+                        onChange={(e) =>
+                          (currentTarikh.current = e.target.value)
+                        }
+                      /> */}
+                  {/* <CustomDatePicker />
+                    <CustomDatePicker2 /> */}
+                  <p>
+                    Jenis Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <select
+                      required
+                      className='border-2 w-full'
+                      value={props.editedEntity.jenisEvent}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          jenisEvent: e.target.value,
+                        });
+                        setJenisEventDd(e.target.value);
+                      }}
+                      name='jenisEvent'
+                      id='jenisEvent'
+                    >
+                      <option value=''>Jenis Program / Aktiviti</option>
+                      {/* <option value='projek-komuniti'>Projek Komuniti</option>
+                        <option value='ppkps'>
+                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                          Sekolah
+                        </option>
+                        <option value='kgangkat'>
+                          Kampung Angkat Pergigian
+                        </option>
+                        <option value='ppr'>Projek Perumahan Rakyat</option>
+                        <option value='we'>Institusi Warga Emas</option>
+                        <option value='oku'>Institusi OKU / PDK</option>
+                        <option value='oap'>
+                          Program Orang Asli dan Penan
+                        </option> */}
+                      <option value='programDewasaMuda'>
+                        Program Dewasa Muda
+                      </option>
+                      <option value='kampungAngkatPergigian'>
+                        Kampung Angkat Pergigian
+                      </option>
+                      <option value='ppr'>Projek Perumahan Rakyat</option>
+                      <option value='we'>Institusi Warga Emas</option>
+                      <option value='oku'>Institusi OKU / PDK</option>
+                    </select>
+                  </div>
+                  {jenisEventDd === 'programDewasaMuda' && (
+                    <div className='grid gap-1'>
+                      <p>
+                        Kategori Institusi
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <select
+                        required
+                        className='border-2'
+                        value={props.editedEntity.kategoriInstitusi}
+                        onChange={(e) =>
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            kategoriInstitusi: e.target.value,
+                          })
+                        }
+                      >
+                        <option value=''>Pilih Institusi</option>
+                        <option value='kolej-komuniti'>Kolej Komuniti</option>
+                        <option value='kolej-vokasional'>
+                          Kolej Vokasional
+                        </option>
+                        <option value='ipg'>
+                          Institusi Pendidikan Guru (IPG)
+                        </option>
+                        <option value='ipta'>
+                          Institusi Pengajian Tinggi Awam
+                        </option>
+                        <option value='lain-lain'>
+                          Lain-lain Institusi Pengajian
+                        </option>
+                      </select>
+                    </div>
+                  )}
+                  {/* <p className='mt-3 font-semibold'>
+                      Mod Penyampaian Perkhidmatan
+                    </p>
+                    <div className='grid grid-cols-2 gap-1'>
+                      <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
+                      <input
+                        type='checkbox'
+                        name='mod'
+                        value='ppb'
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
+                      />
+                      <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
+                      <input
+                        type='checkbox'
+                        name='mod'
+                        value='kpb'
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
+                      />
+                      <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
+                      <input
+                        type='checkbox'
+                        name='mod'
+                        value='mpb'
+                        onChange={(e) => {
+                          eventModeChecker(e.target.value);
+                        }}
+                      />
+                    </div> */}
+                  <p>
+                    Nama Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      required
+                      className='border-2'
+                      value={props.editedEntity.nama}
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          nama: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Tempat
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        value={props.editedEntity.tempat}
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            tempat: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <p>
+                    Klinik Bertugas{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <select
+                      required
+                      className='border-2'
+                      value={props.editedEntity.createdByKodFasiliti}
+                      onChange={(e) => {
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          createdByKp: selectedKlinik.kp,
+                          createdByKodFasiliti: selectedKlinik.kodFasiliti,
+                        });
+                      }}
+                    >
+                      <option value=''>Pilih Klinik</option>
+                      {props.klinik.map((k) => (
+                        <option className='capitalize' value={k.kodFasiliti}>
+                          {k.kp}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  {props.editingData ? (
+                    <BusyButton func='edit' />
+                  ) : (
+                    <SubmitButton func='edit' />
+                  )}
+                  <span
+                    className={styles.cancelBtn}
+                    onClick={() => props.setShowEditModal(false)}
                   >
                     Kembali
                   </span>
