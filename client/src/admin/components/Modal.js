@@ -19,6 +19,7 @@ import {
   InputKpEditPegawai,
   InputKpEditFacility,
   InputKpEditEvent,
+  InputKpEditEventFromDaerah,
   InputKpEditInstitusi,
   InputKpEditKPBMPB,
 } from './Inputs';
@@ -784,8 +785,13 @@ const EditModalForKp = ({
   useEffect(() => {
     readOneDataForKp(FType, id).then((res) => {
       setEditedEntity(res.data);
-      setStartDateDP(new Date(res.data.tarikhStart));
-      setEndDateDP(new Date(res.data.tarikhEnd));
+      if (!res.data.tarikhStart && !res.data.tarikhEnd) {
+        setStartDateDP(null);
+        setEndDateDP(null);
+      } else {
+        setStartDateDP(new Date(res.data.tarikhStart));
+        setEndDateDP(new Date(res.data.tarikhEnd));
+      }
     });
     setTimeout(() => {
       setLoading(false);
@@ -818,6 +824,7 @@ const EditModalForKp = ({
         // nama: currentName.current,
         createdByKp: kp,
         jenisEvent: editedEntity.jenisEvent,
+        enrolmenInstitusi: editedEntity.enrolmenInstitusi,
         modPenyampaianPerkhidmatan: editedEntity.modPenyampaianPerkhidmatan,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
@@ -918,6 +925,16 @@ const EditModalForKp = ({
           {(confirm) => <InputKpEditEvent {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
+      {FType === 'program' &&
+        (editedEntity.jenisEvent === 'programDewasaMuda' ||
+          editedEntity.jenisEvent === 'we' ||
+          editedEntity.jenisEvent === 'oku') && (
+          <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+            {(confirm) => (
+              <InputKpEditEventFromDaerah {...props} confirm={confirm} />
+            )}
+          </ConfirmModalForData>
+        )}
       {FType === 'ins' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <InputKpEditInstitusi {...props} confirm={confirm} />}
