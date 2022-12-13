@@ -223,7 +223,7 @@ function UserFormUmumHeader() {
   const [swastaInstitusiWargaEmas, setSwastaInstitusiWargaEmas] = useState('');
   masterForm.swastaInstitusiWargaEmas = swastaInstitusiWargaEmas;
   masterForm.setSwastaInstitusiWargaEmas = setSwastaInstitusiWargaEmas;
-  //pemeriksaan
+  //pemeriksaan -------------------------------------------------------------------
   const [statusKehadiran, setStatusKehadiran] = useState(false);
   masterForm.statusKehadiran = statusKehadiran;
   masterForm.setStatusKehadiran = setStatusKehadiran;
@@ -236,6 +236,9 @@ function UserFormUmumHeader() {
   const [diastolicTekananDarah, setDiastolicTekananDarah] = useState('');
   masterForm.diastolicTekananDarah = diastolicTekananDarah;
   masterForm.setDiastolicTekananDarah = setDiastolicTekananDarah;
+  const [rujukKeKlinik, setRujukKeKlinik] = useState(false);
+  masterForm.rujukKeKlinik = rujukKeKlinik;
+  masterForm.setRujukKeKlinik = setRujukKeKlinik;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -1408,9 +1411,12 @@ function UserFormUmumHeader() {
         setSwastaInstitusiWargaEmas(
           data.singlePersonUmum.swastaInstitusiWargaEmas
         );
-        //map pemeriksaan
+        //map pemeriksaan ------------------------------------------------------------
         setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
         setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
+        setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
+        setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
+        setRujukKeKlinik(data.singlePersonUmum.rujukKeKlinik);
         setAdaCleftLipPemeriksaanUmum(
           data.singlePersonUmum.adaCleftLipPemeriksaanUmum
         );
@@ -1984,9 +1990,12 @@ function UserFormUmumHeader() {
               institusiWargaEmas,
               kerajaanInstitusiWargaEmas,
               swastaInstitusiWargaEmas,
-              //pemeriksaan
+              //pemeriksaan -------------------------------------------------------------
               statusKehadiran,
               waktuDipanggil,
+              systolicTekananDarah,
+              diastolicTekananDarah,
+              rujukKeKlinik,
               adaCleftLipPemeriksaanUmum,
               rujukCleftLipPemeriksaanUmum,
               yaTidakSediaAdaStatusDenturePemeriksaanUmum,
