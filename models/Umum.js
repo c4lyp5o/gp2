@@ -99,6 +99,30 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    systolicTekananDarah: {
+      type: Number,
+      default: 0,
+    },
+    diastolicTekananDarah: {
+      type: Number,
+      default: 0,
+    },
+    rujukKeKlinik: {
+      type: Boolean,
+      default: false,
+    },
+    engganTaskaTadika: {
+      type: Boolean,
+      default: false,
+    },
+    tidakHadirTaskaTadika: {
+      type: Boolean,
+      default: false,
+    },
+    pemeriksaanTaskaTadika: {
+      type: String,
+      default: '',
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -164,15 +188,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
+    //sdf nak guna masa depan -------------------------------------------------------------------
+    // baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
     //kotak masuk sini
     statusMPemeriksaanUmum: {
       type: String,
