@@ -477,11 +477,13 @@ export default function FillableForm({
 
   // birth of nak daftar nama ic ibu
   useEffect(() => {
-    if (jenisIc === 'birth-of') {
-      setNama('B/0');
-    }
-    if (jenisIc !== 'birth-of') {
-      setNama('');
+    if (!editId) {
+      if (jenisIc === 'birth-of') {
+        setNama('B/0');
+      }
+      if (jenisIc !== 'birth-of') {
+        setNama('');
+      }
     }
   }, [jenisIc]);
 
