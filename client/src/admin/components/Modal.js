@@ -27,6 +27,7 @@ const AddModal = ({
     pingApdmServer,
     readSekolahData,
     readFasilitiData,
+    EmailValidator,
   } = useGlobalAdminAppContext();
 
   const [name, setName] = useState('');
@@ -85,6 +86,10 @@ const AddModal = ({
       }
       if (!regNumber) {
         toast.error('Klik pada butang cari');
+        return;
+      }
+      if (!EmailValidator(email)) {
+        toast.error('Email tidak sah');
         return;
       }
     }
