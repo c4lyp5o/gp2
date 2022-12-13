@@ -771,22 +771,22 @@ function UserFormUmumHeader() {
     useState(false);
   masterForm.kecederaanTisuLembutUmum = kecederaanTisuLembutUmum;
   masterForm.setKecederaanTisuLembutUmum = setKecederaanTisuLembutUmum;
-  const [
-    baruJumlahGigiYangDiberiSdfRawatanUmum,
-    setBaruJumlahGigiYangDiberiSdfRawatanUmum,
-  ] = useState(0);
-  masterForm.baruJumlahGigiYangDiberiSdfRawatanUmum =
-    baruJumlahGigiYangDiberiSdfRawatanUmum;
-  masterForm.setBaruJumlahGigiYangDiberiSdfRawatanUmum =
-    setBaruJumlahGigiYangDiberiSdfRawatanUmum;
-  const [
-    semulaJumlahGigiYangDiberiSdfRawatanUmum,
-    setSemulaJumlahGigiYangDiberiSdfRawatanUmum,
-  ] = useState(0);
-  masterForm.semulaJumlahGigiYangDiberiSdfRawatanUmum =
-    semulaJumlahGigiYangDiberiSdfRawatanUmum;
-  masterForm.setSemulaJumlahGigiYangDiberiSdfRawatanUmum =
-    setSemulaJumlahGigiYangDiberiSdfRawatanUmum;
+  // const [
+  //   baruJumlahGigiYangDiberiSdfRawatanUmum,
+  //   setBaruJumlahGigiYangDiberiSdfRawatanUmum,
+  // ] = useState(0);
+  // masterForm.baruJumlahGigiYangDiberiSdfRawatanUmum =
+  //   baruJumlahGigiYangDiberiSdfRawatanUmum;
+  // masterForm.setBaruJumlahGigiYangDiberiSdfRawatanUmum =
+  //   setBaruJumlahGigiYangDiberiSdfRawatanUmum;
+  // const [
+  //   semulaJumlahGigiYangDiberiSdfRawatanUmum,
+  //   setSemulaJumlahGigiYangDiberiSdfRawatanUmum,
+  // ] = useState(0);
+  // masterForm.semulaJumlahGigiYangDiberiSdfRawatanUmum =
+  //   semulaJumlahGigiYangDiberiSdfRawatanUmum;
+  // masterForm.setSemulaJumlahGigiYangDiberiSdfRawatanUmum =
+  //   setSemulaJumlahGigiYangDiberiSdfRawatanUmum;
   const [
     baruJumlahCrownBridgeRawatanUmum,
     setBaruJumlahCrownBridgeRawatanUmum,
@@ -845,6 +845,14 @@ function UserFormUmumHeader() {
     semulaSeparaJumlahDenturProstodontikRawatanUmum;
   masterForm.setSemulaSeparaJumlahDenturProstodontikRawatanUmum =
     setSemulaSeparaJumlahDenturProstodontikRawatanUmum;
+  const [
+    menggunakanMakmalPergigianBergerak,
+    setMenggunakanMakmalPergigianBergerak,
+  ] = useState(false);
+  masterForm.menggunakanMakmalPergigianBergerak =
+    menggunakanMakmalPergigianBergerak;
+  masterForm.setMenggunakanMakmalPergigianBergerak =
+    setMenggunakanMakmalPergigianBergerak;
   const [
     immediateDenturProstodontikRawatanUmum,
     setImmediateDenturProstodontikRawatanUmum,
@@ -1656,12 +1664,12 @@ function UserFormUmumHeader() {
           setKecederaanTisuLembutUmum(
             data.singlePersonUmum.kecederaanTisuLembutUmum
           );
-          setBaruJumlahGigiYangDiberiSdfRawatanUmum(
-            data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
-          );
-          setSemulaJumlahGigiYangDiberiSdfRawatanUmum(
-            data.singlePersonUmum.semulaJumlahGigiYangDiberiSdfRawatanUmum
-          );
+          // setBaruJumlahGigiYangDiberiSdfRawatanUmum(
+          //   data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
+          // );
+          // setSemulaJumlahGigiYangDiberiSdfRawatanUmum(
+          //   data.singlePersonUmum.semulaJumlahGigiYangDiberiSdfRawatanUmum
+          // );
           setBaruJumlahCrownBridgeRawatanUmum(
             data.singlePersonUmum.baruJumlahCrownBridgeRawatanUmum
           );
@@ -1686,6 +1694,9 @@ function UserFormUmumHeader() {
           setSemulaSeparaJumlahDenturProstodontikRawatanUmum(
             data.singlePersonUmum
               .semulaSeparaJumlahDenturProstodontikRawatanUmum
+          );
+          setMenggunakanMakmalPergigianBergerak(
+            data.singlePersonUmum.makmalPergigianBergerak
           );
           setImmediateDenturProstodontikRawatanUmum(
             data.singlePersonUmum.immediateDenturProstodontikRawatanUmum
@@ -2064,8 +2075,8 @@ function UserFormUmumHeader() {
               kecederaanTulangMukaUmum,
               kecederaanGigiUmum,
               kecederaanTisuLembutUmum,
-              baruJumlahGigiYangDiberiSdfRawatanUmum,
-              semulaJumlahGigiYangDiberiSdfRawatanUmum,
+              // baruJumlahGigiYangDiberiSdfRawatanUmum,
+              // semulaJumlahGigiYangDiberiSdfRawatanUmum,
               baruJumlahCrownBridgeRawatanUmum,
               semulaJumlahCrownBridgeRawatanUmum,
               baruJumlahPostCoreRawatanUmum,
@@ -2074,6 +2085,7 @@ function UserFormUmumHeader() {
               semulaPenuhJumlahDenturProstodontikRawatanUmum,
               baruSeparaJumlahDenturProstodontikRawatanUmum,
               semulaSeparaJumlahDenturProstodontikRawatanUmum,
+              menggunakanMakmalPergigianBergerak,
               immediateDenturProstodontikRawatanUmum,
               pembaikanDenturProstodontikRawatanUmum,
               gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
@@ -2217,8 +2229,8 @@ function UserFormUmumHeader() {
               kecederaanTulangMukaUmum,
               kecederaanGigiUmum,
               kecederaanTisuLembutUmum,
-              baruJumlahGigiYangDiberiSdfRawatanUmum,
-              semulaJumlahGigiYangDiberiSdfRawatanUmum,
+              // baruJumlahGigiYangDiberiSdfRawatanUmum,
+              // semulaJumlahGigiYangDiberiSdfRawatanUmum,
               baruJumlahCrownBridgeRawatanUmum,
               semulaJumlahCrownBridgeRawatanUmum,
               baruJumlahPostCoreRawatanUmum,
@@ -2227,6 +2239,7 @@ function UserFormUmumHeader() {
               semulaPenuhJumlahDenturProstodontikRawatanUmum,
               baruSeparaJumlahDenturProstodontikRawatanUmum,
               semulaSeparaJumlahDenturProstodontikRawatanUmum,
+              menggunakanMakmalPergigianBergerak,
               immediateDenturProstodontikRawatanUmum,
               pembaikanDenturProstodontikRawatanUmum,
               gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,

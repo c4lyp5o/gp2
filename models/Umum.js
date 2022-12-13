@@ -481,16 +481,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // baruJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahCrownBridgeRawatanUmum: {
       type: Number,
       min: 0,
@@ -530,6 +530,10 @@ const UmumSchema = new mongoose.Schema(
       type: Number,
       min: 0,
       default: 0,
+    },
+    menggunakanMakmalPergigianBergerak: {
+      type: Boolean,
+      default: false,
     },
     immediateDenturProstodontikRawatanUmum: {
       type: Number,
