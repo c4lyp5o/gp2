@@ -16,7 +16,13 @@ export default function Institusi(props) {
                   Nama Institusi
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Urus
+                  Kategori Fasiliti
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Enrolmen
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Tindakan
                 </th>
               </tr>
             </thead>
@@ -30,6 +36,14 @@ export default function Institusi(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.enrolmenInstitusi === 'NOT APPLICABLE'
+                      ? 'Belum ditetapkan'
+                      : f.enrolmenInstitusi}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.kategoriInstitusi}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                       id={f._id}
@@ -38,7 +52,7 @@ export default function Institusi(props) {
                         props.setId(f._id);
                       }}
                     >
-                      Ubah
+                      Kemaskini
                     </button>
                     <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
