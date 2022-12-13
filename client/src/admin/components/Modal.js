@@ -7,7 +7,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../Modal.module.css';
 
 import { Loading } from './Screens';
-import { InputKlinik, InputPegawai, InputFacility, InputEvent } from './Inputs';
+import {
+  InputKlinik,
+  InputPegawai,
+  InputFacility,
+  InputEvent,
+  InputEditKlinik,
+  InputEditPegawai,
+  InputEditFacility,
+  InputEditEvent,
+} from './Inputs';
 import { ConfirmModalForData } from './superadmin/Confirmation';
 import { SubmitButton, BusyButton } from './Buttons';
 
@@ -641,31 +650,15 @@ const AddModalForKp = ({
   );
 };
 
-const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
-  const { Dictionary, toast, readData, readOneData, updateData } =
+const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
+  const { toast, readData, readOneData, updateData } =
     useGlobalAdminAppContext();
 
-  const currentKp = useRef();
-  const currentKodFasiliti = useRef();
-  const currentName = useRef();
-  const currentEmail = useRef();
-  const currentStatusPerkhidmatan = useRef();
-  const currentGred = useRef();
-  const currentRole = useRef();
   const currentRolePromosiKlinik = useRef();
   const currentRoleMediaSosialKlinik = useRef();
-  const currentRisiko = useRef();
-  // event
-  const currentJenisEvent = useRef();
-  const currentTempat = useRef();
-  const currentTarikhMula = useRef();
-  const currentTarikhTamat = useRef();
-  const currentMod = useRef();
-  const currentKategoriInstitusi = useRef();
-  //
+
   const [editedEntity, setEditedEntity] = useState([]);
   const [klinik, setKlinik] = useState([]);
-  const [statusPerkhidmatan, setStatusPerkhidmatan] = useState('');
   const [loading, setLoading] = useState(true);
   const [editingData, setEditingData] = useState(false);
 
@@ -680,7 +673,6 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         setKlinik(res.data);
       });
       readOneData(FType, id).then((res) => {
-        console.log(res.data);
         setEditedEntity(res.data);
       });
     }
@@ -695,29 +687,29 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     Data = {
       ...Data,
       // nama: currentName.current,
-      handler: currentKp.current,
-      kodFasilitiHandler: currentKodFasiliti.current,
+      handler: editedEntity.handler,
+      kodFasilitiHandler: editedEntity.kodFasilitiHandler,
       statusPerkhidmatan: editedEntity.statusPerkhidmatan,
     };
     if (FType === 'pp' || FType === 'jp') {
       Data = {
         // nama: currentName.current,
-        email: currentEmail.current,
-        gred: currentGred.current,
-        kpSkrg: currentKp.current,
-        kodFasiliti: currentKodFasiliti.current,
-        role: currentRole.current,
+        email: editedEntity.email,
+        gred: editedEntity.gred,
+        kpSkrg: editedEntity.kpSkrg,
+        kodFasiliti: editedEntity.kodFasiliti,
+        role: editedEntity.role,
         rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
         roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
       };
     }
     if (FType === 'kp') {
-      if (currentRole.current === '') {
-        currentRole.current = 'klinik';
-      }
+      // if (currentRole.current === '') {
+      //   currentRole.current = 'klinik';
+      // }
       Data = {
         // nama: currentName.current,
-        statusRoleKlinik: currentRole.current,
+        // statusRoleKlinik: currentRole.current,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
@@ -729,20 +721,18 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     ) {
       Data = {
         ...Data,
-        risikoSekolahPersis: currentRisiko.current,
+        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
     if (FType === 'program') {
       Data = {
-        ...Data,
-        nama: currentName.current,
-        jenisEvent: currentJenisEvent.current,
-        tempat: currentTempat.current,
-        tarikhMula: currentTarikhMula.current,
-        tarikhTamat: currentTarikhTamat.current,
-        mod: currentMod.current,
-        kategoriInstitusi: currentKategoriInstitusi.current,
+        jenisEvent: editedEntity.jenisEvent,
+        kategoriInstitusi: editedEntity.kategoriInstitusi,
+        nama: editedEntity.nama,
+        tempat: editedEntity.tempat,
+        createdByKp: editedEntity.createdByKp,
+        createdByKodFasiliti: editedEntity.createdByKodFasiliti,
       };
     }
     console.log(Data);
@@ -755,771 +745,17 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     });
   };
 
-  function Klinik({ confirm }) {
-    return (
-      <>
-        <form onSubmit={confirm(handleSubmit)}>
-          <div
-            className={styles.darkBG}
-            onClick={() => setShowEditModal(false)}
-          />
-          <div className={styles.centered}>
-            <div className={styles.modalAdd}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>UBAH KLINIK PERGIGIAN</h5>
-              </div>
-              <span
-                className={styles.closeBtn}
-                onClick={() => setShowEditModal(false)}
-              >
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </span>
-              <div className={styles.modalContent}>
-                <div className='admin-pegawai-handler-container'>
-                  <div className='admin-pegawai-handler-input'>
-                    <div className='grid gap-1'>
-                      <label htmlFor='nama'>Nama Klinik</label>
-                      <input
-                        readOnly={true}
-                        value={editedEntity.kp}
-                        className='border-2'
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        onChange={(e) => (currentName.current = e.target.value)}
-                      />
-                      <label htmlFor='nama'>Kod Fasiliti</label>
-                      <input
-                        readOnly={true}
-                        value={editedEntity.kodFasiliti}
-                        className='border-2'
-                        type='text'
-                        name='kod'
-                        id='kod'
-                      />
-                      <label htmlFor='nama'>Email</label>
-                      <input
-                        readOnly={true}
-                        value={editedEntity.email}
-                        className='border-2'
-                        type='text'
-                        name='email'
-                        id='email'
-                      />
-                    </div>
-                    <p>Role Klinik Pergigian</p>
-                    <div className='grid grid-cols-4 gap-1'>
-                      <label htmlFor='role'>KEPP</label>
-                      <input
-                        readOnly={true}
-                        checked={editedEntity.role === 'kepp'}
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='kepp'
-                        // onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      <label htmlFor='role'>UTC</label>
-                      <input
-                        readOnly={true}
-                        checked={editedEntity.role === 'utc'}
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='utc'
-                        // onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      <label htmlFor='role'>RTC</label>
-                      <input
-                        readOnly={true}
-                        checked={editedEntity.role === 'rtc'}
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='rtc'
-                        // onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      <label htmlFor='role'>Visiting</label>
-                      <input
-                        readOnly={true}
-                        checked={editedEntity.role === 'visiting'}
-                        type='radio'
-                        id='role'
-                        name='role'
-                        value='visiting'
-                        // onChange={(e) => (currentRole.current = e.target.value)}
-                      />
-                      <div className='col-span-4'>
-                        <label htmlFor='role' className='m-3'>
-                          Klinik Pergigian
-                        </label>
-                        <input
-                          readOnly={true}
-                          checked={
-                            editedEntity.statusRoleKlinik === 'klinik'
-                              ? true
-                              : false
-                          }
-                          type='radio'
-                          id='role'
-                          name='role'
-                          value=''
-                          // onChange={(e) =>
-                          //   (currentRole.current = e.target.value)
-                          // }
-                        />
-                      </div>
-                    </div>
-                    <p>Status Klinik Pergigian</p>
-                    <div className='grid grid-cols-2'>
-                      <label htmlFor='statusAktif'>Aktif</label>
-                      <input
-                        checked={
-                          editedEntity.statusPerkhidmatan === 'active'
-                            ? true
-                            : false
-                        }
-                        type='radio'
-                        name='statusAktif'
-                        value='active'
-                        onChange={(e) => {
-                          setEditedEntity({
-                            ...editedEntity,
-                            statusPerkhidmatan: e.target.value,
-                          });
-                          setStatusPerkhidmatan(e.target.value);
-                        }}
-                      />
-                      <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
-                      <input
-                        checked={
-                          editedEntity.statusPerkhidmatan === 'non-active'
-                            ? true
-                            : false
-                        }
-                        type='radio'
-                        name='statusTidakAktif'
-                        value='non-active'
-                        onChange={(e) => {
-                          setEditedEntity({
-                            ...editedEntity,
-                            statusPerkhidmatan: e.target.value,
-                          });
-                          setStatusPerkhidmatan(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  {editingData ? (
-                    <BusyButton func='edit' />
-                  ) : (
-                    <SubmitButton func='edit' />
-                  )}
-                  <span
-                    className={styles.cancelBtn}
-                    onClick={() => setShowEditModal(false)}
-                  >
-                    Cancel
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </>
-    );
-  }
-
-  function Pegawai({ confirm }) {
-    return (
-      <form onSubmit={confirm(handleSubmit)}>
-        <div
-          className={styles.darkBG}
-          onClick={() => setShowEditModal(false)}
-        />
-        <div className={styles.centered}>
-          <div className={styles.modalAdd}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>UBAH {Dictionary[FType]}</h5>
-            </div>
-            <span
-              className={styles.closeBtn}
-              onClick={() => setShowEditModal(false)}
-            >
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </span>
-            <div className={styles.modalContent}>
-              <div className='admin-pegawai-handler-input'>
-                <p>
-                  Nama Pegawai{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </p>
-                <div className='grid gap-1'>
-                  <input
-                    readOnly={true}
-                    defaultValue={editedEntity.nama}
-                    className='border-2'
-                    type='text'
-                    name='nama'
-                    id='nama'
-                    onChange={(e) => (currentName.current = e.target.value)}
-                  />
-                </div>
-                {FType === 'pp' && (
-                  <p>
-                    Nombor MDC{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                )}
-                {FType === 'jp' && (
-                  <p>
-                    Nombor MDTB{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                )}
-                <div className='grid gap-1'>
-                  <input
-                    readOnly={true}
-                    defaultValue={
-                      FType === 'pp'
-                        ? editedEntity.mdcNumber
-                        : editedEntity.mdtbNumber
-                    }
-                    className='border-2'
-                    type='text'
-                    name='mdc'
-                    id='mdc'
-                  />
-                </div>
-                <p>
-                  Emel{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </p>
-                <div className='grid gap-1'>
-                  <input
-                    required
-                    defaultValue={editedEntity.email}
-                    className='border-2'
-                    type='text'
-                    name='email'
-                    id='email'
-                    onChange={(e) => (currentEmail.current = e.target.value)}
-                  />
-                </div>
-                <div className='grid gap-1'>
-                  <p>
-                    Gred{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                  {FType === 'pp' && (
-                    <select
-                      required
-                      defaultValue={editedEntity.gred}
-                      className='border-2'
-                      onChange={(e) => (currentGred.current = e.target.value)}
-                    >
-                      <option value=''>Pilih Gred</option>
-                      <option value='jusa'>JUSA</option>
-                      <option value='ug56'>UG56</option>
-                      <option value='ug54'>UG54</option>
-                      <option value='ug52'>UG52</option>
-                      <option value='ug48'>UG48</option>
-                      <option value='ug44'>UG44</option>
-                      <option value='ug41'>UG41</option>
-                    </select>
-                  )}
-                  {FType === 'jp' && (
-                    <select
-                      required
-                      defaultValue={editedEntity.gred}
-                      className='border-2'
-                      onChange={(e) => (currentGred.current = e.target.value)}
-                    >
-                      <option value=''>Pilih Gred</option>
-                      <option value='u40'>U40</option>
-                      <option value='u38'>U38</option>
-                      <option value='u36'>U36</option>
-                      <option value='u32'>U32</option>
-                      <option value='u29'>U29</option>
-                    </select>
-                  )}
-                </div>
-                <div className='grid gap-1'>
-                  <p>
-                    Klinik Bertugas{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                  <select
-                    defaultValue={editedEntity.kodFasiliti}
-                    className='border-2'
-                    onChange={(e) => {
-                      const selectedKlinik = klinik.find(
-                        (k) => k.kodFasiliti === e.target.value
-                      );
-                      currentKp.current = selectedKlinik.kp;
-                      currentKodFasiliti.current = selectedKlinik.kodFasiliti;
-                    }}
-                  >
-                    <option value=''>Pilih Klinik</option>
-                    {klinik.map((k) => (
-                      <option className='capitalize' value={k.kodFasiliti}>
-                        {k.kp}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='grid gap-1'>
-                  <p>
-                    Role{' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                  <select
-                    required
-                    defaultValue={editedEntity.role}
-                    className='border-2'
-                    onChange={(e) => (currentRole.current = e.target.value)}
-                  >
-                    <option value=''>Pilih Role</option>
-                    <option value='admin'>Pentadbir Klinik</option>
-                    <option value='umum'>Pengguna</option>
-                  </select>
-                </div>
-                <div className='mt-3'>
-                  <label htmlFor='role-promosi-klinik' className='mr-3'>
-                    Pegawai promosi fasiliti?
-                  </label>
-                  <input
-                    type='checkbox'
-                    id='role-promosi-klinik'
-                    checked={editedEntity.rolePromosiKlinik}
-                    ref={currentRolePromosiKlinik}
-                    onChange={() => {
-                      setEditedEntity({
-                        ...editedEntity,
-                        rolePromosiKlinik: !editedEntity.rolePromosiKlinik,
-                      });
-                    }}
-                  />
-                  <div className='mt-3'>
-                    <label htmlFor='role-media-sosial-klinik' className='mr-3'>
-                      Pegawai media sosial fasiliti?
-                    </label>
-                    <input
-                      type='checkbox'
-                      id='role-media-sosial-klinik'
-                      checked={editedEntity.roleMediaSosialKlinik}
-                      ref={currentRoleMediaSosialKlinik}
-                      onChange={() => {
-                        setEditedEntity({
-                          ...editedEntity,
-                          roleMediaSosialKlinik:
-                            !editedEntity.roleMediaSosialKlinik,
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.modalActions}>
-            <div className={styles.actionsContainer}>
-              {editingData ? (
-                <BusyButton func='edit' />
-              ) : (
-                <SubmitButton func='edit' />
-              )}
-              <span
-                className={styles.cancelBtn}
-                onClick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </span>
-            </div>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  function Facility({ confirm }) {
-    return (
-      <form onSubmit={confirm(handleSubmit)}>
-        <div
-          className={styles.darkBG}
-          onClick={() => setShowEditModal(false)}
-        />
-        <div className={styles.centered}>
-          <div className={styles.modalEdit}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>UBAH {Dictionary[FType]} </h5>
-            </div>
-            <span
-              className={styles.closeBtn}
-              onClick={() => setShowEditModal(false)}
-            >
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </span>
-            <div className={styles.modalContent}>
-              <div className='grid gap-1'>
-                {FType !== 'kpb' && FType !== 'mp' ? (
-                  <p>
-                    Nama {Dictionary[FType]}: {editedEntity.nama}{' '}
-                  </p>
-                ) : (
-                  <p>
-                    Nombor Plat {Dictionary[FType]}: {editedEntity.nama}{' '}
-                  </p>
-                )}
-                <br />
-                <p>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-admin3'>*</span>
-                </p>
-                <select
-                  required
-                  defaultValue={editedEntity.kodFasilitiHandler}
-                  className='border-2'
-                  onChange={(e) => {
-                    const selectedKlinik = klinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    currentKp.current = selectedKlinik.kp;
-                    currentKodFasiliti.current = selectedKlinik.kodFasiliti;
-                  }}
-                >
-                  <option value=''>Pilih Klinik Baru..</option>
-                  {klinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.kp}
-                    </option>
-                  ))}
-                </select>
-                {FType !== 'sr' && FType !== 'sm' ? null : (
-                  <p>
-                    Risiko Sekolah (PERSiS){' '}
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
-                )}
-                {FType !== 'sr' && FType !== 'sm' ? null : (
-                  <select
-                    required
-                    className='border-2'
-                    value={editedEntity.risikoSekolahPersis}
-                    onChange={(e) => (currentRisiko.current = e.target.value)}
-                  >
-                    <option value=''>Pilih Risiko</option>
-                    <option value='rendah'>Rendah</option>
-                    <option value='tinggi'>Tinggi</option>
-                  </select>
-                )}
-                <p>Status {Dictionary[FType]}</p>
-                <div className='grid grid-cols-2'>
-                  <label htmlFor='statusAktif'>Aktif</label>
-                  <input
-                    checked={
-                      editedEntity.statusPerkhidmatan === 'active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusAktif'
-                    value='active'
-                    onChange={(e) => {
-                      setEditedEntity({
-                        ...editedEntity,
-                        statusPerkhidmatan: e.target.value,
-                      });
-                      setStatusPerkhidmatan(e.target.value);
-                    }}
-                  />
-                  <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
-                  <input
-                    checked={
-                      editedEntity.statusPerkhidmatan === 'non-active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusTidakAktif'
-                    value='non-active'
-                    onChange={(e) => {
-                      setEditedEntity({
-                        ...editedEntity,
-                        statusPerkhidmatan: e.target.value,
-                      });
-                      setStatusPerkhidmatan(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
-                {editingData ? (
-                  <BusyButton func='edit' />
-                ) : (
-                  <SubmitButton func='edit' />
-                )}
-                <span
-                  className={styles.cancelBtn}
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Cancel
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  function Event({ confirm }) {
-    const [jenisEventDd, setJenisEventDd] = useState('');
-    return (
-      <>
-        <form onSubmit={confirm(handleSubmit)}>
-          <div
-            className={styles.darkBG}
-            onClick={() => setShowEditModal(false)}
-          />
-          <div className={styles.centered}>
-            <div className={styles.modalEvent}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah Program Komuniti</h5>
-              </div>
-              <span
-                className={styles.closeBtn}
-                onClick={() => setShowEditModal(false)}
-              >
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </span>
-              <div className={styles.modalContent}>
-                <div className='admin-pegawai-handler-container'>
-                  <div className='mb-3'>
-                    {/* <p>
-                      Tarikh Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p> */}
-                    {/* <input
-                        required
-                        className='border-2'
-                        type='date'
-                        name='tarikh'
-                        id='tarikh'
-                        onChange={(e) =>
-                          (currentTarikh.current = e.target.value)
-                        }
-                      /> */}
-                    {/* <CustomDatePicker />
-                    <CustomDatePicker2 /> */}
-                    <p>
-                      Jenis Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <select
-                        required
-                        className='border-2 w-full'
-                        value={editedEntity.jenisEvent}
-                        onChange={(e) => {
-                          currentJenisEvent.current = e.target.value;
-                          setJenisEventDd(e.target.value);
-                          console.log(currentJenisEvent.current);
-                        }}
-                        name='jenisEvent'
-                        id='jenisEvent'
-                      >
-                        <option value=''>Jenis Program / Aktiviti</option>
-                        {/* <option value='projek-komuniti'>Projek Komuniti</option>
-                        <option value='ppkps'>
-                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
-                          Sekolah
-                        </option>
-                        <option value='kgangkat'>
-                          Kampung Angkat Pergigian
-                        </option>
-                        <option value='ppr'>Projek Perumahan Rakyat</option>
-                        <option value='we'>Institusi Warga Emas</option>
-                        <option value='oku'>Institusi OKU / PDK</option>
-                        <option value='oap'>
-                          Program Orang Asli dan Penan
-                        </option> */}
-                        <option value='programDewasaMuda'>
-                          Program Dewasa Muda
-                        </option>
-                        <option value='kampungAngkatPergigian'>
-                          Kampung Angkat Pergigian
-                        </option>
-                        <option value='ppr'>Projek Perumahan Rakyat</option>
-                        <option value='we'>Institusi Warga Emas</option>
-                        <option value='oku'>Institusi OKU / PDK</option>
-                      </select>
-                    </div>
-                    {jenisEventDd === 'programDewasaMuda' && (
-                      <div className='grid gap-1'>
-                        <p>
-                          Jenis Institusi
-                          <span className='font-semibold text-lg text-user6'>
-                            *
-                          </span>
-                        </p>
-                        <select
-                          required
-                          className='border-2'
-                          value={editedEntity.jenisInstitusi}
-                          onChange={(e) =>
-                            (currentKategoriInstitusi.current = e.target.value)
-                          }
-                        >
-                          <option value=''>Pilih Institusi</option>
-                          <option value='kolej-komuniti'>Kolej Komuniti</option>
-                          <option value='kolej-vokasional'>
-                            Kolej Vokasional
-                          </option>
-                          <option value='ipg'>
-                            Institusi Pendidikan Guru (IPG)
-                          </option>
-                          <option value='ipta'>
-                            Institusi Pengajian Tinggi Awam
-                          </option>
-                          <option value='lain-lain'>
-                            Lain-lain Institusi Pengajian
-                          </option>
-                        </select>
-                      </div>
-                    )}
-                    {/* <p className='mt-3 font-semibold'>
-                      Mod Penyampaian Perkhidmatan
-                    </p>
-                    <div className='grid grid-cols-2 gap-1'>
-                      <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='ppb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                      <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='kpb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                      <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='mpb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                    </div> */}
-                    <p>
-                      Nama Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='border-2'
-                        value={editedEntity.nama}
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        onChange={(e) => (currentName.current = e.target.value)}
-                      />
-                    </div>
-                    <div className='grid gap-1'>
-                      <p>
-                        Tempat
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid gap-1'>
-                        <input
-                          required
-                          className='border-2'
-                          value={editedEntity.tempat}
-                          type='text'
-                          name='nama'
-                          id='nama'
-                          onChange={(e) =>
-                            (currentTempat.current = e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <p>
-                      Klinik Bertugas{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <select
-                        required
-                        className='border-2'
-                        value={editedEntity.createdByKodFasiliti}
-                        onChange={(e) => {
-                          const selectedKlinik = klinik.find(
-                            (k) => k.kodFasiliti === e.target.value
-                          );
-                          currentKp.current = selectedKlinik.kp;
-                          currentKodFasiliti.current =
-                            selectedKlinik.kodFasiliti;
-                        }}
-                      >
-                        <option value=''>Pilih Klinik</option>
-                        {klinik.map((k) => (
-                          <option className='capitalize' value={k.kodFasiliti}>
-                            {k.kp}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.modalActions}>
-                  <div className={styles.actionsContainer}>
-                    {editingData ? (
-                      <BusyButton func='edit' />
-                    ) : (
-                      <SubmitButton func='edit' />
-                    )}
-                    <span
-                      className={styles.cancelBtn}
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      Kembali
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </>
-    );
-  }
+  const props = {
+    setEditedEntity,
+    editedEntity,
+    currentRoleMediaSosialKlinik,
+    currentRolePromosiKlinik,
+    //
+    klinik,
+    setShowEditModal,
+    FType,
+    handleSubmit,
+  };
 
   if (loading) {
     return <Loading />;
@@ -1529,17 +765,12 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
     <>
       {FType === 'kp' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Klinik confirm={confirm} />}
+          {(confirm) => <InputEditKlinik {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
       {(FType === 'pp' || FType === 'jp') && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Pegawai confirm={confirm} />}
-        </ConfirmModalForData>
-      )}
-      {FType === 'program' && (
-        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <Event confirm={confirm} />}
+          {(confirm) => <InputEditPegawai {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
       {FType !== 'pp' &&
@@ -1547,9 +778,14 @@ const EditModal = ({ setShowEditModal, FType, kp, id, reload, setReload }) => {
         FType !== 'jp' &&
         FType !== 'program' && (
           <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-            {(confirm) => <Facility confirm={confirm} />}
+            {(confirm) => <InputEditFacility {...props} confirm={confirm} />}
           </ConfirmModalForData>
         )}
+      {FType === 'program' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => <InputEditEvent {...props} confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
     </>
   );
 };
