@@ -35,6 +35,10 @@ const eventSchema = new Schema({
   kategoriInstitusi: {
     type: String,
   },
+  enrolmenInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   assignedByDaerah: {
     type: Boolean,
     default: false,

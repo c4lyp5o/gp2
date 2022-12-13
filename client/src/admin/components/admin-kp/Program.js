@@ -30,6 +30,9 @@ export default function Program(props) {
                   Tempat Aktiviti
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Enrolmen
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Kaedah Penyampaian Perkhidmatan
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -53,11 +56,35 @@ export default function Program(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {moment(f.tarikhStart).format('DD/MM/YYYY')} -{' '}
-                    {moment(f.tarikhEnd).format('DD/MM/YYYY')}
+                    {!f.tarikhStart && !f.tarikhEnd && 'Belum ditetapkan'}
+                    {f.tarikhStart && f.tarikhEnd && (
+                      <p>
+                        {moment(f.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                        {moment(f.tarikhEnd).format('DD/MM/YYYY')}
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.tempat}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.jenisEvent !== 'programDewasaMuda' &&
+                      f.jenisEvent !== 'we' &&
+                      f.jenisEvent !== 'oku' && (
+                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Tidak Berkenaan
+                        </p>
+                      )}
+                    {(f.jenisEvent === 'programDewasaMuda' ||
+                      f.jenisEvent === 'we' ||
+                      f.jenisEvent === 'oku') &&
+                      f.enrolmenInstitusi === 'NOT APPLICABLE' &&
+                      'Belum ditetapkan'}
+                    {(f.jenisEvent === 'programDewasaMuda' ||
+                      f.jenisEvent === 'we' ||
+                      f.jenisEvent === 'oku') &&
+                      f.enrolmenInstitusi !== 'NOT APPLICABLE' &&
+                      f.enrolmenInstitusi}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <div>
