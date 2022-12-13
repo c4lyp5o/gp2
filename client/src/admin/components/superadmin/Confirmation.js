@@ -47,7 +47,7 @@ export const ConfirmModalForData = ({ children, func }) => {
                 {func === 'add' ? (
                   <p>Anda YAKIN untuk menambah data?</p>
                 ) : (
-                  <p>Anda YAKIN untuk mengubah data?</p>
+                  <p>Anda YAKIN untuk mengemaskini data?</p>
                 )}
               </div>
               <div className={styles.modalActions}>

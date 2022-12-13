@@ -8,6 +8,8 @@ import Followers from './Followers';
 import Tastad from './Tastad';
 import Pegawai from './Pegawai';
 import Institusi from './Institusi';
+import KlinikPergigianBergerak from './KPB';
+import MakmalPergigianBergerak from './MPB';
 
 import {
   ModalSosMed,
@@ -95,6 +97,12 @@ export default function DataKp({ FType }) {
           case 'ins':
             setShow({ ins: true });
             break;
+          case 'kpb':
+            setShow({ kpb: true });
+            break;
+          case 'mpb':
+            setShow({ mpb: true });
+            break;
           default:
             setShow({ program: true });
             break;
@@ -167,6 +175,8 @@ export default function DataKp({ FType }) {
         {show.pp ? <Pegawai {...props} /> : null}
         {show.jp ? <Pegawai {...props} /> : null}
         {show.ins ? <Institusi {...props} /> : null}
+        {show.kpb ? <KlinikPergigianBergerak {...props} /> : null}
+        {show.mpb ? <MakmalPergigianBergerak {...props} /> : null}
       </>
     );
   };

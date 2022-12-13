@@ -67,6 +67,23 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // MPB KPB
+  jumlahHariBeroperasi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahPesakitBaru: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahPesakitUlangan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
 });
 
 const Fasiliti = mongoose.model('Fasiliti', fasilitiSchema);
