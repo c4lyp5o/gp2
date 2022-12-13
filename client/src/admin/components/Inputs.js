@@ -1,9 +1,36 @@
 import { useState } from 'react';
 import { SubmitButton, BusyButton } from './Buttons';
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import moment from 'moment';
 
 import { RiCloseLine } from 'react-icons/ri';
 import styles from '../Modal.module.css';
+
+const StartDate = (props) => {
+  const { masterDatePicker } = useGlobalAdminAppContext();
+  return masterDatePicker({
+    selected: props.startDateDP,
+    onChange: (date) => {
+      const tempDate = moment(date).format('YYYY-MM-DD');
+      props.setStartDateDP(date);
+      props.setEditedEntity({ ...props.editedEntity, tarikhStart: tempDate });
+    },
+    className: 'border-2 w-full',
+  });
+};
+
+const EndDate = (props) => {
+  const { masterDatePicker } = useGlobalAdminAppContext();
+  return masterDatePicker({
+    selected: props.endDateDP,
+    onChange: (date) => {
+      const tempDate = moment(date).format('YYYY-MM-DD');
+      props.setEndDateDP(date);
+      props.setEditedEntity({ ...props.editedEntity, tarikhEnd: tempDate });
+    },
+    className: 'border-2 w-full',
+  });
+};
 
 export function InputKlinik(props) {
   return (
@@ -16,7 +43,7 @@ export function InputKlinik(props) {
         <div className={styles.centered}>
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>TAMBAH KLINIK PERGIGIAN</h5>
+              <h5 className={styles.heading}>Tambah Klinik Pergigian</h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -175,7 +202,7 @@ export function InputPegawai(props) {
           <div className={styles.modalAdd}>
             <div className={styles.modalHeader}>
               <h5 className={styles.heading}>
-                TAMBAH {Dictionary[props.FType]}
+                Tambah {Dictionary[props.FType]}
               </h5>
             </div>
             <span
@@ -765,7 +792,7 @@ export function InputFacility(props) {
                     name='checkbox'
                     value='active'
                     onChange={(e) =>
-                      props.props.setStatusPerkhidmatan(e.target.value)
+                      props.setStatusPerkhidmatan(e.target.value)
                     }
                   />
                   <label htmlFor='nama'>Tidak Aktif</label>
@@ -776,7 +803,7 @@ export function InputFacility(props) {
                     name='checkbox'
                     value='non-active'
                     onChange={(e) =>
-                      props.props.setStatusPerkhidmatan(e.target.value)
+                      props.setStatusPerkhidmatan(e.target.value)
                     }
                   />
                 </div>
@@ -792,11 +819,8 @@ export function InputFacility(props) {
                       const selectedKlinik = props.klinik.find(
                         (k) => k.kodFasiliti === e.target.value
                       );
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        kodFasiliti: selectedKlinik.kodFasiliti,
-                        handler: selectedKlinik.kp,
-                      });
+                      props.setKp(selectedKlinik.kp);
+                      props.setKodFasiliti(selectedKlinik.kodFasiliti);
                     }}
                   >
                     <option value=''>Pilih Klinik</option>
@@ -1794,5 +1818,609 @@ export function InputEditEvent(props) {
         </div>
       </form>
     </>
+  );
+}
+
+export function InputKpEditPegawai(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalAdd}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              Kemaskini {Dictionary[props.FType]}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='admin-pegawai-handler-input'>
+              <p>Nama Pegawai</p>
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.nama}
+              </div>
+              {props.FType === 'pp' && <p>Nombor MDC</p>}
+              {props.FType === 'jp' && <p>Nombor MDTB</p>}
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.mdcNumber ? (
+                  <span>{props.editedEntity.mdcNumber}</span>
+                ) : (
+                  <span>{props.editedEntity.mdtbNumber}</span>
+                )}
+              </div>
+              <p>Gred</p>
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.gred}
+              </div>
+              <p>Emel</p>
+              <div className='grid gap-1 font-bold normal-case'>
+                {props.editedEntity.email}
+              </div>
+              <p>Role</p>
+              <div className='grid gap-1 font-bold'>
+                {props.editedEntity.role === 'admin' ? 'Pentadbir' : 'Pengguna'}
+              </div>
+              {/* <p>
+                Emel <span className='font-semibold text-lg text-user6'>*</span>
+              </p>
+              <div className='grid gap-1'>
+                <input
+                  required
+                  defaultValue={props.editedEntity.email}
+                  className='border-2'
+                  type='text'
+                  name='email'
+                  id='email'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      email: e.target.value,
+                    });
+                  }
+                  }
+                />
+              </div>
+              <div className='grid gap-1'>
+                <p>
+                  Gred{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                {props.FType === 'pp' ? (
+                  <select
+                    readOnly={true}
+                    value={props.editedEntity.gred}
+                    className='border-2'
+                    // onChange={(e) => (currentGred.current = e.target.value)}
+                  >
+                    <option value=''>Pilih Gred</option>
+                    <option value='jusa'>JUSA</option>
+                    <option value='ug56'>UG56</option>
+                    <option value='ug54'>UG54</option>
+                    <option value='ug52'>UG52</option>
+                    <option value='ug48'>UG48</option>
+                    <option value='ug44'>UG44</option>
+                    <option value='ug41'>UG41</option>
+                  </select>
+                ) : (
+                  <select
+                    defaultValue={props.editedEntity.gred}
+                    className='border-2'
+                    // onChange={(e) => (currentGred.current = e.target.value)}
+                  >
+                    <option value=''>Pilih Gred</option>
+                    <option value='u40'>U40</option>
+                    <option value='u38'>U38</option>
+                    <option value='u36'>U36</option>
+                    <option value='u32'>U32</option>
+                    <option value='u29'>U29</option>
+                  </select>
+                )}
+              </div>
+              <div className='grid gap-1'>
+                <p>
+                  Role{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <select
+                  readOnly={true}
+                  value={props.editedEntity.role}
+                  className='border-2'
+                  onChange={(e) => (currentRole.current = e.target.value)}
+                >
+                  <option value=''>Pilih Role</option>
+                  <option value='admin'>Pentadbir Klinik</option>
+                  <option value='umum'>Pengguna</option>
+                </select>
+              </div> */}
+              <p>CSCSP Verified</p>
+              <div className='grid grid-cols-2'>
+                <label htmlFor='cscspYes'>Mempunyai Sijil CSCSP</label>
+                <input
+                  checked={
+                    props.editedEntity.cscspVerified === true ? true : false
+                  }
+                  type='radio'
+                  name='statusAktif'
+                  value='true'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      cscspVerified: true,
+                    });
+                  }}
+                />
+                <label htmlFor='cscspNo'>Tidak Mempunyai Sijil CSCSP</label>
+                <input
+                  checked={
+                    props.editedEntity.cscspVerified === false ? true : false
+                  }
+                  type='radio'
+                  name='statusTidakAktif'
+                  value='false'
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      cscspVerified: false,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.modalActions}>
+          <div className={styles.actionsContainer}>
+            {props.editingData ? (
+              <BusyButton func='edit' />
+            ) : (
+              <SubmitButton func='edit' />
+            )}
+            <span
+              className={styles.cancelBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              Cancel
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function InputKpEditFacility(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalEdit}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              Kemaskini {Dictionary[props.FType]}{' '}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='grid gap-1'>
+              <p>
+                Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+              </p>
+              <p>Jenis Fasiliti: {props.editedEntity.jenisFasiliti}</p>
+              <p>Enrolmen: </p>
+              <div className='grid grid-gap-1'>
+                <input
+                  autoFocus
+                  type='text'
+                  className='border-2'
+                  value={props.editedEntity.enrolmenTastad}
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      enrolmenTastad: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalActions}>
+            <div className={styles.actionsContainer}>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+              <span
+                className={styles.cancelBtn}
+                onClick={() => props.setShowEditModal(false)}
+              >
+                Cancel
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function InputKpEditEvent(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalEvent}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Kemaskini Program / Aktiviti</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='mb-3'>
+                  <p>
+                    Tarikh Program Komuniti{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  {/* <input
+                      readOnly
+                      className='border-2'
+                      type='date'
+                      name='tarikh'
+                      id='tarikh'
+                      value={props.editedEntity.tarikh}
+                    /> */}
+                  <StartDate {...props} />
+                  <EndDate {...props} />
+                  <p>
+                    Nama Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      disabled={true}
+                      type='text'
+                      name='jenisEvent'
+                      id='jenisEvent'
+                      readOnly
+                      className='border-2 w-full overflow-x-hidden'
+                      value={Dictionary[props.editedEntity.jenisEvent]}
+                    />
+                    {/* <select
+                        disabled={true}
+                        readOnly
+                        className='border-2 w-full overflow-x-hidden'
+                        value={props.editedEntity.jenisEvent}
+                        // onChange={(e) => {
+                        //   currentJenisEvent.current = e.target.value;
+                        //   setEditedEntity({
+                        //     ...editedEntity,
+                        //     jenisEvent: e.target.value,
+                        //   });
+                        // }}
+                        name='jenisEvent'
+                        id='jenisEvent'
+                      >
+                        <option value=''>Jenis Program / Aktiviti</option>
+                        <option value='projek-komuniti'>Projek Komuniti</option>
+                        <option value='ppkps'>
+                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                          Sekolah
+                        </option>
+                        <option value='oap'>
+                          Program Orang Asli dan Penan
+                        </option>
+                        <option value='pps20'>
+                          program pergigian sekolah sesi 2022/2023
+                        </option>
+                      </select> */}
+                  </div>
+                  <p className='mt-3 font-semibold'>
+                    Mod Penyampaian Perkhidmatan
+                  </p>
+                  <div className='grid grid-cols-2 gap-1'>
+                    <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='ppb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'ppb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='kpb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'kpb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='mpb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'mpb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <p>
+                    Nama Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      readOnly
+                      className='border-2'
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      value={props.editedEntity.nama}
+                    />
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Tempat
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        readOnly
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        value={props.editedEntity.tempat}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            tempat: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  {props.editingData ? (
+                    <BusyButton func='edit' />
+                  ) : (
+                    <SubmitButton func='edit' />
+                  )}
+                  <span
+                    className={styles.cancelBtn}
+                    onClick={() => props.setShowEditModal(false)}
+                  >
+                    Kembali
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+export function InputKpEditInstitusi(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalEdit}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              Kemaskini {Dictionary[props.FType]}{' '}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='grid gap-1'>
+              <p>
+                Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+              </p>
+              <p>
+                Jenis Fasiliti:{' '}
+                {Dictionary[props.editedEntity.kategoriInstitusi]}
+              </p>
+              <p>Enrolmen: </p>
+              <div className='grid grid-gap-1'>
+                <input
+                  autoFocus
+                  type='text'
+                  className='border-2'
+                  value={
+                    props.editedEntity.enrolmenInstitusi === 'NOT APPLICABLE'
+                      ? ''
+                      : props.editedEntity.enrolmenInstitusi
+                  }
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      enrolmenInstitusi: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalActions}>
+            <div className={styles.actionsContainer}>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+              <span
+                className={styles.cancelBtn}
+                onClick={() => props.setShowEditModal(false)}
+              >
+                Cancel
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+export function InputKpEditKPBMPB(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <form onSubmit={props.confirm(props.handleSubmit)}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowEditModal(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalEdit}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              Kemaskini {Dictionary[props.FType]}{' '}
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowEditModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='grid gap-1'>
+              <p>
+                Jenis Fasiliti: {Dictionary[props.editedEntity.jenisFasiliti]}
+              </p>
+              <p>
+                Nombor Plat:{' '}
+                <p className='capitalize'>{props.editedEntity.nama}</p>{' '}
+              </p>
+              <div className='grid grid-gap-1'>
+                <p>Jumlah Hari Beroperasi: </p>
+                <input
+                  type='text'
+                  className='border-2'
+                  value={
+                    props.editedEntity.jumlahHariBeroperasi === 'NOT APPLICABLE'
+                      ? ''
+                      : props.editedEntity.jumlahHariBeroperasi
+                  }
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      jumlahHariBeroperasi: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className='grid grid-gap-1'>
+                <p>Jumlah Pesakit Baru: </p>
+                <input
+                  type='text'
+                  className='border-2'
+                  value={
+                    props.editedEntity.jumlahPesakitBaru === 'NOT APPLICABLE'
+                      ? ''
+                      : props.editedEntity.jumlahPesakitBaru
+                  }
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      jumlahPesakitBaru: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className='grid grid-gap-1'>
+                <p>Jumlah Pesakit Ulangan: </p>
+                <input
+                  type='text'
+                  className='border-2'
+                  value={
+                    props.editedEntity.jumlahPesakitUlangan === 'NOT APPLICABLE'
+                      ? ''
+                      : props.editedEntity.jumlahPesakitUlangan
+                  }
+                  onChange={(e) => {
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      jumlahPesakitUlangan: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalActions}>
+            <div className={styles.actionsContainer}>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+              <span
+                className={styles.cancelBtn}
+                onClick={() => props.setShowEditModal(false)}
+              >
+                Cancel
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   );
 }

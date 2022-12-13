@@ -1,9 +1,9 @@
-export default function Tastad(props) {
+export default function KlinikPergigianBergerak(props) {
   if (props.data.length > 0) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai Taska / Tadika {props.kp}
+          Senarai Klinik Pergigian Bergerak
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
@@ -13,25 +13,16 @@ export default function Tastad(props) {
                   Bil.
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Fasiliti
+                  Nombor Plat KPB
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Jenis Fasiliti
-                </th>
-                {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Klinik Pergigian
+                  Jumlah Hari Beroperasi
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Kod Fasiliti
+                  Jumlah Pesakit Baru
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Status
-                </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Alamat Fasiliti
-                </th> */}
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Enrolmen
+                  Jumlah Pesakit Ulangan
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Tindakan
@@ -48,32 +39,19 @@ export default function Tastad(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.jenisFasiliti}
-                  </td>
-                  {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.handler}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
-                    {f.kodTastad}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.statusPerkhidmatan === 'active' ? (
-                      <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
-                        Aktif
-                      </span>
-                    ) : (
-                      <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                        Tidak Aktif
-                      </span>
-                    )}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.alamatTastad}
-                  </td> */}
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.enrolmenTastad === 'NOT APPLICABLE'
+                    {f.jumlahHariBeroperasi === 'NOT APPLICABLE'
                       ? 'Belum ditetapkan'
-                      : f.enrolmenTastad}
+                      : f.jumlahHariBeroperasi}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.jumlahPesakitBaru === 'NOT APPLICABLE'
+                      ? 'Belum ditetapkan'
+                      : f.jumlahPesakitBaru}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.jumlahPesakitUlangan === 'NOT APPLICABLE'
+                      ? 'Belum ditetapkan'
+                      : f.jumlahPesakitUlangan}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <button

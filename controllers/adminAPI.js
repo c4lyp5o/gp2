@@ -35,7 +35,7 @@ const Dictionary = {
   sm: 'sekolah-menengah',
   ins: 'institusi',
   kpb: 'kp-bergerak',
-  mp: 'makmal-pergigian',
+  mpb: 'makmal-pergigian',
   event: 'event',
   'sa-a': 'superadmin-all',
   sosmed: 'sosmed',
@@ -86,7 +86,6 @@ const initialData = async (req, res) => {
   for (let i = 0; i < negeri.length; i++) {
     let temp = [];
     let usernames = [];
-    let klinik = [];
     for (let j = 0; j < daerah.length; j++) {
       if (negeri[i].negeri === daerah[j].negeri && daerah[j].daerah !== '-') {
         let tempDaerah = {
@@ -339,6 +338,7 @@ const getDataRoute = async (req, res) => {
       data = await Event.find({
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        assignedByDaerah: true,
       });
       break;
     case 'sosmed':
@@ -449,13 +449,24 @@ const getDataKpRoute = async (req, res) => {
         activationStatus: true,
       });
       break;
-    case 'ins':
+    case 'institusi':
       data = await Fasiliti.find({
-        jenisFasiliti: Dictionary[FType],
+        jenisFasiliti: type,
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
       });
       break;
+    case 'kp-bergerak':
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        kodFasilitiHandler: kodFasiliti,
+      });
+      break;
+    case 'makmal-pergigian':
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        kodFasilitiHandler: kodFasiliti,
+      });
     default:
       console.log('default');
       break;
