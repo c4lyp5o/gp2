@@ -16,7 +16,7 @@ exports.downloader = async function (req, res) {
   const { authorization, klinikid, klinikdaerah, kliniknegeri, pegawai } =
     req.headers;
   //
-  let username;
+  let currentKp, currentDaerah, currentNegeri, username;
   if (!authorization) {
     console.log('no authorization');
     // kp = klinikid;
@@ -25,12 +25,13 @@ exports.downloader = async function (req, res) {
   }
   if (authorization) {
     const token = authorization.split(' ')[1];
-    // kp = jwt.verify(token, process.env.JWT_SECRET).kp;
-    // daerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
-    // negeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
+    currentKp = jwt.verify(token, process.env.JWT_SECRET).kp;
+    currentDaerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
+    currentNegeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
     username = jwt.verify(token, process.env.JWT_SECRET).username;
   }
-  const {
+  // check query
+  let {
     jenisReten,
     negeri,
     daerah,
@@ -41,6 +42,12 @@ exports.downloader = async function (req, res) {
     id,
     formatFile,
   } = req.query;
+  // if kaunter user
+  if (!klinik) {
+    klinik = currentKp;
+    daerah = currentDaerah;
+    negeri = currentNegeri;
+  }
   const payload = {
     klinik,
     daerah,

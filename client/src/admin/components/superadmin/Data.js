@@ -517,7 +517,7 @@ export default function Data({ FType, kp }) {
                     Nama {Dictionary[FType]}
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Nama Klinik
+                    Nama Klinik Bertugas
                   </th>
                   {(FType === 'taska' || FType === 'tadika') && (
                     <>
@@ -774,6 +774,12 @@ export default function Data({ FType, kp }) {
       );
     }
   }
+
+  const props = {
+    setShowAddModal,
+    setShowEditModal,
+    setShowDeleteModal,
+  };
 
   if (loading) {
     return <Loading />;
