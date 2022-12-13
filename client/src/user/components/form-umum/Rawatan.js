@@ -1,5 +1,5 @@
 import { FaInfoCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 const optionsRawatan = [
@@ -15,7 +15,6 @@ const optionsRawatan = [
   { value: 'x-ray', label: 'Bilangan X-Ray Yang Diambil' },
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
-  { value: 'uppr', label: 'UPPR' },
   { value: 'kes-selesai', label: 'Kes Selesai' },
   { value: 'lihat-semua', label: 'Lihat Semua' },
 ];
@@ -24,7 +23,11 @@ export default function Rawatan(props) {
   const [pilihanRawatan, setPilihanRawatan] = useState([]);
   const [showKesSelesai, setShowKesSelesai] = useState(false);
   let isDisabled = false;
-  if (props.statusReten === 'telah diisi') {
+  if (
+    props.statusReten === 'telah diisi' ||
+    (props.singlePersonUmum.rawatanDibuatOperatorLain === true &&
+      !props.operatorLain)
+  ) {
     isDisabled = true;
   }
 
@@ -47,7 +50,7 @@ export default function Rawatan(props) {
                       <Select
                         isMulti
                         name='rawatan'
-                        defaultValue={optionsRawatan[12]}
+                        defaultValue={optionsRawatan[11]}
                         options={optionsRawatan}
                         className='basic-multi-select'
                         classNamePrefix='select'
@@ -100,7 +103,10 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
-                        <label className='mx-2 text-sm font-m'>
+                        <label
+                          htmlFor='pesakit-dibuat-fissure-sealant'
+                          className='mx-2 text-sm font-m'
+                        >
                           pesakit dibuat Pengapan Fisur
                         </label>
                       </div>
@@ -345,7 +351,10 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
-                        <label className='mx-2 text-sm font-m'>
+                        <label
+                          htmlFor='pesakit-dibuat-prr-jenis-1'
+                          className='mx-2 text-sm font-m'
+                        >
                           pesakit diberi PRR jenis 1
                         </label>
                       </div>
@@ -513,28 +522,30 @@ export default function Rawatan(props) {
                           max='32'
                         />
                       </div>
-                      <div className='flex items-center flex-row col-span-2 pl-5'>
-                        <p className='text-sm font-m'>
-                          Cabutan disebabkan periodontitis:
-                        </p>
-                        <input
-                          disabled={isDisabled}
-                          type='number'
-                          name='cabutan-disebabkan-periodontitis-rawatan-umum'
-                          id='cabutan-disebabkan-periodontitis-rawatan-umum'
-                          value={
-                            props.cabutanDisebabkanPeriodontitisRawatanUmum
-                          }
-                          onChange={(e) => {
-                            props.setCabutanDisebabkanPeriodontitisRawatanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          min='0'
-                          max='32'
-                        />
-                      </div>
+                      {props.cabutKekalRawatanUmum > 0 ? (
+                        <div className='flex items-center flex-row col-span-2 pl-5'>
+                          <p className='text-sm font-m'>
+                            Cabutan disebabkan periodontitis:
+                          </p>
+                          <input
+                            disabled={isDisabled}
+                            type='number'
+                            name='cabutan-disebabkan-periodontitis-rawatan-umum'
+                            id='cabutan-disebabkan-periodontitis-rawatan-umum'
+                            value={
+                              props.cabutanDisebabkanPeriodontitisRawatanUmum
+                            }
+                            onChange={(e) => {
+                              props.setCabutanDisebabkanPeriodontitisRawatanUmum(
+                                e.target.value
+                              );
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            min='0'
+                            max={props.cabutKekalRawatanUmum}
+                          />
+                        </div>
+                      ) : null}
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('pembedahan-mulut') ||
@@ -602,62 +613,6 @@ export default function Rawatan(props) {
                           </label>
                         </div>
                       </div>
-                      {/* <div className='flex items-center justify-evenly col-start-2'>
-                    <div>
-                      <input
-                      disabled={isDisabled}
-                        type='radio'
-                        name='baru-semula-abses-pembedahan-rawatan-umum'
-                        id='baru-abses-pembedahan-rawatan-umum'
-                        value='baru-abses-pembedahan-rawatan-umum'
-                        checked={
-                          props.baruSemulaAbsesPembedahanRawatanUmum ===
-                          'baru-abses-pembedahan-rawatan-umum'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          props.setBaruSemulaAbsesPembedahanRawatanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='baru-abses-pembedahan-rawatan-umum'
-                        className='m-2 text-sm font-m'
-                      >
-                        baru
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                      disabled={isDisabled}
-                        type='radio'
-                        name='baru-semula-abses-pembedahan-rawatan-umum'
-                        id='semula-abses-pembedahan-rawatan-umum'
-                        value='semula-abses-pembedahan-rawatan-umum'
-                        checked={
-                          props.baruSemulaAbsesPembedahanRawatanUmum ===
-                          'semula-abses-pembedahan-rawatan-umum'
-                            ? true
-                            : false
-                        }
-                        onChange={(e) => {
-                          props.setBaruSemulaAbsesPembedahanRawatanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                      <label
-                        htmlFor='semula-abses-pembedahan-rawatan-umum'
-                        className='m-2 text-sm font-m'
-                      >
-                        semula
-                      </label>
-                    </div>
-                  </div> */}
                       <div className='flex items-center flex-row col-span-2 pl-5'>
                         <p className='text-sm font-m'>Cabutan surgikal :</p>
                         <input
@@ -1197,6 +1152,34 @@ export default function Rawatan(props) {
                             max='2'
                           />
                         </div>
+                        {props.singlePersonUmum.jenisFasiliti ===
+                          'projek-komuniti-lain' && (
+                          <div className='flex flex-row items-center pl-3'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='menggunakan-makmal-pergigian-bergerak'
+                              id='menggunakan-makmal-pergigian-bergerak'
+                              checked={
+                                props.menggunakanMakmalPergigianBergerak
+                                  ? true
+                                  : false
+                              }
+                              onChange={() => {
+                                props.setMenggunakanMakmalPergigianBergerak(
+                                  !props.menggunakanMakmalPergigianBergerak
+                                );
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='menggunakan-makmal-pergigian-bergerak'
+                              className='text-sm pl-2'
+                            >
+                              menggunakan makmal pergigian bergerak
+                            </label>
+                          </div>
+                        )}
                       </article>
                       <div className='flex flex-row items-center pl-5 col-span-2'>
                         <label
@@ -1662,52 +1645,6 @@ export default function Rawatan(props) {
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         rawatan periodontik
                       </h4>
-                      {/* <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='penskaleran-rawatan-umum'
-                          id='penskaleran-rawatan-umum'
-                          checked={props.penskaleranRawatanUmum ? true : false}
-                          onChange={() => {
-                            props.setPenskaleranRawatanUmum(
-                              !props.penskaleranRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='penskaleran-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          penskaleran
-                        </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='rawatan-lain-periodontik-rawatan-umum'
-                          id='rawatan-lain-periodontik-rawatan-umum'
-                          checked={
-                            props.rawatanLainPeriodontikRawatanUmum
-                              ? true
-                              : false
-                          }
-                          onChange={() => {
-                            props.setRawatanLainPeriodontikRawatanUmum(
-                              !props.rawatanLainPeriodontikRawatanUmum
-                            );
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
-                          className='mx-2 text-sm font-m'
-                        >
-                          rawatan lain
-                        </label>
-                      </div> */}
                       <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
                         <h4 className='font-semibold flex flex-row items-center pl-3 col-span-2'>
                           Pengurusan Faktor Risiko
@@ -1818,7 +1755,7 @@ export default function Rawatan(props) {
                           htmlFor='pengilapan-tampalan-rungkup'
                           className='text-left flex justify-start items-center text-sm pl-3'
                         >
-                          Pengilapan Tampalan Rungkup :
+                          Penggilapan Tampalan Rungkup :
                         </label>
                         <input
                           disabled={isDisabled}
@@ -1877,7 +1814,7 @@ export default function Rawatan(props) {
                           htmlFor='ektiparsi-pulpa'
                           className='text-left flex justify-start items-center text-sm pl-3'
                         >
-                          Ektiparsi Pulpa :
+                          Ektirparsi Pulpa :
                         </label>
                         <input
                           disabled={isDisabled}
@@ -1970,7 +1907,7 @@ export default function Rawatan(props) {
                           </label>
                         </div>
                         {props.rujukanPakarPeriodontik ===
-                          'ya-rujukan-pakar-periodontik' && (
+                          'tidak-rujukan-pakar-periodontik' && (
                           <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
                             <input
                               disabled={isDisabled}
@@ -2028,7 +1965,7 @@ export default function Rawatan(props) {
                           htmlFor='rujukan-pakar-scd'
                           className='text-left flex justify-start items-center text-sm pl-3'
                         >
-                          Pakar Scd (Special Care Dentistry) :
+                          Pakar SCD (Special Care Dentistry) :
                         </label>
                         <input
                           disabled={isDisabled}
@@ -2346,88 +2283,92 @@ export default function Rawatan(props) {
                           />
                         </div>
                       </article>
-                    </article>
-                  ) : null}
-                  {/* pink */}
-                  {pilihanRawatan.includes('uppr') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-semibold flex flex-row pl-3'>
-                        kes rujuk Unit Pakar Pergigian Restoratif
-                      </h4>
-                      <div className='flex flex-row items-center pl-3'>
-                        <label
-                          htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                          className='text-sm font-m m-1'
-                        >
-                          memenuhi RDITN kod 3 :
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='10'
-                          type='number'
-                          name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                          id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                          value={props.memenuhiRditnKod3KesRujukUpprRawatanUmum}
-                          onChange={(e) => {
-                            props.setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user5 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-3'>
-                        <label
-                          htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                          className='text-sm font-m m-1'
-                        >
-                          restorasi pasca endodontik :
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                          id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                          value={
-                            props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
-                          }
-                          onChange={(e) => {
-                            props.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user5 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-3'>
-                        <label
-                          htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                          className='text-sm font-m m-1'
-                        >
-                          komplikasi semasa rawatan KEPP :
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                          id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                          value={
-                            props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
-                          }
-                          onChange={(e) => {
-                            props.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user5 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
+                      <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-semibold flex flex-row pl-3'>
+                          kes rujuk Unit Pakar Pergigian Restoratif
+                        </h4>
+                        <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
+                          <label
+                            htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                            className='text-sm font-m m-1 flex flex-row'
+                          >
+                            memenuhi RDITN kod 3 :
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                            id='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                            value={
+                              props.memenuhiRditnKod3KesRujukUpprRawatanUmum
+                            }
+                            checked={
+                              props.memenuhiRditnKod3KesRujukUpprRawatanUmum
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              props.setMemenuhiRditnKod3KesRujukUpprRawatanUmum(
+                                !props.memenuhiRditnKod3KesRujukUpprRawatanUmum
+                              );
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                        </div>
+                        <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
+                          <label
+                            htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                            className='text-sm font-m m-1 flex flex-row'
+                          >
+                            restorasi pasca endodontik :
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                            id='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                            value={
+                              props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
+                            }
+                            checked={
+                              props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              props.setRestorasiPascaEndodontikKesRujukUpprRawatanUmum(
+                                !props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
+                              );
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                        </div>
+                        <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
+                          <label
+                            htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                            className='text-sm font-m m-1 flex flex-row'
+                          >
+                            komplikasi semasa rawatan KEPP :
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                            id='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                            checked={
+                              props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
+                                ? true
+                                : false
+                            }
+                            onChange={() => {
+                              props.setKomplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum(
+                                !props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
+                              );
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                        </div>
+                      </article>
                     </article>
                   ) : null}
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
@@ -2458,8 +2399,7 @@ export default function Rawatan(props) {
                   </article>
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      rawatan ada dibuat oleh operator lain pada hari yang sama
-                      sahaja
+                      Rawatan dibuat oleh operator lain
                     </h4>
                     <div className='flex flex-row items-center pl-5 m-1'>
                       <input
@@ -2479,7 +2419,8 @@ export default function Rawatan(props) {
                         htmlFor='rawatan-dibuat-operator-lain-umum'
                         className='mx-2 text-sm font-m'
                       >
-                        Rawatan dibuat oleh operator lain
+                        Rawatan ada dibuat oleh operator lain pada hari yang
+                        sama sahaja
                       </label>
                     </div>
                   </article>

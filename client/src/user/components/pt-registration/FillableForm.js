@@ -58,6 +58,7 @@ export default function FillableForm({
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
   const [umurBulan, setUmurBulan] = useState(0);
+  const [umurHari, setUmurHari] = useState(0);
   const [jantina, setJantina] = useState('');
   const [kumpulanEtnik, setKumpulanEtnik] = useState('');
   const [alamat, setAlamat] = useState('');
@@ -73,7 +74,8 @@ export default function FillableForm({
   const [statusPesara, setStatusPesara] = useState('');
   const [noPesara, setNoPesara] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
-  const [noBayaran, setNoBayaran] = useState('');
+  const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
+  const [noBayaran, setNoBayaran] = useState(0);
   const [noResit, setNoResit] = useState('');
   const [catatan, setCatatan] = useState('');
 
@@ -158,10 +160,12 @@ export default function FillableForm({
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
         const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+        const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
         setTarikhLahirDP(tarikhLahir);
         setTarikhLahir(tempDate);
         setUmur(tahun);
         setUmurBulan(bulan);
+        setUmurHari(hari);
         setConfirmData({
           ...confirmData,
           tarikhLahir: tempDate,
@@ -193,6 +197,16 @@ export default function FillableForm({
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
     const months = Math.floor(days_diff / 30.4167);
     const values = `${months} months`;
+    return values;
+  };
+
+  //kira days
+  const howOldAreYouMyFrienddays = (date) => {
+    const today = new Date();
+    const dob = new Date(date);
+    const diff = today.getTime() - dob.getTime();
+    const days_diff = Math.floor((diff % 31556736000) / 86400000);
+    const values = `${days_diff} days`;
     return values;
   };
 
@@ -283,16 +297,19 @@ export default function FillableForm({
       const tempDate = moment(age.dob).format('YYYY-MM-DD');
       const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
       const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+      const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
       setTarikhLahir(tempDate);
       setTarikhLahirDP(age.dobISO);
       setUmur(tahun);
       setUmurBulan(bulan);
+      setUmurHari(hari);
       setConfirmData({
         ...confirmData,
         ic: ic,
         tarikhLahir: age.dob,
         umur: tahun,
         umurBulan: bulan,
+        umurHari: hari,
       });
     }
   };
@@ -379,6 +396,7 @@ export default function FillableForm({
         tarikhLahir,
         umur,
         umurBulan,
+        umurHari,
         jantina,
         nomborTelefon,
         emel,
@@ -398,6 +416,7 @@ export default function FillableForm({
       setIc(ic);
       setUmur(umur);
       setUmurBulan(umurBulan);
+      setUmurHari(umurHari);
       setJantina(jantina);
       setNomborTelefon(nomborTelefon);
       setEmel(emel);
@@ -419,6 +438,7 @@ export default function FillableForm({
         ic,
         umur,
         umurBulan,
+        umurHari,
         jantina,
         nomborTelefon,
         emel,
@@ -455,6 +475,16 @@ export default function FillableForm({
     setCheckingIc(false);
   };
 
+  // birth of nak daftar nama ic ibu
+  useEffect(() => {
+    if (jenisIc === 'birth-of') {
+      setNama('B/0');
+    }
+    if (jenisIc !== 'birth-of') {
+      setNama('');
+    }
+  }, [jenisIc]);
+
   // submission
   const handleSubmit = async (e) => {
     if (!editId) {
@@ -479,6 +509,7 @@ export default function FillableForm({
               tarikhLahir: moment(tarikhLahirDP).format('YYYY-MM-DD'),
               umur,
               umurBulan,
+              umurHari,
               jantina,
               kumpulanEtnik,
               alamat,
@@ -494,6 +525,7 @@ export default function FillableForm({
               statusPesara,
               noPesara,
               rujukDaripada,
+              kakitanganKerajaan,
               noBayaran,
               noResit,
               catatan,
@@ -570,6 +602,7 @@ export default function FillableForm({
               tarikhLahir,
               umur,
               umurBulan,
+              umurHari,
               jantina,
               kumpulanEtnik,
               alamat,
@@ -656,6 +689,7 @@ export default function FillableForm({
     setTarikhLahir('');
     setUmur(0);
     setUmurBulan(0);
+    setUmurHari(0);
     setJantina('');
     setKumpulanEtnik('');
     setAlamat('');
@@ -671,6 +705,7 @@ export default function FillableForm({
     setStatusPesara('');
     setNoPesara('');
     setRujukDaripada('');
+    setKakitanganKerajaan(false);
     setNoBayaran('');
     setNoResit('');
     setCatatan('');
@@ -770,6 +805,13 @@ export default function FillableForm({
     }
   }, [jantina]);
 
+  //reset bayaran if kerajaan
+  useEffect(() => {
+    if (!editId) {
+      setNoBayaran('');
+    }
+  }, [kakitanganKerajaan]);
+
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
     if (editId) {
@@ -796,6 +838,7 @@ export default function FillableForm({
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
           setUmur(data.singlePersonKaunter.umur);
           setUmurBulan(data.singlePersonKaunter.umurBulan);
+          setUmurHari(data.singlePersonKaunter.umurHari);
           setJantina(data.singlePersonKaunter.jantina);
           setKumpulanEtnik(data.singlePersonKaunter.kumpulanEtnik);
           setAlamat(data.singlePersonKaunter.alamat);
@@ -893,6 +936,7 @@ export default function FillableForm({
             ic: data.singlePersonKaunter.ic,
             umur: data.singlePersonKaunter.umur,
             umurBulan: data.singlePersonKaunter.umurBulan,
+            umurHari: data.singlePersonKaunter.umurHari,
             jantina: data.singlePersonKaunter.jantina,
             kumpulanEtnik: data.singlePersonKaunter.kumpulanEtnik,
             alamat: data.singlePersonKaunter.alamat,
@@ -1059,7 +1103,7 @@ export default function FillableForm({
                         htmlFor='temujanji'
                         className='inline-flex text-sm'
                       >
-                        Pesakit Temujanji
+                        Pesakit Janjitemu
                       </label>
                     </div>
                   </div>
@@ -1085,6 +1129,12 @@ export default function FillableForm({
                         <option value='tentera'>Tentera</option>
                         <option value='polis'>Polis</option>
                         <option value='sijil-lahir'>Sijil lahir</option>
+                        <option value='birth-of'>
+                          <i>Birth Of</i>
+                        </option>
+                        <option value='tiada-pengenalan'>
+                          Tiada Pengenalan Yang Sah
+                        </option>
                       </select>
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
@@ -1203,11 +1253,19 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
-                    nama: <span className='font-semibold text-user6'>*</span>
+                    nama:{' '}
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full'>
                     <input
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       type='text'
                       id='nama-umum'
                       name='nama-umum'
@@ -1252,7 +1310,7 @@ export default function FillableForm({
                         name='umur'
                         id='umur'
                         value={umur}
-                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
+                        className='appearance-none w-16 md:w-20 py-1 px-2 ring-2 ring-kaunter3 outline-r-hidden focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-l-md peer'
                       />
                       <label
                         htmlFor='umur'
@@ -1269,7 +1327,7 @@ export default function FillableForm({
                         name='umurBulan'
                         id='umurBulan'
                         value={umurBulan}
-                        className='appearance-none w-28 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                        className='appearance-none w-16 md:w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none peer'
                       />
                       <label
                         htmlFor='umurBulan'
@@ -1278,15 +1336,40 @@ export default function FillableForm({
                         Bulan
                       </label>
                     </div>
+                    <div className='relative'>
+                      <input
+                        disabled
+                        placeholder='bulan'
+                        type='number'
+                        name='umurHari'
+                        id='umurHari'
+                        value={umurHari}
+                        className='appearance-none w-16 md:w-20 py-1 px-2 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter3 focus:outline-none rounded-r-md peer'
+                      />
+                      <label
+                        htmlFor='umurHari'
+                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                      >
+                        Hari
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
-                    jantina: <span className='font-semibold text-user6'>*</span>
+                    jantina:
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       name='jantina'
                       id='jantina'
                       value={jantina}
@@ -1311,11 +1394,18 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     kumpulan etnik:{' '}
-                    <span className='font-semibold text-user6'>*</span>
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       name='kumpulanEtnik'
                       id='kumpulanEtnik'
                       value={kumpulanEtnik}
@@ -1360,13 +1450,21 @@ export default function FillableForm({
                     </span>
                   </div>
                 </div>
-                <div className='grid grid-cols-[1fr_2fr] 2xl:col-start-1 m-2'>
+                <div className='grid grid-cols-[1fr_2fr] lg:col-start-1 m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    alamat: <span className='font-semibold text-user6'>*</span>
+                    alamat:{' '}
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full'>
                     <input
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       value={alamat}
                       onChange={(e) => {
                         setAlamat(e.target.value);
@@ -1386,11 +1484,19 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    daerah: <span className='font-semibold text-user6'>*</span>
+                    daerah:{' '}
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <input
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       value={daerahAlamat}
                       onChange={(e) => {
                         setDaerahAlamat(e.target.value);
@@ -1410,11 +1516,19 @@ export default function FillableForm({
                 </div>
                 <div className='text-right grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    negeri: <span className='font-semibold text-user6'>*</span>
+                    negeri:{' '}
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       value={negeriAlamat}
                       onChange={(e) => {
                         setNegeriAlamat(e.target.value);
@@ -1450,11 +1564,19 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    poskod: <span className='font-semibold text-user6'>*</span>
+                    poskod:{' '}
+                    {jenisIc === 'birth-of' ||
+                    jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <input
-                      required
+                      required={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? false
+                          : true
+                      }
                       type='text'
                       name='poskod-alamat'
                       pattern='[0-9]+'
@@ -1694,7 +1816,7 @@ export default function FillableForm({
                     />
                   )}
                 </div>
-                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     rujuk daripada:{' '}
                   </p>
@@ -1733,37 +1855,58 @@ export default function FillableForm({
                     <p>:</p>
                   </div>
                   <div>
-                    <div className='flex flex-col justify-start'>
-                      <div
-                        className='relative w-full md:w-56 my-2'
-                        title='Bayaran / Pengecualian bayaran'
-                      >
-                        <input
-                          value={noBayaran}
-                          type='text'
-                          name='no-bayaran'
-                          id='no-bayaran'
-                          placeholder=' '
-                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
-                          onChange={(e) => {
-                            setNoBayaran(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              noBayaran: e.target.value,
-                            });
-                          }}
-                        />
-                        <label
-                          htmlFor='no-bayaran'
-                          className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
-                        >
-                          Bayaran
-                        </label>
-                        <span>
-                          <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
-                        </span>
-                      </div>
+                    <div className='flex flex-row'>
+                      <input
+                        type='checkbox'
+                        name='kakitangankerajaan'
+                        id='kakitangankerajaan'
+                        checked={kakitanganKerajaan ? true : false}
+                        onChange={() => {
+                          setKakitanganKerajaan(!kakitanganKerajaan);
+                          setConfirmData({
+                            ...confirmData,
+                            kakitanganKerajaan: !kakitanganKerajaan,
+                          });
+                        }}
+                        className='mr-2'
+                      />
+                      <label htmlFor='kakitangankerajaan'>
+                        Kakitangan Kerajaan
+                      </label>
                     </div>
+                    {kakitanganKerajaan === false && (
+                      <div className='flex flex-col justify-start'>
+                        <div
+                          className='relative w-full md:w-56 my-2'
+                          title='Bayaran / Pengecualian bayaran'
+                        >
+                          <input
+                            value={noBayaran}
+                            type='number'
+                            name='no-bayaran'
+                            id='no-bayaran'
+                            placeholder=' '
+                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                            onChange={(e) => {
+                              setNoBayaran(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                noBayaran: e.target.value,
+                              });
+                            }}
+                          />
+                          <label
+                            htmlFor='no-bayaran'
+                            className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                          >
+                            Bayaran (RM)
+                          </label>
+                          <span>
+                            <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3 bg-userWhite' />
+                          </span>
+                        </div>
+                      </div>
+                    )}
                     <div
                       className='relative w-full md:w-56 my-2'
                       title='No. Resit / No. GL'

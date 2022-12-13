@@ -2119,18 +2119,19 @@ function UserFormPromosi({ individuOrKlinik }) {
                 ) : null}
               </article>
             </section>
-            <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
-              <span
-                onClick={() => {
-                  window.opener = null;
-                  window.open('', '_self');
-                  window.close();
-                }}
-                className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-              >
-                tutup
-              </span>
-              <input
+            <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
+              <div className='grid grid-cols-2 gap-3 lg:col-start-2'>
+                <span
+                  onClick={() => {
+                    window.opener = null;
+                    window.open('', '_self');
+                    window.close();
+                  }}
+                  className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                >
+                  tutup
+                </span>
+                {/* <input
                 disabled={
                   singleAktivitiPromosi.statusReten === 'telah diisi' && true
                 }
@@ -2140,23 +2141,24 @@ function UserFormPromosi({ individuOrKlinik }) {
                   singleAktivitiPromosi.statusReten === 'belum diisi' &&
                   'hover:bg-user1 hover:text-userWhite'
                 }`}
-              />
-              <button
-                disabled={
-                  singleAktivitiPromosi.statusReten === 'telah diisi' && true
-                }
-                type='submit'
-                className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
-                  singleAktivitiPromosi.statusReten === 'belum diisi' &&
-                  'hover:bg-user1 hover:text-userWhite'
-                }`}
-              >
-                {singleAktivitiPromosi.statusReten === 'belum diisi' &&
-                  'hantar'}
-                {singleAktivitiPromosi.statusReten === 'telah diisi' && (
-                  <s>hantar</s>
-                )}
-              </button>
+              /> */}
+                <button
+                  disabled={
+                    singleAktivitiPromosi.statusReten === 'telah diisi' && true
+                  }
+                  type='submit'
+                  className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                    singleAktivitiPromosi.statusReten === 'belum diisi' &&
+                    'hover:bg-user1 hover:text-userWhite'
+                  }`}
+                >
+                  {singleAktivitiPromosi.statusReten === 'belum diisi' &&
+                    'hantar'}
+                  {singleAktivitiPromosi.statusReten === 'telah diisi' && (
+                    <s>hantar</s>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>

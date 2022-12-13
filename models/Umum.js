@@ -32,6 +32,7 @@ const UmumSchema = new mongoose.Schema(
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
+    umurHari: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
     kumpulanEtnik: { type: String, default: '' },
     alamat: { type: String, default: '' },
@@ -46,7 +47,8 @@ const UmumSchema = new mongoose.Schema(
     statusPesara: { type: String, default: '' },
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
-    noBayaran: { type: String, default: '' },
+    kakitanganKerajaan: { type: Boolean, default: false },
+    noBayaran: { type: Number, default: 0 },
     noResit: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
@@ -450,10 +452,6 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // baruSemulaAbsesPembedahanRawatanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
     cabutanSurgikalPembedahanMulutRawatanUmum: {
       type: Number,
       min: 0,
@@ -483,16 +481,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // baruJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahCrownBridgeRawatanUmum: {
       type: Number,
       min: 0,
@@ -532,6 +530,10 @@ const UmumSchema = new mongoose.Schema(
       type: Number,
       min: 0,
       default: 0,
+    },
+    menggunakanMakmalPergigianBergerak: {
+      type: Boolean,
+      default: false,
     },
     immediateDenturProstodontikRawatanUmum: {
       type: Number,
@@ -618,14 +620,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // penskaleranRawatanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // rawatanLainPeriodontikRawatanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     kaunselingDiet: {
       type: Boolean,
       default: false,
@@ -735,19 +729,16 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     memenuhiRditnKod3KesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     restorasiPascaEndodontikKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     kesSelesaiRawatanUmum: {
       type: Boolean,
