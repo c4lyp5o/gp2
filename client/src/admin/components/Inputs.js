@@ -2246,6 +2246,210 @@ export function InputKpEditEvent(props) {
   );
 }
 
+export function InputKpEditEventFromDaerah(props) {
+  const { Dictionary } = useGlobalAdminAppContext();
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalEvent}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Kemaskini Program / Aktiviti</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='mb-3'>
+                  <p>
+                    Tarikh Program Komuniti{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  {/* <input
+                      readOnly
+                      className='border-2'
+                      type='date'
+                      name='tarikh'
+                      id='tarikh'
+                      value={props.editedEntity.tarikh}
+                    /> */}
+                  <StartDate {...props} />
+                  <EndDate {...props} />
+                  <p>
+                    Nama Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      disabled={true}
+                      type='text'
+                      name='jenisEvent'
+                      id='jenisEvent'
+                      readOnly
+                      className='border-2 w-full overflow-x-hidden'
+                      value={Dictionary[props.editedEntity.jenisEvent]}
+                    />
+                    {/* <select
+                        disabled={true}
+                        readOnly
+                        className='border-2 w-full overflow-x-hidden'
+                        value={props.editedEntity.jenisEvent}
+                        // onChange={(e) => {
+                        //   currentJenisEvent.current = e.target.value;
+                        //   setEditedEntity({
+                        //     ...editedEntity,
+                        //     jenisEvent: e.target.value,
+                        //   });
+                        // }}
+                        name='jenisEvent'
+                        id='jenisEvent'
+                      >
+                        <option value=''>Jenis Program / Aktiviti</option>
+                        <option value='projek-komuniti'>Projek Komuniti</option>
+                        <option value='ppkps'>
+                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                          Sekolah
+                        </option>
+                        <option value='oap'>
+                          Program Orang Asli dan Penan
+                        </option>
+                        <option value='pps20'>
+                          program pergigian sekolah sesi 2022/2023
+                        </option>
+                      </select> */}
+                  </div>
+                  <div className='grid grid-gap-1'>
+                    <p>Enrolmen: </p>
+                    <input
+                      autoFocus
+                      type='text'
+                      className='border-2'
+                      value={
+                        props.editedEntity.enrolmenInstitusi ===
+                        'NOT APPLICABLE'
+                          ? ''
+                          : props.editedEntity.enrolmenInstitusi
+                      }
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmenInstitusi: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <p className='mt-3 font-semibold'>
+                    Mod Penyampaian Perkhidmatan
+                  </p>
+                  <div className='grid grid-cols-2 gap-1'>
+                    <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='ppb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'ppb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='kpb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'kpb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='mpb'
+                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                        'mpb'
+                      )}
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <p>
+                    Nama Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      readOnly
+                      className='border-2'
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      value={props.editedEntity.nama}
+                    />
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Tempat
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        readOnly
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        value={props.editedEntity.tempat}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            tempat: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  {props.editingData ? (
+                    <BusyButton func='edit' />
+                  ) : (
+                    <SubmitButton func='edit' />
+                  )}
+                  <span
+                    className={styles.cancelBtn}
+                    onClick={() => props.setShowEditModal(false)}
+                  >
+                    Kembali
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
 export function InputKpEditInstitusi(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
@@ -2276,8 +2480,8 @@ export function InputKpEditInstitusi(props) {
                 Jenis Fasiliti:{' '}
                 {Dictionary[props.editedEntity.kategoriInstitusi]}
               </p>
-              <p>Enrolmen: </p>
               <div className='grid grid-gap-1'>
+                <p>Enrolmen: </p>
                 <input
                   autoFocus
                   type='text'

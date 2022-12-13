@@ -142,7 +142,7 @@ export default function AdminAfterLogin() {
               <Route path='tadika' element={<Data FType='tadika' />} />
               <Route path='sr' element={<Data FType='sr' />} />
               <Route path='sm' element={<Data FType='sm' />} />
-              <Route path='ins' element={<Data FType='ins' />} />
+              {/* <Route path='ins' element={<Data FType='ins' />} /> */}
               <Route path='program' element={<Data FType='program' />} />
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mpb' element={<Data FType='mpb' />} />
@@ -167,7 +167,7 @@ export default function AdminAfterLogin() {
               <Route path='kp/tastad' element={<DataKp FType='tastad' />} />
               <Route path='kp/pp' element={<DataKp FType='pp' />} />
               <Route path='kp/jp' element={<DataKp FType='jp' />} />
-              <Route path='kp/ins' element={<DataKp FType='ins' />} />
+              {/* <Route path='kp/ins' element={<DataKp FType='ins' />} /> */}
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
             </>
