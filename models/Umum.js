@@ -90,7 +90,7 @@ const UmumSchema = new mongoose.Schema(
     jenisProgram: { type: String, default: 'NOT APPLICABLE' },
     namaProgram: { type: String, default: 'NOT APPLICABLE' },
     // end of kaunter -------------------------------------------
-    //pemeriksaan
+    //pemeriksaan -------------------------------------------------------------------
     statusKehadiran: {
       type: Boolean,
       default: false,
@@ -188,7 +188,7 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    //sdf nak guna masa depan -------------------------------------------------------------------
+    //sdf nak guna masa depan
     // baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
     //   type: Number,
     //   min: 0,
