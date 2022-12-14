@@ -2064,6 +2064,11 @@ export function InputKpEditFacility(props) {
 
 export function InputKpEditEvent(props) {
   const { Dictionary } = useGlobalAdminAppContext();
+  const [show, setShow] = useState({
+    kpb: false,
+    ppb: false,
+    mpb: false,
+  });
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2109,7 +2114,6 @@ export function InputKpEditEvent(props) {
                       type='text'
                       name='jenisEvent'
                       id='jenisEvent'
-                      readOnly
                       className='border-2 w-full overflow-x-hidden'
                       value={Dictionary[props.editedEntity.jenisEvent]}
                     />
@@ -2142,20 +2146,28 @@ export function InputKpEditEvent(props) {
                         </option>
                       </select> */}
                   </div>
-                  <p className='mt-3 font-semibold'>
-                    Mod Penyampaian Perkhidmatan
-                  </p>
                   <div className='grid grid-cols-2 gap-1'>
+                    <p className='mt-3 font-semibold'>
+                      Mod Penyampaian Perkhidmatan
+                    </p>
                     <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                     <input
                       type='checkbox'
                       name='mod'
                       value='ppb'
-                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                        'ppb'
-                      )}
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'ppb'
+                            )
+                          : false
+                      }
                       onChange={(e) => {
                         props.eventModeChecker(e.target.value);
+                        setShow({
+                          ...show,
+                          ppb: !show.ppb,
+                        });
                       }}
                     />
                     <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
@@ -2163,11 +2175,19 @@ export function InputKpEditEvent(props) {
                       type='checkbox'
                       name='mod'
                       value='kpb'
-                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                        'kpb'
-                      )}
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'kpb'
+                            )
+                          : false
+                      }
                       onChange={(e) => {
                         props.eventModeChecker(e.target.value);
+                        setShow({
+                          ...show,
+                          kpb: !show.kpb,
+                        });
                       }}
                     />
                     <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
@@ -2175,26 +2195,41 @@ export function InputKpEditEvent(props) {
                       type='checkbox'
                       name='mod'
                       value='mpb'
-                      checked={props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                        'mpb'
-                      )}
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'mpb'
+                            )
+                          : false
+                      }
                       onChange={(e) => {
                         props.eventModeChecker(e.target.value);
+                        setShow({
+                          ...show,
+                          mpb: !show.mpb,
+                        });
                       }}
                     />
                   </div>
-                  <p>
-                    Nama Program Komuniti
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
                   <div className='grid gap-1'>
+                    <p>
+                      Nama Program Komuniti
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
                     <input
-                      readOnly
                       className='border-2'
                       type='text'
                       name='nama'
                       id='nama'
                       value={props.editedEntity.nama}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          nama: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className='grid gap-1'>
@@ -2206,7 +2241,6 @@ export function InputKpEditEvent(props) {
                     </p>
                     <div className='grid gap-1'>
                       <input
-                        readOnly
                         className='border-2'
                         type='text'
                         name='nama'
@@ -2346,10 +2380,10 @@ export function InputKpEditEventFromDaerah(props) {
                       }}
                     />
                   </div>
-                  <p className='mt-3 font-semibold'>
-                    Mod Penyampaian Perkhidmatan
-                  </p>
                   <div className='grid grid-cols-2 gap-1'>
+                    <p className='mt-3 font-semibold'>
+                      Mod Penyampaian Perkhidmatan
+                    </p>
                     <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
                     <input
                       type='checkbox'
@@ -2387,11 +2421,13 @@ export function InputKpEditEventFromDaerah(props) {
                       }}
                     />
                   </div>
-                  <p>
-                    Nama Program Komuniti
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </p>
                   <div className='grid gap-1'>
+                    <p>
+                      Nama Program Komuniti
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
                     <input
                       readOnly
                       className='border-2'
