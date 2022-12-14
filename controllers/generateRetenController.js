@@ -4,7 +4,6 @@ const path = require('path');
 const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
-const cryptoJs = require('crypto-js');
 const Umum = require('../models/Umum');
 const logger = require('../logs/logger');
 
@@ -13,8 +12,7 @@ const Helper = require('../controllers/countHelper');
 
 // gateway
 exports.downloader = async function (req, res) {
-  const { authorization, klinikid, klinikdaerah, kliniknegeri, pegawai } =
-    req.headers;
+  const { authorization } = req.headers;
   //
   let currentKp, currentDaerah, currentNegeri, username;
   if (!authorization) {
@@ -513,11 +511,11 @@ const makePG101A = async (payload) => {
         rowNew.getCell(5).value = data[i].noPendaftaranUlangan;
       }
       // decrypt ic
-      const decryptedIc = cryptoJs.AES.decrypt(
-        data[i].ic,
-        process.env.CRYPTO_JS_SECRET
-      ).toString(cryptoJs.enc.Utf8);
-      data[i].ic = decryptedIc;
+      // const decryptedIc = cryptoJs.AES.decrypt(
+      //   data[i].ic,
+      //   process.env.CRYPTO_JS_SECRET
+      // ).toString(cryptoJs.enc.Utf8);
+      // data[i].ic = decryptedIc;
       // decrypt ic
       rowNew.getCell(6).value = data[i].ic;
       rowNew.getCell(7).value = data[i].nama.toUpperCase();
@@ -707,11 +705,11 @@ const makePG101C = async (payload) => {
         rowNew.getCell(5).value = data[i].noPendaftaranUlangan;
       }
       // decrypt ic
-      const decryptedIc = cryptoJs.AES.decrypt(
-        data[i].ic,
-        process.env.CRYPTO_JS_SECRET
-      ).toString(cryptoJs.enc.Utf8);
-      data[i].ic = decryptedIc;
+      // const decryptedIc = cryptoJs.AES.decrypt(
+      //   data[i].ic,
+      //   process.env.CRYPTO_JS_SECRET
+      // ).toString(cryptoJs.enc.Utf8);
+      // data[i].ic = decryptedIc;
       // decrypt ic
       rowNew.getCell(6).value = data[i].ic;
       rowNew.getCell(7).value = data[i].nama.toUpperCase();

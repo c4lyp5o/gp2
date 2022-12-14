@@ -806,8 +806,11 @@ const EditModalForKp = ({
       return;
     }
     if (
-      editedEntity.enrolmenInstitusi === '' ||
-      editedEntity.enrolmenInstitusi === 'NOT APPLICABLE'
+      (editedEntity.enrolmenInstitusi === '' ||
+        editedEntity.enrolmenInstitusi === 'NOT APPLICABLE') &&
+      (editedEntity.jenisEvent === 'programDewasaMuda' ||
+        editedEntity.jenisEvent === 'we' ||
+        editedEntity.jenisEvent === 'oku')
     ) {
       toast.error(`Sila masukkan enrolment`);
       return;
@@ -824,6 +827,8 @@ const EditModalForKp = ({
         createdByKp: kp,
         jenisEvent: editedEntity.jenisEvent,
         enrolmenInstitusi: editedEntity.enrolmenInstitusi,
+        penggunaanKpb: editedEntity.penggunaanKpb,
+        penggunaanMpb: editedEntity.penggunaanMpb,
         modPenyampaianPerkhidmatan: editedEntity.modPenyampaianPerkhidmatan,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
@@ -860,8 +865,7 @@ const EditModalForKp = ({
         jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
       };
     }
-    console.log(Data);
-    updateDataForKp(FType, id, Data).then((res) => {
+    updateDataForKp(FType, id, Data).then(() => {
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
       setReload(!reload);
@@ -869,10 +873,17 @@ const EditModalForKp = ({
   };
 
   const eventModeChecker = (e) => {
-    console.log(e);
     if (editedEntity.modPenyampaianPerkhidmatan.includes(e)) {
+      let reset = {};
+      if (e.includes('kpb')) {
+        reset.penggunaanKpb = 'NOT APPLICABLE';
+      }
+      if (e.includes('mpb')) {
+        reset.penggunaanMpb = 'NOT APPLICABLE';
+      }
       setEditedEntity({
         ...editedEntity,
+        ...reset,
         modPenyampaianPerkhidmatan:
           editedEntity.modPenyampaianPerkhidmatan.filter((item) => item !== e),
       });
@@ -919,21 +930,18 @@ const EditModalForKp = ({
           {(confirm) => <InputKpEditFacility {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType === 'program' && (
+      {FType === 'program' && !editedEntity.assignedByDaerah && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <InputKpEditEvent {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
-      {FType === 'program' &&
-        (editedEntity.jenisEvent === 'programDewasaMuda' ||
-          editedEntity.jenisEvent === 'we' ||
-          editedEntity.jenisEvent === 'oku') && (
-          <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-            {(confirm) => (
-              <InputKpEditEventFromDaerah {...props} confirm={confirm} />
-            )}
-          </ConfirmModalForData>
-        )}
+      {FType === 'program' && editedEntity.assignedByDaerah && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
+          {(confirm) => (
+            <InputKpEditEventFromDaerah {...props} confirm={confirm} />
+          )}
+        </ConfirmModalForData>
+      )}
       {FType === 'ins' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <InputKpEditInstitusi {...props} confirm={confirm} />}
