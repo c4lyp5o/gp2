@@ -443,7 +443,11 @@ export default function AdminLoginForm() {
                                         <option
                                           key={a.mdcNumber}
                                           id='admin'
-                                          value={a.mdcNumber}
+                                          value={
+                                            a.mdcNumber
+                                              ? a.mdcNumber
+                                              : a.mdtbNumber
+                                          }
                                           className='capitalize'
                                         >
                                           {a.nama.toUpperCase()}
