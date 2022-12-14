@@ -280,6 +280,7 @@ const dictionaryDaerah = {
   ],
   'WP Labuan': ['WP Labuan'],
   'WP Putrajaya': ['WP Putrajaya'],
+  ILK: ['ILK'],
 };
 
 const UserAppContext = React.createContext();
