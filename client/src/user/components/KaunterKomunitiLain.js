@@ -1,7 +1,7 @@
 import { useGlobalUserAppContext } from '../context/userAppContext';
 import moment from 'moment';
 
-export default function KomunitiLain({
+export default function KaunterKomunitiLain({
   jenisFasiliti,
   setNamaProgram,
   semuaProgram,
