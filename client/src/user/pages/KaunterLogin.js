@@ -133,6 +133,7 @@ function KaunterLogin() {
                     <option value='WP Kuala Lumpur'>WP Kuala Lumpur</option>
                     <option value='WP Labuan'>WP Labuan</option>
                     <option value='WP Putrajaya'>WP Putrajaya</option>
+                    <option value='ILK'>ILK</option>
                   </select>
                 </div>
                 {pilihanNegeri && listDaerah.length >= 1 && (
