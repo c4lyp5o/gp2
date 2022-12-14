@@ -65,6 +65,10 @@ const createPersonKaunter = async (req, res) => {
   const personExist = await Umum.findOne({
     ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    createdByKp: req.user.kp,
+    createdByKodFasiliti: req.user.kodFasiliti,
   });
 
   // tagging person according to their status
