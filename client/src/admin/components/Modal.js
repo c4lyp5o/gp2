@@ -785,13 +785,12 @@ const EditModalForKp = ({
   useEffect(() => {
     readOneDataForKp(FType, id).then((res) => {
       setEditedEntity(res.data);
-      if (!res.data.tarikhStart && !res.data.tarikhEnd) {
-        setStartDateDP(null);
-        setEndDateDP(null);
-      } else {
-        setStartDateDP(new Date(res.data.tarikhStart));
-        setEndDateDP(new Date(res.data.tarikhEnd));
-      }
+      res.data.tarikhStart
+        ? setStartDateDP(new Date(res.data.tarikhStart))
+        : setStartDateDP(null);
+      res.data.tarikhEnd
+        ? setEndDateDP(new Date(res.data.tarikhEnd))
+        : setEndDateDP(null);
     });
     setTimeout(() => {
       setLoading(false);
