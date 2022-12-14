@@ -30,10 +30,16 @@ export default function Program(props) {
                   Tempat Aktiviti
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Enrolmen
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Kaedah Penyampaian Perkhidmatan
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Urus
+                  POA Daerah / Negeri
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Tindakan
                 </th>
               </tr>
             </thead>
@@ -50,25 +56,64 @@ export default function Program(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {moment(f.tarikhStart).format('DD/MM/YYYY')} -{' '}
-                    {moment(f.tarikhEnd).format('DD/MM/YYYY')}
+                    {!f.tarikhStart && !f.tarikhEnd && 'Belum ditetapkan'}
+                    {f.tarikhStart && f.tarikhEnd && (
+                      <p>
+                        {moment(f.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                        {moment(f.tarikhEnd).format('DD/MM/YYYY')}
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.tempat}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.jenisEvent !== 'programDewasaMuda' &&
+                      f.jenisEvent !== 'we' &&
+                      f.jenisEvent !== 'oku' && (
+                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Tidak Berkenaan
+                        </p>
+                      )}
+                    {(f.jenisEvent === 'programDewasaMuda' ||
+                      f.jenisEvent === 'we' ||
+                      f.jenisEvent === 'oku') &&
+                      f.enrolmenInstitusi === 'NOT APPLICABLE' &&
+                      'Belum ditetapkan'}
+                    {(f.jenisEvent === 'programDewasaMuda' ||
+                      f.jenisEvent === 'we' ||
+                      f.jenisEvent === 'oku') &&
+                      f.enrolmenInstitusi !== 'NOT APPLICABLE' &&
+                      f.enrolmenInstitusi}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <div>
                       {f.modPenyampaianPerkhidmatan.length > 0 ? (
                         <div>
                           {f.modPenyampaianPerkhidmatan.map((f) => (
-                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1'>
                               {Dictionary[f]}
-                            </span>
+                            </p>
                           ))}
                         </div>
                       ) : (
                         <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak Berkenaan
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    <div>
+                      {f.assignedByDaerah ? (
+                        <div>
+                          <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            YA
+                          </span>
+                        </div>
+                      ) : (
+                        <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Tidak
                         </span>
                       )}
                     </div>
@@ -84,17 +129,19 @@ export default function Program(props) {
                     >
                       Kemaskini
                     </button>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                      id={f._id}
-                      onClick={() => {
-                        props.setShowDeleteModal(true);
-                        props.setId(f._id);
-                        props.setDeleteCandidate(f.nama);
-                      }}
-                    >
-                      Hapus
-                    </button>
+                    {!f.assignedByDaerah ? (
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={() => {
+                          props.setShowDeleteModal(true);
+                          props.setId(f._id);
+                          props.setDeleteCandidate(f.nama);
+                        }}
+                      >
+                        Hapus
+                      </button>
+                    ) : null}
                   </td>
                 </tr>
               ))}

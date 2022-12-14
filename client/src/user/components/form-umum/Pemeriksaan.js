@@ -11,11 +11,6 @@ export default function Pemeriksaan(props) {
     isDisabled = true;
   }
 
-  useEffect(() => {
-    props.setSystolicTekananDarah(parseInt(props.systolicTekananDarah));
-    props.setDiastolicTekananDarah(parseInt(props.diastolicTekananDarah));
-  }, [props.systolicTekananDarah, props.diastolicTekananDarah]);
-
   return (
     <>
       <div className='pb-1 pr-2 pl-2'>
@@ -92,6 +87,8 @@ export default function Pemeriksaan(props) {
                     onChange={(e) => {
                       props.setSystolicTekananDarah(e.target.value);
                     }}
+                    min='0'
+                    max='300'
                     className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                   />
                   <p className='font-bold text-2xl'> / </p>
@@ -105,12 +102,16 @@ export default function Pemeriksaan(props) {
                     onChange={(e) => {
                       props.setDiastolicTekananDarah(e.target.value);
                     }}
+                    min='0'
+                    max='300'
                     className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                   />
                   {(props.systolicTekananDarah > 140 &&
                     props.diastolicTekananDarah > 90) ||
                   (props.systolicTekananDarah < 90 &&
-                    props.diastolicTekananDarah < 60) ? (
+                    props.systolicTekananDarah > 0 &&
+                    props.diastolicTekananDarah < 60 &&
+                    props.diastolicTekananDarah > 0) ? (
                     <div className='flex items-center text-left'>
                       <input
                         disabled={isDisabled}

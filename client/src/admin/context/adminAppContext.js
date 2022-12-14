@@ -554,7 +554,10 @@ function AdminAppProvider({ children }) {
     sm: 'Sekolah Menengah',
     ins: 'Institusi',
     kpb: 'Klinik Pergigian Bergerak',
-    mp: 'Makmal Pergigian',
+    'kp-bergerak': 'Klinik Pergigian Bergerak',
+    mp: 'Makmal Pergigian Bergerak',
+    mpb: 'Makmal Pergigian Bergerak',
+    'makmal-pergigian': 'Makmal Pergigian Bergerak',
     event: 'Event',
     'projek-komuniti': 'Projek Komuniti',
     utc: 'UTC',
@@ -566,7 +569,6 @@ function AdminAppProvider({ children }) {
     oku: 'Institusi OKU / PDK',
     oap: 'Program Orang Asli dan Penan',
     ppb: 'Pasukan Pergigian Bergerak',
-    mpb: 'Makmal Pergigian Bergerak',
     program: 'Program',
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
@@ -682,6 +684,12 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  const EmailValidator = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   return (
     <AdminAppContext.Provider
       value={{
@@ -742,6 +750,7 @@ function AdminAppProvider({ children }) {
         getKlinikData,
         // ahq
         adhocQuery,
+        EmailValidator,
       }}
     >
       {children}

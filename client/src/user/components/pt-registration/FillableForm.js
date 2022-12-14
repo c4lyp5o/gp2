@@ -1105,7 +1105,7 @@ export default function FillableForm({
                         htmlFor='temujanji'
                         className='inline-flex text-sm'
                       >
-                        Pesakit Janjitemu
+                        Pesakit Janji Temu
                       </label>
                     </div>
                   </div>
@@ -1132,7 +1132,7 @@ export default function FillableForm({
                         <option value='polis'>Polis</option>
                         <option value='sijil-lahir'>Sijil lahir</option>
                         <option value='birth-of'>
-                          <i>Birth Of</i>
+                          <i>Baby Of</i>
                         </option>
                         <option value='tiada-pengenalan'>
                           Tiada Pengenalan Yang Sah

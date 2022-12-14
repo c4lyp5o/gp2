@@ -21,6 +21,7 @@ export default function DaftarPesakit({ createdByKp }) {
   const [data, setData] = useState(null);
   const [philter, setPhilter] = useState('');
   const [date, setDate] = useState(new Date());
+  const [generating, setGenerating] = useState(false);
   const [pilihanTarikh, setPilihanTarikh] = useState(
     moment(new Date()).format('YYYY-MM-DD')
   );
@@ -33,7 +34,9 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `PG101-${createdByKp}-${new Date().toDateString()}.xlsx`;
+    link.download = `PG101A-${createdByKp}-${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -45,11 +48,11 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    setGenerating(true);
     await toast
       .promise(
         axios.get(
-          // `/api/v1/generate/download?jenisReten=PG101&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=PG101&tarikhMula=2022-01-01&tarikhAkhir=2022-12-31&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=PG101A&tarikhMula=2022-01-01&tarikhAkhir=2022-12-31&formatFile=xlsx`,
           {
             headers: { Authorization: `Bearer ${kaunterToken}` },
             responseType: 'blob',
@@ -65,6 +68,7 @@ export default function DaftarPesakit({ createdByKp }) {
       .then((blob) => {
         saveFile(blob.data);
       });
+    setGenerating(false);
   };
 
   const CustomDatePicker = () => {
@@ -141,13 +145,43 @@ export default function DaftarPesakit({ createdByKp }) {
           <CustomDatePicker />
         </div>
         <div className='m-3 xl:w-96 flex flex-row'>
-          <button
-            type='button'
-            className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-            onClick={handleJana}
-          >
-            Jana Laporan PG101
-          </button>
+          {generating ? (
+            <button
+              type='button'
+              className='inline-flex items-center text-center justify-center px-4 py-2 order-first lg:order-last capitalize rounded-md shadow-xl p-2 transition-all ease-in-out duration-150 cursor-not-allowed bg-kaunter2 text-userWhite hover:bg-kaunter1'
+              disabled=''
+            >
+              <svg
+                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+              >
+                <circle
+                  className='opacity-25'
+                  cx='12'
+                  cy='12'
+                  r='10'
+                  stroke='currentColor'
+                  strokeWidth='4'
+                ></circle>
+                <path
+                  className='opacity-75'
+                  fill='currentColor'
+                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                ></path>
+              </svg>
+              Sedang menjana reten...
+            </button>
+          ) : (
+            <button
+              type='button'
+              className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              onClick={handleJana}
+            >
+              Jana Laporan PG101
+            </button>
+          )}
         </div>
       </div>
       <div>
