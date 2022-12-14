@@ -35,7 +35,9 @@ const Dictionary = {
   sm: 'sekolah-menengah',
   ins: 'institusi',
   kpb: 'kp-bergerak',
+  'kpb-all': 'kp-bergerak-all',
   mpb: 'makmal-pergigian',
+  'mpb-all': 'makmal-pergigian-all',
   event: 'event',
   'sa-a': 'superadmin-all',
   sosmed: 'sosmed',
@@ -462,11 +464,22 @@ const getDataKpRoute = async (req, res) => {
         kodFasilitiHandler: kodFasiliti,
       });
       break;
+    case 'kp-bergerak-all':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'kp-bergerak',
+      });
+      break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
       });
+      break;
+    case 'makmal-pergigian-all':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'makmal-pergigian',
+      });
+      break;
     default:
       console.log('default');
       break;
