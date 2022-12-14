@@ -159,6 +159,29 @@ function KaunterAfterLogin() {
             }
           />
           <Route
+            path='projek-komuniti-lain'
+            element={
+              <Kaunter
+                jenisFasiliti='projek-komuniti-lain'
+                refreshTimer={refreshTimer}
+                setRefreshTimer={setRefreshTimer}
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                setCreatedByNegeri={createdByNegeri}
+              />
+            }
+          />
+          <Route
+            path='registry'
+            element={
+              <KaunterDaftarPesakit
+                createdByKp={createdByKp}
+                createdByDaerah={createdByDaerah}
+                createdByNegeri={createdByNegeri}
+              />
+            }
+          />
+          {/* <Route
             path='ipt-kolej'
             element={
               <Kaunter
@@ -225,30 +248,7 @@ function KaunterAfterLogin() {
                 setCreatedByNegeri={createdByNegeri}
               />
             }
-          />
-          <Route
-            path='projek-komuniti-lain'
-            element={
-              <Kaunter
-                jenisFasiliti='projek-komuniti-lain'
-                refreshTimer={refreshTimer}
-                setRefreshTimer={setRefreshTimer}
-                createdByKp={createdByKp}
-                createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
-              />
-            }
-          />
-          <Route
-            path='registry'
-            element={
-              <KaunterDaftarPesakit
-                createdByKp={createdByKp}
-                createdByDaerah={createdByDaerah}
-                createdByNegeri={createdByNegeri}
-              />
-            }
-          />
+          /> */}
           {/* <Route
             path='rtc-kelantan'
             element={
