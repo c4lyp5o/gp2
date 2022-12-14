@@ -1105,7 +1105,7 @@ export default function FillableForm({
                         htmlFor='temujanji'
                         className='inline-flex text-sm'
                       >
-                        Pesakit Janjitemu
+                        Pesakit Janji Temu
                       </label>
                     </div>
                   </div>
