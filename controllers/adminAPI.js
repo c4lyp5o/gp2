@@ -155,7 +155,7 @@ const checkUser = async (req, res) => {
       regNumber.mdcNumber = username;
     }
     const admins = await Operator.find(regNumber);
-    if (!admins && !tempUser) {
+    if (!admins) {
       return res.status(401).json({
         status: 'error',
         message: 'Tiada user ini di dalam sistem',
