@@ -6,7 +6,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import PatientData from './pt-registration/PatientData';
 import FillableForm from './pt-registration/FillableForm';
-import KomunitiLain from './KaunterKomunitiLain';
+import KaunterKomunitiLain from './KaunterKomunitiLain';
 
 function Kaunter({
   refreshTimer,
@@ -150,12 +150,12 @@ function Kaunter({
           editId={editId}
           setEditId={setEditId}
           jenisFasiliti={jenisFasiliti}
-          namaProgram={namaProgram}
           jenisProgram={jenisProgram}
+          namaProgram={namaProgram}
           kp={createdByKp}
         />
         {jenisFasiliti === 'projek-komuniti-lain' ? (
-          <KomunitiLain
+          <KaunterKomunitiLain
             jenisFasiliti={jenisFasiliti}
             semuaProgram={semuaProgram}
             setSemuaProgram={setSemuaProgram}
