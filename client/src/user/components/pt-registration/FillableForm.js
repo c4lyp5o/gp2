@@ -28,8 +28,8 @@ export default function FillableForm({
   editId,
   setEditId,
   jenisFasiliti,
-  namaProgram,
   jenisProgram,
+  namaProgram,
   kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
