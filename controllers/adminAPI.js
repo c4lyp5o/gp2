@@ -602,10 +602,12 @@ const getData = async (req, res) => {
               exists.kpSkrg = Data.kpSkrg;
               exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
+              exists.nama = Data.nama;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+              exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
@@ -629,10 +631,12 @@ const getData = async (req, res) => {
               exists.kpSkrg = Data.kpSkrg;
               exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
+              exists.nama = Data.nama;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+              exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
