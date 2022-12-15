@@ -304,7 +304,6 @@ const AddModal = ({
     klinik,
     sekolah,
     handleSubmit,
-    // ref
   };
 
   if (loading) {

@@ -895,17 +895,17 @@ UmumSchema.pre('save', async function () {
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
-        kp: this.createdByKp,
+        kodFasiliti: this.createdByKodFasiliti,
       });
       // if running number does not exist
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
+          runningnumber: 1,
           jenis: this.jenisFasiliti,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
-          kp: this.createdByKp,
-          runningnumber: 1,
+          kodFasiliti: this.createdByKodFasiliti,
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
