@@ -41,7 +41,6 @@ const UserSchema = new mongoose.Schema({
   },
   statusRoleKlinik: {
     type: String,
-    // required: [true, 'Please provide account type'],
     enum: {
       values: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
       message:
@@ -80,13 +79,13 @@ UserSchema.pre('save', async function () {
       const randomString = generateRandomString(8);
       this.password = randomString;
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: 'kp',
+        jenis: 'kpUser',
         negeri: this.negeri,
         daerah: this.daerah,
       });
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
-          jenis: 'kp',
+          jenis: 'kpUser',
           negeri: this.negeri,
           daerah: this.daerah,
           runningnumber: 1,

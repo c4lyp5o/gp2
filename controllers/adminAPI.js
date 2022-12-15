@@ -690,6 +690,7 @@ const getData = async (req, res) => {
                   kodFasiliti: Data.kodFasiliti,
                   role: 'umum',
                   rolePromosiKlinik: false,
+                  roleMediaSosialKlinik: false,
                   statusPegawai: 'jp',
                   cscspVerified: false,
                   activationStatus: true,
