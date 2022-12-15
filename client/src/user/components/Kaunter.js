@@ -107,10 +107,6 @@ function Kaunter({
     }
   }, [fetchProgramData]);
 
-  // useEffect(() => {
-  //   setRefreshTimer(!refreshTimer);
-  // }, []);
-
   if (loading) {
     return (
       <div className='mt-20'>
