@@ -126,7 +126,7 @@ function UserPilihNama() {
           htmlFor='user-pilih-nama-pengguna-relief'
           className='m-5 text-sm hover:cursor-pointer'
         >
-          saya pegawai / juruterapi pergigian relief
+          saya pegawai / juruterapi pergigian visiting / relief
         </label>
         <input
           id='user-pilih-nama-pengguna-relief'
