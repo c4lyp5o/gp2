@@ -98,9 +98,9 @@ export default function Data({ FType, kp }) {
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Bil.
                   </th>
-                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Kod Fasiliti
-                  </th>
+                  {/* <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                    Kod Fasiliti Gi-Ret 2.0
+                  </th> */}
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Nama KP
                   </th>
@@ -130,9 +130,9 @@ export default function Data({ FType, kp }) {
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
-                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                    {/* <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
                       {kp.kodFasiliti}
-                    </td>
+                    </td> */}
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {kp.kp}
                     </td>
@@ -143,7 +143,7 @@ export default function Data({ FType, kp }) {
                       {encryptEmail(kp.email)}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
-                      <div>{kp.username}</div>
+                      {/* <div>{kp.username}</div> */}
                       <div id={index}>
                         {showPassword[kp.username] === true
                           ? kp.password
@@ -162,7 +162,7 @@ export default function Data({ FType, kp }) {
                       </div>
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
-                      <div>{kp.kaunterUsername}</div>
+                      {/* <div>{kp.kaunterUsername}</div> */}
                       <div id={index}>
                         {showPassword[kp.kaunterUsername] === true
                           ? kp.kaunterPassword
