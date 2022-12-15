@@ -39,8 +39,14 @@ const eventSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  penggunaanKpb: { type: String, default: 'NOT APPLICABLE' },
-  penggunaanMpb: { type: String, default: 'NOT APPLICABLE' },
+  penggunaanKpb: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  penggunaanMpb: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   assignedByDaerah: {
     type: Boolean,
     default: false,
