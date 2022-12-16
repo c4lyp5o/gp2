@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import CurrencyFormat from 'react-currency-format';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import {
@@ -13,6 +14,8 @@ import {
   FaRestroom,
   FaUserInjured,
   FaMoneyCheckAlt,
+  FaPlusCircle,
+  FaMinusCircle,
 } from 'react-icons/fa';
 import moment from 'moment';
 
@@ -76,8 +79,14 @@ export default function FillableForm({
   const [noPesara, setNoPesara] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
   const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
-  const [noBayaran, setNoBayaran] = useState(0);
+  const [noBayaran, setNoBayaran] = useState('');
   const [noResit, setNoResit] = useState('');
+  const [tambahBayaran, setTambahBayaran] = useState(false);
+  const [noBayaran2, setNoBayaran2] = useState('');
+  const [noResit2, setNoResit2] = useState('');
+  const [tambahBayaran2, setTambahBayaran2] = useState(false);
+  const [noBayaran3, setNoBayaran3] = useState('');
+  const [noResit3, setNoResit3] = useState('');
   const [catatan, setCatatan] = useState('');
 
   // kepp
@@ -520,6 +529,10 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              noBayaran2,
+              noResit2,
+              noBayaran3,
+              noResit3,
               catatan,
               // kepp
               kepp,
@@ -613,6 +626,10 @@ export default function FillableForm({
               rujukDaripada,
               noBayaran,
               noResit,
+              noBayaran2,
+              noResit2,
+              noBayaran3,
+              noResit3,
               catatan,
               // kepp
               kepp,
@@ -702,6 +719,10 @@ export default function FillableForm({
     setKakitanganKerajaan(false);
     setNoBayaran('');
     setNoResit('');
+    setNoBayaran2('');
+    setNoResit2('');
+    setNoBayaran3('');
+    setNoResit3('');
     setCatatan('');
     // kepp
     setKepp(false);
@@ -820,6 +841,10 @@ export default function FillableForm({
   useEffect(() => {
     if (!editId) {
       setNoBayaran('');
+      setNoResit('');
+      setNoBayaran2('');
+      setNoResit2('');
+      setNoBayaran3('');
     }
   }, [kakitanganKerajaan]);
 
@@ -893,6 +918,11 @@ export default function FillableForm({
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
+          setTambahBayaran(true);
+          setNoBayaran2(data.singlePersonKaunter.noBayaran2);
+          setNoResit2(data.singlePersonKaunter.noResit2);
+          setNoBayaran3(data.singlePersonKaunter.noBayaran3);
+          setNoResit3(data.singlePersonKaunter.noResit3);
           setCatatan(data.singlePersonKaunter.catatan);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
@@ -1947,69 +1977,236 @@ export default function FillableForm({
                       </label>
                     </div>
                     {kakitanganKerajaan === false && (
-                      <div className='flex flex-col justify-start'>
-                        <div
-                          className='relative w-full md:w-56 my-2'
-                          title='Bayaran / Pengecualian bayaran'
-                        >
-                          <input
-                            value={noBayaran}
-                            type='number'
-                            name='no-bayaran'
-                            id='no-bayaran'
-                            placeholder=' '
-                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
-                            onChange={(e) => {
-                              setNoBayaran(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                noBayaran: e.target.value,
-                              });
-                            }}
-                          />
-                          <label
-                            htmlFor='no-bayaran'
-                            className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                      <div>
+                        <div className='flex flex-row justify-start'>
+                          <div
+                            className='relative w-20 my-2'
+                            title='Bayaran dalam RM'
                           >
-                            Bayaran (RM)
-                          </label>
-                          <span>
-                            <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3 bg-userWhite' />
-                          </span>
+                            <CurrencyFormat
+                              value={noBayaran}
+                              thousandSeparator={true}
+                              prefix={'RM '}
+                              name='no-bayaran'
+                              id='no-bayaran'
+                              placeholder=' '
+                              decimalScale={0}
+                              className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                              onChange={(e) => {
+                                setNoBayaran(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  noBayaran: e.target.value,
+                                });
+                              }}
+                            />
+                            <label
+                              htmlFor='no-bayaran'
+                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                            >
+                              Bayaran
+                            </label>
+                          </div>
+                          <div
+                            className='relative w-full md:w-36 my-2'
+                            title='No. Resit'
+                          >
+                            <input
+                              type='text'
+                              name='no-resit'
+                              id='no-resit'
+                              placeholder=' '
+                              value={noResit}
+                              onChange={(e) => {
+                                setNoResit(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  noResit: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                            />
+                            <label
+                              htmlFor='no-resit'
+                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                            >
+                              No. Resit
+                            </label>
+                            <span>
+                              <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                            </span>
+                          </div>
+                          {tambahBayaran2 === false ? (
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              {tambahBayaran ? (
+                                <FaMinusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran(false);
+                                    setNoBayaran2('');
+                                    setNoResit2('');
+                                  }}
+                                />
+                              ) : (
+                                <FaPlusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran(true);
+                                  }}
+                                />
+                              )}
+                            </span>
+                          ) : (
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              <FaMinusCircle className='text-kaunter3' />
+                            </span>
+                          )}
                         </div>
+                        {tambahBayaran && (
+                          <div className='flex flex-row justify-start'>
+                            <div
+                              className='relative w-20 my-2'
+                              title='Bayaran dalam RM'
+                            >
+                              <CurrencyFormat
+                                value={noBayaran2}
+                                thousandSeparator={true}
+                                prefix={'RM '}
+                                name='no-bayaran-2'
+                                id='no-bayaran-2'
+                                placeholder=' '
+                                decimalScale={0}
+                                className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                onChange={(e) => {
+                                  setNoBayaran2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noBayaran2: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='no-bayaran-2'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                Bayaran
+                              </label>
+                            </div>
+                            <div
+                              className='relative w-full md:w-36 my-2'
+                              title='No. Resit'
+                            >
+                              <input
+                                type='text'
+                                name='no-resit-2'
+                                id='no-resit-2'
+                                placeholder=' '
+                                value={noResit2}
+                                onChange={(e) => {
+                                  setNoResit2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noResit2: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              />
+                              <label
+                                htmlFor='no-resit-2'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                No. Resit
+                              </label>
+                              <span>
+                                <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                              </span>
+                            </div>
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              {tambahBayaran2 ? (
+                                <FaMinusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran2(false);
+                                    setNoBayaran2('');
+                                    setNoResit2('');
+                                  }}
+                                />
+                              ) : (
+                                <FaPlusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran2(true);
+                                  }}
+                                />
+                              )}
+                            </span>
+                          </div>
+                        )}
+                        {tambahBayaran2 && (
+                          <div className='flex flex-row justify-start'>
+                            <div
+                              className='relative w-20 my-2'
+                              title='Bayaran dalam RM'
+                            >
+                              <CurrencyFormat
+                                value={noBayaran3}
+                                thousandSeparator={true}
+                                prefix={'RM '}
+                                name='no-bayaran-3'
+                                id='no-bayaran-3'
+                                placeholder=' '
+                                decimalScale={0}
+                                className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                onChange={(e) => {
+                                  setNoBayaran3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noBayaran3: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='no-bayaran-3'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                Bayaran
+                              </label>
+                            </div>
+                            <div
+                              className='relative w-full md:w-36 my-2'
+                              title='No. Resit'
+                            >
+                              <input
+                                type='text'
+                                name='no-resit-3'
+                                id='no-resit-3'
+                                placeholder=' '
+                                value={noResit3}
+                                onChange={(e) => {
+                                  setNoResit3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noResit3: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              />
+                              <label
+                                htmlFor='no-resit-3'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                No. Resit
+                              </label>
+                              <span>
+                                <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                     <div
-                      className='relative w-full md:w-56 my-2'
-                      title='No. Resit / No. GL'
-                    >
-                      <input
-                        type='text'
-                        name='no-resit'
-                        id='no-resit'
-                        placeholder=' '
-                        value={noResit}
-                        onChange={(e) => {
-                          setNoResit(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            noResit: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
-                      />
-                      <label
-                        htmlFor='no-resit'
-                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
-                      >
-                        No. Resit / No. GL
-                      </label>
-                      <span>
-                        <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
-                      </span>
-                    </div>
-                    <div
-                      className='relative w-full mt-4'
+                      className='relative w-full mt-2'
                       title='No. Slip Cuti Sakit/Lain-lain Catatan Penting'
                     >
                       <input

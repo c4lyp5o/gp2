@@ -51,8 +51,12 @@ const UmumSchema = new mongoose.Schema(
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
     kakitanganKerajaan: { type: Boolean, default: false },
-    noBayaran: { type: Number, default: 0 },
+    noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
+    noBayaran2: { type: String, default: '' },
+    noResit2: { type: String, default: '' },
+    noBayaran3: { type: String, default: '' },
+    noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
