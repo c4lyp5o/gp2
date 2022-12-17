@@ -245,8 +245,10 @@ const AddModal = ({
   }, [FType]);
 
   const props = {
+    // from parent
     FType,
     setShowAddModal,
+    //
     setName,
     setKodFasiliti,
     setEmail,
@@ -297,7 +299,7 @@ const AddModal = ({
     tarikhEnd,
     setTempat,
     tempat,
-    //
+    // misc
     statusApdm,
     setAddingData,
     addingData,

@@ -40,7 +40,7 @@ export function BusyButton({ func }) {
         </svg>
         {func === 'add' ? 'Menambah Maklumat' : null}
         {func === 'del' ? 'Menghapus Maklumat' : null}
-        {func === 'edit' ? 'Mengubah Maklumat' : null}
+        {func === 'edit' ? 'Mengemaskini Maklumat' : null}
         {func === 'pengguna' || func === 'pendaftaran' || func === 'pentadbir'
           ? 'Sedang log masuk'
           : null}
