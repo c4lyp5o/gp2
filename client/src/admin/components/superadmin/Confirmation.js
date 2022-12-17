@@ -34,7 +34,7 @@ export const ConfirmModalForData = ({ children, func }) => {
       {children(show)}
       {open && (
         <>
-          <div className='fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
+          <div className='fixed bottom-56 md:bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
             <div className='fixed inset-0 transition-opacity'>
               <div
                 className='absolute inset-0 bg-userBlack opacity-75'
@@ -44,7 +44,7 @@ export const ConfirmModalForData = ({ children, func }) => {
             <div className='bg-adminWhite rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full'>
               <div className='bg-adminWhite px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
                 <div className='mt-3 text-center sm:mt-5'>
-                  <h3 className='text-lg leading-6 font-medium text-bold'>
+                  <h3 className='text-xl leading-6 text-user9 font-bold text-bold animate-pulse'>
                     AWAS!
                   </h3>
                   <div className='mt-2'>
@@ -56,11 +56,11 @@ export const ConfirmModalForData = ({ children, func }) => {
                   </div>
                 </div>
               </div>
-              <div className='bg-kaunter5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
-                <span className='flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto'>
+              <div className='bg-kaunter5 px-4 py-2 sm:px-6 flex flex-row-reverse justify-start'>
+                <span className='flex rounded-md shadow-sm ml-3 w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
                     onClick={hide}
                   >
                     Batal
@@ -69,7 +69,7 @@ export const ConfirmModalForData = ({ children, func }) => {
                 <span className='mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
                     onClick={confirm}
                   >
                     YA
@@ -115,7 +115,7 @@ export const ConfirmModalForLogOut = ({ children }) => {
       {children(show)}
       {open && (
         <>
-          <div className='fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
+          <div className='absolute bottom-56 md:bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
             <div className='fixed inset-0 transition-opacity'>
               <div
                 className='absolute inset-0 bg-userBlack opacity-75'
@@ -125,7 +125,7 @@ export const ConfirmModalForLogOut = ({ children }) => {
             <div className='bg-adminWhite rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full'>
               <div className='bg-adminWhite px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
                 <div className='mt-3 text-center sm:mt-5'>
-                  <h3 className='text-lg leading-6 font-medium text-bold'>
+                  <h3 className='text-xl leading-6 text-user9 font-bold text-bold animate-pulse'>
                     AWAS!
                   </h3>
                   <div className='mt-2'>
@@ -135,20 +135,20 @@ export const ConfirmModalForLogOut = ({ children }) => {
                   </div>
                 </div>
               </div>
-              <div className='bg-kaunter5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
-                <span className='flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto'>
+              <div className='bg-kaunter5 px-4 py-2 sm:px-6 flex flex-row-reverse justify-start'>
+                <span className='flex rounded-md shadow-sm ml-3 w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
                     onClick={hide}
                   >
                     Batal
                   </button>
                 </span>
-                <span className='mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto'>
+                <span className='flex rounded-md shadow-sm sm:mt-0 w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
                     onClick={confirm}
                   >
                     YA
@@ -194,7 +194,7 @@ export const ConfirmModalForTukarPengguna = ({ children }) => {
       {children(show)}
       {open && (
         <>
-          <div className='fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
+          <div className='fixed bottom-56 md:bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center'>
             <div className='fixed inset-0 transition-opacity'>
               <div
                 className='absolute inset-0 bg-userBlack opacity-75'
@@ -204,7 +204,7 @@ export const ConfirmModalForTukarPengguna = ({ children }) => {
             <div className='bg-adminWhite rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full'>
               <div className='bg-adminWhite px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
                 <div className='mt-3 text-center sm:mt-5'>
-                  <h3 className='text-lg leading-6 font-medium text-bold'>
+                  <h3 className='text-xl leading-6 text-user9 font-bold text-bold animate-pulse'>
                     AWAS!
                   </h3>
                   <div className='mt-2'>
@@ -214,20 +214,20 @@ export const ConfirmModalForTukarPengguna = ({ children }) => {
                   </div>
                 </div>
               </div>
-              <div className='bg-kaunter5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
-                <span className='flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto'>
+              <div className='bg-kaunter5 px-4 py-2 sm:px-6 flex flex-row-reverse justify-start'>
+                <span className='flex rounded-md shadow-sm ml-3 w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
                     onClick={hide}
                   >
                     Batal
                   </button>
                 </span>
-                <span className='mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto'>
+                <span className='flex rounded-md shadow-sm sm:mt-0 w-auto'>
                   <button
                     type='button'
-                    className='inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
+                    className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
                     onClick={confirm}
                   >
                     YA
