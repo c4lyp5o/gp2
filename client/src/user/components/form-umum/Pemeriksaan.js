@@ -107,7 +107,7 @@ export default function Pemeriksaan(props) {
                     className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                   />
                   {(props.systolicTekananDarah > 140 &&
-                    props.diastolicTekananDarah > 90) ||
+                    props.diastolicTekananDarah > 60) ||
                   (props.systolicTekananDarah < 90 &&
                     props.systolicTekananDarah > 0 &&
                     props.diastolicTekananDarah < 60 &&
