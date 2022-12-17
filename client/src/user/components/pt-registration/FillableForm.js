@@ -392,15 +392,9 @@ export default function FillableForm({
 
   const checkCache = async (ic) => {
     try {
-      const response = await axios.post(
-        '/api/v1/kaunter/check',
-        {
-          ic,
-        },
-        {
-          headers: { Authorization: `Bearer ${kaunterToken}` },
-        }
-      );
+      const response = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+        headers: { Authorization: `Bearer ${kaunterToken}` },
+      });
       const {
         nama,
         tarikhLahir,
@@ -464,7 +458,7 @@ export default function FillableForm({
         statusPesara,
         noPesara,
       });
-      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      toast.success('Menggunakan data sedia ada');
       return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
@@ -1075,7 +1069,7 @@ export default function FillableForm({
               d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
             ></path>
           </svg>
-          Menambah Data...
+          Menambah Maklumat...
         </button>
       </>
     );
