@@ -44,8 +44,8 @@ export default function Navbar(props) {
                 <div>
                   <div
                     className={`${
-                      showPenetapanSubMenu ? 'bg-user8' : 'bg-admin4'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack cursor-pointer transition-all`}
+                      showPenetapanSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
                     onClick={togglePenetapanSubMenu}
                   >
                     <span>PENETAPAN</span>
@@ -67,8 +67,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp'
                       onClick={() => setShowLinks(!showLinks)}
@@ -78,8 +78,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='pp'
                       onClick={() => setShowLinks(!showLinks)}
@@ -89,8 +89,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='jp'
                       onClick={() => setShowLinks(!showLinks)}
@@ -100,8 +100,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='taska'
                       onClick={() => setShowLinks(!showLinks)}
@@ -111,8 +111,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='tadika'
                       onClick={() => setShowLinks(!showLinks)}
@@ -122,8 +122,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='sr'
                       onClick={() => setShowLinks(!showLinks)}
@@ -133,8 +133,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='sm'
                       onClick={() => setShowLinks(!showLinks)}
@@ -144,8 +144,8 @@ export default function Navbar(props) {
                     {/* <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='ins'
                       onClick={() => setShowLinks(!showLinks)}
@@ -155,8 +155,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='program'
                       onClick={() => setShowLinks(!showLinks)}
@@ -166,8 +166,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kpb'
                       onClick={() => setShowLinks(!showLinks)}
@@ -177,8 +177,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='mpb'
                       onClick={() => setShowLinks(!showLinks)}
@@ -190,8 +190,8 @@ export default function Navbar(props) {
                 <div>
                   <div
                     className={`${
-                      showMedSosSubMenu ? 'bg-user8' : 'bg-admin4'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack cursor-pointer transition-all`}
+                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
                     onClick={toggleSubMenuMedSos}
                   >
                     <span>MEDIA SOSIAL</span>
@@ -211,8 +211,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                       }
                       to='followers'
                       onClick={() => setShowLinks(!showLinks)}
@@ -222,8 +222,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all text-sm'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all text-sm'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
                       }
                       to='sosmed'
                       onClick={() => setShowLinks(!showLinks)}
@@ -262,8 +262,8 @@ export default function Navbar(props) {
                 <div>
                   <div
                     className={`${
-                      showPenetapanSubMenu ? 'bg-user8' : 'bg-admin4'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack cursor-pointer transition-all`}
+                      showPenetapanSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
                     onClick={togglePenetapanSubMenu}
                   >
                     <span>PENETAPAN</span>
@@ -285,8 +285,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/pp'
                       onClick={() => setShowLinks(!showLinks)}
@@ -296,8 +296,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/jp'
                       onClick={() => setShowLinks(!showLinks)}
@@ -307,8 +307,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/tastad'
                       onClick={() => setShowLinks(!showLinks)}
@@ -318,8 +318,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/program'
                       onClick={() => setShowLinks(!showLinks)}
@@ -329,8 +329,8 @@ export default function Navbar(props) {
                     {/* <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/ins'
                       onClick={() => setShowLinks(!showLinks)}
@@ -340,8 +340,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/kpb'
                       onClick={() => setShowLinks(!showLinks)}
@@ -351,8 +351,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
                       }
                       to='kp/mpb'
                       onClick={() => setShowLinks(!showLinks)}
@@ -364,7 +364,7 @@ export default function Navbar(props) {
                 <div>
                   <div
                     className={`${
-                      showMedSosSubMenu ? 'bg-user8' : 'bg-admin4'
+                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
                     } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
                     onClick={toggleSubMenuMedSos}
                   >
@@ -385,8 +385,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                       }
                       to='followers'
                       onClick={() => setShowLinks(!showLinks)}
@@ -396,8 +396,8 @@ export default function Navbar(props) {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 text-sm transition-all'
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                       }
                       to='sosmed'
                       onClick={() => setShowLinks(!showLinks)}
