@@ -776,6 +776,13 @@ export default function Data({ FType, kp }) {
   }
 
   const props = {
+    FType,
+    negeri,
+    daerah,
+    kp,
+    id,
+    setReload,
+    reload,
     setShowAddModal,
     setShowEditModal,
     setShowDeleteModal,

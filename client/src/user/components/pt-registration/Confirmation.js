@@ -76,12 +76,15 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
               {isEdit ? (
                 <p className='font-semibold'>
                   Anda YAKIN{' '}
-                  <span className='lowercase'>untuk mengemaskini data</span>?
+                  <span className='lowercase'>
+                    untuk mengemaskini maklumat?
+                  </span>
+                  ?
                 </p>
               ) : (
                 <p className='font-semibold'>
                   Anda YAKIN{' '}
-                  <span className='lowercase'>untuk menghantar data?</span>
+                  <span className='lowercase'>untuk menghantar maklumat?</span>
                 </p>
               )}
               <div className='grid grid-cols-[1fr_2fr] mt-3'>
