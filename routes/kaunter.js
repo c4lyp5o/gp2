@@ -14,6 +14,6 @@ router
   .get(getSinglePersonKaunter)
   .patch(updatePersonKaunter)
   .delete(deletePersonKaunter);
-router.route('/check').post(getPersonFromCache);
+router.route('/check/:personKaunterId').get(getPersonFromCache);
 
 module.exports = router;
