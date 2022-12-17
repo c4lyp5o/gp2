@@ -35,7 +35,9 @@ const Dictionary = {
   sm: 'sekolah-menengah',
   ins: 'institusi',
   kpb: 'kp-bergerak',
+  'kpb-all': 'kp-bergerak-all',
   mpb: 'makmal-pergigian',
+  'mpb-all': 'makmal-pergigian-all',
   event: 'event',
   'sa-a': 'superadmin-all',
   sosmed: 'sosmed',
@@ -462,11 +464,22 @@ const getDataKpRoute = async (req, res) => {
         kodFasilitiHandler: kodFasiliti,
       });
       break;
+    case 'kp-bergerak-all':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'kp-bergerak',
+      });
+      break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
       });
+      break;
+    case 'makmal-pergigian-all':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'makmal-pergigian',
+      });
+      break;
     default:
       console.log('default');
       break;
@@ -589,10 +602,12 @@ const getData = async (req, res) => {
               exists.kpSkrg = Data.kpSkrg;
               exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
+              exists.nama = Data.nama;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+              exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
@@ -616,10 +631,12 @@ const getData = async (req, res) => {
               exists.kpSkrg = Data.kpSkrg;
               exists.kodFasiliti = Data.kodFasiliti;
               exists.activationStatus = true;
+              exists.nama = Data.nama;
               exists.email = Data.email;
               exists.gred = Data.gred;
               exists.role = Data.role;
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+              exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               return res.status(200).json(prevOfficer);
             }
@@ -677,6 +694,7 @@ const getData = async (req, res) => {
                   kodFasiliti: Data.kodFasiliti,
                   role: 'umum',
                   rolePromosiKlinik: false,
+                  roleMediaSosialKlinik: false,
                   statusPegawai: 'jp',
                   cscspVerified: false,
                   activationStatus: true,

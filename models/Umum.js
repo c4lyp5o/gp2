@@ -5,6 +5,7 @@ const UmumSchema = new mongoose.Schema(
   {
     // soft delete
     deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
@@ -41,6 +42,8 @@ const UmumSchema = new mongoose.Schema(
     poskodAlamat: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
     episodeMengandung: { type: String, default: '' },
+    bookingIM: { type: String, default: '' },
+    mengandungDahGravida: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
@@ -48,8 +51,12 @@ const UmumSchema = new mongoose.Schema(
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
     kakitanganKerajaan: { type: Boolean, default: false },
-    noBayaran: { type: Number, default: 0 },
+    noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
+    noBayaran2: { type: String, default: '' },
+    noResit2: { type: String, default: '' },
+    noBayaran3: { type: String, default: '' },
+    noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
@@ -894,17 +901,17 @@ UmumSchema.pre('save', async function () {
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
-        kp: this.createdByKp,
+        kodFasiliti: this.createdByKodFasiliti,
       });
       // if running number does not exist
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
+          runningnumber: 1,
           jenis: this.jenisFasiliti,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
-          kp: this.createdByKp,
-          runningnumber: 1,
+          kodFasiliti: this.createdByKodFasiliti,
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
