@@ -44,7 +44,7 @@ const ConfirmModal = ({ children, data }) => {
                 <RiCloseLine style={{ marginBottom: '-3px' }} />
               </button>
               <div className={styles.modalContent}>
-                <p>Anda YAKIN untuk menambah data?</p>
+                <p>Anda YAKIN untuk menambah maklumat?</p>
                 <div className='text-xs mt-3'>
                   {data.adaCleftLipPemeriksaanUmum ? (
                     <p>

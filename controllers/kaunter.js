@@ -3,7 +3,7 @@ const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
 const LRU = require('lru-cache');
-const cryptoJs = require('crypto-js');
+const axios = require('axios').default;
 
 const options = {
   max: 5000,
@@ -85,7 +85,16 @@ const createPersonKaunter = async (req, res) => {
   }
 
   logger.info(`${req.method} ${req.url} sending to cache`);
-  cache.set(req.body.ic, req.body);
+  // cache.set(req.body.ic, req.body);
+  const resp = await axios.post(
+    'https://erkm.calypsocloud.one/cache',
+    req.body,
+    {
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    }
+  );
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -231,16 +240,24 @@ const getProjekKomuniti = async (req, res) => {
   res.status(200).json({ projekKomuniti });
 };
 
-// TODO to refactor not POST, rearrange for query
 // check from cache if ic is same
-// POST /check
+// GET /check
 const getPersonFromCache = async (req, res) => {
-  const { ic } = req.body;
-  const person = await cache.get(ic.toString());
-  if (person) {
-    return res.status(200).json({ person });
+  const { personKaunterId } = req.params;
+  // const person = await cache.get(ic.toString());
+  try {
+    const { data } = await axios.get(
+      `https://erkm.calypsocloud.one/cache?pid=${personKaunterId}`,
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
+    );
+    return res.status(200).json({ person: data });
+  } catch (error) {
+    res.status(404).json({ msg: 'No person found' });
   }
-  res.status(404).json({ msg: 'No person found' });
 };
 
 module.exports = {

@@ -220,7 +220,7 @@ const html = (nama, key) =>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Anda telah memohon untuk menghapus data pesakit. Kunci verifikasi anda adalah:</div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Anda telah memohon untuk menghapus maklumat pesakit. Kunci verifikasi anda adalah:</div>
                       </td>
                     </tr>
                     <tr>
