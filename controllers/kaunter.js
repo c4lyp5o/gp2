@@ -86,15 +86,11 @@ const createPersonKaunter = async (req, res) => {
 
   logger.info(`${req.method} ${req.url} sending to cache`);
   // cache.set(req.body.ic, req.body);
-  const resp = await axios.post(
-    'https://erkm.calypsocloud.one/cache',
-    req.body,
-    {
-      headers: {
-        Authorization: req.headers.authorization,
-      },
-    }
-  );
+  const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
+    headers: {
+      'x-api-key': process.env.CACHE_SERVER_PASS,
+    },
+  });
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -247,10 +243,10 @@ const getPersonFromCache = async (req, res) => {
   // const person = await cache.get(ic.toString());
   try {
     const { data } = await axios.get(
-      `https://erkm.calypsocloud.one/cache?pid=${personKaunterId}`,
+      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
       {
         headers: {
-          Authorization: req.headers.authorization,
+          'x-api-key': process.env.CACHE_SERVER_PASS,
         },
       }
     );
