@@ -19,6 +19,7 @@ module.exports = {
       admin4: '#e79595', // pink cair
       admin5: '#ffefd6', // kuning cair
       admin6: '#0f0f0f', // hitam custom
+      admin7: '#e66767', // pink ungu
       adminWhite: 'white',
       adminBlack: 'black',
       kaunter1: '#e05200', // oren gelap
