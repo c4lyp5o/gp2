@@ -166,18 +166,6 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuLembutTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuKerasTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     fissureSealantPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -195,25 +183,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     //sdf nak guna masa depan
-    // baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     // yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
     //   type: String,
     //   default: '',
     // },
-    //kotak masuk sini
-    statusMPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    jenisRPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
     kebersihanMulutOralHygienePemeriksaanUmum: {
       type: String,
       default: '',
@@ -226,6 +205,11 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     adaDesidusPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -235,21 +219,11 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    mAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     fAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    // smAdaGigiDesidusPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     xAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
@@ -288,24 +262,7 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // edentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    // mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     disaringProgramKanserMulutPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    dirujukProgramKanserMulutPemeriksaanUmum: {
       type: String,
       default: '',
     },
@@ -337,20 +294,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    // cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     puncaRujukan: {
       type: String,
       default: '',
