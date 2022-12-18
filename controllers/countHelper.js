@@ -3505,7 +3505,7 @@ const countPG207 = async (payload) => {
     console.log(error);
   }
 };
-const countPGPR201 = async (klinik, bulan) => {
+const countPGPR201 = async (klinik, bulan, bulan2) => {
   let match_stage = [];
 
   const age_below_1 = {
@@ -3518,7 +3518,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3534,7 +3534,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       createdByKp: {
         $eq: klinik,
@@ -3549,7 +3549,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3565,7 +3565,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3581,7 +3581,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3597,7 +3597,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3613,7 +3613,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3629,7 +3629,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3645,7 +3645,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3661,7 +3661,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3677,7 +3677,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3692,7 +3692,7 @@ const countPGPR201 = async (klinik, bulan) => {
       },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3704,7 +3704,7 @@ const countPGPR201 = async (klinik, bulan) => {
     $match: {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3717,7 +3717,7 @@ const countPGPR201 = async (klinik, bulan) => {
     $match: {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan2).endOf('month').format('YYYY-MM-DD'),
       },
       kedatangan: { $eq: 'baru-kedatangan' },
       createdByKp: {
@@ -3744,13 +3744,40 @@ const countPGPR201 = async (klinik, bulan) => {
 
   const group_stage = {
     $group: {
-      _id: '$createdByKlinik',
+      _id: '$createdByKp',
       count: { $sum: 1 },
-      jumlahLelaki: {
+      jumlahAGumur1517: {
+        $sum: '$umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur1819: {
+        $sum: '$umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur2029: {
+        $sum: '$umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur3049: {
+        $sum: '$umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur5059: {
+        $sum: '$umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur60KeAtas: {
+        $sum: '$umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahLawatanKeRumah: {
         $sum: {
           $cond: [
             {
-              $eq: ['$jantina', 'lelaki'],
+              $eq: [
+                '$lawatanKeRumahPromosiUmum',
+                'ya-lawatan-ke-rumah-promosi-umum',
+              ],
             },
             1,
             0,
@@ -3758,11 +3785,11 @@ const countPGPR201 = async (klinik, bulan) => {
         },
       },
       //
-      jumlahPerempuan: {
+      jumlahNasihatPergigianIndividu: {
         $sum: {
           $cond: [
             {
-              $eq: ['$jantina', 'perempuan'],
+              $eq: ['$plakGigiNasihatPergigianIndividuPromosiUmum', true],
             },
             1,
             0,
@@ -3770,11 +3797,14 @@ const countPGPR201 = async (klinik, bulan) => {
         },
       },
       //
-      jumlahMelayu: {
+      jumlahNasihatKesihatanOral: {
         $sum: {
           $cond: [
             {
-              $eq: ['$kumpulanEtnik', 'melayu'],
+              $eq: [
+                '$penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -3782,11 +3812,11 @@ const countPGPR201 = async (klinik, bulan) => {
         },
       },
       //
-      jumlahCina: {
+      jumlahNasihatPemakanan: {
         $sum: {
           $cond: [
             {
-              $eq: ['$kumpulanEtnik', 'cina'],
+              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
             },
             1,
             0,
@@ -3794,83 +3824,11 @@ const countPGPR201 = async (klinik, bulan) => {
         },
       },
       //
-      jumlahIndia: {
+      jumlahNasihatKanserMulut: {
         $sum: {
           $cond: [
             {
-              $eq: ['$kumpulanEtnik', 'india'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBajau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bajau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahDusun: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'dusun'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKadazan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kadazan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMurut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'murut'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMelanau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melanau'],
+              $eq: ['$kanserMulutNasihatPergigianIndividuPromosiUmum', true],
             },
             1,
             0,
@@ -3914,197 +3872,6 @@ const countPGPR201 = async (klinik, bulan) => {
         },
       },
       //
-      jumlahPenan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'penan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSwL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOA: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIbuMengandung: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$ibuMengandung', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBersekolah: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$bersekolah', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOKU: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$orangKurangUpaya', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraKerajaan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraATM: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-atm'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanDalaman: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'dalaman'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKP: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kp'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKK: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kk'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanHospital: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanSwasta: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'swasta'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'laoin-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
     },
   };
 
@@ -8172,302 +7939,311 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
   const match_pra_kerajaan = {
     $match: {
       govKe: 'kerajaan',
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       umur: { $gte: 5, $lte: 6 },
     },
   };
+
   const match_pra_swasta = {
     $match: {
       govKe: 'swasta',
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       umur: { $gte: 5, $lte: 6 },
     },
   };
+
   const match_pratad_mbk = {
     $match: {
-      kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // kodSekolah: sekolah,
+      // createdByKp: klinik,
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       oku: true,
     },
   };
+
   const match_pratad_oap = {
     $match: {
-      kodSekolah: sekolah,
-      createdByKp: klinik,
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // kodSekolah: sekolah,
+      // createdByKp: klinik,
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       umur: { $gte: 5, $lte: 6 },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D1',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_grade1_kpb = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D1',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_grade1_oap = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D1',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   const match_grade6 = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D6',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_grade6_kpb = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D6',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_grade6_oap = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'D6',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   const match_allgrade_srpk = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allgrade_srpk_kpb = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allgrade_srpk_mbk = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       oku: true,
     },
   };
+
   const match_allgrade_srpk_oap = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   const match_allgrade = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allgrade_kpb = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allgrade_oap = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // createdByKp: klinik,
+      tahun: ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
   const match_ting4 = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'T4',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_ting4_kpb = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'T4',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_ting4_oap = {
     $match: {
-      createdByKp: klinik,
+      // createdByKp: klinik,
       tahun: 'T4',
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   const match_allting_smpk = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allting_smpk_kpb = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allting_smpk_oap = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
+
   const match_allting = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allting_kpb = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
     },
   };
+
   const match_allting_mbk = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
       oku: true,
     },
   };
+
   const match_allting_oap = {
     $match: {
-      createdByKp: klinik,
-      tahun: { $or: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'] },
-      tarikhKedatangan: {
-        $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      kumpulanEtnik: {
-        $or: ['orang-asli', 'penan'],
-      },
+      // createdByKp: klinik,
+      tahun: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+      // tarikhKedatangan: {
+      //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
+      //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      // },
+      kumpulanEtnik: ['orang-asli', 'penan'],
     },
   };
 
@@ -8502,39 +8278,45 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
   // pemeriksaan
   let lookup_stage_1 = {
     $lookup: {
-      from: Pemeriksaan.collection.name,
+      from: 'pemeriksaansekolahs',
       localField: 'pemeriksaanSekolah',
       foreignField: '_id',
       as: 'pemeriksaanSekolah',
     },
   };
+
   let unwind_stage_1 = { $unwind: '$pemeriksaanSekolah' };
+
   let lookup_stage_2 = {
     $lookup: {
-      from: Rawatan.collection.name,
+      from: 'rawatansekolahs',
       localField: 'rawatanSekolah',
       foreignField: '_id',
       as: 'rawatanSekolah',
     },
   };
+
   let unwind_stage_2 = { $unwind: '$rawatanSekolah' };
+
   let lookup_stage_3 = {
     $lookup: {
-      from: Kotak.collection.name,
+      from: 'kotaksekolahs',
       localField: 'kotakSekolah',
       foreignField: '_id',
       as: 'kotakSekolah',
     },
   };
+
   let unwind_stage_3 = {
     $unwind: {
       path: '$kotakSekolah',
       preserveNullAndEmptyArrays: true,
     },
   };
+
   let group_stage_1 = {
     $group: {
-      _id: '$createdByKp',
+      _id: '$pemeriksaanSekolah.createdByKp',
       // namaKlinik: '$pemeriksaanSekolah.createdByKp',
       jumlahBudak: { $sum: 1 },
       engganKedatanganPendaftaran: {
@@ -9119,12 +8901,13 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
   // rawatan
   let lookup_stage = {
     $lookup: {
-      from: Rawatan.collection.name,
+      from: 'rawatansekolahs',
       localField: 'rawatanSekolah',
       foreignField: '_id',
       as: 'rawatanSekolah',
     },
   };
+
   let project_stage = {
     $project: {
       namaSekolah: '$namaSekolah',
@@ -9357,9 +9140,10 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
       },
     },
   };
+
   let group_stage = {
     $group: {
-      _id: '$createdByKp',
+      _id: '$namaSekolah',
       jumlahBudak: { $sum: 1 },
       BARU_GgKekalBuatFs: {
         $sum: '$rawatanYgDilakukan.BARU_GgKekalBuatFs',
@@ -9494,6 +9278,7 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
         group_stage,
       ];
       const queryRawatan = await Sekolah.aggregate(pipeline);
+      console.log(queryRawatan);
       dataRawatan.push({ queryRawatan });
     }
 
