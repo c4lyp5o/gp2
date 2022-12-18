@@ -294,16 +294,27 @@ export default function AdminLoginForm() {
                     value={pilihanNegeri}
                     onChange={(e) => {
                       setPilihanNegeri(e.target.value);
-                      setUserName({
-                        ...userName,
-                        negeri: `negeri${e.target.value
-                          .toLowerCase()
-                          .replace(/\s+/g, '')}`,
-                      });
+                      if (e.target.value !== 'hqputrajaya') {
+                        setUserName({
+                          ...userName,
+                          negeri: `negeri${e.target.value
+                            .toLowerCase()
+                            .replace(/\s+/g, '')}`,
+                        });
+                      }
+                      if (e.target.value === 'hqputrajaya') {
+                        setUserName({
+                          ...userName,
+                          negeri: e.target.value,
+                        });
+                      }
                     }}
                     className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
                   >
                     <option value=''>Sila Pilih Negeri...</option>
+                    <option value='hqputrajaya' className='capitalize'>
+                      PKP KKM HQ
+                    </option>
                     {data.map((i) => {
                       return (
                         <option
