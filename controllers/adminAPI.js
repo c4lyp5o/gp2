@@ -2080,7 +2080,7 @@ const getData = async (req, res) => {
 
 const getCipher = async (req, res) => {
   const ciphertext = CryptoJS.AES.encrypt(
-    JSON.stringify(process.env.API_KEY),
+    JSON.stringify(process.env.CACHE_SERVER_PASS),
     process.env.CRYPTO_JS_SECRET
   ).toString();
   const bytes = CryptoJS.AES.decrypt(ciphertext, process.env.CRYPTO_JS_SECRET);
