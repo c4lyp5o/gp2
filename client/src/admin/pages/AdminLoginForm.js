@@ -13,39 +13,39 @@ import { LoadingSuperDark } from '../components/Screens';
 
 import CountdownTimer from '../context/countdownTimer';
 
-function AdminBox({
-  setPilihanAdmin,
-  pilihanAdmin,
-  admins,
-  setUserName,
-  userName,
-}) {
-  return (
-    <div className='flex flex-col justify-center items-center'>
-      <select
-        required
-        value={pilihanAdmin}
-        onChange={(e) => {
-          setPilihanAdmin(e.target.value);
-          setUserName({
-            ...userName,
-            admin: e.target.value,
-          });
-        }}
-        className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
-      >
-        <option value=''>Sila Pilih Pentadbir Klinik...</option>
-        {admins.map((i) => {
-          return (
-            <option key={i._id} value={i.email} className='capitalize'>
-              {i.nama}
-            </option>
-          );
-        })}
-      </select>
-    </div>
-  );
-}
+// function AdminBox({
+//   setPilihanAdmin,
+//   pilihanAdmin,
+//   admins,
+//   setUserName,
+//   userName,
+// }) {
+//   return (
+//     <div className='flex flex-col justify-center items-center'>
+//       <select
+//         required
+//         value={pilihanAdmin}
+//         onChange={(e) => {
+//           setPilihanAdmin(e.target.value);
+//           setUserName({
+//             ...userName,
+//             admin: e.target.value,
+//           });
+//         }}
+//         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+//       >
+//         <option value=''>Sila Pilih Pentadbir Klinik...</option>
+//         {admins.map((i) => {
+//           return (
+//             <option key={i._id} value={i.email} className='capitalize'>
+//               {i.nama}
+//             </option>
+//           );
+//         })}
+//       </select>
+//     </div>
+//   );
+// }
 
 function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
   const fiveMinutes = 5 * 60 * 1000;
@@ -276,14 +276,14 @@ export default function AdminLoginForm() {
     <>
       <Header />
       <div className='absolute inset-0 -z-10 flex bg-admin5 text-center justify-center items-center capitalize'>
-        <div className='w-1/2 h-[30rem] mt-20 mb-5 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
+        <div className='w-1/2 h-[33rem] mt-20 bg-adminWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div className='login-wrapper'>
             <h3 className='text-xl font-semibold mt-7'>
               sila pilih untuk log masuk
             </h3>
             <form onSubmit={handleSubmit}>
               <div className='grid grid-rows-2 gap-5 justify-center items-center mt-5'>
-                <div className='w-60 flex'>
+                <div className='w-60 flex m-auto'>
                   <label htmlFor='negeri' className='mr-5'>
                     Negeri:
                   </label>
@@ -294,16 +294,27 @@ export default function AdminLoginForm() {
                     value={pilihanNegeri}
                     onChange={(e) => {
                       setPilihanNegeri(e.target.value);
-                      setUserName({
-                        ...userName,
-                        negeri: `negeri${e.target.value
-                          .toLowerCase()
-                          .replace(/\s+/g, '')}`,
-                      });
+                      if (e.target.value !== 'hqputrajaya') {
+                        setUserName({
+                          ...userName,
+                          negeri: `negeri${e.target.value
+                            .toLowerCase()
+                            .replace(/\s+/g, '')}`,
+                        });
+                      }
+                      if (e.target.value === 'hqputrajaya') {
+                        setUserName({
+                          ...userName,
+                          negeri: e.target.value,
+                        });
+                      }
                     }}
                     className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
                   >
                     <option value=''>Sila Pilih Negeri...</option>
+                    <option value='hqputrajaya' className='capitalize'>
+                      PKP KKM HQ
+                    </option>
                     {data.map((i) => {
                       return (
                         <option
@@ -318,7 +329,7 @@ export default function AdminLoginForm() {
                   </select>
                 </div>
                 {pilihanNegeri && pilihanNegeri !== '' && (
-                  <div className='w-60 flex mr-3'>
+                  <div className='w-60 flex m-auto'>
                     <label htmlFor='daerah' className='mr-4'>
                       Daerah:
                     </label>
@@ -362,7 +373,7 @@ export default function AdminLoginForm() {
                   </div>
                 )}
                 {pilihanNegeri && pilihanDaerah && pilihanDaerah !== '' && (
-                  <div className='w-60 flex'>
+                  <div className='w-60 flex m-auto'>
                     <label htmlFor='klinik' className='mr-7'>
                       Klinik:
                     </label>
@@ -414,7 +425,7 @@ export default function AdminLoginForm() {
                   pilihanDaerah &&
                   pilihanKlinik &&
                   pilihanKlinik !== '' && (
-                    <div className='w-60 flex'>
+                    <div className='w-96 flex'>
                       <label htmlFor='klinik' className='mr-7'>
                         Pentadbir:
                       </label>

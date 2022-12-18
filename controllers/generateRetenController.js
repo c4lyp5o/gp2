@@ -1746,9 +1746,15 @@ const makePG201 = async (payload) => {
 const makePGS203 = async (payload) => {
   console.log('PGS203');
   try {
-    const { kp, sekolah } = payload;
+    // const { kp, sekolah } = payload;
+    let sekolah = 'Sekolah';
+    let klinik = 'Klinik Pergigian Kaki Bukit';
+    let bulan = '2022-12-01';
+    let bulan2 = '2022-11-01';
+    let daerah = 'ARAU';
+    let negeri = 'PERLIS';
     //
-    const data = await Helper.countPGS203(kp, sekolah);
+    const data = await Helper.countPGS203(klinik, bulan, sekolah);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1777,13 +1783,13 @@ const makePGS203 = async (payload) => {
     intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
 
-    let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `${negeri.toUpperCase()}`;
+    // let intro4 = worksheet.getRow(9);
+    // intro4.getCell(2).value = `${negeri.toUpperCase()}`;
     //
     // let rowNamaKlinik = worksheet.getRow(7);
     // // let klinikFixed = results.dataPemeriksan[0].createdByKp;
@@ -1813,11 +1819,9 @@ const makePGS203 = async (payload) => {
     // rowNamaJenis.commit();
     //
     for (let i = 0; i < data.dataPemeriksaan.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
+      let rowNew = worksheet.getRow(20 + i);
       if (data.dataPemeriksaan[i][0]) {
-        //Reten PGS 203
-        //Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        let rowNew = worksheet.getRow(20);
+        // let rowNew = worksheet.getRow(20);
         rowNew.getCell(3).value =
           data.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 1)
         rowNew.getCell(4).value =
@@ -1919,7 +1923,7 @@ const makePGS203 = async (payload) => {
       '..',
       'public',
       'exports',
-      'test-' + kp + '-PGS203.xlsx'
+      'test-' + klinik + '-PGS203.xlsx'
     );
 
     // Write the file
@@ -1935,15 +1939,19 @@ const makePGS203 = async (payload) => {
     return file;
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: err.message });
   }
 };
 const makePGPR201 = async (payload) => {
   console.log('PGPR201');
   try {
-    const { kp, sekolah } = payload;
+    // const { kp, sekolah } = payload;
+    let klinik = 'Klinik Pergigian Arau';
+    let bulan = '2022-10-01';
+    let bulan2 = '2022-11-01';
+    let daerah = 'ARAU';
+    let negeri = 'PERLIS';
     //
-    const data = await Helper.countPGPR201(kp, sekolah);
+    const data = await Helper.countPGPR201(klinik, bulan, bulan2);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1960,7 +1968,7 @@ const makePGPR201 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PGPR201');
 
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(5);
@@ -1972,72 +1980,98 @@ const makePGPR201 = async (payload) => {
     intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${kp.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
 
     let intro4 = worksheet.getRow(9);
     intro4.getCell(2).value = `${negeri.toUpperCase()}`;
-    //
-    // let rowNamaKlinik = worksheet.getRow(7);
-    // // let klinikFixed = results.dataPemeriksan[0].createdByKp;
-    // // klinikFixed = klinikFixed
-    // //   .toLowerCase()
-    // //   .split(' ')
-    // //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    // //   .join(' ');
-    // rowNamaKlinik.getCell(9).value = 'Klinik Gigi';
-    // rowNamaKlinik.commit();
-    // // console.log('setting klinik name: ' + klinikFixed);
-    // //
-    // let rowNamaSekolah = worksheet.getRow(8);
-    // let sekolahFixed = data.dataPemeriksaan[0]._id;
-    // rowNamaSekolah.getCell(9).value = sekolahFixed;
-    // sekolahFixed = sekolahFixed
-    //   .toLowerCase()
-    //   .split(' ')
-    //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    //   .join(' ');
-    // rowNamaSekolah.getCell(9).value = sekolahFixed;
-    // rowNamaSekolah.commit();
-    // console.log('setting sekolah name: ' + sekolahFixed);
-    // //
-    // let rowNamaJenis = worksheet.getRow(9);
-    // rowNamaJenis.getCell(9).value = 'PBSR';
-    // rowNamaJenis.commit();
-    //
-    for (let i = 0; i < data.dataPemeriksaan.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
-      if (data.dataPemeriksaan[i][0]) {
-        //Reten PGS 203
-        //Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        let rowNew = worksheet.getRow(14);
-        rowNew.getCell(2).value = data.dataPemeriksaan[i].baruLMG; //LMG Baru Bawah 1 Tahun
-        rowNew.getCell(3).value = data.dataPemeriksaan[i].ulanganLMG; //LMG Ulangan Bawah 1 Tahun
-        rowNew.getCell(4).value = data.dataPemeriksaan[i].baruCeramah; //Ceramah Baru Bawah 1 Tahun
-        rowNew.getCell(5).value = data.dataPemeriksaan[i].ulanganCeramah; //Ceramah Ulangan Bawah 1 Tahun
-        rowNew.getCell(6).value = data.dataPemeriksaan[i].seminarKursusBengkel; //Kursus Seminar Bengkel Bawah 1 Tahun
-        rowNew.getCell(7).value = data.dataPemeriksaan[i].mainPeranan; //Main Peranan Bawah 1 Tahun
-        rowNew.getCell(8).value = data.dataPemeriksaan[i].pertunjukanBoneka; //Pertunjukan Boneka Bawah 1 Tahun
-        rowNew.getCell(9).value = data.dataPemeriksaan[i].bercerita; //Bercerita Bawah 1 Tahun
-        rowNew.getCell(10).value = data.dataPemeriksaan[i].kanserMulut; //Kanser Mulut Bawah 1 Tahun
-        rowNew.getCell(11).value = data.dataPemeriksaan[i].anticipatoryGuidance; //Anticipatory Guidance Bawah 1 Tahun
-        rowNew.getCell(12).value = data.dataPemeriksaan[i].advicePlakGigi; //Advice Plak Gigi  Bawah 1 Tahun
-        rowNew.getCell(13).value = data.dataPemeriksaan[i].adviceOHE; //Advice OHE Bawah 1 Tahun
-        rowNew.getCell(14).value = data.dataPemeriksaan[i].adviceDiet; //Advice Diet Bawah 1 Tahun
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
+
+    let j = 0;
+    for (let i = 0; i < data.length; i++) {
+      let rowNew = worksheet.getRow(14 + j);
+      j++;
+      if (data[i][0]) {
+        if (i === 6) {
+          let jumlahBesarAG1517 = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG1517 += data[k][0].jumlahAGumur1517;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG1517;
+        }
+        if (i === 7) {
+          let jumlahBesarAG1819 = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG1819 += data[k][0].jumlahAGumur1819;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG1819;
+        }
+        if (i === 8) {
+          let jumlahBesarAG2029 = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG2029 += data[k][0].jumlahAGumur2029;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG2029;
+        }
+        if (i === 9) {
+          let jumlahBesarAG3049 = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG3049 += data[k][0].jumlahAGumur3049;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG3049;
+        }
+        if (i === 10) {
+          let jumlahBesarAG5059 = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG5059 += data[k][0].jumlahAGumur5059;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG5059;
+        }
+        if (i === 11) {
+          let jumlahBesarAG60KeAtas = 0;
+          for (let k = 0; k < data.length; k++) {
+            if (data[k][0]) {
+              jumlahBesarAG60KeAtas += data[k][0].jumlahAGumur60KeAtas;
+            }
+          }
+          rowNew.getCell(2).value = jumlahBesarAG60KeAtas;
+        }
+        rowNew.getCell(3).value = data[i][0].jumlahLawatanKeRumah; //LMG Ulangan Bawah 1 Tahun
+        if (i > 0) {
+          rowNew.getCell(4).value = data[i][0].jumlahNasihatPergigianIndividu; //Ceramah Baru Bawah 1 Tahun
+          rowNew.getCell(5).value = data[i][0].jumlahNasihatKesihatanOral; //Ceramah Ulangan Bawah 1 Tahun
+          rowNew.getCell(6).value = data[i][0].jumlahNasihatPemakanan; //Kursus Seminar Bengkel Bawah 1 Tahun
+          rowNew.getCell(7).value = data[i][0].jumlahNasihatKanserMulut; //Main Peranan Bawah 1 Tahun
+          rowNew.getCell(8).value = data[i][0].pertunjukanBoneka; //Pertunjukan Boneka Bawah 1 Tahun
+          rowNew.getCell(8).value = data[i][0].bercerita; //Bercerita Bawah 1 Tahun
+          rowNew.getCell(10).value = data[i][0].kanserMulut; //Kanser Mulut Bawah 1 Tahun
+        }
+      }
+      if (i === 11) {
+        j++;
       }
     }
+
+    let rowIdnt = worksheet.getRow(30);
+    rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
 
     let newfile = path.join(
       __dirname,
       '..',
       'public',
       'exports',
-      'test-' + kp + '-PGPR201.xlsx'
+      'test-' + klinik + '-PGPR201.xlsx'
     );
 
     // Write the file
@@ -2053,20 +2087,22 @@ const makePGPR201 = async (payload) => {
     return file;
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: err.message });
   }
 };
 
 // debug
 exports.debug = async (req, res) => {
-  let kp = 'Klinik Pergigian Arau';
+  let klinik = 'Klinik Pergigian Arau';
   let bulan = '2022-10-01';
+  let bulan2 = '2022-11-01';
   let sekolah = 'RBA0012';
   // let tarikhMula = '2021-01-01';
   // let tarikhAkhir = '2021-01-31';
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await Helper.countPG214(kp, bulan);
-  res.status(200).json(data);
+  // const data = await makePGPR201(klinik);
+  const data = await makePGS203(klinik, bulan, sekolah);
+  res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  res.status(200).send(data);
 };
 
 // helper
