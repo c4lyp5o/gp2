@@ -128,8 +128,8 @@ export default function AdminAfterLogin() {
       <Navbar {...props} />
       <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
         <Routes>
-          <Route path='sosmed' element={<DataKp FType='sosmed' />} />
           <Route path='followers' element={<DataKp FType='followers' />} />
+          <Route path='sosmed' element={<DataKp FType='sosmed' />} />
           {/* daerah, negeri, hq superadmin */}
           {loginInfo.accountType !== 'kpUser' ? (
             <>
@@ -142,12 +142,12 @@ export default function AdminAfterLogin() {
               <Route path='tadika' element={<Data FType='tadika' />} />
               <Route path='sr' element={<Data FType='sr' />} />
               <Route path='sm' element={<Data FType='sm' />} />
-              {/* <Route path='ins' element={<Data FType='ins' />} /> */}
               <Route path='program' element={<Data FType='program' />} />
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mpb' element={<Data FType='mpb' />} />
               <Route path='tetapan' element={<Settings />} />
               <Route path='generate' element={<Generate {...props} />} />
+              {/* <Route path='ins' element={<Data FType='ins' />} /> */}
               {/* AdHoc Query thanks myhdw! */}
               <Route
                 path='aq'
@@ -163,13 +163,13 @@ export default function AdminAfterLogin() {
           {loginInfo.accountType === 'kpUser' ? (
             <>
               <Route index element={<KpCenterStage {...props} />} />
-              <Route path='kp/program' element={<DataKp FType='program' />} />
-              <Route path='kp/tastad' element={<DataKp FType='tastad' />} />
               <Route path='kp/pp' element={<DataKp FType='pp' />} />
               <Route path='kp/jp' element={<DataKp FType='jp' />} />
-              {/* <Route path='kp/ins' element={<DataKp FType='ins' />} /> */}
+              <Route path='kp/tastad' element={<DataKp FType='tastad' />} />
+              <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
+              {/* <Route path='kp/ins' element={<DataKp FType='ins' />} /> */}
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />
