@@ -16,8 +16,11 @@ export default function PatientData({
   editForm,
   setEditId,
   showPilihanProgram,
+  setShowPilihanProgram,
   jenisProgram,
+  setJenisProgram,
   namaProgram,
+  setNamaProgram,
   jenisFasiliti,
   kp,
 }) {
@@ -132,7 +135,8 @@ export default function PatientData({
                 <span
                   className='absolute top-5 left-2 text-admin2 text-lg h-96 cursor-pointer'
                   onClick={() => {
-                    navigate(-1);
+                    setNamaProgram('');
+                    setShowPilihanProgram(true);
                   }}
                 >
                   <TbArrowBigLeftLine />
@@ -214,7 +218,7 @@ export default function PatientData({
                     </th>
                     {jenisFasiliti === 'projek-komuniti-lain' ? (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                        NAMA PROJEK
+                        NAMA PROGRAM
                       </th>
                     ) : null}
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
