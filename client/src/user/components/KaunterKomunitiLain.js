@@ -12,15 +12,21 @@ export default function KaunterKomunitiLain({
   setJenisProgram,
   setFetchProgramData,
   fetchProgramData,
+  kp,
 }) {
   const { navigate } = useGlobalUserAppContext();
 
   if (
+    jenisFasiliti === 'projek-komuniti-lain' &&
     semuaProgram.length < 1 &&
-    jenisProgram.length < 1 &&
-    jenisFasiliti === 'projek-komuniti-lain'
+    jenisProgram.length < 1
   ) {
-    return <div></div>;
+    return (
+      <div className='m-auto mt-5 font-semibold text-lg uppercase'>
+        <p>tiada program komuniti didaftarkan di modul pentadbir bagi</p>
+        <p>{kp}</p>
+      </div>
+    );
   }
 
   if (
@@ -46,12 +52,14 @@ export default function KaunterKomunitiLain({
             className='appearance-none border-2 border-user6 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-md'
           >
             <option value=''>Jenis Program / Aktiviti</option>
-            <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='programDewasaMuda'>Program Dewasa Muda</option>
-            <option value='kgangkat'>Program Kampung Angkat Pergigian</option>
+            <option value='kampungAngkatPergigian'>
+              Program Kampung Angkat Pergigian
+            </option>
             <option value='ppr'>Projek Perumahan Rakyat</option>
             <option value='we'>Institusi Warga Emas</option>
             <option value='oku'>Institusi OKU / PDK</option>
+            <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='ppkps'>
               Program Pemasyarakatan Klinik Pergigian Sekolah
             </option>
@@ -99,8 +107,8 @@ export default function KaunterKomunitiLain({
                         <button
                           onClick={() => {
                             setNamaProgram(e.nama);
-                            setFetchProgramData(!fetchProgramData);
                             setShowPilihanProgram(false);
+                            setFetchProgramData(!fetchProgramData);
                           }}
                           className='px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                         >
