@@ -29,8 +29,8 @@ function Kaunter({
   const [semuaProgram, setSemuaProgram] = useState([]);
   const [namaProgram, setNamaProgram] = useState('');
   const [jenisProgram, setJenisProgram] = useState('');
-  const [fetchProgramData, setFetchProgramData] = useState(false);
   const [showPilihanProgram, setShowPilihanProgram] = useState(false);
+  const [fetchProgramData, setFetchProgramData] = useState(false);
 
   useEffect(() => {
     if (
@@ -162,6 +162,7 @@ function Kaunter({
             setShowPilihanProgram={setShowPilihanProgram}
             setFetchProgramData={setFetchProgramData}
             fetchProgramData={fetchProgramData}
+            kp={createdByKp}
           />
         ) : null}
       </div>
