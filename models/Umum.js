@@ -13,6 +13,7 @@ const UmumSchema = new mongoose.Schema(
     createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMdtb: { type: String, default: '' },
+    tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
@@ -94,8 +95,8 @@ const UmumSchema = new mongoose.Schema(
     // kampung angkat
     kgAngkat: { type: String, default: '' },
     // program based
-    jenisProgram: { type: String, default: 'NOT APPLICABLE' },
-    namaProgram: { type: String, default: 'NOT APPLICABLE' },
+    jenisProgram: { type: String, default: '' },
+    namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan -------------------------------------------------------------------
     statusKehadiran: {
@@ -782,7 +783,7 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti,
+        jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
@@ -792,7 +793,7 @@ UmumSchema.pre('save', async function () {
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
           runningnumber: 1,
-          jenis: this.jenisFasiliti,
+          jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,

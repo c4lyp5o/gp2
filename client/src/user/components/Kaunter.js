@@ -27,8 +27,8 @@ function Kaunter({
   const [editId, setEditId] = useState('');
   // program puyna hal
   const [semuaProgram, setSemuaProgram] = useState([]);
-  const [namaProgram, setNamaProgram] = useState('');
   const [jenisProgram, setJenisProgram] = useState('');
+  const [namaProgram, setNamaProgram] = useState('');
   const [showPilihanProgram, setShowPilihanProgram] = useState(false);
   const [fetchProgramData, setFetchProgramData] = useState(false);
 
@@ -92,7 +92,7 @@ function Kaunter({
       const fetchPersonUmum = async () => {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisProgram=${jenisProgram}`,
+          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&namaProgram=${namaProgram}`,
           { headers: { Authorization: `Bearer ${kaunterToken}` } }
         );
         return data;
@@ -106,6 +106,14 @@ function Kaunter({
         });
     }
   }, [fetchProgramData]);
+
+  // IMPORTANT clearing jenisProgram & namaProgram state if jenisFasiliti !== 'projek-komuniti-lain'
+  useEffect(() => {
+    if (jenisFasiliti !== 'projek-komuniti-lain') {
+      setJenisProgram('');
+      setNamaProgram('');
+    }
+  }, [jenisFasiliti]);
 
   if (loading) {
     return (
@@ -134,20 +142,26 @@ function Kaunter({
             setEditForm={setEditForm}
             setEditId={setEditId}
             showPilihanProgram={showPilihanProgram}
+            setShowPilihanProgram={setShowPilihanProgram}
             jenisProgram={jenisProgram}
+            setJenisProgram={setJenisProgram}
             namaProgram={namaProgram}
+            setNamaProgram={setNamaProgram}
             jenisFasiliti={jenisFasiliti}
             kp={createdByKp}
           />
         ) : null}
         <FillableForm
+          jenisFasiliti={jenisFasiliti}
           showForm={showForm}
           setShowForm={setShowForm}
           editId={editId}
           setEditId={setEditId}
-          jenisFasiliti={jenisFasiliti}
           jenisProgram={jenisProgram}
           namaProgram={namaProgram}
+          setShowPilihanProgram={setShowPilihanProgram}
+          fetchProgramData={fetchProgramData}
+          setFetchProgramData={setFetchProgramData}
           kp={createdByKp}
         />
         {jenisFasiliti === 'projek-komuniti-lain' ? (
@@ -155,13 +169,14 @@ function Kaunter({
             jenisFasiliti={jenisFasiliti}
             semuaProgram={semuaProgram}
             setSemuaProgram={setSemuaProgram}
-            setNamaProgram={setNamaProgram}
             jenisProgram={jenisProgram}
             setJenisProgram={setJenisProgram}
+            namaProgram={namaProgram}
+            setNamaProgram={setNamaProgram}
             showPilihanProgram={showPilihanProgram}
             setShowPilihanProgram={setShowPilihanProgram}
-            setFetchProgramData={setFetchProgramData}
             fetchProgramData={fetchProgramData}
+            setFetchProgramData={setFetchProgramData}
             kp={createdByKp}
           />
         ) : null}
