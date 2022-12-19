@@ -11,6 +11,26 @@ export default function Pemeriksaan(props) {
     isDisabled = true;
   }
 
+  useEffect(() => {
+    if (
+      props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+      'tidak-sedia-ada-status-denture-pemeriksaan-umum'
+    ) {
+      props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum('');
+      props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum('');
+    }
+    if (
+      props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+      'ya-perlu-status-denture-pemeriksaan-umum'
+    ) {
+      props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum('');
+      props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum('');
+    }
+  }, [
+    props.yaTidakSediaAdaStatusDenturePemeriksaanUmum,
+    props.yaTidakPerluStatusDenturePemeriksaanUmum,
+  ]);
+
   return (
     <>
       <div className='pb-1 pr-2 pl-2'>
@@ -1551,7 +1571,7 @@ export default function Pemeriksaan(props) {
                       htmlFor='punca-rujukan'
                       className='text-left flex justify-start items-center text-sm pl-3'
                     >
-                      Punca Rujukan T2DM
+                      Punca Rujukan T2DM (<i> Type II Diabetes Mellitus</i>)
                     </label>
                     <select
                       disabled={isDisabled}
