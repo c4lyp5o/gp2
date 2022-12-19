@@ -18,47 +18,6 @@ export default function Promosi(props) {
             </span>
             <section className='grid grid-cols-1 lg:grid-cols-2  gap-2 mt-3 mb-3 w-full col-span-2'>
               <div className='grid gap-2 auto-rows-min'>
-                {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    menyertai aktiviti
-                  </h4>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m'>Ceramah: </p>
-                    <select
-                      disabled={isDisabled}
-                      name='ceramah-promosi-umum'
-                      id='ceramah-promosi-umum'
-                      value={props.ceramahPromosiUmum}
-                      onChange={(e) => {
-                        props.setCeramahPromosiUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='tiada'>Tiada</option>
-                      <option value='baru'>Baru</option>
-                      <option value='ulangan'>Ulangan</option>
-                    </select>
-                  </div>
-                  <div className='flex flex-row items-center pl-5'>
-                    <p className='text-sm font-m'>LMG: </p>
-                    <select
-                      disabled={isDisabled}
-                      name='lmg-promosi-umum'
-                      id='lmg-promosi-umum'
-                      value={props.lmgPromosiUmum}
-                      onChange={(e) => {
-                        props.setLmgPromosiUmum(e.target.value);
-                      }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='tiada'>Tiada</option>
-                      <option value='baru'>Baru</option>
-                      <option value='ulangan'>Ulangan</option>
-                    </select>
-                  </div>
-                </article> */}
                 {props.singlePersonUmum.umur <= 12 ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
