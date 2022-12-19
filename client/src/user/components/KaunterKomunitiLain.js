@@ -3,19 +3,18 @@ import moment from 'moment';
 
 export default function KaunterKomunitiLain({
   jenisFasiliti,
-  setNamaProgram,
   semuaProgram,
   setSemuaProgram,
-  showPilihanProgram,
-  setShowPilihanProgram,
   jenisProgram,
   setJenisProgram,
-  setFetchProgramData,
+  namaProgram,
+  setNamaProgram,
+  showPilihanProgram,
+  setShowPilihanProgram,
   fetchProgramData,
+  setFetchProgramData,
   kp,
 }) {
-  const { navigate } = useGlobalUserAppContext();
-
   if (
     jenisFasiliti === 'projek-komuniti-lain' &&
     semuaProgram.length < 1 &&
@@ -40,12 +39,13 @@ export default function KaunterKomunitiLain({
           Senarai Program / Aktiviti
         </h1>
         <p className='flex justify-start font-semibold text-lg'>
-          Nama Program
+          Jenis Program
           <span className='font-semibold text-lg text-user6'>*</span>
         </p>
         <div className='grid gap-1'>
           <select
             required
+            value={jenisProgram}
             onChange={(e) => setJenisProgram(e.target.value)}
             name='jenisProgram'
             id='jenisProgram'
@@ -61,7 +61,7 @@ export default function KaunterKomunitiLain({
             <option value='oku'>Institusi OKU / PDK</option>
             <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='ppkps'>
-              Program Pemasyarakatan Klinik Pergigian Sekolah
+              Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah
             </option>
             <option value='oap'>Program Orang Asli dan Penan</option>
             <option value='incremental'>

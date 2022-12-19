@@ -55,11 +55,12 @@ const createPersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // associate negeri, daerah & kp to each person umum for every creation
+  // associate negeri, daerah, kp, tahunDaftar to each person umum for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
+  req.body.tahunDaftar = new Date().getFullYear();
 
   // find if person already exist using ic
   const personExist = await Umum.findOne({
@@ -69,6 +70,7 @@ const createPersonKaunter = async (req, res) => {
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
     jenisFasiliti: req.body.jenisFasiliti,
+    tahunDaftar: req.body.tahunDaftar,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
   });
