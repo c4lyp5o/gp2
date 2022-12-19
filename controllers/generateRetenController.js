@@ -603,7 +603,14 @@ const makePG101A = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      rowNew.getCell(35).value = data[i].catatan; //catatan
+      let catatan = `${data[i].noBayaran ? data[i].noBayaran : ''} ${
+        data[i].noResit ? data[i].noResit : ''
+      } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
+        data[i].noResit2 ? data[i].noResit2 : ''
+      } ${data[i].noBayaran3 ? data[i].noBayaran3 : ''} ${
+        data[i].noResit3 ? data[i].noResit3 : ''
+      } ${data[i].catatan}`;
+      rowNew.getCell(35).value = catatan; //catatan
     }
 
     worksheet.eachRow((row, rowNumber) => {
