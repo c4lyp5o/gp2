@@ -37,6 +37,12 @@ const countPG101A = async (payload) => {
       statusPesara: '$statusPesara',
       kumpulanEtnik: '$kumpulanEtnik',
       rujukDaripada: '$rujukDaripada',
+      noBayaran: 1,
+      noResit: 1,
+      noBayaran2: 1,
+      noResit2: 1,
+      noBayaran3: 1,
+      noResit3: 1,
       catatan: '$catatan',
     },
   };
