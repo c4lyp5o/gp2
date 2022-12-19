@@ -340,45 +340,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatFluorideVarnish: {
       type: Boolean,
       default: false,
     },
-    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatPRRJenis1: {
       type: Boolean,
       default: false,
@@ -388,21 +353,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
@@ -728,14 +678,6 @@ const UmumSchema = new mongoose.Schema(
       default: [],
     },
     //promosi ----------------------------------------------------------------------------
-    ceramahPromosiUmum: {
-      type: String,
-      default: '',
-    },
-    lmgPromosiUmum: {
-      type: String,
-      default: '',
-    },
     melaksanakanAktivitiBeginPromosiUmum: {
       type: String,
       default: '',
