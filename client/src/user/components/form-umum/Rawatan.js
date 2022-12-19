@@ -114,12 +114,6 @@ export default function Rawatan(props) {
                         jumlah gigi kekal dibuat Pengapan Fisur
                       </p>
                       <div className='flex flex-row items-center pl-5'>
-                        {/* <label
-                    htmlFor='baru-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label> */}
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -136,77 +130,6 @@ export default function Rawatan(props) {
                           max='32'
                         />
                       </div>
-                      {/* <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
-                    id='semula-jumlah-gigi-kekal-dibuat-fs-rawatan-umum'
-                    value={props.semulaJumlahGigiKekalDibuatFSRawatanUmum}
-                    onChange={(e) => {
-                      props.setSemulaJumlahGigiKekalDibuatFSRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                  />
-                </div> */}
-                      {/* <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='baru-jumlah-murid-dibuat-fs-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='baru-jumlah-murid-dibuat-fs-rawatan-umum'
-                    id='baru-jumlah-murid-dibuat-fs-rawatan-umum'
-                    value={props.baruJumlahMuridDibuatFsRawatanUmum}
-                    onChange={(e) => {
-                      props.setBaruJumlahMuridDibuatFsRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                    required
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-murid-dibuat-fs-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-murid-dibuat-fs-rawatan-umum'
-                    id='semula-jumlah-murid-dibuat-fs-rawatan-umum'
-                    value={props.semulaJumlahMuridDibuatFsRawatanUmum}
-                    onChange={(e) => {
-                      props.setSemulaJumlahMuridDibuatFsRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                    required
-                  />
-                </div> */}
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('sapuan-florida') ||
@@ -237,97 +160,6 @@ export default function Rawatan(props) {
                           Pesakit diberi Sapuan Florida
                         </label>
                       </div>
-                      {/* <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                  jumlah gigi kekal diberi Sapuan Florida
-                </p>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    id='baru-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    value={props.baruJumlahGigiKekalDiberiFVRawatanUmum}
-                    onChange={(e) => {
-                      props.setBaruJumlahGigiKekalDiberiFVRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='32'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    id='semula-jumlah-gigi-kekal-diberi-fv-rawatan-umum'
-                    value={props.semulaJumlahGigiKekalDiberiFVRawatanUmum}
-                    onChange={(e) => {
-                      props.setSemulaJumlahGigiKekalDiberiFVRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='32'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='baru-jumlah-murid-dibuat-fv-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='baru-jumlah-murid-dibuat-fv-rawatan-umum'
-                    id='baru-jumlah-murid-dibuat-fv-rawatan-umum'
-                    value={props.baruJumlahMuridDibuatFVRawatanUmum}
-                    onChange={(e) => {
-                      props.setBaruJumlahMuridDibuatFVRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-murid-dibuat-fv-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-murid-dibuat-fv-rawatan-umum'
-                    id='semula-jumlah-murid-dibuat-fv-rawatan-umum'
-                    value={props.semulaJumlahMuridDibuatFVRawatanUmum}
-                    onChange={(e) => {
-                      props.setSemulaJumlahMuridDibuatFVRawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                  />
-                </div> */}
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('prr-jenis-1') ||
@@ -362,12 +194,6 @@ export default function Rawatan(props) {
                         jumlah gigi diberi PRR Jenis 1
                       </p>
                       <div className='flex flex-row items-center pl-5'>
-                        {/* <label
-                    htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label> */}
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -386,79 +212,6 @@ export default function Rawatan(props) {
                           max='32'
                         />
                       </div>
-                      {/* <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
-                    id='semula-jumlah-gigi-kekal-diberi-prr-jenis-1-rawatan-umum'
-                    value={
-                      props.semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum
-                    }
-                    onChange={(e) => {
-                      props.setSemulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                  />
-                </div> */}
-                      {/* <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Baru
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    id='baru-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    value={props.baruJumlahMuridDiberiPrrJenis1RawatanUmum}
-                    onChange={(e) => {
-                      props.setBaruJumlahMuridDiberiPrrJenis1RawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                    required
-                  />
-                </div>
-                <div className='flex flex-row items-center pl-5'>
-                  <label
-                    htmlFor='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    className='text-sm font-m'
-                  >
-                    Semula
-                  </label>
-                  <input
-                  disabled={isDisabled}
-                    type='number'
-                    name='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    id='semula-jumlah-murid-diberi-prr-jenis-1-rawatan-umum'
-                    value={props.semulaJumlahMuridDiberiPrrJenis1RawatanUmum}
-                    onChange={(e) => {
-                      props.setSemulaJumlahMuridDiberiPrrJenis1RawatanUmum(
-                        e.target.value
-                      );
-                    }}
-                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    min='0'
-                    max='16'
-                    required
-                  />
-                </div> */}
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('cabutan') ||
