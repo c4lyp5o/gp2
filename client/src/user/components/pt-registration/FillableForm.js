@@ -148,6 +148,10 @@ export default function FillableForm({
   const [myIdVerified, setMyIdVerified] = useState(false);
 
   const TarikhKedatangan = () => {
+    let disabled = false
+    if (jenisFasiliti !== 'projek-komuniti-lain') {
+      disabled = true
+    }
     return masterDatePicker({
       selected: tarikhKedatanganDP,
       onChange: (tarikhKedatangan) => {
@@ -158,6 +162,7 @@ export default function FillableForm({
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: disabled,
       className:
         'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
