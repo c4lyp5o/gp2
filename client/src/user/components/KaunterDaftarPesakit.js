@@ -20,6 +20,7 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const [data, setData] = useState(null);
   const [philter, setPhilter] = useState('');
+  const [showAll, setShowAll] = useState(false);
   const [date, setDate] = useState(new Date());
   const [generating, setGenerating] = useState(false);
   const [pilihanTarikh, setPilihanTarikh] = useState(
@@ -74,6 +75,7 @@ export default function DaftarPesakit({ createdByKp }) {
   const CustomDatePicker = () => {
     return (
       <DatePicker
+        disabled={!showAll ? false : true}
         dateFormat='dd/MM/yyyy'
         selected={date}
         onChange={(date) => {
@@ -143,6 +145,24 @@ export default function DaftarPesakit({ createdByKp }) {
             Pilihan Tarikh :{' '}
           </label>
           <CustomDatePicker />
+          <input
+            type='checkbox'
+            name='showall'
+            id='showall'
+            className='ml-2'
+            onChange={(e) => {
+              if (e.target.checked) {
+                setPilihanTarikh('');
+                setShowAll(true);
+              } else {
+                setPilihanTarikh(moment(new Date()).format('YYYY-MM-DD'));
+                setShowAll(false);
+              }
+            }}
+          />
+          <label htmlFor='showall' className='ml-2'>
+            Lihat Semua Maklumat
+          </label>
         </div>
         <div className='m-3 xl:w-96 flex flex-row'>
           {generating ? (
