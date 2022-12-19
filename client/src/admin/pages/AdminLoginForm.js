@@ -13,40 +13,6 @@ import { LoadingSuperDark } from '../components/Screens';
 
 import CountdownTimer from '../context/countdownTimer';
 
-// function AdminBox({
-//   setPilihanAdmin,
-//   pilihanAdmin,
-//   admins,
-//   setUserName,
-//   userName,
-// }) {
-//   return (
-//     <div className='flex flex-col justify-center items-center'>
-//       <select
-//         required
-//         value={pilihanAdmin}
-//         onChange={(e) => {
-//           setPilihanAdmin(e.target.value);
-//           setUserName({
-//             ...userName,
-//             admin: e.target.value,
-//           });
-//         }}
-//         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
-//       >
-//         <option value=''>Sila Pilih Pentadbir Klinik...</option>
-//         {admins.map((i) => {
-//           return (
-//             <option key={i._id} value={i.email} className='capitalize'>
-//               {i.nama}
-//             </option>
-//           );
-//         })}
-//       </select>
-//     </div>
-//   );
-// }
-
 function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
   const fiveMinutes = 5 * 60 * 1000;
   const nowMinutes = new Date().getTime();
@@ -108,21 +74,12 @@ export default function AdminLoginForm() {
   const [kicker, setKicker] = useState(null);
 
   const [data, setData] = useState(null);
-  const [admins, setAdmins] = useState(null);
   const [pilihanNegeri, setPilihanNegeri] = useState('');
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [pilihanAdmin, setPilihanAdmin] = useState('');
 
   const currentUser = useRef();
-
-  const props = {
-    setPilihanAdmin,
-    pilihanAdmin,
-    setUserName,
-    userName,
-    admins,
-  };
 
   const buttonProps = {
     pilihanDaerah,
@@ -264,7 +221,6 @@ export default function AdminLoginForm() {
       admin: null,
     });
     setPilihanAdmin('');
-    setAdmins(null);
     setShowPasswordBox(false);
   }, [pilihanKlinik]);
 
@@ -328,50 +284,52 @@ export default function AdminLoginForm() {
                     })}
                   </select>
                 </div>
-                {pilihanNegeri && pilihanNegeri !== '' && (
-                  <div className='w-60 flex m-auto'>
-                    <label htmlFor='daerah' className='mr-4'>
-                      Daerah:
-                    </label>
-                    <select
-                      name='daerah'
-                      id='daerah'
-                      value={pilihanDaerah}
-                      onChange={(e) => {
-                        const element = document.getElementById('daerah');
-                        const getKey =
-                          element.options[element.selectedIndex].getAttribute(
-                            'data-key'
-                          );
-                        setPilihanDaerah(e.target.value);
-                        setUserName({
-                          ...userName,
-                          daerah: getKey,
-                        });
-                      }}
-                      className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
-                    >
-                      <option value=''>Sila Pilih Daerah...</option>
-                      {data.map((d) => {
-                        if (d.negeri === pilihanNegeri) {
-                          return d.daerah.map((i) => {
-                            return (
-                              <option
-                                key={i.daerah}
-                                id='daerah'
-                                data-key={i.username}
-                                value={i.daerah}
-                                className='capitalize'
-                              >
-                                {i.daerah}
-                              </option>
+                {pilihanNegeri &&
+                  pilihanNegeri !== '' &&
+                  pilihanNegeri !== 'hqputrajaya' && (
+                    <div className='w-60 flex m-auto'>
+                      <label htmlFor='daerah' className='mr-4'>
+                        Daerah:
+                      </label>
+                      <select
+                        name='daerah'
+                        id='daerah'
+                        value={pilihanDaerah}
+                        onChange={(e) => {
+                          const element = document.getElementById('daerah');
+                          const getKey =
+                            element.options[element.selectedIndex].getAttribute(
+                              'data-key'
                             );
+                          setPilihanDaerah(e.target.value);
+                          setUserName({
+                            ...userName,
+                            daerah: getKey,
                           });
-                        }
-                      })}
-                    </select>
-                  </div>
-                )}
+                        }}
+                        className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+                      >
+                        <option value=''>Sila Pilih Daerah...</option>
+                        {data.map((d) => {
+                          if (d.negeri === pilihanNegeri) {
+                            return d.daerah.map((i) => {
+                              return (
+                                <option
+                                  key={i.daerah}
+                                  id='daerah'
+                                  data-key={i.username}
+                                  value={i.daerah}
+                                  className='capitalize'
+                                >
+                                  {i.daerah}
+                                </option>
+                              );
+                            });
+                          }
+                        })}
+                      </select>
+                    </div>
+                  )}
                 {pilihanNegeri && pilihanDaerah && pilihanDaerah !== '' && (
                   <div className='w-60 flex m-auto'>
                     <label htmlFor='klinik' className='mr-7'>
