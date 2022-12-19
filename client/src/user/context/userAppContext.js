@@ -71,12 +71,13 @@ function masterDatePicker({
   onChange,
   required,
   filterDate,
-  className,
   selectsStart,
   selectsEnd,
   startDate,
   endDate,
   minDate,
+  disabled,
+  className,
 }) {
   return (
     <DatePicker
@@ -95,6 +96,7 @@ function masterDatePicker({
       startDate={startDate}
       endDate={endDate}
       minDate={minDate}
+      disabled={disabled}
       withPortal={window.matchMedia('(max-width: 400px)').matches}
       onKeyDown={(e) => {
         e.preventDefault();
