@@ -26,13 +26,16 @@ import Confirmation from './Confirmation';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function FillableForm({
+  jenisFasiliti,
   showForm,
   setShowForm,
   editId,
   setEditId,
-  jenisFasiliti,
   jenisProgram,
   namaProgram,
+  setShowPilihanProgram,
+  fetchProgramData,
+  setFetchProgramData,
   kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
@@ -148,9 +151,9 @@ export default function FillableForm({
   const [myIdVerified, setMyIdVerified] = useState(false);
 
   const TarikhKedatangan = () => {
-    let disabled = false
+    let disabled = false;
     if (jenisFasiliti !== 'projek-komuniti-lain') {
-      disabled = true
+      disabled = true;
     }
     return masterDatePicker({
       selected: tarikhKedatanganDP,
