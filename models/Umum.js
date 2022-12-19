@@ -13,6 +13,7 @@ const UmumSchema = new mongoose.Schema(
     createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMdtb: { type: String, default: '' },
+    tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
@@ -94,8 +95,8 @@ const UmumSchema = new mongoose.Schema(
     // kampung angkat
     kgAngkat: { type: String, default: '' },
     // program based
-    jenisProgram: { type: String, default: 'NOT APPLICABLE' },
-    namaProgram: { type: String, default: 'NOT APPLICABLE' },
+    jenisProgram: { type: String, default: '' },
+    namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan -------------------------------------------------------------------
     statusKehadiran: {
@@ -340,45 +341,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatFluorideVarnish: {
       type: Boolean,
       default: false,
     },
-    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatPRRJenis1: {
       type: Boolean,
       default: false,
@@ -388,21 +354,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
@@ -728,14 +679,6 @@ const UmumSchema = new mongoose.Schema(
       default: [],
     },
     //promosi ----------------------------------------------------------------------------
-    ceramahPromosiUmum: {
-      type: String,
-      default: '',
-    },
-    lmgPromosiUmum: {
-      type: String,
-      default: '',
-    },
     melaksanakanAktivitiBeginPromosiUmum: {
       type: String,
       default: '',
@@ -840,7 +783,7 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti,
+        jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
@@ -850,7 +793,7 @@ UmumSchema.pre('save', async function () {
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
           runningnumber: 1,
-          jenis: this.jenisFasiliti,
+          jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
