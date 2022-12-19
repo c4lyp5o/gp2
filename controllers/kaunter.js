@@ -69,6 +69,8 @@ const createPersonKaunter = async (req, res) => {
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
     jenisFasiliti: req.body.jenisFasiliti,
+    jenisProgram: req.body.jenisProgram,
+    namaProgram: req.body.namaProgram,
   });
 
   // tagging person according to their status
@@ -103,13 +105,6 @@ const updatePersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
-
-  // encrypt
-  // const encryptedIc = cryptoJs.AES.encrypt(
-  //   req.body.ic,
-  //   process.env.CRYPTO_JS_SECRET
-  // ).toString();
-  // req.body.ic = encryptedIc;
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     { _id: req.params.personKaunterId },
