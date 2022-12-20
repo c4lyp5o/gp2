@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
@@ -177,14 +178,31 @@ export default function AdminLoginForm() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await readSuperadminData();
-        return response;
+        const { data } = await axios.get(
+          'https://erkm.calypsocloud.one/cache/initial',
+          {
+            headers: {
+              'x-api-key': process.env.CACHE_SERVER_PASS,
+            },
+          }
+        );
+        return data.data;
       } catch (e) {
-        console.log(e);
+        const response = await readSuperadminData();
+        await axios.post(
+          'https://erkm.calypsocloud.one/cache/initial',
+          response.data,
+          {
+            headers: {
+              'x-api-key': process.env.CACHE_SERVER_PASS,
+            },
+          }
+        );
+        return response.data;
       }
     };
     getData().then((res) => {
-      setData(res.data);
+      setData(res);
     });
   }, []);
 
