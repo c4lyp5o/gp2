@@ -211,7 +211,6 @@ function UserUmum() {
                 <option value='kp'>Klinik Pergigian</option>
                 <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
                 <option value='taska-tadika'>Taska / Tadika</option>
-                {/* <option value='ipt-kolej'>IPT / KOLEJ</option> */}
                 <option value='projek-komuniti-lain'>Projek Komuniti</option>
               </select>
               <span>
@@ -237,17 +236,22 @@ function UserUmum() {
                   }}
                   className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
                 >
-                  <option value=''>Sila Pilih..</option>
-                  <option value='projek-komuniti'>Projek Komuniti</option>
+                  <option value=''>Jenis Program / Aktiviti</option>
                   <option value='programDewasaMuda'>Program Dewasa Muda</option>
-                  <option value='kgangkat'>Kampung Angkat Pergigian</option>
+                  <option value='kampungAngkatPergigian'>
+                    Program Kampung Angkat Pergigian
+                  </option>
                   <option value='ppr'>Projek Perumahan Rakyat</option>
                   <option value='we'>Institusi Warga Emas</option>
                   <option value='oku'>Institusi OKU / PDK</option>
+                  <option value='projek-komuniti'>Projek Komuniti</option>
                   <option value='ppkps'>
-                    Program Pemasyarakatan Klinik Pergigian Sekolah
+                    Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah
                   </option>
                   <option value='oap'>Program Orang Asli dan Penan</option>
+                  <option value='incremental'>
+                    Program Pergigian Sekolah sesi 2022/2023
+                  </option>
                 </select>
                 <span>
                   <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
