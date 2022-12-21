@@ -1649,6 +1649,10 @@ function UserFormUmumHeader() {
           data.singlePersonUmum
             .umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
         );
+        setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
         setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
           data.singlePersonUmum
             .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
