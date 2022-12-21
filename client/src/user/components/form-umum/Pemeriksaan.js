@@ -21,14 +21,22 @@ export default function Pemeriksaan(props) {
     }
     if (
       props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-      'ya-perlu-status-denture-pemeriksaan-umum'
+      'tidak-perlu-status-denture-pemeriksaan-umum'
     ) {
       props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum('');
       props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum('');
     }
+    if (
+      props.disaringProgramKanserMulutPemeriksaanUmum ===
+      'tidak-disaring-program-kanser-mulut-pemeriksaan-umum'
+    ) {
+      props.setLesiMulutPemeriksaanUmum(false);
+      props.setTabiatBerisikoTinggiPemeriksaanUmum(false);
+    }
   }, [
     props.yaTidakSediaAdaStatusDenturePemeriksaanUmum,
     props.yaTidakPerluStatusDenturePemeriksaanUmum,
+    props.disaringProgramKanserMulutPemeriksaanUmum,
   ]);
 
   return (
@@ -39,7 +47,7 @@ export default function Pemeriksaan(props) {
             props.statusKehadiran === false ? 'lg:grid-cols-2' : 'grid-cols-1'
           }`}
         >
-          <article className='grid border border-userBlack mb-2 pl-3 p-2 rounded-md'>
+          <article className='grid border border-userBlack mb-2 pl-3 p-2 rounded-md auto-rows-min'>
             <h4
               className='flex flex-row items-center pl-5 font-bold col-span-2  hover:cursor-pointer hover:text-user6'
               onClick={() => setShow(!show)}
@@ -92,47 +100,51 @@ export default function Pemeriksaan(props) {
                 />
               </div>
               {props.singlePersonUmum.umur >= 18 ? (
-                <div className='flex flex-row border border-userBlack py-2 items-center'>
-                  <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                    Tekanan Darah :{' '}
-                    <span className='font-semibold text-user6'>*</span>
-                  </p>
-                  <input
-                    required
-                    disabled={isDisabled}
-                    type='number'
-                    name='systolic-tekanan-darah'
-                    id='systolic-tekanan-darah'
-                    value={props.systolicTekananDarah}
-                    onChange={(e) => {
-                      props.setSystolicTekananDarah(e.target.value);
-                    }}
-                    min='0'
-                    max='300'
-                    className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                  />
-                  <p className='font-bold text-2xl'> / </p>
-                  <input
-                    required
-                    disabled={isDisabled}
-                    type='number'
-                    name='diastolic-tekanan-darah'
-                    id='diastolic-tekanan-darah'
-                    value={props.diastolicTekananDarah}
-                    onChange={(e) => {
-                      props.setDiastolicTekananDarah(e.target.value);
-                    }}
-                    min='0'
-                    max='300'
-                    className='appearance-none w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                  />
+                <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
+                  <div className='flex flex-col lg:flex-row items-center pl-5 '>
+                    <p className='items-center pl-5 font-bold whitespace-nowrap'>
+                      Tekanan Darah :{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    <div className='flex flex-row whitespace-nowrap'>
+                      <input
+                        required
+                        disabled={isDisabled}
+                        type='number'
+                        name='systolic-tekanan-darah'
+                        id='systolic-tekanan-darah'
+                        value={props.systolicTekananDarah}
+                        onChange={(e) => {
+                          props.setSystolicTekananDarah(e.target.value);
+                        }}
+                        min='0'
+                        max='300'
+                        className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                      />
+                      <p className='font-bold text-2xl'> / </p>
+                      <input
+                        required
+                        disabled={isDisabled}
+                        type='number'
+                        name='diastolic-tekanan-darah'
+                        id='diastolic-tekanan-darah'
+                        value={props.diastolicTekananDarah}
+                        onChange={(e) => {
+                          props.setDiastolicTekananDarah(e.target.value);
+                        }}
+                        min='0'
+                        max='300'
+                        className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                      />
+                    </div>
+                  </div>
                   {(props.systolicTekananDarah > 140 &&
                     props.diastolicTekananDarah > 60) ||
                   (props.systolicTekananDarah < 90 &&
                     props.systolicTekananDarah > 0 &&
                     props.diastolicTekananDarah < 60 &&
                     props.diastolicTekananDarah > 0) ? (
-                    <div className='flex items-center text-left'>
+                    <div className='flex items-center text-left px-1'>
                       <input
                         disabled={isDisabled}
                         type='checkbox'
@@ -1414,48 +1426,54 @@ export default function Pemeriksaan(props) {
                       tidak
                     </label>
                   </div>
-                  <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='lesi-mulut-pemeriksaan-umum'
-                      id='lesi-mulut-pemeriksaan-umum'
-                      checked={props.lesiMulutPemeriksaanUmum}
-                      onChange={() => {
-                        props.setLesiMulutPemeriksaanUmum(
-                          !props.lesiMulutPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='lesi-mulut-pemeriksaan-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      lesi mulut
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='tabiat-berisiko-tinggi-pemeriksaan-umum'
-                      id='tabiat-berisiko-tinggi-pemeriksaan-umum'
-                      checked={props.tabiatBerisikoTinggiPemeriksaanUmum}
-                      onChange={() => {
-                        props.setTabiatBerisikoTinggiPemeriksaanUmum(
-                          !props.tabiatBerisikoTinggiPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='tabiat-berisiko-tinggi-pemeriksaan-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      tabiat berisiko tinggi
-                    </label>
-                  </div>
+                  {props.disaringProgramKanserMulutPemeriksaanUmum ===
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum' && (
+                    <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='lesi-mulut-pemeriksaan-umum'
+                        id='lesi-mulut-pemeriksaan-umum'
+                        checked={props.lesiMulutPemeriksaanUmum}
+                        onChange={() => {
+                          props.setLesiMulutPemeriksaanUmum(
+                            !props.lesiMulutPemeriksaanUmum
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                      />
+                      <label
+                        htmlFor='lesi-mulut-pemeriksaan-umum'
+                        className='mx-2 text-sm font-m'
+                      >
+                        lesi mulut
+                      </label>
+                    </div>
+                  )}
+                  {props.disaringProgramKanserMulutPemeriksaanUmum ===
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum' && (
+                    <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='tabiat-berisiko-tinggi-pemeriksaan-umum'
+                        id='tabiat-berisiko-tinggi-pemeriksaan-umum'
+                        checked={props.tabiatBerisikoTinggiPemeriksaanUmum}
+                        onChange={() => {
+                          props.setTabiatBerisikoTinggiPemeriksaanUmum(
+                            !props.tabiatBerisikoTinggiPemeriksaanUmum
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                      />
+                      <label
+                        htmlFor='tabiat-berisiko-tinggi-pemeriksaan-umum'
+                        className='mx-2 text-sm font-m'
+                      >
+                        tabiat berisiko tinggi
+                      </label>
+                    </div>
+                  )}
                 </article>
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-semibold flex flex-row pl-3'>
