@@ -60,10 +60,13 @@ function DaerahBox(props) {
         id='daerah'
         value={props.pilihanDaerah}
         onChange={(e) => {
+          const element = document.getElementById('daerah');
+          const getKey =
+            element.options[element.selectedIndex].getAttribute('data-key');
           props.setPilihanDaerah(e.target.value);
           props.setUserName({
             ...props.userName,
-            daerah: e.target.value,
+            daerah: getKey,
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
@@ -71,7 +74,12 @@ function DaerahBox(props) {
         <option value=''>Sila Pilih Negeri...</option>
         {props.allDaerah.map((d) => {
           return (
-            <option key={d.daerah} value={d.username} className='capitalize'>
+            <option
+              key={d.daerah}
+              data-key={d.username}
+              value={d.daerah}
+              className='capitalize'
+            >
               {d.daerah}
             </option>
           );
@@ -168,7 +176,7 @@ function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
     return (
       <div className='flex flex-col justify-center items-center'>
         <h3 className='text-xl font-semibold mt-1'>
-          sila masukkan Key verifikasi
+          sila masukkan Kunci verifikasi
         </h3>
         <div className='relative'>
           <input
@@ -186,7 +194,7 @@ function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
             htmlFor='passwordAdmin'
             className='absolute left-3 bottom-8 text-xs text-admin1 bg-userWhite peer-placeholder-shown:text-admin1 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-8 peer-focus:text-xs transition-all'
           >
-            Kata Laluan
+            Kunci Verifikasi
           </label>
           <div className='absolute top-7 right-3 text-xl text-admin1'>
             {showPassword ? (
@@ -278,8 +286,6 @@ export default function AdminLoginForm() {
       currentUser.current = userName.admin;
     }
 
-    console.log(currentUser.current);
-
     if (
       showPasswordBox === false &&
       pilihanNegeri !== '' &&
@@ -298,7 +304,7 @@ export default function AdminLoginForm() {
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
           toast.info(
-            `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+            `Kunci Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Kunci Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
           );
           setShowPasswordBox(true);
           return;
@@ -391,6 +397,10 @@ export default function AdminLoginForm() {
         setAllKlinik(response.data);
       } catch (e) {
         console.log(e);
+        toast.error(
+          'Tiada Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
+        );
+        setPilihanDaerah('');
       }
     };
     getData();
@@ -406,11 +416,11 @@ export default function AdminLoginForm() {
         // console.log(response.data);
         setAllAdmin(response.data);
       } catch (e) {
+        console.log(e);
         toast.error(
           'Tiada Pentadbir Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
         );
         setPilihanKlinik('');
-        console.log(e);
       }
     };
     getData();
