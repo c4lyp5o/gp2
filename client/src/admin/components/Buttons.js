@@ -99,9 +99,7 @@ export function SubmitButton({ func, level }) {
       level.pilihanNegeri !== '' &&
       level.pilihanDaerah !== '' &&
       level.pilihanKlinik === ''
-        ? `Log masuk sebagai pentadbir daerah ${
-            level.pilihanDaerah.split('sdo')[1]
-          }`
+        ? `Log masuk sebagai pentadbir daerah ${level.pilihanDaerah}`
         : null}
       {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&
