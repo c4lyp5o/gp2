@@ -83,11 +83,29 @@ const initialDataNegeri = async (req, res) => {
 };
 
 const initialDataDaerah = async (req, res) => {
+  let cap;
   const { negeri } = req.query;
   const spliced = negeri.split('negeri');
-  const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  if (spliced.includes('sembilan')) {
+    cap = 'Negeri Sembilan';
+  } else {
+    cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  }
+  let real = cap;
+  if (cap === 'Wpputrajaya' || cap === 'Wplabuan') {
+    real = cap.split('Wp');
+    real = `${real[1]}`;
+    real = real.charAt(0).toUpperCase() + real.slice(1);
+    real = `WP ${real}`;
+  }
+  if (cap === 'Wpkualalumpur') {
+    real = `WP Kuala Lumpur`;
+  }
+  if (cap === 'Pulaupinang') {
+    real = `Pulau Pinang`;
+  }
   const all = await Superadmin.find({
-    negeri: cap,
+    negeri: real,
     accountType: 'daerahSuperadmin',
   });
   const specDaerah = _.uniqBy(all, 'daerah');
@@ -111,10 +129,11 @@ const initialDataDaerah = async (req, res) => {
 
 const initialDataKlinik = async (req, res) => {
   const { daerah } = req.query;
-  const spliced = daerah.split('sdo');
-  const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  // const spliced = daerah.split('sdo');
+  // const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  const admin = await Superadmin.find({ daerah: daerah });
   const all = await User.find({
-    daerah: cap,
+    daerah: admin[0].daerah,
     accountType: 'kpUser',
   });
   const specKlinik = _.uniqBy(all, 'kp');
@@ -145,12 +164,9 @@ const initialDataAdmins = async (req, res) => {
   all.forEach((item) => {
     let regNum = {};
     let adminDetails = {};
-    if (item.mdcNumber) {
-      regNum.mdcNumber = item.mdcNumber;
-    }
-    if (item.mdtbNumber) {
-      regNum.mdtbNumber = item.mdtbNumber;
-    }
+    item.mdcNumber
+      ? (regNum.mdcNumber = item.mdcNumber)
+      : (regNum.mdtbNumber = item.mdtbNumber);
     adminDetails = {
       nama: item.nama,
       email: item.email,
