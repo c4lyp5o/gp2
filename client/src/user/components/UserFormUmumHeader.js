@@ -1457,7 +1457,7 @@ function UserFormUmumHeader() {
             data.singlePersonUmum.semulaPenuhJumlahDenturProstodontikRawatanUmum
           );
           setBaruSeparaJumlahDenturProstodontikRawatanUmum(
-            data.singlePersonUmum.baruseparaJumlahDenturProstodontikRawatanUmum
+            data.singlePersonUmum.baruSeparaJumlahDenturProstodontikRawatanUmum
           );
           setSemulaSeparaJumlahDenturProstodontikRawatanUmum(
             data.singlePersonUmum
