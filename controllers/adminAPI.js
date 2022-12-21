@@ -65,6 +65,106 @@ const transporter = mailer.createTransport({
   },
 });
 
+const initialDataNegeri = async (req, res) => {
+  const all = await Superadmin.find({ accountType: 'negeriSuperadmin' });
+  const allNegeri = _.uniqBy(all, 'negeri');
+  let negeri = [];
+  allNegeri.forEach((item) => {
+    let negeriDetails = {};
+    if (item.negeri !== '-') {
+      negeriDetails = {
+        negeri: item.negeri,
+        username: item.user_name,
+      };
+      negeri.push(negeriDetails);
+    }
+  });
+  res.status(200).json(negeri);
+};
+
+const initialDataDaerah = async (req, res) => {
+  const { negeri } = req.query;
+  const spliced = negeri.split('negeri');
+  const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  const all = await Superadmin.find({
+    negeri: cap,
+    accountType: 'daerahSuperadmin',
+  });
+  const specDaerah = _.uniqBy(all, 'daerah');
+  let daerah = [];
+  specDaerah.forEach((item) => {
+    let daerahDetails = {};
+    if (item.daerah !== '-') {
+      daerahDetails = {
+        daerah: item.daerah,
+        username: item.user_name,
+      };
+      daerah.push(daerahDetails);
+    }
+  });
+  if (daerah.length === 0) {
+    res.status(404).json({ message: 'No daerah found' });
+  } else {
+    res.status(200).json(daerah);
+  }
+};
+
+const initialDataKlinik = async (req, res) => {
+  const { daerah } = req.query;
+  const spliced = daerah.split('sdo');
+  const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  const all = await User.find({
+    daerah: cap,
+    accountType: 'kpUser',
+  });
+  const specKlinik = _.uniqBy(all, 'kp');
+  let klinik = [];
+  specKlinik.forEach((item) => {
+    let klinikDetails = {};
+    klinikDetails = {
+      kp: item.kp,
+      username: item.username,
+      kodFasiliti: item.kodFasiliti,
+    };
+    klinik.push(klinikDetails);
+  });
+  if (klinik.length === 0) {
+    res.status(404).json({ message: 'No klinik found' });
+  } else {
+    res.status(200).json(klinik);
+  }
+};
+
+const initialDataAdmins = async (req, res) => {
+  const { kodFasiliti } = req.query;
+  const all = await Operator.find({
+    kodFasiliti: kodFasiliti,
+    role: 'admin',
+  });
+  let admins = [];
+  all.forEach((item) => {
+    let regNum = {};
+    let adminDetails = {};
+    if (item.mdcNumber) {
+      regNum.mdcNumber = item.mdcNumber;
+    }
+    if (item.mdtbNumber) {
+      regNum.mdtbNumber = item.mdtbNumber;
+    }
+    adminDetails = {
+      nama: item.nama,
+      email: item.email,
+      ...regNum,
+    };
+    admins.push(adminDetails);
+  });
+  if (admins.length === 0) {
+    res.status(404).json({ message: 'No operators found' });
+  } else {
+    res.status(200).json(admins);
+  }
+};
+
 const initialData = async (req, res) => {
   const all = await Superadmin.find({});
   const allKlinik = await User.find({
@@ -2554,6 +2654,10 @@ const html = (nama, key) =>
 module.exports = {
   generateRandomString,
   initialData,
+  initialDataNegeri,
+  initialDataDaerah,
+  initialDataKlinik,
+  initialDataAdmins,
   checkUser,
   loginUser,
   getData,

@@ -9,6 +9,10 @@ const { adminAuth, adminAuthInt } = require('../middlewares/adminAuth');
 const {
   getCipher,
   initialData,
+  initialDataNegeri,
+  initialDataDaerah,
+  initialDataKlinik,
+  initialDataAdmins,
   checkUser,
   loginUser,
   getData,
@@ -18,15 +22,27 @@ const {
   getOneDataKpRoute,
 } = require('../controllers/adminAPI');
 
-// Routes
+// Special
 router.get('/getcipher', getCipher);
+
+// Initial Data
 router.get('/initialdata', initialData);
+router.get('/getnegeri', initialDataNegeri);
+router.get('/getdaerah', initialDataDaerah);
+router.get('/getklinik', initialDataKlinik);
+router.get('/getadmins', initialDataAdmins);
+
+// Login
 router.get('/check', checkUser);
 router.post('/login', loginUser);
+
+// Data
 router.get('/getdata', adminAuth, getDataRoute);
 router.get('/getkpdata', adminAuth, getDataKpRoute);
 router.get('/getonedata', adminAuth, getOneDataRoute);
 router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
+
+// Legacy
 router.post('/newroute', adminAuthInt, getData);
 
 module.exports = router;
