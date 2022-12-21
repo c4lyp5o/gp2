@@ -19,6 +19,28 @@ function AdminAppProvider({ children }) {
   const navigate = useNavigate();
 
   // read superadmin data
+  const readNegeri = async () => {
+    const response = await axios.get('/api/v1/superadmin/getnegeri');
+    return response;
+  };
+  const readDaerah = async (negeri) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getdaerah?negeri=${negeri}`
+    );
+    return response;
+  };
+  const readKlinik = async (daerah) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getklinik?daerah=${daerah}`
+    );
+    return response;
+  };
+  const readAdmins = async (kod) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getadmins?kodFasiliti=${kod}`
+    );
+    return response;
+  };
   const readSuperadminData = async () => {
     const response = await axios.get('/api/v1/superadmin/initialdata');
     return response;
@@ -702,6 +724,10 @@ function AdminAppProvider({ children }) {
         removeTotpToken,
         // start
         readSuperadminData,
+        readNegeri,
+        readDaerah,
+        readKlinik,
+        readAdmins,
         // main data
         createData,
         readData,
