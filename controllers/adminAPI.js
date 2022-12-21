@@ -145,12 +145,9 @@ const initialDataAdmins = async (req, res) => {
   all.forEach((item) => {
     let regNum = {};
     let adminDetails = {};
-    if (item.mdcNumber) {
-      regNum.mdcNumber = item.mdcNumber;
-    }
-    if (item.mdtbNumber) {
-      regNum.mdtbNumber = item.mdtbNumber;
-    }
+    item.mdcNumber
+      ? (regNum.mdcNumber = item.mdcNumber)
+      : (regNum.mdtbNumber = item.mdtbNumber);
     adminDetails = {
       nama: item.nama,
       email: item.email,

@@ -26,20 +26,10 @@ function NegeriBox(props) {
         value={props.pilihanNegeri}
         onChange={(e) => {
           props.setPilihanNegeri(e.target.value);
-          if (e.target.value !== 'hqputrajaya') {
-            props.setUserName({
-              ...props.userName,
-              negeri: `negeri${e.target.value
-                .toLowerCase()
-                .replace(/\s+/g, '')}`,
-            });
-          }
-          if (e.target.value === 'hqputrajaya') {
-            props.setUserName({
-              ...props.userName,
-              negeri: e.target.value,
-            });
-          }
+          props.setUserName({
+            ...props.userName,
+            negeri: e.target.value,
+          });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
       >
@@ -70,13 +60,10 @@ function DaerahBox(props) {
         id='daerah'
         value={props.pilihanDaerah}
         onChange={(e) => {
-          const element = document.getElementById('daerah');
-          const getKey =
-            element.options[element.selectedIndex].getAttribute('data-key');
           props.setPilihanDaerah(e.target.value);
           props.setUserName({
             ...props.userName,
-            daerah: getKey,
+            daerah: e.target.value,
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
@@ -290,6 +277,8 @@ export default function AdminLoginForm() {
     } else {
       currentUser.current = userName.admin;
     }
+
+    console.log(currentUser.current);
 
     if (
       showPasswordBox === false &&
