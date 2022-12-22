@@ -397,10 +397,9 @@ export default function AdminLoginForm() {
         setAllKlinik(response.data);
       } catch (e) {
         console.log(e);
-        toast.error(
-          'Tiada Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
-        );
-        setPilihanDaerah('');
+        // toast.error(
+        //   'Tiada Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
+        // );
       }
     };
     getData();
@@ -417,10 +416,10 @@ export default function AdminLoginForm() {
         setAllAdmin(response.data);
       } catch (e) {
         console.log(e);
-        toast.error(
-          'Tiada Pentadbir Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
-        );
-        setPilihanKlinik('');
+        // toast.error(
+        //   'Tiada Pentadbir Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
+        // );
+        // setPilihanKlinik('');
       }
     };
     getData();
