@@ -91,7 +91,9 @@ export function SubmitButton({ func, level }) {
       level.pilihanNegeri !== 'hqputrajaya' &&
       level.pilihanDaerah === '' &&
       level.pilihanKlinik === ''
-        ? `Log masuk sebagai pentadbir negeri ${level.pilihanNegeri}`
+        ? `Log masuk sebagai pentadbir negeri ${
+            level.pilihanNegeri.split('negeri')[1]
+          }`
         : null}
       {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&

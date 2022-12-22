@@ -1457,7 +1457,7 @@ function UserFormUmumHeader() {
             data.singlePersonUmum.semulaPenuhJumlahDenturProstodontikRawatanUmum
           );
           setBaruSeparaJumlahDenturProstodontikRawatanUmum(
-            data.singlePersonUmum.baruseparaJumlahDenturProstodontikRawatanUmum
+            data.singlePersonUmum.baruSeparaJumlahDenturProstodontikRawatanUmum
           );
           setSemulaSeparaJumlahDenturProstodontikRawatanUmum(
             data.singlePersonUmum
@@ -1648,6 +1648,10 @@ function UserFormUmumHeader() {
         setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
           data.singlePersonUmum
             .umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+        );
+        setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+          data.singlePersonUmum
+            .umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
         );
         setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
           data.singlePersonUmum

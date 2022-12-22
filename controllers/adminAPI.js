@@ -44,6 +44,24 @@ const Dictionary = {
   sosmedByKodProgram: 'sosmedByKodProgram',
   followers: 'followers',
   program: 'program',
+  // negeri
+  negerijohor: 'Johor',
+  negerikedah: 'Kedah',
+  negerikelantan: 'Kelantan',
+  negerimelaka: 'Melaka',
+  negerinegerisembilan: 'Negeri Sembilan',
+  negeripahang: 'Pahang',
+  negeripulaupinang: 'Pulau Pinang',
+  negeriperak: 'Perak',
+  negeriperlis: 'Perlis',
+  negeriselangor: 'Selangor',
+  negeriterengganu: 'Terengganu',
+  negerisabah: 'Sabah',
+  negerisarawak: 'Sarawak',
+  negeriwpkualalumpur: 'WP Kuala Lumpur',
+  negeriwpputrajaya: 'WP Putrajaya',
+  negeriwplabuan: 'WP Labuan',
+  negeriilk: 'ILK',
 };
 
 const socmed = [
@@ -64,6 +82,122 @@ const transporter = mailer.createTransport({
     pass: process.env.EMAILER_PASS,
   },
 });
+
+const initialDataNegeri = async (req, res) => {
+  const all = await Superadmin.find({ accountType: 'negeriSuperadmin' });
+  const allNegeri = _.uniqBy(all, 'negeri');
+  let negeri = [];
+  allNegeri.forEach((item) => {
+    let negeriDetails = {};
+    if (item.negeri !== '-') {
+      negeriDetails = {
+        negeri: item.negeri,
+        username: item.user_name,
+      };
+      negeri.push(negeriDetails);
+    }
+  });
+  res.status(200).json(negeri);
+};
+
+const initialDataDaerah = async (req, res) => {
+  // let cap;
+  const { negeri } = req.query;
+  // const spliced = negeri.split('negeri');
+  // if (spliced.includes('sembilan')) {
+  //   cap = 'Negeri Sembilan';
+  // } else {
+  //   cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  // }
+  // let real = cap;
+  // if (cap === 'Wpputrajaya' || cap === 'Wplabuan') {
+  //   real = cap.split('Wp');
+  //   real = `${real[1]}`;
+  //   real = real.charAt(0).toUpperCase() + real.slice(1);
+  //   real = `WP ${real}`;
+  // }
+  // if (cap === 'Wpkualalumpur') {
+  //   real = `WP Kuala Lumpur`;
+  // }
+  // if (cap === 'Pulaupinang') {
+  //   real = `Pulau Pinang`;
+  // }
+  const all = await Superadmin.find({
+    negeri: Dictionary[negeri],
+    accountType: 'daerahSuperadmin',
+  });
+  const specDaerah = _.uniqBy(all, 'daerah');
+  let daerah = [];
+  specDaerah.forEach((item) => {
+    let daerahDetails = {};
+    if (item.daerah !== '-') {
+      daerahDetails = {
+        daerah: item.daerah,
+        username: item.user_name,
+      };
+      daerah.push(daerahDetails);
+    }
+  });
+  if (daerah.length === 0) {
+    res.status(404).json({ message: 'No daerah found' });
+  } else {
+    res.status(200).json(daerah);
+  }
+};
+
+const initialDataKlinik = async (req, res) => {
+  const { daerah } = req.query;
+  // const spliced = daerah.split('sdo');
+  // const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  const admin = await Superadmin.find({ daerah: daerah });
+  const all = await User.find({
+    daerah: admin[0].daerah,
+    accountType: 'kpUser',
+  });
+  const specKlinik = _.uniqBy(all, 'kp');
+  let klinik = [];
+  specKlinik.forEach((item) => {
+    let klinikDetails = {};
+    klinikDetails = {
+      kp: item.kp,
+      username: item.username,
+      kodFasiliti: item.kodFasiliti,
+    };
+    klinik.push(klinikDetails);
+  });
+  if (klinik.length === 0) {
+    res.status(404).json({ message: 'No klinik found' });
+  } else {
+    res.status(200).json(klinik);
+  }
+};
+
+const initialDataAdmins = async (req, res) => {
+  const { kodFasiliti } = req.query;
+  const all = await Operator.find({
+    kodFasiliti: kodFasiliti,
+    role: 'admin',
+  });
+  let admins = [];
+  all.forEach((item) => {
+    let regNum = {};
+    let adminDetails = {};
+    item.mdcNumber
+      ? (regNum.mdcNumber = item.mdcNumber)
+      : (regNum.mdtbNumber = item.mdtbNumber);
+    adminDetails = {
+      nama: item.nama,
+      email: item.email,
+      ...regNum,
+    };
+    admins.push(adminDetails);
+  });
+  if (admins.length === 0) {
+    res.status(404).json({ message: 'No operators found' });
+  } else {
+    res.status(200).json(admins);
+  }
+};
 
 const initialData = async (req, res) => {
   const all = await Superadmin.find({});
@@ -2554,6 +2688,10 @@ const html = (nama, key) =>
 module.exports = {
   generateRandomString,
   initialData,
+  initialDataNegeri,
+  initialDataDaerah,
+  initialDataKlinik,
+  initialDataAdmins,
   checkUser,
   loginUser,
   getData,
