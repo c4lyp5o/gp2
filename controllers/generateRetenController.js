@@ -2334,14 +2334,14 @@ const makePGPR201 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
-  let klinik = 'Klinik Pergigian Kuala Sanglang';
+  let klinik = 'Klinik Pergigian Arau';
   let bulan = '2022-10-01';
   let bulan2 = '2022-11-01';
   let sekolah = 'RBA0012';
   let payload = {
     negeri: 'Perlis',
     daerah: 'Arau',
-    klinik: 'Klinik Pergigian Arau',
+    klinik: 'Klinik Pergigian Kampung Gial',
     bulan: '2022-10-01',
   };
   // let tarikhMula = '2021-01-01';
