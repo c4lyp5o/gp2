@@ -111,6 +111,7 @@ const Dictionary = {
   kp: 'Klinik Pergigian',
   'kk-kd': 'Klinik Kesihatan / Klinik Desa',
   'taska-tadika': 'Taska / Tadika',
+  'projek-komuniti-lain': 'Program Komuniti',
   programDewasaMuda: 'Program Dewasa Muda',
   kampungAngkatPergigian: 'Kampung Angkat Pergigian',
   ppr: 'Projek Perumahan Rakyat',
