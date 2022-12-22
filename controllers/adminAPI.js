@@ -1367,6 +1367,15 @@ const getData = async (req, res) => {
               );
               res.status(200).json(updateTastad);
               break;
+            case 'mpb':
+            case 'kpb':
+              const updateKpb = await Fasiliti.findByIdAndUpdate(
+                { _id: Id },
+                { $set: Data },
+                { new: true }
+              );
+              res.status(200).json(updateKpb);
+              break;
             default:
               console.log('default case for update');
               break;

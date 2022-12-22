@@ -1821,6 +1821,246 @@ export function InputEditEvent(props) {
   );
 }
 
+export function InputKpAddEvent(props) {
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowAddModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalEvent}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah Program Komuniti</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='mb-3'>
+                  <p>
+                    Jenis Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <select
+                      required
+                      className='border-2 w-full'
+                      onChange={(e) => {
+                        props.setJenisEvent(e.target.value);
+                      }}
+                      name='jenisEvent'
+                      id='jenisEvent'
+                    >
+                      <option value=''>Jenis Program / Aktiviti</option>
+                      <option value='projek-komuniti'>Projek Komuniti</option>
+                      <option value='ppkps'>
+                        Program Pemasyarakatan Perkhidmatan Klinik Pergigian
+                        Sekolah
+                      </option>
+                      <option value='oap'>Program Orang Asli dan Penan</option>
+                      {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
+                      <option value='incremental'>
+                        Program Pergigian Sekolah Sesi 2022/2023
+                      </option>
+                    </select>
+                  </div>
+                  {/* <p>
+                    Tarikh Program Komuniti
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <StartDate {...props} />
+                  <EndDate {...props} /> */}
+                  {/* {props.editedEntity.jenisEvent === 'programDewasaMuda' ||
+                  props.editedEntity.jenisEvent === 'we' ||
+                  props.editedEntity.jenisEvent === 'oku' ? (
+                    <div className='grid grid-gap-1 mt-2'>
+                      <p>Enrolmen: </p>
+                      <input
+                        autoFocus
+                        type='text'
+                        className='border-2'
+                        value={
+                          props.editedEntity.enrolmenInstitusi ===
+                          'NOT APPLICABLE'
+                            ? ''
+                            : props.editedEntity.enrolmenInstitusi
+                        }
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            enrolmenInstitusi: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  ) : null} */}
+                  {/* <p className='mt-3 font-semibold'>
+                    Mod Penyampaian Perkhidmatan
+                  </p>
+                  <div className='grid grid-cols-3 gap-1'>
+                    <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='ppb'
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'ppb'
+                            )
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                      }}
+                    />
+                    <div />
+                    <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='mod'
+                      value='kpb'
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'kpb'
+                            )
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                        setShowKpb(!showKpb);
+                      }}
+                    />
+                    {showKpb ? (
+                      <div className='grid gap-1'>
+                        <select
+                          name='kpb'
+                          id='kpb'
+                          className='border-2'
+                          value={props.editedEntity.penggunaanKpb}
+                          onChange={(e) => {
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              penggunaanKpb: e.target.value,
+                            });
+                          }}
+                        >
+                          <option value=''>Pilih KPB</option>
+                          {kpb.map((item) => (
+                            <option value={item.nama}>{item.nama}</option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <div />
+                    )}
+                    <label htmlFor='modMpb'>Makmal Pergigian Bergerak</label>
+                    <input
+                      type='checkbox'
+                      name='modMpb'
+                      value='mpb'
+                      checked={
+                        props.editedEntity.modPenyampaianPerkhidmatan
+                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                              'mpb'
+                            )
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.eventModeChecker(e.target.value);
+                        setShowMpb(!showMpb);
+                      }}
+                    />
+                    {showMpb ? (
+                      <div className='grid gap-1'>
+                        <select
+                          name='mpb'
+                          id='mpb'
+                          className='border-2'
+                          value={props.editedEntity.penggunaanMpb}
+                          onChange={(e) => {
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              penggunaanMpb: e.target.value,
+                            });
+                          }}
+                        >
+                          <option value=''>Pilih MPB</option>
+                          {mpb.map((item) => (
+                            <option value={item.nama}>{item.nama}</option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <div />
+                    )}
+                  </div> */}
+                  <div className='grid gap-1'>
+                    <p>
+                      Nama Program Komuniti
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <input
+                      className='border-2'
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      value={props.name}
+                      onChange={(e) => props.setName(e.target.value)}
+                    />
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Tempat
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <div className='grid gap-1'>
+                      <input
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        value={props.tempat}
+                        onChange={(e) => props.setTempat(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <div className={styles.actionsContainer}>
+                  {props.editingData ? (
+                    <BusyButton func='edit' />
+                  ) : (
+                    <SubmitButton func='edit' />
+                  )}
+                  <span
+                    className={styles.cancelBtn}
+                    onClick={() => props.setShowEditModal(false)}
+                  >
+                    Kembali
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
 export function InputKpEditPegawai(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (

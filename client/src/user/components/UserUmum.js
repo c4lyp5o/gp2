@@ -122,20 +122,33 @@ function UserUmum() {
     };
   }, []);
 
-  const handleDelete = async (singlePerson) => {
+  const handleDelete = async (singlePerson, reason) => {
     if (!modalHapus) {
       setModalHapus(true);
       return;
     }
     if (modalHapus) {
       await toast.promise(
-        axios.delete(`/api/v1/umum/${singlePerson}`, {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
+        // axios.delete(`/api/v1/umum/${singlePerson}`, {
+        //   headers: {
+        //     Authorization: `Bearer ${
+        //       reliefUserToken ? reliefUserToken : userToken
+        //     }`,
+        //   },
+        // }),
+        axios.patch(
+          `/api/v1/umum/delete/${singlePerson}`,
+          {
+            deleteReason: reason,
           },
-        }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
         {
           pending: 'Menghapus pesakit...',
           success: 'Pesakit berjaya dihapus',
