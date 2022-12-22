@@ -7143,7 +7143,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
     console.log(error);
   }
 };
-//Reten Sekolah (effective starting on March 2022)
+//Reten Sekolah (effective starting on March 2023)
 const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
   console.log(klinik, bulan, sekolah);
   let match_stage = [];
