@@ -119,9 +119,10 @@ export default function UserSummary() {
         </h3>
       </div>
       {data.length > 0 ? (
-        <div className='flex flex-col items-center mt-5'>
+        <section className='my-5 p-1 outline outline-1 outline-user1'>
+          {/* <div className='flex flex-col items-center mt-5'> */}
           <h2 className='text-2xl font-bold'>Ringkasan Beban Kerja</h2>
-          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
+          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-userWhite bg-user2'>
                 <tr>
@@ -147,22 +148,30 @@ export default function UserSummary() {
               </thead>
               {data.map((item, index) => {
                 return (
-                  <tbody key={item._id} className='text-user2'>
+                  <tbody key={item._id} className='text-user2 bg-user4'>
                     <tr>
                       <td className='px-2 py-1 outline outline-1 outline-offset-1'>
                         {index + 1}
                       </td>
-                      <td className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      <td className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                         {item.nama}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-offset-1'>
                         {moment(item.tarikhKedatangan).format('DD/MM/YYYY')}
                       </td>
-                      <td className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
-                        {item.kedatangan}
+                      <td className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        {item.kedatangan === 'baru-kedatangan' ? (
+                          <span className='bg-admin3 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            Baru
+                          </span>
+                        ) : (
+                          <span className='bg-user7 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            Ulang
+                          </span>
+                        )}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-offset-1'>
-                        {item.kadPengenalan}
+                        {item.ic}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-offset-1'>
                         {item.kumpulanEtnik.toUpperCase()}
@@ -173,7 +182,8 @@ export default function UserSummary() {
               })}
             </table>
           </div>
-        </div>
+          {/* </div> */}
+        </section>
       ) : (
         <div className='flex flex-col items-center mt-5'>
           <span className='bg-admin2 text-adminWhite text-3xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
