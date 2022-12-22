@@ -211,7 +211,7 @@ function UserUmum() {
                 <option value='kp'>Klinik Pergigian</option>
                 <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
                 <option value='taska-tadika'>Taska / Tadika</option>
-                <option value='projek-komuniti-lain'>Projek Komuniti</option>
+                <option value='projek-komuniti-lain'>Program Komuniti</option>
               </select>
               <span>
                 <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
