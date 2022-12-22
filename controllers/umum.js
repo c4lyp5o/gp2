@@ -153,6 +153,7 @@ const softDeletePersonUmum = async (req, res) => {
   res.status(200).json({ singlePersonUmumToDelete });
 };
 
+// not used
 // DELETE /:id (hard delete)
 const deletePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
