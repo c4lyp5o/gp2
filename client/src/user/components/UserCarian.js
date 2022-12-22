@@ -34,6 +34,7 @@ export default function UserCarian() {
 
   return (
     <>
+      <div className='text-lg text-user9 font-bold'>DALAM PEMBANGUNAN</div>
       <div className='flex justify-center my-3'>
         <div className='m-3 xl:w-96 flex flex-row'>
           <label
