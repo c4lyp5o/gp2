@@ -44,6 +44,24 @@ const Dictionary = {
   sosmedByKodProgram: 'sosmedByKodProgram',
   followers: 'followers',
   program: 'program',
+  // negeri
+  negerijohor: 'Johor',
+  negerikedah: 'Kedah',
+  negerikelantan: 'Kelantan',
+  negerimelaka: 'Melaka',
+  negerinegerisembilan: 'Negeri Sembilan',
+  negeripahang: 'Pahang',
+  negeripulaupinang: 'Pulau Pinang',
+  negeriperak: 'Perak',
+  negeriperlis: 'Perlis',
+  negeriselangor: 'Selangor',
+  negeriterengganu: 'Terengganu',
+  negerisabah: 'Sabah',
+  negerisarawak: 'Sarawak',
+  negeriwpkualalumpur: 'WP Kuala Lumpur',
+  negeriwpputrajaya: 'WP Putrajaya',
+  negeriwplabuan: 'WP Labuan',
+  negeriilk: 'ILK',
 };
 
 const socmed = [
@@ -83,29 +101,29 @@ const initialDataNegeri = async (req, res) => {
 };
 
 const initialDataDaerah = async (req, res) => {
-  let cap;
+  // let cap;
   const { negeri } = req.query;
-  const spliced = negeri.split('negeri');
-  if (spliced.includes('sembilan')) {
-    cap = 'Negeri Sembilan';
-  } else {
-    cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
-  }
-  let real = cap;
-  if (cap === 'Wpputrajaya' || cap === 'Wplabuan') {
-    real = cap.split('Wp');
-    real = `${real[1]}`;
-    real = real.charAt(0).toUpperCase() + real.slice(1);
-    real = `WP ${real}`;
-  }
-  if (cap === 'Wpkualalumpur') {
-    real = `WP Kuala Lumpur`;
-  }
-  if (cap === 'Pulaupinang') {
-    real = `Pulau Pinang`;
-  }
+  // const spliced = negeri.split('negeri');
+  // if (spliced.includes('sembilan')) {
+  //   cap = 'Negeri Sembilan';
+  // } else {
+  //   cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
+  // }
+  // let real = cap;
+  // if (cap === 'Wpputrajaya' || cap === 'Wplabuan') {
+  //   real = cap.split('Wp');
+  //   real = `${real[1]}`;
+  //   real = real.charAt(0).toUpperCase() + real.slice(1);
+  //   real = `WP ${real}`;
+  // }
+  // if (cap === 'Wpkualalumpur') {
+  //   real = `WP Kuala Lumpur`;
+  // }
+  // if (cap === 'Pulaupinang') {
+  //   real = `Pulau Pinang`;
+  // }
   const all = await Superadmin.find({
-    negeri: real,
+    negeri: Dictionary[negeri],
     accountType: 'daerahSuperadmin',
   });
   const specDaerah = _.uniqBy(all, 'daerah');
