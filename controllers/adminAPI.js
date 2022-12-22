@@ -45,22 +45,23 @@ const Dictionary = {
   followers: 'followers',
   program: 'program',
   // negeri
-  negeriperlis: 'Perlis',
-  negeriperak: 'Perak',
-  negeripulaupinang: 'Pulau Pinang',
-  negeriwpkualalumpur: 'WP Kuala Lumpur',
-  negeriwpputrajaya: 'WP Putrajaya',
-  negeriwplabuan: 'WP Labuan',
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
   negerikelantan: 'Kelantan',
-  negeripahang: 'Pahang',
-  negerisarawak: 'Sarawak',
-  negeriselangor: 'Selangor',
-  negerinegerisembilan: 'Negeri Sembilan',
-  negerisabah: 'Sabah',
-  negeriterengganu: 'Terengganu',
   negerimelaka: 'Melaka',
+  negerinegerisembilan: 'Negeri Sembilan',
+  negeripahang: 'Pahang',
+  negeripulaupinang: 'Pulau Pinang',
+  negeriperak: 'Perak',
+  negeriperlis: 'Perlis',
+  negeriselangor: 'Selangor',
+  negeriterengganu: 'Terengganu',
+  negerisabah: 'Sabah',
+  negerisarawak: 'Sarawak',
+  negeriwpkualalumpur: 'WP Kuala Lumpur',
+  negeriwpputrajaya: 'WP Putrajaya',
+  negeriwplabuan: 'WP Labuan',
+  negeriilk: 'ILK',
 };
 
 const socmed = [
@@ -100,7 +101,7 @@ const initialDataNegeri = async (req, res) => {
 };
 
 const initialDataDaerah = async (req, res) => {
-  let cap;
+  // let cap;
   const { negeri } = req.query;
   // const spliced = negeri.split('negeri');
   // if (spliced.includes('sembilan')) {
