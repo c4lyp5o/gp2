@@ -104,8 +104,10 @@ function UserUmum() {
 
   // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState
   useEffect(() => {
-    setPilih('');
-    setResultPilih([]);
+    if (modalHapus === false) {
+      setPilih('');
+      setResultPilih([]);
+    }
   }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   // clear program if change jenisFasiliti
@@ -160,8 +162,6 @@ function UserUmum() {
       );
       setModalHapus(false);
       setReloadState(!reloadState);
-      setPilih('');
-      setResultPilih([]);
     }
   };
 
@@ -305,7 +305,7 @@ function UserUmum() {
                     </th>
                   ) : (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                      EVENT
+                      NAMA PROGRAM
                     </th>
                   )}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
@@ -649,14 +649,14 @@ function UserUmum() {
                       </Link>
                     )}
                 </div>
-                {modalHapus ? (
+                {modalHapus && (
                   <UserUmumDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}
                     nama={singlePersonUmum.nama}
                   />
-                ) : null}
+                )}
               </>
             );
           })}
