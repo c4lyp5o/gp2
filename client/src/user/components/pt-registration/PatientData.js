@@ -5,23 +5,21 @@ import { TbArrowBigLeftLine } from 'react-icons/tb';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function PatientData({
+  jenisFasiliti,
   data,
   setData,
   setIsLoading,
-  setIsError,
   philter,
   setPhilter,
   showForm,
   setShowForm,
-  editForm,
   setEditId,
-  showPilihanProgram,
-  setShowPilihanProgram,
   jenisProgram,
   setJenisProgram,
   namaProgram,
   setNamaProgram,
-  jenisFasiliti,
+  showPilihanProgram,
+  setShowPilihanProgram,
   kp,
 }) {
   const {
@@ -32,7 +30,6 @@ export default function PatientData({
     noPendaftaranSplitter,
     statusPesakit,
     toast,
-    navigate,
   } = useGlobalUserAppContext();
 
   const saveFile = (blob) => {
@@ -117,12 +114,10 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setIsError(true);
-      setIsLoading(false);
     }
   };
 
-  if (!showForm && !editForm && !showPilihanProgram) {
+  if (!showForm && !showPilihanProgram) {
     return (
       <>
         <div className='grid grid-cols-1 lg:grid-cols-2'>
