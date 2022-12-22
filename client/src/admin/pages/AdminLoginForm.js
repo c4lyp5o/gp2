@@ -436,7 +436,6 @@ export default function AdminLoginForm() {
     });
     setPilihanDaerah('');
     setPilihanKlinik('');
-    setPilihanAdmin('');
     setShowPasswordBox(false);
   }, [pilihanNegeri]);
 
@@ -448,7 +447,8 @@ export default function AdminLoginForm() {
       klinikName: null,
     });
     setPilihanKlinik('');
-    setPilihanAdmin('');
+    setAllKlinik([]);
+    setAllAdmin([]);
     setShowPasswordBox(false);
   }, [pilihanDaerah]);
 
@@ -458,6 +458,7 @@ export default function AdminLoginForm() {
       admin: null,
     });
     setPilihanAdmin('');
+    setAllAdmin([]);
     setShowPasswordBox(false);
   }, [pilihanKlinik]);
 
