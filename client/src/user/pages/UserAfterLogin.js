@@ -6,6 +6,8 @@ import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 
 import UserDashboard from '../components/UserDashboard';
 
+import UserStatusHarian from '../components/UserStatusHarian';
+
 import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
@@ -21,7 +23,7 @@ import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
-import UserStatusHarian from '../components/UserStatusHarian';
+import UserCarian from '../components/UserCarian';
 
 import UserSummary from '../components/UserSummary';
 
@@ -104,7 +106,7 @@ function UserAfterLogin() {
             </>
           )}
 
-          {/* <Route path='carian' element={<UserCarian />} /> */}
+          <Route path='carian' element={<UserCarian />} />
 
           <Route path='summary' element={<UserSummary />} />
 

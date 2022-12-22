@@ -20,6 +20,7 @@ function UserDashboard() {
   return (
     <>
       <div className='h-full p-3 overflow-y-auto'>
+        <div className='text-lg text-user9 font-bold'>PLACEHOLDER</div>
         <div className='grid grid-cols-2 mb-1'>
           <h3 className='text-xs lg:text-lg font-semibold text-left px-2'>
             INFOGRAFIK STATUS KESIHATAN PERGIGIAN PELAJAR

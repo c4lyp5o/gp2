@@ -247,8 +247,8 @@ function UserNavbar() {
               }}
               className={({ isActive }) =>
                 isActive
-                  ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                  : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
+                  ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all mb-10'
+                  : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all mb-10'
               }
             >
               REKOD PEGAWAI
