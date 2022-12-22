@@ -10,6 +10,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
   const [adminEmail, setAdminEmail] = useState('');
   const [otpQuestion, setOtpQuestion] = useState(false);
   const [otpInput, setOtpInput] = useState('');
+  const [reasonForDelete, setReasonForDelete] = useState('');
 
   const handleOtpRequest = async () => {
     await toast.promise(
@@ -32,7 +33,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
         `/api/v1/getotp/verify?id=${adminId}&otp=${otpInput}`
       );
       if (res.data.msg === 'OTP verified') {
-        handleDelete(id);
+        handleDelete(id, reasonForDelete);
         setOtpQuestion(false);
       }
     } catch (error) {
@@ -88,6 +89,19 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
                 <span className='lowercase'>
                   yang telah dihantar ke e-mel {adminEmail}
                 </span>
+                <div className='mt-5'>
+                  <label htmlFor='reason' className='mr-3'>
+                    Sebab Penghapusan :
+                  </label>
+                  <input
+                    required
+                    type='text'
+                    name='reason'
+                    id='reason'
+                    className='appearance-none leading-7 px-3 py-1 ring-2 w-1/2 lg:w-1/5 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                    onChange={(e) => setReasonForDelete(e.target.value)}
+                  />
+                </div>
                 <div className='mt-5'>
                   <label htmlFor='otp' className='mr-3'>
                     OTP :
