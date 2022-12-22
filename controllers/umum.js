@@ -122,7 +122,38 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
-// DELETE /:id
+// PATCH /delete/:id
+const softDeletePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const { deleteReason } = req.body;
+
+  const singlePersonUmum = await Umum.findOne({ _id: personUmumId });
+
+  if (!singlePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
+
+  const singlePersonUmumToDelete = await Umum.findByIdAndUpdate(
+    { _id: personUmumId },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${singlePersonUmum.createdByUsername} - ${singlePersonUmum.createdByMdcMdtb}`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonUmumToDelete });
+};
+
+// DELETE /:id (hard delete)
 const deletePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -202,6 +233,7 @@ module.exports = {
   getSinglePersonUmum,
   updatePersonUmum,
   deletePersonUmum,
+  softDeletePersonUmum,
   queryPersonUmum,
   getTaskaTadikaList,
 };

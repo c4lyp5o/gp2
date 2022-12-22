@@ -99,11 +99,9 @@ export default function Program(props) {
                           {f.modPenyampaianPerkhidmatan.map((i) => (
                             <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
                               {Dictionary[i]}
-                              {i.includes('kpb') ? (
-                                <p>{f.penggunaanKpb}</p>
-                              ) : (
-                                <p>{f.penggunaanMpb}</p>
-                              )}
+                              {i.includes('ppb') && <div className='hidden' />}
+                              {i.includes('kpb') && <p>{f.penggunaanKpb}</p>}
+                              {i.includes('mpb') && <p>{f.penggunaanMpb}</p>}
                             </p>
                           ))}
                         </div>

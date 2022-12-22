@@ -3,7 +3,7 @@ export default function KlinikPergigianBergerak(props) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai Klinik Pergigian Bergerak
+          Senarai Klinik Pergigian Bergerak {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
@@ -39,19 +39,31 @@ export default function KlinikPergigianBergerak(props) {
                     {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.jumlahHariBeroperasi === 'NOT APPLICABLE'
-                      ? 'Belum ditetapkan'
-                      : f.jumlahHariBeroperasi}
+                    {f.jumlahHariBeroperasi === 'NOT APPLICABLE' ? (
+                      'Belum ditetapkan'
+                    ) : (
+                      <p className='bg-kaunter2 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                        {f.jumlahHariBeroperasi}
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.jumlahPesakitBaru === 'NOT APPLICABLE'
-                      ? 'Belum ditetapkan'
-                      : f.jumlahPesakitBaru}
+                    {f.jumlahPesakitBaru === 'NOT APPLICABLE' ? (
+                      'Belum ditetapkan'
+                    ) : (
+                      <p className='bg-user7 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                        {f.jumlahPesakitBaru}
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.jumlahPesakitUlangan === 'NOT APPLICABLE'
-                      ? 'Belum ditetapkan'
-                      : f.jumlahPesakitUlangan}
+                    {f.jumlahPesakitUlangan === 'NOT APPLICABLE' ? (
+                      'Belum ditetapkan'
+                    ) : (
+                      <p className='bg-admin3 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                        {f.jumlahPesakitUlangan}
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <button
