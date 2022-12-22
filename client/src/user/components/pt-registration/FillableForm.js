@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import CurrencyFormat from 'react-currency-format';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import {
@@ -13,6 +14,8 @@ import {
   FaRestroom,
   FaUserInjured,
   FaMoneyCheckAlt,
+  FaPlusCircle,
+  FaMinusCircle,
 } from 'react-icons/fa';
 import moment from 'moment';
 
@@ -23,13 +26,18 @@ import Confirmation from './Confirmation';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function FillableForm({
+  jenisFasiliti,
   showForm,
   setShowForm,
   editId,
   setEditId,
-  jenisFasiliti,
   jenisProgram,
   namaProgram,
+  setShowPilihanProgram,
+  dariFormProgramKomuniti,
+  setDariFormProgramKomuniti,
+  fetchProgramData,
+  setFetchProgramData,
   kp,
 }) {
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
@@ -68,6 +76,7 @@ export default function FillableForm({
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [episodMengandung, setEpisodMengandung] = useState('');
   const [bookingIM, setBookingIM] = useState('');
+  const [mengandungDahGravida, setMengandungDahGravida] = useState(false);
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
   const [noOku, setNoOku] = useState('');
@@ -75,8 +84,14 @@ export default function FillableForm({
   const [noPesara, setNoPesara] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
   const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
-  const [noBayaran, setNoBayaran] = useState(0);
+  const [noBayaran, setNoBayaran] = useState('');
   const [noResit, setNoResit] = useState('');
+  const [tambahBayaran, setTambahBayaran] = useState(false);
+  const [noBayaran2, setNoBayaran2] = useState('');
+  const [noResit2, setNoResit2] = useState('');
+  const [tambahBayaran2, setTambahBayaran2] = useState(false);
+  const [noBayaran3, setNoBayaran3] = useState('');
+  const [noResit3, setNoResit3] = useState('');
   const [catatan, setCatatan] = useState('');
 
   // kepp
@@ -138,6 +153,10 @@ export default function FillableForm({
   const [myIdVerified, setMyIdVerified] = useState(false);
 
   const TarikhKedatangan = () => {
+    let disabled = false;
+    if (jenisFasiliti !== 'projek-komuniti-lain') {
+      disabled = true;
+    }
     return masterDatePicker({
       selected: tarikhKedatanganDP,
       onChange: (tarikhKedatangan) => {
@@ -148,6 +167,7 @@ export default function FillableForm({
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: disabled,
       className:
         'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -222,7 +242,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -238,7 +258,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -254,7 +274,7 @@ export default function FillableForm({
         return moment() > date;
       },
       className:
-        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -382,15 +402,9 @@ export default function FillableForm({
 
   const checkCache = async (ic) => {
     try {
-      const response = await axios.post(
-        '/api/v1/kaunter/check',
-        {
-          ic,
-        },
-        {
-          headers: { Authorization: `Bearer ${kaunterToken}` },
-        }
-      );
+      const response = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+        headers: { Authorization: `Bearer ${kaunterToken}` },
+      });
       const {
         nama,
         tarikhLahir,
@@ -454,7 +468,7 @@ export default function FillableForm({
         statusPesara,
         noPesara,
       });
-      toast.success('Pesakit pernah didaftarkan. Menggunakan data sedia ada');
+      toast.success('Menggunakan data sedia ada');
       return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
@@ -474,18 +488,6 @@ export default function FillableForm({
     }
     setCheckingIc(false);
   };
-
-  // birth of nak daftar nama ic ibu
-  useEffect(() => {
-    if (!editId) {
-      if (jenisIc === 'birth-of') {
-        setNama('B/0');
-      }
-      if (jenisIc !== 'birth-of') {
-        setNama('');
-      }
-    }
-  }, [jenisIc]);
 
   // submission
   const handleSubmit = async (e) => {
@@ -521,6 +523,7 @@ export default function FillableForm({
               ibuMengandung,
               episodMengandung,
               bookingIM,
+              mengandungDahGravida,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -530,6 +533,10 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              noBayaran2,
+              noResit2,
+              noBayaran3,
+              noResit3,
               catatan,
               // kepp
               kepp,
@@ -580,6 +587,10 @@ export default function FillableForm({
           { autoClose: 2000 }
         )
         .then(() => {
+          if (jenisFasiliti === 'projek-komuniti-lain') {
+            setDariFormProgramKomuniti(true);
+            setFetchProgramData(!fetchProgramData);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -614,6 +625,7 @@ export default function FillableForm({
               ibuMengandung,
               episodMengandung,
               bookingIM,
+              mengandungDahGravida,
               orangKurangUpaya,
               bersekolah,
               noOku,
@@ -622,6 +634,10 @@ export default function FillableForm({
               rujukDaripada,
               noBayaran,
               noResit,
+              noBayaran2,
+              noResit2,
+              noBayaran3,
+              noResit3,
               catatan,
               // kepp
               kepp,
@@ -669,6 +685,10 @@ export default function FillableForm({
           { autoClose: 2000 }
         )
         .then(() => {
+          if (jenisFasiliti === 'projek-komuniti-lain') {
+            setDariFormProgramKomuniti(true);
+            setFetchProgramData(!fetchProgramData);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -700,7 +720,8 @@ export default function FillableForm({
     setPoskodAlamat('');
     setIbuMengandung(false);
     setEpisodMengandung('');
-    setBookingIM(false);
+    setBookingIM('');
+    setMengandungDahGravida(false);
     setOrangKurangUpaya(false);
     setBersekolah(false);
     setNoOku('');
@@ -710,6 +731,10 @@ export default function FillableForm({
     setKakitanganKerajaan(false);
     setNoBayaran('');
     setNoResit('');
+    setNoBayaran2('');
+    setNoResit2('');
+    setNoBayaran3('');
+    setNoResit3('');
     setCatatan('');
     // kepp
     setKepp(false);
@@ -770,12 +795,70 @@ export default function FillableForm({
     }
   }, [jenisIc]);
 
+  // birth of nak daftar nama ic ibu
+  useEffect(() => {
+    if (!editId) {
+      if (jenisIc === 'birth-of') {
+        setNama('B/O');
+      }
+      if (jenisIc !== 'birth-of') {
+        setNama('');
+      }
+    }
+  }, [jenisIc]);
+
+  // passport terus bukan warganegara
+  useEffect(() => {
+    if (!editId) {
+      if (jenisIc === 'passport') {
+        setKumpulanEtnik('bukan warganegara');
+      }
+      if (jenisIc !== 'passport') {
+        setKumpulanEtnik('');
+      }
+    }
+  }, [jenisIc]);
+
   // reset noOku when change kategori pesakit
   useEffect(() => {
     if (!editId) {
       setNoOku('');
     }
   }, [orangKurangUpaya]);
+
+  // reset ibu mengandung if change jantina
+  useEffect(() => {
+    if (!editId) {
+      setIbuMengandung(false);
+    }
+  }, [jantina]);
+
+  //reset gravida
+  useEffect(() => {
+    if (!editId) {
+      setEpisodMengandung('');
+      setBookingIM('');
+      setMengandungDahGravida(false);
+    }
+  }, [ibuMengandung]);
+
+  //reset dah gravida
+  useEffect(() => {
+    if (!editId) {
+      setMengandungDahGravida(false);
+    }
+  }, [bookingIM]);
+
+  //reset bayaran if kerajaan
+  useEffect(() => {
+    if (!editId) {
+      setNoBayaran('');
+      setNoResit('');
+      setNoBayaran2('');
+      setNoResit2('');
+      setNoBayaran3('');
+    }
+  }, [kakitanganKerajaan]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
@@ -799,20 +882,6 @@ export default function FillableForm({
       setNamaFasilitiTaskaTadika('');
     }
   }, [fasilitiTaskaTadika]);
-
-  // reset ibu mengandung if change jantina
-  useEffect(() => {
-    if (!editId) {
-      setIbuMengandung(false);
-    }
-  }, [jantina]);
-
-  //reset bayaran if kerajaan
-  useEffect(() => {
-    if (!editId) {
-      setNoBayaran('');
-    }
-  }, [kakitanganKerajaan]);
 
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
@@ -850,6 +919,9 @@ export default function FillableForm({
           setIbuMengandung(data.singlePersonKaunter.ibuMengandung);
           setEpisodMengandung(data.singlePersonKaunter.episodMengandung);
           setBookingIM(data.singlePersonKaunter.bookingIM);
+          setMengandungDahGravida(
+            data.singlePersonKaunter.mengandungDahGravida
+          );
           setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
           setNoOku(data.singlePersonKaunter.noOku);
@@ -858,6 +930,11 @@ export default function FillableForm({
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
+          setTambahBayaran(true);
+          setNoBayaran2(data.singlePersonKaunter.noBayaran2);
+          setNoResit2(data.singlePersonKaunter.noResit2);
+          setNoBayaran3(data.singlePersonKaunter.noBayaran3);
+          setNoResit3(data.singlePersonKaunter.noResit3);
           setCatatan(data.singlePersonKaunter.catatan);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
@@ -1010,7 +1087,7 @@ export default function FillableForm({
               d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
             ></path>
           </svg>
-          Menambah Data...
+          Menambah Maklumat...
         </button>
       </>
     );
@@ -1125,9 +1202,11 @@ export default function FillableForm({
                         onChange={(e) => setJenisIc(e.target.value)}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                       >
-                        <option value=''>Sila pilih..</option>
+                        <option value=''>SILA PILIH..</option>
                         <option value='mykad-mykid'>MyKad / MyKid</option>
-                        <option value='passport'>Passport</option>
+                        <option value='passport'>
+                          Passport / MyPR / MyKAS
+                        </option>
                         <option value='tentera'>Tentera</option>
                         <option value='polis'>Polis</option>
                         <option value='sijil-lahir'>Sijil lahir</option>
@@ -1182,19 +1261,18 @@ export default function FillableForm({
                   {/* mySejahtera */}
                   <div className='flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center'>
-                      mySejahtera
-                      <span className='font-semibold text-user6'>*</span>
+                      Maklumat Tambahan :
+                      {/* <span className='font-semibold text-user6'>*</span> */}
                     </p>
                     {/* myIdentity */}
-
                     {/* kalau ada myIdentity jadi betul then vice versa */}
-                    <span>
+                    {/* <span>
                       {myIdVerified ? (
                         <FaCheckCircle className='text-lg text-user7' />
                       ) : (
                         <FaTimesCircle className='text-lg text-user9' />
                       )}
-                    </span>
+                    </span> */}
                   </div>
                   <div className='flex flex-col'>
                     <div className='flex flex-col justify-start'>
@@ -1229,7 +1307,7 @@ export default function FillableForm({
                         htmlFor='email-mysj'
                         className='mr-4 flex text-left flex-row text-xs md:text-sm'
                       >
-                        email :
+                        emel :
                       </label>
                       <div className='relative w-full md:w-56'>
                         <input
@@ -1290,7 +1368,9 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
-                    <span className='font-semibold text-user6'>*</span>
+                    {jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='relative w-full md:w-56'>
                     <TarikhLahir />
@@ -1301,7 +1381,10 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
-                    umur: <span className='font-semibold text-user6'>*</span>
+                    umur:{' '}
+                    {jenisIc === 'tiada-pengenalan' ? null : (
+                      <span className='font-semibold text-user6'>*</span>
+                    )}
                   </p>
                   <div className='flex'>
                     <div className='relative'>
@@ -1384,7 +1467,7 @@ export default function FillableForm({
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
                     >
-                      <option value=''>Sila pilih..</option>
+                      <option value=''>SILA PILIH..</option>
                       <option value='lelaki'>Lelaki</option>
                       <option value='perempuan'>Perempuan</option>
                     </select>
@@ -1408,6 +1491,7 @@ export default function FillableForm({
                           ? false
                           : true
                       }
+                      disabled={jenisIc === 'passport' ? true : false}
                       name='kumpulanEtnik'
                       id='kumpulanEtnik'
                       value={kumpulanEtnik}
@@ -1420,7 +1504,7 @@ export default function FillableForm({
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
                     >
-                      <option value=''>Sila pilih..</option>
+                      <option value=''>SILA PILIH..</option>
                       <option value='melayu'>Melayu</option>
                       <option value='cina'>Cina</option>
                       <option value='india'>India</option>
@@ -1541,7 +1625,7 @@ export default function FillableForm({
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     >
-                      <option value=''>Sila pilih..</option>
+                      <option value=''>SILA PILIH..</option>
                       <option value='johor'>Johor</option>
                       <option value='kedah'>Kedah</option>
                       <option value='kelantan'>Kelantan</option>
@@ -1650,7 +1734,7 @@ export default function FillableForm({
                                     });
                                   }}
                                 >
-                                  <option value=''>Sila pilih..</option>
+                                  <option value=''>SILA PILIH..</option>
                                   <option value='1'>1</option>
                                   <option value='2'>2</option>
                                   <option value='3'>3</option>
@@ -1659,6 +1743,20 @@ export default function FillableForm({
                                   <option value='6'>6</option>
                                   <option value='7'>7</option>
                                   <option value='8'>8</option>
+                                  <option value='9'>9</option>
+                                  <option value='10'>10</option>
+                                  <option value='11'>11</option>
+                                  <option value='12'>12</option>
+                                  <option value='13'>13</option>
+                                  <option value='14'>14</option>
+                                  <option value='15'>15</option>
+                                  <option value='16'>16</option>
+                                  <option value='17'>17</option>
+                                  <option value='18'>18</option>
+                                  <option value='19'>19</option>
+                                  <option value='20'>20</option>
+                                  <option value='21'>21</option>
+                                  <option value='22'>22</option>
                                 </select>
                                 <span>
                                   <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
@@ -1710,6 +1808,34 @@ export default function FillableForm({
                                 </label>
                               </div>
                             </div>
+                            {bookingIM === 'ya-booking-im' && (
+                              <div>
+                                <input
+                                  type='checkbox'
+                                  name='mengandung-dah-gravida'
+                                  id='mengandung-dah-gravida'
+                                  value='mengandung-dah-gravida'
+                                  checked={mengandungDahGravida ? true : false}
+                                  onChange={() => {
+                                    setMengandungDahGravida(
+                                      !mengandungDahGravida
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      mengandungDahGravida:
+                                        !mengandungDahGravida,
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                />
+                                <label
+                                  htmlFor='mengandung-dah-gravida'
+                                  className='m-2 text-xs md:text-sm font-light'
+                                >
+                                  Telah diperiksa dalam gravida yang sama
+                                </label>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -1793,7 +1919,7 @@ export default function FillableForm({
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     >
-                      <option value=''>Sila pilih..</option>
+                      <option value=''>SILA PILIH..</option>
                       <option value='pesara-kerajaan'>Pesara kerajaan</option>
                       <option value='pesara-atm'>Pesara ATM</option>
                     </select>
@@ -1803,7 +1929,7 @@ export default function FillableForm({
                   </div>
                   {statusPesara !== '' && (
                     <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5 mt-2'>
-                      No. PESARA:{' '}
+                      No. Pesara:{' '}
                       <span className='font-semibold text-user6'>*</span>
                     </p>
                   )}
@@ -1836,7 +1962,7 @@ export default function FillableForm({
                       }}
                       className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     >
-                      <option value=''>Sila pilih..</option>
+                      <option value=''>SILA PILIH..</option>
                       <option value='dalaman'>Dalaman</option>
                       <option value='kp'>Klinik Pergigian Kerajaan</option>
                       <option value='kk'>Klinik Kesihatan Kerajaan</option>
@@ -1877,69 +2003,236 @@ export default function FillableForm({
                       </label>
                     </div>
                     {kakitanganKerajaan === false && (
-                      <div className='flex flex-col justify-start'>
-                        <div
-                          className='relative w-full md:w-56 my-2'
-                          title='Bayaran / Pengecualian bayaran'
-                        >
-                          <input
-                            value={noBayaran}
-                            type='number'
-                            name='no-bayaran'
-                            id='no-bayaran'
-                            placeholder=' '
-                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
-                            onChange={(e) => {
-                              setNoBayaran(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                noBayaran: e.target.value,
-                              });
-                            }}
-                          />
-                          <label
-                            htmlFor='no-bayaran'
-                            className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                      <div>
+                        <div className='flex flex-row justify-start'>
+                          <div
+                            className='relative w-20 my-2'
+                            title='Bayaran dalam RM'
                           >
-                            Bayaran (RM)
-                          </label>
-                          <span>
-                            <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3 bg-userWhite' />
-                          </span>
+                            <CurrencyFormat
+                              value={noBayaran}
+                              thousandSeparator={true}
+                              prefix={'RM '}
+                              name='no-bayaran'
+                              id='no-bayaran'
+                              placeholder=' '
+                              decimalScale={0}
+                              className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                              onChange={(e) => {
+                                setNoBayaran(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  noBayaran: e.target.value,
+                                });
+                              }}
+                            />
+                            <label
+                              htmlFor='no-bayaran'
+                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                            >
+                              Bayaran
+                            </label>
+                          </div>
+                          <div
+                            className='relative w-full md:w-36 my-2'
+                            title='No. Resit'
+                          >
+                            <input
+                              type='text'
+                              name='no-resit'
+                              id='no-resit'
+                              placeholder=' '
+                              value={noResit}
+                              onChange={(e) => {
+                                setNoResit(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  noResit: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                            />
+                            <label
+                              htmlFor='no-resit'
+                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                            >
+                              No. Resit
+                            </label>
+                            <span>
+                              <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                            </span>
+                          </div>
+                          {tambahBayaran2 === false ? (
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              {tambahBayaran ? (
+                                <FaMinusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran(false);
+                                    setNoBayaran2('');
+                                    setNoResit2('');
+                                  }}
+                                />
+                              ) : (
+                                <FaPlusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran(true);
+                                  }}
+                                />
+                              )}
+                            </span>
+                          ) : (
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              <FaMinusCircle className='text-kaunter3' />
+                            </span>
+                          )}
                         </div>
+                        {tambahBayaran && (
+                          <div className='flex flex-row justify-start'>
+                            <div
+                              className='relative w-20 my-2'
+                              title='Bayaran dalam RM'
+                            >
+                              <CurrencyFormat
+                                value={noBayaran2}
+                                thousandSeparator={true}
+                                prefix={'RM '}
+                                name='no-bayaran-2'
+                                id='no-bayaran-2'
+                                placeholder=' '
+                                decimalScale={0}
+                                className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                onChange={(e) => {
+                                  setNoBayaran2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noBayaran2: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='no-bayaran-2'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                Bayaran
+                              </label>
+                            </div>
+                            <div
+                              className='relative w-full md:w-36 my-2'
+                              title='No. Resit'
+                            >
+                              <input
+                                type='text'
+                                name='no-resit-2'
+                                id='no-resit-2'
+                                placeholder=' '
+                                value={noResit2}
+                                onChange={(e) => {
+                                  setNoResit2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noResit2: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              />
+                              <label
+                                htmlFor='no-resit-2'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                No. Resit
+                              </label>
+                              <span>
+                                <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                              </span>
+                            </div>
+                            <span className='text-lg md:text-2xl flex items-center ml-1'>
+                              {tambahBayaran2 ? (
+                                <FaMinusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran2(false);
+                                    setNoBayaran2('');
+                                    setNoResit2('');
+                                  }}
+                                />
+                              ) : (
+                                <FaPlusCircle
+                                  className='text-kaunter3 cursor-pointer'
+                                  onClick={() => {
+                                    setTambahBayaran2(true);
+                                  }}
+                                />
+                              )}
+                            </span>
+                          </div>
+                        )}
+                        {tambahBayaran2 && (
+                          <div className='flex flex-row justify-start'>
+                            <div
+                              className='relative w-20 my-2'
+                              title='Bayaran dalam RM'
+                            >
+                              <CurrencyFormat
+                                value={noBayaran3}
+                                thousandSeparator={true}
+                                prefix={'RM '}
+                                name='no-bayaran-3'
+                                id='no-bayaran-3'
+                                placeholder=' '
+                                decimalScale={0}
+                                className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                onChange={(e) => {
+                                  setNoBayaran3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noBayaran3: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='no-bayaran-3'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                Bayaran
+                              </label>
+                            </div>
+                            <div
+                              className='relative w-full md:w-36 my-2'
+                              title='No. Resit'
+                            >
+                              <input
+                                type='text'
+                                name='no-resit-3'
+                                id='no-resit-3'
+                                placeholder=' '
+                                value={noResit3}
+                                onChange={(e) => {
+                                  setNoResit3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    noResit3: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              />
+                              <label
+                                htmlFor='no-resit-3'
+                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                              >
+                                No. Resit
+                              </label>
+                              <span>
+                                <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                     <div
-                      className='relative w-full md:w-56 my-2'
-                      title='No. Resit / No. GL'
-                    >
-                      <input
-                        type='text'
-                        name='no-resit'
-                        id='no-resit'
-                        placeholder=' '
-                        value={noResit}
-                        onChange={(e) => {
-                          setNoResit(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            noResit: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
-                      />
-                      <label
-                        htmlFor='no-resit'
-                        className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
-                      >
-                        No. Resit / No. GL
-                      </label>
-                      <span>
-                        <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
-                      </span>
-                    </div>
-                    <div
-                      className='relative w-full mt-4'
+                      className='relative w-full mt-2'
                       title='No. Slip Cuti Sakit/Lain-lain Catatan Penting'
                     >
                       <input
@@ -1971,8 +2264,12 @@ export default function FillableForm({
                 </div>
                 {jenisFasiliti === 'kp' && (
                   <>
-                    <article className='grid grid-cols-[1fr_2fr] px-1'>
-                      <div className='grid justify-start border border-userBlack pl-3 p-2 rounded-md col-span-2'>
+                    <article className='grid grid-cols-[1fr_2fr] px-1 auto-rows-min'>
+                      <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 py-1 bg-user1 bg-opacity-5'>
+                        Perkhidmatan Pergigian Endodontik Di Klinik Pergigian
+                        Primer (KEPP) :
+                      </p>
+                      <div className='grid justify-start border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='flex items-center flex-row pl-1 md:pl-5'>
                           <input
                             type='checkbox'
@@ -1985,8 +2282,7 @@ export default function FillableForm({
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                            Perkhidmatan Pergigian Endodontik Di Klinik
-                            Pergigian Primer (KEPP)
+                            KEPP
                           </label>
                         </div>
                         {kepp && (
@@ -2054,9 +2350,11 @@ export default function FillableForm({
                             kedatanganKepp === 'baru-kedatangan-kepp'
                               ? 'visible'
                               : 'hidden'
-                          } flex items-center flex-row pl-5`}
+                          } flex flex-col pl-5`}
                         >
-                          <label className='m-2 text-sm'>tarikh rujukan</label>
+                          <label className='m-2 text-sm flex text-left flex-row justify-start'>
+                            tarikh rujukan
+                          </label>
                           <TarikhRujukanKepp />
                         </div>
                         <div
@@ -2064,9 +2362,9 @@ export default function FillableForm({
                             kedatanganKepp === 'ulangan-kedatangan-kepp'
                               ? 'visible'
                               : 'hidden'
-                          } flex items-center flex-row pl-5`}
+                          } flex flex-col pl-5`}
                         >
-                          <label className='m-2 text-sm'>
+                          <label className='m-2 text-sm flex text-left flex-row justify-start'>
                             tarikh perundingan pertama
                           </label>
                           <TarikhRundinganPertama />
@@ -2076,9 +2374,9 @@ export default function FillableForm({
                             kedatanganKepp === 'ulangan-kedatangan-kepp'
                               ? 'visible'
                               : 'hidden'
-                          } flex items-center flex-row pl-5`}
+                          } flex flex-col pl-5`}
                         >
-                          <label className='m-2 text-sm'>
+                          <label className='m-2 text-sm flex text-left flex-row justify-start'>
                             tarikh mula rawatan
                           </label>
                           <TarikhMulaRawatanKepp />
@@ -2745,7 +3043,13 @@ export default function FillableForm({
                 )}
               </div>
               <button
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  if (jenisFasiliti === 'projek-komuniti-lain') {
+                    setDariFormProgramKomuniti(true);
+                    setFetchProgramData(!fetchProgramData);
+                  }
+                  setShowForm(false);
+                }}
                 className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
               >
                 kembali

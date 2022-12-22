@@ -5,6 +5,8 @@ const UmumSchema = new mongoose.Schema(
   {
     // soft delete
     deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
+    deletedForOfficer: { type: String, default: '' },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
@@ -12,6 +14,7 @@ const UmumSchema = new mongoose.Schema(
     createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMdtb: { type: String, default: '' },
+    tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
     // kaunter --------------------------------------------------
@@ -41,6 +44,8 @@ const UmumSchema = new mongoose.Schema(
     poskodAlamat: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
     episodeMengandung: { type: String, default: '' },
+    bookingIM: { type: String, default: '' },
+    mengandungDahGravida: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
@@ -48,8 +53,12 @@ const UmumSchema = new mongoose.Schema(
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
     kakitanganKerajaan: { type: Boolean, default: false },
-    noBayaran: { type: Number, default: 0 },
+    noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
+    noBayaran2: { type: String, default: '' },
+    noResit2: { type: String, default: '' },
+    noBayaran3: { type: String, default: '' },
+    noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
@@ -87,8 +96,8 @@ const UmumSchema = new mongoose.Schema(
     // kampung angkat
     kgAngkat: { type: String, default: '' },
     // program based
-    jenisProgram: { type: String, default: 'NOT APPLICABLE' },
-    namaProgram: { type: String, default: 'NOT APPLICABLE' },
+    jenisProgram: { type: String, default: '' },
+    namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan -------------------------------------------------------------------
     statusKehadiran: {
@@ -159,18 +168,6 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuLembutTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuKerasTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     fissureSealantPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -188,25 +185,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     //sdf nak guna masa depan
-    // baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     // yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
     //   type: String,
     //   default: '',
     // },
-    //kotak masuk sini
-    statusMPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    jenisRPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
     kebersihanMulutOralHygienePemeriksaanUmum: {
       type: String,
       default: '',
@@ -219,6 +207,11 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     adaDesidusPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -228,21 +221,11 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    mAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     fAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    // smAdaGigiDesidusPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     xAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
@@ -281,24 +264,7 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // edentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    // mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     disaringProgramKanserMulutPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    dirujukProgramKanserMulutPemeriksaanUmum: {
       type: String,
       default: '',
     },
@@ -330,20 +296,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    // cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     puncaRujukan: {
       type: String,
       default: '',
@@ -390,45 +342,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatFluorideVarnish: {
       type: Boolean,
       default: false,
     },
-    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatPRRJenis1: {
       type: Boolean,
       default: false,
@@ -438,21 +355,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
@@ -778,14 +680,6 @@ const UmumSchema = new mongoose.Schema(
       default: [],
     },
     //promosi ----------------------------------------------------------------------------
-    ceramahPromosiUmum: {
-      type: String,
-      default: '',
-    },
-    lmgPromosiUmum: {
-      type: String,
-      default: '',
-    },
     melaksanakanAktivitiBeginPromosiUmum: {
       type: String,
       default: '',
@@ -890,21 +784,21 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti,
+        jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
-        kp: this.createdByKp,
+        kodFasiliti: this.createdByKodFasiliti,
       });
       // if running number does not exist
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
-          jenis: this.jenisFasiliti,
+          runningnumber: 1,
+          jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
-          kp: this.createdByKp,
-          runningnumber: 1,
+          kodFasiliti: this.createdByKodFasiliti,
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;

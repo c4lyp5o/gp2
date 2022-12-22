@@ -3,7 +3,7 @@ const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
 const LRU = require('lru-cache');
-const cryptoJs = require('crypto-js');
+const axios = require('axios').default;
 
 const options = {
   max: 5000,
@@ -55,11 +55,12 @@ const createPersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // associate negeri, daerah & kp to each person umum for every creation
+  // associate negeri, daerah, kp, tahunDaftar to each person umum for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
+  req.body.tahunDaftar = new Date().getFullYear();
 
   // find if person already exist using ic
   const personExist = await Umum.findOne({
@@ -69,6 +70,9 @@ const createPersonKaunter = async (req, res) => {
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
     jenisFasiliti: req.body.jenisFasiliti,
+    tahunDaftar: req.body.tahunDaftar,
+    jenisProgram: req.body.jenisProgram,
+    namaProgram: req.body.namaProgram,
   });
 
   // tagging person according to their status
@@ -85,7 +89,12 @@ const createPersonKaunter = async (req, res) => {
   }
 
   logger.info(`${req.method} ${req.url} sending to cache`);
-  cache.set(req.body.ic, req.body);
+  // cache.set(req.body.ic, req.body);
+  const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
+    headers: {
+      'x-api-key': process.env.CACHE_SERVER_PASS,
+    },
+  });
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -98,13 +107,6 @@ const updatePersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
-
-  // encrypt
-  // const encryptedIc = cryptoJs.AES.encrypt(
-  //   req.body.ic,
-  //   process.env.CRYPTO_JS_SECRET
-  // ).toString();
-  // req.body.ic = encryptedIc;
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     { _id: req.params.personKaunterId },
@@ -231,16 +233,24 @@ const getProjekKomuniti = async (req, res) => {
   res.status(200).json({ projekKomuniti });
 };
 
-// TODO to refactor not POST, rearrange for query
 // check from cache if ic is same
-// POST /check
+// GET /check
 const getPersonFromCache = async (req, res) => {
-  const { ic } = req.body;
-  const person = await cache.get(ic.toString());
-  if (person) {
-    return res.status(200).json({ person });
+  const { personKaunterId } = req.params;
+  // const person = await cache.get(ic.toString());
+  try {
+    const { data } = await axios.get(
+      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
+      {
+        headers: {
+          'x-api-key': process.env.CACHE_SERVER_PASS,
+        },
+      }
+    );
+    return res.status(200).json({ person: data });
+  } catch (error) {
+    res.status(404).json({ msg: 'No person found' });
   }
-  res.status(404).json({ msg: 'No person found' });
 };
 
 module.exports = {

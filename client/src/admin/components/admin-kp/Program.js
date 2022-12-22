@@ -71,34 +71,43 @@ export default function Program(props) {
                     {f.jenisEvent !== 'programDewasaMuda' &&
                       f.jenisEvent !== 'we' &&
                       f.jenisEvent !== 'oku' && (
-                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak Berkenaan
                         </p>
                       )}
                     {(f.jenisEvent === 'programDewasaMuda' ||
                       f.jenisEvent === 'we' ||
                       f.jenisEvent === 'oku') &&
-                      f.enrolmenInstitusi === 'NOT APPLICABLE' &&
-                      'Belum ditetapkan'}
+                      f.enrolmenInstitusi === 'NOT APPLICABLE' && (
+                        <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Belum Ditetapkan
+                        </p>
+                      )}
                     {(f.jenisEvent === 'programDewasaMuda' ||
                       f.jenisEvent === 'we' ||
                       f.jenisEvent === 'oku') &&
-                      f.enrolmenInstitusi !== 'NOT APPLICABLE' &&
-                      f.enrolmenInstitusi}
+                      f.enrolmenInstitusi !== 'NOT APPLICABLE' && (
+                        <p className='bg-user3 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          {f.enrolmenInstitusi}
+                        </p>
+                      )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <div>
                       {f.modPenyampaianPerkhidmatan.length > 0 ? (
                         <div>
-                          {f.modPenyampaianPerkhidmatan.map((f) => (
-                            <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1'>
-                              {Dictionary[f]}
+                          {f.modPenyampaianPerkhidmatan.map((i) => (
+                            <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                              {Dictionary[i]}
+                              {i.includes('ppb') && <div className='hidden' />}
+                              {i.includes('kpb') && <p>{f.penggunaanKpb}</p>}
+                              {i.includes('mpb') && <p>{f.penggunaanMpb}</p>}
                             </p>
                           ))}
                         </div>
                       ) : (
                         <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                          Tidak Berkenaan
+                          Belum Ditetapkan
                         </span>
                       )}
                     </div>
@@ -107,12 +116,12 @@ export default function Program(props) {
                     <div>
                       {f.assignedByDaerah ? (
                         <div>
-                          <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          <span className='bg-admin2 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                             YA
                           </span>
                         </div>
                       ) : (
-                        <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        <span className='bg-user7 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak
                         </span>
                       )}

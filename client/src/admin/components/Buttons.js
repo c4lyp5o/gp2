@@ -40,7 +40,7 @@ export function BusyButton({ func }) {
         </svg>
         {func === 'add' ? 'Menambah Maklumat' : null}
         {func === 'del' ? 'Menghapus Maklumat' : null}
-        {func === 'edit' ? 'Mengubah Maklumat' : null}
+        {func === 'edit' ? 'Mengemaskini Maklumat' : null}
         {func === 'pengguna' || func === 'pendaftaran' || func === 'pentadbir'
           ? 'Sedang log masuk'
           : null}
@@ -81,10 +81,19 @@ export function SubmitButton({ func, level }) {
         ? 'Sila Pilih Pentadbir'
         : null}
       {func === 'pentadbir' &&
-      level.pilihanNegeri !== '' &&
+      level.pilihanNegeri === 'hqputrajaya' &&
       level.pilihanDaerah === '' &&
       level.pilihanKlinik === ''
-        ? `Log masuk sebagai pentadbir negeri ${level.pilihanNegeri}`
+        ? `Log masuk sebagai PKP KKM HQ`
+        : null}
+      {func === 'pentadbir' &&
+      level.pilihanNegeri !== '' &&
+      level.pilihanNegeri !== 'hqputrajaya' &&
+      level.pilihanDaerah === '' &&
+      level.pilihanKlinik === ''
+        ? `Log masuk sebagai pentadbir negeri ${
+            level.pilihanNegeri.split('negeri')[1]
+          }`
         : null}
       {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&

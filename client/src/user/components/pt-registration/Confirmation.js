@@ -76,12 +76,15 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
               {isEdit ? (
                 <p className='font-semibold'>
                   Anda YAKIN{' '}
-                  <span className='lowercase'>untuk mengemaskini data</span>?
+                  <span className='lowercase'>
+                    untuk mengemaskini maklumat?
+                  </span>
+                  ?
                 </p>
               ) : (
                 <p className='font-semibold'>
                   Anda YAKIN{' '}
-                  <span className='lowercase'>untuk menghantar data?</span>
+                  <span className='lowercase'>untuk menghantar maklumat?</span>
                 </p>
               )}
               <div className='grid grid-cols-[1fr_2fr] mt-3'>
@@ -98,7 +101,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                   {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
-                  MySejahtera ID:
+                  Maklumat Tambahan :
                 </p>
                 <p className='text-sm p-1 flex justify-start text-left normal-case'>
                   {data.nomborTelefon ? `${data.nomborTelefon}` : null}
@@ -188,15 +191,34 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                     {data.rujukDaripada}
                   </p>
                 ) : null}
-                {data.catatan || data.noBayaran || data.noResit ? (
+                {data.catatan ||
+                data.noBayaran ||
+                data.noResit ||
+                data.noBayaran2 ||
+                data.noResit2 ||
+                data.noBayaran3 ||
+                data.noResit3 ? (
                   <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 my-1'>
                     Catatan:
                   </p>
                 ) : null}
-                {data.catatan || data.noBayaran || data.noResit ? (
+                {data.catatan ||
+                data.noBayaran ||
+                data.noResit ||
+                data.noBayaran2 ||
+                data.noResit2 ||
+                data.noBayaran3 ||
+                data.noResit3 ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
-                    {data.noBayaran}
-                    {data.noResit}
+                    {data.noBayaran || data.noResit
+                      ? `${data.noBayaran} - ${data.noResit} ,`
+                      : null}
+                    {data.noBayaran2 || data.noResit2
+                      ? `${data.noBayaran2} - ${data.noResit2} ,`
+                      : null}
+                    {data.noBayaran3 || data.noResit3
+                      ? `${data.noBayaran3} - ${data.noResit3} ,`
+                      : null}
                     {data.catatan}
                   </p>
                 ) : null}

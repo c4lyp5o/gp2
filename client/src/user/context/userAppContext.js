@@ -71,12 +71,13 @@ function masterDatePicker({
   onChange,
   required,
   filterDate,
-  className,
   selectsStart,
   selectsEnd,
   startDate,
   endDate,
   minDate,
+  disabled,
+  className,
 }) {
   return (
     <DatePicker
@@ -95,6 +96,7 @@ function masterDatePicker({
       startDate={startDate}
       endDate={endDate}
       minDate={minDate}
+      disabled={disabled}
       withPortal={window.matchMedia('(max-width: 400px)').matches}
       onKeyDown={(e) => {
         e.preventDefault();
@@ -109,20 +111,15 @@ const Dictionary = {
   kp: 'Klinik Pergigian',
   'kk-kd': 'Klinik Kesihatan / Klinik Desa',
   'taska-tadika': 'Taska / Tadika',
-  'ipt-kolej': 'IPT / Kolej',
-  'orang-asli': 'Orang Asli',
+  'projek-komuniti-lain': 'Program Komuniti',
+  programDewasaMuda: 'Program Dewasa Muda',
+  kampungAngkatPergigian: 'Kampung Angkat Pergigian',
   ppr: 'Projek Perumahan Rakyat',
-  'institusi-warga-emas': 'Institusi Warga Emas',
-  'institusi-oku': 'Institusi OKU',
-  'kampung-angkat': 'Program Kampung Angkat Pergigian',
-  'projek-komuniti-lain': 'Projek Komuniti Lain',
-  'projek-komuniti': 'Projek Komuniti',
-  ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
-  kgangkat: 'Kampung Angkat Pergigian',
   we: 'Institusi Warga Emas',
   oku: 'Institusi OKU / PDK',
+  'projek-komuniti': 'Projek Komuniti',
+  ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
   oap: 'Program Orang Asli dan Penan',
-  programDewasaMuda: 'Program Dewasa Muda',
   incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
@@ -233,31 +230,14 @@ const dictionaryDaerah = {
   ],
   Sabah: [
     'Beaufort',
-    'Beluran',
     'Keningau',
-    'Kinabatangan',
     'Kota Belud',
     'Kota Kinabalu',
-    'Kota Marudu',
-    'Kuala Penyu',
     'Kudat',
-    'Kunak',
     'Lahad Datu',
-    'Nabawan',
-    'Papar',
     'Penampang',
-    'Pitas',
-    'Putatan',
-    'Ranau',
     'Sandakan',
-    'Semporna',
-    'Sipitang',
-    'Tambunan',
     'Tawau',
-    'Telupid',
-    'Tenom',
-    'Tongod',
-    'Tuaran',
   ],
   Sarawak: [
     'Betong',

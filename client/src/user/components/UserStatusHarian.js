@@ -18,7 +18,6 @@ export default function UserStatusHarian() {
     setRefreshTimer,
   } = useGlobalUserAppContext();
 
-  const [status, setStatus] = useState('pengguna');
   const [pickedDate, setPickedDate] = useState(new Date());
   const [convertedDate, setConvertedDate] = useState('');
   const [mark, setMark] = useState([]);
@@ -55,8 +54,6 @@ export default function UserStatusHarian() {
             },
           }
         );
-        const userData = JSON.parse(localStorage.getItem('userinfo'));
-        setStatus(userData.role);
         // 👇️ sort by String property ASCENDING (A - Z)
         const desc = data.umumResultQuery.sort((a, b) =>
           a.statusReten > b.statusReten ? 1 : -1
@@ -136,11 +133,11 @@ export default function UserStatusHarian() {
               }}
               className='font-semibold shadow-md m-auto'
             />
-            <div className='flex my-3 py-3 justify-center items-start'>
+            <div className='flex my-2 justify-center items-start'>
               <div className='bg-user9 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></div>
               <p className='text-left text-sm'>perlu dikemaskini</p>
             </div>
-            <div className='flex my-3 py-3 justify-center items-start'>
+            <div className='flex my-2 justify-center items-start'>
               <div className='bg-user8 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></div>
               <p className='text-left text-sm'>
                 <strike>data tiada kerana tidak hadir</strike>

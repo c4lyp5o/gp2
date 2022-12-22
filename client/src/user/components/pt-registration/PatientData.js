@@ -5,20 +5,21 @@ import { TbArrowBigLeftLine } from 'react-icons/tb';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function PatientData({
+  jenisFasiliti,
   data,
   setData,
   setIsLoading,
-  setIsError,
   philter,
   setPhilter,
   showForm,
   setShowForm,
-  editForm,
   setEditId,
-  showPilihanProgram,
   jenisProgram,
+  setJenisProgram,
   namaProgram,
-  jenisFasiliti,
+  setNamaProgram,
+  showPilihanProgram,
+  setShowPilihanProgram,
   kp,
 }) {
   const {
@@ -29,7 +30,6 @@ export default function PatientData({
     noPendaftaranSplitter,
     statusPesakit,
     toast,
-    navigate,
   } = useGlobalUserAppContext();
 
   const saveFile = (blob) => {
@@ -114,12 +114,10 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setIsError(true);
-      setIsLoading(false);
     }
   };
 
-  if (!showForm && !editForm && !showPilihanProgram) {
+  if (!showForm && !showPilihanProgram) {
     return (
       <>
         <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -132,7 +130,8 @@ export default function PatientData({
                 <span
                   className='absolute top-5 left-2 text-admin2 text-lg h-96 cursor-pointer'
                   onClick={() => {
-                    navigate(-1);
+                    setNamaProgram('');
+                    setShowPilihanProgram(true);
                   }}
                 >
                   <TbArrowBigLeftLine />
@@ -214,7 +213,7 @@ export default function PatientData({
                     </th>
                     {jenisFasiliti === 'projek-komuniti-lain' ? (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                        NAMA PROJEK
+                        NAMA PROGRAM
                       </th>
                     ) : null}
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
