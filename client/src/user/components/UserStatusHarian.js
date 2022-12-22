@@ -18,7 +18,6 @@ export default function UserStatusHarian() {
     setRefreshTimer,
   } = useGlobalUserAppContext();
 
-  const [status, setStatus] = useState('pengguna');
   const [pickedDate, setPickedDate] = useState(new Date());
   const [convertedDate, setConvertedDate] = useState('');
   const [mark, setMark] = useState([]);
@@ -55,8 +54,6 @@ export default function UserStatusHarian() {
             },
           }
         );
-        const userData = JSON.parse(localStorage.getItem('userinfo'));
-        setStatus(userData.role);
         // 👇️ sort by String property ASCENDING (A - Z)
         const desc = data.umumResultQuery.sort((a, b) =>
           a.statusReten > b.statusReten ? 1 : -1

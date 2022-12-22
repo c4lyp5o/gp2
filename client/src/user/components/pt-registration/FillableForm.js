@@ -34,6 +34,8 @@ export default function FillableForm({
   jenisProgram,
   namaProgram,
   setShowPilihanProgram,
+  dariFormProgramKomuniti,
+  setDariFormProgramKomuniti,
   fetchProgramData,
   setFetchProgramData,
   kp,
@@ -585,6 +587,10 @@ export default function FillableForm({
           { autoClose: 2000 }
         )
         .then(() => {
+          if (jenisFasiliti === 'projek-komuniti-lain') {
+            setDariFormProgramKomuniti(true);
+            setFetchProgramData(!fetchProgramData);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -679,6 +685,10 @@ export default function FillableForm({
           { autoClose: 2000 }
         )
         .then(() => {
+          if (jenisFasiliti === 'projek-komuniti-lain') {
+            setDariFormProgramKomuniti(true);
+            setFetchProgramData(!fetchProgramData);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -3033,7 +3043,13 @@ export default function FillableForm({
                 )}
               </div>
               <button
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  if (jenisFasiliti === 'projek-komuniti-lain') {
+                    setDariFormProgramKomuniti(true);
+                    setFetchProgramData(!fetchProgramData);
+                  }
+                  setShowForm(false);
+                }}
                 className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
               >
                 kembali
