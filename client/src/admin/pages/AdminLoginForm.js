@@ -71,7 +71,7 @@ function DaerahBox(props) {
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
       >
-        <option value=''>Sila Pilih Negeri...</option>
+        <option value=''>Sila Pilih Daerah...</option>
         {props.allDaerah.map((d) => {
           return (
             <option
