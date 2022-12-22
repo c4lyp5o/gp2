@@ -523,81 +523,81 @@ const makePG101A = async (payload) => {
       rowNew.getCell(8).value = data[i].alamat.toUpperCase();
       rowNew.getCell(9).value = data[i].umur;
       if (data[i].jantina == 'lelaki') {
-        rowNew.getCell(10).value = '/';
+        rowNew.getCell(10).value = 1;
       }
       if (data[i].jantina == 'perempuan') {
-        rowNew.getCell(11).value = '/';
+        rowNew.getCell(11).value = 1;
       }
       switch (data[i].kumpulanEtnik) {
         case 'melayu':
-          rowNew.getCell(12).value = '/';
+          rowNew.getCell(12).value = 1;
           break;
         case 'cina':
-          rowNew.getCell(13).value = '/';
+          rowNew.getCell(13).value = 1;
           break;
         case 'india':
-          rowNew.getCell(14).value = '/';
+          rowNew.getCell(14).value = 1;
           break;
         case 'bajau':
-          rowNew.getCell(15).value = '/';
+          rowNew.getCell(15).value = 1;
           break;
         case 'dusun':
-          rowNew.getCell(16).value = '/';
+          rowNew.getCell(16).value = 1;
           break;
         case 'kadazan':
-          rowNew.getCell(17).value = '/';
+          rowNew.getCell(17).value = 1;
           break;
         case 'murut':
-          rowNew.getCell(18).value = '/';
+          rowNew.getCell(18).value = 1;
           break;
         case 'bumiputera sabah lain':
-          rowNew.getCell(19).value = '/';
+          rowNew.getCell(19).value = 1;
           break;
         case 'melanau':
-          rowNew.getCell(20).value = '/';
+          rowNew.getCell(20).value = 1;
           break;
         case 'kedayan':
-          rowNew.getCell(21).value = '/';
+          rowNew.getCell(21).value = 1;
           break;
         case 'iban':
-          rowNew.getCell(22).value = '/';
+          rowNew.getCell(22).value = 1;
           break;
         case 'bidayuh':
-          rowNew.getCell(23).value = '/';
+          rowNew.getCell(23).value = 1;
           break;
         case 'penan':
-          rowNew.getCell(24).value = '/';
+          rowNew.getCell(24).value = 1;
           break;
         case 'bumiputera sarawak lain':
-          rowNew.getCell(25).value = '/';
+          rowNew.getCell(25).value = 1;
           break;
         case 'orang asli semenanjung':
-          rowNew.getCell(26).value = '/';
+          rowNew.getCell(26).value = 1;
           break;
         case 'lain-lain':
-          rowNew.getCell(27).value = '/';
+          rowNew.getCell(27).value = 1;
           break;
         case 'bukan warganegara':
-          rowNew.getCell(28).value = '/';
+          rowNew.getCell(28).value = 1;
           break;
         default:
           console.log('');
       }
       if (data[i].ibuMengandung) {
-        rowNew.getCell(29).value = '/';
+        rowNew.getCell(29).value = 1;
       }
       if (data[i].bersekolah) {
-        rowNew.getCell(30).value = '/';
+        rowNew.getCell(30).value = 1;
       }
       if (data[i].orangKurangUpaya) {
-        rowNew.getCell(31).value = '/';
+        rowNew.getCell(31).value = 1;
       }
       switch (data[i].statusPesara) {
         case 'pesara-kerajaan':
-          rowNew.getCell(32).value = '/';
+          rowNew.getCell(32).value = 1;
           break;
         case 'pesara-atm':
-          rowNew.getCell(33).value = '/';
+          rowNew.getCell(33).value = 1;
           break;
         default:
           console.log('');
@@ -724,81 +724,81 @@ const makePG101C = async (payload) => {
       rowNew.getCell(8).value = data[i].alamat.toUpperCase();
       rowNew.getCell(9).value = data[i].umur;
       if (data[i].jantina == 'lelaki') {
-        rowNew.getCell(10).value = '/';
+        rowNew.getCell(10).value = 1;
       }
       if (data[i].jantina == 'perempuan') {
-        rowNew.getCell(11).value = '/';
+        rowNew.getCell(11).value = 1;
       }
       switch (data[i].kumpulanEtnik) {
         case 'melayu':
-          rowNew.getCell(12).value = '/';
+          rowNew.getCell(12).value = 1;
           break;
         case 'cina':
-          rowNew.getCell(13).value = '/';
+          rowNew.getCell(13).value = 1;
           break;
         case 'india':
-          rowNew.getCell(14).value = '/';
+          rowNew.getCell(14).value = 1;
           break;
         case 'bajau':
-          rowNew.getCell(15).value = '/';
+          rowNew.getCell(15).value = 1;
           break;
         case 'dusun':
-          rowNew.getCell(16).value = '/';
+          rowNew.getCell(16).value = 1;
           break;
         case 'kadazan':
-          rowNew.getCell(17).value = '/';
+          rowNew.getCell(17).value = 1;
           break;
         case 'murut':
-          rowNew.getCell(18).value = '/';
+          rowNew.getCell(18).value = 1;
           break;
         case 'bumiputera sabah lain':
-          rowNew.getCell(19).value = '/';
+          rowNew.getCell(19).value = 1;
           break;
         case 'melanau':
-          rowNew.getCell(20).value = '/';
+          rowNew.getCell(20).value = 1;
           break;
         case 'kedayan':
-          rowNew.getCell(21).value = '/';
+          rowNew.getCell(21).value = 1;
           break;
         case 'iban':
-          rowNew.getCell(22).value = '/';
+          rowNew.getCell(22).value = 1;
           break;
         case 'bidayuh':
-          rowNew.getCell(23).value = '/';
+          rowNew.getCell(23).value = 1;
           break;
         case 'penan':
-          rowNew.getCell(24).value = '/';
+          rowNew.getCell(24).value = 1;
           break;
         case 'bumiputera sarawak lain':
-          rowNew.getCell(25).value = '/';
+          rowNew.getCell(25).value = 1;
           break;
         case 'orang asli semenanjung':
-          rowNew.getCell(26).value = '/';
+          rowNew.getCell(26).value = 1;
           break;
         case 'lain-lain':
-          rowNew.getCell(27).value = '/';
+          rowNew.getCell(27).value = 1;
           break;
         case 'bukan warganegara':
-          rowNew.getCell(28).value = '/';
+          rowNew.getCell(28).value = 1;
           break;
         default:
           console.log('');
       }
       if (data[i].ibuMengandung) {
-        rowNew.getCell(29).value = '/';
+        rowNew.getCell(29).value = 1;
       }
       if (data[i].bersekolah) {
-        rowNew.getCell(30).value = '/';
+        rowNew.getCell(30).value = 1;
       }
       if (data[i].orangKurangUpaya) {
-        rowNew.getCell(31).value = '/';
+        rowNew.getCell(31).value = 1;
       }
       switch (data[i].statusPesara) {
         case 'pesara-kerajaan':
-          rowNew.getCell(32).value = '/';
+          rowNew.getCell(32).value = 1;
           break;
         case 'pesara-atm':
-          rowNew.getCell(33).value = '/';
+          rowNew.getCell(33).value = 1;
           break;
         default:
           console.log('');
