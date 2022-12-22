@@ -16,6 +16,7 @@ import {
   InputEditPegawai,
   InputEditFacility,
   InputEditEvent,
+  InputKpAddEvent,
   InputKpEditPegawai,
   InputKpEditFacility,
   InputKpEditEvent,
@@ -341,63 +342,23 @@ const AddModal = ({
   );
 };
 
-const AddModalForKp = ({
-  setShowAddModal,
-  FType,
-  negeri,
-  daerah,
-  kp,
-  reload,
-  setReload,
-}) => {
-  const { masterDatePicker, toast, createDataForKp } =
-    useGlobalAdminAppContext();
+const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
+  const { toast, createDataForKp } = useGlobalAdminAppContext();
 
-  const currentName = useRef();
-  // const currentEmail = useRef();
-  const currentStatusPerkhidmatan = useRef();
-  // const currentKodSekolah = useRef();
-  const currentKp = useRef();
-  const currentKodFasiliti = useRef();
-  // const currentRegNumber = useRef();
-  // const currentGred = useRef();
-  // const currentRole = useRef('');
-  // const currentRolePromosiKlinik = useRef();
-  // const currentRoleMediaSosialKlinik = useRef();
-  // const currentRisiko = useRef();
-  // institusi
-  const currentKategoriInstitusi = useRef();
+  const [name, setName] = useState('');
   // event
-  const currentJenisEvent = useRef();
-  const currentModPenyampaian = useRef([]);
-  const currentTarikhStart = useRef(moment(new Date()).format('YYYY-MM-DD'));
-  const currentTarikhEnd = useRef(moment(new Date()).format('YYYY-MM-DD'));
-  const currentTempat = useRef();
+  const [jenisEvent, setJenisEvent] = useState('');
+  const [tempat, setTempat] = useState('');
   //datepicker
-  const [startDateDP, setStartDateDP] = useState(new Date());
-  const [endDateDP, setEndDateDP] = useState(new Date());
   const [loading, setLoading] = useState(true);
-  const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async () => {
     let Data = {};
-    Data = {
-      ...Data,
-      nama: currentName.current,
-      handler: currentKp.current,
-      kodFasilitiHandler: currentKodFasiliti.current,
-      statusPerkhidmatan: currentStatusPerkhidmatan.current,
-    };
     if (FType === 'program') {
       Data = {
-        nama: currentName.current,
-        createdByKp: kp,
-        jenisEvent: currentJenisEvent.current,
-        kategoriInstitusi: currentKategoriInstitusi.current,
-        modPenyampaianPerkhidmatan: currentModPenyampaian.current,
-        tarikhStart: currentTarikhStart.current,
-        tarikhEnd: currentTarikhEnd.current,
-        tempat: currentTempat.current,
+        nama: name,
+        jenisEvent: jenisEvent,
+        tempat: tempat,
       };
     }
     createDataForKp(FType, Data).then((res) => {
@@ -409,45 +370,19 @@ const AddModalForKp = ({
         toast.error(`Data tidak berjaya ditambah`);
       }
       setShowAddModal(false);
-      setAddingData(false);
     });
   };
 
-  const eventModeChecker = (e) => {
-    if (currentModPenyampaian.current.includes(e)) {
-      currentModPenyampaian.current.splice(
-        currentModPenyampaian.current.indexOf(e),
-        1
-      );
-      return;
-    }
-    if (!currentModPenyampaian.current.includes(e)) {
-      currentModPenyampaian.current = [...currentModPenyampaian.current, e];
-    }
-  };
-
-  const CustomDatePicker = () => {
-    return masterDatePicker({
-      selected: startDateDP,
-      onChange: (date) => {
-        const tempDate = moment(date).format('YYYY-MM-DD');
-        setStartDateDP(date);
-        currentTarikhStart.current = tempDate;
-      },
-      className: 'border-2 w-full',
-    });
-  };
-
-  const CustomDatePicker2 = () => {
-    return masterDatePicker({
-      selected: endDateDP,
-      onChange: (date) => {
-        const tempDate = moment(date).format('YYYY-MM-DD');
-        setEndDateDP(date);
-        currentTarikhEnd.current = tempDate;
-      },
-      className: 'border-2 w-full',
-    });
+  const props = {
+    setName,
+    name,
+    setJenisEvent,
+    jenisEvent,
+    setTempat,
+    tempat,
+    //
+    setShowAddModal,
+    handleSubmit,
   };
 
   useEffect(() => {
@@ -455,164 +390,6 @@ const AddModalForKp = ({
       setLoading(false);
     }, 1000);
   }, [FType]);
-
-  function Event({ confirm }) {
-    const [jenisEventDd, setJenisEventDd] = useState('');
-    return (
-      <>
-        <form onSubmit={confirm(handleSubmit)}>
-          <div
-            className={styles.darkBG}
-            onClick={() => setShowAddModal(false)}
-          />
-          <div className={styles.centered}>
-            <div className={styles.modalEvent}>
-              <div className={styles.modalHeader}>
-                <h5 className={styles.heading}>Tambah Program Komuniti</h5>
-              </div>
-              <span
-                className={styles.closeBtn}
-                onClick={() => setShowAddModal(false)}
-              >
-                <RiCloseLine style={{ marginBottom: '-3px' }} />
-              </span>
-              <div className={styles.modalContent}>
-                <div className='admin-pegawai-handler-container'>
-                  <div className='mb-3'>
-                    <p>
-                      Tarikh Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <CustomDatePicker />
-                    <CustomDatePicker2 />
-                    <p>
-                      Jenis Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <select
-                        required
-                        className='border-2 w-full'
-                        onChange={(e) => {
-                          currentJenisEvent.current = e.target.value;
-                          setJenisEventDd(e.target.value);
-                          console.log(jenisEventDd);
-                          console.log(currentJenisEvent.current);
-                        }}
-                        name='jenisEvent'
-                        id='jenisEvent'
-                      >
-                        <option value=''>Jenis Program / Aktiviti</option>
-                        <option value='projek-komuniti'>Projek Komuniti</option>
-                        <option value='ppkps'>
-                          Program Pemasyarakatan Perkhidmatan Klinik Pergigian
-                          Sekolah
-                        </option>
-                        <option value='oap'>
-                          Program Orang Asli dan Penan
-                        </option>
-                        {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
-                        <option value='incremental'>
-                          Program Pergigian Sekolah Sesi 2022/2023
-                        </option>
-                      </select>
-                    </div>
-                    <p className='mt-3 font-semibold'>
-                      Mod Penyampaian Perkhidmatan
-                    </p>
-                    <div className='grid grid-cols-2 gap-1'>
-                      <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='ppb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                      <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='kpb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                      <label htmlFor='modKpb'>Makmal Pergigian Bergerak</label>
-                      <input
-                        type='checkbox'
-                        name='mod'
-                        value='mpb'
-                        onChange={(e) => {
-                          eventModeChecker(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <p>
-                      Nama Program Komuniti
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='border-2'
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        onChange={(e) => (currentName.current = e.target.value)}
-                      />
-                    </div>
-                    <div className='grid gap-1'>
-                      <p>
-                        Tempat
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid gap-1'>
-                        <input
-                          required
-                          className='border-2'
-                          type='text'
-                          name='nama'
-                          id='nama'
-                          onChange={(e) =>
-                            (currentTempat.current = e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.modalActions}>
-                  <div className={styles.actionsContainer}>
-                    {addingData ? (
-                      <BusyButton func='add' />
-                    ) : (
-                      <SubmitButton func='add' />
-                    )}
-                    <span
-                      className={styles.cancelBtn}
-                      onClick={() => setShowAddModal(false)}
-                    >
-                      Kembali
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </>
-    );
-  }
 
   if (loading) {
     return <Loading />;
@@ -622,7 +399,7 @@ const AddModalForKp = ({
     <>
       {FType === 'program' && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
-          {(confirm) => <Event confirm={confirm} />}
+          {(confirm) => <InputKpAddEvent {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
     </>
