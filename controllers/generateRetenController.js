@@ -287,7 +287,10 @@ exports.downloader = async function (req, res) {
       }
       switch (formatFile) {
         case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          );
           res.status(200).send(data207);
           break;
         case 'pdf':
@@ -2334,14 +2337,14 @@ const makePGPR201 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
-  let klinik = 'Klinik Pergigian Kuala Sanglang';
+  let klinik = 'Klinik Pergigian Arau';
   let bulan = '2022-10-01';
   let bulan2 = '2022-11-01';
   let sekolah = 'RBA0012';
   let payload = {
     negeri: 'Perlis',
     daerah: 'Arau',
-    klinik: 'Klinik Pergigian Arau',
+    klinik: 'Klinik Pergigian Kaki Bukit',
     bulan: '2022-10-01',
   };
   // let tarikhMula = '2021-01-01';
