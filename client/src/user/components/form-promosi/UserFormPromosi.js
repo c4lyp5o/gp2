@@ -50,7 +50,6 @@ function UserFormPromosi({ individuOrKlinik }) {
   const [isLoading, setIsLoading] = useState(true);
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [singleAktivitiPromosi, setSingleAktivitiPromosi] = useState([]);
-  const [confirmation, setConfirmation] = useState(false);
 
   const [pilihanPromosi, setPilihanPromosi] = useState([]);
 
@@ -98,39 +97,38 @@ function UserFormPromosi({ individuOrKlinik }) {
   }, []);
 
   const handleSubmit = async (e) => {
-    // await toast
-    //   .promise(
-    //     axios.patch(
-    //       `/api/v1/promosi/aktiviti/${aktivitiId}`,
-    //       { ...singleAktivitiPromosi, statusReten: 'telah diisi' },
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${
-    //             reliefUserToken ? reliefUserToken : userToken
-    //           }`,
-    //         },
-    //       }
-    //     ),
-    //     {
-    //       pending: 'Menghantar...',
-    //       success: 'Maklumat acara berjaya dihantar',
-    //       error: 'Maklumat acara gagal dihantar',
-    //     },
-    //     {
-    //       autoClose: 2000,
-    //     }
-    //   )
-    //   .then(() => {
-    //     toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-    //       autoClose: 2000,
-    //     });
-    //     setTimeout(() => {
-    //       window.opener = null;
-    //       window.open('', '_self');
-    //       window.close();
-    //     }, 3000);
-    //   });
-    console.log(singleAktivitiPromosi);
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/promosi/aktiviti/${aktivitiId}`,
+          { ...singleAktivitiPromosi, statusReten: 'telah diisi' },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghantar...',
+          success: 'Maklumat acara berjaya dihantar',
+          error: 'Maklumat acara gagal dihantar',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
+      });
   };
 
   let isDisabled = false;

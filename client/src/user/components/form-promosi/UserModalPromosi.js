@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserFormPromosiConfirmation from '../UserFormPromosiConfirmation';
+import UserModalPromosiConfirmation from '../UserModalPromosiConfirmation';
 
 function UserModalPromosi({
   individuOrKlinik,
@@ -80,8 +80,6 @@ function UserModalPromosi({
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     let mdcMdtbNum;
     if (!userinfo.mdcNumber) {
       mdcMdtbNum = userinfo.mdtbNumber;
@@ -151,8 +149,8 @@ function UserModalPromosi({
             tambah acara
           </h1>
         </div>
-        <UserFormPromosiConfirmation
-          {...confirmProps}
+        <UserModalPromosiConfirmation
+          data={confirmProps}
           callbackFunction={handleSubmit}
         >
           {(confirm) => (
@@ -221,7 +219,7 @@ function UserModalPromosi({
                 </div>
                 <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>
                   <button
-                    onClick={handleSubmit}
+                    type='submit'
                     className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
                   >
                     tambah
@@ -230,7 +228,7 @@ function UserModalPromosi({
               </div>
             </form>
           )}
-        </UserFormPromosiConfirmation>
+        </UserModalPromosiConfirmation>
       </div>
       <div
         onClick={closeModal}
