@@ -88,6 +88,11 @@ function UserPromosi({ individuOrKlinik }) {
     setResultPilih([]);
   }, [individuOrKlinik, kodProgram, reloadState]);
 
+  // clear kodProgram if change from individiu or klinik
+  useEffect(() => {
+    setKodProgram('');
+  }, [individuOrKlinik]);
+
   // on tab focus reload data
   useEffect(() => {
     window.addEventListener('focus', setReloadState);
