@@ -27,20 +27,22 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
   };
 
   const handleOtpVerify = async () => {
-    // await toast.promise(
-    //   axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`)
-    // );
-    try {
-      const res = await axios.get(
-        `/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`
-      );
-      if (res.data.msg === 'OTP verified') {
-        handleDelete(id, reasonForDelete);
-        setOtpQuestion(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await toast
+      .promise(
+        axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`),
+        {
+          pending: 'Mengesahkan OTP...',
+          success: 'OTP berjaya disahkan',
+          error: 'OTP gagal disahkan',
+        },
+        { autoClose: 3000 }
+      )
+      .then((res) => {
+        if (res.data.msg === 'OTP verified') {
+          handleDelete(id, reasonForDelete);
+          setOtpQuestion(false);
+        }
+      });
   };
 
   // component

@@ -3,20 +3,20 @@ const Runningnumber = require('./Runningnumber');
 
 const UmumSchema = new mongoose.Schema(
   {
-    // soft delete
-    deleted: { type: Boolean, default: false },
-    deleteReason: { type: String, default: '' },
-    deletedForOfficer: { type: String, default: '' },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
     createdByKodFasiliti: { type: String, default: '' },
-    createdByUsername: { type: String, required: true },
-    createdByMdcMdtb: { type: String, default: '' },
+    createdByUsername: { type: String, required: true, default: 'kaunter' },
+    createdByMdcMdtb: { type: String, default: 'kaunter' },
     tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
+    // soft delete ----------------------------------------------
+    deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
+    deletedForOfficer: { type: String, default: '' },
     // kaunter --------------------------------------------------
     uniqueId: { type: String },
     noSiri: { type: Number },
