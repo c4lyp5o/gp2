@@ -13,8 +13,7 @@ router.route('/').get(getAllProgramPromosi);
 router
   .route('/aktiviti/:aktivitiId')
   .get(getSingleAktivitiPromosi)
-  .patch(updateAktvitiPromosi)
-  .delete(deleteAktvitiPromosi);
+  .patch(updateAktvitiPromosi);
 router.route('/aktiviti').post(createAktivitiPromosi);
 
 module.exports = router;

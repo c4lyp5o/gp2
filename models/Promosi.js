@@ -9,7 +9,8 @@ const PromosiSchema = new mongoose.Schema(
     createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
     createdByMdcMtdb: { type: String, required: true },
-    // individu or klinik ?
+    tahunDibuat: { type: Number, default: 0 },
+    // promosi individu or klinik ?
     promosiIndividu: { type: Boolean, default: false },
     promosiKlinik: { type: Boolean, default: false },
     // modal promosi
@@ -20,6 +21,10 @@ const PromosiSchema = new mongoose.Schema(
     lokasi: { type: String, default: '' },
     // status reten promosi ----------------------------------------
     statusReten: { type: String, default: 'belum diisi' },
+    // soft delete ----------------------------------------------
+    deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
+    deletedForOfficer: { type: String, default: '' },
     //maklumat acara
     mediaMassa: { type: String, default: '' },
     bilanganAktivitiTelevisyen: { type: Number, min: 0, default: 0 },
