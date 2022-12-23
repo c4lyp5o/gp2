@@ -1,7 +1,6 @@
 const Umum = require('../models/Umum');
 const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
-const cryptoJs = require('crypto-js');
 
 // GET /
 const getAllPersonUmum = async (req, res) => {
@@ -112,7 +111,7 @@ const updatePersonUmum = async (req, res) => {
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
     { _id: personUmumId },
     req.body,
-    { new: true, runValidators: true }
+    { new: true }
   );
 
   if (!updatedSinglePersonUmum) {
@@ -145,7 +144,7 @@ const softDeletePersonUmum = async (req, res) => {
     {
       deleted: true,
       deleteReason,
-      deletedForOfficer: `${singlePersonUmum.createdByUsername} - ${singlePersonUmum.createdByMdcMdtb}`,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this patient for ${singlePersonUmum.createdByMdcMdtb}`,
     },
     { new: true }
   );
