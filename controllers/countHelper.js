@@ -2080,7 +2080,7 @@ const countPG206 = async (payload) => {
 
   const match_pemeriksaan_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
@@ -2088,56 +2088,56 @@ const countPG206 = async (payload) => {
   };
   const match_pemeriksaan_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_pemeriksaan_5to6years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_pemeriksaan_7to9years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_pemeriksaan_10to12years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_pemeriksaan_13to14years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_pemeriksaan_15to17years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_pemeriksaan_oku = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       oku: true,
     },
   };
   const match_pemeriksaan_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
       bukanWarganegara: true,
     },
@@ -2336,56 +2336,56 @@ const countPG206 = async (payload) => {
 
   const match_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
     },
   };
   const match_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_5to6years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_7to9years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_10to12years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_13to14years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_15to17years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_oku = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       oku: true,
     },
   };
   const match_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206(payload),
       bukanWarganegara: true,
     },
   };
@@ -2583,100 +2583,100 @@ const countPG206 = async (payload) => {
 
   const match_pemeriksaan_sekolah_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206sekolah(payload),
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
     },
   };
   const match_pemeriksaan_sekolah_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206sekolah(payload),
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_pemeriksaan_sekolah_5to6years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_pemeriksaan_sekolah_7to9years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_pemeriksaan_sekolah_10to12years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_pemeriksaan_sekolah_13to14years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_pemeriksaan_sekolah_15to17years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_pemeriksaan_sekolah_18to19years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 18, $lte: 19 },
     },
   };
   const match_pemeriksaan_sekolah_20to29years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       umur: { $gte: 20, $lte: 29 },
     },
   };
   const match_pemeriksaan_sekolah_30to49years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       umur: { $gte: 30, $lte: 49 },
     },
   };
   const match_pemeriksaan_sekolah_50to59years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       umur: { $gte: 50, $lte: 59 },
     },
   };
   const match_pemeriksaan_sekolah_60yearsandup = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       umur: { $gte: 60 },
     },
   };
   const match_pemeriksaan_sekolah_ibumengandung = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       ibuMengandung: true,
     },
   };
   const match_pemeriksaan_sekolah_oku = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       orangKurangUpaya: true,
     },
   };
   const match_pemeriksaan_sekolah_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
       bukanWarganegara: true,
     },
@@ -3097,6 +3097,7 @@ const countPG206 = async (payload) => {
   try {
     let dataPemeriksaan = [];
     let dataRawatan = [];
+    let dataSekolah = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -3141,7 +3142,7 @@ const countPG207 = async (payload) => {
 
   const match_pemeriksaan_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
@@ -3149,98 +3150,98 @@ const countPG207 = async (payload) => {
   };
   const match_pemeriksaan_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_pemeriksaan_5to6years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_pemeriksaan_7to9years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_pemeriksaan_10to12years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_pemeriksaan_13to14years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_pemeriksaan_15to17years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_pemeriksaan_18to19years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 18, $lte: 19 },
     },
   };
   const match_pemeriksaan_20to29years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 20, $lte: 29 },
     },
   };
   const match_pemeriksaan_30to49years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 30, $lte: 49 },
     },
   };
   const match_pemeriksaan_50to59years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 50, $lte: 59 },
     },
   };
   const match_pemeriksaan_60yearsandup = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       umur: { $gte: 60 },
     },
   };
   const match_pemeriksaan_ibumengandung = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       ibuMengandung: true,
     },
   };
   const match_pemeriksaan_oku = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       orangKurangUpaya: true,
     },
   };
   const match_pemeriksaan_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
       bukanWarganegara: true,
     },
@@ -3507,94 +3508,94 @@ const countPG207 = async (payload) => {
 
   const match_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
     },
   };
   const match_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_5to6years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_7to9years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_10to12years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_13to14years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_15to17years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_18to19years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 18, $lte: 19 },
     },
   };
   const match_20to29years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 20, $lte: 29 },
     },
   };
   const match_30to49years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 30, $lte: 49 },
     },
   };
   const match_50to59years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 50, $lte: 59 },
     },
   };
   const match_60yearsandup = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       umur: { $gte: 60 },
     },
   };
   const match_ibumengandung = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       ibuMengandung: true,
       orangKurangUpaya: false,
     },
   };
   const match_oku = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       ibuMengandung: false,
       orangKurangUpaya: true,
     },
   };
   const match_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207(payload),
       kumpulanEtnik: 'bukan warganegara',
     },
   };
@@ -4020,100 +4021,100 @@ const countPG207 = async (payload) => {
 
   const match_pemeriksaan_sekolah_below1year = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207sekolah(payload),
       umur: { $lt: 1 },
       umurBulan: { $lt: 13 },
     },
   };
   const match_pemeriksaan_sekolah_1to4years = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207sekolah(payload),
       umur: { $gte: 1, $lte: 4 },
     },
   };
   const match_pemeriksaan_sekolah_5to6years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 5, $lte: 6 },
     },
   };
   const match_pemeriksaan_sekolah_7to9years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 7, $lte: 9 },
     },
   };
   const match_pemeriksaan_sekolah_10to12years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 10, $lte: 12 },
     },
   };
   const match_pemeriksaan_sekolah_13to14years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 13, $lte: 14 },
     },
   };
   const match_pemeriksaan_sekolah_15to17years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 15, $lte: 17 },
     },
   };
   const match_pemeriksaan_sekolah_18to19years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       umur: { $gte: 18, $lte: 19 },
     },
   };
   const match_pemeriksaan_sekolah_20to29years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       umur: { $gte: 20, $lte: 29 },
     },
   };
   const match_pemeriksaan_sekolah_30to49years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       umur: { $gte: 30, $lte: 49 },
     },
   };
   const match_pemeriksaan_sekolah_50to59years = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       umur: { $gte: 50, $lte: 59 },
     },
   };
   const match_pemeriksaan_sekolah_60yearsandup = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       umur: { $gte: 60 },
     },
   };
   const match_pemeriksaan_sekolah_ibumengandung = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       ibuMengandung: true,
     },
   };
   const match_pemeriksaan_sekolah_oku = {
     $match: {
-      ...getParams206207sekolah(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       orangKurangUpaya: true,
     },
   };
   const match_pemeriksaan_sekolah_bukanWarganegara = {
     $match: {
-      ...getParams206207(payload),
+      ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
       bukanWarganegara: true,
     },
@@ -11328,7 +11329,7 @@ const getParams2 = (payload, reten) => {
     return byNegeri(payload);
   }
 };
-const getParams206207 = (payload) => {
+const getParams206 = (payload) => {
   const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
 
   const byPegawai = () => {
@@ -11346,6 +11347,7 @@ const getParams206207 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKp: klinik,
+      createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
         // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
@@ -11396,7 +11398,7 @@ const getParams206207 = (payload) => {
     return byNegeri(payload);
   }
 };
-const getParams206207sekolah = (payload) => {
+const getParams206sekolah = (payload) => {
   const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
 
   const byPegawai = () => {
@@ -11414,6 +11416,145 @@ const getParams206207sekolah = (payload) => {
   const byKp = () => {
     let param = {
       createdByKp: klinik,
+      createdByUsername: { $regex: /^(?!dr.).*$/ },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByDaerah: daerah,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      jenisFasiliti: 'kp',
+      tarikhKedatangan: {
+        $gte: '2022-10-01',
+        $lte: '2022-11-30',
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  if (payload.pegawai) {
+    return byPegawai(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
+const getParams207 = (payload) => {
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+
+  const byPegawai = () => {
+    let param = {
+      createdByKp: klinik,
+      createdByMdcMdtb: id,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKp: klinik,
+      createdByUsername: { $regex: /^dr./, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByDaerah: daerah,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      jenisFasiliti: 'kp',
+      tarikhKedatangan: {
+        $gte: '2022-10-01',
+        $lte: '2022-11-30',
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  if (payload.pegawai) {
+    return byPegawai(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
+const getParams207sekolah = (payload) => {
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+
+  const byPegawai = () => {
+    let param = {
+      createdByKp: klinik,
+      createdByMdcMdtb: id,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKp: klinik,
+      createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
         // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),

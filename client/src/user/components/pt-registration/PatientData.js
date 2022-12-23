@@ -4,6 +4,8 @@ import { TbArrowBigLeftLine } from 'react-icons/tb';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import PrintPatientDetails from './PrintPatientDetails';
+
 export default function PatientData({
   jenisFasiliti,
   data,
@@ -69,30 +71,6 @@ export default function PatientData({
 
   //carian ic semua
   const keys = ['nama', 'ic', 'statusReten'];
-
-  const handleJana = async (e) => {
-    e.preventDefault();
-    await toast
-      .promise(
-        axios.get(
-          // `/api/v1/generate/download?jenisReten=PG101&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=PG101&tarikhMula=${dateToday}&tarikhAkhir=&formatFile=xlsx`,
-          {
-            headers: { Authorization: `Bearer ${kaunterToken}` },
-            responseType: 'blob',
-          }
-        ),
-        {
-          pending: 'Menghasilkan reten...',
-          success: 'Reten berjaya dihasilkan',
-          error: 'Reten tidak berjaya dihasilkan',
-        },
-        { autoClose: 2000 }
-      )
-      .then((blob) => {
-        saveFile(blob.data);
-      });
-  };
 
   const reloadData = async () => {
     try {
@@ -165,13 +143,6 @@ export default function PatientData({
         >
           Daftar Pesakit
         </button>
-        {/* <button
-          type='button'
-          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-          onClick={handleJana}
-        >
-          Jana Laporan PG101
-        </button> */}
         <div className='mt-2'>
           <div className='justify-center items-center'>
             <p className='text-xs text-user9 lowercase'>
@@ -210,6 +181,9 @@ export default function PatientData({
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       STATUS PENGISIAN RETEN
+                    </th>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                      PRINT MAKLUMAT
                     </th>
                     {jenisFasiliti === 'projek-komuniti-lain' ? (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
@@ -263,6 +237,9 @@ export default function PatientData({
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                            <PrintPatientDetails data={p} />
                           </td>
                           {jenisFasiliti === 'projek-komuniti-lain' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
