@@ -6,6 +6,8 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import UserFormPromosiConfirmation from '../UserFormPromosiConfirmation';
+
 function UserModalPromosi({
   individuOrKlinik,
   setShowTambahAcara,
@@ -23,6 +25,14 @@ function UserModalPromosi({
   // datepicker issues
   const [tarikhMulaDP, setTarikhMulaDP] = useState(null);
   const [tarikhAkhirDP, setTarikhAkhirDP] = useState(null);
+
+  const confirmProps = {
+    kodProgram,
+    namaAcara,
+    tarikhMula,
+    tarikhAkhir,
+    lokasi,
+  };
 
   const TarikhMula = () => {
     return masterDatePicker({
@@ -141,72 +151,86 @@ function UserModalPromosi({
             tambah acara
           </h1>
         </div>
-        <form>
-          <div className='grid gap-3 mt-7'>
-            <div className='flex m-auto'>
-              <p className='mr-1'>acara bagi kod program :</p>
-              <p>{kodProgram}</p>
-            </div>
-            <div className='flex m-auto'>
-              <label htmlFor='nama-acara' className='mt-4'>
-                nama acara : <span className='font-semibold text-user6'>*</span>
-              </label>
-              <input
-                required
-                type='text'
-                id='nama-acara'
-                name='nama-acara'
-                value={namaAcara}
-                onChange={(e) => {
-                  setNamaAcara(e.target.value);
-                }}
-                className='my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
-              />
-            </div>
-            <div className='flex m-auto'>
-              <label htmlFor='tarikh-mula' className='whitespace-nowrap mr-3'>
-                tarikh mula :{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </label>
-              <TarikhMula />
-            </div>
-            <div className='flex m-auto'>
-              <label htmlFor='tarikh-akhir' className='whitespace-nowrap mr-3'>
-                tarikh akhir :{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </label>
-              <TarikhAkhir />
-            </div>
-            <div>
-              <label htmlFor='lokasi'>
-                lokasi : <span className='font-semibold text-user6'>*</span>
-              </label>
-              <select
-                required
-                name='lokasi'
-                id='lokasi'
-                value={lokasi}
-                onChange={(e) => {
-                  setLokasi(e.target.value);
-                }}
-                className='w-1/2 my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-              >
-                <option value=''>Sila pilih lokasi..</option>
-                <option value='hospital'>Hospital</option>
-                <option value='klinik'>Klinik</option>
-                <option value='kawasan-awam'>Kawasan awam</option>
-              </select>
-            </div>
-            <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>
-              <button
-                onClick={handleSubmit}
-                className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
-              >
-                tambah
-              </button>
-            </div>
-          </div>
-        </form>
+        <UserFormPromosiConfirmation
+          {...confirmProps}
+          callbackFunction={handleSubmit}
+        >
+          {(confirm) => (
+            <form onSubmit={confirm(handleSubmit)}>
+              <div className='grid gap-3 mt-7'>
+                <div className='flex m-auto'>
+                  <p className='mr-1'>acara bagi kod program :</p>
+                  <p>{kodProgram}</p>
+                </div>
+                <div className='flex m-auto'>
+                  <label htmlFor='nama-acara' className='mt-4'>
+                    nama acara :{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <input
+                    required
+                    type='text'
+                    id='nama-acara'
+                    name='nama-acara'
+                    value={namaAcara}
+                    onChange={(e) => {
+                      setNamaAcara(e.target.value);
+                    }}
+                    className='my-3 ml-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md peer'
+                  />
+                </div>
+                <div className='flex m-auto'>
+                  <label
+                    htmlFor='tarikh-mula'
+                    className='whitespace-nowrap mr-3'
+                  >
+                    tarikh mula :{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <TarikhMula />
+                </div>
+                <div className='flex m-auto'>
+                  <label
+                    htmlFor='tarikh-akhir'
+                    className='whitespace-nowrap mr-3'
+                  >
+                    tarikh akhir :{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <TarikhAkhir />
+                </div>
+                <div>
+                  <label htmlFor='lokasi'>
+                    lokasi : <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    name='lokasi'
+                    id='lokasi'
+                    value={lokasi}
+                    onChange={(e) => {
+                      setLokasi(e.target.value);
+                    }}
+                    className='w-1/2 my-3 ml-2 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  >
+                    <option value=''>Sila pilih lokasi..</option>
+                    <option value='hospital'>Hospital</option>
+                    <option value='klinik'>Klinik</option>
+                    <option value='kawasan-awam'>Kawasan awam</option>
+                  </select>
+                </div>
+                <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>
+                  <button
+                    onClick={handleSubmit}
+                    className='uppercase w-1/3 m-auto bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                  >
+                    tambah
+                  </button>
+                </div>
+              </div>
+            </form>
+          )}
+        </UserFormPromosiConfirmation>
       </div>
       <div
         onClick={closeModal}

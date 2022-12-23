@@ -287,7 +287,10 @@ exports.downloader = async function (req, res) {
       }
       switch (formatFile) {
         case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          );
           res.status(200).send(data207);
           break;
         case 'pdf':
@@ -2341,7 +2344,7 @@ exports.debug = async (req, res) => {
   let payload = {
     negeri: 'Perlis',
     daerah: 'Arau',
-    klinik: 'Klinik Pergigian Kampung Gial',
+    klinik: 'Klinik Pergigian Kaki Bukit',
     bulan: '2022-10-01',
   };
   // let tarikhMula = '2021-01-01';
