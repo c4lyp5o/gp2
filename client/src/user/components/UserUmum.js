@@ -12,9 +12,7 @@ import {
 } from 'react-icons/bs';
 import moment from 'moment';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
-import UserUmumDeleteModal from './UserUmumDeleteModal';
+import UserDeleteModal from './UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -658,7 +656,7 @@ function UserUmum() {
                     )}
                 </div>
                 {modalHapus && (
-                  <UserUmumDeleteModal
+                  <UserDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}

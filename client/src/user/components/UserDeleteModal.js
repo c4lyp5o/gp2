@@ -15,8 +15,8 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
     await toast.promise(
       axios.get(`/api/v1/getotp?id=${userinfo._id}`),
       {
-        pending: `Menghantar OTP ke e-mel ${userinfo.email}`,
-        success: `OTP telah dihantar ke e-mel ${userinfo.email}`,
+        pending: `Menghantar OTP ke emel ${userinfo.email}`,
+        success: `OTP telah dihantar ke emel ${userinfo.email}`,
         error: `OTP gagal dihantar`,
       },
       {
@@ -45,29 +45,22 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
       });
   };
 
-  // component
-  function SubmitButtton() {
-    return (
-      <button
-        type='submit'
-        onClick={() => {
-          if (!otpQuestion) {
-            handleOtpRequest();
-          }
-          if (otpQuestion) {
-            handleOtpVerify();
-          }
-        }}
-        className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 ml-3 hover:bg-user1 transition-all'
-      >
-        HAPUS
-      </button>
-    );
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!otpQuestion) {
+      handleOtpRequest();
+    }
+    if (otpQuestion) {
+      handleOtpVerify();
+    }
+  };
 
   return (
     <>
-      <div className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-40 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <form
+        onSubmit={handleSubmit}
+        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-40 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+      >
         <FaWindowClose
           onClick={() => setModalHapus(false)}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -83,7 +76,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
               <div className='mt-5'>
                 Sila <span className='lowercase'>masukkan</span> OTP{' '}
                 <span className='lowercase'>
-                  yang telah dihantar ke e-mel {userinfo.email}
+                  yang telah dihantar ke emel {userinfo.email}
                 </span>
                 <div className='mt-5'>
                   <label htmlFor='reason' className='mr-3'>
@@ -116,17 +109,22 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
           )}
         </div>
         <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
-          <button
-            className='capitalize bg-userWhite text-userBlack rounded-md p-2 mr-3 hover:bg-user5 transition-all'
+          <span
+            className='capitalize bg-userWhite text-userBlack rounded-md p-2 mr-3 hover:bg-user5 hover:cursor-pointer transition-all'
             onClick={() => {
               setModalHapus(false);
             }}
           >
             Tidak
+          </span>
+          <button
+            type='submit'
+            className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 ml-3 hover:bg-user1 transition-all'
+          >
+            HAPUS
           </button>
-          <SubmitButtton />
         </div>
-      </div>
+      </form>
       <div
         onClick={() => setModalHapus(false)}
         className='absolute inset-0 bg-user1 z-10 opacity-75'

@@ -98,6 +98,43 @@ const updateAktvitiPromosi = async (req, res) => {
   res.status(200).json({ updatedSingleAktivitiPromosi });
 };
 
+// PATCH /aktiviti/delete/:aktivitiId
+const softDeleteAktivitiPromosi = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { deleteReason } = req.body;
+
+  const singleAktivitiPromosi = await Promosi.findOne({
+    _id: req.params.aktivitiId,
+    tahunDibuat: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  if (!singleAktivitiPromosi) {
+    return res
+      .status(404)
+      .json({ msg: `No aktiviti with id ${req.params.aktivitiId}` });
+  }
+
+  const singleAktivitiPromosiToDelete = await Promosi.findOneAndUpdate(
+    {
+      _id: req.params.aktivitiId,
+      tahunDibuat: new Date().getFullYear(),
+      deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this aktiviti promosi for ${singleAktivitiPromosi.createdByUsername}`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singleAktivitiPromosiToDelete });
+};
+
 // not used
 // DELETE /aktiviti/:aktivitiId
 const deleteAktvitiPromosi = async (req, res) => {
@@ -164,6 +201,7 @@ module.exports = {
   getSingleAktivitiPromosi,
   createAktivitiPromosi,
   updateAktvitiPromosi,
+  softDeleteAktivitiPromosi,
   deleteAktvitiPromosi,
   queryAktivitiPromosi,
 };

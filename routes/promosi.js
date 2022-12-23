@@ -6,6 +6,7 @@ const {
   getSingleAktivitiPromosi,
   createAktivitiPromosi,
   updateAktvitiPromosi,
+  softDeleteAktivitiPromosi,
   deleteAktvitiPromosi,
 } = require('../controllers/promosi');
 
@@ -14,6 +15,7 @@ router
   .route('/aktiviti/:aktivitiId')
   .get(getSingleAktivitiPromosi)
   .patch(updateAktvitiPromosi);
+router.route('/aktiviti/delete/:aktivitiId').patch(softDeleteAktivitiPromosi);
 router.route('/aktiviti').post(createAktivitiPromosi);
 
 module.exports = router;
