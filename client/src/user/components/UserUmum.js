@@ -130,6 +130,13 @@ function UserUmum() {
       return;
     }
     if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
       await toast.promise(
         // axios.delete(`/api/v1/umum/${singlePerson}`, {
         //   headers: {
@@ -142,6 +149,7 @@ function UserUmum() {
           `/api/v1/umum/delete/${singlePerson}`,
           {
             deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
           },
           {
             headers: {
