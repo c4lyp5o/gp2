@@ -183,7 +183,7 @@ const softDeletePersonUmum = async (req, res) => {
 };
 
 // not used
-// DELETE /:id (hard delete)
+// DELETE /:id
 const deletePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
