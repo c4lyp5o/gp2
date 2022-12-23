@@ -4,7 +4,7 @@ const {
   getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
-  deletePersonUmum, // <-- This is the old one
+  deletePersonUmum,
   softDeletePersonUmum,
 } = require('../controllers/umum');
 

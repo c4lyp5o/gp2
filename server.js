@@ -19,6 +19,7 @@ const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
 const promosi = require('./routes/promosi');
+const getotp = require('./routes/getotp');
 const operator = require('./routes/operator');
 const allQueryRoute = require('./routes/allQueryRoute');
 
@@ -30,9 +31,6 @@ const adminAPI = require('./routes/adminAPI');
 
 // generate import
 const genRouter = require('./routes/generateRouter');
-
-// otp import
-const getotp = require('./routes/getotp');
 
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
@@ -88,11 +86,9 @@ app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
-// --- get otp for umum deletion
-app.use('/api/v1/getotp', getotp);
-// ---
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/promosi', authCheck, promosi);
+app.use('/api/v1/getotp', getotp);
 app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
