@@ -1,7 +1,6 @@
 const Umum = require('../models/Umum');
 const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
-const cryptoJs = require('crypto-js');
 
 // GET /
 const getAllPersonUmum = async (req, res) => {
@@ -16,6 +15,8 @@ const getAllPersonUmum = async (req, res) => {
     createdByDaerah: daerah,
     createdByKp: kp,
     createdByKodFasiliti: kodFasiliti,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
   });
 
   res.status(200).json({ allPersonUmum });
@@ -31,7 +32,11 @@ const getSinglePersonUmum = async (req, res) => {
     params: { id: personUmumId },
   } = req;
 
-  const singlePersonUmum = await Umum.findOne({ _id: personUmumId });
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
 
   if (!singlePersonUmum) {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
@@ -71,7 +76,11 @@ const updatePersonUmum = async (req, res) => {
       shortened[key] = req.body[key];
     }
   });
-  const singlePersonUmum = await Umum.findById({ _id: personUmumId });
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
   summary = { ...singlePersonUmum._doc, ...shortened };
   let regNum = {};
   if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
@@ -92,7 +101,11 @@ const updatePersonUmum = async (req, res) => {
   if (req.query.operatorLain === 'rawatan-operator-lain') {
     if (req.body.statusReten === 'telah diisi') {
       const updatedStatusReten = await Umum.findOneAndUpdate(
-        { _id: personUmumId },
+        {
+          _id: personUmumId,
+          tahunDaftar: new Date().getFullYear(),
+          deleted: false,
+        },
         { $set: { statusReten: req.body.statusReten } },
         { new: true }
       );
@@ -100,7 +113,11 @@ const updatePersonUmum = async (req, res) => {
 
     const updatedSinglePersonUmumRawatanOperatorLain =
       await Umum.findOneAndUpdate(
-        { _id: personUmumId },
+        {
+          _id: personUmumId,
+          tahunDaftar: new Date().getFullYear(),
+          deleted: false,
+        },
         { $push: { rawatanOperatorLain: summary } },
         { new: true }
       );
@@ -110,9 +127,13 @@ const updatePersonUmum = async (req, res) => {
 
   // default initial reten
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
-    { _id: personUmumId },
+    {
+      _id: personUmumId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
     req.body,
-    { new: true, runValidators: true }
+    { new: true }
   );
 
   if (!updatedSinglePersonUmum) {
@@ -134,18 +155,26 @@ const softDeletePersonUmum = async (req, res) => {
 
   const { deleteReason } = req.body;
 
-  const singlePersonUmum = await Umum.findOne({ _id: personUmumId });
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
 
   if (!singlePersonUmum) {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
   }
 
-  const singlePersonUmumToDelete = await Umum.findByIdAndUpdate(
-    { _id: personUmumId },
+  const singlePersonUmumToDelete = await Umum.findOneAndUpdate(
+    {
+      _id: personUmumId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
     {
       deleted: true,
       deleteReason,
-      deletedForOfficer: `${singlePersonUmum.createdByUsername} - ${singlePersonUmum.createdByMdcMdtb}`,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this patient for ${singlePersonUmum.createdByMdcMdtb}`,
     },
     { new: true }
   );
@@ -190,6 +219,8 @@ const queryPersonUmum = async (req, res) => {
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
   queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -233,8 +264,8 @@ module.exports = {
   getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
-  deletePersonUmum,
   softDeletePersonUmum,
+  deletePersonUmum,
   queryPersonUmum,
   getTaskaTadikaList,
 };

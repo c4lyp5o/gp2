@@ -30,6 +30,8 @@ const getSinglePersonKaunter = async (req, res) => {
 
   const singlePersonKaunter = await Umum.findOne({
     _id: req.params.personKaunterId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
   });
 
   if (!singlePersonKaunter) {
@@ -37,13 +39,6 @@ const getSinglePersonKaunter = async (req, res) => {
       .status(404)
       .json({ msg: `No person with id ${req.params.personKaunterId}` });
   }
-
-  // decrypt
-  // const decryptedIc = cryptoJs.AES.decrypt(
-  //   singlePersonKaunter.ic,
-  //   process.env.CRYPTO_JS_SECRET
-  // ).toString(cryptoJs.enc.Utf8);
-  // singlePersonKaunter.ic = decryptedIc;
 
   res.status(201).json({ singlePersonKaunter });
 };
@@ -62,15 +57,16 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
   req.body.tahunDaftar = new Date().getFullYear();
 
-  // find if person already exist using ic
+  // find if person already exist
   const personExist = await Umum.findOne({
-    ic: req.body.ic,
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
-    jenisFasiliti: req.body.jenisFasiliti,
     tahunDaftar: req.body.tahunDaftar,
+    deleted: false,
+    ic: req.body.ic,
+    jenisFasiliti: req.body.jenisFasiliti,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
   });
@@ -109,7 +105,11 @@ const updatePersonKaunter = async (req, res) => {
   }
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
-    { _id: req.params.personKaunterId },
+    {
+      _id: req.params.personKaunterId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
     req.body,
     { new: true }
   );
@@ -164,10 +164,12 @@ const queryPersonKaunter = async (req, res) => {
   } = req;
 
   const queryObject = {};
-  queryObject.createdByKp = kp;
-  queryObject.createdByDaerah = daerah;
   queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
   queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -224,10 +226,10 @@ const getProjekKomuniti = async (req, res) => {
   }
 
   const projekKomuniti = await Event.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
-    createdByDaerah: req.user.daerah,
-    createdByNegeri: req.user.negeri,
   });
 
   res.status(200).json({ projekKomuniti });
