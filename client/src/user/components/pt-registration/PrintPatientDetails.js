@@ -1,12 +1,10 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
-import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import DataToPrint from './DataToPrint';
 
 const PrintPatientDetails = ({ data }) => {
-  const componentRef = useRef();
-  const { noPendaftaranSplitter, statusPesakit } = useGlobalUserAppContext();
+  const detailsPage = useRef(null);
 
   return (
     <div>
@@ -16,15 +14,10 @@ const PrintPatientDetails = ({ data }) => {
             Cetak
           </button>
         )}
-        content={() => componentRef.current}
+        content={() => detailsPage.current}
       />
       <div className='hidden'>
-        <DataToPrint
-          data={data}
-          ref={componentRef}
-          noPendaftaranSplitter={noPendaftaranSplitter}
-          statusPesakit={statusPesakit}
-        />
+        <DataToPrint data={data} ref={detailsPage} />
       </div>
     </div>
   );
