@@ -67,7 +67,7 @@ const ConfirmModal = ({ children, data }) => {
                       // }}
                     >
                       {showPemeriksaan ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
@@ -556,7 +556,7 @@ const ConfirmModal = ({ children, data }) => {
                       // }}
                     >
                       {showRawatan ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
@@ -1385,11 +1385,11 @@ const ConfirmModal = ({ children, data }) => {
 
                     <span className='flex items-center bg-user1 bg-opacity-30 w-full cursor-pointer px-2 py-1 text-xs font-semibold'>
                       {showPromosi ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
-                      Promosi
+                      PROMOSI & PENDIDIKAN KESIHATAN PERGIGIAN
                     </span>
                     <div
                       className={`text-xs ${
