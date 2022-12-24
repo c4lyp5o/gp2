@@ -52,12 +52,12 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // core
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
-  const [waktuSampai, setWaktuSampai] = useState('');
-  const [temujanji, setTemujanji] = useState(false);
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [waktuSampai, setWaktuSampai] = useState('');
+  const [temujanji, setTemujanji] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
@@ -114,7 +114,7 @@ export default function FillableForm({
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
-  const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
+  // const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -554,7 +554,7 @@ export default function FillableForm({
               fasilitiTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
-              enrolmenTaskaTadika,
+              // enrolmenTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -655,7 +655,7 @@ export default function FillableForm({
               fasilitiTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
-              enrolmenTaskaTadika,
+              // enrolmenTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -752,7 +752,7 @@ export default function FillableForm({
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
-    setEnrolmenTaskaTadika(false);
+    // setEnrolmenTaskaTadika(false);
     // ipt / kolej
     setIptKolej('');
     setIpg('');
@@ -964,7 +964,7 @@ export default function FillableForm({
           setNamaFasilitiTaskaTadika(
             data.singlePersonKaunter.namaFasilitiTaskaTadika
           );
-          setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
+          // setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
           // ipt / kolej
           setIptKolej(data.singlePersonKaunter.iptKolej);
           setIpg(data.singlePersonKaunter.ipg);
@@ -2534,7 +2534,7 @@ export default function FillableForm({
                           );
                         })}
                     </select>
-                    <div className='flex items-center flex-row pl-5 '>
+                    {/* <div className='flex items-center flex-row pl-5 '>
                       <label
                         htmlFor='enrolmen-taska-tadika'
                         className='m-2 text-sm font-m'
@@ -2552,7 +2552,7 @@ export default function FillableForm({
                         }}
                         className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
-                    </div>
+                    </div> */}
                   </div>
                 )}
                 {jenisFasiliti === 'ipt-kolej' && (

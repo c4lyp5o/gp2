@@ -64,7 +64,6 @@ const createPersonKaunter = async (req, res) => {
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
     tahunDaftar: req.body.tahunDaftar,
-    deleted: false,
     ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
     jenisProgram: req.body.jenisProgram,
