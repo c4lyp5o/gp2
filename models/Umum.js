@@ -77,7 +77,7 @@ const UmumSchema = new mongoose.Schema(
     fasilitiTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
-    // enrolmenTaskaTadika: { type: Boolean, default: false },
+    kodFasilitiTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },
@@ -785,7 +785,11 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
+        jenis:
+          this.jenisFasiliti +
+          this.kodFasilitiTaskaTadika +
+          this.jenisProgram +
+          this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
@@ -795,7 +799,11 @@ UmumSchema.pre('save', async function () {
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
           runningnumber: 1,
-          jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
+          jenis:
+            this.jenisFasiliti +
+            this.kodFasilitiTaskaTadika +
+            this.jenisProgram +
+            this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
