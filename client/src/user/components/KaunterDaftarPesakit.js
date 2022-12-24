@@ -222,7 +222,7 @@ export default function DaftarPesakit({ createdByKp }) {
                     BIL
                   </th>
                   <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer flex items-center ${
+                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer ${
                       sort.tarikhKedatangan ? 'text-bold text-kaunterBlack' : ''
                     }`}
                     onClick={() =>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 const optionsRawatan = [
+  { value: 'lihat-semua', label: 'Lihat Semua' },
   { value: 'pengapan-fisur', label: 'Pengapan Fisur' },
   { value: 'sapuan-florida', label: 'Sapuan Florida' },
   { value: 'prr-jenis-1', label: 'PRR Jenis 1' },
@@ -16,7 +17,6 @@ const optionsRawatan = [
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
   { value: 'kes-selesai', label: 'Kes Selesai' },
-  { value: 'lihat-semua', label: 'Lihat Semua' },
 ];
 
 export default function Rawatan(props) {
@@ -50,7 +50,7 @@ export default function Rawatan(props) {
                       <Select
                         isMulti
                         name='rawatan'
-                        defaultValue={optionsRawatan[11]}
+                        defaultValue={optionsRawatan[12]}
                         options={optionsRawatan}
                         className='basic-multi-select'
                         classNamePrefix='select'
