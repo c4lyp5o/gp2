@@ -56,7 +56,7 @@ const UserFormPromosiConfirmation = ({ children, data }) => {
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
                 <div className='h-full overflow-y-auto'>
-                  <span className='flex items-center bg-user1 bg-opacity-30 w-full cursor-pointer px-2 py-1 text-xs font-semibold'>
+                  <span className='flex justify-center items-center bg-user1 bg-opacity-30 w-full cursor-pointer px-2 py-1 text-xs font-semibold'>
                     Maklumat Yang Diisi
                   </span>
                   <div className='text-xs overflow-hidden transition-all duration-500'>
@@ -65,12 +65,12 @@ const UserFormPromosiConfirmation = ({ children, data }) => {
                     <p>Nama Acara: {data.namaAcara}</p>
                     <p>Lokasi: {data.lokasi}</p>
                     <p>
-                      {data.promosiKlinik ? (
-                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
-                          Promosi Klinik
+                      {data.promosiIndividu ? (
+                        <p className='bg-user7 text-userWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                          Promosi Individu
                         </p>
                       ) : (
-                        <p className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                        <p className='bg-user7 text-userWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
                           Promosi Klinik
                         </p>
                       )}
@@ -232,11 +232,11 @@ const UserFormPromosiConfirmation = ({ children, data }) => {
                               Nasihat Kanser Mulut
                             </p>
                             <p>
-                              Bil. Aktiviti Flash Mob:{' '}
+                              Bil. Aktiviti Nasihat Kanser Mulut:{' '}
                               {data.bilanganAktivitiKanserMulutBahagianB}
                             </p>
                             <p>
-                              Bil. Peserta Flash Mob:{' '}
+                              Bil. Peserta Nasihat Kanser Mulut:{' '}
                               {data.bilanganPesertaKanserMulutBahagianB}
                             </p>
                           </div>
@@ -299,21 +299,23 @@ const UserFormPromosiConfirmation = ({ children, data }) => {
                         {data.mainPerananBahagianB && (
                           <div>
                             <p className='bg-kaunter2 font-semibold rounded-md'>
-                              Roleplay
+                              Main Peranan
                             </p>
                             <p>
-                              Bil. Aktiviti Roleplay:{' '}
+                              Bil. Aktiviti Main Peranan:{' '}
                               {data.bilanganAktivitiMainPerananBahagianB}
                             </p>
                             <p>
-                              Bil. Peserta Roleplay:{' '}
+                              Bil. Peserta Main Peranan:{' '}
                               {data.bilanganPesertaMainPerananBahagianB}
                             </p>
                           </div>
                         )}
                         {data.mengunyahSirihIntervensiTabiatBerisikoTinggi && (
-                          <div className='bg-kaunter2 font-semibold rounded-md'>
-                            <p>Intervensi Sirih</p>
+                          <div>
+                            <p className='bg-kaunter2 font-semibold rounded-md'>
+                              Intervensi Sirih
+                            </p>
                             <p>
                               Bil. Aktiviti Intervensi Sirih:{' '}
                               {
@@ -329,8 +331,10 @@ const UserFormPromosiConfirmation = ({ children, data }) => {
                           </div>
                         )}
                         {data.merokokIntervensiTabiatBerisikoTinggi && (
-                          <div className='bg-kaunter2 font-semibold rounded-md'>
-                            <p>Intervensi Merokok</p>
+                          <div>
+                            <p className='bg-kaunter2 font-semibold rounded-md'>
+                              Intervensi Merokok
+                            </p>
                             <p>
                               Bil. Aktiviti Intervensi Merokok:{' '}
                               {

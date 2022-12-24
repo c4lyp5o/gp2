@@ -99,16 +99,25 @@ export default function Pemeriksaan(props) {
                   className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                 />
               </div>
-              {props.singlePersonUmum.umur >= 18 ? (
+              {props.singlePersonUmum.umur >= 18 &&
+              props.singlePersonUmum.jenisFasiliti === 'kp' ? (
                 <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
                   <div className='flex flex-col lg:flex-row items-center pl-5 '>
                     <p className='items-center pl-5 font-bold whitespace-nowrap'>
                       Tekanan Darah :{' '}
-                      <span className='font-semibold text-user6'>*</span>
+                      {props.singlePersonUmum.kedatangan ===
+                        'baru-kedatangan' && (
+                        <span className='font-semibold text-user6'>*</span>
+                      )}
                     </p>
                     <div className='flex flex-row whitespace-nowrap'>
                       <input
-                        required
+                        required={
+                          props.singlePersonUmum.kedatangan ===
+                          'baru-kedatangan'
+                            ? true
+                            : false
+                        }
                         disabled={isDisabled}
                         type='number'
                         name='systolic-tekanan-darah'
@@ -123,7 +132,12 @@ export default function Pemeriksaan(props) {
                       />
                       <p className='font-bold text-2xl'> / </p>
                       <input
-                        required
+                        required={
+                          props.singlePersonUmum.kedatangan ===
+                          'baru-kedatangan'
+                            ? true
+                            : false
+                        }
                         disabled={isDisabled}
                         type='number'
                         name='diastolic-tekanan-darah'
