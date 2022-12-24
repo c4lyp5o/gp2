@@ -8,7 +8,7 @@ const PromosiSchema = new mongoose.Schema(
     createdByKp: { type: String, default: '' },
     createdByKodFasiliti: { type: String, default: '' },
     createdByUsername: { type: String, required: true },
-    createdByMdcMtdb: { type: String, required: true },
+    createdByMdcMdtb: { type: String, required: true },
     tahunDibuat: { type: Number, default: 0 },
     // promosi individu or klinik ?
     promosiIndividu: { type: Boolean, default: false },
