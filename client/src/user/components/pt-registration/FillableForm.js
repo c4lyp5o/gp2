@@ -110,7 +110,7 @@ export default function FillableForm({
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
-  // const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
+  const [kodFasilitiTaskaTadika, setKodFasilitiTaskaTadika] = useState('');
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -333,71 +333,71 @@ export default function FillableForm({
     }
   };
 
-  const checkMyIdentity = async (ic) => {
-    try {
-      const res = await axios.get(
-        `https://erkm.calypsocloud.one/mysjid?pid=${ic}`,
-        {
-          headers: { Authorization: `Bearer ${kaunterToken}` },
-        }
-      );
-      if (!res.data.verified) {
-        return false;
-      }
-      const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
-        res.data.info;
-      const age = findAgeFromIc(ic);
-      setNama(nama.toLowerCase());
-      setJantina(jantina.toLowerCase());
-      setTarikhLahir(moment(age.dob).format('DD/MM/YYYY'));
-      setTarikhLahirDP(new Date(age.dob));
-      setUmur(age.years);
-      setUmurBulan(age.months);
-      setAlamat(alamat);
-      setPoskodAlamat(poskod);
-      setDaerahAlamat(daerah);
-      setNegeriAlamat(negeri.toLowerCase());
-      setMyIdVerified(res.data.verified);
-      if (mysjid === phone) {
-        setNomborTelefon(mysjid);
-        setConfirmData({
-          ...confirmData,
-          nama: nama.toLowerCase(),
-          tarikhLahir: age.dob,
-          ic: ic,
-          umur: age.years,
-          umurBulan: age.months,
-          jantina: jantina.toLowerCase(),
-          alamat: alamat,
-          poskodAlamat: poskod,
-          daerahAlamat: daerah,
-          negeriAlamat: negeri.toLowerCase(),
-          nomborTelefon: mysjid,
-        });
-      }
-      if (mysjid !== phone) {
-        setEmel(mysjid);
-        setConfirmData({
-          ...confirmData,
-          nama: nama.toLowerCase(),
-          tarikhLahir: age.dob,
-          ic: ic,
-          umur: age.years,
-          umurBulan: age.months,
-          jantina: jantina.toLowerCase(),
-          alamat: alamat,
-          poskodAlamat: poskod,
-          daerahAlamat: daerah,
-          negeriAlamat: negeri.toLowerCase(),
-          emel: mysjid,
-        });
-      }
-      toast.success('Menggunakan data dari MyIdentity');
-      return res.data.verified;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const checkMyIdentity = async (ic) => {
+  //   try {
+  //     const res = await axios.get(
+  //       `https://erkm.calypsocloud.one/mysjid?pid=${ic}`,
+  //       {
+  //         headers: { Authorization: `Bearer ${kaunterToken}` },
+  //       }
+  //     );
+  //     if (!res.data.verified) {
+  //       return false;
+  //     }
+  //     const { nama, jantina, alamat, poskod, daerah, negeri, mysjid, phone } =
+  //       res.data.info;
+  //     const age = findAgeFromIc(ic);
+  //     setNama(nama.toLowerCase());
+  //     setJantina(jantina.toLowerCase());
+  //     setTarikhLahir(moment(age.dob).format('DD/MM/YYYY'));
+  //     setTarikhLahirDP(new Date(age.dob));
+  //     setUmur(age.years);
+  //     setUmurBulan(age.months);
+  //     setAlamat(alamat);
+  //     setPoskodAlamat(poskod);
+  //     setDaerahAlamat(daerah);
+  //     setNegeriAlamat(negeri.toLowerCase());
+  //     setMyIdVerified(res.data.verified);
+  //     if (mysjid === phone) {
+  //       setNomborTelefon(mysjid);
+  //       setConfirmData({
+  //         ...confirmData,
+  //         nama: nama.toLowerCase(),
+  //         tarikhLahir: age.dob,
+  //         ic: ic,
+  //         umur: age.years,
+  //         umurBulan: age.months,
+  //         jantina: jantina.toLowerCase(),
+  //         alamat: alamat,
+  //         poskodAlamat: poskod,
+  //         daerahAlamat: daerah,
+  //         negeriAlamat: negeri.toLowerCase(),
+  //         nomborTelefon: mysjid,
+  //       });
+  //     }
+  //     if (mysjid !== phone) {
+  //       setEmel(mysjid);
+  //       setConfirmData({
+  //         ...confirmData,
+  //         nama: nama.toLowerCase(),
+  //         tarikhLahir: age.dob,
+  //         ic: ic,
+  //         umur: age.years,
+  //         umurBulan: age.months,
+  //         jantina: jantina.toLowerCase(),
+  //         alamat: alamat,
+  //         poskodAlamat: poskod,
+  //         daerahAlamat: daerah,
+  //         negeriAlamat: negeri.toLowerCase(),
+  //         emel: mysjid,
+  //       });
+  //     }
+  //     toast.success('Menggunakan data dari MyIdentity');
+  //     return res.data.verified;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const checkCache = async (ic) => {
     try {
@@ -477,13 +477,13 @@ export default function FillableForm({
 
   // check ic
   const checkIc = async (ic) => {
-    const res = await checkMyIdentity(ic);
-    if (!res) {
-      const cache = await checkCache(ic);
-      if (!cache) {
-        handleIc(ic);
-      }
+    // const res = await checkMyIdentity(ic);
+    // if (!res) {
+    const cache = await checkCache(ic);
+    if (!cache) {
+      handleIc(ic);
     }
+    // }
   };
 
   // submission
@@ -551,7 +551,7 @@ export default function FillableForm({
               fasilitiTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
-              // enrolmenTaskaTadika,
+              kodFasilitiTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -652,7 +652,7 @@ export default function FillableForm({
               fasilitiTaskaTadika,
               kelasToddler,
               namaFasilitiTaskaTadika,
-              // enrolmenTaskaTadika,
+              kodFasilitiTaskaTadika,
               // ipt / kolej
               iptKolej,
               ipg,
@@ -749,7 +749,7 @@ export default function FillableForm({
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
-    // setEnrolmenTaskaTadika(false);
+    setKodFasilitiTaskaTadika('');
     // ipt / kolej
     setIptKolej('');
     setIpg('');
@@ -873,10 +873,11 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
-  // reset namaFasilitiTaskaTadika when change fasilitiTaskaTadika
+  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
   useEffect(() => {
     if (!editId) {
       setNamaFasilitiTaskaTadika('');
+      setKodFasilitiTaskaTadika('');
     }
   }, [fasilitiTaskaTadika]);
 
@@ -961,7 +962,9 @@ export default function FillableForm({
           setNamaFasilitiTaskaTadika(
             data.singlePersonKaunter.namaFasilitiTaskaTadika
           );
-          // setEnrolmenTaskaTadika(data.singlePersonKaunter.enrolmenTaskaTadika);
+          setKodFasilitiTaskaTadika(
+            data.singlePersonKaunter.kodFasilitiTaskaTadika
+          );
           // ipt / kolej
           setIptKolej(data.singlePersonKaunter.iptKolej);
           setIpg(data.singlePersonKaunter.ipg);
@@ -1235,7 +1238,7 @@ export default function FillableForm({
                             checkIc(e.target.value);
                           }
                         }}
-                        placeholder='123456090987'
+                        placeholder='901223015432'
                         className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
                     )}
@@ -1248,7 +1251,7 @@ export default function FillableForm({
                         onChange={(e) => {
                           setIc(e.target.value);
                         }}
-                        placeholder='123456121234'
+                        placeholder='Isi pengenalan diri..'
                         className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
                     )}
@@ -2477,8 +2480,10 @@ export default function FillableForm({
                       <div>
                         <p className='font-semibold'>
                           fasiliti taska / tadika{' '}
+                          <span className='font-semibold text-user6'>*</span>
                         </p>
                         <select
+                          required
                           name='fasiliti-taska-tadika'
                           id='fasiliti-taska-tadika'
                           value={fasilitiTaskaTadika}
@@ -2512,13 +2517,21 @@ export default function FillableForm({
                         </label>
                       </div>
                     </article>
-                    <p className='font-semibold'>nama fasiliti</p>
+                    <p className='font-semibold'>
+                      nama fasiliti{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
                     <select
+                      required
                       name='nama-fasiliti-taska-tadika'
                       id='nama-fasiliti-taska-tadika'
-                      value={namaFasilitiTaskaTadika}
+                      value={kodFasilitiTaskaTadika}
                       onChange={(e) => {
-                        setNamaFasilitiTaskaTadika(e.target.value);
+                        const selectedTastad = taskaTadikaAll.find(
+                          (tt) => tt.kodTastad === e.target.value
+                        );
+                        setNamaFasilitiTaskaTadika(selectedTastad.nama);
+                        setKodFasilitiTaskaTadika(selectedTastad.kodTastad);
                       }}
                       className='w-11/12 outline outline-1 outline-userBlack'
                     >
@@ -2533,25 +2546,6 @@ export default function FillableForm({
                           );
                         })}
                     </select>
-                    {/* <div className='flex items-center flex-row pl-5 '>
-                      <label
-                        htmlFor='enrolmen-taska-tadika'
-                        className='m-2 text-sm font-m'
-                      >
-                        enrolmen
-                      </label>
-                      <input
-                        type='checkbox'
-                        id='enrolmen-taska-tadika'
-                        name='enrolmen-taska-tadika'
-                        value='enrolmen-taska-tadika'
-                        checked={enrolmenTaskaTadika}
-                        onChange={() => {
-                          setEnrolmenTaskaTadika(!enrolmenTaskaTadika);
-                        }}
-                        className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                      />
-                    </div> */}
                   </div>
                 )}
                 {jenisFasiliti === 'ipt-kolej' && (
