@@ -66,6 +66,7 @@ const createPersonKaunter = async (req, res) => {
     tahunDaftar: req.body.tahunDaftar,
     ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
+    kodFasilitiTaskaTadika: req.body.kodFasilitiTaskaTadika,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
   });
