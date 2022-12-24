@@ -33,7 +33,7 @@ const UserModalPromosiConfirmation = ({ children, data }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/3 lg:inset-y-14 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-10 text-sm bg-userWhite z-40 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={hide}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -43,15 +43,15 @@ const UserModalPromosiConfirmation = ({ children, data }) => {
                 PERHATIAN
               </h5>
               <div className='mt-3 py-1'>
-                <p className='px-1 text-xs font-semibold'>
+                <p className='px-1 text-sm font-semibold'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
                 <div className='h-full overflow-y-auto mt-5'>
-                  <span className='flex items-center bg-user1 bg-opacity-30 w-full cursor-pointer px-2 py-1 text-xs font-semibold'>
+                  <span className='flex items-center bg-user1 bg-opacity-30 w-full px-2 py-1 text-sm font-semibold justify-center'>
                     Maklumat Yang Diisi
                   </span>
                   <div
-                    className={`text-xs mt-5 overflow-hidden transition-all duration-500`}
+                    className={`text-sm mt-5 overflow-hidden transition-all duration-500`}
                   >
                     <p>Kod Prorgram: {data.kodProgram}</p>
                     <p>Nama Acara: {data.namaAcara}</p>
@@ -85,7 +85,7 @@ const UserModalPromosiConfirmation = ({ children, data }) => {
           </div>
           <div
             onClick={hide}
-            className='absolute inset-0 bg-user1 z-10 opacity-75'
+            className='absolute inset-0 bg-user1 z-30 opacity-75'
           />
         </>
       )}
