@@ -127,7 +127,7 @@ const softDeleteAktivitiPromosi = async (req, res) => {
     {
       deleted: true,
       deleteReason,
-      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this aktiviti promosi for ${singleAktivitiPromosi.createdByUsername}`,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this aktiviti promosi for ${singleAktivitiPromosi.createdByMdcMdtb}`,
     },
     { new: true }
   );
