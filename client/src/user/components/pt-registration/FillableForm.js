@@ -1887,12 +1887,14 @@ export default function FillableForm({
                   {orangKurangUpaya === true && (
                     <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5 mt-2'>
                       no. OKU:{' '}
-                      <span className='font-semibold text-user6'>*</span>
+                      {jenisFasiliti === 'kp' && (
+                        <span className='font-semibold text-user6'>*</span>
+                      )}
                     </p>
                   )}
                   {orangKurangUpaya === true && (
                     <input
-                      required
+                      required={jenisFasiliti === 'kp' ? true : false}
                       value={noOku}
                       onChange={(e) => setNoOku(e.target.value)}
                       type='text'
