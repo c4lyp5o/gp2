@@ -182,16 +182,13 @@ export default function PatientData({
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       STATUS PENGISIAN RETEN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      PRINT MAKLUMAT
-                    </th>
                     {jenisFasiliti === 'projek-komuniti-lain' ? (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                         NAMA PROGRAM
                       </th>
                     ) : null}
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      KEMASKINI
+                      MAKLUMAT
                     </th>
                   </tr>
                 </thead>
@@ -238,17 +235,14 @@ export default function PatientData({
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
                           </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            <PrintPatientDetails data={p} />
-                          </td>
                           {jenisFasiliti === 'projek-komuniti-lain' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                               {p.namaProgram}
                             </td>
                           ) : null}
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 flex flex-row'>
                             <button
-                              className='px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                              className='w-24 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
                                 setShowForm(true);
@@ -256,6 +250,7 @@ export default function PatientData({
                             >
                               Kemaskini
                             </button>
+                            <PrintPatientDetails data={p} />
                           </td>
                         </tr>
                       </tbody>

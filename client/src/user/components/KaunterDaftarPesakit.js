@@ -3,7 +3,9 @@ import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import moment from 'moment';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import { FaSort, FaSortUp } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
+import PrintPatientDetails from './pt-registration/PrintPatientDetails';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -120,51 +122,57 @@ export default function DaftarPesakit({ createdByKp }) {
 
   return (
     <>
-      <div className='flex justify-center'>
-        <div className='m-3 xl:w-96 flex flex-row'>
+      <div className='flex flex-col lg:flex-row justify-center items-center'>
+        <div className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'>
           <label
             htmlFor='pilihanNama'
-            className='whitespace-nowrap flex items-center'
+            className='whitespace-nowrap flex flex-row justify-start text-left'
           >
-            Pilihan Nama :{' '}
+            Carian :{' '}
           </label>
           <input
             type='search'
             name='pilihanNama'
-            className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase ml-2'
+            className='appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase ml-2'
             id='pilihanNama'
             placeholder='Cari pesakit...'
             onChange={(e) => setPhilter(e.target.value.toLowerCase())}
           />
         </div>
-        <div className='m-3 xl:w-96 flex flex-row'>
-          <label
-            htmlFor='pilihanTarikh'
-            className='whitespace-nowrap flex items-center'
-          >
-            Pilihan Tarikh :{' '}
-          </label>
-          <CustomDatePicker />
-          <input
-            type='checkbox'
-            name='showall'
-            id='showall'
-            className='ml-2'
-            onChange={(e) => {
-              if (e.target.checked) {
-                setPilihanTarikh('');
-                setShowAll(true);
-              } else {
-                setPilihanTarikh(moment(new Date()).format('YYYY-MM-DD'));
-                setShowAll(false);
-              }
-            }}
-          />
-          <label htmlFor='showall' className='ml-2'>
-            Lihat Semua Maklumat
-          </label>
+        <div className='flex flex-row w-full lg:w-auto px-5 lg:px-0'>
+          <div className='flex flex-col lg:flex-row lg:items-center lg:justify-center m-1 lg:m-3'>
+            <label
+              htmlFor='pilihanTarikh'
+              className='whitespace-nowrap flex flex-row justify-start text-left'
+            >
+              Pilihan Tarikh :{' '}
+            </label>
+            <CustomDatePicker />
+          </div>
+          <div className='flex flex-row items-center justify-center m-3'>
+            <input
+              type='checkbox'
+              name='showall'
+              id='showall'
+              className='ml-2'
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setPilihanTarikh('');
+                  setDate(null);
+                  setShowAll(true);
+                } else {
+                  setPilihanTarikh(moment(new Date()).format('YYYY-MM-DD'));
+                  setDate(new Date());
+                  setShowAll(false);
+                }
+              }}
+            />
+            <label htmlFor='showall' className='ml-2'>
+              Lihat Semua Maklumat
+            </label>
+          </div>
         </div>
-        <div className='m-3 xl:w-96 flex flex-row'>
+        <div className='m-3 hidden lg:flex flex-row items-center justify-center'>
           {generating ? (
             <button
               type='button'
@@ -214,6 +222,24 @@ export default function DaftarPesakit({ createdByKp }) {
                     BIL
                   </th>
                   <th
+                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer flex items-center ${
+                      sort.tarikhKedatangan ? 'text-bold text-kaunterBlack' : ''
+                    }`}
+                    onClick={() =>
+                      setSort({
+                        ...sort,
+                        tarikhKedatangan: !sort.tarikhKedatangan,
+                      })
+                    }
+                  >
+                    TARIKH{' '}
+                    {sort.tarikhKedatangan ? (
+                      <FaSortUp className='inline-flex items-center' />
+                    ) : (
+                      <FaSort className='inline-flex items-center' />
+                    )}
+                  </th>
+                  <th
                     className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-help ${
                       sort.masaDaftar ? 'text-bold text-kaunterBlack' : ''
                     }`}
@@ -222,6 +248,11 @@ export default function DaftarPesakit({ createdByKp }) {
                     }
                   >
                     MASA DAFTAR
+                    {sort.masaDaftar ? (
+                      <FaSortUp className='inline-flex items-center' />
+                    ) : (
+                      <FaSort className='inline-flex items-center' />
+                    )}
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     NO. PENDAFTARAN
@@ -255,6 +286,9 @@ export default function DaftarPesakit({ createdByKp }) {
                   >
                     STATUS PENGISIAN RETEN
                   </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 hidden lg:block'>
+                    MAKLUMAT
+                  </th>
                 </tr>
               </thead>
               {data.kaunterResultQuery
@@ -265,6 +299,10 @@ export default function DaftarPesakit({ createdByKp }) {
                 .filter((pt) =>
                   keys.some((key) => pt[key].toLowerCase().includes(philter))
                 )
+                .sort((a, b) => {
+                  if (sort.tarikhKedatangan)
+                    return b.tarikhKedatangan.localeCompare(a.tarikhKedatangan);
+                })
                 .sort((a, b) => {
                   if (sort.masaDaftar)
                     return b.waktuSampai.localeCompare(a.waktuSampai);
@@ -285,6 +323,9 @@ export default function DaftarPesakit({ createdByKp }) {
                       <tr>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {index + 1}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          {moment(p.tarikhKedatangan).format('DD/MM/YYYY')}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {formatTime(p.waktuSampai)}
@@ -317,6 +358,9 @@ export default function DaftarPesakit({ createdByKp }) {
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {p.statusReten}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 hidden lg:block'>
+                          <PrintPatientDetails data={p} />
                         </td>
                       </tr>
                     </tbody>
