@@ -152,7 +152,11 @@ export default function Pemeriksaan(props) {
                       />
                     </div>
                   </div>
-                  {props.systolicTekananDarah >= 140 ||
+                  {(props.systolicTekananDarah >= 1 &&
+                    props.systolicTekananDarah <= 89) ||
+                  (props.diastolicTekananDarah >= 1 &&
+                    props.diastolicTekananDarah <= 59) ||
+                  props.systolicTekananDarah >= 140 ||
                   props.diastolicTekananDarah >= 90 ? (
                     <div className='flex items-center text-left px-1'>
                       <input
@@ -355,12 +359,13 @@ export default function Pemeriksaan(props) {
                   <div className='grid grid-rows-2 gap-2 auto-rows-min'>
                     <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold'>
-                        Sedia Ada?<span className='text-user6'>*</span>
+                        Sedia Ada?
+                        {/* <span className='text-user6'>*</span> */}
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
                           id='ya-sedia-ada-status-denture-pemeriksaan-umum'
@@ -386,7 +391,7 @@ export default function Pemeriksaan(props) {
                         </label>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
                           id='tidak-sedia-ada-status-denture-pemeriksaan-umum'
@@ -544,12 +549,13 @@ export default function Pemeriksaan(props) {
                     </article>
                     <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold'>
-                        Perlu<span className='text-user6'>*</span>
+                        Perlu
+                        {/* <span className='text-user6'>*</span> */}
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
                           id='ya-perlu-status-denture-pemeriksaan-umum'
@@ -575,7 +581,7 @@ export default function Pemeriksaan(props) {
                         </label>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
                           id='tidak-perlu-status-denture-pemeriksaan-umum'
@@ -1076,7 +1082,8 @@ export default function Pemeriksaan(props) {
                     </h4>
                     <div className='flex flex-row pl-5 items-center col-span-2'>
                       <p className='text-sm font-m '>
-                        bilangan gigi: <span className='text-user6'>*</span>
+                        bilangan gigi berfungsi:{' '}
+                        <span className='text-user6'>*</span>
                       </p>
                       <input
                         disabled={isDisabled}
