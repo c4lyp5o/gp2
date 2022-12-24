@@ -136,13 +136,6 @@ function UserUmum() {
         mdcMdtbNum = userinfo.mdtbNumber;
       }
       await toast.promise(
-        // axios.delete(`/api/v1/umum/${singlePerson}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${
-        //       reliefUserToken ? reliefUserToken : userToken
-        //     }`,
-        //   },
-        // }),
         axios.patch(
           `/api/v1/umum/delete/${singlePerson}`,
           {
