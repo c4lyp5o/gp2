@@ -25,9 +25,9 @@ const authLogin = async (req, res) => {
   const {
     username,
     password,
-    pilihanKodFasiliti,
-    pilihanFasiliti,
     pilihanDaerah,
+    pilihanFasiliti,
+    pilihanKodFasiliti,
   } = req.body;
 
   let user = '';
