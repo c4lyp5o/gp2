@@ -3,9 +3,6 @@ import CurrencyFormat from 'react-currency-format';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import {
-  FaInfoCircle,
-  FaCheckCircle,
-  FaTimesCircle,
   FaCalendar,
   FaCaretSquareDown,
   FaPhoneAlt,
@@ -43,7 +40,6 @@ export default function FillableForm({
   const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
     useGlobalUserAppContext();
 
-  const [checkingIc, setCheckingIc] = useState(false);
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
@@ -318,6 +314,9 @@ export default function FillableForm({
       const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
       const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
       const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
+      const last2 = ic.substring(10, 12);
+      const jantina = last2 % 2 === 0 ? 'perempuan' : 'lelaki';
+      setJantina(jantina);
       setTarikhLahir(tempDate);
       setTarikhLahirDP(age.dobISO);
       setUmur(tahun);
@@ -478,7 +477,6 @@ export default function FillableForm({
 
   // check ic
   const checkIc = async (ic) => {
-    setCheckingIc(true);
     const res = await checkMyIdentity(ic);
     if (!res) {
       const cache = await checkCache(ic);
@@ -486,7 +484,6 @@ export default function FillableForm({
         handleIc(ic);
       }
     }
-    setCheckingIc(false);
   };
 
   // submission
