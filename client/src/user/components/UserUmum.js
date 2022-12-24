@@ -494,17 +494,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -528,17 +538,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -562,17 +582,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                 </tbody>
               )}
