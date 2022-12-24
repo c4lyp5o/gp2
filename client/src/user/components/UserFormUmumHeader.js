@@ -1703,6 +1703,16 @@ function UserFormUmumHeader() {
       statusReten = 'belum diisi';
     }
 
+    if (
+      singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+      singlePersonUmum.jenisFasiliti === 'kp' &&
+      systolicTekananDarah === 0 &&
+      diastolicTekananDarah === 0
+    ) {
+      toast.error('Sila isi tekanan darah');
+      return;
+    }
+
     // default initial reten
     if (!operatorLain) {
       await toast
