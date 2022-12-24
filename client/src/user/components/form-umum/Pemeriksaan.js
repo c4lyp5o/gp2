@@ -152,12 +152,8 @@ export default function Pemeriksaan(props) {
                       />
                     </div>
                   </div>
-                  {(props.systolicTekananDarah > 140 &&
-                    props.diastolicTekananDarah > 60) ||
-                  (props.systolicTekananDarah < 90 &&
-                    props.systolicTekananDarah > 0 &&
-                    props.diastolicTekananDarah < 60 &&
-                    props.diastolicTekananDarah > 0) ? (
+                  {props.systolicTekananDarah >= 140 ||
+                  props.diastolicTekananDarah >= 90 ? (
                     <div className='flex items-center text-left px-1'>
                       <input
                         disabled={isDisabled}
