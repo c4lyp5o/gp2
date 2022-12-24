@@ -82,6 +82,16 @@ const updatePersonUmum = async (req, res) => {
     deleted: false,
   });
   summary = { ...singlePersonUmum._doc, ...shortened };
+
+  if (req.query.operatorLain === 'rawatan-operator-lain') {
+    // flipping to 'ulangan-kedatangan' if kedatangan = 'baru-kedatangan'
+    if (summary.kedatangan === 'baru-kedatangan') {
+      (summary.kedatangan = 'ulangan-kedatangan'),
+        (summary.noPendaftaranUlangan = summary.noPendaftaranBaru),
+        (summary.noPendaftaranBaru = '');
+    }
+  }
+
   let regNum = {};
   if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
     console.log('is pp');

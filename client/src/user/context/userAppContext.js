@@ -63,6 +63,10 @@ function statusPesakit(p) {
     status += '/';
     status += 'PES';
   }
+  if (p.kakitanganKerajaan === true) {
+    status += '/';
+    status += 'KTK';
+  }
   return status;
 }
 
