@@ -225,9 +225,6 @@ export default function UserStatusHarian() {
                   );
                 })}
               {isLoading && (
-                // <p className='text-xl font-semibold flex justify-center items-center p-4 lg:col-span-2 lg:m-auto'>
-                //   <Spinner color='#1f315f' />
-                // </p>
                 <tbody className='bg-user4'>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>

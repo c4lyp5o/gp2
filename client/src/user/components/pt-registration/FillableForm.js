@@ -1205,7 +1205,7 @@ export default function FillableForm({
                         <option value=''>SILA PILIH..</option>
                         <option value='mykad-mykid'>MyKad / MyKid</option>
                         <option value='passport'>
-                          Passport / MyPR / MyKAS
+                          Passport / MyPR / MyKAS / UNHCR
                         </option>
                         <option value='tentera'>Tentera</option>
                         <option value='polis'>Polis</option>
@@ -1886,15 +1886,13 @@ export default function FillableForm({
                   </div>
                   {orangKurangUpaya === true && (
                     <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5 mt-2'>
-                      no. OKU:{' '}
-                      {jenisFasiliti === 'kp' && (
-                        <span className='font-semibold text-user6'>*</span>
-                      )}
+                      no. OKU:
+                      <span className='font-semibold text-user6'>*</span>
                     </p>
                   )}
                   {orangKurangUpaya === true && (
                     <input
-                      required={jenisFasiliti === 'kp' ? true : false}
+                      required
                       value={noOku}
                       onChange={(e) => setNoOku(e.target.value)}
                       type='text'
