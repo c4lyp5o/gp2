@@ -31,20 +31,7 @@ export default function PatientData({
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
-    toast,
   } = useGlobalUserAppContext();
-
-  const saveFile = (blob) => {
-    const link = document.createElement('a');
-    link.download = `PG101-${kp}-${dateToday}.xlsx`;
-    link.href = URL.createObjectURL(new Blob([blob]));
-    link.addEventListener('click', (e) => {
-      setTimeout(() => {
-        URL.revokeObjectURL(link.href);
-      }, 100);
-    });
-    link.click();
-  };
 
   const formatMelayu = (date) => {
     const months = {
