@@ -313,11 +313,11 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
-                  {userinfo.role === 'admin' ? (
+                  {userinfo.role === 'admin' && (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       HAPUS
                     </th>
-                  ) : null}
+                  )}
                 </tr>
               </thead>
               {!isLoading &&
@@ -441,7 +441,7 @@ function UserUmum() {
                         >
                           <u>PILIH</u>
                         </td>
-                        {userinfo.role === 'admin' ? (
+                        {userinfo.role === 'admin' && (
                           <td
                             onClick={() => {
                               setOperasiHapus(true);
@@ -453,7 +453,7 @@ function UserUmum() {
                           >
                             <u>HAPUS</u>
                           </td>
-                        ) : null}
+                        )}
                       </tr>
                     </tbody>
                   );
@@ -612,7 +612,7 @@ function UserUmum() {
                   </div>
                   {operasiHapus ? (
                     <button
-                      className='float-right m-2 p-2 capitalize bg-user9 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       onClick={() => {
                         setModalHapus(true);
                       }}
@@ -624,7 +624,7 @@ function UserUmum() {
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                     >
                       lihat reten
                     </Link>
@@ -632,7 +632,7 @@ function UserUmum() {
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                     >
                       masukkan reten
                     </Link>
@@ -642,7 +642,7 @@ function UserUmum() {
                       <Link
                         target='_blank'
                         to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
-                        className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
                         masukkan reten bagi operator tambahan
                       </Link>

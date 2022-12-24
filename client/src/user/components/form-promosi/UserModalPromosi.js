@@ -105,7 +105,7 @@ function UserModalPromosi({
           '/api/v1/promosi/aktiviti',
           {
             createdByUsername: username,
-            createdByMdcMtdb: mdcMdtbNum,
+            createdByMdcMdtb: mdcMdtbNum,
             promosiIndividu,
             promosiKlinik,
             //modal promosi
