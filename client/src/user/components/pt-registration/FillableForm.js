@@ -150,7 +150,7 @@ export default function FillableForm({
 
   const TarikhKedatangan = () => {
     let disabled = false;
-    if (jenisFasiliti !== 'projek-komuniti-lain') {
+    if (jenisFasiliti === 'kp') {
       disabled = true;
     }
     return masterDatePicker({
