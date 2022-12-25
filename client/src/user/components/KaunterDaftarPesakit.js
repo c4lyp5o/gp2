@@ -17,6 +17,7 @@ export default function DaftarPesakit({ createdByKp }) {
     statusPesakit,
     formatTime,
     noPendaftaranSplitter,
+    Dictionary,
     toast,
   } = useGlobalUserAppContext();
 
@@ -110,7 +111,7 @@ export default function DaftarPesakit({ createdByKp }) {
   }, []);
 
   //carian ic semua
-  const keys = ['nama', 'ic', 'statusReten'];
+  const keys = ['nama', 'ic'];
 
   if (!data) {
     return (
@@ -123,7 +124,10 @@ export default function DaftarPesakit({ createdByKp }) {
   return (
     <>
       <div className='flex flex-col lg:flex-row justify-center items-center'>
-        <div className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'>
+        <div
+          className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'
+          title='carian nama dan kad pengenalan'
+        >
           <label
             htmlFor='pilihanNama'
             className='whitespace-nowrap flex flex-row justify-start text-left'
@@ -277,14 +281,19 @@ export default function DaftarPesakit({ createdByKp }) {
                     STATUS PESAKIT
                   </th>
                   <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-help ${
-                      sort.statusReten ? 'text-bold text-kaunterBlack' : ''
+                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer ${
+                      sort.jenisFasiliti ? 'text-bold text-kaunterBlack' : ''
                     }`}
                     onClick={() =>
-                      setSort({ ...sort, statusReten: !sort.statusReten })
+                      setSort({ ...sort, jenisFasiliti: !sort.jenisFasiliti })
                     }
                   >
-                    STATUS PENGISIAN RETEN
+                    JENIS FASILITI
+                    {sort.jenisFasiliti ? (
+                      <FaSortUp className='inline-flex items-center' />
+                    ) : (
+                      <FaSort className='inline-flex items-center' />
+                    )}
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 hidden lg:block'>
                     MAKLUMAT
@@ -314,8 +323,8 @@ export default function DaftarPesakit({ createdByKp }) {
                   if (sort.noPid) return a.ic.localeCompare(b.ic);
                 })
                 .sort((a, b) => {
-                  if (sort.statusReten)
-                    return a.statusReten.localeCompare(b.statusReten);
+                  if (sort.jenisFasiliti)
+                    return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
                 })
                 .map((p, index) => (
                   <>
@@ -357,7 +366,7 @@ export default function DaftarPesakit({ createdByKp }) {
                           {statusPesakit(p)}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {p.statusReten}
+                          {Dictionary[p.jenisFasiliti]}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 hidden lg:block'>
                           <PrintPatientDetails data={p} />
