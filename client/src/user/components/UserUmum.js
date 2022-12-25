@@ -12,9 +12,7 @@ import {
 } from 'react-icons/bs';
 import moment from 'moment';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
-import UserUmumDeleteModal from './UserUmumDeleteModal';
+import UserDeleteModal from './UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -104,8 +102,10 @@ function UserUmum() {
 
   // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState
   useEffect(() => {
-    setPilih('');
-    setResultPilih([]);
+    if (modalHapus === false) {
+      setPilih('');
+      setResultPilih([]);
+    }
   }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   // clear program if change jenisFasiliti
@@ -122,20 +122,34 @@ function UserUmum() {
     };
   }, []);
 
-  const handleDelete = async (singlePerson) => {
+  const handleDelete = async (singlePerson, reason) => {
     if (!modalHapus) {
       setModalHapus(true);
       return;
     }
     if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
       await toast.promise(
-        axios.delete(`/api/v1/umum/${singlePerson}`, {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
+        axios.patch(
+          `/api/v1/umum/delete/${singlePerson}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
           },
-        }),
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
         {
           pending: 'Menghapus pesakit...',
           success: 'Pesakit berjaya dihapus',
@@ -147,8 +161,6 @@ function UserUmum() {
       );
       setModalHapus(false);
       setReloadState(!reloadState);
-      setPilih('');
-      setResultPilih([]);
     }
   };
 
@@ -286,26 +298,30 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     STATUS PESAKIT
                   </th>
-                  {jenisFasiliti !== 'projek-komuniti-lain' ? (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                    OPERATOR
+                  </th>
+                  {jenisFasiliti === 'taska-tadika' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                      OPERATOR
+                      NAMA TASKA/TADIKA
                     </th>
-                  ) : (
+                  ) : null}
+                  {jenisFasiliti === 'projek-komuniti-lain' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                      EVENT
+                      NAMA PROGRAM
                     </th>
-                  )}
+                  ) : null}
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     STATUS PENGISIAN RETEN
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     AKTIFKAN
                   </th>
-                  {userinfo.role === 'admin' ? (
+                  {userinfo.role === 'admin' && (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                       HAPUS
                     </th>
-                  ) : null}
+                  )}
                 </tr>
               </thead>
               {!isLoading &&
@@ -377,17 +393,25 @@ function UserUmum() {
                         >
                           {statusPesakit(singlePersonUmum)}
                         </td>
-                        {jenisFasiliti !== 'projek-komuniti-lain' ? (
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.createdByUsername === 'kaunter'
+                            ? null
+                            : singlePersonUmum.createdByUsername}
+                        </td>
+                        {jenisFasiliti === 'taska-tadika' ? (
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.createdByUsername === 'kaunter'
-                              ? null
-                              : singlePersonUmum.createdByUsername}
+                            {singlePersonUmum.namaFasilitiTaskaTadika}
                           </td>
-                        ) : (
+                        ) : null}
+                        {jenisFasiliti === 'projek-komuniti-lain' ? (
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
@@ -395,7 +419,7 @@ function UserUmum() {
                           >
                             {singlePersonUmum.namaProgram}
                           </td>
-                        )}
+                        ) : null}
                         <td
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
@@ -429,7 +453,7 @@ function UserUmum() {
                         >
                           <u>PILIH</u>
                         </td>
-                        {userinfo.role === 'admin' ? (
+                        {userinfo.role === 'admin' && (
                           <td
                             onClick={() => {
                               setOperasiHapus(true);
@@ -441,7 +465,7 @@ function UserUmum() {
                           >
                             <u>HAPUS</u>
                           </td>
-                        ) : null}
+                        )}
                       </tr>
                     </tbody>
                   );
@@ -470,17 +494,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -504,17 +538,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -538,17 +582,27 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
+                    {jenisFasiliti === 'projek-komuniti-lain' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                     </td>
-                    {userinfo.role === 'admin' ? (
+                    {userinfo.role === 'admin' && (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                    ) : null}
+                    )}
                   </tr>
                 </tbody>
               )}
@@ -600,7 +654,7 @@ function UserUmum() {
                   </div>
                   {operasiHapus ? (
                     <button
-                      className='float-right m-2 p-2 capitalize bg-user9 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       onClick={() => {
                         setModalHapus(true);
                       }}
@@ -612,7 +666,7 @@ function UserUmum() {
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                     >
                       lihat reten
                     </Link>
@@ -620,7 +674,7 @@ function UserUmum() {
                     <Link
                       target='_blank'
                       to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                     >
                       masukkan reten
                     </Link>
@@ -630,20 +684,20 @@ function UserUmum() {
                       <Link
                         target='_blank'
                         to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
-                        className='float-right m-2 p-2 capitalize bg-user3 hover:bg-user1 hover:text-userWhite transition-all'
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
                         masukkan reten bagi operator tambahan
                       </Link>
                     )}
                 </div>
-                {modalHapus ? (
-                  <UserUmumDeleteModal
+                {modalHapus && (
+                  <UserDeleteModal
                     handleDelete={handleDelete}
                     setModalHapus={setModalHapus}
                     id={singlePersonUmum._id}
                     nama={singlePersonUmum.nama}
                   />
-                ) : null}
+                )}
               </>
             );
           })}

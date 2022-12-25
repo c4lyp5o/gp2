@@ -4,6 +4,8 @@ import { TbArrowBigLeftLine } from 'react-icons/tb';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import PrintPatientDetails from './PrintPatientDetails';
+
 export default function PatientData({
   jenisFasiliti,
   data,
@@ -29,20 +31,7 @@ export default function PatientData({
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
-    toast,
   } = useGlobalUserAppContext();
-
-  const saveFile = (blob) => {
-    const link = document.createElement('a');
-    link.download = `PG101-${kp}-${dateToday}.xlsx`;
-    link.href = URL.createObjectURL(new Blob([blob]));
-    link.addEventListener('click', (e) => {
-      setTimeout(() => {
-        URL.revokeObjectURL(link.href);
-      }, 100);
-    });
-    link.click();
-  };
 
   const formatMelayu = (date) => {
     const months = {
@@ -69,30 +58,6 @@ export default function PatientData({
 
   //carian ic semua
   const keys = ['nama', 'ic', 'statusReten'];
-
-  const handleJana = async (e) => {
-    e.preventDefault();
-    await toast
-      .promise(
-        axios.get(
-          // `/api/v1/generate/download?jenisReten=PG101&sekolah=${pilihanSekolah}&dateToday=${dateToday}&pg101date=${pg101date}&startDate=${startDate}&endDate=${endDate}&formatFile=${formatFile}`,
-          `/api/v1/generate/download?jenisReten=PG101&tarikhMula=${dateToday}&tarikhAkhir=&formatFile=xlsx`,
-          {
-            headers: { Authorization: `Bearer ${kaunterToken}` },
-            responseType: 'blob',
-          }
-        ),
-        {
-          pending: 'Menghasilkan reten...',
-          success: 'Reten berjaya dihasilkan',
-          error: 'Reten tidak berjaya dihasilkan',
-        },
-        { autoClose: 2000 }
-      )
-      .then((blob) => {
-        saveFile(blob.data);
-      });
-  };
 
   const reloadData = async () => {
     try {
@@ -165,13 +130,6 @@ export default function PatientData({
         >
           Daftar Pesakit
         </button>
-        {/* <button
-          type='button'
-          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-          onClick={handleJana}
-        >
-          Jana Laporan PG101
-        </button> */}
         <div className='mt-2'>
           <div className='justify-center items-center'>
             <p className='text-xs text-user9 lowercase'>
@@ -211,13 +169,18 @@ export default function PatientData({
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       STATUS PENGISIAN RETEN
                     </th>
+                    {jenisFasiliti === 'taska-tadika' ? (
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                        NAMA TASKA/TADIKA
+                      </th>
+                    ) : null}
                     {jenisFasiliti === 'projek-komuniti-lain' ? (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                         NAMA PROGRAM
                       </th>
                     ) : null}
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      KEMASKINI
+                      MAKLUMAT
                     </th>
                   </tr>
                 </thead>
@@ -264,14 +227,19 @@ export default function PatientData({
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                             {p.statusReten}
                           </td>
+                          {jenisFasiliti === 'taska-tadika' ? (
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                              {p.namaFasilitiTaskaTadika}
+                            </td>
+                          ) : null}
                           {jenisFasiliti === 'projek-komuniti-lain' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                               {p.namaProgram}
                             </td>
                           ) : null}
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 flex flex-row'>
                             <button
-                              className='px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                              className='w-24 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={(e) => {
                                 setEditId(p._id);
                                 setShowForm(true);
@@ -279,6 +247,7 @@ export default function PatientData({
                             >
                               Kemaskini
                             </button>
+                            <PrintPatientDetails data={p} />
                           </td>
                         </tr>
                       </tbody>

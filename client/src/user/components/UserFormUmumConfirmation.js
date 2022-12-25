@@ -53,9 +53,13 @@ const ConfirmModal = ({ children, data }) => {
               <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
                 PERHATIAN
               </h5>
-              <div className='mt-3 py-1'>
+              <div className='mt-1 py-1'>
                 <p className='px-1 text-xs font-semibold'>
                   Anda YAKIN untuk menghantar maklumat?
+                </p>
+                <p className='px-1 text-xs'>
+                  Maklumat yang telah dihantar tidak boleh diubah. Sila
+                  berhubung dengan Pentadbir Klinik sekiranya mempunyai masalah.
                 </p>
                 {data.statusKehadiran === false ? (
                   <div className='h-full overflow-y-auto'>
@@ -67,7 +71,7 @@ const ConfirmModal = ({ children, data }) => {
                       // }}
                     >
                       {showPemeriksaan ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
@@ -556,7 +560,7 @@ const ConfirmModal = ({ children, data }) => {
                       // }}
                     >
                       {showRawatan ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
@@ -1363,7 +1367,7 @@ const ConfirmModal = ({ children, data }) => {
                         </div>
                       ) : null}
                       {data.kesSelesaiRawatanUmum ? (
-                        <div className='grid grid-cols-[1fr_2fr] text-sm'>
+                        <div className='grid grid-cols-[1fr_2fr] text-xs'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Kes Selesai
                           </p>
@@ -1385,11 +1389,11 @@ const ConfirmModal = ({ children, data }) => {
 
                     <span className='flex items-center bg-user1 bg-opacity-30 w-full cursor-pointer px-2 py-1 text-xs font-semibold'>
                       {showPromosi ? (
-                        <FaMinus className='' />
+                        <FaMinus className='mr-1' />
                       ) : (
                         <FaPlus className='' />
                       )}
-                      Promosi
+                      PROMOSI & PENDIDIKAN KESIHATAN PERGIGIAN
                     </span>
                     <div
                       className={`text-xs ${
@@ -1565,7 +1569,7 @@ const ConfirmModal = ({ children, data }) => {
                       {data.dirujukKaunselingPakarPublicHealthPromosiUmum ? (
                         <div className='grid grid-cols-[1fr_2fr] text-xs'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            dirujuk kaunseling pakar public health
+                            dirujuk kaunseling Pakar Kesihatan Awam
                           </p>
                           <p className='p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.dirujukKaunselingPakarPublicHealthPromosiUmum ===

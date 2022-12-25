@@ -3,29 +3,31 @@ const Runningnumber = require('./Runningnumber');
 
 const UmumSchema = new mongoose.Schema(
   {
-    // soft delete
-    deleted: { type: Boolean, default: false },
-    deleteReason: { type: String, default: '' },
     // negeri, daerah, kp, operator are associated with each person
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
     createdByKodFasiliti: { type: String, default: '' },
-    createdByUsername: { type: String, required: true },
-    createdByMdcMdtb: { type: String, default: '' },
+    createdByUsername: { type: String, required: true, default: 'kaunter' },
+    createdByMdcMdtb: { type: String, default: 'kaunter' },
     tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
+    // soft delete ----------------------------------------------
+    deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
+    deletedForOfficer: { type: String, default: '' },
+    // managed by system ----------------------------------------
+    uniqueId: { type: String, default: '' },
+    noSiri: { type: Number, default: 0 },
+    kedatangan: { type: String, default: '' },
+    noPendaftaranBaru: { type: String, default: '' },
+    noPendaftaranUlangan: { type: String, default: '' },
     // kaunter --------------------------------------------------
-    uniqueId: { type: String },
-    noSiri: { type: Number },
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
     temujanji: { type: Boolean, default: false },
-    kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: String, default: '' },
-    noPendaftaranUlangan: { type: String, default: '' },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -66,16 +68,16 @@ const UmumSchema = new mongoose.Schema(
     tarikhRundinganPertama: { type: String, default: '' },
     tarikhMulaRawatanKepp: { type: String, default: '' },
     // penyampaian perkhidmatan
-    kpBergerak: { type: Boolean, default: false },
-    labelKpBergerak: { type: String, default: '' },
-    pasukanPergigianBergerak: { type: Boolean, default: false },
-    makmalPergigianBergerak: { type: Boolean, default: false },
-    labelMakmalPergigianBergerak: { type: String, default: '' },
+    // kpBergerak: { type: Boolean, default: false },
+    // labelKpBergerak: { type: String, default: '' },
+    // pasukanPergigianBergerak: { type: Boolean, default: false },
+    // makmalPergigianBergerak: { type: Boolean, default: false },
+    // labelMakmalPergigianBergerak: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
-    enrolmenTaskaTadika: { type: Boolean, default: false },
+    kodFasilitiTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },
@@ -783,7 +785,11 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
+        jenis:
+          this.jenisFasiliti +
+          this.kodFasilitiTaskaTadika +
+          this.jenisProgram +
+          this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
@@ -793,7 +799,11 @@ UmumSchema.pre('save', async function () {
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
           runningnumber: 1,
-          jenis: this.jenisFasiliti + this.jenisProgram + this.namaProgram,
+          jenis:
+            this.jenisFasiliti +
+            this.kodFasilitiTaskaTadika +
+            this.jenisProgram +
+            this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,

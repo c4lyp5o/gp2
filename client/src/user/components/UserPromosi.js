@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { FaPlus } from 'react-icons/fa';
 import moment from 'moment';
 
 import UserModalPromosi from './form-promosi/UserModalPromosi';
+import UserDeleteModal from './UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserPromosi({ individuOrKlinik }) {
-  const { userToken, reliefUserToken, toast, refreshTimer, setRefreshTimer } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    userinfo,
+    reliefUserToken,
+    toast,
+    refreshTimer,
+    setRefreshTimer,
+  } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
@@ -20,6 +26,8 @@ function UserPromosi({ individuOrKlinik }) {
   const [allAktivitiPromosi, setAllAktivitiPromosi] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
+  const [operasiHapus, setOperasiHapus] = useState(false);
+  const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -84,9 +92,17 @@ function UserPromosi({ individuOrKlinik }) {
 
   // clear pilihan if change individuOrKlinik, kodProgram, reloadState
   useEffect(() => {
-    setPilih('');
-    setResultPilih([]);
+    if (modalHapus === false) {
+      setPilih('');
+      setResultPilih([]);
+    }
   }, [individuOrKlinik, kodProgram, reloadState]);
+
+  // clear kodProgram & showTambahAcara if change from individiu or klinik
+  useEffect(() => {
+    setKodProgram('');
+    setShowTambahAcara(false);
+  }, [individuOrKlinik]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -96,6 +112,48 @@ function UserPromosi({ individuOrKlinik }) {
       window.removeEventListener('focus', setReloadState);
     };
   }, []);
+
+  const handleDelete = async (singleAktiviti, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/promosi/aktiviti/delete/${singleAktiviti}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus acara...',
+          success: 'Acara berjaya dihapus',
+          error: 'Acara gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+    }
+  };
 
   return (
     <>
@@ -224,9 +282,11 @@ function UserPromosi({ individuOrKlinik }) {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       AKTIFKAN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      HAPUS
-                    </th>
+                    {userinfo.role === 'admin' && (
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        HAPUS
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 {!isLoading &&
@@ -292,21 +352,28 @@ function UserPromosi({ individuOrKlinik }) {
                           </td>
                           <td
                             onClick={() => {
+                              setOperasiHapus(false);
                               setPilih(a._id);
                             }}
                             className={`${
                               pilih === a._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                           >
-                            <u>pilih</u>
+                            <u>PILIH</u>
                           </td>
-                          <td
-                            className={`${
-                              pilih === a._id && 'bg-user3'
-                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                          >
-                            <u>hapus</u>
-                          </td>
+                          {userinfo.role === 'admin' && (
+                            <td
+                              onClick={() => {
+                                setOperasiHapus(true);
+                                setPilih(a._id);
+                              }}
+                              className={`${
+                                pilih === a._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                            >
+                              <u>HAPUS</u>
+                            </td>
+                          )}
                         </tr>
                       </tbody>
                     );
@@ -405,7 +472,7 @@ function UserPromosi({ individuOrKlinik }) {
               </table>
             </div>
           </section>
-          <section className='relative outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2 m-3'>
+          <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2 m-3'>
             {resultPilih.map((a) => {
               return (
                 <>
@@ -428,40 +495,55 @@ function UserPromosi({ individuOrKlinik }) {
                       <h2 className='font-semibold'>nama acara :</h2>
                       <p className='ml-1'>{a.namaAcara}</p>
                     </div>
+                  </div>
+                  <div className='lg:pt-10'>
                     <div className='text-xs lg:text-sm flex flex-row pl-5'>
                       <h2 className='font-semibold'>tarikh mula :</h2>
                       <p className='ml-1'>
                         {moment(a.tarikhMula).format('DD/MM/YYYY')}
                       </p>
                     </div>
-                  </div>
-                  <div className='lg:pt-10 relative'>
-                    <div className='text-xs lg:text-sm flex flex-row pl-5 lg:absolute lg:bottom-3'>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
                       <h2 className='font-semibold'>tarikh akhir :</h2>
                       <p className='ml-1'>
                         {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
                       </p>
                     </div>
-                  </div>
-                  <div className='absolute right-3 bottom-5'>
-                    {a.statusReten === 'belum diisi' ? (
+                    {operasiHapus ? (
+                      <button
+                        className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                        onClick={() => {
+                          setModalHapus(true);
+                        }}
+                      >
+                        hapus acara?
+                      </button>
+                    ) : a.statusReten === 'belum diisi' ? (
                       <Link
                         target='_blank'
                         to={`form-promosi/${a._id}`}
-                        className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
-                        masukkan reten promosi
+                        masukkan reten
                       </Link>
                     ) : a.statusReten === 'telah diisi' ? (
                       <Link
                         target='_blank'
                         to={`form-promosi/${a._id}`}
-                        className='uppercase bg-user3 text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all'
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
-                        lihat reten promosi
+                        lihat reten
                       </Link>
                     ) : null}
                   </div>
+                  {modalHapus && (
+                    <UserDeleteModal
+                      handleDelete={handleDelete}
+                      setModalHapus={setModalHapus}
+                      id={a._id}
+                      nama={a.namaAcara}
+                    />
+                  )}
                 </>
               );
             })}

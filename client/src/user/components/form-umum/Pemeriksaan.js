@@ -99,16 +99,25 @@ export default function Pemeriksaan(props) {
                   className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                 />
               </div>
-              {props.singlePersonUmum.umur >= 18 ? (
+              {props.singlePersonUmum.umur >= 18 &&
+              props.singlePersonUmum.jenisFasiliti === 'kp' ? (
                 <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
                   <div className='flex flex-col lg:flex-row items-center pl-5 '>
                     <p className='items-center pl-5 font-bold whitespace-nowrap'>
                       Tekanan Darah :{' '}
-                      <span className='font-semibold text-user6'>*</span>
+                      {props.singlePersonUmum.kedatangan ===
+                        'baru-kedatangan' && (
+                        <span className='font-semibold text-user6'>*</span>
+                      )}
                     </p>
                     <div className='flex flex-row whitespace-nowrap'>
                       <input
-                        required
+                        required={
+                          props.singlePersonUmum.kedatangan ===
+                          'baru-kedatangan'
+                            ? true
+                            : false
+                        }
                         disabled={isDisabled}
                         type='number'
                         name='systolic-tekanan-darah'
@@ -123,7 +132,12 @@ export default function Pemeriksaan(props) {
                       />
                       <p className='font-bold text-2xl'> / </p>
                       <input
-                        required
+                        required={
+                          props.singlePersonUmum.kedatangan ===
+                          'baru-kedatangan'
+                            ? true
+                            : false
+                        }
                         disabled={isDisabled}
                         type='number'
                         name='diastolic-tekanan-darah'
@@ -138,12 +152,12 @@ export default function Pemeriksaan(props) {
                       />
                     </div>
                   </div>
-                  {(props.systolicTekananDarah > 140 &&
-                    props.diastolicTekananDarah > 60) ||
-                  (props.systolicTekananDarah < 90 &&
-                    props.systolicTekananDarah > 0 &&
-                    props.diastolicTekananDarah < 60 &&
-                    props.diastolicTekananDarah > 0) ? (
+                  {(props.systolicTekananDarah >= 1 &&
+                    props.systolicTekananDarah <= 89) ||
+                  (props.diastolicTekananDarah >= 1 &&
+                    props.diastolicTekananDarah <= 59) ||
+                  props.systolicTekananDarah >= 140 ||
+                  props.diastolicTekananDarah >= 90 ? (
                     <div className='flex items-center text-left px-1'>
                       <input
                         disabled={isDisabled}
@@ -345,12 +359,13 @@ export default function Pemeriksaan(props) {
                   <div className='grid grid-rows-2 gap-2 auto-rows-min'>
                     <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold'>
-                        Sedia Ada?<span className='text-user6'>*</span>
+                        Sedia Ada?
+                        {/* <span className='text-user6'>*</span> */}
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
                           id='ya-sedia-ada-status-denture-pemeriksaan-umum'
@@ -376,7 +391,7 @@ export default function Pemeriksaan(props) {
                         </label>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='sedia-ada-status-denture-pemeriksaan-umum'
                           id='tidak-sedia-ada-status-denture-pemeriksaan-umum'
@@ -534,12 +549,13 @@ export default function Pemeriksaan(props) {
                     </article>
                     <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold'>
-                        Perlu<span className='text-user6'>*</span>
+                        Perlu
+                        {/* <span className='text-user6'>*</span> */}
                       </h4>
                       <div className='flex items-center justify-center'>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
                           id='ya-perlu-status-denture-pemeriksaan-umum'
@@ -565,7 +581,7 @@ export default function Pemeriksaan(props) {
                         </label>
                         <input
                           disabled={isDisabled}
-                          required
+                          // required
                           type='radio'
                           name='perlu-status-denture-pemeriksaan-umum'
                           id='tidak-perlu-status-denture-pemeriksaan-umum'
@@ -1066,7 +1082,8 @@ export default function Pemeriksaan(props) {
                     </h4>
                     <div className='flex flex-row pl-5 items-center col-span-2'>
                       <p className='text-sm font-m '>
-                        bilangan gigi: <span className='text-user6'>*</span>
+                        bilangan gigi berfungsi:{' '}
+                        <span className='text-user6'>*</span>
                       </p>
                       <input
                         disabled={isDisabled}
