@@ -862,6 +862,19 @@ export default function FillableForm({
     }
   }, [bookingIM]);
 
+  //reset pesara
+  useEffect(() => {
+    if (!editId) {
+      setNoPesara('');
+      setKakitanganKerajaan(false);
+      setNoBayaran('');
+      setNoResit('');
+      setNoBayaran2('');
+      setNoResit2('');
+      setNoBayaran3('');
+    }
+  }, [statusPesara]);
+
   //reset bayaran if kerajaan
   useEffect(() => {
     if (!editId) {
@@ -2056,12 +2069,18 @@ export default function FillableForm({
                       (jenisFasiliti === 'kp' ||
                         jenisFasiliti === 'projek-komuniti-lain') && (
                         <div>
-                          <p className='pt-3'>bayaran pendaftaran :</p>
+                          <p className='pt-4 md:pt-3 text-xs md:text-sm font-light md:font-normal'>
+                            bayaran pendaftaran :
+                          </p>
                           {tambahBayaran && (
-                            <p className='pt-8'>bayaran rawatan :</p>
+                            <p className='pt-9 md:pt-8 text-xs md:text-sm font-light md:font-normal'>
+                              bayaran rawatan :
+                            </p>
                           )}
                           {tambahBayaran2 && (
-                            <p className='pt-9'>bayaran tambahan :</p>
+                            <p className='pt-9 md:pt-9 text-xs md:text-sm font-light md:font-normal'>
+                              bayaran tambahan :
+                            </p>
                           )}
                         </div>
                       )}
