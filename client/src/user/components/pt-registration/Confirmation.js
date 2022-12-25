@@ -103,11 +103,13 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
                   Maklumat Tambahan :
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left normal-case'>
-                  {data.nomborTelefon ? `${data.nomborTelefon}` : null}
-                  {''}
-                  {data.emel ? `/${data.emel}` : null}
-                </p>
+                {data.nomborTelefon || data.emel || data.nomborTelefon2 ? (
+                  <p className='text-sm p-1 flex justify-start text-left normal-case'>
+                    {data.nomborTelefon ? `${data.nomborTelefon}` : null}
+                    {data.nomborTelefon2 ? `, ${data.nomborTelefon2}` : null}
+                    {data.emel ? `/${data.emel}` : null}
+                  </p>
+                ) : null}
                 <p className='text-sm p-1 flex justify-end text-right'>
                   Tarikh Lahir:
                 </p>
