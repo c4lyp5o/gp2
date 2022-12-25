@@ -142,13 +142,13 @@ export default function UserStatusHarian() {
               value={pickedDate}
               tileClassName={({ date }) => {
                 if (mark.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
-                  return 'hightlight hightlightActive';
+                  return 'hightlight';
                 } else if (
                   markSelesai.find(
                     (x) => x === moment(date).format('YYYY-MM-DD')
                   )
                 ) {
-                  return 'hightlightSiap hightlightActiveSiap';
+                  return 'hightlightSiap';
                 }
               }}
               className='font-semibold shadow-md m-auto'
