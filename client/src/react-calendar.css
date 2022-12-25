@@ -1,7 +1,33 @@
 .react-calendar {
   width: 80%;
+  font-weight: lighter;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .react-calendar__month-view__days__day--weekend {
-  color: #1f315f;
+  color: #cd1818;
+}
+
+.react-calendar__navigation__label__labelText {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.hightlight {
+  background-color: #ff6363;
+  color: #fff;
+  font-weight: bold;
+}
+
+.hightlightSiap {
+  background-color: #37e186;
+  color: #fff;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active,
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #1f315f;
+  color: #fff;
 }
