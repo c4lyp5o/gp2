@@ -60,7 +60,7 @@ export default function Navbar(props) {
                   <div
                     className={`grid transition-all ${
                       showPenetapanSubMenu
-                        ? 'max-h-min'
+                        ? 'max-h-[50rem]'
                         : 'max-h-0 overflow-hidden'
                     }`}
                   >
@@ -278,7 +278,7 @@ export default function Navbar(props) {
                   <div
                     className={`grid transition-all ${
                       showPenetapanSubMenu
-                        ? 'max-h-min'
+                        ? 'max-h-[50rem]'
                         : 'max-h-0 overflow-hidden'
                     }`}
                   >
