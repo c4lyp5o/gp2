@@ -557,8 +557,8 @@ const EditModalForKp = ({
   const [loading, setLoading] = useState(true);
 
   //datepicker
-  const [startDateDP, setStartDateDP] = useState(new Date());
-  const [endDateDP, setEndDateDP] = useState(new Date());
+  const [startDateDP, setStartDateDP] = useState(null);
+  const [endDateDP, setEndDateDP] = useState(null);
 
   useEffect(() => {
     readOneDataForKp(FType, id).then((res) => {
@@ -575,24 +575,13 @@ const EditModalForKp = ({
     }, 500);
   }, []);
 
+  // reset tarikhEnd if change tarikhStart
+  useEffect(() => {
+    setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
+    setEndDateDP(null);
+  }, [editedEntity.tarikhStart]);
+
   const handleSubmit = async (e) => {
-    if (
-      editedEntity.enrolmentTastad === '' ||
-      editedEntity.enrolmentTastad === 'NOT APPLICABLE'
-    ) {
-      toast.error(`Sila masukkan enrolment`);
-      return;
-    }
-    if (
-      (editedEntity.enrolmenInstitusi === '' ||
-        editedEntity.enrolmenInstitusi === 'NOT APPLICABLE') &&
-      (editedEntity.jenisEvent === 'programDewasaMuda' ||
-        editedEntity.jenisEvent === 'we' ||
-        editedEntity.jenisEvent === 'oku')
-    ) {
-      toast.error(`Sila masukkan enrolment`);
-      return;
-    }
     let Data = {};
     // Data = {
     //   ...Data,
