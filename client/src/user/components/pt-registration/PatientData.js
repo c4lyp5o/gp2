@@ -247,7 +247,7 @@ export default function PatientData({
                             >
                               Kemaskini
                             </button>
-                            <PrintPatientDetails data={p} />
+                            {/* <PrintPatientDetails data={p} /> */}
                           </td>
                         </tr>
                       </tbody>
