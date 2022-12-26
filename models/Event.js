@@ -68,7 +68,6 @@ const EventSchema = new Schema({
     type: Number,
     default: 0,
   },
-  // --------------------------------------------------------------------------
 });
 
 EventSchema.pre('save', async function () {
