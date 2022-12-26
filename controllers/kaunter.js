@@ -217,8 +217,7 @@ const getTaskaTadikaList = async (req, res) => {
   res.status(200).json({ taskaTadikaAll });
 };
 
-// TODO to refactor for prefix /kaunter & recheck who else using this controller
-// query /events
+// query /kaunter/events
 const getProjekKomuniti = async (req, res) => {
   logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
   if (req.user.accountType !== 'kaunterUser') {
@@ -230,6 +229,9 @@ const getProjekKomuniti = async (req, res) => {
     createdByDaerah: req.user.daerah,
     createdByKp: req.user.kp,
     createdByKodFasiliti: req.user.kodFasiliti,
+    tarikhStart: { $nin: [null, ''] },
+    tarikhEnd: { $nin: [null, ''] },
+    tahunDibuat: new Date().getFullYear(),
   });
 
   res.status(200).json({ projekKomuniti });
