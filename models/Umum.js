@@ -32,6 +32,7 @@ const UmumSchema = new mongoose.Schema(
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
     nomborTelefon: { type: String, default: '' },
+    nomborTelefon2: { type: String, default: '' },
     emel: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
