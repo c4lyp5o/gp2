@@ -61,7 +61,7 @@ function Kaunter({
         setShowPilihanProgram(true);
         setJenisProgram('');
         try {
-          const { data } = await axios.get(`/api/v1/query/events`, {
+          const { data } = await axios.get(`/api/v1/query/kaunter/events`, {
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
           setSemuaProgram(data.projekKomuniti);
