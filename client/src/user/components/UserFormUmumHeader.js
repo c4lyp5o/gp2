@@ -1706,6 +1706,7 @@ function UserFormUmumHeader() {
     if (
       singlePersonUmum.kedatangan === 'baru-kedatangan' &&
       singlePersonUmum.jenisFasiliti === 'kp' &&
+      singlePersonUmum.umur >= 18 &&
       systolicTekananDarah === 0 &&
       diastolicTekananDarah === 0
     ) {
