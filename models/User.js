@@ -105,7 +105,7 @@ UserSchema.pre('save', async function () {
       }
       console.log('updateRunningNumber');
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 });
