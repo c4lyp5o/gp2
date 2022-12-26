@@ -58,6 +58,8 @@ export default function FillableForm({
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
   const [nomborTelefon, setNomborTelefon] = useState('');
+  const [tambahTelefon, setTambahTelefon] = useState(false);
+  const [nomborTelefon2, setNomborTelefon2] = useState('');
   const [emel, setEmel] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [umur, setUmur] = useState(0);
@@ -326,6 +328,7 @@ export default function FillableForm({
         ...confirmData,
         ic: ic,
         tarikhLahir: age.dob,
+        jantina: jantina,
         umur: tahun,
         umurBulan: bulan,
         umurHari: hari,
@@ -412,6 +415,7 @@ export default function FillableForm({
         umurHari,
         jantina,
         nomborTelefon,
+        nomborTelefon2,
         emel,
         alamat,
         daerahAlamat,
@@ -432,6 +436,7 @@ export default function FillableForm({
       setUmurHari(umurHari);
       setJantina(jantina);
       setNomborTelefon(nomborTelefon);
+      setNomborTelefon2(nomborTelefon2);
       setEmel(emel);
       setAlamat(alamat);
       setDaerahAlamat(daerahAlamat);
@@ -454,6 +459,7 @@ export default function FillableForm({
         umurHari,
         jantina,
         nomborTelefon,
+        nomborTelefon2,
         emel,
         alamat,
         daerahAlamat,
@@ -506,6 +512,7 @@ export default function FillableForm({
               jenisIc,
               ic,
               nomborTelefon,
+              nomborTelefon2,
               emel,
               tarikhLahir: moment(tarikhLahirDP).format('YYYY-MM-DD'),
               umur,
@@ -608,6 +615,7 @@ export default function FillableForm({
               jenisIc,
               ic,
               nomborTelefon,
+              nomborTelefon2,
               emel,
               tarikhLahir,
               umur,
@@ -704,6 +712,7 @@ export default function FillableForm({
     setJenisIc('');
     setIc('');
     setNomborTelefon('');
+    setNomborTelefon2('');
     setEmel('');
     setTarikhLahir('');
     setUmur(0);
@@ -785,6 +794,13 @@ export default function FillableForm({
     setShowForm(false);
   }, [jenisFasiliti]);
 
+  //reset no telefon 2 when change no telefon
+  useEffect(() => {
+    if (!editId) {
+      setNomborTelefon2('');
+    }
+  }, [tambahTelefon]);
+
   // reset ic when change jenis ic
   useEffect(() => {
     if (!editId) {
@@ -846,6 +862,19 @@ export default function FillableForm({
     }
   }, [bookingIM]);
 
+  //reset pesara
+  useEffect(() => {
+    if (!editId) {
+      setNoPesara('');
+      setKakitanganKerajaan(false);
+      setNoBayaran('');
+      setNoResit('');
+      setNoBayaran2('');
+      setNoResit2('');
+      setNoBayaran3('');
+    }
+  }, [statusPesara]);
+
   //reset bayaran if kerajaan
   useEffect(() => {
     if (!editId) {
@@ -903,6 +932,7 @@ export default function FillableForm({
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
           setNomborTelefon(data.singlePersonKaunter.nomborTelefon);
+          setNomborTelefon2(data.singlePersonKaunter.nomborTelefon2);
           setEmel(data.singlePersonKaunter.emel);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
           setUmur(data.singlePersonKaunter.umur);
@@ -1166,25 +1196,27 @@ export default function FillableForm({
                       name='waktuSampai'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                     />
-                    <div className='flex justify-start mt-2'>
-                      <input
-                        type='checkbox'
-                        name='temujanji'
-                        id='temujanji'
-                        value='temujanji'
-                        checked={temujanji}
-                        onChange={() => {
-                          setTemujanji(!temujanji);
-                        }}
-                        className='mr-2'
-                      />
-                      <label
-                        htmlFor='temujanji'
-                        className='inline-flex text-sm'
-                      >
-                        Pesakit Janji Temu
-                      </label>
-                    </div>
+                    {jenisFasiliti === 'kp' ? (
+                      <div className='flex justify-start mt-2'>
+                        <input
+                          type='checkbox'
+                          name='temujanji'
+                          id='temujanji'
+                          value='temujanji'
+                          checked={temujanji}
+                          onChange={() => {
+                            setTemujanji(!temujanji);
+                          }}
+                          className='mr-2'
+                        />
+                        <label
+                          htmlFor='temujanji'
+                          className='inline-flex text-sm'
+                        >
+                          Pesakit Janji Temu
+                        </label>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
@@ -1200,7 +1232,7 @@ export default function FillableForm({
                         name='pengenalan'
                         value={jenisIc}
                         onChange={(e) => setJenisIc(e.target.value)}
-                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                       >
                         <option value=''>SILA PILIH..</option>
                         <option value='mykad-mykid'>MyKad / MyKid</option>
@@ -1275,33 +1307,83 @@ export default function FillableForm({
                     </span> */}
                   </div>
                   <div className='flex flex-col'>
-                    <div className='flex flex-col justify-start'>
-                      <label
-                        htmlFor='nombor-telefon'
-                        className='mr-1 flex text-left flex-row text-xs md:text-sm'
-                      >
-                        no. tel :
-                      </label>
-                      <div className='relative w-full md:w-56'>
-                        <input
-                          value={nomborTelefon}
-                          type='text'
-                          name='nombor-telefon'
-                          id='nombor-telefon'
-                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
-                          onChange={(e) => {
-                            setNomborTelefon(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              nomborTelefon: e.target.value,
-                            });
-                          }}
-                        />
-                        <span>
-                          <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
-                        </span>
+                    <div className='flex flex-row items-center'>
+                      <div className='flex flex-col justify-start'>
+                        <label
+                          htmlFor='nombor-telefon'
+                          className='mr-1 flex text-left flex-row text-xs md:text-sm'
+                        >
+                          no. tel :
+                        </label>
+                        <div className='relative w-full md:w-56'>
+                          <input
+                            value={nomborTelefon}
+                            type='text'
+                            name='nombor-telefon'
+                            id='nombor-telefon'
+                            maxLength={15}
+                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            onChange={(e) => {
+                              setNomborTelefon(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                nomborTelefon: e.target.value,
+                              });
+                            }}
+                          />
+                          <span>
+                            <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
+                          </span>
+                        </div>
                       </div>
+                      <span className='text-lg md:text-2xl flex items-center ml-1 mt-3'>
+                        {tambahTelefon ? (
+                          <FaMinusCircle
+                            className='text-kaunter3 cursor-pointer'
+                            onClick={() => {
+                              setTambahTelefon(false);
+                            }}
+                          />
+                        ) : (
+                          <FaPlusCircle
+                            className='text-kaunter3 cursor-pointer'
+                            onClick={() => {
+                              setTambahTelefon(true);
+                            }}
+                          />
+                        )}
+                      </span>
                     </div>
+                    {tambahTelefon && (
+                      <div className='flex flex-col justify-start'>
+                        <label
+                          htmlFor='nombor-telefon2'
+                          className='mr-1 flex text-left flex-row text-xs md:text-sm'
+                        >
+                          no. tel 2 :
+                        </label>
+                        <div className='relative w-full md:w-56'>
+                          <input
+                            value={nomborTelefon2}
+                            type='text'
+                            name='nombor-telefon2'
+                            id='nombor-telefon2'
+                            maxLength={15}
+                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            onChange={(e) => {
+                              setNomborTelefon2(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                nomborTelefon2: e.target.value,
+                              });
+                            }}
+                          />
+                          <span>
+                            <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
+                          </span>
+                        </div>
+                      </div>
+                    )}
                     <div className='flex flex-col justify-start'>
                       <label
                         htmlFor='email-mysj'
@@ -1840,29 +1922,31 @@ export default function FillableForm({
                         )}
                       </div>
                     )}
-                    <div className='flex items-center flex-row pl-2 md:pl-5'>
-                      <input
-                        type='checkbox'
-                        name='bersekolah'
-                        id='bersekolah'
-                        value='bersekolah'
-                        checked={bersekolah}
-                        onChange={() => {
-                          setBersekolah(!bersekolah);
-                          setConfirmData({
-                            ...confirmData,
-                            bersekolah: !bersekolah,
-                          });
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                      <label
-                        htmlFor='bersekolah'
-                        className='m-2 text-sm font-m'
-                      >
-                        Bersekolah
-                      </label>
-                    </div>
+                    {umur >= 7 && umur <= 21 && (
+                      <div className='flex items-center flex-row pl-2 md:pl-5'>
+                        <input
+                          type='checkbox'
+                          name='bersekolah'
+                          id='bersekolah'
+                          value='bersekolah'
+                          checked={bersekolah}
+                          onChange={() => {
+                            setBersekolah(!bersekolah);
+                            setConfirmData({
+                              ...confirmData,
+                              bersekolah: !bersekolah,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='bersekolah'
+                          className='m-2 text-sm font-m'
+                        >
+                          Bersekolah
+                        </label>
+                      </div>
+                    )}
                     <div className='flex items-center flex-row pl-2 md:pl-5'>
                       <input
                         type='checkbox'
@@ -1978,141 +2062,82 @@ export default function FillableForm({
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
-                  <div className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    <p>catatan </p>
-                    <p>:</p>
-                  </div>
-                  <div>
-                    <div className='flex flex-row'>
-                      <input
-                        type='checkbox'
-                        name='kakitangankerajaan'
-                        id='kakitangankerajaan'
-                        checked={kakitanganKerajaan ? true : false}
-                        onChange={() => {
-                          setKakitanganKerajaan(!kakitanganKerajaan);
-                          setConfirmData({
-                            ...confirmData,
-                            kakitanganKerajaan: !kakitanganKerajaan,
-                          });
-                        }}
-                        className='mr-2'
-                      />
-                      <label htmlFor='kakitangankerajaan'>
-                        Kakitangan Kerajaan
-                      </label>
-                    </div>
-                    {kakitanganKerajaan === false && (
-                      <div>
-                        <div className='flex flex-row justify-start'>
-                          <div
-                            className='relative w-20 my-2'
-                            title='Bayaran dalam RM'
-                          >
-                            <CurrencyFormat
-                              value={noBayaran}
-                              thousandSeparator={true}
-                              prefix={'RM '}
-                              name='no-bayaran'
-                              id='no-bayaran'
-                              placeholder=' '
-                              decimalScale={0}
-                              className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
-                              onChange={(e) => {
-                                setNoBayaran(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  noBayaran: e.target.value,
-                                });
-                              }}
-                            />
-                            <label
-                              htmlFor='no-bayaran'
-                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
-                            >
-                              Bayaran
-                            </label>
-                          </div>
-                          <div
-                            className='relative w-full md:w-36 my-2'
-                            title='No. Resit'
-                          >
-                            <input
-                              type='text'
-                              name='no-resit'
-                              id='no-resit'
-                              placeholder=' '
-                              value={noResit}
-                              onChange={(e) => {
-                                setNoResit(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  noResit: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
-                            />
-                            <label
-                              htmlFor='no-resit'
-                              className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
-                            >
-                              No. Resit
-                            </label>
-                            <span>
-                              <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
-                            </span>
-                          </div>
-                          {tambahBayaran2 === false ? (
-                            <span className='text-lg md:text-2xl flex items-center ml-1'>
-                              {tambahBayaran ? (
-                                <FaMinusCircle
-                                  className='text-kaunter3 cursor-pointer'
-                                  onClick={() => {
-                                    setTambahBayaran(false);
-                                    setNoBayaran2('');
-                                    setNoResit2('');
-                                  }}
-                                />
-                              ) : (
-                                <FaPlusCircle
-                                  className='text-kaunter3 cursor-pointer'
-                                  onClick={() => {
-                                    setTambahBayaran(true);
-                                  }}
-                                />
-                              )}
-                            </span>
-                          ) : (
-                            <span className='text-lg md:text-2xl flex items-center ml-1'>
-                              <FaMinusCircle className='text-kaunter3' />
-                            </span>
+                  <div className='text-xs md:text-sm text-right font-semibold flex flex-col mr-4 pt-2 bg-user1 bg-opacity-5'>
+                    <p>catatan : </p>
+                    {kakitanganKerajaan === false &&
+                      statusPesara === '' &&
+                      (jenisFasiliti === 'kp' ||
+                        jenisFasiliti === 'projek-komuniti-lain') && (
+                        <div>
+                          <p className='pt-4 md:pt-3 text-xs md:text-sm font-light md:font-normal'>
+                            bayaran pendaftaran :
+                          </p>
+                          {tambahBayaran && (
+                            <p className='pt-9 md:pt-8 text-xs md:text-sm font-light md:font-normal'>
+                              bayaran rawatan :
+                            </p>
+                          )}
+                          {tambahBayaran2 && (
+                            <p className='pt-9 md:pt-9 text-xs md:text-sm font-light md:font-normal'>
+                              bayaran tambahan :
+                            </p>
                           )}
                         </div>
-                        {tambahBayaran && (
+                      )}
+                  </div>
+                  <div>
+                    {statusPesara === '' &&
+                      (jenisFasiliti === 'kp' ||
+                        jenisFasiliti === 'projek-komuniti-lain') && (
+                        <div className='flex flex-row'>
+                          <input
+                            type='checkbox'
+                            name='kakitangankerajaan'
+                            id='kakitangankerajaan'
+                            checked={kakitanganKerajaan ? true : false}
+                            onChange={() => {
+                              setKakitanganKerajaan(!kakitanganKerajaan);
+                              setConfirmData({
+                                ...confirmData,
+                                kakitanganKerajaan: !kakitanganKerajaan,
+                              });
+                            }}
+                            className='mr-2'
+                          />
+                          <label htmlFor='kakitangankerajaan'>
+                            Kakitangan Kerajaan
+                          </label>
+                        </div>
+                      )}
+                    {kakitanganKerajaan === false &&
+                      statusPesara === '' &&
+                      (jenisFasiliti === 'kp' ||
+                        jenisFasiliti === 'projek-komuniti-lain') && (
+                        <div>
                           <div className='flex flex-row justify-start'>
                             <div
                               className='relative w-20 my-2'
                               title='Bayaran dalam RM'
                             >
                               <CurrencyFormat
-                                value={noBayaran2}
+                                value={noBayaran}
                                 thousandSeparator={true}
                                 prefix={'RM '}
-                                name='no-bayaran-2'
-                                id='no-bayaran-2'
+                                name='no-bayaran'
+                                id='no-bayaran'
                                 placeholder=' '
                                 decimalScale={0}
                                 className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                                 onChange={(e) => {
-                                  setNoBayaran2(e.target.value);
+                                  setNoBayaran(e.target.value);
                                   setConfirmData({
                                     ...confirmData,
-                                    noBayaran2: e.target.value,
+                                    noBayaran: e.target.value,
                                   });
                                 }}
                               />
                               <label
-                                htmlFor='no-bayaran-2'
+                                htmlFor='no-bayaran'
                                 className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
                               >
                                 Bayaran
@@ -2124,21 +2149,21 @@ export default function FillableForm({
                             >
                               <input
                                 type='text'
-                                name='no-resit-2'
-                                id='no-resit-2'
+                                name='no-resit'
+                                id='no-resit'
                                 placeholder=' '
-                                value={noResit2}
+                                value={noResit}
                                 onChange={(e) => {
-                                  setNoResit2(e.target.value);
+                                  setNoResit(e.target.value);
                                   setConfirmData({
                                     ...confirmData,
-                                    noResit2: e.target.value,
+                                    noResit: e.target.value,
                                   });
                                 }}
                                 className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
                               />
                               <label
-                                htmlFor='no-resit-2'
+                                htmlFor='no-resit'
                                 className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
                               >
                                 No. Resit
@@ -2147,90 +2172,175 @@ export default function FillableForm({
                                 <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
                               </span>
                             </div>
-                            <span className='text-lg md:text-2xl flex items-center ml-1'>
-                              {tambahBayaran2 ? (
-                                <FaMinusCircle
-                                  className='text-kaunter3 cursor-pointer'
-                                  onClick={() => {
-                                    setTambahBayaran2(false);
-                                    setNoBayaran2('');
-                                    setNoResit2('');
-                                  }}
-                                />
-                              ) : (
-                                <FaPlusCircle
-                                  className='text-kaunter3 cursor-pointer'
-                                  onClick={() => {
-                                    setTambahBayaran2(true);
-                                  }}
-                                />
-                              )}
-                            </span>
+                            {tambahBayaran2 === false ? (
+                              <span className='text-lg md:text-2xl flex items-center ml-1'>
+                                {tambahBayaran ? (
+                                  <FaMinusCircle
+                                    className='text-kaunter3 cursor-pointer'
+                                    onClick={() => {
+                                      setTambahBayaran(false);
+                                      setNoBayaran2('');
+                                      setNoResit2('');
+                                    }}
+                                  />
+                                ) : (
+                                  <FaPlusCircle
+                                    className='text-kaunter3 cursor-pointer'
+                                    onClick={() => {
+                                      setTambahBayaran(true);
+                                    }}
+                                  />
+                                )}
+                              </span>
+                            ) : (
+                              <span className='text-lg md:text-2xl flex items-center ml-1'>
+                                <FaMinusCircle className='text-kaunter3' />
+                              </span>
+                            )}
                           </div>
-                        )}
-                        {tambahBayaran2 && (
-                          <div className='flex flex-row justify-start'>
-                            <div
-                              className='relative w-20 my-2'
-                              title='Bayaran dalam RM'
-                            >
-                              <CurrencyFormat
-                                value={noBayaran3}
-                                thousandSeparator={true}
-                                prefix={'RM '}
-                                name='no-bayaran-3'
-                                id='no-bayaran-3'
-                                placeholder=' '
-                                decimalScale={0}
-                                className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
-                                onChange={(e) => {
-                                  setNoBayaran3(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    noBayaran3: e.target.value,
-                                  });
-                                }}
-                              />
-                              <label
-                                htmlFor='no-bayaran-3'
-                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                          {tambahBayaran && (
+                            <div className='flex flex-row justify-start'>
+                              <div
+                                className='relative w-20 my-2'
+                                title='Bayaran dalam RM'
                               >
-                                Bayaran
-                              </label>
-                            </div>
-                            <div
-                              className='relative w-full md:w-36 my-2'
-                              title='No. Resit'
-                            >
-                              <input
-                                type='text'
-                                name='no-resit-3'
-                                id='no-resit-3'
-                                placeholder=' '
-                                value={noResit3}
-                                onChange={(e) => {
-                                  setNoResit3(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    noResit3: e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
-                              />
-                              <label
-                                htmlFor='no-resit-3'
-                                className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                                <CurrencyFormat
+                                  value={noBayaran2}
+                                  thousandSeparator={true}
+                                  prefix={'RM '}
+                                  name='no-bayaran-2'
+                                  id='no-bayaran-2'
+                                  placeholder=' '
+                                  decimalScale={0}
+                                  className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                  onChange={(e) => {
+                                    setNoBayaran2(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      noBayaran2: e.target.value,
+                                    });
+                                  }}
+                                />
+                                <label
+                                  htmlFor='no-bayaran-2'
+                                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                                >
+                                  Bayaran
+                                </label>
+                              </div>
+                              <div
+                                className='relative w-full md:w-36 my-2'
+                                title='No. Resit'
                               >
-                                No. Resit
-                              </label>
-                              <span>
-                                <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                                <input
+                                  type='text'
+                                  name='no-resit-2'
+                                  id='no-resit-2'
+                                  placeholder=' '
+                                  value={noResit2}
+                                  onChange={(e) => {
+                                    setNoResit2(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      noResit2: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                />
+                                <label
+                                  htmlFor='no-resit-2'
+                                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                                >
+                                  No. Resit
+                                </label>
+                                <span>
+                                  <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                                </span>
+                              </div>
+                              <span className='text-lg md:text-2xl flex items-center ml-1'>
+                                {tambahBayaran2 ? (
+                                  <FaMinusCircle
+                                    className='text-kaunter3 cursor-pointer'
+                                    onClick={() => {
+                                      setTambahBayaran2(false);
+                                      setNoBayaran2('');
+                                      setNoResit2('');
+                                    }}
+                                  />
+                                ) : (
+                                  <FaPlusCircle
+                                    className='text-kaunter3 cursor-pointer'
+                                    onClick={() => {
+                                      setTambahBayaran2(true);
+                                    }}
+                                  />
+                                )}
                               </span>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                          )}
+                          {tambahBayaran2 && (
+                            <div className='flex flex-row justify-start'>
+                              <div
+                                className='relative w-20 my-2'
+                                title='Bayaran dalam RM'
+                              >
+                                <CurrencyFormat
+                                  value={noBayaran3}
+                                  thousandSeparator={true}
+                                  prefix={'RM '}
+                                  name='no-bayaran-3'
+                                  id='no-bayaran-3'
+                                  placeholder=' '
+                                  decimalScale={0}
+                                  className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
+                                  onChange={(e) => {
+                                    setNoBayaran3(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      noBayaran3: e.target.value,
+                                    });
+                                  }}
+                                />
+                                <label
+                                  htmlFor='no-bayaran-3'
+                                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                                >
+                                  Bayaran
+                                </label>
+                              </div>
+                              <div
+                                className='relative w-full md:w-36 my-2'
+                                title='No. Resit'
+                              >
+                                <input
+                                  type='text'
+                                  name='no-resit-3'
+                                  id='no-resit-3'
+                                  placeholder=' '
+                                  value={noResit3}
+                                  onChange={(e) => {
+                                    setNoResit3(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      noResit3: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-full md:w-36 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                />
+                                <label
+                                  htmlFor='no-resit-3'
+                                  className='absolute left-3 bottom-7 text-xs text-kaunter1 bg-userWhite peer-placeholder-shown:text-kaunter3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all duration-500'
+                                >
+                                  No. Resit
+                                </label>
+                                <span>
+                                  <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     <div
                       className='relative w-full mt-2'
                       title='No. Slip Cuti Sakit/Lain-lain Catatan Penting'

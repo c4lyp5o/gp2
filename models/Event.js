@@ -1,43 +1,56 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventSchema = new Schema({
+const EventSchema = new Schema({
   createdByNegeri: {
     type: String,
+    default: '',
   },
   createdByDaerah: {
     type: String,
+    default: '',
   },
   createdByKp: {
     type: String,
+    default: '',
   },
   createdByKodFasiliti: {
     type: String,
+    default: '',
   },
   tarikhStart: {
     type: String,
+    default: '',
   },
   tarikhEnd: {
     type: String,
+    default: '',
   },
   nama: {
     type: String,
+    default: '',
   },
   jenisEvent: {
     type: String,
+    default: '',
   },
   tempat: {
     type: String,
+    default: '',
   },
-  modPenyampaianPerkhidmatan: {
-    type: Array,
-  },
+  // for programDewasaMuda
   kategoriInstitusi: {
     type: String,
+    default: '',
   },
+  // for programDewasaMuda, we, oku
   enrolmenInstitusi: {
     type: String,
     default: 'NOT APPLICABLE',
+  },
+  modPenyampaianPerkhidmatan: {
+    type: Array,
+    default: [],
   },
   penggunaanKpb: {
     type: String,
@@ -51,8 +64,19 @@ const eventSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  tahunDibuat: {
+    type: Number,
+    default: 0,
+  },
 });
 
-const Event = mongoose.model('Event', eventSchema);
+EventSchema.pre('save', async function () {
+  try {
+    const yearNumber = new Date().getFullYear();
+    this.tahunDibuat = yearNumber;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-module.exports = Event;
+module.exports = mongoose.model('Event', EventSchema);

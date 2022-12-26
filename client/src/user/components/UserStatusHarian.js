@@ -21,6 +21,7 @@ export default function UserStatusHarian() {
   const [pickedDate, setPickedDate] = useState(new Date());
   const [convertedDate, setConvertedDate] = useState('');
   const [mark, setMark] = useState([]);
+  const [markSelesai, setMarkSelesai] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
@@ -96,7 +97,20 @@ export default function UserStatusHarian() {
           },
           []
         );
+        const allPersonSelesai = allPersonUmums.filter(
+          (p) => p.statusReten === 'telah diisi'
+        );
+        const tarikhSelesai = allPersonSelesai.reduce(
+          (arrSemuaUmum, umumSingle) => {
+            if (!arrSemuaUmum.includes(umumSingle.tarikhKedatangan)) {
+              arrSemuaUmum.push(umumSingle.tarikhKedatangan);
+            }
+            return arrSemuaUmum;
+          },
+          []
+        );
         setMark(tarikhBelum);
+        setMarkSelesai(tarikhSelesai);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -128,20 +142,37 @@ export default function UserStatusHarian() {
               value={pickedDate}
               tileClassName={({ date }) => {
                 if (mark.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
-                  return 'text-user9 font-bold bg-user5';
+                  return 'hightlight';
+                } else if (
+                  markSelesai.find(
+                    (x) => x === moment(date).format('YYYY-MM-DD')
+                  )
+                ) {
+                  return 'hightlightSiap';
                 }
               }}
               className='font-semibold shadow-md m-auto'
+              locale='ms-MY'
             />
-            <div className='flex my-2 justify-center items-start'>
-              <div className='bg-user9 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></div>
+            <div className='grid grid-cols-[1fr_3fr] my-2'>
+              <div className='text-right flex justify-end items-center'>
+                <span className='bg-user9 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></span>
+              </div>
               <p className='text-left text-sm'>perlu dikemaskini</p>
             </div>
-            <div className='flex my-2 justify-center items-start'>
-              <div className='bg-user8 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></div>
+            <div className='grid grid-cols-[1fr_3fr] my-2'>
+              <div className='text-right flex justify-end items-center'>
+                <span className='bg-user8 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></span>
+              </div>
               <p className='text-left text-sm'>
                 <strike>data tiada kerana tidak hadir</strike>
               </p>
+            </div>
+            <div className='grid grid-cols-[1fr_3fr] my-2'>
+              <div className='text-right flex justify-end items-center'>
+                <span className='bg-user7 mr-3 h-5 w-5 outline outline-1 outline-userBlack rounded-full'></span>
+              </div>
+              <p className='text-left text-sm'>Telah Selesai Diisi</p>
             </div>
           </div>
           <div className='lg:col-span-2 overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>

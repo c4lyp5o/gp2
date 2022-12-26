@@ -526,32 +526,31 @@ function AdminAppProvider({ children }) {
 
   // datepicker
   function masterDatePicker({
-    selected,
     value,
+    selected,
     onChange,
     required,
     filterDate,
-    className,
     selectsStart,
     selectsEnd,
     startDate,
     endDate,
     minDate,
+    className,
   }) {
     return (
       <DatePicker
         showPopperArrow={false}
         dateFormat='dd/MM/yyyy'
-        selected={selected}
-        value={value}
-        onChange={onChange}
         peekNextMonth
         showMonthDropdown
         showYearDropdown
         dropdownMode='select'
+        value={value}
+        selected={selected}
+        onChange={onChange}
         required={required}
         filterDate={filterDate}
-        className={className}
         selectsStart={selectsStart}
         selectsEnd={selectsEnd}
         startDate={startDate}
@@ -562,6 +561,7 @@ function AdminAppProvider({ children }) {
           e.preventDefault();
         }}
         onFocus={(e) => e.target.blur()} // disable keyboad input
+        className={className}
       />
     );
   }
