@@ -10,6 +10,10 @@ const StartDate = (props) => {
   const { masterDatePicker } = useGlobalAdminAppContext();
   return masterDatePicker({
     selected: props.startDateDP,
+    selectsStart: true,
+    startDate: props.startDateDP,
+    endDate: props.endDateDP,
+    required: true,
     onChange: (date) => {
       const tempDate = moment(date).format('YYYY-MM-DD');
       props.setStartDateDP(date);
@@ -23,6 +27,11 @@ const EndDate = (props) => {
   const { masterDatePicker } = useGlobalAdminAppContext();
   return masterDatePicker({
     selected: props.endDateDP,
+    selectsEnd: true,
+    startDate: props.startDateDP,
+    endDate: props.endDateDP,
+    minDate: props.startDateDP,
+    required: true,
     onChange: (date) => {
       const tempDate = moment(date).format('YYYY-MM-DD');
       props.setEndDateDP(date);
@@ -735,7 +744,8 @@ export function InputFacility(props) {
                         <input
                           required
                           className='border-2'
-                          type='text'
+                          type='number'
+                          min='1'
                           name='enrolmen'
                           id='enrolmen'
                           onChange={(e) =>
@@ -2010,6 +2020,7 @@ export function InputKpAddEvent(props) {
                       </span>
                     </p>
                     <input
+                      required
                       className='border-2'
                       type='text'
                       name='nama'
@@ -2027,6 +2038,7 @@ export function InputKpAddEvent(props) {
                     </p>
                     <div className='grid gap-1'>
                       <input
+                        required
                         className='border-2'
                         type='text'
                         name='nama'
@@ -2047,7 +2059,7 @@ export function InputKpAddEvent(props) {
                   )}
                   <span
                     className={styles.cancelBtn}
-                    onClick={() => props.setShowEditModal(false)}
+                    onClick={() => props.setShowAddModal(false)}
                   >
                     Kembali
                   </span>
@@ -2105,9 +2117,11 @@ export function InputKpEditPegawai(props) {
               <div className='grid gap-1 font-bold normal-case'>
                 {props.editedEntity.email}
               </div>
-              <p>Role</p>
+              <p>Peranan</p>
               <div className='grid gap-1 font-bold'>
-                {props.editedEntity.role === 'admin' ? 'Pentadbir' : 'Pengguna'}
+                {props.editedEntity.role === 'admin'
+                  ? 'Pentadbir Klinik'
+                  : 'Pengguna'}
               </div>
               {/* <p>
                 Emel <span className='font-semibold text-lg text-user6'>*</span>
@@ -2264,11 +2278,16 @@ export function InputKpEditFacility(props) {
                 Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
               </p>
               <p>Jenis Fasiliti: {props.editedEntity.jenisFasiliti}</p>
-              <p>Enrolmen: </p>
+              <p>
+                Enrolmen:{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </p>
               <div className='grid grid-gap-1'>
                 <input
+                  required
                   autoFocus
-                  type='text'
+                  type='number'
+                  min='1'
                   className='border-2'
                   value={props.editedEntity.enrolmenTastad}
                   onChange={(e) => {
@@ -2409,10 +2428,16 @@ export function InputKpEditEvent(props) {
                   props.editedEntity.jenisEvent === 'we' ||
                   props.editedEntity.jenisEvent === 'oku' ? (
                     <div className='grid grid-gap-1 mt-2'>
-                      <p>Enrolmen: </p>
+                      <p>
+                        Enrolmen:{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
                       <input
-                        autoFocus
-                        type='text'
+                        required
+                        type='number'
+                        min='1'
                         className='border-2'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
@@ -2707,10 +2732,16 @@ export function InputKpEditEventFromDaerah(props) {
                   props.editedEntity.jenisEvent === 'we' ||
                   props.editedEntity.jenisEvent === 'oku' ? (
                     <div className='grid grid-gap-1 mt-2'>
-                      <p>Enrolmen: </p>
+                      <p>
+                        Enrolmen:{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
                       <input
-                        autoFocus
-                        type='text'
+                        required
+                        type='number'
+                        min='1'
                         className='border-2'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
