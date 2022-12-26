@@ -295,9 +295,9 @@ export default function DaftarPesakit({ createdByKp }) {
                       <FaSort className='inline-flex items-center' />
                     )}
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 hidden lg:block'>
+                  {/* <th className='px-2 py-1 outline outline-1 outline-offset-1 hidden lg:block'>
                     MAKLUMAT
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               {data.kaunterResultQuery
@@ -368,9 +368,9 @@ export default function DaftarPesakit({ createdByKp }) {
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {Dictionary[p.jenisFasiliti]}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 hidden lg:block'>
+                        {/* <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 hidden lg:block'>
                           <PrintPatientDetails data={p} />
-                        </td>
+                        </td> */}
                       </tr>
                     </tbody>
                   </>
