@@ -1,4 +1,5 @@
 const Umum = require('../models/Umum');
+const Runningnumber = require('../models/Runningnumber');
 const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
@@ -56,6 +57,27 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
   req.body.tahunDaftar = new Date().getFullYear();
+
+  // system wide running number for tiada-pengenalan. Will be running for one whole year and patient will always be counted as baru-kedatangan (Boss said). It's also should be done here before finding personExist because ic cannot be empty string ('')
+  if (req.body.jenisIc === 'tiada-pengenalan') {
+    let currentRunningNumber = await Runningnumber.findOne({
+      jenis: 'tiada-pengenalan',
+      tahun: new Date().getFullYear(),
+    });
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        runningnumber: 1,
+        jenis: 'tiada-pengenalan',
+        tahun: new Date().getFullYear(),
+      });
+      req.body.ic = 'TIADA PENGENALAN ' + newRunningNumber.runningnumber;
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save();
+      req.body.ic = 'TIADA PENGENALAN ' + currentRunningNumber.runningnumber;
+    }
+  }
 
   // find if person already exist
   const personExist = await Umum.findOne({
