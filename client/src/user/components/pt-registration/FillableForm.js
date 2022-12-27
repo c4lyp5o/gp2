@@ -172,14 +172,9 @@ export default function FillableForm({
   };
 
   const TarikhLahir = () => {
-    let required = true;
-    if (jenisIc === 'tiada-pengenalan') {
-      required = false;
-    }
-
     return masterDatePicker({
       selected: tarikhLahirDP,
-      required: required,
+      required: true,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
@@ -1109,11 +1104,11 @@ export default function FillableForm({
       <>
         <button
           type='button'
-          className='inline-flex items-center text-center justify-center m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md ease-in-out duration-150 cursor-not-allowed'
-          disabled=''
+          className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 shadow-md inline-flex cursor-not-allowed'
+          disabled
         >
           <svg
-            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+            className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
             viewBox='0 0 24 24'
@@ -1132,7 +1127,7 @@ export default function FillableForm({
               d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
             ></path>
           </svg>
-          Menambah Maklumat...
+          Menambah...
         </button>
       </>
     );
@@ -1472,9 +1467,7 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
-                    {jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <TarikhLahir />
@@ -1485,10 +1478,7 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
-                    umur:{' '}
-                    {jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    umur: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='flex'>
                     <div className='relative'>
