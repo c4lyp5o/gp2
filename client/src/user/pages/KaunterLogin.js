@@ -70,7 +70,7 @@ function KaunterLogin() {
         setUsername(data.username);
         setShowPasswordBox(true);
       } catch (error) {
-        toast.error('Klinik belum didaftarkan di modul Pentadbir');
+        toast.error('Klinik belum didaftarkan di modul Pentadbir Daerah');
         console.log(error);
       }
       setIsLoading(false);
