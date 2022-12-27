@@ -31,6 +31,13 @@ export default function Rawatan(props) {
     isDisabled = true;
   }
 
+  //reset value
+  useEffect(() => {
+    if (props.rujukanPakarPeriodontik === 'tidak-rujukan-pakar-periodontik') {
+      props.setEngganLainRujukanPakarPeriodontik('');
+    }
+  }, [props.rujukanPakarPeriodontik]);
+
   return (
     <>
       {props.statusKehadiran === false ? (
@@ -1665,7 +1672,7 @@ export default function Rawatan(props) {
                             <input
                               disabled={isDisabled}
                               type='radio'
-                              name='enggan-lain-lain-rujukan-pakar-periodontik'
+                              name='enggan-lain-rujukan-pakar-periodontik'
                               id='enggan-rujukan-pakar-periodontik'
                               value='enggan-rujukan-pakar-periodontik'
                               checked={
@@ -1690,12 +1697,12 @@ export default function Rawatan(props) {
                             <input
                               disabled={isDisabled}
                               type='radio'
-                              name='enggan-lain-lain-rujukan-pakar-periodontik'
-                              id='lain-lain-rujukan-pakar-periodontik'
-                              value='lain-lain-rujukan-pakar-periodontik'
+                              name='enggan-lain-rujukan-pakar-periodontik'
+                              id='lain-rujukan-pakar-periodontik'
+                              value='lain-rujukan-pakar-periodontik'
                               checked={
                                 props.engganLainRujukanPakarPeriodontik ===
-                                'lain-lain-rujukan-pakar-periodontik'
+                                'lain-rujukan-pakar-periodontik'
                                   ? true
                                   : false
                               }
