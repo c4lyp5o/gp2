@@ -45,7 +45,7 @@ const UmumSchema = new mongoose.Schema(
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
-    episodeMengandung: { type: String, default: '' },
+    episodMengandung: { type: String, default: '' },
     bookingIM: { type: String, default: '' },
     mengandungDahGravida: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
