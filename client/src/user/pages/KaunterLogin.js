@@ -45,9 +45,10 @@ function KaunterLogin() {
     const fetchKlinik = async () => {
       try {
         const { data } = await axios.get(
-          `https://erkm.calypsocloud.one/fasiliti?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
+          `https://g2u.calypsocloud.one/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
         );
-        setListKlinik(data.data);
+        console.log(data);
+        setListKlinik(data);
       } catch (error) {
         console.log(error);
       }
