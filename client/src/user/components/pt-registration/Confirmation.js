@@ -56,7 +56,8 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
 
   const confirm = () => {
     callback.run();
-    hide();
+    setCallback(null);
+    setOpen(false);
   };
 
   return (
