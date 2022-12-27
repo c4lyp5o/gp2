@@ -832,6 +832,15 @@ export default function FillableForm({
     }
   }, [jenisIc]);
 
+  //reset bersekolah
+  useEffect(() => {
+    if (!editId) {
+      if (umur <= 6 || umur >= 22) {
+        setBersekolah(false);
+      }
+    }
+  }, [umur]);
+
   // reset noOku when change kategori pesakit
   useEffect(() => {
     if (!editId) {
