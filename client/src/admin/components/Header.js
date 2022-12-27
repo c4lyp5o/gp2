@@ -59,9 +59,27 @@ export default function Header(props) {
             </div>
           </div>
           <div className='flex justify-between'>
-            <div className='flex flex-col text-2xl font-bold text-center items-center pt-2'>
+            <div className='flex flex-col text-2xl font-bold text-center items-center pt-3 pl-2'>
               <h1>sistem gi-Ret 2.0</h1>
-              <h1>PENTADBIR</h1>
+              <h1>
+                PENTADBIR{' '}
+                {props.loginInfo && (
+                  <div className='inline-flex'>
+                    {props.loginInfo.accountType !== 'kpUser' ? (
+                      <>
+                        {props.loginInfo.accountType === 'daerahSuperadmin' && (
+                          <p>DAERAH</p>
+                        )}
+                        {props.loginInfo.accountType === 'negeriSuperadmin' && (
+                          <p>NEGERI</p>
+                        )}
+                      </>
+                    ) : (
+                      <p>KLINIK</p>
+                    )}
+                  </div>
+                )}
+              </h1>
             </div>
             {props.loginInfo ? (
               <div className='relative right-2'>

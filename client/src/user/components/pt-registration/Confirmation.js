@@ -109,7 +109,11 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                     {data.nomborTelefon2 ? `, ${data.nomborTelefon2}` : null}
                     {data.emel ? `/${data.emel}` : null}
                   </p>
-                ) : null}
+                ) : (
+                  <p className='text-sm p-1 flex justify-start text-left normal-case'>
+                    Tiada Maklumat{' '}
+                  </p>
+                )}
                 <p className='text-sm p-1 flex justify-end text-right'>
                   Tarikh Lahir:
                 </p>
