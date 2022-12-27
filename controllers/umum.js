@@ -83,6 +83,7 @@ const updatePersonUmum = async (req, res) => {
   });
   summary = { ...singlePersonUmum._doc, ...shortened };
 
+  // handling kedatangan baru for rawatan operator lain
   if (req.query.operatorLain === 'rawatan-operator-lain') {
     // flipping to 'ulangan-kedatangan' if kedatangan = 'baru-kedatangan'
     if (summary.kedatangan === 'baru-kedatangan') {

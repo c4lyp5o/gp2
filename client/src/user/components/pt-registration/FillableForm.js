@@ -172,8 +172,14 @@ export default function FillableForm({
   };
 
   const TarikhLahir = () => {
+    let required = true;
+    if (jenisIc === 'tiada-pengenalan') {
+      required = false;
+    }
+
     return masterDatePicker({
       selected: tarikhLahirDP,
+      required: required,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
@@ -832,6 +838,15 @@ export default function FillableForm({
     }
   }, [jenisIc]);
 
+  //reset bersekolah
+  useEffect(() => {
+    if (!editId) {
+      if (umur <= 6 || umur >= 22) {
+        setBersekolah(false);
+      }
+    }
+  }, [umur]);
+
   // reset noOku when change kategori pesakit
   useEffect(() => {
     if (!editId) {
@@ -1228,6 +1243,7 @@ export default function FillableForm({
                     <div className='relative w-full md:w-56'>
                       <select
                         required
+                        disabled={editId ? true : false}
                         id='pengenalan'
                         name='pengenalan'
                         value={jenisIc}
@@ -1274,19 +1290,26 @@ export default function FillableForm({
                         className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                       />
                     )}
-                    {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
-                      <input
-                        required
-                        type='text'
-                        name='ic'
-                        value={ic}
-                        onChange={(e) => {
-                          setIc(e.target.value);
-                        }}
-                        placeholder='Isi pengenalan diri..'
-                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
-                      />
-                    )}
+                    {jenisIc !== 'mykad-mykid' &&
+                      jenisIc !== 'tiada-pengenalan' &&
+                      jenisIc !== '' && (
+                        <input
+                          disabled={editId ? true : false}
+                          required
+                          type='text'
+                          name='ic'
+                          value={ic}
+                          onChange={(e) => {
+                            setIc(e.target.value);
+                          }}
+                          placeholder={
+                            jenisIc === 'birth-of'
+                              ? 'Isi pengenalan ibu..'
+                              : 'Isi pengenalan diri..'
+                          }
+                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        />
+                      )}
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
@@ -1416,22 +1439,21 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     nama:{' '}
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
+                    {jenisIc === 'birth-of' ? null : (
                       <span className='font-semibold text-user6'>*</span>
                     )}
                   </p>
                   <div className='relative w-full'>
                     <input
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required={jenisIc === 'birth-of' ? false : true}
                       type='text'
                       id='nama-umum'
                       name='nama-umum'
-                      placeholder='Isi Nama Penuh Mengikut Kad Pengenalan'
+                      placeholder={
+                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
+                          ? 'isi nama'
+                          : 'isi nama penuh mengikut pengenalan diri'
+                      }
                       value={nama}
                       onChange={(e) => {
                         setNama(e.target.value);
