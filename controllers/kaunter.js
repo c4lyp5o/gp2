@@ -58,7 +58,29 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
   req.body.tahunDaftar = new Date().getFullYear();
 
-  // system wide running number for tiada-pengenalan. Will be running for one whole year and patient will always be counted as baru-kedatangan (Boss said). It's also should be done here before finding personExist because ic cannot be empty string ('')
+  // handling baby of. kena buat system wide & sentiasa baru-kedatangan jugak untuk mengelakkan ic ibunya menjadi ulangan-kedatangan apabila didaftarkan sebagai pesakit biasa (Boss pun setuju)
+  if (req.body.jenisIc === 'birth-of') {
+    let currentRunningNumber = await Runningnumber.findOne({
+      jenis: 'birth-of',
+      tahun: new Date().getFullYear(),
+    });
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        runningnumber: 1,
+        jenis: 'birth-of',
+        tahun: new Date().getFullYear(),
+      });
+      req.body.ic = 'B/O ' + newRunningNumber.runningnumber + ' ' + req.body.ic;
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save(),
+        (req.body.ic =
+          'B/O ' + currentRunningNumber.runningnumber + ' ' + req.body.ic);
+    }
+  }
+
+  // system wide running number for tiada-pengenalan. Will be running for one whole year and patient will always be counted as baru-kedatangan (Boss said). It's also should be done here before finding personExist because if ic is empty string ('') it will cause duplication in finding
   if (req.body.jenisIc === 'tiada-pengenalan') {
     let currentRunningNumber = await Runningnumber.findOne({
       jenis: 'tiada-pengenalan',
