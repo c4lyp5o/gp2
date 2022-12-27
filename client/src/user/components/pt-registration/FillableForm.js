@@ -172,8 +172,14 @@ export default function FillableForm({
   };
 
   const TarikhLahir = () => {
+    let required = true;
+    if (jenisIc === 'tiada-pengenalan') {
+      required = false;
+    }
+
     return masterDatePicker({
       selected: tarikhLahirDP,
+      required: required,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
@@ -1296,7 +1302,11 @@ export default function FillableForm({
                           onChange={(e) => {
                             setIc(e.target.value);
                           }}
-                          placeholder='Isi pengenalan diri..'
+                          placeholder={
+                            jenisIc === 'birth-of'
+                              ? 'Isi pengenalan ibu..'
+                              : 'Isi pengenalan diri..'
+                          }
                           className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
                         />
                       )}
