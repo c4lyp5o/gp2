@@ -16,7 +16,7 @@ export default function Promosi(props) {
                 promosi & pendidikan kesihatan pergigian
               </p>
             </span>
-            <section className='grid grid-cols-1 lg:grid-cols-2  gap-2 mt-3 mb-3 w-full col-span-2'>
+            <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
               <div className='grid gap-2 auto-rows-min'>
                 {props.singlePersonUmum.umur <= 12 ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
