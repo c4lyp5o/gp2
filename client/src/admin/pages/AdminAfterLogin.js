@@ -135,6 +135,7 @@ export default function AdminAfterLogin() {
             <>
               <Route index element={<AdminCenterStage {...props} />} />
               <Route path='klinik' element={<Klinik />} />
+              <Route path='kkiakd' element={<Data FType='kkiakd' />} />
               <Route path='kp' element={<Data FType='kp' />} />
               <Route path='pp' element={<Data FType='pp' />} />
               <Route path='jp' element={<Data FType='jp' />} />

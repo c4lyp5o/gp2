@@ -7,7 +7,6 @@ const { adminAuth, adminAuthInt } = require('../middlewares/adminAuth');
 
 // Controller
 const {
-  getCipher,
   initialData,
   initialDataNegeri,
   initialDataDaerah,
@@ -21,9 +20,6 @@ const {
   getOneDataRoute,
   getOneDataKpRoute,
 } = require('../controllers/adminAPI');
-
-// Special
-router.get('/getcipher', getCipher);
 
 // Initial Data
 router.get('/initialdata', initialData);
