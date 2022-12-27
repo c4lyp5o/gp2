@@ -885,16 +885,21 @@ export default function FillableForm({
     }
   }, [statusPesara]);
 
-  //reset bayaran if kerajaan
+  //reset bayaran
   useEffect(() => {
     if (!editId) {
-      setNoBayaran('');
-      setNoResit('');
-      setNoBayaran2('');
-      setNoResit2('');
-      setNoBayaran3('');
+      if (tambahBayaran === false) {
+        setNoBayaran2('');
+        setNoResit2('');
+        setNoBayaran3('');
+        setNoResit3('');
+      }
+      if (tambahBayaran2 === false) {
+        setNoBayaran3('');
+        setNoResit3('');
+      }
     }
-  }, [kakitanganKerajaan]);
+  }, [tambahBayaran, tambahBayaran2]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
@@ -1068,6 +1073,13 @@ export default function FillableForm({
             noOku: data.singlePersonKaunter.noOku,
             statusPesara: data.singlePersonKaunter.statusPersara,
             noPesara: data.singlePersonKaunter.noPesara,
+            noBayaran: data.singlePersonKaunter.noBayaran,
+            noResit: data.singlePersonKaunter.noResit,
+            noBayaran2: data.singlePersonKaunter.noBayaran2,
+            noResit2: data.singlePersonKaunter.noResit2,
+            noBayaran3: data.singlePersonKaunter.noBayaran3,
+            noResit3: data.singlePersonKaunter.noResit3,
+            catatan: data.singlePersonKaunter.catatan,
           });
           setIsEditLoading(false);
         } catch (error) {
@@ -2077,8 +2089,7 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <div className='text-xs md:text-sm text-right font-semibold flex flex-col mr-4 pt-2 bg-user1 bg-opacity-5'>
                     <p>catatan : </p>
-                    {kakitanganKerajaan === false &&
-                      statusPesara === '' &&
+                    {statusPesara === '' &&
                       (jenisFasiliti === 'kp' ||
                         jenisFasiliti === 'projek-komuniti-lain') && (
                         <div>
@@ -2117,13 +2128,10 @@ export default function FillableForm({
                             }}
                             className='mr-2'
                           />
-                          <label htmlFor='kakitangankerajaan'>
-                            Kakitangan Kerajaan
-                          </label>
+                          <label htmlFor='kakitangankerajaan'>eGL</label>
                         </div>
                       )}
-                    {kakitanganKerajaan === false &&
-                      statusPesara === '' &&
+                    {statusPesara === '' &&
                       (jenisFasiliti === 'kp' ||
                         jenisFasiliti === 'projek-komuniti-lain') && (
                         <div>
@@ -2192,8 +2200,6 @@ export default function FillableForm({
                                     className='text-kaunter3 cursor-pointer'
                                     onClick={() => {
                                       setTambahBayaran(false);
-                                      setNoBayaran2('');
-                                      setNoResit2('');
                                     }}
                                   />
                                 ) : (
@@ -2276,8 +2282,6 @@ export default function FillableForm({
                                     className='text-kaunter3 cursor-pointer'
                                     onClick={() => {
                                       setTambahBayaran2(false);
-                                      setNoBayaran2('');
-                                      setNoResit2('');
                                     }}
                                   />
                                 ) : (
