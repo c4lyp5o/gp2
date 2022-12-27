@@ -179,6 +179,10 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
+    if (type === 'kkiakd') {
+      let response = { data: [] };
+      return response;
+    }
     const response = await axios.get(
       `/api/v1/superadmin/getdata?FType=${type}`,
       {
@@ -344,7 +348,7 @@ function AdminAppProvider({ children }) {
   // read fasiliti data
   const readFasilitiData = async ({ negeri, daerah }) => {
     const response = await axios.get(
-      `https://erkm.calypsocloud.one/fasiliti?negeri=${negeri}&daerah=${daerah}`
+      `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
     );
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
@@ -353,38 +357,38 @@ function AdminAppProvider({ children }) {
     }
     console.log('current fasiliti', currentFasiliti.data);
     for (let j = 0; j < currentFasiliti.data.length; j++) {
-      const deleteFasiliti = response.data.data
+      const deleteFasiliti = response.data
         .map((e) => e.kodFasilitiGiret)
         .indexOf(currentFasiliti.data[j].kodFasiliti);
-      response.data.data.splice(deleteFasiliti, 1);
+      response.data.splice(deleteFasiliti, 1);
     }
-    return response.data;
+    return response;
   };
 
   // read dpims data
   const readDpimsData = async (nama) => {
     try {
       const response = await axios.get(
-        `https://erkm.calypsocloud.one/pegawai?nama=${nama}`
+        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
       );
       const currentPegawai = await readData('ppall');
       console.log('current pegawai', currentPegawai.data);
       if (currentPegawai.data.length === 0) {
-        return response.data.data;
+        return response.data;
       }
-      if (response.data.data.length === 1) {
+      if (response.data.length === 1) {
         const match = currentPegawai.data
           .map((e) => (e.mdcNumber ? parseInt(e.mdcNumber) : ''))
-          .includes(response.data.data[0].mdcNumber);
+          .includes(response.data[0].mdcNumber);
         console.log(match);
         if (match) {
           return false;
         }
-        return response.data.data;
+        return response.data;
       }
-      if (response.data.data.length > 1) {
+      if (response.data.length > 1) {
         for (let j = 0; j < currentPegawai.data.length; j++) {
-          const deletePegawai = response.data.data
+          const deletePegawai = response.data
             .map((e) => e.mdcNumber)
             .indexOf(
               currentPegawai.data[j].mdcNumber
@@ -392,10 +396,10 @@ function AdminAppProvider({ children }) {
                 : ''
             );
           if (deletePegawai !== -1) {
-            response.data.data.splice(deletePegawai, 1);
+            response.data.splice(deletePegawai, 1);
           }
         }
-        return response.data.data;
+        return response.data;
       }
     } catch (err) {
       return false;
@@ -406,31 +410,31 @@ function AdminAppProvider({ children }) {
   const readMdtbData = async (nama) => {
     try {
       const response = await axios.get(
-        `https://erkm.calypsocloud.one/mdtb?nama=${nama}`
+        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
       );
       const currentJp = await readData('jpall');
       if (currentJp.data.length === 0) {
-        return response.data.data;
+        return response.data;
       }
-      if (response.data.data.length === 1) {
+      if (response.data.length === 1) {
         const match = currentJp.data
           .map((e) => e.mdtbNumber)
-          .includes(response.data.data[0].mdtbNumber);
+          .includes(response.data[0].mdtbNumber);
         if (match) {
           return false;
         }
-        return response.data.data;
+        return response.data;
       }
-      if (response.data.data.length > 1) {
+      if (response.data.length > 1) {
         for (let j = 0; j < currentJp.data.length; j++) {
-          const deleteJp = response.data.data
+          const deleteJp = response.data
             .map((e) => e.mdtbNumber)
             .indexOf(currentJp.data[j].mdtbNumber);
           if (deleteJp !== -1) {
-            response.data.data.splice(deleteJp, 1);
+            response.data.splice(deleteJp, 1);
           }
         }
-        return response.data.data;
+        return response.data;
       }
     } catch (error) {
       return false;
@@ -568,6 +572,7 @@ function AdminAppProvider({ children }) {
 
   // Dictionaries
   const Dictionary = {
+    kkiakd: 'KKIA / KD',
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
     taska: 'Taska',
