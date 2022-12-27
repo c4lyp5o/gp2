@@ -116,12 +116,12 @@ export default function Program(props) {
                     <div>
                       {f.assignedByDaerah ? (
                         <div>
-                          <span className='bg-admin2 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          <span className='bg-user7 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                             YA
                           </span>
                         </div>
                       ) : (
-                        <span className='bg-user7 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        <span className='bg-admin3 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak
                         </span>
                       )}
