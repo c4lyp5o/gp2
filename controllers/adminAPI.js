@@ -2221,21 +2221,6 @@ const getData = async (req, res) => {
   }
 };
 
-const getCipher = async (req, res) => {
-  const ciphertext = CryptoJS.AES.encrypt(
-    JSON.stringify(process.env.CACHE_SERVER_PASS),
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-  const bytes = CryptoJS.AES.decrypt(ciphertext, process.env.CRYPTO_JS_SECRET);
-  const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-  res.status(200).json({
-    status: 'success',
-    message: 'Verification route',
-    key: ciphertext,
-    decryptedKey: decryptedData,
-  });
-};
-
 const sendVerificationEmail = async (userId) => {
   const mailOptions = (admin, key) => {
     if (admin.e_mail) {
@@ -2708,5 +2693,4 @@ module.exports = {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
-  getCipher,
 };

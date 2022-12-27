@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 import UserForgotPassword from './UserForgotPassword';
-import { BusyButton, SubmitButton } from '../../admin/components/Buttons';
 
 function UserLoginForm() {
   const {
@@ -45,9 +44,9 @@ function UserLoginForm() {
     const fetchKlinik = async () => {
       try {
         const { data } = await axios.get(
-          `https://erkm.calypsocloud.one/fasiliti?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
+          `https://g2u.calypsocloud.one/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
         );
-        setListKlinik(data.data);
+        setListKlinik(data);
       } catch (error) {
         console.log(error);
       }
