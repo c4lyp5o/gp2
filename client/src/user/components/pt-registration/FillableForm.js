@@ -172,14 +172,9 @@ export default function FillableForm({
   };
 
   const TarikhLahir = () => {
-    let required = true;
-    if (jenisIc === 'tiada-pengenalan') {
-      required = false;
-    }
-
     return masterDatePicker({
       selected: tarikhLahirDP,
-      required: required,
+      required: true,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
         const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
@@ -1472,9 +1467,7 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     tarikh lahir:{' '}
-                    {jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <TarikhLahir />
@@ -1485,10 +1478,7 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
-                    umur:{' '}
-                    {jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    umur: <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='flex'>
                     <div className='relative'>
