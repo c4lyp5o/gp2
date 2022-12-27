@@ -1819,6 +1819,7 @@ export default function FillableForm({
                                 <select
                                   name='episod-mengandung'
                                   id='episod-mengandung'
+                                  value={episodMengandung}
                                   className='appearance-none w-full md:w-48 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                                   onChange={(e) => {
                                     setEpisodMengandung(e.target.value);
