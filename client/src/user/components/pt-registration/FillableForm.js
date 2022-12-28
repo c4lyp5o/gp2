@@ -42,6 +42,7 @@ export default function FillableForm({
 
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
+  const [kkKdAll, setKkKdAll] = useState([]);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
 
   // for confirmation modal
@@ -107,6 +108,10 @@ export default function FillableForm({
   // const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
   // const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
   //   useState('');
+
+  // kk / kd
+  const [namaFasilitiKkKd, setNamaFasilitiKkKd] = useState('');
+  const [kodFasilitiKkKd, setKodFasilitiKkKd] = useState('');
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
@@ -555,6 +560,9 @@ export default function FillableForm({
               // pasukanPergigianBergerak,
               // makmalPergigianBergerak,
               // labelMakmalPergigianBergerak,
+              // kk / kd
+              namaFasilitiKkKd,
+              kodFasilitiKkKd,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -657,6 +665,9 @@ export default function FillableForm({
               // pasukanPergigianBergerak,
               // makmalPergigianBergerak,
               // labelMakmalPergigianBergerak,
+              // kk / kd
+              namaFasilitiKkKd,
+              kodFasilitiKkKd,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -756,6 +767,9 @@ export default function FillableForm({
     // setMakmalPergigianBergerak(false);
     // setLabelMakmalPergigianBergerak('');
     // taska / tadika
+    // kk / kd
+    setNamaFasilitiKkKd('');
+    setKodFasilitiKkKd('');
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
@@ -1001,6 +1015,9 @@ export default function FillableForm({
           // setLabelMakmalPergigianBergerak(
           //   data.singlePersonKaunter.labelMakmalPergigianBergerak
           // );
+          // kk / kd
+          setNamaFasilitiKkKd(data.singlePersonKaunter.namaFasilitiKkKd);
+          setKodFasilitiKkKd(data.singlePersonKaunter.kodFasilitiKkKd);
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
@@ -1090,7 +1107,24 @@ export default function FillableForm({
     }
   }, [editId]);
 
-  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  // fetch kkia/kd if jenisFasiliti kk-kd only
+  useEffect(() => {
+    if (jenisFasiliti === 'kk-kd') {
+      const fetchKkKd = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/kaunter/kk-kd`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setKkKdAll(data.kkKdAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchKkKd();
+    }
+  }, [jenisFasiliti]);
+
+  // fetch taska/tadika if jenisFasiliti taska-tadika only
   useEffect(() => {
     if (jenisFasiliti === 'taska-tadika') {
       const fetchTaskaTadika = async () => {
@@ -2603,6 +2637,35 @@ export default function FillableForm({
                       </div>
                     </article> */}
                   </>
+                )}
+                {jenisFasiliti === 'kk-kd' && (
+                  <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
+                    <p className='font-semibold'>
+                      nama fasiliti KKIA / KD{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    <select
+                      required
+                      name='nama-fasiliti-taska-tadika'
+                      id='nama-fasiliti-taska-tadika'
+                      value={kodFasilitiKkKd}
+                      onChange={(e) => {
+                        const selectedKkKd = kkKdAll.find(
+                          (kkkd) => kkkd.kodKkiaKd === e.target.value
+                        );
+                        setNamaFasilitiKkKd(selectedKkKd.nama);
+                        setKodFasilitiKkKd(selectedKkKd.kodKkiaKd);
+                      }}
+                      className='w-11/12 outline outline-1 outline-userBlack'
+                    >
+                      <option value=''>Pilih</option>
+                      {kkKdAll.map((kkkd) => {
+                        return (
+                          <option value={kkkd.kodKkiaKd}>{kkkd.nama}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
                 )}
                 {jenisFasiliti === 'taska-tadika' && (
                   <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>

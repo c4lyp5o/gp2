@@ -214,7 +214,7 @@ function UserModalPromosi({
                     <option value=''>Sila pilih lokasi..</option>
                     <option value='hospital'>Hospital</option>
                     <option value='klinik'>Klinik</option>
-                    <option value='kawasan-awam'>Kawasan awam</option>
+                    <option value='kawasan-awam'>Kawasan Awam</option>
                   </select>
                 </div>
                 <div className='absolute bottom-0 right-0 left-0 m-2 mx-10'>

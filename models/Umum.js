@@ -76,6 +76,9 @@ const UmumSchema = new mongoose.Schema(
     // pasukanPergigianBergerak: { type: Boolean, default: false },
     // makmalPergigianBergerak: { type: Boolean, default: false },
     // labelMakmalPergigianBergerak: { type: String, default: '' },
+    // kk / kd
+    namaFasilitiKkKd: { type: String, default: '' },
+    kodFasilitiKkKd: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
@@ -790,6 +793,7 @@ UmumSchema.pre('save', async function () {
       let currentRunningNumber = await Runningnumber.findOne({
         jenis:
           this.jenisFasiliti +
+          this.kodFasilitiKkKd +
           this.kodFasilitiTaskaTadika +
           this.jenisProgram +
           this.namaProgram,
@@ -804,6 +808,7 @@ UmumSchema.pre('save', async function () {
           runningnumber: 1,
           jenis:
             this.jenisFasiliti +
+            this.kodFasilitiKkKd +
             this.kodFasilitiTaskaTadika +
             this.jenisProgram +
             this.namaProgram,
