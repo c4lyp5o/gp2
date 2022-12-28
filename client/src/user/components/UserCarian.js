@@ -319,7 +319,7 @@ export default function UserCarian() {
                   <th
                     className={`px-2 py-1 outline outline-1 outline-offset-1`}
                   >
-                    TANDAKAN RETEN
+                    TANDAKAN RETEN SALAH / KEMBALIKAN RETEN SALAH
                   </th>
                 ) : null}
               </tr>
