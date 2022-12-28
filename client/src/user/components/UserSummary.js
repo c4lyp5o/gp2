@@ -83,7 +83,11 @@ export default function UserSummary() {
   }, [userToken]);
 
   if (!data) {
-    return <Spinner />;
+    return (
+      <div className='mt-5'>
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -161,12 +165,12 @@ export default function UserSummary() {
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-offset-1'>
                         {item.kedatangan === 'baru-kedatangan' ? (
-                          <span className='bg-admin3 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          <span className='bg-user7 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                             Baru
                           </span>
                         ) : (
-                          <span className='bg-user7 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                            Ulang
+                          <span className='bg-user9 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            Ulangan
                           </span>
                         )}
                       </td>
