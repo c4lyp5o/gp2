@@ -1477,18 +1477,6 @@ export default function FillableForm({
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
-                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    tarikh lahir:{' '}
-                    <span className='font-semibold text-user6'>*</span>
-                  </p>
-                  <div className='relative w-full md:w-56'>
-                    <TarikhLahir />
-                    <span className='absolute top-2 right-2 text-kaunter3'>
-                      <FaCalendar />
-                    </span>
-                  </div>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     umur: <span className='font-semibold text-user6'>*</span>
                   </p>
@@ -1544,6 +1532,18 @@ export default function FillableForm({
                         Hari
                       </label>
                     </div>
+                  </div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    tarikh lahir:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <div className='relative w-full md:w-56'>
+                    <TarikhLahir />
+                    <span className='absolute top-2 right-2 text-kaunter3'>
+                      <FaCalendar />
+                    </span>
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
@@ -2128,7 +2128,12 @@ export default function FillableForm({
                             }}
                             className='mr-2'
                           />
-                          <label htmlFor='kakitangankerajaan'>eGL</label>
+                          <label
+                            htmlFor='kakitangankerajaan'
+                            className='normal-case'
+                          >
+                            e-GL
+                          </label>
                         </div>
                       )}
                     {statusPesara === '' &&
