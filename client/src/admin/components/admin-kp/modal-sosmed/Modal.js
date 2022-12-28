@@ -2,16 +2,7 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
-import {
-  FaWindowClose,
-  FaInfoCircle,
-  FaYoutube,
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaTiktok,
-  FaTrashAlt,
-} from 'react-icons/fa';
+import { FaWindowClose, FaInfoCircle } from 'react-icons/fa';
 
 import { ConfirmModalForData } from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
@@ -271,8 +262,8 @@ export const ModalSosMed = (props) => {
         }
         props.setShowSosMedModal(false);
         setAddingData(false);
+        return;
       });
-      return;
     }
     if (!props.kp) {
       Data = {
@@ -296,8 +287,8 @@ export const ModalSosMed = (props) => {
       }
       props.setShowSosMedModal(false);
       setAddingData(false);
+      return;
     });
-    return;
   };
 
   const propsSosMed = {
@@ -311,11 +302,6 @@ export const ModalSosMed = (props) => {
         setPilihanKodProgram(res.data);
       }
     });
-    return () => {
-      setPilihanKodProgram([]);
-      setPilihanMediaSosial([]);
-      setQuestionState([]);
-    };
   }, []);
 
   return (
@@ -430,7 +416,6 @@ export const ModalDataIkutProgram = (props) => {
   const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
   const [showInfo, setShowInfo] = useState(false);
-  const displayedIcons = [];
 
   useEffect(() => {
     if (props.accountType !== 'kpUser') {
@@ -440,17 +425,9 @@ export const ModalDataIkutProgram = (props) => {
     }
     if (props.accountType === 'kpUser') {
       readDataForKp('sosmedByKodProgram').then((res) => {
-        console.log(res);
         setData(res.data);
       });
     }
-    return () => {
-      setData();
-      setDataIndex();
-      setInternalDataIndex();
-      setShowInfo(false);
-      displayedIcons.length = 0;
-    };
   }, []);
 
   if (!data) {
@@ -472,9 +449,9 @@ export const ModalDataIkutProgram = (props) => {
         {data.map((i, dataIndex) => (
           <>
             <div className='m-2 justify-center'>
-              <h1>KOD PROGRAM: {i.kodProgram}</h1>
+              <h1>KOD PROGRAM: {i.kodProgram.toUpperCase()}</h1>
             </div>
-            <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
+            <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-4'>
               <table className='table-auto'>
                 <thead className='text-adminWhite bg-admin3'>
                   <tr>
@@ -482,19 +459,10 @@ export const ModalDataIkutProgram = (props) => {
                       Bil.
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      Tarikh Muatnaik
+                      Nama Aktiviti
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      Tarikh Kemaskini
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      Tajuk Bahan / Aktiviti
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      Jenis Media Sosial
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      Hapus
+                      Tarikh Aktiviti
                     </th>
                   </tr>
                 </thead>
@@ -505,69 +473,23 @@ export const ModalDataIkutProgram = (props) => {
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {moment(i.tarikhMula).format('DD-MM-YYYY')}
+                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 flex'>
+                          {i.namaAktiviti}{' '}
+                          <FaInfoCircle
+                            className='ml-2 text-xl text-userBlack'
+                            onMouseEnter={(e) => {
+                              setShowInfo(true);
+                              setDataIndex(dataIndex);
+                              setInternalDataIndex(index);
+                            }}
+                            onMouseLeave={(e) => {
+                              setShowInfo(false);
+                            }}
+                          />
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                          {moment(i.tarikhMula).format('DD-MM-YYYY')} -{' '}
                           {moment(i.tarikhAkhir).format('DD-MM-YYYY')}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          <div className='flex flex-row'>
-                            {i.namaAktiviti}{' '}
-                            <FaInfoCircle
-                              className='ml-2 text-xl text-userBlack'
-                              onMouseEnter={(e) => {
-                                setShowInfo(true);
-                                setDataIndex(dataIndex);
-                                setInternalDataIndex(index);
-                              }}
-                              onMouseLeave={(e) => {
-                                setShowInfo(false);
-                              }}
-                            />
-                          </div>
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {Object.entries(i).map((index, [key]) => {
-                            let displayer = { id: 0, icon: [] };
-                            if (
-                              key.toLowerCase().includes('facebook') &&
-                              !displayedIcons.includes('facebook')
-                            ) {
-                              displayer.id = i.id;
-                              displayer.icon.push('facebook');
-                              displayedIcons.push(displayer);
-                            }
-                            if (
-                              key.toLowerCase().includes('instagram') &&
-                              !displayedIcons.includes('instagram')
-                            ) {
-                              displayedIcons.push('instagram');
-                            }
-                            if (
-                              key.toLowerCase().includes('twitter') &&
-                              !displayedIcons.includes('twitter')
-                            ) {
-                              displayedIcons.push('twitter');
-                            }
-                            if (
-                              key.toLowerCase().includes('youtube') &&
-                              !displayedIcons.includes('youtube')
-                            ) {
-                              displayedIcons.push('youtube');
-                            }
-                            if (
-                              key.toLowerCase().includes('tiktok') &&
-                              !displayedIcons.includes('tiktok')
-                            ) {
-                              displayedIcons.push('tiktok');
-                            }
-                          })}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          <button>
-                            <FaTrashAlt className='text-2xl text-admin3' />
-                          </button>
                         </td>
                       </tr>
                     </>
