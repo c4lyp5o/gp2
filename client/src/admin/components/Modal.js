@@ -9,6 +9,7 @@ import styles from '../Modal.module.css';
 import { Loading } from './Screens';
 import {
   InputKlinik,
+  InputKkiakd,
   InputPegawai,
   InputFacility,
   InputEvent,
@@ -42,6 +43,7 @@ const AddModal = ({
     pingApdmServer,
     readSekolahData,
     readFasilitiData,
+    readKkiaData,
     EmailValidator,
   } = useGlobalAdminAppContext();
 
@@ -51,6 +53,7 @@ const AddModal = ({
   const [kodSekolah, setKodSekolah] = useState('');
   const [kp, setKp] = useState('');
   const [kodFasiliti, setKodFasiliti] = useState('');
+  const [kodKkiaKd, setKodKkiaKd] = useState('');
   const [regNumber, setRegNumber] = useState();
   const [gred, setGred] = useState('');
   const [role, setRole] = useState('');
@@ -78,6 +81,7 @@ const AddModal = ({
   const [statusApdm, setStatusApdm] = useState(false);
   // data
   const [klinik, setKlinik] = useState([]);
+  const [kkia, setKkia] = useState([]);
   const [sekolah, setSekolah] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingData, setAddingData] = useState(false);
@@ -116,18 +120,14 @@ const AddModal = ({
       kodFasilitiHandler: kodFasiliti,
       statusPerkhidmatan: statusPerkhidmatan,
     };
-    if (FType === 'program') {
+    if (FType === 'kp') {
       Data = {
-        nama: name,
-        jenisEvent,
-        createdByKp: kp,
-        createdByKodFasiliti: kodFasiliti,
-        kategoriInstitusi,
-        // modPenyampaianPerkhidmatan: modPenyampaian,
-        // tarikhStart,
-        // tarikhEnd,
-        tempat,
-        assignedByDaerah: true,
+        kp: name,
+        accountType: 'kpUser',
+        email: email,
+        statusRoleKlinik: role,
+        statusPerkhidmatan: statusPerkhidmatan,
+        kodFasiliti: kodFasiliti,
       };
     }
     if (FType === 'pp') {
@@ -160,14 +160,10 @@ const AddModal = ({
         activationStatus: true,
       };
     }
-    if (FType === 'kp') {
+    if (FType === 'kkiakd') {
       Data = {
-        kp: name,
-        accountType: 'kpUser',
-        email: email,
-        statusRoleKlinik: role,
-        statusPerkhidmatan: statusPerkhidmatan,
-        kodFasiliti: kodFasiliti,
+        ...Data,
+        kodKkiaKd: kodKkiaKd,
       };
     }
     if (FType === 'taska' || FType === 'tadika') {
@@ -186,14 +182,27 @@ const AddModal = ({
         risikoSekolahPersis: risiko,
       };
     }
-    if (FType === 'ins') {
+    if (FType === 'program') {
       Data = {
-        ...Data,
-        kategoriInstitusi: kategoriInstitusi,
+        nama: name,
+        jenisEvent,
+        createdByKp: kp,
+        createdByKodFasiliti: kodFasiliti,
+        kategoriInstitusi,
+        // modPenyampaianPerkhidmatan: modPenyampaian,
+        // tarikhStart,
+        // tarikhEnd,
+        tempat,
+        assignedByDaerah: true,
       };
     }
+    // if (FType === 'ins') {
+    //   Data = {
+    //     ...Data,
+    //     kategoriInstitusi: kategoriInstitusi,
+    //   };
+    // }
     createData(FType, Data).then((res) => {
-      console.log(res.data);
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
@@ -220,19 +229,14 @@ const AddModal = ({
         setSekolah(res);
       });
     }
-    // if (FType === 'pp') {
-    //   readPegawaiData().then((res) => {
-    //     setAllPegawai(res);
-    //   });
-    // }
-    // if (FType === 'jp') {
-    //   readMdtbData().then((res) => {
-    //     setMdtbMembers(res);
-    //   });
-    // }
     if (FType === 'kp') {
       readFasilitiData({ negeri, daerah }).then((res) => {
         setKlinik(res.data);
+      });
+    }
+    if (FType === 'kkiakd') {
+      readKkiaData({ negeri, daerah }).then((res) => {
+        setKkia(res.data);
       });
     }
     if (FType !== 'kp') {
@@ -274,6 +278,9 @@ const AddModal = ({
     kp,
     currentRolePromosiKlinik,
     currentRoleMediaSosialKlinik,
+    // kkia
+    setKodKkiaKd,
+    kodKkiaKd,
     // facility
     setKodSekolah,
     kodSekolah,
@@ -305,6 +312,7 @@ const AddModal = ({
     setAddingData,
     addingData,
     klinik,
+    kkia,
     sekolah,
     handleSubmit,
   };
@@ -320,6 +328,11 @@ const AddModal = ({
           {(confirm) => <InputKlinik {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
+      {FType === 'kkiakd' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <InputKkiakd {...props} confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
       {(FType === 'pp' || FType === 'jp') && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
           {(confirm) => <InputPegawai {...props} confirm={confirm} />}
@@ -328,7 +341,8 @@ const AddModal = ({
       {FType !== 'kp' &&
         FType !== 'pp' &&
         FType !== 'jp' &&
-        FType !== 'program' && (
+        FType !== 'program' &&
+        FType !== 'kkiakd' && (
           <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
             {(confirm) => <InputFacility {...props} confirm={confirm} />}
           </ConfirmModalForData>
@@ -550,9 +564,10 @@ const EditModalForKp = ({
   reload,
   setReload,
 }) => {
-  const { toast, readOneDataForKp, updateDataForKp } =
+  const { toast, readDataForKp, readOneDataForKp, updateDataForKp } =
     useGlobalAdminAppContext();
 
+  const [allKlinik, setAllKlinik] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -561,6 +576,12 @@ const EditModalForKp = ({
   const [endDateDP, setEndDateDP] = useState(null);
 
   useEffect(() => {
+    if (FType === 'kpb' || FType === 'mpb') {
+      readDataForKp('kp').then((res) => {
+        console.log(res);
+        setAllKlinik(res.data);
+      });
+    }
     readOneDataForKp(FType, id).then((res) => {
       setEditedEntity(res.data);
       res.data.tarikhStart
@@ -627,11 +648,16 @@ const EditModalForKp = ({
     if (FType === 'kpb' || FType === 'mpb') {
       Data = {
         // nama: currentName.current,
-        jumlahHariBeroperasi: editedEntity.jumlahHariBeroperasi,
-        jumlahPesakitBaru: editedEntity.jumlahPesakitBaru,
-        jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
+        // jumlahHariBeroperasi: editedEntity.jumlahHariBeroperasi,
+        // jumlahPesakitBaru: editedEntity.jumlahPesakitBaru,
+        // jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
+        klinikBertanggungjawab: editedEntity.handler,
+        kodKlinikBertanggungjawab: editedEntity.kodFasilitiHandler,
+        tarikhStart: editedEntity.tarikhStart,
+        tarikhEnd: editedEntity.tarikhEnd,
       };
     }
+    console.log(Data);
     updateDataForKp(FType, id, Data).then(() => {
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
@@ -676,6 +702,7 @@ const EditModalForKp = ({
     endDateDP,
     //
     setShowEditModal,
+    allKlinik,
     FType,
     eventModeChecker,
     handleSubmit,

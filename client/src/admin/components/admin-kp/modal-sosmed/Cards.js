@@ -15,7 +15,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
             </span>
           </div>
           <div className='grid grid-cols-[3fr_1fr] text-xs'>
-            <p className='flex flex-row pl-2 items-center'>
+            {/* <p className='flex flex-row pl-2 items-center'>
               Bil. Aktiviti Yang Mendapat Bil. Share kurang 10
             </p>
             <input
@@ -46,7 +46,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
                   },
                 })
               }
-            />
+            /> */}
             <p className='flex flex-row pl-2 items-center'>Bilangan Penonton</p>
             <input
               className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
@@ -143,7 +143,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
             </span>
           </div>
           <div className='grid grid-cols-[3fr_1fr] text-xs'>
-            <p className='flex flex-row pl-2 items-center'>
+            {/* <p className='flex flex-row pl-2 items-center'>
               Bil. Aktiviti Yang Mendapat Bil. Share kurang 10
             </p>
             <input
@@ -176,7 +176,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
                   },
                 })
               }
-            />
+            /> */}
             <p className='flex flex-row pl-2 items-center'>Bilangan Penonton</p>
             <input
               key={nama + '_poster_bilPenonton'}
@@ -234,7 +234,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
             </span>
           </div>
           <div className='grid grid-cols-[3fr_1fr] text-xs'>
-            <p className='flex flex-row pl-2 items-center'>
+            {/* <p className='flex flex-row pl-2 items-center'>
               Bil. Aktiviti Yang Mendapat Bil. Share kurang 10
             </p>
             <input
@@ -265,7 +265,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
                   },
                 })
               }
-            />
+            /> */}
             <p className='flex flex-row pl-2 items-center'>Bilangan Penonton</p>
             <input
               className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
