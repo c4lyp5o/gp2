@@ -153,6 +153,21 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
+                      {data.tidakPerluRawatanPemeriksaanUmum ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Tidak Perlu Rawatan:
+                          </p>
+                          <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            TPR
+                            {data.tidakPerluRawatanPemeriksaanUmum ? (
+                              <FaCheckCircle className='text-user7 text-center mx-1' />
+                            ) : (
+                              <FaTimesCircle className='text-user9 text-center mx-1' />
+                            )}
+                          </p>
+                        </div>
+                      ) : null}
                       {data.yaTidakSediaAdaStatusDenturePemeriksaanUmum ||
                       data.yaTidakPerluStatusDenturePemeriksaanUmum ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
@@ -1030,12 +1045,7 @@ const ConfirmModal = ({ children, data }) => {
                       data.adjustasiOklusi ||
                       data.cabutanPengurusanFaktorSetempat ||
                       data.ektiparsiPulpa ||
-                      data.rawatanLainPeriodontikRawatanUmum ||
-                      data.rujukanPakarPeriodontik ||
-                      data.engganLainRujukanPakarPeriodontik ||
-                      data.rujukanPakarScd ||
-                      data.rujukanPakarUpkka ||
-                      data.kesSelesaiPeriodontium ? (
+                      data.rawatanLainPeriodontikRawatanUmum ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             rawatan periodontik
@@ -1138,69 +1148,6 @@ const ConfirmModal = ({ children, data }) => {
                                 Rawatan Lain Periodontik Rawatan Umum:{' '}
                                 {data.rawatanLainPeriodontikRawatanUmum ===
                                 true ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : (
-                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                                )}
-                              </p>
-                            ) : null}
-                            {data.rujukanPakarPeriodontik ? (
-                              <p>
-                                Rujukan Pakar Periodontik:{' '}
-                                {data.rujukanPakarPeriodontik ===
-                                'ya-rujukan-pakar-periodontik' ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : null}
-                                {data.rujukanPakarPeriodontik ===
-                                'tidak-rujukan-pakar-periodontik' ? (
-                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                                ) : null}
-                              </p>
-                            ) : null}
-                            {data.engganLainRujukanPakarPeriodontik ===
-                            'enggan-rujukan-pakar-periodontik' ? (
-                              <p>
-                                Enggan Rujukan Pakar Periodontik:{' '}
-                                {data.engganLainRujukanPakarPeriodontik ===
-                                'enggan-rujukan-pakar-periodontik' ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : null}
-                              </p>
-                            ) : null}
-                            {data.engganLainRujukanPakarPeriodontik ===
-                            'lain-lain-rujukan-pakar-periodontik' ? (
-                              <p>
-                                Lain-lain Rujukan Pakar Periodontik:{' '}
-                                {data.engganLainRujukanPakarPeriodontik ===
-                                'lain-lain-rujukan-pakar-periodontik' ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : null}
-                              </p>
-                            ) : null}
-                            {data.rujukanPakarScd ? (
-                              <p>
-                                Rujukan Pakar Scd:{' '}
-                                {data.rujukanPakarScd === true ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : (
-                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                                )}
-                              </p>
-                            ) : null}
-                            {data.rujukanPakarUpkka ? (
-                              <p>
-                                Rujukan Pakar UPKKA:
-                                {data.rujukanPakarUpkka === true ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : (
-                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                                )}
-                              </p>
-                            ) : null}
-                            {data.kesSelesaiPeriodontium ? (
-                              <p>
-                                Rujukan Kes Selesai Periodontium:
-                                {data.kesSelesaiPeriodontium === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -1355,7 +1302,95 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.kesSelesaiRawatanUmum ? (
+                      {data.rujukanPakarPeriodontik ||
+                      data.engganLainRujukanPakarPeriodontik ||
+                      data.rujukanPakarScd ||
+                      data.rujukanPakarUpkka ||
+                      data.rujukanPakarOrtodontik ||
+                      data.rujukanPakarBedahMulut ? (
+                        <div className='grid grid-cols-[1fr_2fr] text-xs'>
+                          <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Rujukan Pakar
+                          </p>
+                          <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.rujukanPakarPeriodontik ? (
+                              <p>
+                                Rujukan Pakar Periodontik:{' '}
+                                {data.rujukanPakarPeriodontik ===
+                                'ya-rujukan-pakar-periodontik' ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : null}
+                                {data.rujukanPakarPeriodontik ===
+                                'tidak-rujukan-pakar-periodontik' ? (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                ) : null}
+                              </p>
+                            ) : null}
+                            {data.engganLainRujukanPakarPeriodontik ===
+                            'enggan-rujukan-pakar-periodontik' ? (
+                              <p>
+                                Enggan Rujukan Pakar Periodontik:{' '}
+                                {data.engganLainRujukanPakarPeriodontik ===
+                                'enggan-rujukan-pakar-periodontik' ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : null}
+                              </p>
+                            ) : null}
+                            {data.engganLainRujukanPakarPeriodontik ===
+                            'lain-lain-rujukan-pakar-periodontik' ? (
+                              <p>
+                                Lain-lain Rujukan Pakar Periodontik:{' '}
+                                {data.engganLainRujukanPakarPeriodontik ===
+                                'lain-lain-rujukan-pakar-periodontik' ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : null}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarScd ? (
+                              <p>
+                                Rujukan Pakar Scd:{' '}
+                                {data.rujukanPakarScd === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarUpkka ? (
+                              <p>
+                                Rujukan Pakar UPKKA:
+                                {data.rujukanPakarUpkka === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarOrtodontik ? (
+                              <p>
+                                Rujukan Pakar Ortodontik:{' '}
+                                {data.rujukanPakarOrtodontik === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarBedahMulut ? (
+                              <p>
+                                Rujukan Pakar Bedah Mulut:{' '}
+                                {data.rujukanPakarBedahMulut === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.kesSelesaiRawatanUmum ||
+                      data.kesSelesaiPeriodontium ? (
                         <div className='grid grid-cols-[1fr_2fr] text-xs'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Kes Selesai
@@ -1365,6 +1400,16 @@ const ConfirmModal = ({ children, data }) => {
                               <p>
                                 Kes Selesai:
                                 {data.kesSelesaiRawatanUmum === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.kesSelesaiPeriodontium ? (
+                              <p>
+                                Kes Selesai Periodontium:
+                                {data.kesSelesaiPeriodontium === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
