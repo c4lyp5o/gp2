@@ -277,6 +277,7 @@ const getKkKdList = async (req, res) => {
     handler: req.user.kp,
     kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: 'kkiakd',
+    statusPerkhidmatan: 'active',
   });
 
   res.status(200).json({ kkKdAll });
@@ -294,6 +295,7 @@ const getTaskaTadikaList = async (req, res) => {
     handler: req.user.kp,
     kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
+    statusPerkhidmatan: 'active',
   });
 
   res.status(200).json({ taskaTadikaAll });
