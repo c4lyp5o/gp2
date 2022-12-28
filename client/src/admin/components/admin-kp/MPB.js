@@ -5,6 +5,21 @@ export default function MakmalPergigianBergerak(props) {
         <h1 className='text-3xl font-bold mt-10 mb-10'>
           Senarai Makmal Pergigian Bergerak {props.kp}
         </h1>
+        <div>
+          <select
+            name='pilih-mpb'
+            id='pilih-mpb'
+            className='text-sm rounded-l-lg px-2 py-1 w-60'
+          >
+            <option value=''>Pilih MPB</option>
+            {props.data.map((f) => (
+              <option value={f.nama}>{f.nama}</option>
+            ))}
+          </select>
+          <button className='text-sm text-adminWhite bg-admin3 hover:bg-admin4 rounded-r-lg px-2 py-1 '>
+            Tambah Hari Beroperasi
+          </button>
+        </div>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
             <thead className='text-adminWhite bg-admin3'>
