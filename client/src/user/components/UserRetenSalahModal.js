@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
@@ -65,7 +65,7 @@ export default function UserRetenSalahModal({
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-40 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute inset-x-5 inset-y-10 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
       >
         <FaWindowClose
           onClick={() => setModalRetenSalah(false)}
