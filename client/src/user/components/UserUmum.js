@@ -453,7 +453,7 @@ function UserUmum() {
                           ) : singlePersonUmum.statusKehadiran === true &&
                             singlePersonUmum.statusReten === 'reten salah' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>Reten Salah</strike>
+                              <strike>Terdapat Kesalahan Reten</strike>
                               <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
                           ) : singlePersonUmum.statusKehadiran === true ? (
@@ -468,7 +468,7 @@ function UserUmum() {
                             </div>
                           ) : singlePersonUmum.statusReten === 'reten salah' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>Reten Salah</strike>
+                              <strike>Terdapat Kesalahan Reten</strike>
                               <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
                           ) : null}
