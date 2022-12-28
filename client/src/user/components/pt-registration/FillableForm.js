@@ -1631,7 +1631,6 @@ export default function FillableForm({
                           ? false
                           : true
                       }
-                      disabled={jenisIc === 'passport' ? true : false}
                       name='kumpulanEtnik'
                       id='kumpulanEtnik'
                       value={kumpulanEtnik}
