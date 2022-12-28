@@ -239,6 +239,60 @@ function UserFormUmumHeader() {
   const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
   masterForm.pemeriksaanTaskaTadika = pemeriksaanTaskaTadika;
   masterForm.setPemeriksaanTaskaTadika = setPemeriksaanTaskaTadika;
+  const [
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
+    setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
+  ] = useState('');
+  masterForm.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum =
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
+  masterForm.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum =
+    setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
+  const [adaDesidusPemeriksaanUmum, setAdaDesidusPemeriksaanUmum] =
+    useState(false);
+  masterForm.adaDesidusPemeriksaanUmum = adaDesidusPemeriksaanUmum;
+  masterForm.setAdaDesidusPemeriksaanUmum = setAdaDesidusPemeriksaanUmum;
+  const [dAdaGigiDesidusPemeriksaanUmum, setDAdaGigiDesidusPemeriksaanUmum] =
+    useState('');
+  masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
+  masterForm.setDAdaGigiDesidusPemeriksaanUmum =
+    setDAdaGigiDesidusPemeriksaanUmum;
+  const [fAdaGigiDesidusPemeriksaanUmum, setFAdaGigiDesidusPemeriksaanUmum] =
+    useState('');
+  masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
+  masterForm.setFAdaGigiDesidusPemeriksaanUmum =
+    setFAdaGigiDesidusPemeriksaanUmum;
+  const [xAdaGigiDesidusPemeriksaanUmum, setXAdaGigiDesidusPemeriksaanUmum] =
+    useState('');
+  masterForm.xAdaGigiDesidusPemeriksaanUmum = xAdaGigiDesidusPemeriksaanUmum;
+  masterForm.setXAdaGigiDesidusPemeriksaanUmum =
+    setXAdaGigiDesidusPemeriksaanUmum;
+  const [sumDMFXDesidusUmum, setSumDMFXDesidusUmum] = useState(0);
+  masterForm.sumDMFXDesidusUmum = sumDMFXDesidusUmum;
+  const [adaKekalPemeriksaanUmum, setAdaKekalPemeriksaanUmum] = useState(false);
+  masterForm.adaKekalPemeriksaanUmum = adaKekalPemeriksaanUmum;
+  masterForm.setAdaKekalPemeriksaanUmum = setAdaKekalPemeriksaanUmum;
+  const [dAdaGigiKekalPemeriksaanUmum, setDAdaGigiKekalPemeriksaanUmum] =
+    useState('');
+  masterForm.dAdaGigiKekalPemeriksaanUmum = dAdaGigiKekalPemeriksaanUmum;
+  masterForm.setDAdaGigiKekalPemeriksaanUmum = setDAdaGigiKekalPemeriksaanUmum;
+  const [mAdaGigiKekalPemeriksaanUmum, setMAdaGigiKekalPemeriksaanUmum] =
+    useState('');
+  masterForm.mAdaGigiKekalPemeriksaanUmum = mAdaGigiKekalPemeriksaanUmum;
+  masterForm.setMAdaGigiKekalPemeriksaanUmum = setMAdaGigiKekalPemeriksaanUmum;
+  const [fAdaGigiKekalPemeriksaanUmum, setFAdaGigiKekalPemeriksaanUmum] =
+    useState('');
+  masterForm.fAdaGigiKekalPemeriksaanUmum = fAdaGigiKekalPemeriksaanUmum;
+  masterForm.setFAdaGigiKekalPemeriksaanUmum = setFAdaGigiKekalPemeriksaanUmum;
+  const [eAdaGigiKekalPemeriksaanUmum, setEAdaGigiKekalPemeriksaanUmum] =
+    useState('');
+  masterForm.eAdaGigiKekalPemeriksaanUmum = eAdaGigiKekalPemeriksaanUmum;
+  masterForm.setEAdaGigiKekalPemeriksaanUmum = setEAdaGigiKekalPemeriksaanUmum;
+  const [xAdaGigiKekalPemeriksaanUmum, setXAdaGigiKekalPemeriksaanUmum] =
+    useState('');
+  masterForm.xAdaGigiKekalPemeriksaanUmum = xAdaGigiKekalPemeriksaanUmum;
+  masterForm.setXAdaGigiKekalPemeriksaanUmum = setXAdaGigiKekalPemeriksaanUmum;
+  const [sumDMFXKekalUmum, setSumDMFXKekalUmum] = useState(0);
+  masterForm.sumDMFXKekalUmum = sumDMFXKekalUmum;
   const [adaCleftLipPemeriksaanUmum, setAdaCleftLipPemeriksaanUmum] =
     useState(false);
   masterForm.adaCleftLipPemeriksaanUmum = adaCleftLipPemeriksaanUmum;
@@ -364,60 +418,6 @@ function UserFormUmumHeader() {
   masterForm.setPerluPenskaleranPemeriksaanUmum =
     setPerluPenskaleranPemeriksaanUmum;
   const [
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
-    setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
-  ] = useState('');
-  masterForm.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum =
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
-  masterForm.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum =
-    setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
-  const [adaDesidusPemeriksaanUmum, setAdaDesidusPemeriksaanUmum] =
-    useState(false);
-  masterForm.adaDesidusPemeriksaanUmum = adaDesidusPemeriksaanUmum;
-  masterForm.setAdaDesidusPemeriksaanUmum = setAdaDesidusPemeriksaanUmum;
-  const [dAdaGigiDesidusPemeriksaanUmum, setDAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.dAdaGigiDesidusPemeriksaanUmum = dAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setDAdaGigiDesidusPemeriksaanUmum =
-    setDAdaGigiDesidusPemeriksaanUmum;
-  const [fAdaGigiDesidusPemeriksaanUmum, setFAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.fAdaGigiDesidusPemeriksaanUmum = fAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setFAdaGigiDesidusPemeriksaanUmum =
-    setFAdaGigiDesidusPemeriksaanUmum;
-  const [xAdaGigiDesidusPemeriksaanUmum, setXAdaGigiDesidusPemeriksaanUmum] =
-    useState('');
-  masterForm.xAdaGigiDesidusPemeriksaanUmum = xAdaGigiDesidusPemeriksaanUmum;
-  masterForm.setXAdaGigiDesidusPemeriksaanUmum =
-    setXAdaGigiDesidusPemeriksaanUmum;
-  const [sumDMFXDesidusUmum, setSumDMFXDesidusUmum] = useState(0);
-  masterForm.sumDMFXDesidusUmum = sumDMFXDesidusUmum;
-  const [adaKekalPemeriksaanUmum, setAdaKekalPemeriksaanUmum] = useState(false);
-  masterForm.adaKekalPemeriksaanUmum = adaKekalPemeriksaanUmum;
-  masterForm.setAdaKekalPemeriksaanUmum = setAdaKekalPemeriksaanUmum;
-  const [dAdaGigiKekalPemeriksaanUmum, setDAdaGigiKekalPemeriksaanUmum] =
-    useState('');
-  masterForm.dAdaGigiKekalPemeriksaanUmum = dAdaGigiKekalPemeriksaanUmum;
-  masterForm.setDAdaGigiKekalPemeriksaanUmum = setDAdaGigiKekalPemeriksaanUmum;
-  const [mAdaGigiKekalPemeriksaanUmum, setMAdaGigiKekalPemeriksaanUmum] =
-    useState('');
-  masterForm.mAdaGigiKekalPemeriksaanUmum = mAdaGigiKekalPemeriksaanUmum;
-  masterForm.setMAdaGigiKekalPemeriksaanUmum = setMAdaGigiKekalPemeriksaanUmum;
-  const [fAdaGigiKekalPemeriksaanUmum, setFAdaGigiKekalPemeriksaanUmum] =
-    useState('');
-  masterForm.fAdaGigiKekalPemeriksaanUmum = fAdaGigiKekalPemeriksaanUmum;
-  masterForm.setFAdaGigiKekalPemeriksaanUmum = setFAdaGigiKekalPemeriksaanUmum;
-  const [eAdaGigiKekalPemeriksaanUmum, setEAdaGigiKekalPemeriksaanUmum] =
-    useState('');
-  masterForm.eAdaGigiKekalPemeriksaanUmum = eAdaGigiKekalPemeriksaanUmum;
-  masterForm.setEAdaGigiKekalPemeriksaanUmum = setEAdaGigiKekalPemeriksaanUmum;
-  const [xAdaGigiKekalPemeriksaanUmum, setXAdaGigiKekalPemeriksaanUmum] =
-    useState('');
-  masterForm.xAdaGigiKekalPemeriksaanUmum = xAdaGigiKekalPemeriksaanUmum;
-  masterForm.setXAdaGigiKekalPemeriksaanUmum = setXAdaGigiKekalPemeriksaanUmum;
-  const [sumDMFXKekalUmum, setSumDMFXKekalUmum] = useState(0);
-  masterForm.sumDMFXKekalUmum = sumDMFXKekalUmum;
-  const [
     jumlahFaktorRisikoPemeriksaanUmum,
     setJumlahFaktorRisikoPemeriksaanUmum,
   ] = useState('');
@@ -445,38 +445,6 @@ function UserFormUmumHeader() {
     tabiatBerisikoTinggiPemeriksaanUmum;
   masterForm.setTabiatBerisikoTinggiPemeriksaanUmum =
     setTabiatBerisikoTinggiPemeriksaanUmum;
-  const [
-    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
-    setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
-  ] = useState('');
-  masterForm.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum =
-    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum;
-  masterForm.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum =
-    setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum;
-  const [
-    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
-    setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
-  ] = useState('');
-  masterForm.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum =
-    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum;
-  masterForm.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum =
-    setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum;
-  const [
-    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
-    setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
-  ] = useState('');
-  masterForm.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum =
-    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum;
-  masterForm.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum =
-    setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum;
-  const [
-    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
-    setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
-  ] = useState('');
-  masterForm.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum =
-    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum;
-  masterForm.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum =
-    setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum;
   const [puncaRujukan, setPuncaRujukan] = useState('');
   masterForm.puncaRujukan = puncaRujukan;
   masterForm.setPuncaRujukan = setPuncaRujukan;
@@ -511,6 +479,38 @@ function UserFormUmumHeader() {
   const [engganBpeImplan, setEngganBpeImplan] = useState(false);
   masterForm.engganBpeImplan = engganBpeImplan;
   masterForm.setEngganBpeImplan = setEngganBpeImplan;
+  const [
+    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
+    setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
+  ] = useState('');
+  masterForm.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum =
+    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum;
+  masterForm.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum =
+    setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum;
+  const [
+    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
+    setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
+  ] = useState('');
+  masterForm.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum =
+    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum;
+  masterForm.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum =
+    setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum;
+  const [
+    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
+    setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
+  ] = useState('');
+  masterForm.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum =
+    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum;
+  masterForm.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum =
+    setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum;
+  const [
+    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
+    setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
+  ] = useState('');
+  masterForm.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum =
+    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum;
+  masterForm.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum =
+    setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum;
   //rawatan --------------------------------------------------------------------------
   const [pesakitDibuatFissureSealant, setPesakitDibuatFissureSealant] =
     useState(false);
@@ -562,14 +562,6 @@ function UserFormUmumHeader() {
   masterForm.setCabutanDisebabkanPeriodontitisRawatanUmum =
     setCabutanDisebabkanPeriodontitisRawatanUmum;
   const [
-    yaTidakAbsesPembedahanRawatanUmum,
-    setYaTidakAbsesPembedahanRawatanUmum,
-  ] = useState('');
-  masterForm.yaTidakAbsesPembedahanRawatanUmum =
-    yaTidakAbsesPembedahanRawatanUmum;
-  masterForm.setYaTidakAbsesPembedahanRawatanUmum =
-    setYaTidakAbsesPembedahanRawatanUmum;
-  const [
     cabutanSurgikalPembedahanMulutRawatanUmum,
     setCabutanSurgikalPembedahanMulutRawatanUmum,
   ] = useState(0);
@@ -578,9 +570,17 @@ function UserFormUmumHeader() {
   masterForm.setCabutanSurgikalPembedahanMulutRawatanUmum =
     setCabutanSurgikalPembedahanMulutRawatanUmum;
   const [
+    yaTidakAbsesPembedahanRawatanUmum,
+    setYaTidakAbsesPembedahanRawatanUmum,
+  ] = useState(false);
+  masterForm.yaTidakAbsesPembedahanRawatanUmum =
+    yaTidakAbsesPembedahanRawatanUmum;
+  masterForm.setYaTidakAbsesPembedahanRawatanUmum =
+    setYaTidakAbsesPembedahanRawatanUmum;
+  const [
     yaTidakFrakturPembedahanRawatanUmum,
     setYaTidakFrakturPembedahanRawatanUmum,
-  ] = useState('');
+  ] = useState(false);
   masterForm.yaTidakFrakturPembedahanRawatanUmum =
     yaTidakFrakturPembedahanRawatanUmum;
   masterForm.setYaTidakFrakturPembedahanRawatanUmum =
@@ -588,7 +588,7 @@ function UserFormUmumHeader() {
   const [
     yaTidakPembedahanKecilMulutPembedahanRawatanUmum,
     setYaTidakPembedahanKecilMulutPembedahanRawatanUmum,
-  ] = useState('');
+  ] = useState(false);
   masterForm.yaTidakPembedahanKecilMulutPembedahanRawatanUmum =
     yaTidakPembedahanKecilMulutPembedahanRawatanUmum;
   masterForm.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum =
@@ -596,7 +596,7 @@ function UserFormUmumHeader() {
   const [
     yaTidakTraumaPembedahanRawatanUmum,
     setYaTidakTraumaPembedahanRawatanUmum,
-  ] = useState('');
+  ] = useState(false);
   masterForm.yaTidakTraumaPembedahanRawatanUmum =
     yaTidakTraumaPembedahanRawatanUmum;
   masterForm.setYaTidakTraumaPembedahanRawatanUmum =
@@ -1249,6 +1249,40 @@ function UserFormUmumHeader() {
         setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
         setTidakHadirTaskaTadika(data.singlePersonUmum.tidakHadirTaskaTadika);
         setPemeriksaanTaskaTadika(data.singlePersonUmum.pemeriksaanTaskaTadika);
+        setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
+          data.singlePersonUmum
+            .bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
+        );
+        setAdaDesidusPemeriksaanUmum(
+          data.singlePersonUmum.adaDesidusPemeriksaanUmum
+        );
+        setDAdaGigiDesidusPemeriksaanUmum(
+          data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
+        );
+        setFAdaGigiDesidusPemeriksaanUmum(
+          data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
+        );
+        setXAdaGigiDesidusPemeriksaanUmum(
+          data.singlePersonUmum.xAdaGigiDesidusPemeriksaanUmum
+        );
+        setAdaKekalPemeriksaanUmum(
+          data.singlePersonUmum.adaKekalPemeriksaanUmum
+        );
+        setDAdaGigiKekalPemeriksaanUmum(
+          data.singlePersonUmum.dAdaGigiKekalPemeriksaanUmum
+        );
+        setMAdaGigiKekalPemeriksaanUmum(
+          data.singlePersonUmum.mAdaGigiKekalPemeriksaanUmum
+        );
+        setFAdaGigiKekalPemeriksaanUmum(
+          data.singlePersonUmum.fAdaGigiKekalPemeriksaanUmum
+        );
+        setEAdaGigiKekalPemeriksaanUmum(
+          data.singlePersonUmum.eAdaGigiKekalPemeriksaanUmum
+        );
+        setXAdaGigiKekalPemeriksaanUmum(
+          data.singlePersonUmum.xAdaGigiKekalPemeriksaanUmum
+        );
         setAdaCleftLipPemeriksaanUmum(
           data.singlePersonUmum.adaCleftLipPemeriksaanUmum
         );
@@ -1303,40 +1337,6 @@ function UserFormUmumHeader() {
         setPerluPenskaleranPemeriksaanUmum(
           data.singlePersonUmum.perluPenskaleranPemeriksaanUmum
         );
-        setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum(
-          data.singlePersonUmum
-            .bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
-        );
-        setAdaDesidusPemeriksaanUmum(
-          data.singlePersonUmum.adaDesidusPemeriksaanUmum
-        );
-        setDAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.dAdaGigiDesidusPemeriksaanUmum
-        );
-        setFAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.fAdaGigiDesidusPemeriksaanUmum
-        );
-        setXAdaGigiDesidusPemeriksaanUmum(
-          data.singlePersonUmum.xAdaGigiDesidusPemeriksaanUmum
-        );
-        setAdaKekalPemeriksaanUmum(
-          data.singlePersonUmum.adaKekalPemeriksaanUmum
-        );
-        setDAdaGigiKekalPemeriksaanUmum(
-          data.singlePersonUmum.dAdaGigiKekalPemeriksaanUmum
-        );
-        setMAdaGigiKekalPemeriksaanUmum(
-          data.singlePersonUmum.mAdaGigiKekalPemeriksaanUmum
-        );
-        setFAdaGigiKekalPemeriksaanUmum(
-          data.singlePersonUmum.fAdaGigiKekalPemeriksaanUmum
-        );
-        setEAdaGigiKekalPemeriksaanUmum(
-          data.singlePersonUmum.eAdaGigiKekalPemeriksaanUmum
-        );
-        setXAdaGigiKekalPemeriksaanUmum(
-          data.singlePersonUmum.xAdaGigiKekalPemeriksaanUmum
-        );
         setJumlahFaktorRisikoPemeriksaanUmum(
           data.singlePersonUmum.jumlahFaktorRisikoPemeriksaanUmum
         );
@@ -1348,22 +1348,6 @@ function UserFormUmumHeader() {
         );
         setTabiatBerisikoTinggiPemeriksaanUmum(
           data.singlePersonUmum.tabiatBerisikoTinggiPemeriksaanUmum
-        );
-        setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
-          data.singlePersonUmum
-            .jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
-        );
-        setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
-          data.singlePersonUmum
-            .jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
-        );
-        setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
-          data.singlePersonUmum
-            .jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
-        );
-        setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
-          data.singlePersonUmum
-            .rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
         );
         setPuncaRujukan(data.singlePersonUmum.puncaRujukan);
         setDiabetesFaktorRisikoBpe(
@@ -1382,6 +1366,22 @@ function UserFormUmumHeader() {
         setPeriImplantitis(data.singlePersonUmum.periImplantitis);
         setPeriImplantMucositis(data.singlePersonUmum.periImplantMucositis);
         setEngganBpeImplan(data.singlePersonUmum.engganBpeImplan);
+        setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
+          data.singlePersonUmum
+            .jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
+        );
+        setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
+          data.singlePersonUmum
+            .jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
+        );
+        setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
+          data.singlePersonUmum
+            .jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
+        );
+        setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
+          data.singlePersonUmum
+            .rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
+        );
         //map rawatan -----------------------------------------------------------------
         if (!operatorLain) {
           setPesakitDibuatFissureSealant(
@@ -1769,6 +1769,17 @@ function UserFormUmumHeader() {
               engganTaskaTadika,
               tidakHadirTaskaTadika,
               pemeriksaanTaskaTadika,
+              bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
+              adaDesidusPemeriksaanUmum,
+              dAdaGigiDesidusPemeriksaanUmum,
+              fAdaGigiDesidusPemeriksaanUmum,
+              xAdaGigiDesidusPemeriksaanUmum,
+              adaKekalPemeriksaanUmum,
+              dAdaGigiKekalPemeriksaanUmum,
+              mAdaGigiKekalPemeriksaanUmum,
+              fAdaGigiKekalPemeriksaanUmum,
+              eAdaGigiKekalPemeriksaanUmum,
+              xAdaGigiKekalPemeriksaanUmum,
               adaCleftLipPemeriksaanUmum,
               rujukCleftLipPemeriksaanUmum,
               yaTidakSediaAdaStatusDenturePemeriksaanUmum,
@@ -1787,25 +1798,10 @@ function UserFormUmumHeader() {
               kebersihanMulutOralHygienePemeriksaanUmum,
               skorGisMulutOralHygienePemeriksaanUmum,
               perluPenskaleranPemeriksaanUmum,
-              bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
-              adaDesidusPemeriksaanUmum,
-              dAdaGigiDesidusPemeriksaanUmum,
-              fAdaGigiDesidusPemeriksaanUmum,
-              xAdaGigiDesidusPemeriksaanUmum,
-              adaKekalPemeriksaanUmum,
-              dAdaGigiKekalPemeriksaanUmum,
-              mAdaGigiKekalPemeriksaanUmum,
-              fAdaGigiKekalPemeriksaanUmum,
-              eAdaGigiKekalPemeriksaanUmum,
-              xAdaGigiKekalPemeriksaanUmum,
               jumlahFaktorRisikoPemeriksaanUmum,
               disaringProgramKanserMulutPemeriksaanUmum,
               lesiMulutPemeriksaanUmum,
               tabiatBerisikoTinggiPemeriksaanUmum,
-              jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
-              jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
-              jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
-              rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
               puncaRujukan,
               diabetesFaktorRisikoBpe,
               perokokFaktorRisikoBpe,
@@ -1815,6 +1811,10 @@ function UserFormUmumHeader() {
               periImplantitis,
               periImplantMucositis,
               engganBpeImplan,
+              jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum,
+              jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum,
+              jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum,
+              rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum,
               //rawatan ----------------------------------------------------------------
               pesakitDibuatFissureSealant,
               baruJumlahGigiKekalDibuatFSRawatanUmum,

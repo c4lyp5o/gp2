@@ -306,776 +306,6 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 )}
-                <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Cleft Lip/Palate
-                  </h4>
-                  <div className='flex flex-row items-center pl-5 pt-1'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='ada-cleft-lip-pemeriksaan-umum'
-                      id='ada-cleft-lip-pemeriksaan-umum'
-                      checked={props.adaCleftLipPemeriksaanUmum}
-                      onChange={() => {
-                        props.setAdaCleftLipPemeriksaanUmum(
-                          !props.adaCleftLipPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label
-                      htmlFor='ada-cleft-lip-pemeriksaan-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Ada
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 pt-1'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='rujuk-cleft-lip-palate-pemeriksaan-umum'
-                      id='rujuk-cleft-lip-palate-pemeriksaan-umum'
-                      checked={props.rujukCleftLipPemeriksaanUmum}
-                      onChange={() => {
-                        props.setRujukCleftLipPemeriksaanUmum(
-                          !props.rujukCleftLipPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                    />
-                    <label
-                      htmlFor='rujuk-cleft-lip-palate-pemeriksaan-umum'
-                      className='mx-2 text-sm font-m'
-                    >
-                      Rujuk
-                    </label>
-                  </div>
-                </article>
-                <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5'>
-                    Status dentur
-                  </h4>
-                  <div className='grid grid-rows-2 gap-2 auto-rows-min'>
-                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-semibold'>
-                        Sedia Ada?
-                        {/* <span className='text-user6'>*</span> */}
-                      </h4>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          disabled={isDisabled}
-                          // required
-                          type='radio'
-                          name='sedia-ada-status-denture-pemeriksaan-umum'
-                          id='ya-sedia-ada-status-denture-pemeriksaan-umum'
-                          value='ya-sedia-ada-status-denture-pemeriksaan-umum'
-                          checked={
-                            props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                            'ya-sedia-ada-status-denture-pemeriksaan-umum'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='ya-sedia-ada-status-denture-pemeriksaan-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          // required
-                          type='radio'
-                          name='sedia-ada-status-denture-pemeriksaan-umum'
-                          id='tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                          value='tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                          checked={
-                            props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                            'tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-sedia-ada-status-denture-pemeriksaan-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
-                        <div className='flex items-center flex-row pl-5'>
-                          <label className='m-2 text-sm font-m'>Atas</label>
-                        </div>
-                      )}
-                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
-                        <div className='grid grid-cols-2'>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                              id='separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                              value='separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
-                                'separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='separa-atas-sedia-ada-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Separa
-                            </label>
-                          </div>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                              id='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                              value='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
-                                'penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Penuh
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
-                        <div className='flex items-center flex-row pl-5'>
-                          <label className='m-2 text-sm font-m'>Bawah</label>
-                        </div>
-                      )}
-                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
-                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
-                        <div className='grid grid-cols-2'>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              id='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              value='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
-                                'separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Separa
-                            </label>
-                          </div>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              id='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              value='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
-                                'penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Penuh
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                    </article>
-                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-semibold'>
-                        Perlu
-                        {/* <span className='text-user6'>*</span> */}
-                      </h4>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          disabled={isDisabled}
-                          // required
-                          type='radio'
-                          name='perlu-status-denture-pemeriksaan-umum'
-                          id='ya-perlu-status-denture-pemeriksaan-umum'
-                          value='ya-perlu-status-denture-pemeriksaan-umum'
-                          checked={
-                            props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                            'ya-perlu-status-denture-pemeriksaan-umum'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setYaTidakPerluStatusDenturePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='ya-perlu-status-denture-pemeriksaan-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          // required
-                          type='radio'
-                          name='perlu-status-denture-pemeriksaan-umum'
-                          id='tidak-perlu-status-denture-pemeriksaan-umum'
-                          value='tidak-perlu-status-denture-pemeriksaan-umum'
-                          checked={
-                            props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                            'tidak-perlu-status-denture-pemeriksaan-umum'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setYaTidakPerluStatusDenturePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-perlu-status-denture-pemeriksaan-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        'ya-perlu-status-denture-pemeriksaan-umum' && (
-                        <div className='flex items-center flex-row pl-5'>
-                          <label
-                            htmlFor='atas-perlu-denture-pemeriksaan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Atas
-                          </label>
-                        </div>
-                      )}
-                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        'ya-perlu-status-denture-pemeriksaan-umum' && (
-                        <div className='grid grid-cols-2'>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
-                              id='separa-atas-perlu-denture-pemeriksaan-umum'
-                              value='separa-atas-perlu-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
-                                'separa-atas-perlu-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='separa-atas-perlu-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Separa
-                            </label>
-                          </div>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
-                              id='penuh-atas-perlu-denture-pemeriksaan-umum'
-                              value='penuh-atas-perlu-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
-                                'penuh-atas-perlu-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='penuh-atas-perlu-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Penuh
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        'ya-perlu-status-denture-pemeriksaan-umum' && (
-                        <div className='flex items-center flex-row pl-5'>
-                          <label className='m-2 text-sm font-m'>Bawah</label>
-                        </div>
-                      )}
-                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
-                        'ya-perlu-status-denture-pemeriksaan-umum' && (
-                        <div className='grid grid-cols-2'>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
-                              id='separa-bawah-perlu-denture-pemeriksaan-umum'
-                              value='separa-bawah-perlu-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
-                                'separa-bawah-perlu-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='separa-bawah-perlu-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Separa
-                            </label>
-                          </div>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
-                              id='penuh-bawah-perlu-denture-pemeriksaan-umum'
-                              value='penuh-bawah-perlu-denture-pemeriksaan-umum'
-                              checked={
-                                props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
-                                'penuh-bawah-perlu-denture-pemeriksaan-umum'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='penuh-bawah-perlu-denture-pemeriksaan-umum'
-                              className='m-2 text-sm font-m'
-                            >
-                              Penuh
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                    </article>
-                  </div>
-                </article>
-                <article
-                  className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'
-                  title='Tooth Surface Loss'
-                >
-                  <h4 className='font-bold flex flex-row pl-5'>
-                    Kehilangan Permukaan Gigi
-                  </h4>
-                  <div className='flex items-center flex-row pl-5'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='tooth-surface-loss-pemeriksaan-umum'
-                      id='tooth-surface-loss-pemeriksaan-umum'
-                      checked={props.toothSurfaceLossTraumaPemeriksaanUmum}
-                      onChange={() => {
-                        props.setToothSurfaceLossTraumaPemeriksaanUmum(
-                          !props.toothSurfaceLossTraumaPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                    />
-                    <label
-                      htmlFor='tooth-surface-loss-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Kehilangan Permukaan Gigi
-                    </label>
-                  </div>
-                </article>
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  title='Fissure Sealant'
-                >
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Pengapan Fisur
-                  </h4>
-                  <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='fissure-sealant-pemeriksaan-umum'
-                      id='fissure-sealant-pemeriksaan-umum'
-                      checked={props.fissureSealantPemeriksaanUmum}
-                      onChange={() => {
-                        props.setFissureSealantPemeriksaanUmum(
-                          !props.fissureSealantPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label className='mx-2 text-sm font-m'>
-                      pesakit perlu Pengapan Fisur
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 col-span-2'>
-                    <p className='flex flex-row text-sm font-m items-center'>
-                      jumlah gigi kekal perlu Pengapan Fisur
-                    </p>
-                    <input
-                      disabled={isDisabled}
-                      type='number'
-                      name='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
-                      id='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
-                      value={props.baruJumlahGigiKekalPerluFSRawatanUmum}
-                      onChange={(e) => {
-                        props.setBaruJumlahGigiKekalPerluFSRawatanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      min='0'
-                      max='32'
-                    />
-                  </div>
-                </article>
-                <article
-                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
-                  title='Fluoride Varnish'
-                >
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Sapuan Fluorida
-                  </h4>
-                  <div className='flex items-center flex-row pl-5'>
-                    <p className='flex  text-sm font-m items-center mr-3'>
-                      Perlu Sapuan
-                    </p>
-                    <input
-                      disabled={isDisabled}
-                      type='radio'
-                      name='fv-perlu-sapuan-pemeriksaan-umum'
-                      id='ya-fv-perlu-sapuan-pemeriksaan-umum'
-                      value='ya-fv-perlu-sapuan-pemeriksaan-umum'
-                      checked={
-                        props.fvPerluSapuanPemeriksaanUmum ===
-                        'ya-fv-perlu-sapuan-pemeriksaan-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='ya-fv-perlu-sapuan-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ya
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      type='radio'
-                      name='fv-perlu-sapuan-pemeriksaan-umum'
-                      id='tidak-fv-perlu-sapuan-pemeriksaan-umum'
-                      value='tidak-fv-perlu-sapuan-pemeriksaan-umum'
-                      checked={
-                        props.fvPerluSapuanPemeriksaanUmum ===
-                        'tidak-fv-perlu-sapuan-pemeriksaan-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tidak-fv-perlu-sapuan-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Tidak
-                    </label>
-                  </div>
-                </article>
-                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
-                  </h4>
-                  <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='prr-jenis-1-pemeriksaan-umum'
-                      id='prr-jenis-1-pemeriksaan-umum'
-                      checked={props.prrJenis1PemeriksaanUmum}
-                      onChange={() => {
-                        props.setPrrJenis1PemeriksaanUmum(
-                          !props.prrJenis1PemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                    />
-                    <label className='mx-2 text-sm font-m'>
-                      murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
-                    </label>
-                  </div>
-                  <div className='flex flex-row items-center pl-5 col-span-2'>
-                    <p className='flex flex-row text-sm font-m '>
-                      jumlah gigi perlu Tampalan Resin Pencegahan Jenis 1 (PRR
-                      Type I)
-                    </p>
-                    <input
-                      disabled={isDisabled}
-                      type='number'
-                      name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
-                      id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
-                      value={props.baruJumlahGigiKekalPerluPRRJenis1RawatanUmum}
-                      onChange={(e) => {
-                        props.setBaruJumlahGigiKekalPerluPRRJenis1RawatanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      min='0'
-                      max='32'
-                    />
-                  </div>
-                </article>
-                {/* SDF akan digunakan masa hadapan */}
-                {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Silver Diamine Fluoride
-                  </h4>
-                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                    Perlu Sapuan
-                  </p>
-                  <div className='flex items-center justify-center'>
-                    <input
-                      disabled={isDisabled}
-                      type='radio'
-                      name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      id='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      value='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      checked={
-                        props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
-                        'ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Ya
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      type='radio'
-                      name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      id='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      value='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      checked={
-                        props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
-                        'tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Tidak
-                    </label>
-                  </div>
-                </article> */}
-              </div>
-              <div className='grid gap-2 auto-rows-min row-start-2 lg:row-start-1 col-start-1 lg:col-start-2'>
-                <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5'>
-                    Kebersihan Mulut
-                  </h4>
-                  <div className='flex items-center '>
-                    <p className='flex flex-row pl-5 text-sm font-m '>
-                      Gred Skor Plak<span className='text-user6'>*</span>
-                    </p>
-                    <select
-                      disabled={isDisabled}
-                      required
-                      name='kebersihan-mulut-pemeriksaan-umum'
-                      id='kebersihan-mulut-pemeriksaan-umum'
-                      value={props.kebersihanMulutOralHygienePemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setKebersihanMulutOralHygienePemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='tiada'>-</option>
-                      <option value='A'>A</option>
-                      <option value='C'>C</option>
-                      <option value='E'>E</option>
-                    </select>
-                    <FaInfoCircle
-                      title='Tanda (-) jika tidak berkenaan'
-                      className='text-lg m-1'
-                    />
-                  </div>
-                  <div
-                    className={`${
-                      props.singlePersonUmum.umur >= 17 && 'hidden'
-                    } flex items-center flex-row pl-5`}
-                  >
-                    <p className='text-sm font-m'>
-                      GIS Skor:
-                      <span className='text-user6'>*</span>
-                    </p>
-                    <select
-                      disabled={isDisabled}
-                      required={
-                        props.singlePersonUmum.umur >= 17 ? false : true
-                      }
-                      name='skor-gis-pemeriksaan-umum'
-                      id='skor-gis-pemeriksaan-umum'
-                      value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='tiada'>-</option>
-                      <option value='0'>0</option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                    </select>
-                    <FaInfoCircle
-                      title='Tanda (-) jika tidak berkenaan'
-                      className='text-lg m-1'
-                    />
-                  </div>
-                  <div className='flex items-center flex-row pl-5'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='perlu-penskaleran-pemeriksaan-umum'
-                      id='perlu-penskaleran-pemeriksaan-umum'
-                      checked={props.perluPenskaleranPemeriksaanUmum}
-                      onChange={() => {
-                        props.setPerluPenskaleranPemeriksaanUmum(
-                          !props.perluPenskaleranPemeriksaanUmum
-                        );
-                      }}
-                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                    />
-                    <label
-                      htmlFor='perlu-penskaleran-pemeriksaan-umum'
-                      className='m-2 text-sm font-m'
-                    >
-                      Perlu Penskaleran
-                    </label>
-                  </div>
-                </article>
                 {props.singlePersonUmum.umur >= 60 && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -1348,6 +578,776 @@ export default function Pemeriksaan(props) {
                     </p>
                   )}
                 </article>
+                <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Cleft Lip/Palate
+                  </h4>
+                  <div className='flex flex-row items-center pl-5 pt-1'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='ada-cleft-lip-pemeriksaan-umum'
+                      id='ada-cleft-lip-pemeriksaan-umum'
+                      checked={props.adaCleftLipPemeriksaanUmum}
+                      onChange={() => {
+                        props.setAdaCleftLipPemeriksaanUmum(
+                          !props.adaCleftLipPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label
+                      htmlFor='ada-cleft-lip-pemeriksaan-umum'
+                      className='mx-2 text-sm font-m'
+                    >
+                      Ada
+                    </label>
+                  </div>
+                  <div className='flex flex-row items-center pl-5 pt-1'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='rujuk-cleft-lip-palate-pemeriksaan-umum'
+                      id='rujuk-cleft-lip-palate-pemeriksaan-umum'
+                      checked={props.rujukCleftLipPemeriksaanUmum}
+                      onChange={() => {
+                        props.setRujukCleftLipPemeriksaanUmum(
+                          !props.rujukCleftLipPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='rujuk-cleft-lip-palate-pemeriksaan-umum'
+                      className='mx-2 text-sm font-m'
+                    >
+                      Rujuk
+                    </label>
+                  </div>
+                </article>
+                <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Status dentur
+                  </h4>
+                  <div className='grid grid-rows-2 gap-2 auto-rows-min'>
+                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-semibold'>
+                        Sedia Ada?
+                        {/* <span className='text-user6'>*</span> */}
+                      </h4>
+                      <div className='flex items-center justify-center'>
+                        <input
+                          disabled={isDisabled}
+                          // required
+                          type='radio'
+                          name='sedia-ada-status-denture-pemeriksaan-umum'
+                          id='ya-sedia-ada-status-denture-pemeriksaan-umum'
+                          value='ya-sedia-ada-status-denture-pemeriksaan-umum'
+                          checked={
+                            props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                            'ya-sedia-ada-status-denture-pemeriksaan-umum'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='ya-sedia-ada-status-denture-pemeriksaan-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          Ya
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          // required
+                          type='radio'
+                          name='sedia-ada-status-denture-pemeriksaan-umum'
+                          id='tidak-sedia-ada-status-denture-pemeriksaan-umum'
+                          value='tidak-sedia-ada-status-denture-pemeriksaan-umum'
+                          checked={
+                            props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                            'tidak-sedia-ada-status-denture-pemeriksaan-umum'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setYaTidakSediaAdaStatusDenturePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='tidak-sedia-ada-status-denture-pemeriksaan-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          Tidak
+                        </label>
+                      </div>
+                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label className='m-2 text-sm font-m'>Atas</label>
+                        </div>
+                      )}
+                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                              id='separa-atas-sedia-ada-denture-pemeriksaan-umum'
+                              value='separa-atas-sedia-ada-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
+                                'separa-atas-sedia-ada-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-atas-sedia-ada-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                              id='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                              value='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhAtasSediaAdaDenturePemeriksaanUmum ===
+                                'penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhAtasSediaAdaDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-atas-sedia-ada-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label className='m-2 text-sm font-m'>Bawah</label>
+                        </div>
+                      )}
+                      {props.yaTidakSediaAdaStatusDenturePemeriksaanUmum ===
+                        'ya-sedia-ada-status-denture-pemeriksaan-umum' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              id='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              value='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
+                                'separa-bawah-sedia-ada-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              id='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              value='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhBawahSediaAdaDenturePemeriksaanUmum ===
+                                'penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhBawahSediaAdaDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-bawah-sedia-ada-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </article>
+                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-semibold'>
+                        Perlu Dentur ?
+                        {/* <span className='text-user6'>*</span> */}
+                      </h4>
+                      <div className='flex items-center justify-center'>
+                        <input
+                          disabled={isDisabled}
+                          // required
+                          type='radio'
+                          name='perlu-status-denture-pemeriksaan-umum'
+                          id='ya-perlu-status-denture-pemeriksaan-umum'
+                          value='ya-perlu-status-denture-pemeriksaan-umum'
+                          checked={
+                            props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                            'ya-perlu-status-denture-pemeriksaan-umum'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setYaTidakPerluStatusDenturePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='ya-perlu-status-denture-pemeriksaan-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          Ya
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          // required
+                          type='radio'
+                          name='perlu-status-denture-pemeriksaan-umum'
+                          id='tidak-perlu-status-denture-pemeriksaan-umum'
+                          value='tidak-perlu-status-denture-pemeriksaan-umum'
+                          checked={
+                            props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                            'tidak-perlu-status-denture-pemeriksaan-umum'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.setYaTidakPerluStatusDenturePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='tidak-perlu-status-denture-pemeriksaan-umum'
+                          className='m-2 text-sm font-m'
+                        >
+                          Tidak
+                        </label>
+                      </div>
+                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                        'ya-perlu-status-denture-pemeriksaan-umum' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label
+                            htmlFor='atas-perlu-denture-pemeriksaan-umum'
+                            className='m-2 text-sm font-m'
+                          >
+                            Atas
+                          </label>
+                        </div>
+                      )}
+                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                        'ya-perlu-status-denture-pemeriksaan-umum' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
+                              id='separa-atas-perlu-denture-pemeriksaan-umum'
+                              value='separa-atas-perlu-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
+                                'separa-atas-perlu-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-atas-perlu-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-atas-perlu-denture-pemeriksaan-umum'
+                              id='penuh-atas-perlu-denture-pemeriksaan-umum'
+                              value='penuh-atas-perlu-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhAtasPerluDenturePemeriksaanUmum ===
+                                'penuh-atas-perlu-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhAtasPerluDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-atas-perlu-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                        'ya-perlu-status-denture-pemeriksaan-umum' && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <label className='m-2 text-sm font-m'>Bawah</label>
+                        </div>
+                      )}
+                      {props.yaTidakPerluStatusDenturePemeriksaanUmum ===
+                        'ya-perlu-status-denture-pemeriksaan-umum' && (
+                        <div className='grid grid-cols-2'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
+                              id='separa-bawah-perlu-denture-pemeriksaan-umum'
+                              value='separa-bawah-perlu-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
+                                'separa-bawah-perlu-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='separa-bawah-perlu-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Separa
+                            </label>
+                          </div>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              type='radio'
+                              name='separa-penuh-bawah-perlu-denture-pemeriksaan-umum'
+                              id='penuh-bawah-perlu-denture-pemeriksaan-umum'
+                              value='penuh-bawah-perlu-denture-pemeriksaan-umum'
+                              checked={
+                                props.separaPenuhBawahPerluDenturePemeriksaanUmum ===
+                                'penuh-bawah-perlu-denture-pemeriksaan-umum'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                props.setSeparaPenuhBawahPerluDenturePemeriksaanUmum(
+                                  e.target.value
+                                );
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='penuh-bawah-perlu-denture-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              Penuh
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </article>
+                  </div>
+                </article>
+                <article
+                  className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'
+                  title='Tooth Surface Loss'
+                >
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Kehilangan Permukaan Gigi
+                  </h4>
+                  <div className='flex items-center flex-row pl-5'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='tooth-surface-loss-pemeriksaan-umum'
+                      id='tooth-surface-loss-pemeriksaan-umum'
+                      checked={props.toothSurfaceLossTraumaPemeriksaanUmum}
+                      onChange={() => {
+                        props.setToothSurfaceLossTraumaPemeriksaanUmum(
+                          !props.toothSurfaceLossTraumaPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='tooth-surface-loss-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Kehilangan Permukaan Gigi
+                    </label>
+                  </div>
+                </article>
+                <article
+                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
+                  title='Fissure Sealant'
+                >
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Pengapan Fisur
+                  </h4>
+                  {/* <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='fissure-sealant-pemeriksaan-umum'
+                      id='fissure-sealant-pemeriksaan-umum'
+                      checked={props.fissureSealantPemeriksaanUmum}
+                      onChange={() => {
+                        props.setFissureSealantPemeriksaanUmum(
+                          !props.fissureSealantPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label className='mx-2 text-sm font-m'>
+                      pesakit perlu Pengapan Fisur
+                    </label>
+                  </div> */}
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
+                    <p className='flex flex-row text-sm font-m items-center'>
+                      jumlah gigi kekal perlu Pengapan Fisur
+                    </p>
+                    <input
+                      disabled={isDisabled}
+                      type='number'
+                      name='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
+                      id='baru-jumlah-gigi-kekal-perlu-fs-rawatan-umum'
+                      value={props.baruJumlahGigiKekalPerluFSRawatanUmum}
+                      onChange={(e) => {
+                        props.setBaruJumlahGigiKekalPerluFSRawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      min='0'
+                      max='32'
+                    />
+                  </div>
+                </article>
+                <article
+                  className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'
+                  title='Fluoride Varnish'
+                >
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Sapuan Fluorida
+                  </h4>
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='flex  text-sm font-m items-center mr-3'>
+                      Perlu Sapuan
+                    </p>
+                    <input
+                      disabled={isDisabled}
+                      type='radio'
+                      name='fv-perlu-sapuan-pemeriksaan-umum'
+                      id='ya-fv-perlu-sapuan-pemeriksaan-umum'
+                      value='ya-fv-perlu-sapuan-pemeriksaan-umum'
+                      checked={
+                        props.fvPerluSapuanPemeriksaanUmum ===
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-fv-perlu-sapuan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      type='radio'
+                      name='fv-perlu-sapuan-pemeriksaan-umum'
+                      id='tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                      value='tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                      checked={
+                        props.fvPerluSapuanPemeriksaanUmum ===
+                        'tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setFvPerluSapuanPemeriksaanUmum(e.target.value);
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-fv-perlu-sapuan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </article>
+                <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
+                  </h4>
+                  {/* <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='prr-jenis-1-pemeriksaan-umum'
+                      id='prr-jenis-1-pemeriksaan-umum'
+                      checked={props.prrJenis1PemeriksaanUmum}
+                      onChange={() => {
+                        props.setPrrJenis1PemeriksaanUmum(
+                          !props.prrJenis1PemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                    />
+                    <label className='mx-2 text-sm font-m'>
+                      murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
+                    </label>
+                  </div> */}
+                  <div className='flex flex-row items-center pl-5 col-span-2'>
+                    <p className='flex flex-row text-sm font-m '>
+                      jumlah gigi perlu Tampalan Resin Pencegahan Jenis 1 (PRR
+                      Type I)
+                    </p>
+                    <input
+                      disabled={isDisabled}
+                      type='number'
+                      name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
+                      id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-rawatan-umum'
+                      value={props.baruJumlahGigiKekalPerluPRRJenis1RawatanUmum}
+                      onChange={(e) => {
+                        props.setBaruJumlahGigiKekalPerluPRRJenis1RawatanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      min='0'
+                      max='32'
+                    />
+                  </div>
+                </article>
+                {/* SDF akan digunakan masa hadapan */}
+                {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Silver Diamine Fluoride
+                  </h4>
+                  <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
+                    Perlu Sapuan
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    <input
+                      disabled={isDisabled}
+                      type='radio'
+                      name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      id='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      value='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      checked={
+                        props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
+                        'ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='ya-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Ya
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      type='radio'
+                      name='silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      id='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      value='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      checked={
+                        props.yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum ===
+                        'tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        props.setYaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                    />
+                    <label
+                      htmlFor='tidak-silver-diamine-fluoride-perlu-sapuan-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Tidak
+                    </label>
+                  </div>
+                </article> */}
+              </div>
+              <div className='grid gap-2 auto-rows-min row-start-2 lg:row-start-1 col-start-1 lg:col-start-2'>
+                <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    Kebersihan Mulut
+                  </h4>
+                  <div className='flex items-center '>
+                    <p className='flex flex-row pl-5 text-sm font-m '>
+                      Gred Skor Plak<span className='text-user6'>*</span>
+                    </p>
+                    <select
+                      disabled={isDisabled}
+                      required
+                      name='kebersihan-mulut-pemeriksaan-umum'
+                      id='kebersihan-mulut-pemeriksaan-umum'
+                      value={props.kebersihanMulutOralHygienePemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setKebersihanMulutOralHygienePemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='tiada'>-</option>
+                      <option value='A'>A</option>
+                      <option value='C'>C</option>
+                      <option value='E'>E</option>
+                    </select>
+                    <FaInfoCircle
+                      title='Tanda (-) jika tidak berkenaan'
+                      className='text-lg m-1'
+                    />
+                  </div>
+                  <div
+                    className={`${
+                      props.singlePersonUmum.umur >= 17 && 'hidden'
+                    } flex items-center flex-row pl-5`}
+                  >
+                    <p className='text-sm font-m'>
+                      GIS Skor:
+                      <span className='text-user6'>*</span>
+                    </p>
+                    <select
+                      disabled={isDisabled}
+                      required={
+                        props.singlePersonUmum.umur >= 17 ? false : true
+                      }
+                      name='skor-gis-pemeriksaan-umum'
+                      id='skor-gis-pemeriksaan-umum'
+                      value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='tiada'>-</option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                    </select>
+                    <FaInfoCircle
+                      title='Tanda (-) jika tidak berkenaan'
+                      className='text-lg m-1'
+                    />
+                  </div>
+                  <div className='flex items-center flex-row pl-5'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='perlu-penskaleran-pemeriksaan-umum'
+                      id='perlu-penskaleran-pemeriksaan-umum'
+                      checked={props.perluPenskaleranPemeriksaanUmum}
+                      onChange={() => {
+                        props.setPerluPenskaleranPemeriksaanUmum(
+                          !props.perluPenskaleranPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='perlu-penskaleran-pemeriksaan-umum'
+                      className='m-2 text-sm font-m'
+                    >
+                      Perlu Penskaleran
+                    </label>
+                  </div>
+                </article>
                 <article className='border border-userBlack pl-3 p-2 rounded-md'>
                   <div className='grid grid-cols-1'>
                     <h4 className='font-bold flex flex-row pl-5'>
@@ -1492,111 +1492,6 @@ export default function Pemeriksaan(props) {
                       </label>
                     </div>
                   )}
-                </article>
-                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-semibold flex flex-row pl-3'>
-                    kes endodontik diperlukan
-                  </h4>
-                  <div className='flex flex-row items-center pl-3'>
-                    <label
-                      htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      className='text-left flex justify-start items-center text-sm pl-3'
-                    >
-                      anterior :
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      min='0'
-                      max='12'
-                      type='number'
-                      name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      value={
-                        props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
-                      }
-                      onChange={(e) => {
-                        props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-3'>
-                    <label
-                      htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      className='text-sm font-m m-1'
-                    >
-                      premolar :
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      min='0'
-                      max='8'
-                      type='number'
-                      name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      value={
-                        props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
-                      }
-                      onChange={(e) => {
-                        props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-3'>
-                    <label
-                      htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      className='text-sm font-m m-1'
-                    >
-                      molar :
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      min='0'
-                      max='12'
-                      type='number'
-                      name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      value={
-                        props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
-                      }
-                      onChange={(e) => {
-                        props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
-                  </div>
-                  <div className='flex flex-row items-center pl-3'>
-                    <label
-                      htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      className='text-sm font-m m-1'
-                    >
-                      rawatan semula endodontik :
-                    </label>
-                    <input
-                      disabled={isDisabled}
-                      min='0'
-                      max='32'
-                      type='number'
-                      name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                      value={
-                        props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
-                      }
-                      onChange={(e) => {
-                        props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                    />
-                  </div>
                 </article>
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
@@ -1818,6 +1713,111 @@ export default function Pemeriksaan(props) {
                     }}
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                   />
+                </article>
+                <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <h4 className='font-semibold flex flex-row pl-3'>
+                    kes endodontik diperlukan
+                  </h4>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-left flex justify-start items-center text-sm pl-3'
+                    >
+                      anterior :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='12'
+                      type='number'
+                      name='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      premolar :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='8'
+                      type='number'
+                      name='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      molar :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='12'
+                      type='number'
+                      name='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setJumlahMolarKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
+                  <div className='flex flex-row items-center pl-3'>
+                    <label
+                      htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      className='text-sm font-m m-1'
+                    >
+                      rawatan semula endodontik :
+                    </label>
+                    <input
+                      disabled={isDisabled}
+                      min='0'
+                      max='32'
+                      type='number'
+                      name='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      id='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
+                      value={
+                        props.rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum
+                      }
+                      onChange={(e) => {
+                        props.setRawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum(
+                          e.target.value
+                        );
+                      }}
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                    />
+                  </div>
                 </article>
               </div>
             </section>
