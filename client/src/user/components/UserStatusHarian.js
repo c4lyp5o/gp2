@@ -4,7 +4,11 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
-import { BsFillCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import {
+  BsFillCircleFill,
+  BsFillBookmarkXFill,
+  BsFillCheckCircleFill,
+} from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -98,7 +102,8 @@ export default function UserStatusHarian() {
           []
         );
         const allPersonSelesai = allPersonUmums.filter(
-          (p) => p.statusReten === 'telah diisi'
+          (p) =>
+            p.statusReten === 'telah diisi' || p.statusReten === 'reten salah'
         );
         const tarikhSelesai = allPersonSelesai.reduce(
           (arrSemuaUmum, umumSingle) => {
@@ -239,17 +244,28 @@ export default function UserStatusHarian() {
                               <span>Belum Diisi</span>
                               <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
+                          ) : singlePersonUmum.statusKehadiran === true &&
+                            singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>Reten Salah</strike>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
                           ) : singlePersonUmum.statusKehadiran === true ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <strike>data tiada</strike>
                               <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
                             </div>
-                          ) : (
+                          ) : singlePersonUmum.statusReten === 'telah diisi' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <span>Selesai Diisi</span>
                               <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
                             </div>
-                          )}
+                          ) : singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>Reten Salah</strike>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : null}
                         </td>
                       </tr>
                     </tbody>
