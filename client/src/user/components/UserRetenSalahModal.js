@@ -84,8 +84,8 @@ export default function UserRetenSalahModal({
             {statusReten === 'reten salah' && (
               <span className='lowercase'>
                 untuk kembalikan reten <span className='uppercase'>{nama}</span>{' '}
-                yang <span className='uppercase'>salah</span> ini kepada status
-                asal yang <span className='uppercase'>betul</span>?
+                yang <span className='uppercase'>salah</span> ini kepada{' '}
+                <span className='uppercase'>status asal</span>?
               </span>
             )}
           </span>
@@ -98,7 +98,7 @@ export default function UserRetenSalahModal({
                 </span>
                 <div className='mt-5'>
                   <label htmlFor='reason' className='mr-3'>
-                    Sebab pengubahan reten :
+                    Sebab pengubahan status reten :
                   </label>
                   <input
                     required
