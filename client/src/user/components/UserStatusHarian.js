@@ -247,7 +247,7 @@ export default function UserStatusHarian() {
                           ) : singlePersonUmum.statusKehadiran === true &&
                             singlePersonUmum.statusReten === 'reten salah' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>Terdapat Kesalahan Reten</strike>
+                              <span>Terdapat Kesalahan Reten</span>
                               <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
                           ) : singlePersonUmum.statusKehadiran === true ? (
@@ -262,7 +262,7 @@ export default function UserStatusHarian() {
                             </div>
                           ) : singlePersonUmum.statusReten === 'reten salah' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>Terdapat Kesalahan Reten</strike>
+                              <span>Terdapat Kesalahan Reten</span>
                               <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
                           ) : null}
