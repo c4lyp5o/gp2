@@ -220,7 +220,7 @@ export default function UserCarian() {
                   className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
                 >
                   <option value='kp'>Klinik Pergigian</option>
-                  <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+                  <option value='kk-kd'>Klinik Kesihatan / Klinik Desa</option>
                   <option value='taska-tadika'>Taska / Tadika</option>
                   <option value='projek-komuniti-lain'>Program Komuniti</option>
                 </select>
@@ -302,6 +302,11 @@ export default function UserCarian() {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   STATUS PESAKIT
                 </th>
+                {jenisFasiliti === 'kk-kd' ? (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                    NAMA KKIA / KD
+                  </th>
+                ) : null}
                 {jenisFasiliti === 'taska-tadika' ? (
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     NAMA TASKA/TADIKA
@@ -393,6 +398,15 @@ export default function UserCarian() {
                       >
                         {statusPesakit(singlePersonUmum)}
                       </td>
+                      {jenisFasiliti === 'kk-kd' ? (
+                        <td
+                          className={`${
+                            pilihanId === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.namaFasilitiKkKd}
+                        </td>
+                      ) : null}
                       {jenisFasiliti === 'taska-tadika' ? (
                         <td
                           className={`${
@@ -493,6 +507,11 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
+                  {jenisFasiliti === 'kk-kd' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                  ) : null}
                   {jenisFasiliti === 'taska-tadika' ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
@@ -531,6 +550,11 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
+                  {jenisFasiliti === 'kk-kd' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                  ) : null}
                   {jenisFasiliti === 'taska-tadika' ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
@@ -569,6 +593,11 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
+                  {jenisFasiliti === 'kk-kd' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                    </td>
+                  ) : null}
                   {jenisFasiliti === 'taska-tadika' ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>

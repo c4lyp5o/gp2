@@ -110,6 +110,7 @@ const createPersonKaunter = async (req, res) => {
     tahunDaftar: req.body.tahunDaftar,
     ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
+    kodFasilitiKkKd: req.body.kodFasilitiKkKd,
     kodFasilitiTaskaTadika: req.body.kodFasilitiTaskaTadika,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
@@ -189,6 +190,26 @@ const deletePersonKaunter = async (req, res) => {
   });
 };
 
+// check from cache if ic is same
+// GET /check
+const getPersonFromCache = async (req, res) => {
+  const { personKaunterId } = req.params;
+  // const person = await cache.get(ic.toString());
+  try {
+    const { data } = await axios.get(
+      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
+      {
+        headers: {
+          'x-api-key': process.env.CACHE_SERVER_PASS,
+        },
+      }
+    );
+    return res.status(200).json({ person: data });
+  } catch (error) {
+    res.status(404).json({ msg: 'No person found' });
+  }
+};
+
 // query /kaunter
 const queryPersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
@@ -244,6 +265,23 @@ const queryPersonKaunter = async (req, res) => {
   res.status(200).json({ kaunterResultQuery });
 };
 
+// query /kaunter/kk-kd
+const getKkKdList = async (req, res) => {
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const kkKdAll = await Fasiliti.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
+    jenisFasiliti: 'kkiakd',
+  });
+
+  res.status(200).json({ kkKdAll });
+};
+
 // query /kaunter/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
@@ -281,33 +319,14 @@ const getProjekKomuniti = async (req, res) => {
   res.status(200).json({ projekKomuniti });
 };
 
-// check from cache if ic is same
-// GET /check
-const getPersonFromCache = async (req, res) => {
-  const { personKaunterId } = req.params;
-  // const person = await cache.get(ic.toString());
-  try {
-    const { data } = await axios.get(
-      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
-      {
-        headers: {
-          'x-api-key': process.env.CACHE_SERVER_PASS,
-        },
-      }
-    );
-    return res.status(200).json({ person: data });
-  } catch (error) {
-    res.status(404).json({ msg: 'No person found' });
-  }
-};
-
 module.exports = {
   getSinglePersonKaunter,
   createPersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
+  getPersonFromCache,
   queryPersonKaunter,
+  getKkKdList,
   getTaskaTadikaList,
   getProjekKomuniti,
-  getPersonFromCache,
 };
