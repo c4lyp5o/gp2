@@ -200,6 +200,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    tidakPerluRawatanPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
     yaTidakSediaAdaStatusDenturePemeriksaanUmum: {
       type: String,
       default: '',
@@ -594,26 +598,6 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    rujukanPakarPeriodontik: {
-      type: String,
-      default: '',
-    },
-    engganLainRujukanPakarPeriodontik: {
-      type: String,
-      default: '',
-    },
-    rujukanPakarScd: {
-      type: Boolean,
-      default: false,
-    },
-    rujukanPakarUpkka: {
-      type: Boolean,
-      default: false,
-    },
-    kesSelesaiPeriodontium: {
-      type: Boolean,
-      default: false,
-    },
     rawatanOrtodontikRawatanUmum: {
       type: Boolean,
       default: false,
@@ -674,7 +658,35 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    rujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    engganLainRujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    rujukanPakarScd: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarUpkka: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarOrtodontik: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarBedahMulut: {
+      type: Boolean,
+      default: false,
+    },
     kesSelesaiRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kesSelesaiPeriodontium: {
       type: Boolean,
       default: false,
     },

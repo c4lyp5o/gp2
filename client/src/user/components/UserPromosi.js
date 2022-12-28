@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import { BsFillCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 
 import UserModalPromosi from './form-promosi/UserModalPromosi';
 import UserDeleteModal from './UserDeleteModal';
@@ -358,7 +359,17 @@ function UserPromosi({ individuOrKlinik }) {
                               pilih === a._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {a.statusReten}
+                            {a.statusReten === 'belum diisi' ? (
+                              <span className='flex flex-row justify-center items-center'>
+                                Belum Diisi
+                                <BsFillCircleFill className='text-lg text-user9 ml-1' />
+                              </span>
+                            ) : (
+                              <span className='flex flex-row justify-center items-center'>
+                                Telah Diisi
+                                <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                              </span>
+                            )}
                           </td>
                           <td
                             onClick={() => {
