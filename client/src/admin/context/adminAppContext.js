@@ -179,10 +179,10 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
-    // if (type === 'kkiakd') {
-    //   let response = { data: [] };
-    //   return response;
-    // }
+    if (type === 'kkiakd') {
+      let response = { data: [] };
+      return response;
+    }
     const response = await axios.get(
       `/api/v1/superadmin/getdata?FType=${type}`,
       {
@@ -353,7 +353,7 @@ function AdminAppProvider({ children }) {
     const currentFasiliti = await readData('kp');
     if (currentFasiliti.data.length === 0) {
       console.log('no fasiliti');
-      return response;
+      return response.data;
     }
     console.log('current fasiliti', currentFasiliti.data);
     for (let j = 0; j < currentFasiliti.data.length; j++) {
@@ -436,42 +436,6 @@ function AdminAppProvider({ children }) {
         }
         return response.data;
       }
-    } catch (error) {
-      return false;
-    }
-  };
-
-  // get kkia data
-  const readKkiaData = async ({ negeri, daerah }) => {
-    try {
-      const response = await axios.get(
-        `https://erkm.calypsocloud.one/getkkiakd?negeri=${negeri}&daerah=${daerah}`
-      );
-      const currentKkia = await readData('kkiakd');
-      if (currentKkia.data.length === 0) {
-        return response;
-      }
-      if (response.data.length === 1) {
-        const match = currentKkia.data
-          .map((e) => e.kodKkiaKd)
-          .includes(response.data[0].kodFasiliti);
-        if (match) {
-          return false;
-        }
-        return response;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentKkia.data.length; j++) {
-          const deleteKkia = response.data
-            .map((e) => e.kodFasiliti)
-            .indexOf(currentKkia.data[j].kodKkiaKd);
-          if (deleteKkia !== -1) {
-            response.data.splice(deleteKkia, 1);
-          }
-        }
-        return response;
-      }
-      return response;
     } catch (error) {
       return false;
     }
@@ -788,7 +752,6 @@ function AdminAppProvider({ children }) {
         // misc data
         readDpimsData,
         readMdtbData,
-        readKkiaData,
         // readPegawaiData,
         readSekolahData,
         readFasilitiData,

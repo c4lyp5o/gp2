@@ -50,16 +50,16 @@ export default function Data({ FType, kp }) {
     });
     readData(FType).then((res) => {
       setData(res.data);
-      if (FType === 'kp') {
-        setShowKlinik(true);
-        setShowPassword({
-          ...showPassword,
-          [res.data.username]: false,
-          [res.data.kaunterUsername]: false,
-        });
-      }
+      setShowPassword({
+        ...showPassword,
+        [res.data.username]: false,
+        [res.data.kaunterUsername]: false,
+      });
       if (FType === 'jp' || FType === 'pp') {
         setShowOperators(true);
+      }
+      if (FType === 'kp') {
+        setShowKlinik(true);
       }
       if (FType === 'kkiakd') {
         setShowKkia(true);
@@ -230,12 +230,12 @@ export default function Data({ FType, kp }) {
     }
   }
 
-  function Kkiakd() {
+  function KKIAKD() {
     if (data.length > 0) {
       return (
         <div className='flex flex-col items-center gap-5'>
           <h1 className='text-3xl font-bold mt-10 mb-10'>
-            Senarai KKIA / KD Daerah {daerah}
+            Senarai Klinik Pergigian Daerah {daerah}
           </h1>
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
@@ -248,13 +248,22 @@ export default function Data({ FType, kp }) {
                     Kod Fasiliti Gi-Ret 2.0
                   </th> */}
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Nama KKIA / KD
+                    Nama KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Status KKIA / KD
+                    Peranan KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    KP Bertanggungjawab
+                    Emel KP
+                  </th>
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                    Akaun Pengguna KP
+                  </th>
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                    Akaun Pendaftaran KP
+                  </th>
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                    Status KP
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
@@ -262,16 +271,59 @@ export default function Data({ FType, kp }) {
                 </tr>
               </thead>
               <tbody className='bg-admin4'>
-                {data.map((kkia, index) => (
-                  <tr key={kkia._id}>
+                {/* {data.map((kp, index) => (
+                  <tr key={kp._id}>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
+                    </td>                   
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {kp.kp}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {kkia.nama}
+                      {kp.statusRoleKlinik}
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      {encryptEmail(kp.email)}
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div id={index}>
+                        {showPassword[kp.username] === true
+                          ? kp.password
+                          : encryptPassword(kp.password)}
+                        <button
+                          className='ml-1'
+                          onClick={() => {
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.username]: !showPassword[kp.username],
+                            });
+                          }}
+                        >
+                          <AiOutlineEye />
+                        </button>
+                      </div>
+                    </td>
+                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 normal-case'>
+                      <div id={index}>
+                        {showPassword[kp.kaunterUsername] === true
+                          ? kp.kaunterPassword
+                          : encryptPassword(kp.kaunterPassword)}
+                        <button
+                          className='ml-1'
+                          onClick={() =>
+                            setShowPassword({
+                              ...showPassword,
+                              [kp.kaunterUsername]:
+                                !showPassword[kp.kaunterUsername],
+                            })
+                          }
+                        >
+                          <AiOutlineEye />
+                        </button>
+                      </div>
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {kkia.statusPerkhidmatan === 'active' ? (
+                      {kp.statusPerkhidmatan === 'active' ? (
                         <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
                           Aktif
                         </span>
@@ -282,32 +334,29 @@ export default function Data({ FType, kp }) {
                       )}
                     </td>
                     <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {kkia.handler}
-                    </td>
-                    <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
                         onClick={() => {
                           setShowEditModal(true);
-                          setId(kkia._id);
+                          setId(kp._id);
                         }}
                       >
                         Kemaskini
                       </button>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-1'
-                        id={kkia._id}
+                        id={kp._id}
                         onClick={() => {
                           setShowDeleteModal(true);
-                          setId(kkia._id);
-                          setDeleteCandidate(kkia.kp);
+                          setId(kp._id);
+                          setDeleteCandidate(kp.kp);
                         }}
                       >
                         Hapus
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>
@@ -889,7 +938,7 @@ export default function Data({ FType, kp }) {
       <>
         {data.length === 0 && <NothingHereBoi FType={FType} />}
         {showKlinik && <Klinik />}
-        {showKkia && <Kkiakd />}
+        {showKkia && <KKIAKD />}
         {showOperators && <Pegawai />}
         {showFacilities && <Facility />}
         {showEvent && <Event />}
