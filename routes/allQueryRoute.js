@@ -7,6 +7,7 @@ const promosi = require('../controllers/promosi');
 const operator = require('../controllers/operator');
 
 router.route('/kaunter').get(kaunter.queryPersonKaunter);
+router.route('/kaunter/kk-kd').get(kaunter.getKkKdList);
 router.route('/kaunter/taska-tadika').get(kaunter.getTaskaTadikaList);
 router.route('/kaunter/events').get(kaunter.getProjekKomuniti);
 
