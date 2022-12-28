@@ -197,6 +197,121 @@ export function InputKlinik(props) {
   );
 }
 
+export function InputKkiakd(props) {
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowAddModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah KKIA / KD</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <div className='grid gap-1'>
+                    <label htmlFor='nama'>Pilih KKIA / KD</label>
+                    <select
+                      required
+                      onChange={(e) => {
+                        const selectedKkia = props.kkia.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setName(selectedKkia.nama);
+                        props.setKodKkiaKd(selectedKkia.kodFasiliti);
+                      }}
+                      className='border-2 max-w-sm'
+                    >
+                      <option value=''>Pilih KKIA / KD</option>
+                      {props.kkia.map((k) => (
+                        <option key={k.kodFasiliti} value={k.kodFasiliti}>
+                          {k.nama}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <select
+                      required
+                      className='border-2'
+                      onChange={(e) => {
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setKp(selectedKlinik.kp);
+                        props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                      }}
+                    >
+                      <option value=''>Pilih Klinik</option>
+                      {props.klinik.map((k) => (
+                        <option className='capitalize' value={k.kodFasiliti}>
+                          {k.kp}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className='mt-3 font-semibold'>Status KKIA / KD</p>
+                  <div className='grid grid-cols-2 gap-1'>
+                    <label htmlFor='nama'>Aktif</label>
+                    <input
+                      type='radio'
+                      name='status'
+                      value='active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                    <label htmlFor='nama'>Tidak Aktif</label>
+                    <input
+                      type='radio'
+                      name='status'
+                      value='non-active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.addingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowAddModal(false)}
+                >
+                  Kembali
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
 export function InputPegawai(props) {
   const { Dictionary, toast, readDpimsData, readMdtbData } =
     useGlobalAdminAppContext();
@@ -1215,6 +1330,128 @@ export function InputEditKlinik(props) {
                   onClick={() => props.setShowEditModal(false)}
                 >
                   Cancel
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+export function InputEditKkiakd(props) {
+  return (
+    <>
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div
+          className={styles.darkBG}
+          onClick={() => props.setShowEditModal(false)}
+        />
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah KKIA / KD</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowEditModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <div className='grid gap-1'>
+                    <label htmlFor='nama'>Nama KKIA / KD</label>
+                    <div className='grid gap-1 font-bold'>
+                      {props.editedEntity.nama}
+                    </div>
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Klinik Bertanggungjawab{' '}
+                      <span className='font-semibold text-lg text-admin3'>
+                        *
+                      </span>
+                    </p>
+                    <select
+                      readOnly={true}
+                      value={props.editedEntity.kodFasilitiHandler}
+                      className='border-2'
+                      onChange={(e) => {
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          handler: selectedKlinik.kp,
+                          kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                        });
+                      }}
+                    >
+                      <option value=''>Pilih Klinik Baru..</option>
+                      {props.klinik.map((k) => (
+                        <option className='capitalize' value={k.kodFasiliti}>
+                          {k.kp}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p>Status KKIA / KD</p>
+                  <div className='grid grid-cols-2'>
+                    <label htmlFor='statusAktif'>Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusAktif'
+                      value='active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                        props.setStatusPerkhidmatan(e.target.value);
+                      }}
+                    />
+                    <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'non-active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusTidakAktif'
+                      value='non-active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                        props.setStatusPerkhidmatan(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.editingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowEditModal(false)}
+                >
+                  Kembali
                 </span>
               </div>
             </div>
@@ -3026,15 +3263,12 @@ export function InputKpEditKPBMPB(props) {
           <div className={styles.modalContent}>
             <div className='grid gap-1'>
               <p>
-                Jenis Fasiliti: {Dictionary[props.editedEntity.jenisFasiliti]}
-              </p>
-              <p>
                 Nombor Plat:{' '}
                 <p className='capitalize'>{props.editedEntity.nama}</p>{' '}
               </p>
               <div className='grid grid-gap-1'>
-                <p>Jumlah Hari Beroperasi: </p>
-                <input
+                <p>Tarikh Beroperasi: </p>
+                {/* <input
                   type='text'
                   className='border-2'
                   value={
@@ -3048,9 +3282,11 @@ export function InputKpEditKPBMPB(props) {
                       jumlahHariBeroperasi: e.target.value,
                     });
                   }}
-                />
+                /> */}
+                <StartDate {...props} />
+                <EndDate {...props} />
               </div>
-              <div className='grid grid-gap-1'>
+              {/* <div className='grid grid-gap-1'>
                 <p>Jumlah Pesakit Baru: </p>
                 <input
                   type='text'
@@ -3085,6 +3321,34 @@ export function InputKpEditKPBMPB(props) {
                     });
                   }}
                 />
+              </div> */}
+              <div className='grid gap-1'>
+                <p>
+                  Klinik Bertanggungjawab{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <select
+                  required
+                  className='border-2'
+                  onChange={(e) => {
+                    const selectedKlinik = props.allKlinik.find(
+                      (k) => k.kodFasiliti === e.target.value
+                    );
+                    console.log(selectedKlinik);
+                    props.setEditedEntity({
+                      ...props.editedEntity,
+                      handler: selectedKlinik.kp,
+                      kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                    });
+                  }}
+                >
+                  <option value=''>Pilih Klinik</option>
+                  {props.allKlinik.map((k) => (
+                    <option className='capitalize' value={k.kodFasiliti}>
+                      {k.kp}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
