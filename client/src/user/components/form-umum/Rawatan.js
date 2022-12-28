@@ -39,6 +39,14 @@ export default function Rawatan(props) {
     }
   }, [props.rujukanPakarPeriodontik]);
 
+  useEffect(() => {
+    if (props.yaTidakTraumaPembedahanRawatanUmum === false) {
+      props.setKecederaanTulangMukaUmum(false);
+      props.setKecederaanGigiUmum(false);
+      props.setKecederaanTisuLembutUmum(false);
+    }
+  }, [props.yaTidakTraumaPembedahanRawatanUmum]);
+
   return (
     <>
       {props.statusKehadiran === false ? (
@@ -96,7 +104,7 @@ export default function Rawatan(props) {
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Pengapan Fisur
                       </h4>
-                      <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                      {/* <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                         <input
                           disabled={isDisabled}
                           type='checkbox'
@@ -117,7 +125,7 @@ export default function Rawatan(props) {
                         >
                           pesakit dibuat Pengapan Fisur
                         </label>
-                      </div>
+                      </div> */}
                       <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                         jumlah gigi kekal dibuat Pengapan Fisur
                       </p>
@@ -176,7 +184,7 @@ export default function Rawatan(props) {
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         PRR Jenis 1
                       </h4>
-                      <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
+                      {/* <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                         <input
                           disabled={isDisabled}
                           type='checkbox'
@@ -197,7 +205,7 @@ export default function Rawatan(props) {
                         >
                           pesakit diberi PRR jenis 1
                         </label>
-                      </div>
+                      </div> */}
                       <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
                         jumlah gigi diberi PRR Jenis 1
                       </p>
@@ -311,14 +319,62 @@ export default function Rawatan(props) {
                   ) : null}
                   {pilihanRawatan.includes('pembedahan-mulut') ||
                   pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-2 border border-userBlack rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    <article className='grid grid-cols-1 grid-row-5 border border-userBlack rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5 py-2'>
                         Pembedahan Mulut
                       </h4>
-                      <p className='flex flex-row items-center pl-5 text-sm font-m'>
+                      <div className='grid grid-cols-2 items-center py-2'>
+                        <p className='text-sm font-m flex justify-start flex-row pl-5'>
+                          Cabutan surgikal :
+                        </p>
+                        <input
+                          disabled={isDisabled}
+                          type='number'
+                          name='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
+                          id='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
+                          value={
+                            props.cabutanSurgikalPembedahanMulutRawatanUmum
+                          }
+                          onChange={(e) => {
+                            props.setCabutanSurgikalPembedahanMulutRawatanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='32'
+                        />
+                      </div>
+                      <div className='grid grid-cols-2 items-center py-2'>
+                        <label
+                          htmlFor='ya-tidak-abses-pembedahan-rawatan-umum'
+                          className='text-sm font-m flex justify-start flex-row pl-5'
+                        >
+                          Abses :
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='ya-tidak-abses-pembedahan-rawatan-umum'
+                          id='ya-tidak-abses-pembedahan-rawatan-umum'
+                          value='ya-tidak-abses-pembedahan-rawatan-umum'
+                          checked={
+                            props.yaTidakAbsesPembedahanRawatanUmum
+                              ? true
+                              : false
+                          }
+                          onChange={() => {
+                            props.setYaTidakAbsesPembedahanRawatanUmum(
+                              !props.yaTidakAbsesPembedahanRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                      </div>
+                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
                         Abses
-                      </p>
-                      <div className='flex items-center justify-evenly'>
+                      </p> */}
+                      {/* <div className='flex items-center justify-evenly'>
                         <div>
                           <input
                             disabled={isDisabled}
@@ -373,28 +429,35 @@ export default function Rawatan(props) {
                             Tidak
                           </label>
                         </div>
-                      </div>
-                      <div className='flex items-center flex-row col-span-2 pl-5'>
-                        <p className='text-sm font-m'>Cabutan surgikal :</p>
+                      </div> */}
+
+                      <div className='grid grid-cols-2 items-center py-2'>
+                        <label
+                          htmlFor='ya-tidak-fraktur-pembedahan-rawatan-umum'
+                          className='text-sm font-m flex justify-start flex-row pl-5'
+                        >
+                          Fraktur :
+                        </label>
                         <input
                           disabled={isDisabled}
-                          type='number'
-                          name='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
-                          id='cabutan-surgikal-pembedahan-mulut-rawatan-umum'
-                          value={
-                            props.cabutanSurgikalPembedahanMulutRawatanUmum
+                          type='checkbox'
+                          name='ya-tidak-fraktur-pembedahan-rawatan-umum'
+                          id='ya-tidak-fraktur-pembedahan-rawatan-umum'
+                          value='ya-tidak-fraktur-pembedahan-rawatan-umum'
+                          checked={
+                            props.yaTidakFrakturPembedahanRawatanUmum
+                              ? true
+                              : false
                           }
-                          onChange={(e) => {
-                            props.setCabutanSurgikalPembedahanMulutRawatanUmum(
-                              e.target.value
+                          onChange={() => {
+                            props.setYaTidakFrakturPembedahanRawatanUmum(
+                              !props.yaTidakFrakturPembedahanRawatanUmum
                             );
                           }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          min='0'
-                          max='32'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
                       </div>
-                      <p className='flex flex-row items-center pl-5 text-sm font-m'>
+                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
                         fraktur
                       </p>
                       <div className='flex items-center justify-evenly'>
@@ -452,8 +515,34 @@ export default function Rawatan(props) {
                             Tidak
                           </label>
                         </div>
+                      </div> */}
+                      <div className='grid grid-cols-2 items-center py-2'>
+                        <label
+                          htmlFor='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          className='text-sm font-m flex justify-start flex-row pl-5'
+                        >
+                          Pembedahan Kecil Mulut :
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          id='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          value='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
+                          checked={
+                            props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum
+                              ? true
+                              : false
+                          }
+                          onChange={() => {
+                            props.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
+                              !props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
                       </div>
-                      <p className='flex flex-row items-center pl-5 text-sm font-m'>
+                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
                         pembedahan kecil mulut
                       </p>
                       <div className='flex items-center justify-evenly'>
@@ -511,8 +600,34 @@ export default function Rawatan(props) {
                             Tidak
                           </label>
                         </div>
+                      </div> */}
+                      <div className='grid grid-cols-2 items-center py-2'>
+                        <label
+                          htmlFor='ya-tidak-trauma-pembedahan-rawatan-umum'
+                          className='text-sm font-m flex justify-start flex-row pl-5'
+                        >
+                          Trauma :
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='ya-tidak-trauma-pembedahan-rawatan-umum'
+                          id='ya-tidak-trauma-pembedahan-rawatan-umum'
+                          value='ya-tidak-trauma-pembedahan-rawatan-umum'
+                          checked={
+                            props.yaTidakTraumaPembedahanRawatanUmum
+                              ? true
+                              : false
+                          }
+                          onChange={() => {
+                            props.setYaTidakTraumaPembedahanRawatanUmum(
+                              !props.yaTidakTraumaPembedahanRawatanUmum
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
                       </div>
-                      <p className='flex flex-row items-center pl-5 text-sm font-m'>
+                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
                         trauma
                       </p>
                       <div className='flex items-center justify-evenly'>
@@ -570,10 +685,9 @@ export default function Rawatan(props) {
                             Tidak
                           </label>
                         </div>
-                      </div>
-                      {props.yaTidakTraumaPembedahanRawatanUmum ===
-                      'ya-trauma-pembedahan-rawatan-umum' ? (
-                        <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 col-span-2 m-2'>
+                      </div> */}
+                      {props.yaTidakTraumaPembedahanRawatanUmum === true ? (
+                        <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 m-2'>
                           <h4 className='font-bold flex flex-row pl-2'>
                             Trauma
                           </h4>
@@ -960,7 +1074,7 @@ export default function Rawatan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 ml-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           min='0'
                           max='2'
                         />
@@ -983,7 +1097,7 @@ export default function Rawatan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 ml-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           min='0'
                           max='2'
                         />
@@ -1990,7 +2104,7 @@ export default function Rawatan(props) {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
                         <div className='flex flex-row items-center pl-3'>
@@ -2015,7 +2129,7 @@ export default function Rawatan(props) {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
                         <div className='flex flex-row items-center pl-3'>
@@ -2040,7 +2154,7 @@ export default function Rawatan(props) {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m ml-3'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
                       </article>
