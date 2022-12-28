@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Spinner } from 'react-awesome-spinners';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import {
@@ -60,7 +60,7 @@ export default function UserCarian() {
         setTarikhKedatanganDP(tarikhKedatangan);
       },
       className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
 
@@ -101,9 +101,9 @@ export default function UserCarian() {
               },
             }
           );
-          // 👇️ sort by String property ASCENDING (A - Z)
+          // 👇️ sort by String property DESCENDING (Z - A)
           const desc = data.umumResultQuery.sort((a, b) =>
-            a.statusReten > b.statusReten ? 1 : -1
+            a.statusReten > b.statusReten ? -1 : 1
           );
           setQueryResult(desc);
           setRefreshTimer(!refreshTimer);
@@ -171,28 +171,28 @@ export default function UserCarian() {
         <div className='text-lg font-bold uppercase'>
           senarai sejarah kedatangan pesakit bagi {namaKlinik}
         </div>
-        <div className='grid grid-cols-2 justify-center my-5'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 justify-center my-5'>
           <div>
-            <div className='m-auto w-96 flex flex-row py-3'>
+            <div className='m-auto w-96 lg:flex lg:flex-row py-3'>
               <label
                 htmlFor='pilihanTarikh'
-                className='whitespace-nowrap flex items-center'
+                className='whitespace-nowrap flex items-center mb-1'
               >
                 Tarikh Kedatangan :{' '}
               </label>
               <TarikhKedatangan />
             </div>
-            <div className='m-auto w-96 flex flex-row py-3'>
+            <div className='m-auto w-full lg:w-96 lg:flex lg:flex-row py-3'>
               <label
                 htmlFor='pilihanNama'
-                className='whitespace-nowrap flex items-center'
+                className='whitespace-nowrap flex items-center mb-1'
               >
                 Carian Nama :{' '}
               </label>
               <input
                 type='search'
                 name='pilihanNama'
-                className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase ml-2'
+                className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase lg:ml-2'
                 id='pilihanNama'
                 onChange={(e) => {
                   setNama(e.target.value);
@@ -201,14 +201,13 @@ export default function UserCarian() {
             </div>
           </div>
           <div>
-            <div className='w-96 flex flex-row py-3'>
+            <div className='w-96 lg:flex lg:flex-row py-3'>
               <label
                 className='whitespace-nowrap flex items-center pb-1 text-base font-medium mr-3'
                 htmlFor='jenis-fasiliti'
               >
                 pilih jenis fasiliti:
               </label>
-
               <div className='relative w-64'>
                 <select
                   name='jenis-fasiliti'
@@ -230,7 +229,7 @@ export default function UserCarian() {
               </div>
             </div>
             {jenisFasiliti === 'projek-komuniti-lain' && (
-              <div className='w-96 flex flex-row py-3'>
+              <div className='w-96 lg:flex lg:flex-row py-3'>
                 <label
                   className='whitespace-nowrap flex items-center pb-1 text-base font-medium mr-3'
                   htmlFor='jenis-program'
@@ -322,9 +321,9 @@ export default function UserCarian() {
                 </th>
                 {userinfo.role === 'admin' ? (
                   <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1`}
+                    className={`px-2 py-1 outline outline-1 outline-offset-1 w-80`}
                   >
-                    TANDAKAN RETEN SALAH / KEMBALIKAN RETEN SALAH
+                    TINDAKAN
                   </th>
                 ) : null}
               </tr>
@@ -438,7 +437,7 @@ export default function UserCarian() {
                         ) : singlePersonUmum.statusKehadiran === true &&
                           singlePersonUmum.statusReten === 'reten salah' ? (
                           <div className='flex items-center justify-center whitespace-nowrap'>
-                            <strike>Reten Salah</strike>
+                            <strike>Terdapat Kesalahan Reten</strike>
                             <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                           </div>
                         ) : singlePersonUmum.statusKehadiran === true ? (
@@ -453,18 +452,28 @@ export default function UserCarian() {
                           </div>
                         ) : singlePersonUmum.statusReten === 'reten salah' ? (
                           <div className='flex items-center justify-center whitespace-nowrap'>
-                            <strike>Reten Salah</strike>
+                            <strike>Terdapat Kesalahan Reten</strike>
                             <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
                           </div>
                         ) : null}
                       </td>
-                      {userinfo.role === 'admin' ? (
-                        <td
-                          className={`${
-                            pilihanId === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
-                        >
-                          {singlePersonUmum.statusReten === 'telah diisi' ||
+                      <td
+                        className={`${
+                          pilihanId === singlePersonUmum._id && 'bg-user3'
+                        } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
+                      >
+                        {singlePersonUmum.statusReten === 'telah diisi' ||
+                        singlePersonUmum.statusReten === 'reten salah' ? (
+                          <Link
+                            target='_blank'
+                            to={`/pengguna/landing/umum/form-umum/${singlePersonUmum._id}`}
+                            className='m-2 p-2 uppercase bg-user3 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 transition-all'
+                          >
+                            lihat reten
+                          </Link>
+                        ) : null}
+                        {userinfo.role === 'admin' &&
+                          (singlePersonUmum.statusReten === 'telah diisi' ||
                           singlePersonUmum.statusReten === 'reten salah' ? (
                             <span
                               onClick={() => {
@@ -475,13 +484,12 @@ export default function UserCarian() {
                                   singlePersonUmum.statusReten
                                 );
                               }}
-                              className='m-2 p-2 uppercase bg-user3 text-xs text-userWhite rounded-md shadow-md hover:bg-user1 hover:cursor-pointer transition-all'
+                              className='m-2 p-2 uppercase bg-user9 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
                             >
-                              TANDA RETEN
+                              RETEN SALAH
                             </span>
-                          ) : null}
-                        </td>
-                      ) : null}
+                          ) : null)}
+                      </td>
                     </tr>
                   </tbody>
                 );
