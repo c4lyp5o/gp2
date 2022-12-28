@@ -5,21 +5,20 @@ const fasilitiSchema = new Schema({
   nama: {
     type: String,
   },
+  statusPerkhidmatan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  kodSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   createdByNegeri: {
     type: String,
   },
   createdByDaerah: {
     type: String,
   },
-  jenisFasiliti: {
-    type: String,
-  },
-  // klinik
-  statusRoleKlinik: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  // fasiliti2 lain
   handler: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -28,12 +27,10 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  statusPerkhidmatan: {
+  jenisFasiliti: {
     type: String,
-    default: 'NOT APPLICABLE',
   },
-  // sr sm
-  kodSekolah: {
+  statusRoleKlinik: {
     type: String,
     default: 'NOT APPLICABLE',
   },
@@ -49,12 +46,6 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // kkia
-  kodKkiaKd: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  // tas tad
   kodTastad: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -81,9 +72,17 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // MPB KPB
-  penggunaanKPBMPB: {
-    type: Array,
-    default: [],
+  jumlahHariBeroperasi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahPesakitBaru: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahPesakitUlangan: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
 });
 
