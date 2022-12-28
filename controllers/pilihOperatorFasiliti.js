@@ -24,6 +24,7 @@ const getFasilitiList = async (req, res) => {
   const fasilitisAll = await User.find({
     negeri: req.user.negeri,
     statusRoleKlinik: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
+    statusPerkhidmatan: 'active',
   });
 
   const deleteFasiliti = fasilitisAll.map((f) => f.kp).indexOf(req.user.kp);
