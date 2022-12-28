@@ -65,7 +65,7 @@ function statusPesakit(p) {
   }
   if (p.kakitanganKerajaan === true) {
     status += '/';
-    status += 'KTK';
+    status += 'e-GL';
   }
   return status;
 }

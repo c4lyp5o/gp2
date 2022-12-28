@@ -625,6 +625,32 @@ export default function Pemeriksaan(props) {
                     </label>
                   </div>
                 </article>
+                <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
+                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                    Tidak Perlu Rawatan
+                  </h4>
+                  <div className='flex flex-row pl-5 py-2'>
+                    <input
+                      disabled={isDisabled}
+                      type='checkbox'
+                      name='tidak-perlu-rawatan-pemeriksaan-umum'
+                      id='tidak-perlu-rawatan-pemeriksaan-umum'
+                      checked={props.tidakPerluRawatanPemeriksaanUmum}
+                      onChange={() => {
+                        props.setTidakPerluRawatanPemeriksaanUmum(
+                          !props.tidakPerluRawatanPemeriksaanUmum
+                        );
+                      }}
+                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                    />
+                    <label
+                      htmlFor='tidak-perlu-rawatan-pemeriksaan-umum'
+                      className='mx-2 text-sm font-m'
+                    >
+                      TPR
+                    </label>
+                  </div>
+                </article>
                 <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
                     Status dentur
