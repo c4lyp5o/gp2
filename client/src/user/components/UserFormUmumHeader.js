@@ -2270,7 +2270,8 @@ function UserFormUmumHeader() {
                     /> */}
                     <button
                       disabled={
-                        singlePersonUmum.statusReten === 'telah diisi'
+                        singlePersonUmum.statusReten === 'telah diisi' ||
+                        singlePersonUmum.statusReten === 'reten salah'
                           ? true
                           : singlePersonUmum.statusReten === 'belum diisi' &&
                             operatorLain === 'rawatan-operator-lain'
@@ -2287,7 +2288,8 @@ function UserFormUmumHeader() {
                         'hover:bg-user1 hover:text-userWhite'
                       }`}
                     >
-                      {singlePersonUmum.statusReten === 'telah diisi' ? (
+                      {singlePersonUmum.statusReten === 'telah diisi' ||
+                      singlePersonUmum.statusReten === 'reten salah' ? (
                         <s>hantar</s>
                       ) : singlePersonUmum.statusReten === 'belum diisi' &&
                         operatorLain === 'rawatan-operator-lain' ? (

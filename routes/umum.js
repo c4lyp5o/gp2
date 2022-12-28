@@ -4,12 +4,14 @@ const {
   getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
-  deletePersonUmum,
+  retenSalahPersonUmum,
   softDeletePersonUmum,
+  deletePersonUmum,
 } = require('../controllers/umum');
 
 router.route('/').get(getAllPersonUmum);
 router.route('/:id').get(getSinglePersonUmum).patch(updatePersonUmum);
+router.route('/salah/:id').patch(retenSalahPersonUmum);
 router.route('/delete/:id').patch(softDeletePersonUmum);
 
 module.exports = router;
