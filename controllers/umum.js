@@ -154,6 +154,81 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
+// PATCH /salah/:id
+const retenSalahPersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const { retenSalahReason } = req.body;
+
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  if (!singlePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
+
+  // tanda sebagai reten salah
+  if (singlePersonUmum.statusReten === 'telah diisi') {
+    const singlePersonUmumRetenSalahStatus = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      {
+        statusReten: 'reten salah',
+        retenSalahForOfficer: `${req.body.createdByMdcMdtb} has marked patient as reten salah for ${singlePersonUmum.createdByMdcMdtb}`,
+      },
+      { new: true }
+    );
+    const singlePersonUmumRetenSalahReason = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      { $push: { retenSalahReason: retenSalahReason } },
+      { new: true }
+    );
+  }
+
+  // revert salah
+  if (singlePersonUmum.statusReten === 'reten salah') {
+    const singlePersonUmumRetenSalahStatus = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      {
+        statusReten: 'telah diisi',
+        retenSalahForOfficer: `${req.body.createdByMdcMdtb} has REVERT marked this patient from reten salah for ${singlePersonUmum.createdByMdcMdtb}`,
+      },
+      { new: true }
+    );
+    const singlePersonUmumRetenSalahReason = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      { $push: { retenSalahReason: retenSalahReason } },
+      { new: true }
+    );
+  }
+
+  res.status(200).json({ msg: 'reten salah route success' });
+};
+
 // PATCH /delete/:id
 const softDeletePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -275,6 +350,7 @@ module.exports = {
   getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
+  retenSalahPersonUmum,
   softDeletePersonUmum,
   deletePersonUmum,
   queryPersonUmum,

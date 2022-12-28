@@ -2,6 +2,7 @@ export default function Promosi(props) {
   let isDisabled = false;
   if (
     props.statusReten === 'telah diisi' ||
+    props.statusReten === 'reten salah' ||
     (props.singlePersonUmum.rawatanDibuatOperatorLain === true &&
       !props.operatorLain)
   ) {

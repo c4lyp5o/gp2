@@ -5,6 +5,7 @@ import {
   BsFilePerson,
   BsFillFilePersonFill,
   BsFillCircleFill,
+  BsFillBookmarkXFill,
   BsFillCheckCircleFill,
   BsPersonCircle,
   BsCalendarPlusFill,
@@ -435,17 +436,28 @@ function UserUmum() {
                               <span>Belum Diisi</span>
                               <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
+                          ) : singlePersonUmum.statusKehadiran === true &&
+                            singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>Reten Salah</strike>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
                           ) : singlePersonUmum.statusKehadiran === true ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <strike>data tiada</strike>
                               <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
                             </div>
-                          ) : (
+                          ) : singlePersonUmum.statusReten === 'telah diisi' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <span>Selesai Diisi</span>
                               <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
                             </div>
-                          )}
+                          ) : singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <strike>Reten Salah</strike>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : null}
                         </td>
                         <td
                           onClick={() => {
@@ -667,6 +679,15 @@ function UserUmum() {
                       hapus pesakit?
                     </button>
                   ) : singlePersonUmum.statusReten === 'telah diisi' ||
+                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                    >
+                      lihat reten
+                    </Link>
+                  ) : singlePersonUmum.statusReten === 'reten salah' ||
                     singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                     <Link
                       target='_blank'
