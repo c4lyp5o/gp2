@@ -6,6 +6,7 @@ export default function Pemeriksaan(props) {
   let isDisabled = false;
   if (
     props.statusReten === 'telah diisi' ||
+    props.statusReten === 'reten salah' ||
     props.singlePersonUmum.rawatanDibuatOperatorLain === true
   ) {
     isDisabled = true;

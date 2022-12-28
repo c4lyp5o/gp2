@@ -878,7 +878,7 @@ function UserFormUmumHeader() {
     engganLainRujukanPakarPeriodontik,
     setEngganLainRujukanPakarPeriodontik,
   ] = useState('');
-  masterForm.engganLainrujukanPakarPeriodontik =
+  masterForm.engganLainRujukanPakarPeriodontik =
     engganLainRujukanPakarPeriodontik;
   masterForm.setEngganLainRujukanPakarPeriodontik =
     setEngganLainRujukanPakarPeriodontik;
@@ -1612,54 +1612,55 @@ function UserFormUmumHeader() {
           setRawatanDibuatOperatorLain(
             data.singlePersonUmum.rawatanDibuatOperatorLain
           );
+          //map promosi ----------------------------------------------------------------
+          setMelaksanakanAktivitiBeginPromosiUmum(
+            data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
+          );
+          setLawatanKeRumahPromosiUmum(
+            data.singlePersonUmum.lawatanKeRumahPromosiUmum
+          );
+          setPlakGigiNasihatPergigianIndividuPromosiUmum(
+            data.singlePersonUmum.plakGigiNasihatPergigianIndividuPromosiUmum
+          );
+          setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
+            data.singlePersonUmum
+              .penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
+          );
+          setDietPemakananNasihatPergigianIndividuPromosiUmum(
+            data.singlePersonUmum
+              .dietPemakananNasihatPergigianIndividuPromosiUmum
+          );
+          setKanserMulutNasihatPergigianIndividuPromosiUmum(
+            data.singlePersonUmum.kanserMulutNasihatPergigianIndividuPromosiUmum
+          );
+          setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
+            data.singlePersonUmum
+              .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
+          );
+          setDirujukKaunselingPakarPublicHealthPromosiUmum(
+            data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
+          );
         }
-        //map promosi ----------------------------------------------------------------
-        setMelaksanakanAktivitiBeginPromosiUmum(
-          data.singlePersonUmum.melaksanakanAktivitiBeginPromosiUmum
-        );
-        setLawatanKeRumahPromosiUmum(
-          data.singlePersonUmum.lawatanKeRumahPromosiUmum
-        );
-        setPlakGigiNasihatPergigianIndividuPromosiUmum(
-          data.singlePersonUmum.plakGigiNasihatPergigianIndividuPromosiUmum
-        );
-        setPenjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum(
-          data.singlePersonUmum
-            .penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum
-        );
-        setDietPemakananNasihatPergigianIndividuPromosiUmum(
-          data.singlePersonUmum.dietPemakananNasihatPergigianIndividuPromosiUmum
-        );
-        setKanserMulutNasihatPergigianIndividuPromosiUmum(
-          data.singlePersonUmum.kanserMulutNasihatPergigianIndividuPromosiUmum
-        );
-        setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setUmur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setUmur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setUmur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setUmur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum(
-          data.singlePersonUmum
-            .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        );
-        setDirujukKaunselingPakarPublicHealthPromosiUmum(
-          data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
-        );
         //map kotak
         setStatusMUmum(data.singlePersonUmum.statusMUmum);
         setJenisRUmum(data.singlePersonUmum.jenisRUmum);
@@ -2031,6 +2032,20 @@ function UserFormUmumHeader() {
               komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
+              //promosi ------------------------------------------------------------
+              melaksanakanAktivitiBeginPromosiUmum,
+              lawatanKeRumahPromosiUmum,
+              plakGigiNasihatPergigianIndividuPromosiUmum,
+              penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum,
+              dietPemakananNasihatPergigianIndividuPromosiUmum,
+              kanserMulutNasihatPergigianIndividuPromosiUmum,
+              umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
+              dirujukKaunselingPakarPublicHealthPromosiUmum,
             },
             {
               headers: {
@@ -2216,11 +2231,18 @@ function UserFormUmumHeader() {
                   </>
                 )}
                 {operatorLain === 'rawatan-operator-lain' && (
-                  <Rawatan
-                    {...masterForm}
-                    singlePersonUmum={singlePersonUmum}
-                    operatorLain={operatorLain}
-                  />
+                  <>
+                    <Rawatan
+                      {...masterForm}
+                      singlePersonUmum={singlePersonUmum}
+                      operatorLain={operatorLain}
+                    />
+                    <Promosi
+                      {...masterForm}
+                      singlePersonUmum={singlePersonUmum}
+                      operatorLain={operatorLain}
+                    />
+                  </>
                 )}
                 {/* <Kotak {...masterForm} /> */}
                 <div className='grid grid-cols-1 lg:grid-cols-2 col-start-1 md:col-start-2 gap-2 col-span-2 md:col-span-1'>
@@ -2248,7 +2270,8 @@ function UserFormUmumHeader() {
                     /> */}
                     <button
                       disabled={
-                        singlePersonUmum.statusReten === 'telah diisi'
+                        singlePersonUmum.statusReten === 'telah diisi' ||
+                        singlePersonUmum.statusReten === 'reten salah'
                           ? true
                           : singlePersonUmum.statusReten === 'belum diisi' &&
                             operatorLain === 'rawatan-operator-lain'
@@ -2265,7 +2288,8 @@ function UserFormUmumHeader() {
                         'hover:bg-user1 hover:text-userWhite'
                       }`}
                     >
-                      {singlePersonUmum.statusReten === 'telah diisi' ? (
+                      {singlePersonUmum.statusReten === 'telah diisi' ||
+                      singlePersonUmum.statusReten === 'reten salah' ? (
                         <s>hantar</s>
                       ) : singlePersonUmum.statusReten === 'belum diisi' &&
                         operatorLain === 'rawatan-operator-lain' ? (

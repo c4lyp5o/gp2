@@ -5,6 +5,7 @@ import {
   BsFilePerson,
   BsFillFilePersonFill,
   BsFillCircleFill,
+  BsFillBookmarkXFill,
   BsFillCheckCircleFill,
   BsPersonCircle,
   BsCalendarPlusFill,
@@ -221,7 +222,7 @@ function UserUmum() {
                 className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
               >
                 <option value='kp'>Klinik Pergigian</option>
-                <option value='kk-kd'>Klinik kesihatan / Klinik desa</option>
+                <option value='kk-kd'>Klinik Kesihatan / Klinik Desa</option>
                 <option value='taska-tadika'>Taska / Tadika</option>
                 <option value='projek-komuniti-lain'>Program Komuniti</option>
               </select>
@@ -261,6 +262,11 @@ function UserUmum() {
                     Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah
                   </option>
                   <option value='oap'>Program Orang Asli dan Penan</option>
+                  <option value='penjara-koreksional'>
+                    Program di Penjara / Pusat Koreksional
+                  </option>
+                  <option value='fds'>Flying Dental Service (Sabah)</option>
+                  <option value='rtc'>RTC (Kelantan)</option>
                   <option value='incremental'>
                     Program Pergigian Sekolah sesi 2022/2023
                   </option>
@@ -301,6 +307,11 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     OPERATOR
                   </th>
+                  {jenisFasiliti === 'kk-kd' ? (
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      NAMA KKIA / KD
+                    </th>
+                  ) : null}
                   {jenisFasiliti === 'taska-tadika' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       NAMA TASKA/TADIKA
@@ -402,6 +413,15 @@ function UserUmum() {
                             ? null
                             : singlePersonUmum.createdByUsername}
                         </td>
+                        {jenisFasiliti === 'kk-kd' ? (
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.namaFasilitiKkKd}
+                          </td>
+                        ) : null}
                         {jenisFasiliti === 'taska-tadika' ? (
                           <td
                             className={`${
@@ -430,17 +450,28 @@ function UserUmum() {
                               <span>Belum Diisi</span>
                               <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
                             </div>
+                          ) : singlePersonUmum.statusKehadiran === true &&
+                            singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Terdapat Kesalahan Reten</span>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
                           ) : singlePersonUmum.statusKehadiran === true ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <strike>data tiada</strike>
                               <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
                             </div>
-                          ) : (
+                          ) : singlePersonUmum.statusReten === 'telah diisi' ? (
                             <div className='flex items-center justify-center whitespace-nowrap'>
                               <span>Selesai Diisi</span>
                               <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
                             </div>
-                          )}
+                          ) : singlePersonUmum.statusReten === 'reten salah' ? (
+                            <div className='flex items-center justify-center whitespace-nowrap'>
+                              <span>Terdapat Kesalahan Reten</span>
+                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                            </div>
+                          ) : null}
                         </td>
                         <td
                           onClick={() => {
@@ -494,6 +525,11 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'kk-kd' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     {jenisFasiliti === 'taska-tadika' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
@@ -538,6 +574,11 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'kk-kd' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     {jenisFasiliti === 'taska-tadika' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
@@ -582,6 +623,11 @@ function UserUmum() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                     </td>
+                    {jenisFasiliti === 'kk-kd' ? (
+                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                      </td>
+                    ) : null}
                     {jenisFasiliti === 'taska-tadika' ? (
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
@@ -662,6 +708,15 @@ function UserUmum() {
                       hapus pesakit?
                     </button>
                   ) : singlePersonUmum.statusReten === 'telah diisi' ||
+                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                    <Link
+                      target='_blank'
+                      to={`form-umum/${singlePersonUmum._id}`}
+                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                    >
+                      lihat reten
+                    </Link>
+                  ) : singlePersonUmum.statusReten === 'reten salah' ||
                     singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                     <Link
                       target='_blank'

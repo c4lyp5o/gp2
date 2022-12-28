@@ -586,27 +586,31 @@ function AdminAppProvider({ children }) {
     mpb: 'Makmal Pergigian Bergerak',
     'makmal-pergigian': 'Makmal Pergigian Bergerak',
     event: 'Event',
-    'projek-komuniti': 'Projek Komuniti',
     utc: 'UTC',
-    rtc: 'RTC',
-    ppkps: 'PPKPS',
     kgangkat: 'Kampung Angkat',
-    ppr: 'Projek Perumahan Rakyat',
-    we: 'Institusi Warga Emas',
-    oku: 'Institusi OKU / PDK',
-    oap: 'Program Orang Asli dan Penan',
     ppb: 'Pasukan Pergigian Bergerak',
     program: 'Program',
     sosmed: 'Media Sosial',
     tastad: 'Tadika dan Taska',
-    programDewasaMuda: 'Program Dewasa Muda',
-    kampungAngkatPergigian: 'Progam Kampung Angkat Pergigian',
-    incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
     'kolej-komuniti': 'Kolej Komuniti',
     'kolej-vokasional': 'Kolej Vokasional',
     ipg: 'Institusi Pendidikan Guru (IPG)',
     ipta: 'Institusi Pengajian Tinggi Awam (IPTA)',
     'lain-lain': 'Lain-lain Institusi Pengajian',
+    // this is for program-komuniti ------------------------------------------
+    programDewasaMuda: 'Program Dewasa Muda',
+    kampungAngkatPergigian: 'Progam Kampung Angkat Pergigian',
+    ppr: 'Projek Perumahan Rakyat',
+    we: 'Institusi Warga Emas',
+    oku: 'Institusi OKU / PDK',
+    'projek-komuniti': 'Projek Komuniti',
+    ppkps: 'PPKPS',
+    oap: 'Program Orang Asli dan Penan',
+    'penjara-koreksional': 'Program di Penjara / Pusat Koreksional',
+    fds: 'Flying Dental Service (Sabah)',
+    rtc: 'RTC (Kelantan)',
+    incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
+    // -----------------------------------------------------------------------
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {

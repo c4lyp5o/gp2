@@ -42,6 +42,7 @@ export default function FillableForm({
 
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
+  const [kkKdAll, setKkKdAll] = useState([]);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
 
   // for confirmation modal
@@ -107,6 +108,10 @@ export default function FillableForm({
   // const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
   // const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
   //   useState('');
+
+  // kk / kd
+  const [namaFasilitiKkKd, setNamaFasilitiKkKd] = useState('');
+  const [kodFasilitiKkKd, setKodFasilitiKkKd] = useState('');
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
@@ -555,6 +560,9 @@ export default function FillableForm({
               // pasukanPergigianBergerak,
               // makmalPergigianBergerak,
               // labelMakmalPergigianBergerak,
+              // kk / kd
+              namaFasilitiKkKd,
+              kodFasilitiKkKd,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -657,6 +665,9 @@ export default function FillableForm({
               // pasukanPergigianBergerak,
               // makmalPergigianBergerak,
               // labelMakmalPergigianBergerak,
+              // kk / kd
+              namaFasilitiKkKd,
+              kodFasilitiKkKd,
               // taska / tadika
               fasilitiTaskaTadika,
               kelasToddler,
@@ -756,6 +767,9 @@ export default function FillableForm({
     // setMakmalPergigianBergerak(false);
     // setLabelMakmalPergigianBergerak('');
     // taska / tadika
+    // kk / kd
+    setNamaFasilitiKkKd('');
+    setKodFasilitiKkKd('');
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
@@ -885,16 +899,21 @@ export default function FillableForm({
     }
   }, [statusPesara]);
 
-  //reset bayaran if kerajaan
+  //reset bayaran
   useEffect(() => {
     if (!editId) {
-      setNoBayaran('');
-      setNoResit('');
-      setNoBayaran2('');
-      setNoResit2('');
-      setNoBayaran3('');
+      if (tambahBayaran === false) {
+        setNoBayaran2('');
+        setNoResit2('');
+        setNoBayaran3('');
+        setNoResit3('');
+      }
+      if (tambahBayaran2 === false) {
+        setNoBayaran3('');
+        setNoResit3('');
+      }
     }
-  }, [kakitanganKerajaan]);
+  }, [tambahBayaran, tambahBayaran2]);
 
   // reset kedatangan kepp when change kepp
   useEffect(() => {
@@ -996,6 +1015,9 @@ export default function FillableForm({
           // setLabelMakmalPergigianBergerak(
           //   data.singlePersonKaunter.labelMakmalPergigianBergerak
           // );
+          // kk / kd
+          setNamaFasilitiKkKd(data.singlePersonKaunter.namaFasilitiKkKd);
+          setKodFasilitiKkKd(data.singlePersonKaunter.kodFasilitiKkKd);
           // taska / tadika
           setFasilitiTaskaTadika(data.singlePersonKaunter.fasilitiTaskaTadika);
           setKelasToddler(data.singlePersonKaunter.kelasToddler);
@@ -1068,6 +1090,13 @@ export default function FillableForm({
             noOku: data.singlePersonKaunter.noOku,
             statusPesara: data.singlePersonKaunter.statusPersara,
             noPesara: data.singlePersonKaunter.noPesara,
+            noBayaran: data.singlePersonKaunter.noBayaran,
+            noResit: data.singlePersonKaunter.noResit,
+            noBayaran2: data.singlePersonKaunter.noBayaran2,
+            noResit2: data.singlePersonKaunter.noResit2,
+            noBayaran3: data.singlePersonKaunter.noBayaran3,
+            noResit3: data.singlePersonKaunter.noResit3,
+            catatan: data.singlePersonKaunter.catatan,
           });
           setIsEditLoading(false);
         } catch (error) {
@@ -1078,7 +1107,24 @@ export default function FillableForm({
     }
   }, [editId]);
 
-  // fetch taska/tadika if jenis fasiliti taska-tadika only
+  // fetch kkia/kd if jenisFasiliti kk-kd only
+  useEffect(() => {
+    if (jenisFasiliti === 'kk-kd') {
+      const fetchKkKd = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/kaunter/kk-kd`, {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          });
+          setKkKdAll(data.kkKdAll);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchKkKd();
+    }
+  }, [jenisFasiliti]);
+
+  // fetch taska/tadika if jenisFasiliti taska-tadika only
   useEffect(() => {
     if (jenisFasiliti === 'taska-tadika') {
       const fetchTaskaTadika = async () => {
@@ -1465,18 +1511,6 @@ export default function FillableForm({
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
-                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    tarikh lahir:{' '}
-                    <span className='font-semibold text-user6'>*</span>
-                  </p>
-                  <div className='relative w-full md:w-56'>
-                    <TarikhLahir />
-                    <span className='absolute top-2 right-2 text-kaunter3'>
-                      <FaCalendar />
-                    </span>
-                  </div>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     umur: <span className='font-semibold text-user6'>*</span>
                   </p>
@@ -1532,6 +1566,18 @@ export default function FillableForm({
                         Hari
                       </label>
                     </div>
+                  </div>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr] m-2'>
+                  <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
+                    tarikh lahir:{' '}
+                    <span className='font-semibold text-user6'>*</span>
+                  </p>
+                  <div className='relative w-full md:w-56'>
+                    <TarikhLahir />
+                    <span className='absolute top-2 right-2 text-kaunter3'>
+                      <FaCalendar />
+                    </span>
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
@@ -1819,6 +1865,7 @@ export default function FillableForm({
                                 <select
                                   name='episod-mengandung'
                                   id='episod-mengandung'
+                                  value={episodMengandung}
                                   className='appearance-none w-full md:w-48 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                                   onChange={(e) => {
                                     setEpisodMengandung(e.target.value);
@@ -2076,8 +2123,7 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
                   <div className='text-xs md:text-sm text-right font-semibold flex flex-col mr-4 pt-2 bg-user1 bg-opacity-5'>
                     <p>catatan : </p>
-                    {kakitanganKerajaan === false &&
-                      statusPesara === '' &&
+                    {statusPesara === '' &&
                       (jenisFasiliti === 'kp' ||
                         jenisFasiliti === 'projek-komuniti-lain') && (
                         <div>
@@ -2116,13 +2162,15 @@ export default function FillableForm({
                             }}
                             className='mr-2'
                           />
-                          <label htmlFor='kakitangankerajaan'>
-                            Kakitangan Kerajaan
+                          <label
+                            htmlFor='kakitangankerajaan'
+                            className='normal-case'
+                          >
+                            e-GL
                           </label>
                         </div>
                       )}
-                    {kakitanganKerajaan === false &&
-                      statusPesara === '' &&
+                    {statusPesara === '' &&
                       (jenisFasiliti === 'kp' ||
                         jenisFasiliti === 'projek-komuniti-lain') && (
                         <div>
@@ -2191,8 +2239,6 @@ export default function FillableForm({
                                     className='text-kaunter3 cursor-pointer'
                                     onClick={() => {
                                       setTambahBayaran(false);
-                                      setNoBayaran2('');
-                                      setNoResit2('');
                                     }}
                                   />
                                 ) : (
@@ -2275,8 +2321,6 @@ export default function FillableForm({
                                     className='text-kaunter3 cursor-pointer'
                                     onClick={() => {
                                       setTambahBayaran2(false);
-                                      setNoBayaran2('');
-                                      setNoResit2('');
                                     }}
                                   />
                                 ) : (
@@ -2593,6 +2637,35 @@ export default function FillableForm({
                       </div>
                     </article> */}
                   </>
+                )}
+                {jenisFasiliti === 'kk-kd' && (
+                  <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>
+                    <p className='font-semibold'>
+                      nama fasiliti KKIA / KD{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    <select
+                      required
+                      name='nama-fasiliti-taska-tadika'
+                      id='nama-fasiliti-taska-tadika'
+                      value={kodFasilitiKkKd}
+                      onChange={(e) => {
+                        const selectedKkKd = kkKdAll.find(
+                          (kkkd) => kkkd.kodKkiaKd === e.target.value
+                        );
+                        setNamaFasilitiKkKd(selectedKkKd.nama);
+                        setKodFasilitiKkKd(selectedKkKd.kodKkiaKd);
+                      }}
+                      className='w-11/12 outline outline-1 outline-userBlack'
+                    >
+                      <option value=''>Pilih</option>
+                      {kkKdAll.map((kkkd) => {
+                        return (
+                          <option value={kkkd.kodKkiaKd}>{kkkd.nama}</option>
+                        );
+                      })}
+                    </select>
+                  </div>
                 )}
                 {jenisFasiliti === 'taska-tadika' && (
                   <div className='row-span-4 border border-userBlack pl-3 p-2 rounded-md'>

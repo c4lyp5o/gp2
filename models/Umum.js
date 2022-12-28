@@ -13,6 +13,8 @@ const UmumSchema = new mongoose.Schema(
     tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
     statusReten: { type: String, required: true, default: 'belum diisi' },
+    retenSalahReason: { type: Array, default: [] },
+    retenSalahForOfficer: { type: String, default: '' },
     // soft delete ----------------------------------------------
     deleted: { type: Boolean, default: false },
     deleteReason: { type: String, default: '' },
@@ -45,7 +47,7 @@ const UmumSchema = new mongoose.Schema(
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
-    episodeMengandung: { type: String, default: '' },
+    episodMengandung: { type: String, default: '' },
     bookingIM: { type: String, default: '' },
     mengandungDahGravida: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
@@ -74,6 +76,9 @@ const UmumSchema = new mongoose.Schema(
     // pasukanPergigianBergerak: { type: Boolean, default: false },
     // makmalPergigianBergerak: { type: Boolean, default: false },
     // labelMakmalPergigianBergerak: { type: String, default: '' },
+    // kk / kd
+    namaFasilitiKkKd: { type: String, default: '' },
+    kodFasilitiKkKd: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
@@ -788,6 +793,7 @@ UmumSchema.pre('save', async function () {
       let currentRunningNumber = await Runningnumber.findOne({
         jenis:
           this.jenisFasiliti +
+          this.kodFasilitiKkKd +
           this.kodFasilitiTaskaTadika +
           this.jenisProgram +
           this.namaProgram,
@@ -802,6 +808,7 @@ UmumSchema.pre('save', async function () {
           runningnumber: 1,
           jenis:
             this.jenisFasiliti +
+            this.kodFasilitiKkKd +
             this.kodFasilitiTaskaTadika +
             this.jenisProgram +
             this.namaProgram,
