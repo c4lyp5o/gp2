@@ -139,6 +139,59 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    adaDesidusPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    dAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    fAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    xAdaGigiDesidusPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    adaKekalPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    dAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    mAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    fAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    eAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    xAdaGigiKekalPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     adaCleftLipPemeriksaanUmum: {
       type: Boolean,
       default: false,
@@ -214,59 +267,6 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    adaDesidusPemeriksaanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    dAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    fAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    xAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    adaKekalPemeriksaanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    dAdaGigiKekalPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    mAdaGigiKekalPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    fAdaGigiKekalPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    eAdaGigiKekalPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    xAdaGigiKekalPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     jumlahFaktorRisikoPemeriksaanUmum: {
       type: String,
       default: '',
@@ -282,26 +282,6 @@ const UmumSchema = new mongoose.Schema(
     tabiatBerisikoTinggiPemeriksaanUmum: {
       type: Boolean,
       default: false,
-    },
-    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
     },
     puncaRujukan: {
       type: String,
@@ -338,6 +318,26 @@ const UmumSchema = new mongoose.Schema(
     engganBpeImplan: {
       type: Boolean,
       default: false,
+    },
+    jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
     //rawatan ---------------------------------------------------------------------------
     pesakitDibuatFissureSealant: {
@@ -382,26 +382,26 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    yaTidakAbsesPembedahanRawatanUmum: {
-      type: String,
-      default: '',
-    },
     cabutanSurgikalPembedahanMulutRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
+    yaTidakAbsesPembedahanRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
     yaTidakFrakturPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     yaTidakPembedahanKecilMulutPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     yaTidakTraumaPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     kecederaanTulangMukaUmum: {
       type: Boolean,
