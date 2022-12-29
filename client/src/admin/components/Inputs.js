@@ -253,7 +253,7 @@ export function InputKkiakd(props) {
                       <option value=''>Pilih KKIA / KD</option>
                       {props.kkia.map((k) => (
                         <option key={k.kodFasiliti} value={k.kodFasiliti}>
-                          {k.nama}
+                          {k.nama} | di {k.daerah}
                         </option>
                       ))}
                     </select>
