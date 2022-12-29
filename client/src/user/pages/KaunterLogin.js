@@ -134,7 +134,7 @@ function KaunterLogin() {
                     <option value='WP Kuala Lumpur'>WP Kuala Lumpur</option>
                     <option value='WP Labuan'>WP Labuan</option>
                     <option value='WP Putrajaya'>WP Putrajaya</option>
-                    <option value='ILK'>ILKKM (Pergigian)</option>
+                    <option value='ILK'>PPKK & ILKKM (Pergigian)</option>
                   </select>
                 </div>
                 {pilihanNegeri && listDaerah.length >= 1 && (
@@ -156,7 +156,7 @@ function KaunterLogin() {
                       {listDaerah.map((d) => {
                         return (
                           <option value={d}>
-                            {d === 'ILK' ? 'ILKKM (Pergigian)' : `${d}`}
+                            {d === 'ILK' ? 'PPKK & ILKKM (Pergigian)' : `${d}`}
                           </option>
                         );
                       })}

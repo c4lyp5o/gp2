@@ -40,7 +40,7 @@ function NegeriBox(props) {
         {props.allNegeri.map((n) => {
           return (
             <option key={n.negeri} value={n.username} className='capitalize'>
-              {n.negeri === 'ILK' ? 'ILKKM (Pergigian)' : `${n.negeri}`}
+              {n.negeri === 'ILK' ? 'PPKK & ILKKM (Pergigian)' : `${n.negeri}`}
             </option>
           );
         })}
@@ -80,7 +80,7 @@ function DaerahBox(props) {
               value={d.daerah}
               className='capitalize'
             >
-              {d.daerah === 'ILK' ? 'ILKKM (Pergigian)' : `${d.daerah}`}
+              {d.daerah === 'ILK' ? 'PPKK & ILKKM (Pergigian)' : `${d.daerah}`}
             </option>
           );
         })}
