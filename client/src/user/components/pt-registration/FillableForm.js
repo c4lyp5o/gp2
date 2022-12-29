@@ -646,6 +646,7 @@ export default function FillableForm({
               statusPesara,
               noPesara,
               rujukDaripada,
+              kakitanganKerajaan,
               noBayaran,
               noResit,
               noBayaran2,
@@ -985,6 +986,7 @@ export default function FillableForm({
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setNoPesara(data.singlePersonKaunter.noPesara);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          setKakitanganKerajaan(data.singlePersonKaunter.kakitanganKerajaan);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
           setTambahBayaran(true);
@@ -1631,7 +1633,6 @@ export default function FillableForm({
                           ? false
                           : true
                       }
-                      disabled={jenisIc === 'passport' ? true : false}
                       name='kumpulanEtnik'
                       id='kumpulanEtnik'
                       value={kumpulanEtnik}
