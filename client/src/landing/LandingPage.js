@@ -1,9 +1,42 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowAltCircleUp } from 'react-icons/fa';
+import { FaArrowAltCircleUp, FaBell } from 'react-icons/fa';
 
 function LandingPage() {
   const [showKlinikSubMenu, setShowKlinikSubMenu] = useState(false);
+
+  const [showUpdate, setShowUpdate] = useState(false);
+  // dropdown notification
+  let notificationRef = useRef();
+
+  useEffect(() => {
+    let tutupNotification = (e) => {
+      if (!notificationRef.current.contains(e.target)) {
+        setShowUpdate(false);
+      }
+    };
+    document.addEventListener('mousedown', tutupNotification);
+    return () => {
+      document.removeEventListener('mousedown', tutupNotification);
+    };
+  });
+
+  //footer
+  const [showFooter, setShowFooter] = useState(false);
+
+  let footerRef = useRef();
+
+  useEffect(() => {
+    let tutupFooter = (e) => {
+      if (!footerRef.current.contains(e.target)) {
+        setShowFooter(false);
+      }
+    };
+    document.addEventListener('mousedown', tutupFooter);
+    return () => {
+      document.removeEventListener('mousedown', tutupFooter);
+    };
+  });
 
   return (
     <>
@@ -29,6 +62,64 @@ function LandingPage() {
         </div>
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
+        </div>
+      </div>
+      <div ref={notificationRef}>
+        <div className='absolute top-10 right-6'>
+          <div className='relative'>
+            <FaBell
+              className='transition-colors hover:text-user hover:scale-110 duration-500 text-3xl text-userWhite cursor-pointer'
+              onClick={() => {
+                setShowUpdate(!showUpdate);
+              }}
+            />
+            <span className='absolute top-0.5 right-0.5 -mr-1 -mt-1 w-3 h-3 rounded-full bg-user9 animate-ping'></span>
+            <span className='absolute top-0.5 right-0.5 -mr-1 -mt-1 w-3 h-3 rounded-full bg-user9'></span>
+            <div
+              className={`absolute w-48 z-50 shadow-md bg-userWhite text-user1 top-9 right-1 transition-all duration-500 ${
+                showUpdate
+                  ? 'max-h-96 translate-y-1'
+                  : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {/* content */}
@@ -90,16 +181,65 @@ function LandingPage() {
         </div>
       </div>
       {/* footer */}
-      <div className='absolute bottom-0 left-0 right-0 grid grid-cols-2 bg-user3 uppercase'>
-        <p className='text-left ml-1 my-1 text-xs'>hak cipta kkm</p>
-        <p className='text-right mr-1 my-1 text-xs whitespace-nowrap overflow-x-auto'>
-          <a
-            className='text-admin2 underline'
-            href='https://forms.gle/v9P7w9qweTX86Nxn8'
-          >
-            helpdesk: borang maklumbalas
-          </a>
-        </p>
+      <div ref={footerRef}>
+        <div className='absolute bottom-0 left-0 right-0 grid bg-user3 uppercase'>
+          <div className='hidden lg:grid grid-cols-2 justify-start'>
+            <p className='text-left ml-1 my-1 text-xs pl-2 whitespace-nowrap overflow-x-auto'>
+              hak cipta kementerian kesihatan malaysia
+            </p>
+            <div className='hidden lg:flex flex-row justify-end pr-2'>
+              <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
+                <a
+                  className='underline'
+                  href='https://forms.gle/v9P7w9qweTX86Nxn8'
+                >
+                  meja bantuan
+                </a>
+              </p>
+              <p className='text-right mr-1 my-1 text-xs whitespace-nowrap overflow-x-auto'>
+                <Link target='_blank' to='/faq' className='underline'>
+                  soalan lazim
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className='lg:hidden grid justify-start'>
+            <div
+              className='flex flex-row items-center justify-evenly cursor-pointer'
+              onClick={() => setShowFooter(!showFooter)}
+            >
+              <p className='text-left ml-1 my-1 text-xs pl-2 whitespace-nowrap overflow-x-auto'>
+                hak cipta kementerian kesihatan malaysia
+              </p>
+              <FaArrowAltCircleUp
+                className={`ml-3 items-center text-right transition-all ${
+                  showFooter && 'rotate-180'
+                }`}
+              />
+            </div>
+            <div
+              className={`absolute z-10 bg-user4 bottom-5 right-0 w-full flex flex-col justify-center items-center text-center text-xs rounded-t-lg space-y-1 transition-all duration-500 ${
+                showFooter
+                  ? 'max-h-min -translate-y-1'
+                  : 'max-h-0 overflow-hidden'
+              }`}
+            >
+              <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
+                <a
+                  className='underline'
+                  href='https://forms.gle/v9P7w9qweTX86Nxn8'
+                >
+                  meja bantuan
+                </a>
+              </p>
+              <p className='text-center text-xs whitespace-nowrap overflow-x-auto py-1'>
+                <Link target='_blank' to='/faq' className='underline'>
+                  soalan lazim
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

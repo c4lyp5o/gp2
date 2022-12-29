@@ -71,18 +71,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  statusM: {
-    type: String,
-    default: '',
-  },
-  menerimaNasihatRingkas: {
-    type: String,
-    default: '',
-  },
-  inginMelakukanIntervensiMerokok: {
-    type: String,
-    default: '',
-  },
   kebersihanMulutOralHygiene: {
     type: String,
     default: '',
@@ -98,6 +86,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
   skorGisMulutOralHygiene: {
     type: String,
     default: '',
+  },
+  perluPenskaleran: {
+    type: Boolean,
+    default: false,
   },
   adaDesidus: {
     type: Boolean,

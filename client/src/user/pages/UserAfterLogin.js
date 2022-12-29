@@ -6,6 +6,8 @@ import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 
 import UserDashboard from '../components/UserDashboard';
 
+import UserStatusHarian from '../components/UserStatusHarian';
+
 import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
@@ -15,10 +17,15 @@ import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekol
 import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
 import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
 
+import UserPromosi from '../components/UserPromosi';
+import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
+
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
-import UserStatusHarian from '../components/UserStatusHarian';
+import UserCarian from '../components/UserCarian';
+
+import UserSummary from '../components/UserSummary';
 
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
@@ -27,7 +34,8 @@ import UserFooter from '../components/UserFooter';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserAfterLogin() {
-  const { reliefUserToken, ToastContainer } = useGlobalUserAppContext();
+  const { userinfo, reliefUserToken, ToastContainer } =
+    useGlobalUserAppContext();
 
   return (
     <>
@@ -47,6 +55,10 @@ function UserAfterLogin() {
             path='umum/form-umum/:personUmumId'
             element={<UserFormUmumHeader />}
           />
+          <Route
+            path='umum/form-umum/:personUmumId/:operatorLain'
+            element={<UserFormUmumHeader />}
+          />
 
           <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
           <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
@@ -63,6 +75,27 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
+          <Route
+            path='promosi-individu'
+            element={<UserPromosi individuOrKlinik='promosi-individu' />}
+          />
+          <Route
+            path='promosi-individu/form-promosi/:aktivitiId'
+            element={<UserFormPromosi individuOrKlinik='promosi-individu' />}
+          />
+          {userinfo.rolePromosiKlinik === true && (
+            <>
+              <Route
+                path='promosi-klinik'
+                element={<UserPromosi individuOrKlinik='promosi-klinik' />}
+              />
+              <Route
+                path='promosi-klinik/form-promosi/:aktivitiId'
+                element={<UserFormPromosi individuOrKlinik='promosi-klinik' />}
+              />
+            </>
+          )}
+
           {reliefUserToken ? null : (
             <>
               <Route
@@ -73,7 +106,9 @@ function UserAfterLogin() {
             </>
           )}
 
-          {/* <Route path='carian' element={<UserCarian />} /> */}
+          <Route path='carian' element={<UserCarian />} />
+
+          <Route path='summary' element={<UserSummary />} />
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>

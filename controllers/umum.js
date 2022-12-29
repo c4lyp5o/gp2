@@ -1,6 +1,26 @@
 const Umum = require('../models/Umum');
+const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
-const cryptoJs = require('crypto-js');
+
+// GET /
+const getAllPersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { negeri, daerah, kp, kodFasiliti } = req.user;
+
+  const allPersonUmum = await Umum.find({
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKp: kp,
+    createdByKodFasiliti: kodFasiliti,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  res.status(200).json({ allPersonUmum });
+};
 
 // GET /:id
 const getSinglePersonUmum = async (req, res) => {
@@ -12,18 +32,15 @@ const getSinglePersonUmum = async (req, res) => {
     params: { id: personUmumId },
   } = req;
 
-  const singlePersonUmum = await Umum.findOne({ _id: personUmumId });
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
 
   if (!singlePersonUmum) {
     return res.status(404).json({ msg: `No person with id ${personUmumId}` });
   }
-
-  // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonUmum.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonUmum.ic = decryptedIc;
 
   res.status(200).json({ singlePersonUmum });
 };
@@ -38,24 +55,96 @@ const updatePersonUmum = async (req, res) => {
     params: { id: personUmumId },
   } = req;
 
-  // associate negeri, daerah & kp to each person sekolah for every update
+  // associate negeri, daerah & kp to each person umum for every update
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
-  // encrypt
-  if (req.body.ic) {
-    const encryptedIc = cryptoJs.AES.encrypt(
-      req.body.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString();
-    req.body.ic = encryptedIc;
+  // save summary of patient history to each operator
+  let summary = {};
+  let shortened = {};
+  Object.keys(req.body).forEach((key) => {
+    if (
+      key !== '' ||
+      key !== '' ||
+      key !== null ||
+      key !== undefined ||
+      key !== 0 ||
+      key !== false
+    ) {
+      shortened[key] = req.body[key];
+    }
+  });
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+  summary = { ...singlePersonUmum._doc, ...shortened };
+
+  // handling kedatangan baru for rawatan operator lain
+  if (req.query.operatorLain === 'rawatan-operator-lain') {
+    // flipping to 'ulangan-kedatangan' if kedatangan = 'baru-kedatangan'
+    if (summary.kedatangan === 'baru-kedatangan') {
+      (summary.kedatangan = 'ulangan-kedatangan'),
+        (summary.noPendaftaranUlangan = summary.noPendaftaranBaru),
+        (summary.noPendaftaranBaru = '');
+    }
   }
 
+  let regNum = {};
+  if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
+    console.log('is pp');
+    regNum = { mdcNumber: req.body.createdByMdcMdtb };
+  }
+  if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+    console.log('is jp');
+    regNum = { mdtbNumber: req.body.createdByMdcMdtb };
+  }
+  const updatedOfficerSummary = await Operator.findOneAndUpdate(
+    regNum,
+    { $push: { summary } },
+    { new: true }
+  );
+
+  // handling rawatan operator lain
+  if (req.query.operatorLain === 'rawatan-operator-lain') {
+    if (req.body.statusReten === 'telah diisi') {
+      const updatedStatusReten = await Umum.findOneAndUpdate(
+        {
+          _id: personUmumId,
+          tahunDaftar: new Date().getFullYear(),
+          deleted: false,
+        },
+        { $set: { statusReten: req.body.statusReten } },
+        { new: true }
+      );
+    }
+
+    const updatedSinglePersonUmumRawatanOperatorLain =
+      await Umum.findOneAndUpdate(
+        {
+          _id: personUmumId,
+          tahunDaftar: new Date().getFullYear(),
+          deleted: false,
+        },
+        { $push: { rawatanOperatorLain: summary } },
+        { new: true }
+      );
+
+    return res.status(200).json({ updatedSinglePersonUmumRawatanOperatorLain });
+  }
+
+  // default initial reten
   const updatedSinglePersonUmum = await Umum.findOneAndUpdate(
-    { _id: personUmumId },
+    {
+      _id: personUmumId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
     req.body,
-    { new: true, runValidators: true }
+    { new: true }
   );
 
   if (!updatedSinglePersonUmum) {
@@ -65,18 +154,159 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
-// query route
+// PATCH /salah/:id
+const retenSalahPersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const { retenSalahReason } = req.body;
+
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  if (!singlePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
+
+  // tanda sebagai reten salah
+  if (singlePersonUmum.statusReten === 'telah diisi') {
+    const singlePersonUmumRetenSalahStatus = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      {
+        statusReten: 'reten salah',
+        retenSalahForOfficer: `${req.body.createdByMdcMdtb} has marked patient as reten salah for ${singlePersonUmum.createdByMdcMdtb}`,
+      },
+      { new: true }
+    );
+    const singlePersonUmumRetenSalahReason = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      { $push: { retenSalahReason: retenSalahReason } },
+      { new: true }
+    );
+  }
+
+  // revert salah
+  if (singlePersonUmum.statusReten === 'reten salah') {
+    const singlePersonUmumRetenSalahStatus = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      {
+        statusReten: 'telah diisi',
+        retenSalahForOfficer: `${req.body.createdByMdcMdtb} has REVERT marked this patient from reten salah for ${singlePersonUmum.createdByMdcMdtb}`,
+      },
+      { new: true }
+    );
+    const singlePersonUmumRetenSalahReason = await Umum.findOneAndUpdate(
+      {
+        _id: personUmumId,
+        tahunDaftar: new Date().getFullYear(),
+        deleted: false,
+      },
+      { $push: { retenSalahReason: retenSalahReason } },
+      { new: true }
+    );
+  }
+
+  res.status(200).json({ msg: 'reten salah route success' });
+};
+
+// PATCH /delete/:id
+const softDeletePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const { deleteReason } = req.body;
+
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  if (!singlePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
+
+  const singlePersonUmumToDelete = await Umum.findOneAndUpdate(
+    {
+      _id: personUmumId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this patient for ${singlePersonUmum.createdByMdcMdtb}`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonUmumToDelete });
+};
+
+// not used
+// DELETE /:id
+const deletePersonUmum = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const {
+    params: { id: personUmumId },
+  } = req;
+
+  const deletedSinglePersonUmum = await Umum.findOneAndDelete({
+    _id: personUmumId,
+  });
+
+  if (!deletedSinglePersonUmum) {
+    return res.status(404).json({ msg: `No person with id ${personUmumId}` });
+  }
+
+  res.status(200).json({ deletedSinglePersonUmum });
+};
+
+// query /umum
 const queryPersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const {
-    user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    user: { negeri, daerah, kp, kodFasiliti },
+    query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
   const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -90,21 +320,16 @@ const queryPersonUmum = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
-  const umumResultQuery = await Umum.find(queryObject);
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
+  }
 
-  // decrypt
-  umumResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
+  const umumResultQuery = await Umum.find(queryObject);
 
   res.status(200).json({ umumResultQuery });
 };
 
-// query /taska-tadika
+// query /umum/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -114,6 +339,7 @@ const getTaskaTadikaList = async (req, res) => {
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
     handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
   });
 
@@ -121,8 +347,12 @@ const getTaskaTadikaList = async (req, res) => {
 };
 
 module.exports = {
+  getAllPersonUmum,
   getSinglePersonUmum,
   updatePersonUmum,
+  retenSalahPersonUmum,
+  softDeletePersonUmum,
+  deletePersonUmum,
   queryPersonUmum,
   getTaskaTadikaList,
 };

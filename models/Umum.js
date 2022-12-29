@@ -7,35 +7,62 @@ const UmumSchema = new mongoose.Schema(
     createdByNegeri: { type: String, default: '' },
     createdByDaerah: { type: String, default: '' },
     createdByKp: { type: String, default: '' },
-    createdByUsername: { type: String, required: true },
+    createdByKodFasiliti: { type: String, default: '' },
+    createdByUsername: { type: String, required: true, default: 'kaunter' },
+    createdByMdcMdtb: { type: String, default: 'kaunter' },
+    tahunDaftar: { type: Number, default: 0 },
+    // status reten umum ----------------------------------------
+    statusReten: { type: String, required: true, default: 'belum diisi' },
+    retenSalahReason: { type: Array, default: [] },
+    retenSalahForOfficer: { type: String, default: '' },
+    // soft delete ----------------------------------------------
+    deleted: { type: Boolean, default: false },
+    deleteReason: { type: String, default: '' },
+    deletedForOfficer: { type: String, default: '' },
+    // managed by system ----------------------------------------
+    uniqueId: { type: String, default: '' },
+    noSiri: { type: Number, default: 0 },
+    kedatangan: { type: String, default: '' },
+    noPendaftaranBaru: { type: String, default: '' },
+    noPendaftaranUlangan: { type: String, default: '' },
     // kaunter --------------------------------------------------
-    uniqueId: { type: String }, // new
-    noSiri: { type: Number }, // new
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
-    kedatangan: { type: String, default: '' },
-    noPendaftaranBaru: { type: String, default: '' }, // new
-    noPendaftaranUlangan: { type: String, default: '' }, // new
+    temujanji: { type: Boolean, default: false },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
+    nomborTelefon: { type: String, default: '' },
+    nomborTelefon2: { type: String, default: '' },
+    emel: { type: String, default: '' },
     tarikhLahir: { type: String, default: '' },
     umur: { type: Number, default: 0 },
     umurBulan: { type: Number, default: 0 },
+    umurHari: { type: Number, default: 0 },
     jantina: { type: String, default: '' },
     kumpulanEtnik: { type: String, default: '' },
     alamat: { type: String, default: '' },
     daerahAlamat: { type: String, default: '' },
     negeriAlamat: { type: String, default: '' },
     poskodAlamat: { type: String, default: '' },
-    // kategoriPesakit: { type: String, default: '' },
     ibuMengandung: { type: Boolean, default: false },
+    episodMengandung: { type: String, default: '' },
+    bookingIM: { type: String, default: '' },
+    mengandungDahGravida: { type: Boolean, default: false },
     orangKurangUpaya: { type: Boolean, default: false },
     bersekolah: { type: Boolean, default: false },
     noOku: { type: String, default: '' },
     statusPesara: { type: String, default: '' },
+    noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    kakitanganKerajaan: { type: Boolean, default: false },
+    noBayaran: { type: String, default: '' },
+    noResit: { type: String, default: '' },
+    noBayaran2: { type: String, default: '' },
+    noResit2: { type: String, default: '' },
+    noBayaran3: { type: String, default: '' },
+    noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
     // kepp
     kepp: { type: Boolean, default: false },
@@ -44,20 +71,19 @@ const UmumSchema = new mongoose.Schema(
     tarikhRundinganPertama: { type: String, default: '' },
     tarikhMulaRawatanKepp: { type: String, default: '' },
     // penyampaian perkhidmatan
-    kpBergerak: { type: Boolean, default: false },
-    labelKpBergerak: { type: String, default: '' },
-    pasukanPergigianBergerak: { type: Boolean, default: false },
-    makmalPergigianBergerak: { type: Boolean, default: false },
-    labelMakmalPergigianBergerak: { type: String, default: '' },
+    // kpBergerak: { type: Boolean, default: false },
+    // labelKpBergerak: { type: String, default: '' },
+    // pasukanPergigianBergerak: { type: Boolean, default: false },
+    // makmalPergigianBergerak: { type: Boolean, default: false },
+    // labelMakmalPergigianBergerak: { type: String, default: '' },
+    // kk / kd
+    namaFasilitiKkKd: { type: String, default: '' },
+    kodFasilitiKkKd: { type: String, default: '' },
     // taska / tadika
     fasilitiTaskaTadika: { type: String, default: '' },
-    // jenisTaskaTadika: { type: String, default: '' },
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
-    enrolmenTaskaTadika: { type: Boolean, default: false },
-    // engganTaskaTadika: { type: Boolean, default: false },
-    // tidakHadirTaskaTadika: { type: Boolean, default: false },
-    // pemeriksaanTaskaTadika: { type: String, default: '' },
+    kodFasilitiTaskaTadika: { type: String, default: '' },
     // ipt / kolej
     iptKolej: { type: String, default: '' },
     ipg: { type: String, default: '' },
@@ -76,106 +102,47 @@ const UmumSchema = new mongoose.Schema(
     institusiOku: { type: String, default: '' },
     // kampung angkat
     kgAngkat: { type: String, default: '' },
+    // program based
+    jenisProgram: { type: String, default: '' },
+    namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
-    //pemeriksaan
-    adaCleftLipPemeriksaanUmum: {
+    //pemeriksaan -------------------------------------------------------------------
+    statusKehadiran: {
       type: Boolean,
       default: false,
     },
-    rujukCleftLipPemeriksaanUmum: {
+    waktuDipanggil: {
+      type: String,
+      default: '',
+    },
+    systolicTekananDarah: {
+      type: Number,
+      default: 0,
+    },
+    diastolicTekananDarah: {
+      type: Number,
+      default: 0,
+    },
+    rujukKeKlinik: {
       type: Boolean,
       default: false,
     },
-    yaTidakSediaAdaStatusDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    separaPenuhAtasSediaAdaDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    separaPenuhBawahSediaAdaDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    yaTidakPerluStatusDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    separaPenuhAtasPerluDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    separaPenuhBawahPerluDenturePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    toothSurfaceLossTraumaPemeriksaanUmum: {
+    engganTaskaTadika: {
       type: Boolean,
       default: false,
     },
-    // kecederaanGigiAnteriorTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuLembutTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // tisuKerasTraumaPemeriksaanUmum: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    fissureSealantPemeriksaanUmum: {
+    tidakHadirTaskaTadika: {
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiKekalPerluFSRawatanUmum: {
+    pemeriksaanTaskaTadika: {
+      type: String,
+      default: '',
+    },
+    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
       type: Number,
       min: 0,
       default: 0,
-    },
-    fvPerluSapuanPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    prrJenis1PemeriksaanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    //kotak masuk sini
-    statusMPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    jenisRPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    kebersihanMulutOralHygienePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    skorBpeOralHygienePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    skorGisMulutOralHygienePemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    perluPenskaleranPemeriksaanUmum: {
-      type: Boolean,
-      default: false,
     },
     adaDesidusPemeriksaanUmum: {
       type: Boolean,
@@ -186,21 +153,11 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    mAdaGigiDesidusPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     fAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    // smAdaGigiDesidusPemeriksaanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     xAdaGigiDesidusPemeriksaanUmum: {
       type: Number,
       min: 0,
@@ -235,28 +192,90 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    jumlahFaktorRisikoPemeriksaanUmum: {
+    adaCleftLipPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rujukCleftLipPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    tidakPerluRawatanPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    yaTidakSediaAdaStatusDenturePemeriksaanUmum: {
       type: String,
       default: '',
     },
-    // edentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    // mempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
-    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: {
+    separaPenuhAtasSediaAdaDenturePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    separaPenuhBawahSediaAdaDenturePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    yaTidakPerluStatusDenturePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    separaPenuhAtasPerluDenturePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    separaPenuhBawahPerluDenturePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    toothSurfaceLossTraumaPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    fissureSealantPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    baruJumlahGigiKekalPerluFSRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
-    disaringProgramKanserMulutPemeriksaanUmum: {
+    fvPerluSapuanPemeriksaanUmum: {
       type: String,
       default: '',
     },
-    dirujukProgramKanserMulutPemeriksaanUmum: {
+    prrJenis1PemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    //sdf nak guna masa depan
+    // yaTidakSilverDiamineFluoridePerluSapuanPemeriksaanUmum: {
+    //   type: String,
+    //   default: '',
+    // },
+    kebersihanMulutOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    skorGisMulutOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    perluPenskaleranPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    jumlahFaktorRisikoPemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    disaringProgramKanserMulutPemeriksaanUmum: {
       type: String,
       default: '',
     },
@@ -265,6 +284,42 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     tabiatBerisikoTinggiPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    puncaRujukan: {
+      type: String,
+      default: '',
+    },
+    diabetesFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
+    },
+    perokokFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
+    },
+    lainLainFaktorRisikoBpe: {
+      type: Boolean,
+      default: false,
+    },
+    skorBpeOralHygienePemeriksaanUmum: {
+      type: String,
+      default: '',
+    },
+    pesakitMempunyaiImplanPergigian: {
+      type: Boolean,
+      default: false,
+    },
+    periImplantitis: {
+      type: Boolean,
+      default: false,
+    },
+    periImplantMucositis: {
+      type: Boolean,
+      default: false,
+    },
+    engganBpeImplan: {
       type: Boolean,
       default: false,
     },
@@ -288,21 +343,7 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    rawatanLainKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: String,
-      default: '',
-    },
-    cabutanKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    tampalanKesEndodontikDiperlukanPemeriksaanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    //rawatan umum
+    //rawatan ---------------------------------------------------------------------------
     pesakitDibuatFissureSealant: {
       type: Boolean,
       default: false,
@@ -312,45 +353,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDibuatFSRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFsRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatFluorideVarnish: {
       type: Boolean,
       default: false,
     },
-    // baruJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahGigiKekalDiberiFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDibuatFVRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     pesakitDibuatPRRJenis1: {
       type: Boolean,
       default: false,
@@ -360,21 +366,6 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // semulaJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // baruJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // semulaJumlahMuridDiberiPrrJenis1RawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     cabutDesidusRawatanUmum: {
       type: Number,
       min: 0,
@@ -395,30 +386,26 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    yaTidakAbsesPembedahanRawatanUmum: {
-      type: String,
-      default: '',
-    },
-    // baruSemulaAbsesPembedahanRawatanUmum: {
-    //   type: String,
-    //   default: '',
-    // },
     cabutanSurgikalPembedahanMulutRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
+    yaTidakAbsesPembedahanRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
     yaTidakFrakturPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     yaTidakPembedahanKecilMulutPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     yaTidakTraumaPembedahanRawatanUmum: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: false,
     },
     kecederaanTulangMukaUmum: {
       type: Boolean,
@@ -432,16 +419,16 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahGigiYangDiberiSdfRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // baruJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
+    // semulaJumlahGigiYangDiberiSdfRawatanUmum: {
+    //   type: Number,
+    //   min: 0,
+    //   default: 0,
+    // },
     baruJumlahCrownBridgeRawatanUmum: {
       type: Number,
       min: 0,
@@ -482,33 +469,16 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    menggunakanMakmalPergigianBergerak: {
+      type: Boolean,
+      default: false,
+    },
     immediateDenturProstodontikRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
     },
     pembaikanDenturProstodontikRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    penskaleranRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    rawatanLainPeriodontikRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    rawatanOrtodontikRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    kesPerubatanMulutRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    bilanganXrayYangDiambilRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
@@ -588,21 +558,59 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    // jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // jumlahPremolarRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // jumlahMolarRawatanSemulaKeppRawatanUmum: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
+    kaunselingDiet: {
+      type: Boolean,
+      default: false,
+    },
+    nasihatBerhentiMerokok: {
+      type: Boolean,
+      default: false,
+    },
+    lainLainPengurusanFaktorRisiko: {
+      type: Boolean,
+      default: false,
+    },
+    ohePengurusanFaktorSetempat: {
+      type: Boolean,
+      default: false,
+    },
+    penskaleranRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    pengilapanTampalanRungkup: {
+      type: Boolean,
+      default: false,
+    },
+    adjustasiOklusi: {
+      type: Boolean,
+      default: false,
+    },
+    cabutanPengurusanFaktorSetempat: {
+      type: Boolean,
+      default: false,
+    },
+    ektiparsiPulpa: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanLainPeriodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanOrtodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    kesPerubatanMulutRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    bilanganXrayYangDiambilRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     jumlahAnteriorKesEndodontikSelesaiRawatanUmum: {
       type: Number,
       min: 0,
@@ -623,34 +631,74 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    memenuhiRditnKod3KesRujukUpprRawatanUmum: {
+    jumlahAnteriorRawatanSemulaKeppRawatanUmum: {
       type: Number,
       min: 0,
       default: 0,
+    },
+    jumlahPremolarRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    jumlahMolarRawatanSemulaKeppRawatanUmum: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    memenuhiRditnKod3KesRujukUpprRawatanUmum: {
+      type: Boolean,
+      default: false,
     },
     restorasiPascaEndodontikKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
     },
     komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum: {
-      type: Number,
-      min: 0,
-      default: 0,
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    engganLainRujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    rujukanPakarScd: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarUpkka: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarOrtodontik: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarBedahMulut: {
+      type: Boolean,
+      default: false,
     },
     kesSelesaiRawatanUmum: {
       type: Boolean,
       default: false,
     },
-    //promosi
-    ceramahPromosiUmum: {
-      type: String,
-      default: '',
+    kesSelesaiPeriodontium: {
+      type: Boolean,
+      default: false,
     },
-    lmgPromosiUmum: {
-      type: String,
-      default: '',
+    rawatanDibuatOperatorLain: {
+      type: Boolean,
+      default: false,
     },
+    rawatanOperatorLain: {
+      type: Array,
+      default: [],
+    },
+    //promosi ----------------------------------------------------------------------------
     melaksanakanAktivitiBeginPromosiUmum: {
       type: String,
       default: '',
@@ -755,21 +803,31 @@ UmumSchema.pre('save', async function () {
       }
       // check running number
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: this.jenisFasiliti,
+        jenis:
+          this.jenisFasiliti +
+          this.kodFasilitiKkKd +
+          this.kodFasilitiTaskaTadika +
+          this.jenisProgram +
+          this.namaProgram,
         negeri: this.createdByNegeri,
         daerah: this.createdByDaerah,
         tahun: yearNumber,
-        kp: this.createdByKp,
+        kodFasiliti: this.createdByKodFasiliti,
       });
       // if running number does not exist
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
-          jenis: this.jenisFasiliti,
+          runningnumber: 1,
+          jenis:
+            this.jenisFasiliti +
+            this.kodFasilitiKkKd +
+            this.kodFasilitiTaskaTadika +
+            this.jenisProgram +
+            this.namaProgram,
           negeri: this.createdByNegeri,
           daerah: this.createdByDaerah,
           tahun: yearNumber,
-          kp: this.createdByKp,
-          runningnumber: 1,
+          kodFasiliti: this.createdByKodFasiliti,
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;

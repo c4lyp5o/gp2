@@ -6,7 +6,8 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolahList() {
-  const { userToken, reliefUserToken } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, refreshTimer, setRefreshTimer } =
+    useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
@@ -54,8 +55,8 @@ function UserSekolahList() {
               // }
             });
           setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
-          console.log(tempKedatanganBaru);
         });
+        setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -63,6 +64,25 @@ function UserSekolahList() {
     };
     fetchFasilitiSekolahs();
   }, []);
+
+  const selesaiSekolah = async (idSekolah) => {
+    alert('**WARNING PLACEHOLDER** Anda pasti selesai sekolah? ' + idSekolah);
+    try {
+      const { data } = await axios.patch(
+        `/api/v1/sekolah/fasiliti/${idSekolah}`,
+        { sekolahSelesaiReten: true },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -147,9 +167,15 @@ function UserSekolahList() {
               {namaSekolahs.map((singleNamaSekolah) => {
                 return (
                   <tr>
-                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      {singleNamaSekolah._id}
-                    </td>
+                    <button
+                      disabled={true}
+                      onClick={() => {
+                        selesaiSekolah(singleNamaSekolah._id);
+                      }}
+                    >
+                      sekolah selesai:{' '}
+                      {singleNamaSekolah.sekolahSelesaiReten ? 'ya' : 'tidak'}
+                    </button>
                   </tr>
                 );
               })}

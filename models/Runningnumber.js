@@ -3,15 +3,12 @@ const mongoose = require('mongoose');
 const RunningnumberSchema = new mongoose.Schema({
   runningnumber: {
     type: Number,
-    // required: [true, 'Please provide running number'],
   },
   jenis: {
     type: String,
-    // required: [true, 'Please provide jenis'],
   },
   negeri: {
     type: String,
-    // required: [true, 'Please provide negeri'],
   },
   daerah: {
     type: String,
@@ -19,7 +16,7 @@ const RunningnumberSchema = new mongoose.Schema({
   tahun: {
     type: Number,
   },
-  kp: {
+  kodFasiliti: {
     type: String,
   },
 });

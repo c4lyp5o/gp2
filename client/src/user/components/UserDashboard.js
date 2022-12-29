@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 function UserDashboard() {
+  const { refreshTimer, setRefreshTimer, kicker, kickerNoti } =
+    useGlobalUserAppContext();
   const [showAccordian1, setShowAccordian1] = useState(true);
   const [showAccordian2, setShowAccordian2] = useState(true);
   const [showAccordian3, setShowAccordian3] = useState(true);
@@ -9,9 +13,14 @@ function UserDashboard() {
   const [rankingSekolahRendah, setRankingSekolahRendah] = useState(true);
   const [rankingSekolahMenengah, setRankingSekolahMenengah] = useState(false);
 
+  useEffect(() => {
+    setRefreshTimer(!refreshTimer);
+  }, []);
+
   return (
     <>
       <div className='h-full p-3 overflow-y-auto'>
+        <div className='text-lg text-user9 font-bold'>DALAM PEMBANGUNAN</div>
         <div className='grid grid-cols-2 mb-1'>
           <h3 className='text-xs lg:text-lg font-semibold text-left px-2'>
             INFOGRAFIK STATUS KESIHATAN PERGIGIAN PELAJAR

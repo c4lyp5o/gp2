@@ -1,23 +1,26 @@
 // CORE --------------------------------------------------------
 require('dotenv').config();
 require('express-async-errors');
-const logger = require('./logs/logger');
 const express = require('express');
 const app = express();
 const path = require('path');
 const axios = require('axios');
+const logger = require('./logs/logger');
 
 // IMPORT ROUTER -----------------------------------------------
 // erkm import
 const erkm = require('./routes/erkm');
+const dpims = require('./routes/dpims');
 
 // user import
-const authRegister = require('./routes/authRegister');
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
+const promosi = require('./routes/promosi');
+const getotp = require('./routes/getotp');
+const operator = require('./routes/operator');
 const allQueryRoute = require('./routes/allQueryRoute');
 
 // kaunter
@@ -30,7 +33,6 @@ const adminAPI = require('./routes/adminAPI');
 const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES ------------------------------------------
-const apiKeyVerifier = require('./middlewares/apiKeyVerifier');
 const authCheck = require('./middlewares/authCheck');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
@@ -41,7 +43,10 @@ const connectDB = require('./database/connect');
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+
+// the dpims scrap
+app.use('/dpims', dpims);
 
 // erkm route
 app.use('/erkm', authCheck, erkm);
@@ -77,18 +82,21 @@ app.use('/erkm', authCheck, erkm);
 // }, 5000);
 
 // user route
-app.use('/api/v1/auth', apiKeyVerifier, authLogin, authRegister);
+app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
+app.use('/api/v1/promosi', authCheck, promosi);
+app.use('/api/v1/getotp', getotp);
+app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
 
 // admin route
-app.use('/api/v1/superadmin', apiKeyVerifier, adminAPI);
+app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);

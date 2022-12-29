@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {
-  createPersonKaunter,
   getSinglePersonKaunter,
+  createPersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
   getPersonFromCache,
@@ -12,8 +12,7 @@ router.route('/').post(createPersonKaunter);
 router
   .route('/:personKaunterId')
   .get(getSinglePersonKaunter)
-  .patch(updatePersonKaunter)
-  .delete(deletePersonKaunter);
-router.route('/check').post(getPersonFromCache);
+  .patch(updatePersonKaunter);
+router.route('/check/:personKaunterId').get(getPersonFromCache);
 
 module.exports = router;

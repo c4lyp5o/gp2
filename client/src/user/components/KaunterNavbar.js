@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
-function KaunterNavbar({ namaKlinik, logout }) {
+function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
   const [showOutreachSubMenu, setShowOutreachSubMenu] = useState(false);
   const [outreachIsOn, setOutreachIsOn] = useState(false);
@@ -204,7 +204,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
                   : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
               }
             >
-              KK / KD
+              KKIA / KD
             </NavLink>
             <NavLink
               to='taska-tadika'
@@ -219,7 +219,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
             >
               TASKA / TADIKA
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to='ipt-kolej'
               onClick={() => {
                 outreachOff();
@@ -231,8 +231,8 @@ function KaunterNavbar({ namaKlinik, logout }) {
               }
             >
               IPT / KOLEJ
-            </NavLink>
-            <div>
+            </NavLink> */}
+            {/* <div>
               <div
                 className={`${
                   showOutreachSubMenu ? 'bg-kaunter3' : 'bg-kaunter2'
@@ -248,8 +248,34 @@ function KaunterNavbar({ namaKlinik, logout }) {
                   />
                 </span>
               </div>
-            </div>
-            <div className='mx-3 lg:hidden capitalize'>
+            </div> */}
+            <NavLink
+              to='projek-komuniti-lain'
+              onClick={() => {
+                outreachOff();
+              }}
+              className={({ isActive }) =>
+                isActive
+                  ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                  : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
+              }
+            >
+              PROGRAM KOMUNITI
+            </NavLink>
+            <NavLink
+              to='registry'
+              onClick={() => {
+                outreachOff();
+              }}
+              className={({ isActive }) =>
+                isActive
+                  ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
+                  : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
+              }
+            >
+              SENARAI DAFTAR PESAKIT
+            </NavLink>
+            {/* <div className='mx-3 lg:hidden capitalize'>
               <div className='m-3 space-y-1 text-center text-sm'>
                 <p className='font-semibold text-base'>pendaftaran:</p>
                 <p>{namaKlinik}</p>
@@ -261,7 +287,7 @@ function KaunterNavbar({ namaKlinik, logout }) {
               >
                 LOG KELUAR
               </button>
-            </div>
+            </div> */}
           </div>
         </nav>
         {/* the toggle button */}

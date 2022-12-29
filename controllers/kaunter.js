@@ -1,8 +1,10 @@
 const Umum = require('../models/Umum');
+const Runningnumber = require('../models/Runningnumber');
+const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
 const LRU = require('lru-cache');
-const cryptoJs = require('crypto-js');
+const axios = require('axios').default;
 
 const options = {
   max: 5000,
@@ -29,6 +31,8 @@ const getSinglePersonKaunter = async (req, res) => {
 
   const singlePersonKaunter = await Umum.findOne({
     _id: req.params.personKaunterId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
   });
 
   if (!singlePersonKaunter) {
@@ -36,13 +40,6 @@ const getSinglePersonKaunter = async (req, res) => {
       .status(404)
       .json({ msg: `No person with id ${req.params.personKaunterId}` });
   }
-
-  // decrypt
-  const decryptedIc = cryptoJs.AES.decrypt(
-    singlePersonKaunter.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString(cryptoJs.enc.Utf8);
-  singlePersonKaunter.ic = decryptedIc;
 
   res.status(201).json({ singlePersonKaunter });
 };
@@ -54,101 +51,91 @@ const createPersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // associate negeri, daerah & kp to each person sekolah for every creation
+  // associate negeri, daerah, kp, tahunDaftar to each person umum for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
+  req.body.tahunDaftar = new Date().getFullYear();
 
-  // generate unique id
-  let uniqueId = '';
-  const simplifiedKp = req.body.createdByKp.split(' ');
-  for (let i = 0; i < simplifiedKp.length; i++) {
-    uniqueId += simplifiedKp[i].charAt(0);
+  // handling baby of. kena buat system wide & sentiasa baru-kedatangan jugak untuk mengelakkan ic ibunya menjadi ulangan-kedatangan apabila didaftarkan sebagai pesakit biasa (Boss pun setuju)
+  if (req.body.jenisIc === 'birth-of') {
+    let currentRunningNumber = await Runningnumber.findOne({
+      jenis: 'birth-of',
+      tahun: new Date().getFullYear(),
+    });
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        runningnumber: 1,
+        jenis: 'birth-of',
+        tahun: new Date().getFullYear(),
+      });
+      req.body.ic = 'B/O ' + newRunningNumber.runningnumber + ' ' + req.body.ic;
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save(),
+        (req.body.ic =
+          'B/O ' + currentRunningNumber.runningnumber + ' ' + req.body.ic);
+    }
   }
-  uniqueId += '-';
-  const simplifiedName = req.body.nama.split(' ');
-  for (let i = 0; i < simplifiedName.length; i++) {
-    uniqueId += simplifiedName[i].charAt(0);
+
+  // system wide running number for tiada-pengenalan. Will be running for one whole year and patient will always be counted as baru-kedatangan (Boss said). It's also should be done here before finding personExist because if ic is empty string ('') it will cause duplication in finding
+  if (req.body.jenisIc === 'tiada-pengenalan') {
+    let currentRunningNumber = await Runningnumber.findOne({
+      jenis: 'tiada-pengenalan',
+      tahun: new Date().getFullYear(),
+    });
+    if (!currentRunningNumber) {
+      const newRunningNumber = await Runningnumber.create({
+        runningnumber: 1,
+        jenis: 'tiada-pengenalan',
+        tahun: new Date().getFullYear(),
+      });
+      req.body.ic = 'TIADA PENGENALAN ' + newRunningNumber.runningnumber;
+    }
+    if (currentRunningNumber) {
+      currentRunningNumber.runningnumber += 1;
+      await currentRunningNumber.save();
+      req.body.ic = 'TIADA PENGENALAN ' + currentRunningNumber.runningnumber;
+    }
   }
-  uniqueId += '-';
-  const dateOfBirth = req.body.tarikhLahir.split('-').join('');
-  uniqueId += dateOfBirth;
 
-  // tagging unique id
-  req.body.uniqueId = uniqueId;
-  logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-
-  // find if person already exist using unique id
+  // find if person already exist
   const personExist = await Umum.findOne({
-    uniqueId: uniqueId,
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    createdByKp: req.user.kp,
+    createdByKodFasiliti: req.user.kodFasiliti,
+    tahunDaftar: req.body.tahunDaftar,
+    ic: req.body.ic,
     jenisFasiliti: req.body.jenisFasiliti,
+    kodFasilitiKkKd: req.body.kodFasilitiKkKd,
+    kodFasilitiTaskaTadika: req.body.kodFasilitiTaskaTadika,
+    jenisProgram: req.body.jenisProgram,
+    namaProgram: req.body.namaProgram,
   });
 
   // tagging person according to their status
   if (personExist) {
-    logger.info(
-      `${req.method} ${req.url} unique id yang sama telah wujud. check ic sama atau tidak`
-    );
-    console.log('unique id yang sama telah wujud. check ic sama atau tidak');
-    const decryptedIc = cryptoJs.AES.decrypt(
-      personExist.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    console.log('ic', decryptedIc);
-    if (decryptedIc === req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic sama. tagging ulangan`);
-      console.log('ic sama. tagging ulangan');
-      req.body.kedatangan = 'ulangan-kedatangan';
-      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    }
-    if (decryptedIc !== req.body.ic) {
-      logger.info(`${req.method} ${req.url} ic tidak sama`);
-      console.log('ic tidak sama');
-      const last4digitIc = req.body.ic.slice(-4);
-      console.log('last4digitIc', last4digitIc);
-      uniqueId += '-' + last4digitIc;
-      logger.info(`${req.method} ${req.url} uniqueId: ${uniqueId} generated`);
-      console.log('uniqueId', uniqueId);
-      // check person with new unique id
-      const personExistWithNewUniqueId = await Umum.findOne({
-        uniqueId: uniqueId,
-        jenisFasiliti: req.body.jenisFasiliti,
-      });
-      if (personExistWithNewUniqueId) {
-        logger.info(
-          `${req.method} ${req.url} unique id yang sama telah wujud. tagging ulangan`
-        );
-        console.log('unique id baru yang sama telah wujud. tagging ulangan');
-        req.body.kedatangan = 'ulangan-kedatangan';
-        req.body.noPendaftaranUlangan =
-          personExistWithNewUniqueId.noPendaftaranBaru;
-      }
-      if (!personExistWithNewUniqueId) {
-        console.log('unique id baru yang sama tidak wujud. tagging baru');
-        req.body.uniqueId = uniqueId;
-        req.body.kedatangan = 'baru-kedatangan';
-      }
-    }
+    logger.info(`${req.method} ${req.url} ic telah wujud. tagging ulangan`);
+    req.body.kedatangan = 'ulangan-kedatangan';
+    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
   }
 
   if (!personExist) {
-    logger.info(`${req.method} ${req.url} unique id tidak wujud. tagging baru`);
+    logger.info(`${req.method} ${req.url} ic tidak wujud. tagging baru`);
     console.log('belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
 
-  // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-
-  // send to cache before encrypting
   logger.info(`${req.method} ${req.url} sending to cache`);
-  cache.set(req.body.ic, req.body);
-
-  // replace ic with encrypted ic
-  req.body.ic = encryptedIc;
+  // cache.set(req.body.ic, req.body);
+  const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
+    headers: {
+      'x-api-key': process.env.CACHE_SERVER_PASS,
+    },
+  });
 
   const singlePersonKaunter = await Umum.create(req.body);
 
@@ -162,15 +149,12 @@ const updatePersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  // encrypt
-  const encryptedIc = cryptoJs.AES.encrypt(
-    req.body.ic,
-    process.env.CRYPTO_JS_SECRET
-  ).toString();
-  req.body.ic = encryptedIc;
-
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
-    { _id: req.params.personKaunterId },
+    {
+      _id: req.params.personKaunterId,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    },
     req.body,
     { new: true }
   );
@@ -206,19 +190,51 @@ const deletePersonKaunter = async (req, res) => {
   });
 };
 
-// query route
+// check from cache if ic is same
+// GET /check
+const getPersonFromCache = async (req, res) => {
+  const { personKaunterId } = req.params;
+  // const person = await cache.get(ic.toString());
+  try {
+    const { data } = await axios.get(
+      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
+      {
+        headers: {
+          'x-api-key': process.env.CACHE_SERVER_PASS,
+        },
+      }
+    );
+    return res.status(200).json({ person: data });
+  } catch (error) {
+    res.status(404).json({ msg: 'No person found' });
+  }
+};
+
+// query /kaunter
 const queryPersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const {
-    user: { kp },
-    query: { nama, tarikhKedatangan, jenisFasiliti },
+    user: { kp, kodFasiliti, daerah, negeri },
+    query: {
+      nama,
+      tarikhKedatangan,
+      jenisFasiliti,
+      ic,
+      jenisProgram,
+      namaProgram,
+    },
   } = req;
 
   const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -232,21 +248,42 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject);
+  if (ic) {
+    queryObject.ic = ic;
+  }
 
-  // decrypt
-  kaunterResultQuery.forEach((p) => {
-    const decryptedIc = cryptoJs.AES.decrypt(
-      p.ic,
-      process.env.CRYPTO_JS_SECRET
-    ).toString(cryptoJs.enc.Utf8);
-    p.ic = decryptedIc;
-  });
+  if (jenisProgram) {
+    queryObject.jenisProgram = jenisProgram;
+  }
+
+  if (namaProgram) {
+    queryObject.namaProgram = namaProgram;
+  }
+
+  const kaunterResultQuery = await Umum.find(queryObject);
 
   res.status(200).json({ kaunterResultQuery });
 };
 
-// query /taska-tadika
+// query /kaunter/kk-kd
+const getKkKdList = async (req, res) => {
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const kkKdAll = await Fasiliti.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
+    jenisFasiliti: 'kkiakd',
+    statusPerkhidmatan: 'active',
+  });
+
+  res.status(200).json({ kkKdAll });
+};
+
+// query /kaunter/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -256,20 +293,32 @@ const getTaskaTadikaList = async (req, res) => {
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
     handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
+    statusPerkhidmatan: 'active',
   });
 
   res.status(200).json({ taskaTadikaAll });
 };
 
-// get from cache if ic is same
-const getPersonFromCache = async (req, res) => {
-  const { ic } = req.body;
-  const person = await cache.get(ic.toString());
-  if (person) {
-    return res.status(200).json({ person });
+// query /kaunter/events
+const getProjekKomuniti = async (req, res) => {
+  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
+  if (req.user.accountType !== 'kaunterUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
   }
-  res.status(404).json({ msg: 'No person found' });
+
+  const projekKomuniti = await Event.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    createdByKp: req.user.kp,
+    createdByKodFasiliti: req.user.kodFasiliti,
+    tarikhStart: { $nin: [null, ''] },
+    tarikhEnd: { $nin: [null, ''] },
+    tahunDibuat: new Date().getFullYear(),
+  });
+
+  res.status(200).json({ projekKomuniti });
 };
 
 module.exports = {
@@ -277,7 +326,9 @@ module.exports = {
   createPersonKaunter,
   updatePersonKaunter,
   deletePersonKaunter,
-  queryPersonKaunter,
-  getTaskaTadikaList,
   getPersonFromCache,
+  queryPersonKaunter,
+  getKkKdList,
+  getTaskaTadikaList,
+  getProjekKomuniti,
 };

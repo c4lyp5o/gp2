@@ -4,36 +4,42 @@ const Schema = mongoose.Schema;
 const fasilitiSchema = new Schema({
   nama: {
     type: String,
-    // required: true
-  },
-  statusPerkhidmatan: {
-    type: String,
-    // required: true
-    default: 'NOT APPLICABLE',
-  },
-  kodSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
   },
   createdByNegeri: {
     type: String,
-    // required: true
   },
   createdByDaerah: {
     type: String,
-    // required: true
-  },
-  handler: {
-    type: String,
-    // required: true
-    default: 'NOT APPLICABLE',
   },
   jenisFasiliti: {
     type: String,
   },
+  // klinik
   statusRoleKlinik: {
     type: String,
     default: 'NOT APPLICABLE',
+  },
+  // fasiliti2 lain
+  handler: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  kodFasilitiHandler: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  statusPerkhidmatan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // sr sm
+  kodSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  sekolahSelesaiReten: {
+    type: Boolean,
+    default: false,
   },
   melaksanakanBegin: {
     type: Boolean,
@@ -43,7 +49,12 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // khas taska/tadika
+  // kkia
+  kodKkiaKd: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // tas tad
   kodTastad: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -52,9 +63,27 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenTastad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   govKe: {
     type: String,
     default: 'NOT APPLICABLE',
+  },
+  // institusi
+  kategoriInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // MPB KPB
+  penggunaanKPBMPB: {
+    type: Array,
+    default: [],
   },
 });
 

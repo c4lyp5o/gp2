@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
 function AdminProtectedRoute({ children }) {
-  const { token } = useGlobalAdminAppContext();
+  const { adminToken } = useGlobalAdminAppContext();
 
-  if (!token) {
+  if (!adminToken) {
     return <Navigate to='/' />;
   }
   return children;

@@ -1,19 +1,45 @@
 const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+// GET /find
+const authFind = async (req, res) => {
+  const { kodFasiliti, accountType } = req.query;
+
+  const user = await UserModel.findOne({
+    kodFasiliti: kodFasiliti,
+    accountType: accountType,
+  });
+
+  if (!user) {
+    return res.status(404).json({ msg: 'User not found' });
+  }
+
+  // just give out the username
+  const username = user.username;
+
+  res.status(200).json({ username });
+};
+
+// POST /login
 const authLogin = async (req, res) => {
-  const { username, password, pilihanFasiliti, pilihanDaerah } = req.body;
+  const {
+    username,
+    password,
+    pilihanDaerah,
+    pilihanFasiliti,
+    pilihanKodFasiliti,
+  } = req.body;
 
   let user = '';
 
-  if (pilihanFasiliti) {
-    const authHeader = req.headers.authorization;
+  if (pilihanKodFasiliti) {
+    const { userToken } = req.body;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!userToken) {
       return res.status(401).json({ msg: 'Unauthorized' });
     }
 
-    const oldUserToken = authHeader.split(' ')[1];
+    const oldUserToken = userToken;
 
     const oldUserTokenVerified = jwt.verify(
       oldUserToken,
@@ -25,6 +51,7 @@ const authLogin = async (req, res) => {
 
     // replacing...
     user.kp = pilihanFasiliti;
+    user.kodFasiliti = pilihanKodFasiliti;
     user.daerah = pilihanDaerah;
 
     const reliefUserToken = user.createJWT();
@@ -39,13 +66,6 @@ const authLogin = async (req, res) => {
       .status(400)
       .json({ msg: 'Please provide username and password' });
   }
-  // if (username === 'kpalorjanggus') {
-  //   user = await UserModel.findOne({ username: username });
-  //   if (!(user && (await user.comparePassword(password)))) {
-  //     return res.status(401).json({ msg: 'Invalid credentials' });
-  //   }
-  // }
-  // if (username !== 'kpalorjanggus') {
   user = await UserModel.findOne({
     username: username,
     password: password,
@@ -54,7 +74,6 @@ const authLogin = async (req, res) => {
   if (!user) {
     return res.status(401).json({ msg: 'Invalid credentials' });
   }
-  // }
 
   const userToken = user.createJWT();
 
@@ -71,6 +90,7 @@ const authLogin = async (req, res) => {
   res.status(200).json({ userToken });
 };
 
+// POST /kaunter/login
 const authKaunter = async (req, res) => {
   const { username, password } = req.body;
 
@@ -80,13 +100,6 @@ const authKaunter = async (req, res) => {
       .json({ msg: 'Please provide username and password' });
   }
   let user = '';
-  // if (username === 'kaunterkpaj') {
-  //   user = await UserModel.findOne({ username: username });
-  //   if (!(user && (await user.comparePassword(password)))) {
-  //     return res.status(401).json({ msg: 'Invalid credentials' });
-  //   }
-  // }
-  // if (username !== 'kaunterkpaj') {
   user = await UserModel.findOne({
     username: username,
     password: password,
@@ -95,7 +108,6 @@ const authKaunter = async (req, res) => {
   if (!user) {
     return res.status(401).json({ msg: 'Invalid credentials' });
   }
-  // }
 
   const kaunterToken = user.createJWT();
 
@@ -112,4 +124,4 @@ const authKaunter = async (req, res) => {
   res.status(200).json({ kaunterToken });
 };
 
-module.exports = { authLogin, authKaunter };
+module.exports = { authFind, authLogin, authKaunter };

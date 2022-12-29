@@ -30,12 +30,10 @@ const UserSchema = new mongoose.Schema({
   kp: {
     type: String,
   },
-  email: {
+  kodFasiliti: {
     type: String,
   },
-
-  // this is klinik
-  kodFasiliti: {
+  email: {
     type: String,
   },
   statusPerkhidmatan: {
@@ -43,12 +41,14 @@ const UserSchema = new mongoose.Schema({
   },
   statusRoleKlinik: {
     type: String,
-    // required: [true, 'Please provide account type'],
     enum: {
       values: ['klinik', 'kepp', 'utc', 'rtc', 'visiting'],
       message:
         '{VALUE} is not supported. Provide only "klinik", "kepp", "utc", "rtc", "visiting"',
     },
+  },
+  lastLogin: {
+    type: Date,
   },
 });
 
@@ -79,13 +79,13 @@ UserSchema.pre('save', async function () {
       const randomString = generateRandomString(8);
       this.password = randomString;
       let currentRunningNumber = await Runningnumber.findOne({
-        jenis: 'kp',
+        jenis: 'kpUser',
         negeri: this.negeri,
         daerah: this.daerah,
       });
       if (!currentRunningNumber) {
         const newRunningNumber = await Runningnumber.create({
-          jenis: 'kp',
+          jenis: 'kpUser',
           negeri: this.negeri,
           daerah: this.daerah,
           runningnumber: 1,
@@ -105,7 +105,7 @@ UserSchema.pre('save', async function () {
       }
       console.log('updateRunningNumber');
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   }
 });
@@ -115,10 +115,12 @@ UserSchema.methods.createJWT = function () {
     {
       userId: this._id,
       username: this.username,
+      accountType: this.accountType,
       negeri: this.negeri,
       daerah: this.daerah,
       kp: this.kp,
-      accountType: this.accountType,
+      kodFasiliti: this.kodFasiliti,
+      email: this.email,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_LIFETIME }

@@ -19,6 +19,22 @@ const KotakSchema = new mongoose.Schema({
     required: true,
   },
   // kotak --------------------------------------------------
+  dalamPemantauanKohort: {
+    type: String,
+    default: '',
+  },
+  statusM: {
+    type: String,
+    default: '',
+  },
+  menerimaNasihatRingkas: {
+    type: String,
+    default: '',
+  },
+  inginMelakukanIntervensiMerokok: {
+    type: String,
+    default: '',
+  },
   rokokBiasaKotak: {
     type: Boolean,
     default: false,

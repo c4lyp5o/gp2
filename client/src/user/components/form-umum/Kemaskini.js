@@ -2,22 +2,29 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 import { FaInfoCircle } from 'react-icons/fa';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
-  const { userToken, useParams, Dictionary } = useGlobalUserAppContext();
+  const {
+    userToken,
+    reliefUserToken,
+    useParams,
+    masterDatePicker,
+    Dictionary,
+  } = useGlobalUserAppContext();
 
   const { personUmumId } = useParams();
 
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
+  const [events, setEvents] = useState([]);
 
   // core
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState('');
   const [waktuSampai, setWaktuSampai] = useState('');
   const [kedatangan, setKedatangan] = useState('');
-  const [givenNoPendaftaran, setGivenNoPendaftaran] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [nama, setNama] = useState('');
@@ -32,7 +39,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [daerahAlamat, setDaerahAlamat] = useState('');
   const [negeriAlamat, setNegeriAlamat] = useState('');
   const [poskodAlamat, setPoskodAlamat] = useState('');
-  // const [kategoriPesakit, setKategoriPesakit] = useState('');
   const [ibuMengandung, setIbuMengandung] = useState(false);
   const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
@@ -49,23 +55,19 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   const [tarikhMulaRawatanKepp, setTarikhMulaRawatanKepp] = useState('');
 
   // penyampaian perkhidmatan
-  const [kpBergerak, setKpBergerak] = useState(false);
-  const [labelKpBergerak, setLabelKpBergerak] = useState('');
-  const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
-    useState(false);
-  const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
-  const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
-    useState('');
+  // const [kpBergerak, setKpBergerak] = useState(false);
+  // const [labelKpBergerak, setLabelKpBergerak] = useState('');
+  // const [pasukanPergigianBergerak, setPasukanPergigianBergerak] =
+  //   useState(false);
+  // const [makmalPergigianBergerak, setMakmalPergigianBergerak] = useState(false);
+  // const [labelMakmalPergigianBergerak, setLabelMakmalPergigianBergerak] =
+  //   useState('');
 
   // taska / tadika
   const [fasilitiTaskaTadika, setFasilitiTaskaTadika] = useState('');
-  // const [jenisTaskaTadika, setJenisTaskaTadika] = useState('');
   const [kelasToddler, setKelasToddler] = useState(false);
   const [namaFasilitiTaskaTadika, setNamaFasilitiTaskaTadika] = useState('');
   const [enrolmenTaskaTadika, setEnrolmenTaskaTadika] = useState(false);
-  // const [engganTaskaTadika, setEngganTaskaTadika] = useState(false);
-  // const [tidakHadirTaskaTadika, setTidakHadirTaskaTadika] = useState(false);
-  // const [pemeriksaanTaskaTadika, setPemeriksaanTaskaTadika] = useState('');
 
   // ipt / kolej
   const [iptKolej, setIptKolej] = useState('');
@@ -89,6 +91,54 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
 
   // kampung angkat
   const [kgAngkat, setKgAngkat] = useState('');
+
+  // events
+  const [jenisEvent, setJenisEvent] = useState('');
+  const [namaEvent, setPilihanEvent] = useState('');
+
+  // datepicker issues
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(new Date());
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+  const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(null);
+  const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
+    useState(null);
+  const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
+
+  const TarikhKedatangan = () => {
+    return masterDatePicker({
+      selected: tarikhKedatanganDP,
+      onChange: (tarikhKedatangan) => {
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDP(tarikhKedatangan);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhLahir = () => {
+    return masterDatePicker({
+      selected: tarikhLahirDP,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
+        const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
+        setTarikhLahirDP(tarikhLahir);
+        setTarikhLahir(tempDate);
+        setUmur(tahun);
+        setUmurBulan(bulan);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
@@ -116,18 +166,66 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
     return values;
   };
 
-  const closeModal = () => {
-    setShowKemaskini(false);
+  const TarikhRujukanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhRujukanKeppDP,
+      onChange: (tarikhRujukanKepp) => {
+        const tempDate = moment(tarikhRujukanKepp).format('YYYY-MM-DD');
+        setTarikhRujukanKepp(tempDate);
+        setTarikhRujukanKeppDP(tarikhRujukanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhRundinganPertama = () => {
+    return masterDatePicker({
+      selected: tarikhRundinganPertamaDP,
+      onChange: (tarikhRundinganPertama) => {
+        const tempDate = moment(tarikhRundinganPertama).format('YYYY-MM-DD');
+        setTarikhRundinganPertama(tempDate);
+        setTarikhRundinganPertamaDP(tarikhRundinganPertama);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
+  };
+
+  const TarikhMulaRawatanKepp = () => {
+    return masterDatePicker({
+      selected: tarikhMulaRawatanKeppDP,
+      onChange: (tarikhMulaRawatanKepp) => {
+        const tempDate = moment(tarikhMulaRawatanKepp).format('YYYY-MM-DD');
+        setTarikhMulaRawatanKepp(tempDate);
+        setTarikhMulaRawatanKeppDP(tarikhMulaRawatanKepp);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+    });
   };
 
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
         const { data } = await axios.get(`/api/v1/umum/${personUmumId}`, {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         });
-        //kaunter
         setJenisFasiliti(data.singlePersonUmum.jenisFasiliti);
+        // core
         setTarikhKedatangan(data.singlePersonUmum.tarikhKedatangan);
         setWaktuSampai(data.singlePersonUmum.waktuSampai);
         setKedatangan(data.singlePersonUmum.kedatangan);
@@ -145,7 +243,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setDaerahAlamat(data.singlePersonUmum.daerahAlamat);
         setNegeriAlamat(data.singlePersonUmum.negeriAlamat);
         setPoskodAlamat(data.singlePersonUmum.poskodAlamat);
-        // setKategoriPesakit(data.singlePersonUmum.kategoriPesakit);
         setIbuMengandung(data.singlePersonUmum.ibuMengandung);
         setOrangKurangUpaya(data.singlePersonUmum.orangKurangUpaya);
         setBersekolah(data.singlePersonUmum.bersekolah);
@@ -160,32 +257,24 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setTarikhRundinganPertama(data.singlePersonUmum.tarikhRundinganPertama);
         setTarikhMulaRawatanKepp(data.singlePersonUmum.tarikhMulaRawatanKepp);
         // penyampaian perkhidmatan
-        setKpBergerak(data.singlePersonUmum.kpBergerak);
-        setLabelKpBergerak(data.singlePersonUmum.labelKpBergerak);
-        setPasukanPergigianBergerak(
-          data.singlePersonUmum.pasukanPergigianBergerak
-        );
-        setMakmalPergigianBergerak(
-          data.singlePersonUmum.makmalPergigianBergerak
-        );
-        setLabelMakmalPergigianBergerak(
-          data.singlePersonUmum.labelMakmalPergigianBergerak
-        );
+        // setKpBergerak(data.singlePersonUmum.kpBergerak);
+        // setLabelKpBergerak(data.singlePersonUmum.labelKpBergerak);
+        // setPasukanPergigianBergerak(
+        //   data.singlePersonUmum.pasukanPergigianBergerak
+        // );
+        // setMakmalPergigianBergerak(
+        //   data.singlePersonUmum.makmalPergigianBergerak
+        // );
+        // setLabelMakmalPergigianBergerak(
+        //   data.singlePersonUmum.labelMakmalPergigianBergerak
+        // );
         // taska / tadika
         setFasilitiTaskaTadika(data.singlePersonUmum.fasilitiTaskaTadika);
-        // setJenisTaskaTadika(data.singlePersonUmum.jenisTaskaTadika);
         setKelasToddler(data.singlePersonUmum.kelasToddler);
         setNamaFasilitiTaskaTadika(
           data.singlePersonUmum.namaFasilitiTaskaTadika
         );
         setEnrolmenTaskaTadika(data.singlePersonUmum.enrolmenTaskaTadika);
-        // setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
-        // setTidakHadirTaskaTadika(
-        //   data.singlePersonUmum.tidakHadirTaskaTadika
-        // );
-        // setPemeriksaanTaskaTadika(
-        //   data.singlePersonUmum.pemeriksaanTaskaTadika
-        // );
         // ipt / kolej
         setIptKolej(data.singlePersonUmum.iptKolej);
         setIpg(data.singlePersonUmum.ipg);
@@ -210,6 +299,27 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         setInstitusiOku(data.singlePersonUmum.institusiOku);
         // kampung angkat
         setKgAngkat(data.singlePersonUmum.kgAngkat);
+        // events
+        setJenisEvent(data.singlePersonUmum.jenisEvent);
+        setPilihanEvent(data.singlePersonUmum.namaEvent);
+        // datepicker issues
+        setTarikhKedatanganDP(new Date(data.singlePersonUmum.tarikhKedatangan));
+        setTarikhLahirDP(new Date(data.singlePersonUmum.tarikhLahir));
+        if (data.singlePersonUmum.tarikhRujukanKepp !== '') {
+          setTarikhRujukanKeppDP(
+            new Date(data.singlePersonUmum.tarikhRujukanKepp)
+          );
+        }
+        if (data.singlePersonUmum.tarikhRundinganPertama !== '') {
+          setTarikhRundinganPertamaDP(
+            new Date(data.singlePersonUmum.tarikhRundinganPertama)
+          );
+        }
+        if (data.singlePersonUmum.tarikhMulaRawatanKepp !== '') {
+          setTarikhMulaRawatanKeppDP(
+            new Date(data.singlePersonUmum.tarikhMulaRawatanKepp)
+          );
+        }
       } catch (error) {
         console.log(error);
       }
@@ -223,7 +333,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       const fetchTaskaTadika = async () => {
         try {
           const { data } = await axios.get(`/api/v1/query/umum/taska-tadika`, {
-            headers: { Authorization: `Bearer ${userToken}` },
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
           });
           setTaskaTadikaAll(data.taskaTadikaAll);
         } catch (error) {
@@ -233,6 +347,32 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       fetchTaskaTadika();
     }
   }, [jenisFasiliti]);
+
+  // fetch events if jenis fasiliti === projek-komuniti-lain
+  useEffect(() => {
+    if (jenisFasiliti === 'projek-komuniti-lain') {
+      const fetchEvents = async () => {
+        try {
+          const { data } = await axios.get(`/api/v1/query/events`, {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          });
+          setEvents(data);
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchEvents();
+    }
+  }, [jenisFasiliti]);
+
+  const closeModal = () => {
+    setShowKemaskini(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -257,7 +397,6 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           daerahAlamat,
           negeriAlamat,
           poskodAlamat,
-          // kategoriPesakit,
           ibuMengandung,
           orangKurangUpaya,
           bersekolah,
@@ -272,20 +411,16 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           tarikhRundinganPertama,
           tarikhMulaRawatanKepp,
           // penyampaian perkhidmatan
-          kpBergerak,
-          labelKpBergerak,
-          pasukanPergigianBergerak,
-          makmalPergigianBergerak,
-          labelMakmalPergigianBergerak,
+          // kpBergerak,
+          // labelKpBergerak,
+          // pasukanPergigianBergerak,
+          // makmalPergigianBergerak,
+          // labelMakmalPergigianBergerak,
           // taska / tadika
           fasilitiTaskaTadika,
-          // jenisTaskaTadika,
           kelasToddler,
           namaFasilitiTaskaTadika,
           enrolmenTaskaTadika,
-          // engganTaskaTadika,
-          // tidakHadirTaskaTadika,
-          // pemeriksaanTaskaTadika,
           // ipt / kolej
           iptKolej,
           ipg,
@@ -304,8 +439,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           institusiOku,
           // kampung angkat
           kgAngkat,
+          // events
+          jenisEvent,
+          namaEvent,
         },
-        { headers: { Authorization: `Bearer ${userToken}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
       );
       toast.info(`Pesakit berjaya dikemaskini`, {
         position: 'top-right',
@@ -325,37 +469,42 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
   return (
     <>
       <div className='absolute inset-2 lg:inset-16 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
-        <div className='sticky top-0'>
+        <div className='sticky top-0 z-50'>
           <FaWindowClose
             onClick={closeModal}
             className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user6 transition-all'
           />
-          <h1 className='bg-user3 font-semibold text-xl'>kemaskini</h1>
+          <h1 className='bg-user3 text-userWhite font-semibold text-xl'>
+            kemaskini
+          </h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='p-3'>
           <div className='flex'>
-            <p className='font-semibold text-user6 mt-3 ml-3'>* mandatori</p>
-            <p className='font-semibold text-user6 mt-3 mr-3 ml-auto '>
+            <p className='font-semibold text-user3 mt-3 ml-3'>
+              <span className='text-user9 text-xl'>*</span>mandatori
+            </p>
+            <p className='font-semibold text-user3 mt-3 mr-3 ml-auto '>
               Fasiliti: {Dictionary[jenisFasiliti]}
             </p>
           </div>
           <div className='grid gap-1'>
             <div className='flex m-2 '>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex text-center items-center whitespace-nowrap'>
                 tarikh kedatangan:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
+              <TarikhKedatangan />
+              {/* <input
                 required
                 value={tarikhKedatangan}
                 onChange={(e) => setTarikhKedatangan(e.target.value)}
                 type='date'
                 name='tarikhKedatangan'
-                className='outline outline-1 outline-userBlack'
-              />
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
+              /> */}
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex text-center items-center'>
                 waktu tiba: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -364,7 +513,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 onChange={(e) => setWaktuSampai(e.target.value)}
                 type='time'
                 name='waktuSampai'
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-auto leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             {/* <div className='flex m-2'>
@@ -439,7 +588,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               )}
             </div> */}
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex flex-row items-center'>
                 nama: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -449,29 +598,31 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 name='nama-umum'
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase'
               />
             </div>
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
-                jenis pengenalan{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <select
-                required
-                id='pengenalan'
-                name='pengenalan'
-                value={jenisIc}
-                onChange={(e) => setJenisIc(e.target.value)}
-                className='mr-3 outline outline-1 outline-userBlack'
-              >
-                <option value=''>Sila pilih..</option>
-                <option value='mykad-mykid'>MyKad / MyKid</option>
-                <option value='passport'>Passport</option>
-                <option value='tentera'>Tentera</option>
-                <option value='polis'>Polis</option>
-                <option value='sijil-lahir'>Sijil lahir</option>
-              </select>
+            <div className='flex m-2 flex-col md:flex-row'>
+              <div className='flex flex-row'>
+                <p className='mr-3 font-semibold flex text-center items-center'>
+                  jenis pengenalan{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <select
+                  required
+                  id='pengenalan'
+                  name='pengenalan'
+                  value={jenisIc}
+                  onChange={(e) => setJenisIc(e.target.value)}
+                  className='appearance-none leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md m-1 inline-flex'
+                >
+                  <option value=''>Sila pilih..</option>
+                  <option value='mykad-mykid'>MyKad / MyKid</option>
+                  <option value='passport'>Passport</option>
+                  <option value='tentera'>Tentera</option>
+                  <option value='polis'>Polis</option>
+                  <option value='sijil-lahir'>Sijil lahir</option>
+                </select>
+              </div>
               {jenisIc === 'mykad-mykid' && (
                 <input
                   required
@@ -484,7 +635,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   value={ic}
                   onChange={(e) => setIc(e.target.value)}
                   placeholder='123456090987'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md m-1'
                 />
               )}
               {jenisIc !== 'mykad-mykid' && jenisIc !== '' && (
@@ -495,16 +646,17 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   value={ic}
                   onChange={(e) => setIc(e.target.value)}
                   placeholder='123456121234'
-                  className='appearance-none leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md m-1'
                 />
               )}
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex flex-row items-center whitespace-nowrap'>
                 tarikh lahir:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
+              <TarikhLahir />
+              {/* <input
                 required
                 value={tarikhLahir}
                 onChange={(e) => {
@@ -516,29 +668,47 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 }}
                 type='date'
                 name='tarikhLahir'
-                className='outline outline-1 outline-userBlack'
-              />
+                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase'
+              /> */}
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
                 umur: <span className='font-semibold text-user6'>*</span>
               </p>
-              <input
-                disabled
-                type='number'
-                name='umur'
-                value={umur}
-                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-              />
-              <p className='mx-3'>tahun</p>
-              <input
-                disabled
-                type='number'
-                name='umur'
-                value={umurBulan}
-                className='outline outline-1 outline-userBlack w-16 text-sm font-m'
-              />
-              <p className='mx-3'>bulan</p>
+              <div className='relative'>
+                <input
+                  disabled
+                  placeholder='tahun'
+                  type='number'
+                  name='umur'
+                  id='umur'
+                  value={umur}
+                  className='appearance-none w-20 py-1 px-2 ring-2 ring-user3 outline-r-hidden focus:ring-2 focus:ring-user3 focus:outline-none rounded-l-md peer'
+                />
+                <label
+                  htmlFor='umur'
+                  className='absolute left-3 bottom-7 text-xs text-user2 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                >
+                  Tahun
+                </label>
+              </div>
+              <div className='relative'>
+                <input
+                  disabled
+                  placeholder='bulan'
+                  type='number'
+                  name='umurBulan'
+                  id='umurBulan'
+                  value={umurBulan}
+                  className='appearance-none w-20 py-1 px-2 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-r-md peer'
+                />
+                <label
+                  htmlFor='umurBulan'
+                  className='absolute left-3 bottom-7 text-xs text-user2 bg-userWhite peer-placeholder-shown:text-user3 peer-placeholder-shown:bottom-1.5 peer-placeholder-shown:text-base peer-focus:bottom-7 peer-focus:text-xs transition-all'
+                >
+                  Bulan
+                </label>
+              </div>
             </div>
             <div className='flex m-2'>
               <p className='mr-3 font-semibold'>
@@ -550,7 +720,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 id='jantina'
                 value={jantina}
                 onChange={(e) => setJantina(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase m-1'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='lelaki'>Lelaki</option>
@@ -558,7 +728,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 kumpulan etnik:{' '}
                 <span className='font-semibold text-user6'>*</span>
               </p>
@@ -570,7 +740,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 onChange={(e) => {
                   setKumpulanEtnik(e.target.value);
                 }}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='melayu'>Melayu</option>
@@ -599,7 +769,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               </select>
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold whitespace-nowrap'>
                 alamat: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -608,11 +778,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 onChange={(e) => setAlamat(e.target.value)}
                 type='text'
                 name='alamat'
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 daerah: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -621,11 +791,11 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 onChange={(e) => setDaerahAlamat(e.target.value)}
                 type='text'
                 name='daerah-alamat'
-                className='appearance-none w-3/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 negeri: <span className='font-semibold text-user6'>*</span>
               </p>
               <select
@@ -634,7 +804,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 onChange={(e) => {
                   setNegeriAlamat(e.target.value);
                 }}
-                className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='johor'>Johor</option>
@@ -664,7 +834,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
               /> */}
             </div>
             <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>
+              <p className='mr-3 font-semibold flex items-center whitespace-nowrap'>
                 poskod: <span className='font-semibold text-user6'>*</span>
               </p>
               <input
@@ -678,7 +848,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 value={poskodAlamat}
                 onChange={(e) => setPoskodAlamat(e.target.value)}
                 placeholder='62519'
-                className='appearance-none w-1/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             {/* <div className='flex m-2'>
@@ -704,8 +874,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 <option value='warga-tua'>Warga tua</option>
               </select>
             </div> */}
-            <div className='flex m-2'>
-              <p className='mr-3 font-semibold'>status pesakit:</p>
+            <div className='flex m-2 flex-col md:flex-row'>
+              <p className='mr-3 font-semibold flex flex-row'>
+                status pesakit:
+              </p>
               <div>
                 <div className='flex items-center flex-row pl-5'>
                   <input
@@ -768,7 +940,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   onChange={(e) => setNoOku(e.target.value)}
                   type='text'
                   name='no-oku'
-                  className='appearance-none w-2/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                  className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
                 />
               </div>
             )}
@@ -783,7 +955,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 id='statusPesara'
                 value={statusPesara}
                 onChange={(e) => setStatusPesara(e.target.value)}
-                className='outline outline-1 outline-userBlack'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 {/* <option value='bukan-pesara'>Bukan pesara</option> */}
@@ -798,7 +970,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 id='rujukDaripada'
                 value={rujukDaripada}
                 onChange={(e) => setRujukDaripada(e.target.value)}
-                className='mr-3 outline outline-1 outline-userBlack'
+                className='appearance-none w-36 leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               >
                 <option value=''>Sila pilih..</option>
                 <option value='dalaman'>Dalaman</option>
@@ -817,14 +989,20 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                 className='text-userBlack text-sm cursor-pointer flex items-center justify-center m-1 mt-2'
                 title='No resit/Pengecualian bayaran/no.kad OKU/no. kad pesara/no. GL/no. slip cuti sakit/nama perawat/lain-lain catatan penting'
               />
-              <p className='font-semibold mr-2'>:</p>
+              <p className='font-semibold mr-2'>
+                :
+                {statusPesara !== '' && (
+                  <span className='font-semibold text-user6'>*</span>
+                )}
+              </p>
               <input
                 type='text'
                 name='catatan'
                 id='catatan'
                 value={catatan}
+                required={statusPesara !== '' ? true : false}
                 onChange={(e) => setCatatan(e.target.value)}
-                className='appearance-none w-11/12 leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
               />
             </div>
             {jenisFasiliti === 'kp' && (
@@ -914,11 +1092,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh rujukan
                     </label>
-                    <input
+                    <TarikhRujukanKepp />
+                    {/* <input
                       type='date'
                       name='tarikh-rujukan-kepp'
                       id='tarikh-rujukan-kepp'
@@ -927,7 +1106,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhRujukanKepp(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                   <div
                     className={`${
@@ -938,11 +1117,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-rujukan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh perundingan pertama
                     </label>
-                    <input
+                    <TarikhRundinganPertama />
+                    {/* <input
                       type='date'
                       name='tarikh-rujukan-kepp'
                       id='tarikh-rujukan-kepp'
@@ -951,7 +1131,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhRundinganPertama(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                   <div
                     className={`${
@@ -962,11 +1142,12 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                   >
                     <label
                       htmlFor='tarikh-mula-rawatan'
-                      className='m-2 text-sm font-m'
+                      className='m-2 text-sm font-m whitespace-nowrap'
                     >
                       tarikh mula rawatan
                     </label>
-                    <input
+                    <TarikhMulaRawatanKepp />
+                    {/* <input
                       type='date'
                       name='tarikh-mula-rawatan-kepp'
                       id='tarikh-mula-rawatan-kepp'
@@ -975,10 +1156,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                         setTarikhMulaRawatanKepp(e.target.value);
                       }}
                       className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                    />
+                    /> */}
                   </div>
                 </article>
-                <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <p className='font-semibold col-span-2'>
                     penyampaian perkhidmatan
                   </p>
@@ -1060,7 +1241,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
                       <option value='apa??'>Apa?</option>
                     </select>
                   </div>
-                </article>
+                </article> */}
               </>
             )}
             {jenisFasiliti === 'taska-tadika' && (
@@ -1743,7 +1924,10 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           </button>
         </form>
       </div>
-      <div className='absolute inset-0 bg-user1 z-10 opacity-75'></div>
+      <div
+        onClick={closeModal}
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+      />
     </>
   );
 }

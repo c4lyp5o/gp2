@@ -1,41 +1,30 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserGenerateIndividu() {
-  const { userToken, toast, catchAxiosErrorAndLogout, navigate } =
+  const { userToken, userinfo, toast, refreshTimer, setRefreshTimer } =
     useGlobalUserAppContext();
-  const [jenisReten, setJenisReten] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [jenisReten, setJenisReten] = useState('xlsx');
   const [formatFile, setFormatFile] = useState('');
   const [month, setMonth] = useState('');
-  const [status, setStatus] = useState('');
-  const [nama, setNama] = useState('');
-  const [kp, setKp] = useState('');
   const [id, setId] = useState('');
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('userinfo'));
-    if (!userData) {
-      catchAxiosErrorAndLogout();
-      navigate('/pengguna');
+    if (userinfo.numberMdc) {
+      setId(userinfo.numberMdc);
     }
-    setNama(userData.nama);
-    setStatus(userData.statusPegawai);
-    setKp(userData.kpSkrg);
-    if (userData.numberMdc) {
-      setId(userData.numberMdc);
+    if (!userinfo.numberMdc) {
+      setId(userinfo.numberMdtb);
     }
-    if (!userData.numberMdc) {
-      setId(userData.numberMdtb);
-    }
+    setRefreshTimer(!refreshTimer);
   }, []);
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `${jenisReten}-${kp}-${nama}-Bulan_${
+    link.download = `${jenisReten}-${userinfo.kpSkrg}-${userinfo.nama}-Bulan_${
       month.split('-')[0]
     }.${formatFile}`;
     link.href = URL.createObjectURL(new Blob([blob]));
@@ -52,12 +41,10 @@ export default function UserGenerateIndividu() {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${jenisReten}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&bulan=${new Date().getFullYear()}-${month}&id=${id}&formatFile=${formatFile}`,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
-              pegawai: nama,
-              id: id,
             },
             responseType: 'blob',
           }
@@ -95,8 +82,12 @@ export default function UserGenerateIndividu() {
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
                 <option value=''>Sila pilih reten</option>
-                {status === 'jp' && <option value='PG206'>PG206</option>}
-                {status === 'pp' && <option value='PG207'>PG207</option>}
+                {userinfo.statusPegawai === 'jp' && (
+                  <option value='PG206'>PG206</option>
+                )}
+                {userinfo.statusPegawai === 'pp' && (
+                  <option value='PG207'>PG207</option>
+                )}
                 {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>
@@ -182,7 +173,7 @@ export default function UserGenerateIndividu() {
             {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
               cetak
             </button> */}
-            <div className='px-3 py-1 col-start-2'>
+            {/* <div className='px-3 py-1 col-start-2'>
               <label
                 htmlFor='formatFile'
                 className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
@@ -198,9 +189,9 @@ export default function UserGenerateIndividu() {
               >
                 <option value=''>Sila pilih format file</option>
                 <option value='xlsx'>Excel</option>
-                {/* <option value='pdf'>PDF</option> */}
+                <option value='pdf'>PDF</option>
               </select>
-            </div>
+            </div> */}
             <button
               className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2'
               type='submit'
