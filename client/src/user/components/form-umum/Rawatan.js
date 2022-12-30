@@ -17,7 +17,6 @@ const optionsRawatan = [
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
   { value: 'penskaleran', label: 'Penskaleran' },
-  { value: 'kes-selesai', label: 'Kes Selesai' },
 ];
 
 export default function Rawatan(props) {
@@ -67,7 +66,6 @@ export default function Rawatan(props) {
                       <Select
                         isMulti
                         name='rawatan'
-                        defaultValue={optionsRawatan[13]}
                         options={optionsRawatan}
                         className='basic-multi-select'
                         classNamePrefix='select'
@@ -372,65 +370,6 @@ export default function Rawatan(props) {
                           Abses
                         </label>
                       </div>
-                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
-                        Abses
-                      </p> */}
-                      {/* <div className='flex items-center justify-evenly'>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-abses-pembedahan-rawatan-umum'
-                            id='ya-abses-pembedahan-rawatan-umum'
-                            value='ya-abses-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakAbsesPembedahanRawatanUmum ===
-                              'ya-abses-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakAbsesPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-abses-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-abses-pembedahan-rawatan-umum'
-                            id='tidak-abses-pembedahan-rawatan-umum'
-                            value='tidak-abses-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakAbsesPembedahanRawatanUmum ===
-                              'tidak-abses-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakAbsesPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-abses-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                      </div> */}{' '}
                       <div className='flex flex-row items-center pl-5 m-1'>
                         <input
                           disabled={isDisabled}
@@ -457,65 +396,6 @@ export default function Rawatan(props) {
                           Fraktur
                         </label>
                       </div>
-                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
-                        fraktur
-                      </p>
-                      <div className='flex items-center justify-evenly'>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-fraktur-pembedahan-rawatan-umum'
-                            id='ya-fraktur-pembedahan-rawatan-umum'
-                            value='ya-fraktur-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakFrakturPembedahanRawatanUmum ===
-                              'ya-fraktur-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakFrakturPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-fraktur-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-fraktur-pembedahan-rawatan-umum'
-                            id='tidak-fraktur-pembedahan-rawatan-umum'
-                            value='tidak-fraktur-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakFrakturPembedahanRawatanUmum ===
-                              'tidak-fraktur-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakFrakturPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-fraktur-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                      </div> */}
                       <div className='flex flex-row items-center pl-5 m-1'>
                         <input
                           disabled={isDisabled}
@@ -542,65 +422,6 @@ export default function Rawatan(props) {
                           Pembedahan Kecil Mulut
                         </label>
                       </div>
-                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
-                        pembedahan kecil mulut
-                      </p>
-                      <div className='flex items-center justify-evenly'>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            id='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            value='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum ===
-                              'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            id='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            value='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum ===
-                              'tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakPembedahanKecilMulutPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-pembedahan-kecil-mulut-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                      </div> */}
                       <div className='flex flex-row items-center pl-5 m-1'>
                         <input
                           disabled={isDisabled}
@@ -627,65 +448,6 @@ export default function Rawatan(props) {
                           Trauma
                         </label>
                       </div>
-                      {/* <p className='flex flex-row items-center pl-5 text-sm font-m'>
-                        trauma
-                      </p>
-                      <div className='flex items-center justify-evenly'>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-trauma-pembedahan-rawatan-umum'
-                            id='ya-trauma-pembedahan-rawatan-umum'
-                            value='ya-trauma-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakTraumaPembedahanRawatanUmum ===
-                              'ya-trauma-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakTraumaPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-trauma-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            disabled={isDisabled}
-                            type='radio'
-                            name='ya-tidak-trauma-pembedahan-rawatan-umum'
-                            id='tidak-trauma-pembedahan-rawatan-umum'
-                            value='tidak-trauma-pembedahan-rawatan-umum'
-                            checked={
-                              props.yaTidakTraumaPembedahanRawatanUmum ===
-                              'tidak-trauma-pembedahan-rawatan-umum'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              props.setYaTidakTraumaPembedahanRawatanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-trauma-pembedahan-rawatan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                      </div> */}
                       {props.yaTidakTraumaPembedahanRawatanUmum === true ? (
                         <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 m-2'>
                           <h4 className='font-bold flex flex-row pl-2'>

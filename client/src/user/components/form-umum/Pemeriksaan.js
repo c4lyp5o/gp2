@@ -184,13 +184,21 @@ export default function Pemeriksaan(props) {
             </article>
           ) : null}
         </div>
-        {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-        props.statusKehadiran === false ? (
-          <div className=' grid grid-cols-2'>
+        <div className=' grid grid-cols-2'>
+          {props.statusKehadiran === false ? (
             <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
               <p className='ml-3 text-xl font-semibold'>Pemeriksaan</p>
             </span>
-            <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
+          ) : null}
+          <section
+            className={` grid mt-3 mb-3 w-full ${
+              props.singlePersonUmum.kedatangan === 'baru-kedatangan'
+                ? 'col-span-2 grid-cols-1 lg:grid-cols-2 gap-2'
+                : 'col-span-1 grid-cols-1'
+            }`}
+          >
+            {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+            props.statusKehadiran === false ? (
               <div className='grid gap-2 auto-rows-min'>
                 {props.jenisFasiliti === 'taska-tadika' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -1283,7 +1291,10 @@ export default function Pemeriksaan(props) {
                   </div>
                 </article> */}
               </div>
-              <div className='grid gap-2 auto-rows-min row-start-2 lg:row-start-1 col-start-1 lg:col-start-2'>
+            ) : null}
+            <div className='grid gap-2 auto-rows-min'>
+              {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+              props.statusKehadiran === false ? (
                 <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5'>
                     Kebersihan Mulut
@@ -1374,6 +1385,9 @@ export default function Pemeriksaan(props) {
                     </label>
                   </div>
                 </article>
+              ) : null}
+              {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+              props.statusKehadiran === false ? (
                 <article className='border border-userBlack pl-3 p-2 rounded-md'>
                   <div className='grid grid-cols-1'>
                     <h4 className='font-bold flex flex-row pl-5'>
@@ -1409,6 +1423,9 @@ export default function Pemeriksaan(props) {
                     </div>
                   </div>
                 </article>
+              ) : null}
+              {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+              props.statusKehadiran === false ? (
                 <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Program Kanser Mulut
@@ -1519,6 +1536,9 @@ export default function Pemeriksaan(props) {
                     </div>
                   )}
                 </article>
+              ) : null}{' '}
+              {props.statusKehadiran === false &&
+              props.singlePersonUmum.umur >= 15 ? (
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Pengurusan Penyakit dan kondisi periodontium serta
@@ -1531,11 +1551,18 @@ export default function Pemeriksaan(props) {
                     >
                       pesakit mempunyai rujukan T2DM (
                       <i> Type II Diabetes Mellitus</i>) ?
-                      <span className='text-user6'>*</span>
+                      {props.singlePersonUmum.kedatangan ===
+                        'baru-kedatangan' && (
+                        <span className='text-user6'>*</span>
+                      )}
                     </label>
                     <select
                       disabled={isDisabled}
-                      required
+                      required={
+                        props.singlePersonUmum.kedatangan === 'baru-kedatangan'
+                          ? true
+                          : false
+                      }
                       name='punca-rujukan'
                       id='punca-rujukan'
                       value={props.puncaRujukan}
@@ -1675,12 +1702,18 @@ export default function Pemeriksaan(props) {
                       >
                         <p className='text-sm font-m'>
                           Skor BPE:
-                          <span className='text-user6'>*</span>
+                          {props.singlePersonUmum.kedatangan ===
+                            'baru-kedatangan' && (
+                            <span className='text-user6'>*</span>
+                          )}
                         </p>
                         <select
                           disabled={isDisabled}
                           required={
-                            props.singlePersonUmum.umur <= 15 ? false : true
+                            props.singlePersonUmum.kedatangan ===
+                            'baru-kedatangan'
+                              ? true
+                              : false
                           }
                           name='skor-bpe-pemeriksaan-umum'
                           id='skor-bpe-pemeriksaan-umum'
@@ -1774,6 +1807,9 @@ export default function Pemeriksaan(props) {
                     </label>
                   </div> */}
                 </article>
+              ) : null}
+              {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+              props.statusKehadiran === false ? (
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-semibold flex flex-row pl-3'>
                     kes endodontik diperlukan
@@ -1879,10 +1915,10 @@ export default function Pemeriksaan(props) {
                     />
                   </div>
                 </article>
-              </div>
-            </section>
-          </div>
-        ) : null}
+              ) : null}
+            </div>
+          </section>
+        </div>
       </div>
     </>
   );
