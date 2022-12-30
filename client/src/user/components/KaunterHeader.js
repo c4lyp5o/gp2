@@ -20,6 +20,7 @@ function KaunterHeader() {
         <div className='grid grid-rows-2 text-2xl font-bold text-center'>
           <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
           <h1 className='text-xl'>PENDAFTARAN</h1>
+          <span className='text-kaunter5'>{process.env.REACT_APP_ENV}</span>
         </div>
       </div>
     </div>
