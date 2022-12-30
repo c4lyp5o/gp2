@@ -367,7 +367,7 @@ function UserPromosi({ individuOrKlinik }) {
                             ) : (
                               <span className='flex flex-row justify-center items-center'>
                                 Telah Diisi
-                                <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                                <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-2 outline-user7' />
                               </span>
                             )}
                           </td>
