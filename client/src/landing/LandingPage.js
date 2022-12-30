@@ -55,13 +55,17 @@ function LandingPage() {
             <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
               program kesihatan pergigian
             </p>
-            <h1 className='md:hidden text-lg font-semibold'>
+            <h1 className='md:hidden text-base font-semibold'>
               sistem gi-Ret 2.0
             </h1>
+            <span className='text-xs text-user6 font-bold'>
+              {process.env.REACT_APP_ENV}
+            </span>
           </div>
         </div>
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
+          <span className='ml-10 text-user6'>{process.env.REACT_APP_ENV}</span>
         </div>
       </div>
       <div ref={notificationRef}>

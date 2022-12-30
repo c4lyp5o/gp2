@@ -20,6 +20,7 @@ function UserHeader() {
         <div className='grid grid-rows-2 text-2xl font-bold text-center'>
           <h1 className='row-span-2'>sistem gi-Ret 2.0</h1>
           <h1>PENGGUNA</h1>
+          <span className='text-user6'>{process.env.REACT_APP_ENV}</span>
         </div>
       </div>
     </div>
