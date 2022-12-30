@@ -80,6 +80,7 @@ export default function Header(props) {
                   </div>
                 )}
               </h1>
+              <span className='text-admin4'>{process.env.REACT_APP_ENV}</span>
             </div>
             {props.loginInfo ? (
               <div className='relative right-2'>
