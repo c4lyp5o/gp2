@@ -1520,22 +1520,18 @@ export default function Pemeriksaan(props) {
                   )}
                 </article>
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                    Pengurusan Penyakit dan kondisi periodontium serta
-                    peri-implan pergigian
+                  <h4 className='font-bold flex flex-row pl-5'>
+                    BPE & Pencartaan Poket Implan
                   </h4>
                   <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
                     <label
                       htmlFor='punca-rujukan'
                       className='text-left flex justify-start items-center text-sm pl-3'
                     >
-                      pesakit mempunyai rujukan T2DM (
-                      <i> Type II Diabetes Mellitus</i>) ?
-                      <span className='text-user6'>*</span>
+                      Punca Rujukan T2DM (<i> Type II Diabetes Mellitus</i>)
                     </label>
                     <select
                       disabled={isDisabled}
-                      required
                       name='punca-rujukan'
                       id='punca-rujukan'
                       value={props.puncaRujukan}
@@ -1545,234 +1541,204 @@ export default function Pemeriksaan(props) {
                       className='outline outline-1 outline-userBlack w-full text-sm font-m'
                     >
                       <option value=''>Pilih</option>
-                      <option value='klinik-kesihatan'>
-                        Ya Dari Klinik Kesihatan
-                      </option>
-                      <option value='lain-lain'>
-                        Ya Dari Selain Klinik Kesihatan
-                      </option>
+                      <option value='klinik-kesihatan'>Klinik Kesihatan</option>
+                      <option value='lain-lain'>Lain-lain</option>
                       <option value='tiada'>Tiada</option>
                     </select>
                     <label
                       htmlFor='faktor-risiko-bpe'
-                      className='text-left flex justify-start items-start text-sm pl-3'
+                      className='text-left flex justify-start items-center text-sm pl-3'
                     >
-                      Pesakit Mempunyai Faktor Risiko
+                      Faktor Risiko
                     </label>
                     <div>
-                      <div className='flex flex-col'>
-                        <div className='flex flex-row items-center'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='diabetes-faktor-risiko-bpe'
-                            id='diabetes-faktor-risiko-bpe'
-                            value='diabetes-faktor-risiko-bpe'
-                            checked={
-                              props.diabetesFaktorRisikoBpe ? true : false
-                            }
-                            onChange={() => {
-                              props.setDiabetesFaktorRisikoBpe(
-                                !props.diabetesFaktorRisikoBpe
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='diabetes-faktor-risiko-bpe'
-                            className='m-1 text-sm font-m'
-                          >
-                            Diabetes
-                          </label>
-                        </div>
-                        <div className='flex flex-row items-center'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='perokok-faktor-risiko-bpe'
-                            id='perokok-faktor-risiko-bpe'
-                            value='perokok-faktor-risiko-bpe'
-                            checked={
-                              props.perokokFaktorRisikoBpe ? true : false
-                            }
-                            onChange={() => {
-                              props.setPerokokFaktorRisikoBpe(
-                                !props.perokokFaktorRisikoBpe
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='perokok-faktor-risiko-bpe'
-                            className='m-1 text-sm font-m'
-                          >
-                            Perokok
-                          </label>
-                        </div>
-                        <div className='flex flex-row items-center'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='lain-lain-faktor-risiko-bpe'
-                            id='lain-lain-faktor-risiko-bpe'
-                            value='lain-lain-faktor-risiko-bpe'
-                            checked={
-                              props.lainLainFaktorRisikoBpe ? true : false
-                            }
-                            onChange={() => {
-                              props.setLainLainFaktorRisikoBpe(
-                                !props.lainLainFaktorRisikoBpe
-                              );
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='lain-lain-faktor-risiko-bpe'
-                            className='m-1 text-sm font-m'
-                          >
-                            Lain-lain
-                            <FaInfoCircle
-                              className='ml-2 text-xl text-userBlack inline-flex'
-                              title='contohnya seperti hormone-related (Eg: pregnancy), penyakit kardiovaskular, penyakit respiratori seperti pneumonia, stres, osteoporosis, rheumatoid arthritis, obesiti, dementia dan chronic kidney disease.'
-                            />
-                          </label>
-                        </div>
-                      </div>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='diabetes-faktor-risiko-bpe'
+                        id='diabetes-faktor-risiko-bpe'
+                        value='diabetes-faktor-risiko-bpe'
+                        checked={props.diabetesFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setDiabetesFaktorRisikoBpe(
+                            !props.diabetesFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='diabetes-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Diabetes
+                      </label>
+
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='perokok-faktor-risiko-bpe'
+                        id='perokok-faktor-risiko-bpe'
+                        value='perokok-faktor-risiko-bpe'
+                        checked={props.perokokFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setPerokokFaktorRisikoBpe(
+                            !props.perokokFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='perokok-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Perokok
+                      </label>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='lain-lain-faktor-risiko-bpe'
+                        id='lain-lain-faktor-risiko-bpe'
+                        value='lain-lain-faktor-risiko-bpe'
+                        checked={props.lainLainFaktorRisikoBpe ? true : false}
+                        onChange={() => {
+                          props.setLainLainFaktorRisikoBpe(
+                            !props.lainLainFaktorRisikoBpe
+                          );
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='lain-lain-faktor-risiko-bpe'
+                        className='m-2 text-sm font-m'
+                      >
+                        Lain-lain
+                      </label>
                     </div>
                   </article>
-                  <div className='flex items-center justify-start pl-3'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='enggan-bpe-implan'
-                      id='enggan-bpe-implan'
-                      value='enggan-bpe-implan'
-                      checked={props.engganBpeImplan ? true : false}
-                      onChange={() => {
-                        props.setEngganBpeImplan(!props.engganBpeImplan);
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
+                  <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
                     <label
-                      htmlFor='enggan-bpe-implan'
+                      htmlFor='saringan-penyakit-periodontium-dan-peri-implan'
                       className='text-left flex justify-start items-center text-sm pl-3'
                     >
-                      Enggan Disaring BPE
+                      Saringan Penyakit Periodontium Dan Peri Implan
                     </label>
-                  </div>
-                  {props.engganBpeImplan === false ? (
-                    <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
-                      <label
-                        htmlFor='saringan-penyakit-periodontium-dan-peri-implan'
-                        className='text-left flex justify-start items-center text-sm pl-3 col-span-2'
-                      >
-                        Saringan Penyakit Periodontium Dan Peri Implan
-                      </label>
-                      <div
-                        className={`${
-                          props.singlePersonUmum.umur <= 15 && 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <p className='text-sm font-m'>
-                          Skor BPE:
-                          <span className='text-user6'>*</span>
-                        </p>
-                        <select
-                          disabled={isDisabled}
-                          required={
-                            props.singlePersonUmum.umur <= 15 ? false : true
-                          }
-                          name='skor-bpe-pemeriksaan-umum'
-                          id='skor-bpe-pemeriksaan-umum'
-                          value={props.skorBpeOralHygienePemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setSkorBpeOralHygienePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                        >
-                          <option value=''></option>
-                          <option value='tiada'>-</option>
-                          <option value='0'>0</option>
-                          <option value='1'>1</option>
-                          <option value='2'>2</option>
-                          <option value='3'>3</option>
-                          <option value='4'>4</option>
-                        </select>
-                        <FaInfoCircle
-                          title='Tanda (-) jika tidak berkenaan'
-                          className='text-lg m-1'
-                        />
-                      </div>
-                      <div className='flex items-center justify-start pl-3 col-span-2'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='peri-implant-mucositis'
-                          id='peri-implant-mucositis'
-                          value='peri-implant-mucositis'
-                          checked={props.periImplantMucositis ? true : false}
-                          onChange={() => {
-                            props.setPeriImplantMucositis(
-                              !props.periImplantMucositis
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='peri-implant-mucositis'
-                          className='text-left flex justify-start items-center text-sm pl-3'
-                        >
-                          <i>Peri-Implant Mucositis {` < `} 6mm </i>
-                        </label>
-                      </div>
-                      <div className='flex items-center justify-start pl-3 col-span-2'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='peri-implantitis'
-                          id='peri-implantitis'
-                          value='peri-implantitis'
-                          checked={props.periImplantitis ? true : false}
-                          onChange={() => {
-                            props.setPeriImplantitis(!props.periImplantitis);
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='peri-implantitis'
-                          className='text-left flex justify-start items-center text-sm pl-3'
-                        >
-                          <i>Peri-Implantitis ≥ 6mm</i>
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
-                  {/* <div className='flex items-center justify-start pl-3 col-span-2'>
-                    <input
-                      disabled={isDisabled}
-                      type='checkbox'
-                      name='pesakit-mempunyai-implan-pergigian'
-                      id='pesakit-mempunyai-implan-pergigian'
-                      value='pesakit-mempunyai-implan-pergigian'
-                      checked={
-                        props.pesakitMempunyaiImplanPergigian ? true : false
-                      }
-                      onChange={() => {
-                        props.setPesakitMempunyaiImplanPergigian(
-                          !props.pesakitMempunyaiImplanPergigian
-                        );
-                      }}
-                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                    />
-                    <label
-                      htmlFor='pesakit-mempunyai-implan-pergigian'
-                      className='text-left flex justify-start items-center text-sm pl-3'
+                    <div
+                      className={`${
+                        props.singlePersonUmum.umur <= 15 && 'hidden'
+                      } flex items-center flex-row pl-5`}
                     >
-                      Pesakit Mempunyai Implan Pergigian
-                    </label>
-                  </div> */}
+                      <p className='text-sm font-m'>
+                        Skor BPE:
+                        <span className='text-user6'>*</span>
+                      </p>
+                      <select
+                        disabled={isDisabled}
+                        required={
+                          props.singlePersonUmum.umur <= 15 ? false : true
+                        }
+                        name='skor-bpe-pemeriksaan-umum'
+                        id='skor-bpe-pemeriksaan-umum'
+                        value={props.skorBpeOralHygienePemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setSkorBpeOralHygienePemeriksaanUmum(
+                            e.target.value
+                          );
+                        }}
+                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      >
+                        <option value=''></option>
+                        <option value='tiada'>-</option>
+                        <option value='0'>0</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                      </select>
+                      <FaInfoCircle
+                        title='Tanda (-) jika tidak berkenaan'
+                        className='text-lg m-1'
+                      />
+                    </div>
+                  </article>
+                  <label
+                    htmlFor='pesakit-mempunyai-implan-pergigian'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    Pesakit Mempunyai Implan Pergigian
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='pesakit-mempunyai-implan-pergigian'
+                    id='pesakit-mempunyai-implan-pergigian'
+                    value='pesakit-mempunyai-implan-pergigian'
+                    checked={
+                      props.pesakitMempunyaiImplanPergigian ? true : false
+                    }
+                    onChange={() => {
+                      props.setPesakitMempunyaiImplanPergigian(
+                        !props.pesakitMempunyaiImplanPergigian
+                      );
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 mr-6'
+                  />
+                  <label
+                    htmlFor='peri-implantitis'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    Peri-Implantitis ≥ 6mm
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='peri-implantitis'
+                    id='peri-implantitis'
+                    value='peri-implantitis'
+                    checked={props.periImplantitis ? true : false}
+                    onChange={() => {
+                      props.setPeriImplantitis(!props.periImplantitis);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='peri-implant-mucositis'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    <i>Peri-Implant Mucositis </i>
+                    {` < `} 6 mm
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='peri-implant-mucositis'
+                    id='peri-implant-mucositis'
+                    value='peri-implant-mucositis'
+                    checked={props.periImplantMucositis ? true : false}
+                    onChange={() => {
+                      props.setPeriImplantMucositis(
+                        !props.periImplantMucositis
+                      );
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
+                  <label
+                    htmlFor='enggan-bpe-implan'
+                    className='text-left flex justify-start items-center text-sm pl-3'
+                  >
+                    enggan
+                  </label>
+                  <input
+                    disabled={isDisabled}
+                    type='checkbox'
+                    name='enggan-bpe-implan'
+                    id='enggan-bpe-implan'
+                    value='enggan-bpe-implan'
+                    checked={props.engganBpeImplan ? true : false}
+                    onChange={() => {
+                      props.setEngganBpeImplan(!props.engganBpeImplan);
+                    }}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                  />
                 </article>
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-semibold flex flex-row pl-3'>
