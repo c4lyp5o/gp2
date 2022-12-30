@@ -303,23 +303,23 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    engganBpeImplan: {
+      type: Boolean,
+      default: false,
+    },
     skorBpeOralHygienePemeriksaanUmum: {
       type: String,
       default: '',
     },
-    pesakitMempunyaiImplanPergigian: {
-      type: Boolean,
-      default: false,
-    },
-    periImplantitis: {
-      type: Boolean,
-      default: false,
-    },
+    // pesakitMempunyaiImplanPergigian: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     periImplantMucositis: {
       type: Boolean,
       default: false,
     },
-    engganBpeImplan: {
+    periImplantitis: {
       type: Boolean,
       default: false,
     },
@@ -344,10 +344,10 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan ---------------------------------------------------------------------------
-    pesakitDibuatFissureSealant: {
-      type: Boolean,
-      default: false,
-    },
+    // pesakitDibuatFissureSealant: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     baruJumlahGigiKekalDibuatFSRawatanUmum: {
       type: Number,
       min: 0,
@@ -357,10 +357,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    pesakitDibuatPRRJenis1: {
-      type: Boolean,
-      default: false,
-    },
+    // pesakitDibuatPRRJenis1: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
       type: Number,
       min: 0,
@@ -416,6 +416,10 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     kecederaanTisuLembutUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarBedahMulut: {
       type: Boolean,
       default: false,
     },
@@ -558,10 +562,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    kaunselingDiet: {
-      type: Boolean,
-      default: false,
-    },
+    // kaunselingDiet: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     nasihatBerhentiMerokok: {
       type: Boolean,
       default: false,
@@ -570,14 +574,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    ohePengurusanFaktorSetempat: {
-      type: Boolean,
-      default: false,
-    },
-    penskaleranRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
+    // ohePengurusanFaktorSetempat: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     pengilapanTampalanRungkup: {
       type: Boolean,
       default: false,
@@ -595,6 +595,30 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     rawatanLainPeriodontikRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    engganLainRujukanPakarPeriodontik: {
+      type: String,
+      default: '',
+    },
+    rujukanPakarScd: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarUpkka: {
+      type: Boolean,
+      default: false,
+    },
+    kesSelesaiPeriodontium: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarOrtodontik: {
       type: Boolean,
       default: false,
     },
@@ -658,35 +682,11 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    rujukanPakarPeriodontik: {
-      type: String,
-      default: '',
-    },
-    engganLainRujukanPakarPeriodontik: {
-      type: String,
-      default: '',
-    },
-    rujukanPakarScd: {
-      type: Boolean,
-      default: false,
-    },
-    rujukanPakarUpkka: {
-      type: Boolean,
-      default: false,
-    },
-    rujukanPakarOrtodontik: {
-      type: Boolean,
-      default: false,
-    },
-    rujukanPakarBedahMulut: {
+    penskaleranRawatanUmum: {
       type: Boolean,
       default: false,
     },
     kesSelesaiRawatanUmum: {
-      type: Boolean,
-      default: false,
-    },
-    kesSelesaiPeriodontium: {
       type: Boolean,
       default: false,
     },
