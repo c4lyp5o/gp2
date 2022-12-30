@@ -58,7 +58,7 @@ function LandingPage() {
             <h1 className='md:hidden text-base font-semibold'>
               sistem gi-Ret 2.0
             </h1>
-            <span className='text-xs text-user6 font-bold'>
+            <span className='lg:hidden text-xs text-user6 font-bold'>
               {process.env.REACT_APP_ENV}
             </span>
           </div>

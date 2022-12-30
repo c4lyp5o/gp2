@@ -1298,8 +1298,8 @@ export default function FillableForm({
                         <option value='passport'>
                           Passport / MyPR / MyKAS / UNHCR
                         </option>
-                        <option value='tentera'>Tentera</option>
-                        <option value='polis'>Polis</option>
+                        {/* <option value='tentera'>Tentera</option>
+                        <option value='polis'>Polis</option> */}
                         <option value='sijil-lahir'>Sijil lahir</option>
                         <option value='birth-of'>
                           <i>Baby Of</i>
