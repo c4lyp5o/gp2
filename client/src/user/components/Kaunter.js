@@ -166,6 +166,7 @@ function Kaunter({
             fetchProgramData={fetchProgramData}
             setFetchProgramData={setFetchProgramData}
             kp={createdByKp}
+            negeri={createdByNegeri}
           />
         ) : null}
       </div>
