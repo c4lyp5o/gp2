@@ -323,13 +323,11 @@ export default function UserCarian() {
                 <th className={`px-2 py-1 outline outline-1 outline-offset-1`}>
                   STATUS PENGISIAN RETEN
                 </th>
-                {userinfo.role === 'admin' ? (
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 w-80`}
-                  >
-                    TINDAKAN
-                  </th>
-                ) : null}
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-80`}
+                >
+                  TINDAKAN
+                </th>
               </tr>
             </thead>
             {!isLoading &&
@@ -537,11 +535,9 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
-                  {userinfo.role === 'admin' ? (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                    </td>
-                  ) : null}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -580,11 +576,9 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
-                  {userinfo.role === 'admin' ? (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                    </td>
-                  ) : null}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -623,11 +617,9 @@ export default function UserCarian() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
-                  {userinfo.role === 'admin' ? (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                    </td>
-                  ) : null}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
                 </tr>
               </tbody>
             )}
