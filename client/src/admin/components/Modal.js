@@ -223,6 +223,11 @@ const AddModal = ({
         if (FType === 'taska' || FType === 'tadika') {
           toast.error(res.response.data.message);
           return;
+        } else {
+          if (FType === 'kpb' || FType === 'mpb') {
+            toast.error(res.response.data.message);
+            return;
+          }
         }
         toast.error(`Data tidak berjaya ditambah`);
       }

@@ -725,7 +725,9 @@ const getData = async (req, res) => {
             theType !== 'followers' &&
             theType !== 'program' &&
             theType !== 'taska' &&
-            theType !== 'tadika'
+            theType !== 'tadika' &&
+            theType !== 'kp-bergerak' &&
+            theType !== 'makmal-pergigian'
           ) {
             Data = {
               ...Data,
@@ -735,25 +737,6 @@ const getData = async (req, res) => {
             };
             const data = await Fasiliti.create(Data);
             res.status(200).json(data);
-          }
-          if (theType === 'taska' || theType === 'tadika') {
-            const exists = await Fasiliti.findOne({
-              kodTastad: Data.kodTastad,
-            });
-            if (exists) {
-              return res.status(400).json({
-                message: 'Taska/tadika telah wujud',
-              });
-            } else {
-              Data = {
-                ...Data,
-                jenisFasiliti: theType,
-                createdByDaerah: daerah,
-                createdByNegeri: negeri,
-              };
-              const data = await Fasiliti.create(Data);
-              res.status(200).json(data);
-            }
           }
           if (theType === 'pegawai') {
             const exists = await Operator.findOne({
@@ -868,6 +851,44 @@ const getData = async (req, res) => {
               }
             });
             return res.status(200).json(data);
+          }
+          if (theType === 'taska' || theType === 'tadika') {
+            const exists = await Fasiliti.findOne({
+              kodTastad: Data.kodTastad,
+            });
+            if (exists) {
+              return res.status(400).json({
+                message: 'Taska/Tadika telah wujud',
+              });
+            } else {
+              Data = {
+                ...Data,
+                jenisFasiliti: theType,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const data = await Fasiliti.create(Data);
+              res.status(200).json(data);
+            }
+          }
+          if (theType === 'kp-bergerak' || theType === 'makmal-pergigian') {
+            const exists = await Fasiliti.findOne({
+              nama: Data.nama,
+            });
+            if (exists) {
+              return res.status(400).json({
+                message: 'KPB/MPB telah wujud',
+              });
+            } else {
+              Data = {
+                ...Data,
+                jenisFasiliti: theType,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const data = await Fasiliti.create(Data);
+              res.status(200).json(data);
+            }
           }
           if (theType === 'sosmed') {
             let owner = '';
