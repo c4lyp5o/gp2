@@ -128,7 +128,7 @@ function KaunterAfterLogin() {
                 setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -141,7 +141,7 @@ function KaunterAfterLogin() {
                 setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -154,7 +154,7 @@ function KaunterAfterLogin() {
                 setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -167,7 +167,7 @@ function KaunterAfterLogin() {
                 setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -190,7 +190,7 @@ function KaunterAfterLogin() {
                 setRefreshTimer={setRefreshTimer}
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -201,7 +201,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='orang-asli'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -212,7 +212,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='ppr'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -223,7 +223,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='institusi-warga-emas'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -234,7 +234,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='institusi-oku'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           />
@@ -245,7 +245,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='kampung-angkat'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           /> */}
@@ -256,7 +256,7 @@ function KaunterAfterLogin() {
                 jenisFasiliti='rtc-kelantan'
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
-                setCreatedByNegeri={createdByNegeri}
+                createdByNegeri={createdByNegeri}
               />
             }
           /> */}
