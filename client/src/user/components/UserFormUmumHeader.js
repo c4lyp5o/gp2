@@ -266,6 +266,14 @@ function UserFormUmumHeader() {
   masterForm.xAdaGigiDesidusPemeriksaanUmum = xAdaGigiDesidusPemeriksaanUmum;
   masterForm.setXAdaGigiDesidusPemeriksaanUmum =
     setXAdaGigiDesidusPemeriksaanUmum;
+  const [
+    tampalanSementaraDesidusPemeriksaanUmum,
+    setTampalanSementaraDesidusPemeriksaanUmum,
+  ] = useState(false);
+  masterForm.tampalanSementaraDesidusPemeriksaanUmum =
+    tampalanSementaraDesidusPemeriksaanUmum;
+  masterForm.setTampalanSementaraDesidusPemeriksaanUmum =
+    setTampalanSementaraDesidusPemeriksaanUmum;
   const [sumDMFXDesidusUmum, setSumDMFXDesidusUmum] = useState(0);
   masterForm.sumDMFXDesidusUmum = sumDMFXDesidusUmum;
   const [adaKekalPemeriksaanUmum, setAdaKekalPemeriksaanUmum] = useState(false);
@@ -1279,6 +1287,9 @@ function UserFormUmumHeader() {
         setXAdaGigiDesidusPemeriksaanUmum(
           data.singlePersonUmum.xAdaGigiDesidusPemeriksaanUmum
         );
+        setTampalanSementaraDesidusPemeriksaanUmum(
+          data.singlePersonUmum.tampalanSementaraDesidusPemeriksaanUmum
+        );
         setAdaKekalPemeriksaanUmum(
           data.singlePersonUmum.adaKekalPemeriksaanUmum
         );
@@ -1797,6 +1808,7 @@ function UserFormUmumHeader() {
               dAdaGigiDesidusPemeriksaanUmum,
               fAdaGigiDesidusPemeriksaanUmum,
               xAdaGigiDesidusPemeriksaanUmum,
+              tampalanSementaraDesidusPemeriksaanUmum,
               adaKekalPemeriksaanUmum,
               dAdaGigiKekalPemeriksaanUmum,
               mAdaGigiKekalPemeriksaanUmum,
