@@ -17,6 +17,7 @@ const optionsRawatan = [
   { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
   { value: 'endodontik-selesai', label: 'Kes Endodontik Selesai' },
   { value: 'penskaleran', label: 'Penskaleran' },
+  { value: 'rujukan', label: 'Rujukan' },
 ];
 
 export default function Rawatan(props) {
@@ -154,7 +155,7 @@ export default function Rawatan(props) {
                       title='Fluoride Varnish'
                     >
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Sapuan Florida
+                        Sapuan Flourida
                       </h4>
                       <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                         <input
@@ -172,7 +173,7 @@ export default function Rawatan(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
                         <label className='mx-2 text-sm font-m'>
-                          Pesakit diberi Sapuan Florida
+                          Pesakit diberi Sapuan Flourida
                         </label>
                       </div>
                     </article>
@@ -518,27 +519,6 @@ export default function Rawatan(props) {
                           </div>
                         </article>
                       ) : null}
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='rujukan-pakar-bedah-mulut'
-                          id='rujukan-pakar-bedah-mulut'
-                          checked={props.rujukanPakarBedahMulut ? true : false}
-                          onChange={() => {
-                            props.setRujukanPakarBedahMulut(
-                              !props.rujukanPakarBedahMulut
-                            );
-                          }}
-                          className='w-4 h-4 rounded flex items-center'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-bedah-mulut'
-                          className='text-left flex justify-start items-center text-sm pl-5'
-                        >
-                          Rujukan Ke Pakar bedah mulut
-                        </label>
-                      </div>
                     </article>
                   ) : null}
                   {/* akan digunakan masa depan */}
@@ -1717,27 +1697,6 @@ export default function Rawatan(props) {
                         <input
                           disabled={isDisabled}
                           type='checkbox'
-                          name='rujukan-pakar-ortodontik'
-                          id='rujukan-pakar-ortodontik'
-                          checked={props.rujukanPakarOrtodontik ? true : false}
-                          onChange={() => {
-                            props.setRujukanPakarOrtodontik(
-                              !props.rujukanPakarOrtodontik
-                            );
-                          }}
-                          className='w-4 h-4 rounded flex items-center'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-ortodontik'
-                          className='text-left flex justify-start items-center text-sm pl-3'
-                        >
-                          Rujukan Ke Pakar ortodontik
-                        </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
                           name='kes-perubatan-mulut-rawatan-umum'
                           id='kes-perubatan-mulut-rawatan-umum'
                           checked={
@@ -1755,6 +1714,27 @@ export default function Rawatan(props) {
                           className='mx-2 text-sm font-m'
                         >
                           kes perubatan mulut
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rawatan-lain-periodontik-rawatan-umum'
+                          id='rawatan-lain-periodontik-rawatan-umum'
+                          checked={props.rawatanLainPeriodontik ? true : false}
+                          onChange={() => {
+                            props.setRawatanLainPeriodontik(
+                              !props.rawatanLainPeriodontik
+                            );
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
+                          className='mx-2 text-sm font-m'
+                        >
+                          rawatan lain periodontik
                         </label>
                       </div>
                     </article>
@@ -2082,6 +2062,104 @@ export default function Rawatan(props) {
                           className='flex items-center text-sm pl-3'
                         >
                           Penskaleran
+                        </label>
+                      </div>
+                    </article>
+                  ) : null}
+                  {pilihanRawatan.includes('rujukan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-[2fr_1fr] gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2 py-2'>
+                        Rujukan
+                      </h4>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rujukan-pakar-ortodontik'
+                          id='rujukan-pakar-ortodontik'
+                          checked={props.rujukanPakarOrtodontik ? true : false}
+                          onChange={() => {
+                            props.setRujukanPakarOrtodontik(
+                              !props.rujukanPakarOrtodontik
+                            );
+                          }}
+                          className='w-4 h-4 rounded flex items-center'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-ortodontik'
+                          className='text-left flex justify-start items-center text-sm pl-3'
+                        >
+                          Rujukan Ke Pakar ortodontik
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rujukan-pakar-patologi-mulut-dan-perubatan-mulut'
+                          id='rujukan-pakar-patologi-mulut-dan-perubatan-mulut'
+                          checked={
+                            props.rujukanPakarPatologiMulutDanPerubatanMulut
+                              ? true
+                              : false
+                          }
+                          onChange={() => {
+                            props.setRujukanPakarPatologiMulutDanPerubatanMulut(
+                              !props.rujukanPakarPatologiMulutDanPerubatanMulut
+                            );
+                          }}
+                          className='w-4 h-4 rounded flex items-center'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-patologi-mulut-dan-perubatan-mulut'
+                          className='text-left flex justify-start items-center text-sm pl-5'
+                        >
+                          Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rujukan-pakar-bedah-mulut'
+                          id='rujukan-pakar-bedah-mulut'
+                          checked={props.rujukanPakarBedahMulut ? true : false}
+                          onChange={() => {
+                            props.setRujukanPakarBedahMulut(
+                              !props.rujukanPakarBedahMulut
+                            );
+                          }}
+                          className='w-4 h-4 rounded flex items-center'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-bedah-mulut'
+                          className='text-left flex justify-start items-center text-sm pl-5'
+                        >
+                          Rujukan Ke Pakar bedah mulut dan maksilofasial
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rujukan-pakar-pergigian-pediatrik'
+                          id='rujukan-pakar-pergigian-pediatrik'
+                          checked={
+                            props.rujukanPakarPergigianPediatrik ? true : false
+                          }
+                          onChange={() => {
+                            props.setRujukanPakarPergigianPediatrik(
+                              !props.rujukanPakarPergigianPediatrik
+                            );
+                          }}
+                          className='w-4 h-4 rounded flex items-center'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-pergigian-pediatrik'
+                          className='text-left flex justify-start items-center text-sm pl-5'
+                        >
+                          Rujukan Ke Pakar Pergigian Pediatrik
                         </label>
                       </div>
                     </article>

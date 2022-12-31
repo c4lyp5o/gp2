@@ -82,6 +82,7 @@ export default function FillableForm({
   const [statusPesara, setStatusPesara] = useState('');
   const [noPesara, setNoPesara] = useState('');
   const [rujukDaripada, setRujukDaripada] = useState('');
+  const [gtod, setGtod] = useState(false);
   const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
   const [noBayaran, setNoBayaran] = useState('');
   const [noResit, setNoResit] = useState('');
@@ -540,6 +541,7 @@ export default function FillableForm({
               statusPesara,
               noPesara,
               rujukDaripada,
+              gtod,
               kakitanganKerajaan,
               noBayaran,
               noResit,
@@ -646,6 +648,7 @@ export default function FillableForm({
               statusPesara,
               noPesara,
               rujukDaripada,
+              gtod,
               kakitanganKerajaan,
               noBayaran,
               noResit,
@@ -747,6 +750,7 @@ export default function FillableForm({
     setStatusPesara('');
     setNoPesara('');
     setRujukDaripada('');
+    setGtod(false);
     setKakitanganKerajaan(false);
     setNoBayaran('');
     setNoResit('');
@@ -986,6 +990,7 @@ export default function FillableForm({
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setNoPesara(data.singlePersonKaunter.noPesara);
           setRujukDaripada(data.singlePersonKaunter.rujukDaripada);
+          setGtod(data.singlePersonKaunter.gtod);
           setKakitanganKerajaan(data.singlePersonKaunter.kakitanganKerajaan);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
@@ -2119,6 +2124,33 @@ export default function FillableForm({
                     <span>
                       <FaCaretSquareDown className='absolute top-3 right-2 text-kaunter3' />
                     </span>
+                    {(rujukDaripada === 'lain-lain' ||
+                      rujukDaripada === 'swasta') &&
+                      umur <= 4 && (
+                        <div className='flex items-center flex-row pl-2 md:pl-5'>
+                          <input
+                            type='checkbox'
+                            name='gtod'
+                            id='gtod'
+                            value='gtod'
+                            checked={gtod}
+                            onChange={() => {
+                              setGtod(!gtod);
+                              setConfirmData({
+                                ...confirmData,
+                                gtod: !gtod,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 mr-1 md:mr-0'
+                          />
+                          <label
+                            htmlFor='gtod'
+                            className='md:m-2 text-sm font-m'
+                          >
+                            G-Tod
+                          </label>
+                        </div>
+                      )}
                   </div>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
