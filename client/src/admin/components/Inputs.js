@@ -3725,7 +3725,10 @@ export function InputKpEditKPBMPB(props) {
                 <p className='capitalize'>{props.editedEntity.nama}</p>{' '}
               </p>
               <div className='grid grid-gap-1'>
-                <p>Tarikh Beroperasi: </p>
+                <p>
+                  Tarikh Beroperasi:{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
                 {/* <input
                   type='text'
                   className='border-2'
@@ -3741,8 +3744,10 @@ export function InputKpEditKPBMPB(props) {
                     });
                   }}
                 /> */}
-                <StartDate {...props} />
-                <EndDate {...props} />
+                <div className='flex flex-row justify-center items-center px-5'>
+                  <StartDate {...props} />
+                  <EndDate {...props} />
+                </div>
               </div>
               {/* <div className='grid grid-gap-1'>
                 <p>Jumlah Pesakit Baru: </p>
@@ -3792,7 +3797,6 @@ export function InputKpEditKPBMPB(props) {
                     const selectedKlinik = props.allKlinik.find(
                       (k) => k.kodFasiliti === e.target.value
                     );
-                    console.log(selectedKlinik);
                     props.setEditedEntity({
                       ...props.editedEntity,
                       handler: selectedKlinik.kp,
