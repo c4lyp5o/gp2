@@ -56,6 +56,7 @@ const UmumSchema = new mongoose.Schema(
     statusPesara: { type: String, default: '' },
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    gtod: { type: Boolean, default: false },
     kakitanganKerajaan: { type: Boolean, default: false },
     noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
