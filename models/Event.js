@@ -56,7 +56,23 @@ const EventSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  penggunaanKpb2: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  penggunaanKpb3: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   penggunaanMpb: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  penggunaanMpb2: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  penggunaanMpb3: {
     type: String,
     default: 'NOT APPLICABLE',
   },
