@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa';
 
 function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);

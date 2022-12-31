@@ -19,7 +19,7 @@ const StartDate = (props) => {
       props.setStartDateDP(date);
       props.setEditedEntity({ ...props.editedEntity, tarikhStart: tempDate });
     },
-    className: 'border-2 w-full mb-2',
+    className: 'border-2 w-28 mr-2',
   });
 };
 
@@ -37,7 +37,7 @@ const EndDate = (props) => {
       props.setEndDateDP(date);
       props.setEditedEntity({ ...props.editedEntity, tarikhEnd: tempDate });
     },
-    className: 'border-2 w-full',
+    className: 'border-2 w-28 mr-2',
   });
 };
 
@@ -792,13 +792,20 @@ export function InputFacility(props) {
                         APDM Tidak Aktif
                       </span>
                     ))}
-                  {props.FType === 'kpb' || props.FType === 'mp' ? (
-                    <div>
-                      Nombor plat {Dictionary[props.FType]}{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </div>
+                  {props.FType === 'kpb' || props.FType === 'mpb' ? (
+                    <>
+                      <div>
+                        <span className='font-bold uppercase'>Nombor plat</span>{' '}
+                        {Dictionary[props.FType]}{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </div>
+                      <div className='text-user9 text-lg font-semibold uppercase'>
+                        Pastikan diisi dengan huruf besar & jarak{' '}
+                        <i className='mr-1'>space</i> yang betul
+                      </div>
+                    </>
                   ) : (
                     <div>
                       <p>
@@ -843,6 +850,35 @@ export function InputFacility(props) {
                     </div>
                   )}
                 </div>
+                {(props.FType === 'kpb' || props.FType === 'mpb') && (
+                  <>
+                    <div>
+                      <span className='font-bold uppercase'>Jenis</span>{' '}
+                      {Dictionary[props.FType]}{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                      <p>
+                        Contoh:{' '}
+                        <span className='font-bold'>
+                          Lori Trak, Caravan, Van, Treler, Bas, Coaster
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1 mb-3'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) =>
+                          props.setSubJenisKPBMPB(e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                )}
                 {props.FType === 'taska' || props.FType === 'tadika' ? (
                   <>
                     <div>
@@ -944,7 +980,7 @@ export function InputFacility(props) {
                   Status {Dictionary[props.FType]}{' '}
                   <span className='font-semibold text-lg text-user6'>*</span>
                 </p>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 mb-3'>
                   <label htmlFor='nama'>Aktif</label>
                   <input
                     required
@@ -2635,7 +2671,11 @@ export function InputKpEditFacility(props) {
 export function InputKpEditEvent(props) {
   const { Dictionary, readDataForKp } = useGlobalAdminAppContext();
   const [showKpb, setShowKpb] = useState(false);
+  const [showKpb2, setShowKpb2] = useState(false);
+  const [showKpb3, setShowKpb3] = useState(false);
   const [showMpb, setShowMpb] = useState(false);
+  const [showMpb2, setShowMpb2] = useState(false);
+  const [showMpb3, setShowMpb3] = useState(false);
   const [kpb, setKpb] = useState([]);
   const [mpb, setMpb] = useState([]);
 
@@ -2657,6 +2697,7 @@ export function InputKpEditEvent(props) {
       setShowMpb(false);
     };
   }, []);
+
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2682,7 +2723,7 @@ export function InputKpEditEvent(props) {
                   <div className='grid gap-1 font-bold mb-1'>
                     {Dictionary[props.editedEntity.jenisEvent]}
                   </div>
-                  <p>
+                  <p className='font-semibold'>
                     Tarikh Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
@@ -2694,10 +2735,18 @@ export function InputKpEditEvent(props) {
                       id='tarikh'
                       value={props.editedEntity.tarikh}
                     /> */}
-                  <StartDate {...props} />
-                  <EndDate {...props} />
-                  <div className='grid gap-1'>
-                    {/* <input
+                  <div className='flex flex-row justify-center items-center px-5'>
+                    <p className='whitespace-nowrap text-xs text-right'>
+                      tarikh mula :
+                    </p>
+                    <StartDate {...props} />
+                    <p className='whitespace-nowrap text-xs text-right'>
+                      tarikh akhir :
+                    </p>
+                    <EndDate {...props} />
+                  </div>
+                  {/* <div className='grid gap-1'> */}
+                  {/* <input
                       disabled={true}
                       type='text'
                       name='jenisEvent'
@@ -2706,7 +2755,7 @@ export function InputKpEditEvent(props) {
                       className='border-2 w-full overflow-x-hidden'
                       value={Dictionary[props.editedEntity.jenisEvent]}
                     /> */}
-                    {/* <select
+                  {/* <select
                         disabled={true}
                         readOnly
                         className='border-2 w-full overflow-x-hidden'
@@ -2734,7 +2783,7 @@ export function InputKpEditEvent(props) {
                           program pergigian sekolah sesi 2022/2023
                         </option>
                       </select> */}
-                  </div>
+                  {/* </div> */}
                   {props.editedEntity.jenisEvent === 'programDewasaMuda' ||
                   props.editedEntity.jenisEvent === 'we' ||
                   props.editedEntity.jenisEvent === 'oku' ? (
@@ -2768,104 +2817,282 @@ export function InputKpEditEvent(props) {
                   <p className='mt-3 font-semibold'>
                     Mod Penyampaian Perkhidmatan
                   </p>
-                  <div className='grid grid-cols-3 gap-1'>
-                    <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='mod'
-                      value='ppb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'ppb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                      }}
-                    />
-                    <div />
-                    <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='mod'
-                      value='kpb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'kpb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                        setShowKpb(!showKpb);
-                      }}
-                    />
-                    {showKpb ? (
-                      <div className='grid gap-1'>
-                        <select
-                          name='kpb'
-                          id='kpb'
-                          className='border-2'
-                          value={props.editedEntity.penggunaanKpb}
+                  <div className='w-full'>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modPpb'>
+                          Pasukan Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='mod'
+                          value='ppb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'ppb'
+                                )
+                              : false
+                          }
                           onChange={(e) => {
-                            props.setEditedEntity({
-                              ...props.editedEntity,
-                              penggunaanKpb: e.target.value,
-                            });
+                            props.eventModeChecker(e.target.value);
                           }}
-                        >
-                          <option value=''>Pilih KPB</option>
-                          {kpb.map((item) => (
-                            <option value={item.nama}>{item.nama}</option>
-                          ))}
-                        </select>
+                          className='w-5 h-5'
+                        />
                       </div>
-                    ) : (
-                      <div />
-                    )}
-                    <label htmlFor='modMpb'>Makmal Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='modMpb'
-                      value='mpb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'mpb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                        setShowMpb(!showMpb);
-                      }}
-                    />
-                    {showMpb ? (
-                      <div className='grid gap-1'>
-                        <select
-                          name='mpb'
-                          id='mpb'
-                          className='border-2'
-                          value={props.editedEntity.penggunaanMpb}
+                    </div>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modKpb'>
+                          Klinik Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='mod'
+                          value='kpb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'kpb'
+                                )
+                              : false
+                          }
                           onChange={(e) => {
-                            props.setEditedEntity({
-                              ...props.editedEntity,
-                              penggunaanMpb: e.target.value,
-                            });
+                            props.eventModeChecker(e.target.value);
+                            setShowKpb(!showKpb);
                           }}
-                        >
-                          <option value=''>Pilih MPB</option>
-                          {mpb.map((item) => (
-                            <option value={item.nama}>{item.nama}</option>
-                          ))}
-                        </select>
+                          className='w-5 h-5'
+                        />
                       </div>
-                    ) : (
-                      <div />
-                    )}
+                      {showKpb ? (
+                        <div className='grid gap-1 w-full'>
+                          <div className='flex flex-row'>
+                            <select
+                              name='kpb'
+                              id='kpb'
+                              className='border-2 w-48 mr-1'
+                              value={props.editedEntity.penggunaanKpb}
+                              onChange={(e) => {
+                                props.setEditedEntity({
+                                  ...props.editedEntity,
+                                  penggunaanKpb: e.target.value,
+                                });
+                              }}
+                            >
+                              <option value=''>Pilih KPB</option>
+                              {kpb.map((item) => (
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
+                              ))}
+                            </select>
+                            {showKpb3 === false ? (
+                              <span
+                                className={` ${
+                                  showKpb2 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowKpb2(!showKpb2);
+                                }}
+                              >
+                                {showKpb2 ? '-' : '+'}
+                              </span>
+                            ) : (
+                              <span className='px-2.5 py-1 bg-admin4 font-bold text-userWhite text-xs rounded-full'>
+                                -
+                              </span>
+                            )}
+                          </div>
+                          {showKpb2 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='kpb2'
+                                id='kpb2'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanKpb2}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanKpb2: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih KPB</option>
+                                {kpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                              <span
+                                className={` ${
+                                  showKpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowKpb3(!showKpb3);
+                                }}
+                              >
+                                {showKpb3 ? '-' : '+'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {showKpb3 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='kpb3'
+                                id='kpb3'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanKpb3}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanKpb3: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih KPB</option>
+                                {kpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modMpb'>
+                          Makmal Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='modMpb'
+                          value='mpb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'mpb'
+                                )
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.eventModeChecker(e.target.value);
+                            setShowMpb(!showMpb);
+                          }}
+                          className='w-5 h-5'
+                        />
+                      </div>
+                      {showMpb ? (
+                        <div className='grid gap-1 w-full'>
+                          <div className='flex flex-row'>
+                            <select
+                              name='mpb'
+                              id='mpb'
+                              className='border-2 w-48 mr-1'
+                              value={props.editedEntity.penggunaanMpb}
+                              onChange={(e) => {
+                                props.setEditedEntity({
+                                  ...props.editedEntity,
+                                  penggunaanMpb: e.target.value,
+                                });
+                              }}
+                            >
+                              <option value=''>Pilih MPB</option>
+                              {mpb.map((item) => (
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
+                              ))}
+                            </select>
+                            {showMpb3 === false ? (
+                              <span
+                                className={` ${
+                                  showMpb2 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowMpb2(!showMpb2);
+                                }}
+                              >
+                                {showMpb2 ? '-' : '+'}
+                              </span>
+                            ) : (
+                              <span className='px-2.5 py-1 bg-admin4 font-bold text-userWhite text-xs rounded-full'>
+                                -
+                              </span>
+                            )}
+                          </div>
+                          {showMpb2 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='mpb2'
+                                id='mpb2'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanMpb2}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanMpb2: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih MPB</option>
+                                {mpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                              <span
+                                className={` ${
+                                  showMpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowMpb3(!showMpb3);
+                                }}
+                              >
+                                {showMpb3 ? '-' : '+'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {showMpb3 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='mpb3'
+                                id='mpb3'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanMpb3}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanMpb3: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih MPB</option>
+                                {mpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
                   </div>
                   <div className='grid gap-1'>
                     <p>
@@ -2939,7 +3166,11 @@ export function InputKpEditEvent(props) {
 export function InputKpEditEventFromDaerah(props) {
   const { Dictionary, readDataForKp } = useGlobalAdminAppContext();
   const [showKpb, setShowKpb] = useState(false);
+  const [showKpb2, setShowKpb2] = useState(false);
+  const [showKpb3, setShowKpb3] = useState(false);
   const [showMpb, setShowMpb] = useState(false);
+  const [showMpb2, setShowMpb2] = useState(false);
+  const [showMpb3, setShowMpb3] = useState(false);
   const [kpb, setKpb] = useState([]);
   const [mpb, setMpb] = useState([]);
 
@@ -2961,6 +3192,7 @@ export function InputKpEditEventFromDaerah(props) {
       setShowMpb(false);
     };
   }, []);
+
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2998,10 +3230,18 @@ export function InputKpEditEventFromDaerah(props) {
                       id='tarikh'
                       value={props.editedEntity.tarikh}
                     /> */}
-                  <StartDate {...props} />
-                  <EndDate {...props} />
-                  <div className='grid gap-1'>
-                    {/* <input
+                  <div className='flex flex-row justify-center items-center px-5'>
+                    <p className='whitespace-nowrap text-xs text-right'>
+                      tarikh mula :
+                    </p>
+                    <StartDate {...props} />
+                    <p className='whitespace-nowrap text-xs text-right'>
+                      tarikh akhir :
+                    </p>
+                    <EndDate {...props} />
+                  </div>
+                  {/* <div className='grid gap-1'> */}
+                  {/* <input
                       disabled={true}
                       type='text'
                       name='jenisEvent'
@@ -3010,7 +3250,7 @@ export function InputKpEditEventFromDaerah(props) {
                       className='border-2 w-full overflow-x-hidden'
                       value={Dictionary[props.editedEntity.jenisEvent]}
                     /> */}
-                    {/* <select
+                  {/* <select
                         disabled={true}
                         readOnly
                         className='border-2 w-full overflow-x-hidden'
@@ -3038,7 +3278,7 @@ export function InputKpEditEventFromDaerah(props) {
                           program pergigian sekolah sesi 2022/2023
                         </option>
                       </select> */}
-                  </div>
+                  {/* </div> */}
                   {props.editedEntity.jenisEvent === 'programDewasaMuda' ||
                   props.editedEntity.jenisEvent === 'we' ||
                   props.editedEntity.jenisEvent === 'oku' ? (
@@ -3072,105 +3312,283 @@ export function InputKpEditEventFromDaerah(props) {
                   <p className='mt-3 font-semibold'>
                     Mod Penyampaian Perkhidmatan
                   </p>
-                  <div className='grid grid-cols-3 gap-1'>
-                    <label htmlFor='modPpb'>Pasukan Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='mod'
-                      value='ppb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'ppb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                      }}
-                    />
-                    <div />
-                    <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='mod'
-                      value='kpb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'kpb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                        setShowKpb(!showKpb);
-                      }}
-                    />
-                    {showKpb ? (
-                      <div className='grid gap-1'>
-                        <select
-                          name='kpb'
-                          id='kpb'
-                          className='border-2'
-                          value={props.editedEntity.penggunaanKpb}
+                  <div className='w-full'>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modPpb'>
+                          Pasukan Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='mod'
+                          value='ppb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'ppb'
+                                )
+                              : false
+                          }
                           onChange={(e) => {
-                            props.setEditedEntity({
-                              ...props.editedEntity,
-                              penggunaanKpb: e.target.value,
-                            });
+                            props.eventModeChecker(e.target.value);
                           }}
-                        >
-                          <option value=''>Pilih KPB</option>
-                          {kpb.map((item) => (
-                            <option value={item.nama}>{item.nama}</option>
-                          ))}
-                        </select>
+                          className='w-5 h-5'
+                        />
                       </div>
-                    ) : (
-                      <div />
-                    )}
-                    <label htmlFor='modMpb'>Makmal Pergigian Bergerak</label>
-                    <input
-                      type='checkbox'
-                      name='modMpb'
-                      value='mpb'
-                      checked={
-                        props.editedEntity.modPenyampaianPerkhidmatan
-                          ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
-                              'mpb'
-                            )
-                          : false
-                      }
-                      onChange={(e) => {
-                        props.eventModeChecker(e.target.value);
-                        setShowMpb(!showMpb);
-                      }}
-                    />
-                    {showMpb ? (
-                      <div className='grid gap-1'>
-                        <select
-                          name='mpb'
-                          id='mpb'
-                          className='border-2'
-                          value={props.editedEntity.penggunaanMpb}
+                    </div>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modKpb'>
+                          Klinik Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='mod'
+                          value='kpb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'kpb'
+                                )
+                              : false
+                          }
                           onChange={(e) => {
-                            props.setEditedEntity({
-                              ...props.editedEntity,
-                              penggunaanMpb: e.target.value,
-                            });
+                            props.eventModeChecker(e.target.value);
+                            setShowKpb(!showKpb);
                           }}
-                        >
-                          <option value=''>Pilih MPB</option>
-                          {mpb.map((item) => (
-                            <option value={item.nama}>{item.nama}</option>
-                          ))}
-                        </select>
+                          className='w-5 h-5'
+                        />
                       </div>
-                    ) : (
-                      <div />
-                    )}
-                  </div>
+                      {showKpb ? (
+                        <div className='grid gap-1 w-full'>
+                          <div className='flex flex-row'>
+                            <select
+                              name='kpb'
+                              id='kpb'
+                              className='border-2 w-48 mr-1'
+                              value={props.editedEntity.penggunaanKpb}
+                              onChange={(e) => {
+                                props.setEditedEntity({
+                                  ...props.editedEntity,
+                                  penggunaanKpb: e.target.value,
+                                });
+                              }}
+                            >
+                              <option value=''>Pilih KPB</option>
+                              {kpb.map((item) => (
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
+                              ))}
+                            </select>
+                            {showKpb3 === false ? (
+                              <span
+                                className={` ${
+                                  showKpb2 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowKpb2(!showKpb2);
+                                }}
+                              >
+                                {showKpb2 ? '-' : '+'}
+                              </span>
+                            ) : (
+                              <span className='px-2.5 py-1 bg-admin4 font-bold text-userWhite text-xs rounded-full'>
+                                -
+                              </span>
+                            )}
+                          </div>
+                          {showKpb2 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='kpb2'
+                                id='kpb2'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanKpb2}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanKpb2: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih KPB</option>
+                                {kpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                              <span
+                                className={` ${
+                                  showKpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowKpb3(!showKpb3);
+                                }}
+                              >
+                                {showKpb3 ? '-' : '+'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {showKpb3 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='kpb3'
+                                id='kpb3'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanKpb3}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanKpb3: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih KPB</option>
+                                {kpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+                    <div className='grid grid-cols-2 py-1'>
+                      <div className='grid grid-cols-[3fr_1fr]'>
+                        <label htmlFor='modMpb'>
+                          Makmal Pergigian Bergerak
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='modMpb'
+                          value='mpb'
+                          checked={
+                            props.editedEntity.modPenyampaianPerkhidmatan
+                              ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                  'mpb'
+                                )
+                              : false
+                          }
+                          onChange={(e) => {
+                            props.eventModeChecker(e.target.value);
+                            setShowMpb(!showMpb);
+                          }}
+                          className='w-5 h-5'
+                        />
+                      </div>
+                      {showMpb ? (
+                        <div className='grid gap-1 w-full'>
+                          <div className='flex flex-row'>
+                            <select
+                              name='mpb'
+                              id='mpb'
+                              className='border-2 w-48 mr-1'
+                              value={props.editedEntity.penggunaanMpb}
+                              onChange={(e) => {
+                                props.setEditedEntity({
+                                  ...props.editedEntity,
+                                  penggunaanMpb: e.target.value,
+                                });
+                              }}
+                            >
+                              <option value=''>Pilih MPB</option>
+                              {mpb.map((item) => (
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
+                              ))}
+                            </select>
+                            {showMpb3 === false ? (
+                              <span
+                                className={` ${
+                                  showMpb2 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowMpb2(!showMpb2);
+                                }}
+                              >
+                                {showMpb2 ? '-' : '+'}
+                              </span>
+                            ) : (
+                              <span className='px-2.5 py-1 bg-admin4 font-bold text-userWhite text-xs rounded-full'>
+                                -
+                              </span>
+                            )}
+                          </div>
+                          {showMpb2 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='mpb2'
+                                id='mpb2'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanMpb2}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanMpb2: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih MPB</option>
+                                {mpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                              <span
+                                className={` ${
+                                  showMpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
+                                } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
+                                onClick={() => {
+                                  setShowMpb3(!showMpb3);
+                                }}
+                              >
+                                {showMpb3 ? '-' : '+'}
+                              </span>
+                            </div>
+                          ) : null}
+                          {showMpb3 ? (
+                            <div className='flex flex-row'>
+                              <select
+                                name='mpb3'
+                                id='mpb3'
+                                className='border-2 w-48 mr-1'
+                                value={props.editedEntity.penggunaanMpb3}
+                                onChange={(e) => {
+                                  props.setEditedEntity({
+                                    ...props.editedEntity,
+                                    penggunaanMpb3: e.target.value,
+                                  });
+                                }}
+                              >
+                                <option value=''>Pilih MPB</option>
+                                {mpb.map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+                  </div>{' '}
                   <div className='grid gap-1'>
                     <p>
                       Nama Program Komuniti
@@ -3336,7 +3754,10 @@ export function InputKpEditKPBMPB(props) {
                 <p className='capitalize'>{props.editedEntity.nama}</p>{' '}
               </p>
               <div className='grid grid-gap-1'>
-                <p>Tarikh Beroperasi: </p>
+                <p>
+                  Tarikh Beroperasi:{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
                 {/* <input
                   type='text'
                   className='border-2'
@@ -3352,8 +3773,10 @@ export function InputKpEditKPBMPB(props) {
                     });
                   }}
                 /> */}
-                <StartDate {...props} />
-                <EndDate {...props} />
+                <div className='flex flex-row justify-center items-center px-5'>
+                  <StartDate {...props} />
+                  <EndDate {...props} />
+                </div>
               </div>
               {/* <div className='grid grid-gap-1'>
                 <p>Jumlah Pesakit Baru: </p>
@@ -3403,7 +3826,6 @@ export function InputKpEditKPBMPB(props) {
                     const selectedKlinik = props.allKlinik.find(
                       (k) => k.kodFasiliti === e.target.value
                     );
-                    console.log(selectedKlinik);
                     props.setEditedEntity({
                       ...props.editedEntity,
                       handler: selectedKlinik.kp,

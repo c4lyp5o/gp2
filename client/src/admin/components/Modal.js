@@ -67,6 +67,8 @@ const AddModal = ({
   const [alamatTastad, setAlamatTastad] = useState('');
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
+  // kpb mpb
+  const [subJenisKPBMPB, setSubJenisKPBMPB] = useState('');
   // event
   const [jenisEvent, setJenisEvent] = useState('');
   const [modPenyampaian, setModPenyampaian] = useState([]);
@@ -182,6 +184,16 @@ const AddModal = ({
         risikoSekolahPersis: risiko,
       };
     }
+    if (FType === 'kpb' || FType === 'mpb') {
+      const jenisKPBMPBCapitalized = subJenisKPBMPB
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      Data = {
+        ...Data,
+        subJenisKPBMPB: jenisKPBMPBCapitalized,
+      };
+    }
     if (FType === 'program') {
       Data = {
         nama: name,
@@ -202,11 +214,21 @@ const AddModal = ({
     //     kategoriInstitusi: kategoriInstitusi,
     //   };
     // }
+    // console.log(Data);
     createData(FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
       } else {
+        if (FType === 'taska' || FType === 'tadika') {
+          toast.error(res.response.data.message);
+          return;
+        } else {
+          if (FType === 'kpb' || FType === 'mpb') {
+            toast.error(res.response.data.message);
+            return;
+          }
+        }
         toast.error(`Data tidak berjaya ditambah`);
       }
       setShowAddModal(false);
@@ -215,6 +237,7 @@ const AddModal = ({
   };
 
   useEffect(() => {
+    console.log(FType);
     if (FType === 'sr' || FType === 'sm') {
       pingApdmServer().then((res) => {
         if (res.status === 200) {
@@ -296,6 +319,8 @@ const AddModal = ({
     risiko,
     setGovKe,
     govKe,
+    setSubJenisKPBMPB,
+    subJenisKPBMPB,
     //event
     setJenisEvent,
     jenisEvent,
@@ -578,7 +603,6 @@ const EditModalForKp = ({
   useEffect(() => {
     if (FType === 'kpb' || FType === 'mpb') {
       readDataForKp('kp').then((res) => {
-        console.log(res);
         setAllKlinik(res.data);
       });
     }
@@ -616,7 +640,11 @@ const EditModalForKp = ({
         jenisEvent: editedEntity.jenisEvent,
         enrolmenInstitusi: editedEntity.enrolmenInstitusi,
         penggunaanKpb: editedEntity.penggunaanKpb,
+        penggunaanKpb2: editedEntity.penggunaanKpb2,
+        penggunaanKpb3: editedEntity.penggunaanKpb3,
         penggunaanMpb: editedEntity.penggunaanMpb,
+        penggunaanMpb2: editedEntity.penggunaanMpb2,
+        penggunaanMpb3: editedEntity.penggunaanMpb3,
         modPenyampaianPerkhidmatan: editedEntity.modPenyampaianPerkhidmatan,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
@@ -657,7 +685,6 @@ const EditModalForKp = ({
         tarikhEnd: editedEntity.tarikhEnd,
       };
     }
-    console.log(Data);
     updateDataForKp(FType, id, Data).then(() => {
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);

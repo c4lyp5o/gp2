@@ -440,27 +440,27 @@ export default function Pemeriksaan(props) {
                       </div>
                       {props.singlePersonUmum.umur >= 10 && (
                         <div className='flex flex-row items-center pl-5'>
+                          <p className='text-sm font-m'>
+                            tampalan sementara desidus
+                          </p>
                           <input
                             disabled={isDisabled}
-                            type='checkbox'
+                            required
+                            min='0'
+                            max='20'
+                            type='number'
                             name='tampalan-sementara-desidus-pemeriksaan-umum'
                             id='tampalan-sementara-desidus-pemeriksaan-umum'
-                            checked={
+                            value={
                               props.tampalanSementaraDesidusPemeriksaanUmum
                             }
-                            onChange={() => {
+                            onChange={(e) => {
                               props.setTampalanSementaraDesidusPemeriksaanUmum(
-                                !props.tampalanSementaraDesidusPemeriksaanUmum
+                                e.target.value
                               );
                             }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
-                          <label
-                            htmlFor='tampalan-sementara-desidus-pemeriksaan-umum'
-                            className='m-2 text-sm font-m'
-                          >
-                            tampalan sementara desidus
-                          </label>
                         </div>
                       )}
                     </div>
@@ -565,7 +565,13 @@ export default function Pemeriksaan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-5'>
                         <p className='text-sm font-m '>E: </p>
-                        <span className='text-user6'>*</span>
+                        <span className='text-user6'>
+                          *{' '}
+                          <FaInfoCircle
+                            title='Hanya masukkan E10 , E12 & E13'
+                            className='text-lg m-1'
+                          />
+                        </span>
                         <input
                           disabled={isDisabled}
                           required

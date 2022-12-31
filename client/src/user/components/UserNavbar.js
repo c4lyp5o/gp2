@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
