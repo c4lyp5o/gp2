@@ -67,6 +67,8 @@ const AddModal = ({
   const [alamatTastad, setAlamatTastad] = useState('');
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
+  // kpb mpb
+  const [subJenisKPBMPB, setSubJenisKPBMPB] = useState('');
   // event
   const [jenisEvent, setJenisEvent] = useState('');
   const [modPenyampaian, setModPenyampaian] = useState([]);
@@ -182,6 +184,16 @@ const AddModal = ({
         risikoSekolahPersis: risiko,
       };
     }
+    if (FType === 'kpb' || FType === 'mpb') {
+      const jenisKPBMPBCapitalized = subJenisKPBMPB
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      Data = {
+        ...Data,
+        subJenisKPBMPB: jenisKPBMPBCapitalized,
+      };
+    }
     if (FType === 'program') {
       Data = {
         nama: name,
@@ -202,6 +214,7 @@ const AddModal = ({
     //     kategoriInstitusi: kategoriInstitusi,
     //   };
     // }
+    // console.log(Data);
     createData(FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
@@ -219,6 +232,7 @@ const AddModal = ({
   };
 
   useEffect(() => {
+    console.log(FType);
     if (FType === 'sr' || FType === 'sm') {
       pingApdmServer().then((res) => {
         if (res.status === 200) {
@@ -300,6 +314,8 @@ const AddModal = ({
     risiko,
     setGovKe,
     govKe,
+    setSubJenisKPBMPB,
+    subJenisKPBMPB,
     //event
     setJenisEvent,
     jenisEvent,
