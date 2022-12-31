@@ -81,6 +81,10 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // MPB KPB
+  subJenisKPBMPB: {
+    type: String,
+    default: 'TBA', // nnti kena buat field dekat InputKpEditKPBMPB untuk subJenisKPBMPB, harini (31 Disember 2022) aku buat tak sempat nak test semua. Esok nak run woi 1 Januari 2023
+  },
   penggunaanKPBMPB: {
     type: Array,
     default: [],
