@@ -628,9 +628,6 @@ function UserFormUmumHeader() {
     useState(false);
   masterForm.kecederaanTisuLembutUmum = kecederaanTisuLembutUmum;
   masterForm.setKecederaanTisuLembutUmum = setKecederaanTisuLembutUmum;
-  const [rujukanPakarBedahMulut, setRujukanPakarBedahMulut] = useState(false);
-  masterForm.rujukanPakarBedahMulut = rujukanPakarBedahMulut;
-  masterForm.setRujukanPakarBedahMulut = setRujukanPakarBedahMulut;
   // const [
   //   baruJumlahGigiYangDiberiSdfRawatanUmum,
   //   setBaruJumlahGigiYangDiberiSdfRawatanUmum,
@@ -907,9 +904,6 @@ function UserFormUmumHeader() {
   const [kesSelesaiPeriodontium, setKesSelesaiPeriodontium] = useState(false);
   masterForm.kesSelesaiPeriodontium = kesSelesaiPeriodontium;
   masterForm.setKesSelesaiPeriodontium = setKesSelesaiPeriodontium;
-  const [rujukanPakarOrtodontik, setRujukanPakarOrtodontik] = useState(false);
-  masterForm.rujukanPakarOrtodontik = rujukanPakarOrtodontik;
-  masterForm.setRujukanPakarOrtodontik = setRujukanPakarOrtodontik;
   const [rawatanOrtodontikRawatanUmum, setRawatanOrtodontikRawatanUmum] =
     useState(false);
   masterForm.rawatanOrtodontikRawatanUmum = rawatanOrtodontikRawatanUmum;
@@ -918,6 +912,9 @@ function UserFormUmumHeader() {
     useState(false);
   masterForm.kesPerubatanMulutRawatanUmum = kesPerubatanMulutRawatanUmum;
   masterForm.setKesPerubatanMulutRawatanUmum = setKesPerubatanMulutRawatanUmum;
+  const [rawatanLainPeriodontik, setRawatanLainPeriodontik] = useState(false);
+  masterForm.rawatanLainPeriodontik = rawatanLainPeriodontik;
+  masterForm.setRawatanLainPeriodontik = setRawatanLainPeriodontik;
   const [
     bilanganXrayYangDiambilRawatanUmum,
     setBilanganXrayYangDiambilRawatanUmum,
@@ -1009,6 +1006,25 @@ function UserFormUmumHeader() {
   const [penskaleranRawatanUmum, setPenskaleranRawatanUmum] = useState(false);
   masterForm.penskaleranRawatanUmum = penskaleranRawatanUmum;
   masterForm.setPenskaleranRawatanUmum = setPenskaleranRawatanUmum;
+  const [rujukanPakarOrtodontik, setRujukanPakarOrtodontik] = useState(false);
+  masterForm.rujukanPakarOrtodontik = rujukanPakarOrtodontik;
+  masterForm.setRujukanPakarOrtodontik = setRujukanPakarOrtodontik;
+  const [
+    rujukanPakarPatologiMulutDanPerubatanMulut,
+    setRujukanPakarPatologiMulutDanPerubatanMulut,
+  ] = useState(false);
+  masterForm.rujukanPakarPatologiMulutDanPerubatanMulut =
+    rujukanPakarPatologiMulutDanPerubatanMulut;
+  masterForm.setRujukanPakarPatologiMulutDanPerubatanMulut =
+    setRujukanPakarPatologiMulutDanPerubatanMulut;
+  const [rujukanPakarBedahMulut, setRujukanPakarBedahMulut] = useState(false);
+  masterForm.rujukanPakarBedahMulut = rujukanPakarBedahMulut;
+  masterForm.setRujukanPakarBedahMulut = setRujukanPakarBedahMulut;
+  const [rujukanPakarPergigianPediatrik, setRujukanPakarPergigianPediatrik] =
+    useState(false);
+  masterForm.rujukanPakarPergigianPediatrik = rujukanPakarPergigianPediatrik;
+  masterForm.setRujukanPakarPergigianPediatrik =
+    setRujukanPakarPergigianPediatrik;
   const [kesSelesaiRawatanUmum, setKesSelesaiRawatanUmum] = useState(false);
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
@@ -1460,9 +1476,6 @@ function UserFormUmumHeader() {
           setKecederaanTisuLembutUmum(
             data.singlePersonUmum.kecederaanTisuLembutUmum
           );
-          setRujukanPakarBedahMulut(
-            data.singlePersonUmum.rujukanPakarBedahMulut
-          );
           // setBaruJumlahGigiYangDiberiSdfRawatanUmum(
           //   data.singlePersonUmum.baruJumlahGigiYangDiberiSdfRawatanUmum
           // );
@@ -1594,14 +1607,14 @@ function UserFormUmumHeader() {
           setKesSelesaiPeriodontium(
             data.singlePersonUmum.kesSelesaiPeriodontium
           );
-          setRujukanPakarOrtodontik(
-            data.singlePersonUmum.rujukanPakarOrtodontik
-          );
           setRawatanOrtodontikRawatanUmum(
             data.singlePersonUmum.rawatanOrtodontikRawatanUmum
           );
           setKesPerubatanMulutRawatanUmum(
             data.singlePersonUmum.kesPerubatanMulutRawatanUmum
+          );
+          setRawatanLainPeriodontik(
+            data.singlePersonUmum.rawatanLainPeriodontik
           );
           setBilanganXrayYangDiambilRawatanUmum(
             data.singlePersonUmum.bilanganXrayYangDiambilRawatanUmum
@@ -1641,6 +1654,18 @@ function UserFormUmumHeader() {
           );
           setPenskaleranRawatanUmum(
             data.singlePersonUmum.penskaleranRawatanUmum
+          );
+          setRujukanPakarOrtodontik(
+            data.singlePersonUmum.rujukanPakarOrtodontik
+          );
+          setRujukanPakarPatologiMulutDanPerubatanMulut(
+            data.singlePersonUmum.rujukanPakarPatologiMulutDanPerubatanMulut
+          );
+          setRujukanPakarBedahMulut(
+            data.singlePersonUmum.rujukanPakarBedahMulut
+          );
+          setRujukanPakarPergigianPediatrik(
+            data.singlePersonUmum.rujukanPakarPergigianPediatrik
           );
           setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
           setRawatanDibuatOperatorLain(
@@ -1869,7 +1894,6 @@ function UserFormUmumHeader() {
               kecederaanTulangMukaUmum,
               kecederaanGigiUmum,
               kecederaanTisuLembutUmum,
-              rujukanPakarBedahMulut,
               // baruJumlahGigiYangDiberiSdfRawatanUmum,
               // semulaJumlahGigiYangDiberiSdfRawatanUmum,
               baruJumlahCrownBridgeRawatanUmum,
@@ -1912,9 +1936,9 @@ function UserFormUmumHeader() {
               rujukanPakarScd,
               rujukanPakarUpkka,
               kesSelesaiPeriodontium,
-              rujukanPakarOrtodontik,
               rawatanOrtodontikRawatanUmum,
               kesPerubatanMulutRawatanUmum,
+              rawatanLainPeriodontik,
               bilanganXrayYangDiambilRawatanUmum,
               jumlahAnteriorKesEndodontikSelesaiRawatanUmum,
               jumlahPremolarKesEndodontikSelesaiRawatanUmum,
@@ -1927,6 +1951,10 @@ function UserFormUmumHeader() {
               restorasiPascaEndodontikKesRujukUpprRawatanUmum,
               komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
               penskaleranRawatanUmum,
+              rujukanPakarOrtodontik,
+              rujukanPakarPatologiMulutDanPerubatanMulut,
+              rujukanPakarBedahMulut,
+              rujukanPakarPergigianPediatrik,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------
@@ -2012,7 +2040,6 @@ function UserFormUmumHeader() {
               kecederaanTulangMukaUmum,
               kecederaanGigiUmum,
               kecederaanTisuLembutUmum,
-              rujukanPakarBedahMulut,
               // baruJumlahGigiYangDiberiSdfRawatanUmum,
               // semulaJumlahGigiYangDiberiSdfRawatanUmum,
               baruJumlahCrownBridgeRawatanUmum,
@@ -2055,9 +2082,9 @@ function UserFormUmumHeader() {
               rujukanPakarScd,
               rujukanPakarUpkka,
               kesSelesaiPeriodontium,
-              rujukanPakarOrtodontik,
               rawatanOrtodontikRawatanUmum,
               kesPerubatanMulutRawatanUmum,
+              rawatanLainPeriodontik,
               bilanganXrayYangDiambilRawatanUmum,
               jumlahAnteriorKesEndodontikSelesaiRawatanUmum,
               jumlahPremolarKesEndodontikSelesaiRawatanUmum,
@@ -2070,6 +2097,10 @@ function UserFormUmumHeader() {
               restorasiPascaEndodontikKesRujukUpprRawatanUmum,
               komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum,
               penskaleranRawatanUmum,
+              rujukanPakarOrtodontik,
+              rujukanPakarPatologiMulutDanPerubatanMulut,
+              rujukanPakarBedahMulut,
+              rujukanPakarPergigianPediatrik,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------
