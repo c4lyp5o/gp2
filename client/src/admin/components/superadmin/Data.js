@@ -739,7 +739,7 @@ export default function Data({ FType, kp }) {
                         >
                           Kemaskini
                         </button>
-                        <button
+                        {/* <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                           id={f._id}
                           onClick={(e) => {
@@ -749,7 +749,7 @@ export default function Data({ FType, kp }) {
                           }}
                         >
                           Hapus
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   ))}
