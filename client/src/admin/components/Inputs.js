@@ -237,6 +237,10 @@ export function InputKkiakd(props) {
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
                 <div className='admin-pegawai-handler-input'>
+                  <div className='text-xs text-admin1'>
+                    *Daerah pada senarai KKIA/KD adalah bukan mengikut daerah
+                    pentadbiran perkhidmatan pergigian
+                  </div>
                   <div className='grid gap-1'>
                     <label htmlFor='nama'>Pilih KKIA / KD</label>
                     <select
