@@ -792,13 +792,20 @@ export function InputFacility(props) {
                         APDM Tidak Aktif
                       </span>
                     ))}
-                  {props.FType === 'kpb' || props.FType === 'mp' ? (
-                    <div>
-                      Nombor plat {Dictionary[props.FType]}{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </div>
+                  {props.FType === 'kpb' || props.FType === 'mpb' ? (
+                    <>
+                      <div>
+                        <span className='font-bold uppercase'>Nombor plat</span>{' '}
+                        {Dictionary[props.FType]}{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </div>
+                      <div className='text-user9 text-lg font-semibold uppercase'>
+                        Pastikan diisi dengan huruf besar & jarak{' '}
+                        <i className='mr-1'>space</i> yang betul
+                      </div>
+                    </>
                   ) : (
                     <div>
                       <p>
@@ -2844,7 +2851,10 @@ export function InputKpEditEvent(props) {
                             >
                               <option value=''>Pilih KPB</option>
                               {kpb.map((item) => (
-                                <option value={item.nama}>{item.nama}</option>
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
                               ))}
                             </select>
                             {showKpb3 === false ? (
@@ -2880,7 +2890,10 @@ export function InputKpEditEvent(props) {
                               >
                                 <option value=''>Pilih KPB</option>
                                 {kpb.map((item) => (
-                                  <option value={item.nama}>{item.nama}</option>
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
                                 ))}
                               </select>
                               <span
@@ -2911,7 +2924,10 @@ export function InputKpEditEvent(props) {
                               >
                                 <option value=''>Pilih KPB</option>
                                 {kpb.map((item) => (
-                                  <option value={item.nama}>{item.nama}</option>
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
                                 ))}
                               </select>
                             </div>
@@ -2961,7 +2977,10 @@ export function InputKpEditEvent(props) {
                             >
                               <option value=''>Pilih MPB</option>
                               {mpb.map((item) => (
-                                <option value={item.nama}>{item.nama}</option>
+                                <option value={item.nama}>
+                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
+                                  | {item.nama}
+                                </option>
                               ))}
                             </select>
                             {showMpb3 === false ? (
@@ -2997,7 +3016,10 @@ export function InputKpEditEvent(props) {
                               >
                                 <option value=''>Pilih MPB</option>
                                 {mpb.map((item) => (
-                                  <option value={item.nama}>{item.nama}</option>
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
                                 ))}
                               </select>
                               <span
@@ -3028,7 +3050,10 @@ export function InputKpEditEvent(props) {
                               >
                                 <option value=''>Pilih MPB</option>
                                 {mpb.map((item) => (
-                                  <option value={item.nama}>{item.nama}</option>
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
                                 ))}
                               </select>
                             </div>
