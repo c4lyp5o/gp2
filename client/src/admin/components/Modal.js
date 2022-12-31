@@ -582,7 +582,6 @@ const EditModalForKp = ({
   useEffect(() => {
     if (FType === 'kpb' || FType === 'mpb') {
       readDataForKp('kp').then((res) => {
-        console.log(res);
         setAllKlinik(res.data);
       });
     }
@@ -665,7 +664,6 @@ const EditModalForKp = ({
         tarikhEnd: editedEntity.tarikhEnd,
       };
     }
-    console.log(Data);
     updateDataForKp(FType, id, Data).then(() => {
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
