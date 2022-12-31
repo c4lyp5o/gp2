@@ -723,7 +723,9 @@ const getData = async (req, res) => {
             theType !== 'juruterapi pergigian' &&
             theType !== 'sosmed' &&
             theType !== 'followers' &&
-            theType !== 'program'
+            theType !== 'program' &&
+            theType !== 'taska' &&
+            theType !== 'tadika'
           ) {
             Data = {
               ...Data,
@@ -733,6 +735,25 @@ const getData = async (req, res) => {
             };
             const data = await Fasiliti.create(Data);
             res.status(200).json(data);
+          }
+          if (theType === 'taska' || theType === 'tadika') {
+            const exists = await Fasiliti.findOne({
+              kodTastad: Data.kodTastad,
+            });
+            if (exists) {
+              return res.status(400).json({
+                message: 'Taska/tadika telah wujud',
+              });
+            } else {
+              Data = {
+                ...Data,
+                jenisFasiliti: theType,
+                createdByDaerah: daerah,
+                createdByNegeri: negeri,
+              };
+              const data = await Fasiliti.create(Data);
+              res.status(200).json(data);
+            }
           }
           if (theType === 'pegawai') {
             const exists = await Operator.findOne({
@@ -900,38 +921,6 @@ const getData = async (req, res) => {
             }
             const createProgramData = await Event.create(Data);
             res.status(200).json(createProgramData);
-          }
-          break;
-
-          console.log('readOne for', theType);
-          if (
-            theType !== 'pegawai' &&
-            theType !== 'juruterapi pergigian' &&
-            theType !== 'klinik' &&
-            theType !== 'program'
-          ) {
-            const data = await Fasiliti.findById({
-              _id: Id,
-            });
-            return res.status(200).json(data);
-          }
-          if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
-            const data = await Operator.findById({
-              _id: Id,
-            });
-            return res.status(200).json(data);
-          }
-          if (theType === 'klinik') {
-            const data = await User.findById({
-              _id: Id,
-            });
-            return res.status(200).json(data);
-          }
-          if (theType === 'program') {
-            const data = await Event.findById({
-              _id: Id,
-            });
-            return res.status(200).json(data);
           }
           break;
         case 'update':

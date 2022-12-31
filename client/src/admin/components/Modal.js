@@ -207,6 +207,10 @@ const AddModal = ({
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
       } else {
+        if (FType === 'taska' || FType === 'tadika') {
+          toast.error(res.response.data.message);
+          return;
+        }
         toast.error(`Data tidak berjaya ditambah`);
       }
       setShowAddModal(false);
