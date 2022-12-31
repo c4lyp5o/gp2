@@ -850,6 +850,35 @@ export function InputFacility(props) {
                     </div>
                   )}
                 </div>
+                {(props.FType === 'kpb' || props.FType === 'mpb') && (
+                  <>
+                    <div>
+                      <span className='font-bold uppercase'>Jenis</span>{' '}
+                      {Dictionary[props.FType]}{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                      <p>
+                        Contoh:{' '}
+                        <span className='font-bold'>
+                          Lori Trak, Caravan, Van, Treler, Bas, Coaster
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1 mb-3'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) =>
+                          props.setSubJenisKPBMPB(e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                )}
                 {props.FType === 'taska' || props.FType === 'tadika' ? (
                   <>
                     <div>
@@ -951,7 +980,7 @@ export function InputFacility(props) {
                   Status {Dictionary[props.FType]}{' '}
                   <span className='font-semibold text-lg text-user6'>*</span>
                 </p>
-                <div className='grid grid-cols-2'>
+                <div className='grid grid-cols-2 mb-3'>
                   <label htmlFor='nama'>Aktif</label>
                   <input
                     required
