@@ -606,7 +606,8 @@ export default function Data({ FType, kp }) {
                     Bil.
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Nama {Dictionary[FType]}
+                    {FType === 'kpb' || FType === 'mpb' ? 'No. Plat ' : 'Nama '}
+                    {Dictionary[FType]}
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Nama Klinik Bertugas
