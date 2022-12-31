@@ -237,6 +237,10 @@ export function InputKkiakd(props) {
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
                 <div className='admin-pegawai-handler-input'>
+                  <div className='text-xs text-admin1'>
+                    *Daerah pada senarai KKIA/KD adalah bukan mengikut daerah
+                    pentadbiran perkhidmatan pergigian
+                  </div>
                   <div className='grid gap-1'>
                     <label htmlFor='nama'>Pilih KKIA / KD</label>
                     <select
@@ -2109,6 +2113,25 @@ export function InputEditEvent(props) {
 }
 
 export function InputKpAddEvent(props) {
+  const { getCurrentUser } = useGlobalAdminAppContext();
+
+  const [loginInfo, setLoginInfo] = useState({
+    negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
+  });
+
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await getCurrentUser();
+      setLoginInfo({
+        ...res.data,
+        isLoggedIn: true,
+      });
+    };
+    getUser().catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2154,8 +2177,14 @@ export function InputKpAddEvent(props) {
                       <option value='penjara-koreksional'>
                         Program di Penjara / Pusat Koreksional
                       </option>
-                      <option value='fds'>Flying Dental Service (Sabah)</option>
-                      <option value='rtc'>RTC (Kelantan)</option>
+                      {loginInfo.negeri === 'Sabah' && (
+                        <option value='fds'>
+                          Flying Dental Service (Sabah)
+                        </option>
+                      )}
+                      {loginInfo.negeri === 'Kelantan' && (
+                        <option value='rtc'>RTC (Kelantan)</option>
+                      )}
                       {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
                       <option value='incremental'>
                         Program Pergigian Sekolah Sesi 2022/2023
