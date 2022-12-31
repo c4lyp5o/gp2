@@ -56,6 +56,7 @@ const UmumSchema = new mongoose.Schema(
     statusPesara: { type: String, default: '' },
     noPesara: { type: String, default: '' },
     rujukDaripada: { type: String, default: '' },
+    gtod: { type: Boolean, default: false },
     kakitanganKerajaan: { type: Boolean, default: false },
     noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
@@ -424,10 +425,6 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    rujukanPakarBedahMulut: {
-      type: Boolean,
-      default: false,
-    },
     // baruJumlahGigiYangDiberiSdfRawatanUmum: {
     //   type: Number,
     //   min: 0,
@@ -623,15 +620,15 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    rujukanPakarOrtodontik: {
-      type: Boolean,
-      default: false,
-    },
     rawatanOrtodontikRawatanUmum: {
       type: Boolean,
       default: false,
     },
     kesPerubatanMulutRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rawatanLainPeriodontik: {
       type: Boolean,
       default: false,
     },
@@ -688,6 +685,22 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     penskaleranRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarOrtodontik: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarPatologiMulutDanPerubatanMulut: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarBedahMulut: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanPakarPergigianPediatrik: {
       type: Boolean,
       default: false,
     },

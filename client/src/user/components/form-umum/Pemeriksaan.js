@@ -565,7 +565,13 @@ export default function Pemeriksaan(props) {
                       </div>
                       <div className='flex flex-row items-center pl-5'>
                         <p className='text-sm font-m '>E: </p>
-                        <span className='text-user6'>*</span>
+                        <span className='text-user6'>
+                          *{' '}
+                          <FaInfoCircle
+                            title='Hanya masukkan E10 , E12 & E13'
+                            className='text-lg m-1'
+                          />
+                        </span>
                         <input
                           disabled={isDisabled}
                           required
