@@ -438,6 +438,31 @@ export default function Pemeriksaan(props) {
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
+                      {props.singlePersonUmum.umur >= 10 && (
+                        <div className='flex flex-row items-center pl-5'>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='tampalan-sementara-desidus-pemeriksaan-umum'
+                            id='tampalan-sementara-desidus-pemeriksaan-umum'
+                            checked={
+                              props.tampalanSementaraDesidusPemeriksaanUmum
+                            }
+                            onChange={() => {
+                              props.setTampalanSementaraDesidusPemeriksaanUmum(
+                                !props.tampalanSementaraDesidusPemeriksaanUmum
+                              );
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='tampalan-sementara-desidus-pemeriksaan-umum'
+                            className='m-2 text-sm font-m'
+                          >
+                            tampalan sementara desidus
+                          </label>
+                        </div>
+                      )}
                     </div>
                   </div>
                   {props.sumDMFXDesidusUmum > 20 && (

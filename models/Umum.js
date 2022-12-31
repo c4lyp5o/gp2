@@ -163,6 +163,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    tampalanSementaraDesidusPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
     adaKekalPemeriksaanUmum: {
       type: Boolean,
       default: false,
