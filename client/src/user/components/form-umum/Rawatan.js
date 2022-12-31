@@ -370,7 +370,7 @@ export default function Rawatan(props) {
                           Abses
                         </label>
                       </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
+                      {/* <div className='flex flex-row items-center pl-5 m-1'>
                         <input
                           disabled={isDisabled}
                           type='checkbox'
@@ -395,7 +395,7 @@ export default function Rawatan(props) {
                         >
                           Fraktur
                         </label>
-                      </div>
+                      </div> */}
                       <div className='flex flex-row items-center pl-5 m-1'>
                         <input
                           disabled={isDisabled}
