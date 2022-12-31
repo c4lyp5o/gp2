@@ -14,6 +14,7 @@ export default function KaunterKomunitiLain({
   fetchProgramData,
   setFetchProgramData,
   kp,
+  negeri,
 }) {
   if (
     jenisFasiliti === 'projek-komuniti-lain' &&
@@ -67,8 +68,12 @@ export default function KaunterKomunitiLain({
             <option value='penjara-koreksional'>
               Program di Penjara / Pusat Koreksional
             </option>
-            <option value='fds'>Flying Dental Service (Sabah)</option>
-            <option value='rtc'>RTC (Kelantan)</option>
+            {negeri === 'Sabah' && (
+              <option value='fds'>Flying Dental Service (Sabah)</option>
+            )}
+            {negeri === 'Kelantan' && (
+              <option value='rtc'>RTC (Kelantan)</option>
+            )}
             <option value='incremental'>
               Program Pergigian Sekolah sesi 2022/2023
             </option>
