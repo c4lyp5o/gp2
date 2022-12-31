@@ -269,7 +269,7 @@ function UserFormUmumHeader() {
   const [
     tampalanSementaraDesidusPemeriksaanUmum,
     setTampalanSementaraDesidusPemeriksaanUmum,
-  ] = useState(false);
+  ] = useState('');
   masterForm.tampalanSementaraDesidusPemeriksaanUmum =
     tampalanSementaraDesidusPemeriksaanUmum;
   masterForm.setTampalanSementaraDesidusPemeriksaanUmum =
