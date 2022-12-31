@@ -321,7 +321,7 @@ export default function Pemeriksaan(props) {
                     </h4>
                     <div className='flex flex-row pl-5 items-center col-span-2'>
                       <p className='text-sm font-m '>
-                        bilangan gigi berfungsi:{' '}
+                        Bilangan Gigi Kekal Yang Ada:{' '}
                         <span className='text-user6'>*</span>
                       </p>
                       <input

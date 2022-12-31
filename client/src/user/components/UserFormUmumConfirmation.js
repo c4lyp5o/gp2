@@ -85,7 +85,7 @@ const ConfirmModal = ({ children, data }) => {
                       {data.bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Bilangan Gigi WE :
+                            Bilangan Gigi Kekal Yang Ada :
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {
@@ -447,7 +447,11 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.puncaRujukan ? (
-                              <p>Punca Rujukan: {data.puncaRujukan}</p>
+                              <p>
+                                pesakit mempunyai rujukan T2DM (
+                                <i> Type II Diabetes Mellitus</i>) ?:{' '}
+                                {data.puncaRujukan}
+                              </p>
                             ) : null}
                             {data.diabetesFaktorRisikoBpe ? (
                               <p>
@@ -479,7 +483,7 @@ const ConfirmModal = ({ children, data }) => {
                                 )}
                               </p>
                             ) : null}
-                            {data.pesakitMempunyaiImplanPergigian ? (
+                            {/* {data.pesakitMempunyaiImplanPergigian ? (
                               <p>
                                 Pesakit Mempunyai Implan Pergigian:{' '}
                                 {data.pesakitMempunyaiImplanPergigian ? (
@@ -488,10 +492,10 @@ const ConfirmModal = ({ children, data }) => {
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                                 )}
                               </p>
-                            ) : null}
+                            ) : null} */}
                             {data.periImplantitis ? (
                               <p>
-                                Peri-Implantitis:{' '}
+                                <i>Peri-Implantitis ≥ 6mm :</i>
                                 {data.periImplantitis ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
@@ -501,7 +505,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.periImplantMucositis ? (
                               <p>
-                                Peri-Implant Mucositis:{' '}
+                                <i>Peri-Implant Mucositis {` < `} 6mm :</i>
                                 {data.periImplantMucositis ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
@@ -702,8 +706,7 @@ const ConfirmModal = ({ children, data }) => {
                       data.yaTidakTraumaPembedahanRawatanUmum ||
                       data.kecederaanTulangMukaUmum ||
                       data.kecederaanGigiUmum ||
-                      data.kecederaanTisuLembutUmum ||
-                      data.rujukanPakarBedahMulut ? (
+                      data.kecederaanTisuLembutUmum ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Pembedahan Mulut:
@@ -775,16 +778,6 @@ const ConfirmModal = ({ children, data }) => {
                               <p>
                                 Kecederaan Tisu Lembut:{' '}
                                 {data.kecederaanTisuLembutUmum === true ? (
-                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                                ) : (
-                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                                )}
-                              </p>
-                            ) : null}
-                            {data.rujukanPakarBedahMulut ? (
-                              <p>
-                                Rujukan Pakar Bedah Mulut:{' '}
-                                {data.rujukanPakarBedahMulut === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -1067,7 +1060,7 @@ const ConfirmModal = ({ children, data }) => {
                             Terapi Periodontium
                           </p>
                           <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.kaunselingDiet ? (
+                            {/* {data.kaunselingDiet ? (
                               <p>
                                 Kaunseling Diet:{' '}
                                 {data.kaunselingDiet === true ? (
@@ -1076,7 +1069,7 @@ const ConfirmModal = ({ children, data }) => {
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                                 )}
                               </p>
-                            ) : null}
+                            ) : null} */}
                             {data.nasihatBerhentiMerokok ? (
                               <p>
                                 Nasihat Berhenti Merokok:{' '}
@@ -1098,7 +1091,7 @@ const ConfirmModal = ({ children, data }) => {
                                 )}
                               </p>
                             ) : null}
-                            {data.ohePengurusanFaktorSetempat ? (
+                            {/* {data.ohePengurusanFaktorSetempat ? (
                               <p>
                                 OHE Pengurusan Faktor Setempat:{' '}
                                 {data.ohePengurusanFaktorSetempat === true ? (
@@ -1107,7 +1100,7 @@ const ConfirmModal = ({ children, data }) => {
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                                 )}
                               </p>
-                            ) : null}
+                            ) : null} */}
                             {data.pengilapanTampalanRungkup ? (
                               <p>
                                 Pengilapan Tampalan Rungkup:{' '}
@@ -1141,7 +1134,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.ektiparsiPulpa ? (
                               <p>
-                                Ektiparsi Pulpa:{' '}
+                                Ekstirpasi Disebabkan Periodontitis :
                                 {data.ektiparsiPulpa === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
@@ -1151,7 +1144,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.rawatanLainPeriodontikRawatanUmum ? (
                               <p>
-                                Rawatan Lain Periodontik Rawatan Umum:{' '}
+                                Lain-lain:{' '}
                                 {data.rawatanLainPeriodontikRawatanUmum ===
                                 true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
@@ -1228,7 +1221,7 @@ const ConfirmModal = ({ children, data }) => {
                       ) : null}
                       {data.rawatanOrtodontikRawatanUmum ||
                       data.kesPerubatanMulutRawatanUmum ||
-                      data.rujukanPakarOrtodontik ? (
+                      data.rawatanLainPeriodontik ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Rawatan Lain
@@ -1254,10 +1247,10 @@ const ConfirmModal = ({ children, data }) => {
                                 )}
                               </p>
                             ) : null}
-                            {data.rujukanPakarOrtodontik ? (
+                            {data.rawatanLainPeriodontik === true ? (
                               <p>
-                                Rujukan Pakar Ortodontik:{' '}
-                                {data.rujukanPakarOrtodontik === true ? (
+                                Rawatan Lain Periodontik:{' '}
+                                {data.rawatanLainPeriodontik === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -1401,6 +1394,62 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
+                      {data.rujukanPakarBedahMulut ||
+                      data.rujukanPakarOrtodontik ||
+                      data.rujukanPakarPatologiMulutDanPerubatanMulut ||
+                      data.rujukanPakarPergigianPediatrik ? (
+                        <div className='grid grid-cols-[1fr_2fr] text-xs'>
+                          <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Rujukan
+                          </p>
+                          <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.rujukanPakarBedahMulut === true ? (
+                              <p>
+                                Rujukan Ke Pakar Patologi Mulut dan Perubatan
+                                Mulut:{' '}
+                                {data.rujukanPakarBedahMulut === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarOrtodontik ? (
+                              <p>
+                                Rujukan Pakar Ortodontik:{' '}
+                                {data.rujukanPakarOrtodontik === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarPatologiMulutDanPerubatanMulut ? (
+                              <p>
+                                Rujukan Pakar Patologi Mulut Dan Perubatan
+                                Mulut:{' '}
+                                {data.rujukanPakarPatologiMulutDanPerubatanMulut ===
+                                true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                            {data.rujukanPakarPergigianPediatrik ? (
+                              <p>
+                                Rujukan Pakar Pergigian Pediatrik:{' '}
+                                {data.rujukanPakarPergigianPediatrik ===
+                                true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
                       {data.kesSelesaiRawatanUmum ? (
                         <div className='grid grid-cols-[1fr_2fr] text-xs'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
@@ -1411,6 +1460,25 @@ const ConfirmModal = ({ children, data }) => {
                               <p>
                                 Kes Selesai:
                                 {data.kesSelesaiRawatanUmum === true ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                )}
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.rawatanDibuatOperatorLain ? (
+                        <div className='grid grid-cols-[1fr_2fr] text-xs'>
+                          <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Rawatan Dibuat Oleh Operator Lain
+                          </p>
+                          <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.rawatanDibuatOperatorLain === true ? (
+                              <p>
+                                Rawatan Dibuat Oleh Operator Lain:
+                                {data.rawatanDibuatOperatorLain === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
