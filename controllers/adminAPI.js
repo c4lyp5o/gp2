@@ -476,6 +476,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         assignedByDaerah: true,
+        tahunDibuat: new Date().getFullYear(),
       });
       break;
     case 'sosmed':
@@ -543,6 +544,7 @@ const getDataKpRoute = async (req, res) => {
         createdByKodFasiliti: kodFasiliti,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        tahunDibuat: new Date().getFullYear(),
       });
       break;
     case 'sosmed':
