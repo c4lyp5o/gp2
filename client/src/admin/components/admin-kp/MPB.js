@@ -5,7 +5,7 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 export default function MakmalPergigianBergerak(props) {
   const { toast, readOneDataForKp } = useGlobalAdminAppContext();
   const [show, setShow] = useState(false);
-  const [singleMpbData, setSingleMpbData] = useState();
+  const [singleMpbData, setSingleMpbData] = useState(null);
 
   if (props.data.length > 0) {
     return (
@@ -20,8 +20,8 @@ export default function MakmalPergigianBergerak(props) {
             className='text-sm rounded-l-lg px-2 py-1 w-60'
             onChange={(e) => {
               if (e.target.value === '') {
+                setSingleMpbData(null);
                 setShow(false);
-                setSingleMpbData();
                 return;
               }
               readOneDataForKp('mpb', e.target.value).then((res) => {
@@ -35,15 +35,17 @@ export default function MakmalPergigianBergerak(props) {
               <option value={mpb._id}>{mpb.nama}</option>
             ))}
           </select>
-          <button
-            className='text-sm text-adminWhite bg-admin3 hover:bg-admin4 rounded-r-lg px-2 py-1'
-            onClick={() => {
-              props.setShowEditModal(true);
-              props.setId(singleMpbData._id);
-            }}
-          >
-            Tambah Hari Beroperasi
-          </button>
+          {singleMpbData && (
+            <button
+              className='text-sm text-adminWhite bg-admin3 hover:bg-admin4 rounded-r-lg px-2 py-1'
+              onClick={() => {
+                props.setShowEditModal(true);
+                props.setId(singleMpbData._id);
+              }}
+            >
+              Tambah Hari Beroperasi
+            </button>
+          )}
         </div>
         {show && singleMpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
@@ -84,7 +86,7 @@ export default function MakmalPergigianBergerak(props) {
                         onClick={() => {
                           // props.setShowEditModal(true);
                           // props.setId(singleMpbData._id);
-                          toast('Coming Soon');
+                          toast.info('Fungsi masih belum di implementasi');
                         }}
                       >
                         Kemaskini

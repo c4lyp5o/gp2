@@ -5,14 +5,7 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 export default function KlinikPergigianBergerak(props) {
   const { toast, readOneDataForKp } = useGlobalAdminAppContext();
   const [show, setShow] = useState(false);
-  const [singleKpbData, setSingleKpbData] = useState();
-
-  // useEffect(() => {
-  //   return () => {
-  //     setShow(false);
-  //     setSingleKpbData();
-  //   };
-  // }, []);
+  const [singleKpbData, setSingleKpbData] = useState(null);
 
   if (props.data.length > 0) {
     return (
@@ -27,8 +20,8 @@ export default function KlinikPergigianBergerak(props) {
             className='text-sm rounded-l-lg px-2 py-1 w-60'
             onChange={(e) => {
               if (e.target.value === '') {
+                setSingleKpbData(null);
                 setShow(false);
-                setSingleKpbData();
                 return;
               }
               readOneDataForKp('kpb', e.target.value).then((res) => {
@@ -42,15 +35,17 @@ export default function KlinikPergigianBergerak(props) {
               <option value={kpb._id}>{kpb.nama}</option>
             ))}
           </select>
-          <button
-            className='text-sm text-adminWhite bg-admin3 hover:bg-admin4 rounded-r-lg px-2 py-1'
-            onClick={() => {
-              props.setShowEditModal(true);
-              props.setId(singleKpbData._id);
-            }}
-          >
-            Tambah Hari Beroperasi
-          </button>
+          {singleKpbData && (
+            <button
+              className='text-sm text-adminWhite bg-admin3 hover:bg-admin4 rounded-r-lg px-2 py-1'
+              onClick={() => {
+                props.setShowEditModal(true);
+                props.setId(singleKpbData._id);
+              }}
+            >
+              Tambah Hari Beroperasi
+            </button>
+          )}
         </div>
         {show && singleKpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
@@ -91,7 +86,7 @@ export default function KlinikPergigianBergerak(props) {
                         onClick={() => {
                           // props.setShowEditModal(true);
                           // props.setId(singleKpbData._id);
-                          toast('Coming Soon');
+                          toast.info('Fungsi masih belum di implementasi');
                         }}
                       >
                         Kemaskini

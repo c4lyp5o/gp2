@@ -81,6 +81,10 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // MPB KPB
+  subJenisKPBMPB: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   penggunaanKPBMPB: {
     type: Array,
     default: [],
