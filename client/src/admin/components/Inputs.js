@@ -2109,6 +2109,25 @@ export function InputEditEvent(props) {
 }
 
 export function InputKpAddEvent(props) {
+  const { getCurrentUser } = useGlobalAdminAppContext();
+
+  const [loginInfo, setLoginInfo] = useState({
+    negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
+  });
+
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await getCurrentUser();
+      setLoginInfo({
+        ...res.data,
+        isLoggedIn: true,
+      });
+    };
+    getUser().catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2154,8 +2173,14 @@ export function InputKpAddEvent(props) {
                       <option value='penjara-koreksional'>
                         Program di Penjara / Pusat Koreksional
                       </option>
-                      <option value='fds'>Flying Dental Service (Sabah)</option>
-                      <option value='rtc'>RTC (Kelantan)</option>
+                      {loginInfo.negeri === 'Sabah' && (
+                        <option value='fds'>
+                          Flying Dental Service (Sabah)
+                        </option>
+                      )}
+                      {loginInfo.negeri === 'Kelantan' && (
+                        <option value='rtc'>RTC (Kelantan)</option>
+                      )}
                       {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
                       <option value='incremental'>
                         Program Pergigian Sekolah Sesi 2022/2023
