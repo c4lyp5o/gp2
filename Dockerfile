@@ -12,6 +12,9 @@
 # base node:18
 FROM node:18
 
+# set Timezone to Malaysia
+ENV TZ="Asia/Kuala_Lumpur"
+
 # create app directory
 WORKDIR /usr/src/app
 
