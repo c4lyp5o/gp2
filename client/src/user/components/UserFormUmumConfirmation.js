@@ -1403,21 +1403,20 @@ const ConfirmModal = ({ children, data }) => {
                             Rujukan
                           </p>
                           <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.rujukanPakarBedahMulut === true ? (
+                            {data.rujukanPakarOrtodontik ? (
                               <p>
-                                Rujukan Ke Pakar Patologi Mulut dan Perubatan
-                                Mulut:{' '}
-                                {data.rujukanPakarBedahMulut === true ? (
+                                Rujukan Pakar Ortodontik:{' '}
+                                {data.rujukanPakarOrtodontik === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                                 )}
                               </p>
                             ) : null}
-                            {data.rujukanPakarOrtodontik ? (
+                            {data.rujukanPakarBedahMulut ? (
                               <p>
-                                Rujukan Pakar Ortodontik:{' '}
-                                {data.rujukanPakarOrtodontik === true ? (
+                                Rujukan Pakar Bedah Mulut dan Maksilofasial:{' '}
+                                {data.rujukanPakarBedahMulut === true ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                 ) : (
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
