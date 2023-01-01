@@ -2134,7 +2134,7 @@ export default function Rawatan(props) {
                         />
                         <label
                           htmlFor='rujukan-pakar-bedah-mulut'
-                          className='text-left flex justify-start items-center text-sm pl-5'
+                          className='text-left flex justify-start items-center text-sm pl-3'
                         >
                           Rujukan Ke Pakar bedah mulut dan maksilofasial
                         </label>
