@@ -96,10 +96,10 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                   {data.nama}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right'>
-                  Jenis dan No. Pengenalan Diri:
+                  Pengenalan Diri:
                 </p>
                 <p className='text-sm p-1 flex justify-start text-left  bg-user1 bg-opacity-5'>
-                  {data.jenisIc} - {data.ic}
+                  {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
                   Maklumat Tambahan :
