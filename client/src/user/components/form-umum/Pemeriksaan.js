@@ -1578,7 +1578,7 @@ export default function Pemeriksaan(props) {
                   <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
                     <label
                       htmlFor='punca-rujukan'
-                      className='text-left flex justify-start items-center text-sm pl-3'
+                      className='text-left justify-start items-center text-sm pl-3'
                     >
                       pesakit mempunyai rujukan T2DM (
                       <i> Type II Diabetes Mellitus</i>) ?
@@ -1726,49 +1726,47 @@ export default function Pemeriksaan(props) {
                       >
                         Saringan Penyakit Periodontium Dan Peri Implan
                       </label>
-                      <div
-                        className={`${
-                          props.singlePersonUmum.umur <= 15 && 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <p className='text-sm font-m'>
-                          Skor BPE:
-                          {props.singlePersonUmum.kedatangan ===
-                            'baru-kedatangan' && (
-                            <span className='text-user6'>*</span>
-                          )}
-                        </p>
-                        <select
-                          disabled={isDisabled}
-                          required={
-                            props.singlePersonUmum.kedatangan ===
-                            'baru-kedatangan'
-                              ? true
-                              : false
-                          }
-                          name='skor-bpe-pemeriksaan-umum'
-                          id='skor-bpe-pemeriksaan-umum'
-                          value={props.skorBpeOralHygienePemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setSkorBpeOralHygienePemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                        >
-                          <option value=''></option>
-                          <option value='tiada'>-</option>
-                          <option value='0'>0</option>
-                          <option value='1'>1</option>
-                          <option value='2'>2</option>
-                          <option value='3'>3</option>
-                          <option value='4'>4</option>
-                        </select>
-                        <FaInfoCircle
-                          title='Tanda (-) jika tidak berkenaan'
-                          className='text-lg m-1'
-                        />
-                      </div>
+                      {props.singlePersonUmum.umur >= 16 && (
+                        <div className='flex items-center flex-row pl-5'>
+                          <p className='text-sm font-m'>
+                            Skor BPE:
+                            {props.singlePersonUmum.kedatangan ===
+                              'baru-kedatangan' && (
+                              <span className='text-user6'>*</span>
+                            )}
+                          </p>
+                          <select
+                            disabled={isDisabled}
+                            required={
+                              props.singlePersonUmum.kedatangan ===
+                              'baru-kedatangan'
+                                ? true
+                                : false
+                            }
+                            name='skor-bpe-pemeriksaan-umum'
+                            id='skor-bpe-pemeriksaan-umum'
+                            value={props.skorBpeOralHygienePemeriksaanUmum}
+                            onChange={(e) => {
+                              props.setSkorBpeOralHygienePemeriksaanUmum(
+                                e.target.value
+                              );
+                            }}
+                            className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                          >
+                            <option value=''></option>
+                            <option value='tiada'>-</option>
+                            <option value='0'>0</option>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                          </select>
+                          <FaInfoCircle
+                            title='Tanda (-) jika tidak berkenaan'
+                            className='text-lg m-1'
+                          />
+                        </div>
+                      )}
                       <div className='flex items-center justify-start pl-3 col-span-2'>
                         <input
                           disabled={isDisabled}
