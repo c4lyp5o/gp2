@@ -1726,47 +1726,45 @@ export default function Pemeriksaan(props) {
                       >
                         Saringan Penyakit Periodontium Dan Peri Implan
                       </label>
-                      {props.singlePersonUmum.umur >= 16 && (
-                        <div className='flex items-center flex-row pl-5'>
-                          <p className='text-sm font-m'>
-                            Skor BPE:
-                            {props.singlePersonUmum.kedatangan ===
-                              'baru-kedatangan' && (
-                              <span className='text-user6'>*</span>
-                            )}
-                          </p>
-                          <select
-                            disabled={isDisabled}
-                            required={
-                              props.singlePersonUmum.kedatangan ===
-                              'baru-kedatangan'
-                                ? true
-                                : false
-                            }
-                            name='skor-bpe-pemeriksaan-umum'
-                            id='skor-bpe-pemeriksaan-umum'
-                            value={props.skorBpeOralHygienePemeriksaanUmum}
-                            onChange={(e) => {
-                              props.setSkorBpeOralHygienePemeriksaanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                          >
-                            <option value=''></option>
-                            <option value='tiada'>-</option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                          </select>
-                          <FaInfoCircle
-                            title='Tanda (-) jika tidak berkenaan'
-                            className='text-lg m-1'
-                          />
-                        </div>
-                      )}
+                      <div className='flex items-center flex-row pl-5'>
+                        <p className='text-sm font-m'>
+                          Skor BPE:
+                          {props.singlePersonUmum.kedatangan ===
+                            'baru-kedatangan' && (
+                            <span className='text-user6'>*</span>
+                          )}
+                        </p>
+                        <select
+                          disabled={isDisabled}
+                          required={
+                            props.singlePersonUmum.kedatangan ===
+                            'baru-kedatangan'
+                              ? true
+                              : false
+                          }
+                          name='skor-bpe-pemeriksaan-umum'
+                          id='skor-bpe-pemeriksaan-umum'
+                          value={props.skorBpeOralHygienePemeriksaanUmum}
+                          onChange={(e) => {
+                            props.setSkorBpeOralHygienePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                        >
+                          <option value=''></option>
+                          <option value='tiada'>-</option>
+                          <option value='0'>0</option>
+                          <option value='1'>1</option>
+                          <option value='2'>2</option>
+                          <option value='3'>3</option>
+                          <option value='4'>4</option>
+                        </select>
+                        <FaInfoCircle
+                          title='Tanda (-) jika tidak berkenaan'
+                          className='text-lg m-1'
+                        />
+                      </div>
                       <div className='flex items-center justify-start pl-3 col-span-2'>
                         <input
                           disabled={isDisabled}
