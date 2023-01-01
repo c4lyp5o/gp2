@@ -1578,7 +1578,7 @@ export default function Pemeriksaan(props) {
                   <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
                     <label
                       htmlFor='punca-rujukan'
-                      className='text-left flex justify-start items-center text-sm pl-3'
+                      className='text-left justify-start items-center text-sm pl-3'
                     >
                       pesakit mempunyai rujukan T2DM (
                       <i> Type II Diabetes Mellitus</i>) ?
@@ -1726,11 +1726,7 @@ export default function Pemeriksaan(props) {
                       >
                         Saringan Penyakit Periodontium Dan Peri Implan
                       </label>
-                      <div
-                        className={`${
-                          props.singlePersonUmum.umur <= 15 && 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
+                      <div className='flex items-center flex-row pl-5'>
                         <p className='text-sm font-m'>
                           Skor BPE:
                           {props.singlePersonUmum.kedatangan ===
