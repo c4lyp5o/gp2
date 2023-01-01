@@ -13,7 +13,8 @@
 FROM node:18
 
 # set Timezone to Malaysia
-ENV TZ="Asia/Kuala_Lumpur"
+RUN apt update && apt install tzdata -y
+ENV TZ=Asia/Kuala_Lumpur
 
 # create app directory
 WORKDIR /usr/src/app
