@@ -1,16 +1,12 @@
-# base ubuntu
-# FROM ubuntu:latest
+# pull the Node.js Docker image
+FROM node:lts-alpine
 
-# install nodejs
-# RUN apt-get update && apt-get install -y curl
-# RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-# RUN apt-get install -y nodejs
+# update the package index
+RUN apk update
+RUN apk add --no-cache tzdata
 
-# install java
-# RUN apt-get install -y openjdk-8-jre
-
-# base node:18
-FROM node:18
+# set timezone data
+ENV TZ=Asia/Kuala_Lumpur
 
 # create app directory
 WORKDIR /usr/src/app

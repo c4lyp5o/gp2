@@ -96,7 +96,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                   {data.nama}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right'>
-                  No. Pengenalan Diri:
+                  Pengenalan Diri:
                 </p>
                 <p className='text-sm p-1 flex justify-start text-left  bg-user1 bg-opacity-5'>
                   {data.ic}
