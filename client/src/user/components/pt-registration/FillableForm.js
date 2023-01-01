@@ -194,6 +194,9 @@ export default function FillableForm({
         setConfirmData({
           ...confirmData,
           tarikhLahir: tempDate,
+          umur: tahun,
+          umurBulan: bulan,
+          umurHari: hari,
         });
       },
       filterDate: (date) => {
@@ -845,9 +848,17 @@ export default function FillableForm({
     if (!editId) {
       if (jenisIc === 'passport') {
         setKumpulanEtnik('bukan warganegara');
+        setConfirmData({
+          ...confirmData,
+          kumpulanEtnik: 'bukan warganegara',
+        });
       }
       if (jenisIc !== 'passport') {
         setKumpulanEtnik('');
+        setConfirmData({
+          ...confirmData,
+          kumpulanEtnik: '',
+        });
       }
     }
   }, [jenisIc]);
@@ -1295,7 +1306,9 @@ export default function FillableForm({
                         id='pengenalan'
                         name='pengenalan'
                         value={jenisIc}
-                        onChange={(e) => setJenisIc(e.target.value)}
+                        onChange={(e) => {
+                          setJenisIc(e.target.value);
+                        }}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                       >
                         <option value=''>SILA PILIH..</option>
@@ -1349,6 +1362,10 @@ export default function FillableForm({
                           value={ic}
                           onChange={(e) => {
                             setIc(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              ic: e.target.value,
+                            });
                           }}
                           placeholder={
                             jenisIc === 'birth-of'
