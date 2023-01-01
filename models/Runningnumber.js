@@ -13,6 +13,9 @@ const RunningnumberSchema = new mongoose.Schema({
   daerah: {
     type: String,
   },
+  kp: {
+    type: String,
+  },
   tahun: {
     type: Number,
   },
