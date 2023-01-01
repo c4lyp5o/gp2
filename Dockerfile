@@ -10,10 +10,20 @@
 # RUN apt-get install -y openjdk-8-jre
 
 # base node:18
-FROM node:18
+# FROM node:18
 
 # set Timezone to Malaysia
-RUN apt update && apt install tzdata -y
+# RUN apt update && apt install tzdata -y
+# ENV TZ=Asia/Kuala_Lumpur
+
+# pull the Node.js Docker image
+FROM node:alpine
+
+# update the package index
+RUN apk update
+RUN apk add --no-cache tzdata
+
+# set timezone data
 ENV TZ=Asia/Kuala_Lumpur
 
 # create app directory
