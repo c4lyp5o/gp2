@@ -848,9 +848,17 @@ export default function FillableForm({
     if (!editId) {
       if (jenisIc === 'passport') {
         setKumpulanEtnik('bukan warganegara');
+        setConfirmData({
+          ...confirmData,
+          kumpulanEtnik: 'bukan warganegara',
+        });
       }
       if (jenisIc !== 'passport') {
         setKumpulanEtnik('');
+        setConfirmData({
+          ...confirmData,
+          kumpulanEtnik: '',
+        });
       }
     }
   }, [jenisIc]);
@@ -1300,10 +1308,6 @@ export default function FillableForm({
                         value={jenisIc}
                         onChange={(e) => {
                           setJenisIc(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            jenisIc: e.target.value,
-                          });
                         }}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                       >
