@@ -1,4 +1,8 @@
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// environment warning import
+import EnvironmentWarning from './landing/EnvironmentWarning';
 
 // landing page import
 import LandingPage from './landing/LandingPage';
@@ -26,8 +30,16 @@ import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
 import AdminAfterLogin from './admin/pages/AdminAfterLogin';
 
 function App() {
+  const [showEnvironmentWarning, setShowEnvironmentWarning] = useState(true);
+
   return (
     <>
+      {process.env.REACT_APP_ENV === 'TRAINING' && showEnvironmentWarning && (
+        <EnvironmentWarning
+          showEnvironmentWarning={showEnvironmentWarning}
+          setShowEnvironmentWarning={setShowEnvironmentWarning}
+        />
+      )}
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
