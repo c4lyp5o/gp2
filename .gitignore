@@ -6,3 +6,6 @@
 graphql.config.json
 /.idea
 /logs/everything.log
+
+/thunder-tests
+/.vscode
