@@ -1594,7 +1594,7 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    tarikh lahir:{' '}
+                    tarikh lahir{jenisIc === 'birth-of' && ' anak'}:
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
