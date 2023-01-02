@@ -308,9 +308,6 @@ function UserUmum() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     STATUS PESAKIT
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                    OPERATOR
-                  </th>
                   {jenisFasiliti === 'kk-kd' ? (
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       NAMA KKIA / KD
@@ -326,6 +323,9 @@ function UserUmum() {
                       NAMA PROGRAM
                     </th>
                   ) : null}
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                    OPERATOR
+                  </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                     STATUS PENGISIAN RETEN
                   </th>
@@ -408,15 +408,6 @@ function UserUmum() {
                         >
                           {statusPesakit(singlePersonUmum)}
                         </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.createdByUsername === 'kaunter'
-                            ? null
-                            : singlePersonUmum.createdByUsername}
-                        </td>
                         {jenisFasiliti === 'kk-kd' ? (
                           <td
                             className={`${
@@ -444,6 +435,15 @@ function UserUmum() {
                             {singlePersonUmum.namaProgram}
                           </td>
                         ) : null}
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {singlePersonUmum.createdByUsername === 'kaunter'
+                            ? null
+                            : singlePersonUmum.createdByUsername}
+                        </td>
                         <td
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
