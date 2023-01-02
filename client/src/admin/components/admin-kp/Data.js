@@ -97,7 +97,6 @@ export default function DataKp({ FType }) {
             setShow({ ins: true });
             break;
           case 'kpb':
-            readDataForKp('kp');
             setShow({ kpb: true });
             break;
           case 'mpb':

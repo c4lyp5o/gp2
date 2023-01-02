@@ -445,7 +445,7 @@ function AdminAppProvider({ children }) {
   const readKkiaData = async ({ negeri, daerah }) => {
     try {
       const response = await axios.get(
-        `https://erkm.calypsocloud.one/getkkiakd?negeri=${negeri}`
+        `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
       );
       const currentKkia = await readData('kkiakd');
       if (currentKkia.data.length === 0) {
