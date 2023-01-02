@@ -265,6 +265,9 @@ export default function Rawatan(props) {
                           value={props.cabutKekalRawatanUmum}
                           onChange={(e) => {
                             props.setCabutKekalRawatanUmum(e.target.value);
+                            props.setCabutanDisebabkanPeriodontitisRawatanUmum(
+                              0
+                            );
                           }}
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           min='0'
