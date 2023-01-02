@@ -56,7 +56,7 @@ export default function DaftarPesakit({ createdByKp }) {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=PG101A&tarikhMula=2022-01-01&tarikhAkhir=2022-12-31&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=PG101A&tarikhMula=2023-01-01&tarikhAkhir=2023-12-31&formatFile=xlsx`,
           {
             headers: { Authorization: `Bearer ${kaunterToken}` },
             responseType: 'blob',
