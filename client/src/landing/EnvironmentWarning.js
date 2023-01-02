@@ -14,13 +14,17 @@ export default function EnvrironmentWarning({ setShowEnvironmentWarning }) {
         <div className='mt-5 p-1 m-auto mb-3'>
           <span className='font-semibold text-2xl'>
             <div>INI ADALAH ENVIRONMENT</div>
-            <span className='text-user9 text-4xl font-bold'>TRAINING !</span>
+            <span className='text-user9 text-4xl font-bold'>TRAINING</span>
             <div>BERTUJUAN UNTUK LATIHAN</div>
           </span>
         </div>
         <div>
           <div>SILA KE LAMAN SEBENAR</div>
-          <a className='underline text-user3' href='http://giret.moh.gov.my'>
+          <a
+            target='_blank'
+            className='underline text-user3'
+            href='http://giret.moh.gov.my'
+          >
             Gi-Ret 2.0
           </a>
           <div>SEKIRANYA INGIN MENGISI MAKLUMAT YANG SEBENAR</div>
@@ -32,7 +36,7 @@ export default function EnvrironmentWarning({ setShowEnvironmentWarning }) {
               setShowEnvironmentWarning(false);
             }}
           >
-            SAYA FAHAM
+            SAYA FAHAM DAN TUTUP PERINGATAN INI
           </span>
         </div>
       </div>

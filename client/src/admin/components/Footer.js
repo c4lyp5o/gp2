@@ -29,6 +29,7 @@ export default function Footer() {
           <div className='hidden lg:flex flex-row justify-end pr-2'>
             <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
               <a
+                target='_blank'
                 className='underline'
                 href='https://forms.gle/v9P7w9qweTX86Nxn8'
               >
@@ -65,6 +66,7 @@ export default function Footer() {
           >
             <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
               <a
+                target='_blank'
                 className='underline'
                 href='https://forms.gle/v9P7w9qweTX86Nxn8'
               >
