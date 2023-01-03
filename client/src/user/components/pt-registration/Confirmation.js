@@ -5,7 +5,13 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
+const ConfirmModal = ({
+  children,
+  lookBusyGuys,
+  data,
+  isEdit,
+  setWaktuSelesaiDaftar,
+}) => {
   const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
 
   const [open, setOpen] = useState(false);
@@ -329,7 +335,10 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
       )}
       {doubleConfirm && (
         <>
-          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-14 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <form
+            onSubmit={confirm}
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-14 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+          >
             <FaWindowClose
               onClick={hideDoubleConfirm}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -371,6 +380,17 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
               </div>
+              <div>
+                <p>
+                  Waktu Selesai Daftar:{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <input
+                  required
+                  type='time'
+                  onChange={(e) => setWaktuSelesaiDaftar(e.target.value)}
+                />
+              </div>
               <div className='justify-center mt-3'>
                 <div className='text-xl p-1 justify-end bg-user1 bg-opacity-5'>
                   Sekiranya
@@ -396,8 +416,9 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
               </div>
               <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
                 <button
+                  type='submit'
                   className='capitalize bg-kaunter1 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
-                  onClick={confirm}
+                  // onClick={confirm}
                 >
                   YA
                 </button>
@@ -409,7 +430,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
           <div
             onClick={hideDoubleConfirm}
             className='absolute inset-0 bg-user1 z-40 opacity-75'
