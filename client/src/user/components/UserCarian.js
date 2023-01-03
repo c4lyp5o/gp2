@@ -291,7 +291,7 @@ export default function UserCarian() {
                   BIL
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  MASA DAFTAR
+                  WAKTU TIBA
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   NO. PENDAFTARAN

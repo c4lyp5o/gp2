@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 
@@ -18,6 +19,15 @@ const dd = String(rawToday.getDate()).padStart(2, '0');
 const mm = String(rawToday.getMonth() + 1).padStart(2, '0');
 const yyyy = rawToday.getFullYear();
 const dateToday = yyyy + '-' + mm + '-' + dd;
+
+// get past three days from today
+const rawYesterday = rawToday.setDate(rawToday.getDate() - 1);
+const dateYesterday = moment(rawYesterday).format('YYYY-MM-DD');
+const rawPastTwoDays = rawToday.setDate(rawToday.getDate() - 1);
+const datePastTwoDays = moment(rawPastTwoDays).format('YYYY-MM-DD');
+console.log(dateToday);
+console.log(dateYesterday);
+console.log(datePastTwoDays);
 
 // format 24 hour time to 12 hour
 function formatTime(timeString) {
@@ -440,6 +450,8 @@ function UserAppProvider({ children }) {
         catchAxiosErrorAndLogout,
         useParams,
         dateToday,
+        dateYesterday,
+        datePastTwoDays,
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
