@@ -55,7 +55,8 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser, readDataForKp } = useGlobalAdminAppContext();
+  const { getCurrentUser, readDataForKp, readData } =
+    useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
@@ -69,12 +70,17 @@ export default function DataKp({ FType }) {
         setDaerah();
       }
       setNegeri(userData.negeri);
-      const { data } = await readDataForKp(FType);
-      setData(data);
+      if (userData.accountType !== 'kpUser') {
+        const { data } = await readData(FType);
+        setData(data);
+      }
+      if (userData.accountType === 'kpUser') {
+        const { data } = await readDataForKp(FType, kp);
+        setData(data);
+      }
     };
     getData()
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         switch (FType) {
           case 'program':
             setShow({ program: true });

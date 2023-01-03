@@ -506,6 +506,18 @@ const getDataRoute = async (req, res) => {
         belongsTo: owner,
       });
       break;
+    case 'followers':
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      data = await Followers.find({
+        belongsTo: owner,
+      });
+      break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
@@ -1206,6 +1218,14 @@ const getData = async (req, res) => {
             case 'program':
               const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
               res.status(200).json(deletedEvent);
+              break;
+            case 'sosmed':
+              const deletedSosmed = await Sosmed.findOneAndUpdate(
+                { kodProgram: Id, belongsTo: kp },
+                { $pop: { data: -1 } },
+                { new: true }
+              );
+              res.status(200).json(deletedSosmed);
               break;
             default:
               console.log('default case for delete');

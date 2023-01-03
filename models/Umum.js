@@ -145,6 +145,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    yaTidakPesakitMempunyaiGigi: {
+      type: String,
+      default: '',
+    },
     adaDesidusPemeriksaanUmum: {
       type: Boolean,
       default: false,

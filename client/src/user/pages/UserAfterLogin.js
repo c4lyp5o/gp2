@@ -75,6 +75,20 @@ function UserAfterLogin() {
             element={<UserFormSekolahKOTAK />}
           />
 
+          {/* sampai mac2023 je */}
+          <Route
+            path='umum-sekolah'
+            element={<UserUmum sekolahIdc='umum-sekolah' />}
+          />
+          <Route
+            path='umum-sekolah/form-umum/:personUmumId'
+            element={<UserFormUmumHeader sekolahIdc='umum-sekolah' />}
+          />
+          <Route
+            path='umum-sekolah/form-umum/:personUmumId/:operatorLain'
+            element={<UserFormUmumHeader sekolahIdc='umum-sekolah' />}
+          />
+
           <Route
             path='promosi-individu'
             element={<UserPromosi individuOrKlinik='promosi-individu' />}
