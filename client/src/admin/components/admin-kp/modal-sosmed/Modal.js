@@ -11,10 +11,8 @@ import {
   FaTwitter,
   FaTiktok,
   FaTrashAlt,
-  FaExternalLinkAlt,
 } from 'react-icons/fa';
 
-import { ConfirmModalForData } from '../../superadmin/Confirmation';
 import { SubmitButton, BusyButton } from '../../Buttons';
 import { Loading } from '../../Screens';
 
@@ -145,6 +143,7 @@ export const ModalAddFollowers = (props) => {
     createDataForKp('followers', Data).then((res) => {
       console.log(res);
       props.setShowFollowersModal(false);
+      props.setReload(!props.reload);
     });
   };
   return (
@@ -278,7 +277,7 @@ export const ModalSosMed = (props) => {
           ...ytData,
           [key]: questionState[key],
         };
-      } else if (key.includes('Tiktok')) {
+      } else if (key.includes('TikTok')) {
         ttData = {
           ...ttData,
           [key]: questionState[key],
@@ -506,7 +505,8 @@ export const ModalSosMed = (props) => {
 };
 
 export const ModalDataIkutProgram = (props) => {
-  const { readData, readDataForKp, InfoDecoder } = useGlobalAdminAppContext();
+  const { readData, readDataForKp, InfoDecoder, toast } =
+    useGlobalAdminAppContext();
   const [dataIndex, setDataIndex] = useState();
   const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
@@ -580,23 +580,23 @@ export const ModalDataIkutProgram = (props) => {
                   </tr>
                 </thead>
                 <tbody className='bg-admin4'>
-                  {/* {i.data.map((i, index) => (
+                  {i.data.map((int, index) => (
                     <>
-                      <tr key={i.id}>
+                      <tr key={int.id}>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           {index + 1}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {moment(i.tarikhMula).format('DD-MM-YYYY')}
+                          {moment(int.tarikhMula).format('DD-MM-YYYY')}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {moment(i.tarikhAkhir).format('DD-MM-YYYY')}
+                          {moment(int.tarikhAkhir).format('DD-MM-YYYY')}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           <div className='flex flex-row'>
-                            {i.namaAktiviti}{' '}
+                            {int.namaAktiviti}{' '}
                             <FaInfoCircle
-                              className='ml-2 text-xl text-userBlack'
+                              className='ml-2 mr-1 text-xl text-userBlack'
                               onMouseEnter={(e) => {
                                 setShowInfo(true);
                                 setDataIndex(dataIndex);
@@ -609,16 +609,32 @@ export const ModalDataIkutProgram = (props) => {
                           </div>
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {i.data ? 'Ya' : 'Tidak'}
+                          <div className='flex flex-row justify-center'>
+                            {int.facebook.length > 0 ? (
+                              <FaFacebook className='text-2xl text-user2 m-2' />
+                            ) : null}
+                            {int.instagram.length > 0 ? (
+                              <FaInstagram className='text-2xl text-user6 m-2' />
+                            ) : null}
+                            {int.twitter.length > 0 ? (
+                              <FaTwitter className='text-2xl text-user4 m-2' />
+                            ) : null}
+                            {int.youtube.length > 0 ? (
+                              <FaYoutube className='text-2xl text-admin3 m-2' />
+                            ) : null}
+                            {int.tiktok.length > 0 ? (
+                              <FaTiktok className='text-2xl text-tiktok m-2' />
+                            ) : null}
+                          </div>
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          <button>
+                          <button onClick={(e) => toast('Coming Soon')}>
                             <FaTrashAlt className='text-2xl text-admin3 mt-1' />
                           </button>
                         </td>
                       </tr>
                     </>
-                  ))} */}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -627,23 +643,99 @@ export const ModalDataIkutProgram = (props) => {
         {showInfo && (
           <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
             <div className='text-xs'>
-              <h2 className='font-mono whitespace-nowrap'>INFO:</h2>
-              {/* {Object.keys(data[dataIndex].data[internalDataIndex])
-                .filter(
-                  (i) =>
-                    i !== 'id' &&
-                    i !== 'tarikhMula' &&
-                    i !== 'tarikhAkhir' &&
-                    i !== 'namaAktiviti'
-                )
-                .map((key) => {
-                  return (
-                    <p className='font-mono whitespace-nowrap'>
-                      {InfoDecoder(key)} :{' '}
-                      {data[dataIndex].data[internalDataIndex][key]}
-                    </p>
-                  );
-                })} */}
+              <h2 className='font-mono underline font-bold whitespace-nowrap'>
+                INFO
+              </h2>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].facebook.length > 0
+                  ? data[dataIndex].data[internalDataIndex].facebook.map(
+                      (i) => {
+                        if (i === '') return null;
+                        return Object.keys(i).map((key) => {
+                          return (
+                            <p className='font-mono whitespace-nowrap'>
+                              {InfoDecoder(key)} : {i[key]}
+                            </p>
+                          );
+                        });
+                      }
+                    )
+                  : null}
+              </div>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].youtube.length > 0
+                  ? data[dataIndex].data[internalDataIndex].youtube.map((i) => {
+                      if (i === '') return null;
+                      return Object.keys(i).map((key) => {
+                        return (
+                          <p className='font-mono whitespace-nowrap'>
+                            {InfoDecoder(key)} : {i[key]}
+                          </p>
+                        );
+                      });
+                    })
+                  : null}
+              </div>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].instagram.length > 0
+                  ? data[dataIndex].data[internalDataIndex].instagram.map(
+                      (i) => {
+                        if (i === '') return null;
+                        return Object.keys(i).map((key) => {
+                          return (
+                            <p className='font-mono whitespace-nowrap'>
+                              {InfoDecoder(key)} : {i[key]}
+                            </p>
+                          );
+                        });
+                      }
+                    )
+                  : null}
+              </div>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].twitter.length > 0
+                  ? data[dataIndex].data[internalDataIndex].twitter.map((i) => {
+                      if (i === '') return null;
+                      return Object.keys(i).map((key) => {
+                        return (
+                          <p className='font-mono whitespace-nowrap'>
+                            {InfoDecoder(key)} : {i[key]}
+                          </p>
+                        );
+                      });
+                    })
+                  : null}
+              </div>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].tiktok.length > 0
+                  ? data[dataIndex].data[internalDataIndex].tiktok.map((i) => {
+                      if (i === '') return null;
+                      return Object.keys(i).map((key) => {
+                        return (
+                          <p className='font-mono whitespace-nowrap'>
+                            {InfoDecoder(key)} : {i[key]}
+                          </p>
+                        );
+                      });
+                    })
+                  : null}
+              </div>
+              <div className='mt-2'>
+                {data[dataIndex].data[internalDataIndex].lainLain.length > 0
+                  ? data[dataIndex].data[internalDataIndex].lainLain.map(
+                      (i) => {
+                        if (i === '') return null;
+                        return Object.keys(i).map((key) => {
+                          return (
+                            <p className='font-mono whitespace-nowrap'>
+                              {InfoDecoder(key)} : {i[key]}
+                            </p>
+                          );
+                        });
+                      }
+                    )
+                  : null}
+              </div>
             </div>
           </div>
         )}
