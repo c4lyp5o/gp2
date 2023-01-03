@@ -165,6 +165,21 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
+                {/* navlink to umum program komuniti */}
+                <NavLink
+                  to='umum-sekolah'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowGenerateSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
+                </NavLink>
               </div>
             </div>
             {reliefUserToken ? null : (
