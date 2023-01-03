@@ -73,7 +73,8 @@ export default function DataKp({ FType }) {
       setData(data);
     };
     getData()
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         switch (FType) {
           case 'program':
             setShow({ program: true });
