@@ -14,7 +14,7 @@ const Helper = require('../controllers/countHelper');
 exports.downloader = async function (req, res) {
   const { authorization } = req.headers;
   //
-  let currentKp, currentDaerah, currentNegeri, username;
+  let currentKodFasiliti, currentDaerah, currentNegeri, username;
   if (!authorization) {
     console.log('no authorization');
     // kp = klinikid;
@@ -23,7 +23,7 @@ exports.downloader = async function (req, res) {
   }
   if (authorization) {
     const token = authorization.split(' ')[1];
-    currentKp = jwt.verify(token, process.env.JWT_SECRET).kp;
+    currentKodFasiliti = jwt.verify(token, process.env.JWT_SECRET).kodFasiliti;
     currentDaerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
     currentNegeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
     username = jwt.verify(token, process.env.JWT_SECRET).username;
@@ -43,7 +43,7 @@ exports.downloader = async function (req, res) {
   } = req.query;
   // if kaunter user
   if (!klinik) {
-    klinik = currentKp;
+    klinik = currentKodFasiliti;
     daerah = currentDaerah;
     negeri = currentNegeri;
   }
