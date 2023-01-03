@@ -61,9 +61,9 @@ export default function KlinikPergigianBergerak(props) {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Klinik Bertanggungjawab
                   </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               <tbody className='bg-admin4'>
@@ -79,7 +79,7 @@ export default function KlinikPergigianBergerak(props) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {kpb.klinikBertanggungjawab}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                         id={kpb._id}
@@ -91,7 +91,7 @@ export default function KlinikPergigianBergerak(props) {
                       >
                         Kemaskini
                       </button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
