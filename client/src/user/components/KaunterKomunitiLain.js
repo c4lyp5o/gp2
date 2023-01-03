@@ -63,16 +63,15 @@ export default function KaunterKomunitiLain({
             <option value='projek-komuniti'>Projek Komuniti</option>
             <option value='ppkps'>
               Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah
+              (PPKPS)
             </option>
             <option value='oap'>Program Orang Asli dan Penan</option>
-            <option value='penjara-koreksional'>
-              Program di Penjara / Pusat Koreksional
-            </option>
+            <option value='penjara-koreksional'>Institusi Penjara</option>
             {negeri === 'Sabah' && (
-              <option value='fds'>Flying Dental Service (Sabah)</option>
+              <option value='fds'>Flying Dental Service</option>
             )}
             {negeri === 'Kelantan' && (
-              <option value='rtc'>RTC (Kelantan)</option>
+              <option value='rtc'>RTC Kelantan, Tunjung</option>
             )}
             <option value='incremental'>
               Program Pergigian Sekolah sesi 2022/2023
