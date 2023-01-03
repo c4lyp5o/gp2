@@ -16,8 +16,9 @@ import moment from 'moment';
 import UserDeleteModal from './UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
+import { set } from 'mongoose';
 
-function UserUmum() {
+function UserUmum({ sekolahIdc }) {
   const {
     userToken,
     userinfo,
@@ -35,8 +36,12 @@ function UserUmum() {
   const [isLoading, setIsLoading] = useState(true);
   const [nama, setNama] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
-  const [jenisFasiliti, setJenisFasiliti] = useState('kp');
-  const [jenisProgram, setJenisProgram] = useState('');
+  const [jenisFasiliti, setJenisFasiliti] = useState(
+    sekolahIdc === 'umum-sekolah' ? 'projek-komuniti-lain' : 'kp'
+  );
+  const [jenisProgram, setJenisProgram] = useState(
+    sekolahIdc === 'umum-sekolah' ? 'incremental' : ''
+  );
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
@@ -123,6 +128,23 @@ function UserUmum() {
     };
   }, []);
 
+  //clear jenisFasiliti if change sekolahIdc
+  useEffect(() => {
+    if (modalHapus === false) {
+      setJenisFasiliti(
+        sekolahIdc === 'umum-sekolah' ? 'projek-komuniti-lain' : 'kp'
+      );
+    }
+  }, [sekolahIdc, reloadState]);
+
+  useEffect(() => {
+    if (modalHapus === false) {
+      if (sekolahIdc === 'umum-sekolah') {
+        setJenisProgram('incremental');
+      }
+    }
+  }, [sekolahIdc, reloadState, jenisFasiliti]);
+
   const handleDelete = async (singlePerson, reason) => {
     if (!modalHapus) {
       setModalHapus(true);
@@ -170,7 +192,13 @@ function UserUmum() {
       <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
         <form className='text-left grid grid-cols-1 lg:grid-cols-3'>
           <h2 className='text-xl font-semibold flex flex-row px-2 lg:col-span-3'>
-            CARIAN PESAKIT UMUM
+            {sekolahIdc === 'umum-sekolah' ? (
+              <span className='mr-2'>
+                CARIAN PESAKIT PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
+              </span>
+            ) : (
+              <span className='mr-2'>CARIAN PESAKIT UMUM</span>
+            )}
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
             <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
@@ -213,6 +241,7 @@ function UserUmum() {
             </label>
             <div className='relative w-64'>
               <select
+                disabled={sekolahIdc === 'umum-sekolah' ? true : false}
                 name='jenis-fasiliti'
                 id='jenis-fasiliti'
                 value={jenisFasiliti}
@@ -241,13 +270,14 @@ function UserUmum() {
               </label>
               <div className='relative w-64'>
                 <select
+                  disabled={sekolahIdc === 'umum-sekolah' ? true : false}
                   name='jenis-program'
                   id='jenis-program'
                   value={jenisProgram}
                   onChange={(e) => {
                     setJenisProgram(e.target.value);
                   }}
-                  className='appearance-none leading-7 px-3 py-1 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
+                  className='appearance-none leading-7 px-3 py-1 pr-6 ring-2 w-64 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md '
                 >
                   <option value=''>Jenis Program / Aktiviti</option>
                   <option value='programDewasaMuda'>Program Dewasa Muda</option>
@@ -260,19 +290,18 @@ function UserUmum() {
                   <option value='projek-komuniti'>Projek Komuniti</option>
                   <option value='ppkps'>
                     Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah
+                    (PPKPS)
                   </option>
                   <option value='oap'>Program Orang Asli dan Penan</option>
-                  <option value='penjara-koreksional'>
-                    Program di Penjara / Pusat Koreksional
-                  </option>
+                  <option value='penjara-koreksional'>Institusi Penjara</option>
                   {userinfo.createdByNegeri === 'Sabah' && (
-                    <option value='fds'>Flying Dental Service (Sabah)</option>
+                    <option value='fds'>Flying Dental Service</option>
                   )}
                   {userinfo.createdByNegeri === 'Kelantan' && (
-                    <option value='rtc'>RTC (Kelantan)</option>
+                    <option value='rtc'>RTC Kelantan, Tunjung</option>
                   )}
                   <option value='incremental'>
-                    Program Pergigian Sekolah sesi 2022/2023
+                    Program Pergigian Sekolah Sesi 2022/2023
                   </option>
                 </select>
                 <span>
