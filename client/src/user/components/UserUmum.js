@@ -135,7 +135,7 @@ function UserUmum({ sekolahIdc }) {
         sekolahIdc === 'umum-sekolah' ? 'projek-komuniti-lain' : 'kp'
       );
     }
-  }, [sekolahIdc, reloadState]);
+  }, [sekolahIdc]);
 
   useEffect(() => {
     if (modalHapus === false) {
@@ -143,7 +143,7 @@ function UserUmum({ sekolahIdc }) {
         setJenisProgram('incremental');
       }
     }
-  }, [sekolahIdc, reloadState, jenisFasiliti]);
+  }, [sekolahIdc, jenisFasiliti]);
 
   const handleDelete = async (singlePerson, reason) => {
     if (!modalHapus) {
