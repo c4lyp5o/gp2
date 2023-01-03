@@ -312,9 +312,9 @@ export default function DaftarPesakit({ createdByKp }) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                   BAYARAN & NO. RESIT
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   TINDAKAN
-                </th>
+                </th> */}
               </tr>
             </thead>
             {allPersonKaunter.kaunterResultQuery
@@ -401,7 +401,7 @@ export default function DaftarPesakit({ createdByKp }) {
                           `, ${p.noBayaran3} - ${p.noResit3}`}
                         {p.catatan && `, ${p.catatan}`}
                       </td>
-                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                      {/* <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                         <button
                           className='w-36 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                           onClick={() => {
@@ -411,8 +411,8 @@ export default function DaftarPesakit({ createdByKp }) {
                         >
                           Kemaskini Bayaran, No. Resit & Catatan
                         </button>
-                        {/* <PrintPatientDetails data={p} /> */}
-                      </td>
+                        <PrintPatientDetails data={p} />
+                      </td> */}
                     </tr>
                   </tbody>
                 </>
