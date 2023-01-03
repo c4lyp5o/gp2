@@ -247,6 +247,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
     bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
   masterForm.setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum =
     setBilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum;
+  const [yaTidakPesakitMempunyaiGigi, setYaTidakPesakitMempunyaiGigi] =
+    useState('');
+  masterForm.yaTidakPesakitMempunyaiGigi = yaTidakPesakitMempunyaiGigi;
+  masterForm.setYaTidakPesakitMempunyaiGigi = setYaTidakPesakitMempunyaiGigi;
   const [adaDesidusPemeriksaanUmum, setAdaDesidusPemeriksaanUmum] =
     useState(false);
   masterForm.adaDesidusPemeriksaanUmum = adaDesidusPemeriksaanUmum;
@@ -1291,6 +1295,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
           data.singlePersonUmum
             .bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum
         );
+        setYaTidakPesakitMempunyaiGigi(
+          data.singlePersonUmum.yaTidakPesakitMempunyaiGigi
+        );
         setAdaDesidusPemeriksaanUmum(
           data.singlePersonUmum.adaDesidusPemeriksaanUmum
         );
@@ -1829,6 +1836,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               tidakHadirTaskaTadika,
               pemeriksaanTaskaTadika,
               bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum,
+              yaTidakPesakitMempunyaiGigi,
               adaDesidusPemeriksaanUmum,
               dAdaGigiDesidusPemeriksaanUmum,
               fAdaGigiDesidusPemeriksaanUmum,
