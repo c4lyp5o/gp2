@@ -182,7 +182,7 @@ export default function Rawatan(props) {
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        PRR Jenis 1
+                        Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
                       </h4>
                       {/* <div className='flex flex-row items-center pl-5 pt-1 col-span-2'>
                         <input
@@ -207,7 +207,8 @@ export default function Rawatan(props) {
                         </label>
                       </div> */}
                       <p className='flex flex-row pl-5 text-sm font-m col-span-2'>
-                        jumlah gigi diberi PRR Jenis 1
+                        jumlah gigi diberi Tampalan Resin Pencegahan Jenis 1
+                        (PRR Type I)
                       </p>
                       <div className='flex flex-row items-center pl-5'>
                         <input
