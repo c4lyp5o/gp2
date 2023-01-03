@@ -40,6 +40,29 @@ export default function Pemeriksaan(props) {
     props.disaringProgramKanserMulutPemeriksaanUmum,
   ]);
 
+  //reset status gigi
+  useEffect(() => {
+    if (props.yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
+      props.setAdaDesidusPemeriksaanUmum(false);
+      props.setAdaKekalPemeriksaanUmum(false);
+    }
+    if (props.adaDesidusPemeriksaanUmum === false) {
+      props.setDAdaGigiDesidusPemeriksaanUmum(0);
+      props.setFAdaGigiDesidusPemeriksaanUmum(0);
+      props.setXAdaGigiDesidusPemeriksaanUmum(0);
+    }
+    if (props.adaKekalPemeriksaanUmum === false) {
+      props.setDAdaGigiKekalPemeriksaanUmum(0);
+      props.setMAdaGigiKekalPemeriksaanUmum(0);
+      props.setFAdaGigiKekalPemeriksaanUmum(0);
+      props.setXAdaGigiKekalPemeriksaanUmum(0);
+    }
+  }, [
+    props.yaTidakPesakitMempunyaiGigi,
+    props.adaDesidusPemeriksaanUmum,
+    props.adaKekalPemeriksaanUmum,
+  ]);
+
   return (
     <>
       <div className='pb-1 pr-2 pl-2'>
@@ -347,274 +370,347 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 )}
-                <article className=' border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5'>
-                    Status Gigi Desidus
-                  </h4>
-                  <div className='grid gap-1'>
-                    <div className='flex items-center justify-center'>
+                <article className='grid border border-userBlack p-1 rounded-md'>
+                  <div className='flex flex-row items-center pl-5'>
+                    <h4 className='font-bold'>
+                      Pesakit Sudah Tumbuh Gigi?
+                      <span className='text-user6'>*</span>
+                    </h4>
+                    <div className='flex items-center justify-center ml-2'>
                       <input
                         disabled={isDisabled}
-                        type='checkbox'
-                        name='ada-desidus-pemeriksaan-umum'
-                        id='ada-desidus-pemeriksaan-umum'
-                        checked={props.adaDesidusPemeriksaanUmum}
-                        onChange={() => {
-                          props.setAdaDesidusPemeriksaanUmum(
-                            !props.adaDesidusPemeriksaanUmum
-                          );
+                        required
+                        type='radio'
+                        name='pesakit-mempunyai-gigi'
+                        id='ya-pesakit-mempunyai-gigi'
+                        value='ya-pesakit-mempunyai-gigi'
+                        checked={
+                          props.yaTidakPesakitMempunyaiGigi ===
+                          'ya-pesakit-mempunyai-gigi'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPesakitMempunyaiGigi(e.target.value);
                         }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
                       <label
-                        htmlFor='ada-desidus-pemeriksaan-umum'
+                        htmlFor='ya-pesakit-mempunyai-gigi'
                         className='m-2 text-sm font-m'
                       >
-                        ada gigi desidus
+                        Ya
+                      </label>
+                      <input
+                        disabled={isDisabled}
+                        required
+                        type='radio'
+                        name='pesakit-mempunyai-gigi'
+                        id='tidak-pesakit-mempunyai-gigi'
+                        value='tidak-pesakit-mempunyai-gigi'
+                        checked={
+                          props.yaTidakPesakitMempunyaiGigi ===
+                          'tidak-pesakit-mempunyai-gigi'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setYaTidakPesakitMempunyaiGigi(e.target.value);
+                        }}
+                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                      />
+                      <label
+                        htmlFor='tidak-pesakit-mempunyai-gigi'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
                       </label>
                     </div>
-                    <div
-                      className={`${
-                        !props.adaDesidusPemeriksaanUmum && 'hidden'
-                      } grid grid-cols-1 sm:grid-cols-2`}
-                    >
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m lowercase'>d: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='20'
-                          type='number'
-                          name='d-ada-status-gigi-desidus-pemeriksaan-umum'
-                          id='d-ada-status-gigi-desidus-pemeriksaan-umum'
-                          value={props.dAdaGigiDesidusPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setDAdaGigiDesidusPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m lowercase'>f: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='20'
-                          type='number'
-                          name='f-ada-status-gigi-desidus-pemeriksaan-umum'
-                          id='f-ada-status-gigi-desidus-pemeriksaan-umum'
-                          value={props.fAdaGigiDesidusPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setFAdaGigiDesidusPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m lowercase'>x: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='20'
-                          type='number'
-                          name='x-ada-status-gigi-desidus-pemeriksaan-umum'
-                          id='x-ada-status-gigi-desidus-pemeriksaan-umum'
-                          value={props.xAdaGigiDesidusPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setXAdaGigiDesidusPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      {props.singlePersonUmum.umur >= 10 && (
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='text-sm font-m'>
-                            tampalan sementara desidus
-                          </p>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            min='0'
-                            max='20'
-                            type='number'
-                            name='tampalan-sementara-desidus-pemeriksaan-umum'
-                            id='tampalan-sementara-desidus-pemeriksaan-umum'
-                            value={
-                              props.tampalanSementaraDesidusPemeriksaanUmum
-                            }
-                            onChange={(e) => {
-                              props.setTampalanSementaraDesidusPemeriksaanUmum(
-                                e.target.value
-                              );
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
+                  </div>
+                  {props.yaTidakPesakitMempunyaiGigi ===
+                    'ya-pesakit-mempunyai-gigi' && (
+                    <article className=' border border-userBlack pl-3 p-2 rounded-md'>
+                      <div className='shadow-lg  grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Desidus
+                        </h4>
+                        <div className='grid gap-1'>
+                          <div className='flex items-center pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              required={
+                                props.adaDesidusPemeriksaanUmum === true ||
+                                props.adaKekalPemeriksaanUmum === true
+                                  ? false
+                                  : true
+                              }
+                              name='ada-desidus-pemeriksaan-umum'
+                              id='ada-desidus-pemeriksaan-umum'
+                              checked={props.adaDesidusPemeriksaanUmum}
+                              onChange={() => {
+                                props.setAdaDesidusPemeriksaanUmum(
+                                  !props.adaDesidusPemeriksaanUmum
+                                );
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='ada-desidus-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              ada gigi desidus
+                            </label>
+                          </div>
+                          <div
+                            className={`${
+                              !props.adaDesidusPemeriksaanUmum && 'hidden'
+                            } grid grid-cols-1 sm:grid-cols-2`}
+                          >
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>d: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='d-ada-status-gigi-desidus-pemeriksaan-umum'
+                                id='d-ada-status-gigi-desidus-pemeriksaan-umum'
+                                value={props.dAdaGigiDesidusPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setDAdaGigiDesidusPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>f: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='f-ada-status-gigi-desidus-pemeriksaan-umum'
+                                id='f-ada-status-gigi-desidus-pemeriksaan-umum'
+                                value={props.fAdaGigiDesidusPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setFAdaGigiDesidusPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>x: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='x-ada-status-gigi-desidus-pemeriksaan-umum'
+                                id='x-ada-status-gigi-desidus-pemeriksaan-umum'
+                                value={props.xAdaGigiDesidusPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setXAdaGigiDesidusPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            {props.singlePersonUmum.umur >= 10 && (
+                              <div className='flex flex-row items-center pl-5'>
+                                <p className='text-sm font-m'>
+                                  tampalan sementara desidus
+                                </p>
+                                <input
+                                  disabled={isDisabled}
+                                  required
+                                  min='0'
+                                  max='20'
+                                  type='number'
+                                  name='tampalan-sementara-desidus-pemeriksaan-umum'
+                                  id='tampalan-sementara-desidus-pemeriksaan-umum'
+                                  value={
+                                    props.tampalanSementaraDesidusPemeriksaanUmum
+                                  }
+                                  onChange={(e) => {
+                                    props.setTampalanSementaraDesidusPemeriksaanUmum(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                            )}
+                          </div>
+                          {props.sumDMFXDesidusUmum > 20 && (
+                            <p className='text-user6 font-semibold'>
+                              jumlah <span className='lowercase'>dfx</span>{' '}
+                              tidak boleh melebihi 20
+                            </p>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                  {props.sumDMFXDesidusUmum > 20 && (
-                    <p className='text-user6 font-semibold'>
-                      jumlah <span className='lowercase'>dmfx</span> tidak boleh
-                      melebihi 20
-                    </p>
-                  )}
-                </article>
-                <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                  <h4 className='font-bold flex flex-row pl-5'>
-                    Status Gigi Kekal
-                  </h4>
-                  <div className='grid gap-1'>
-                    <div className='flex items-center justify-center'>
-                      <input
-                        disabled={isDisabled}
-                        type='checkbox'
-                        name='ada-kekal-pemeriksaan-umum'
-                        id='ada-kekal-pemeriksaan-umum'
-                        checked={props.adaKekalPemeriksaanUmum}
-                        onChange={() => {
-                          props.setAdaKekalPemeriksaanUmum(
-                            !props.adaKekalPemeriksaanUmum
-                          );
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                      />
-                      <label
-                        htmlFor='ada-kekal-pemeriksaan-umum'
-                        className='m-2 text-sm font-m'
-                      >
-                        ada gigi kekal
-                      </label>
-                    </div>
-                    <div
-                      className={`${
-                        !props.adaKekalPemeriksaanUmum && 'hidden'
-                      } grid grid-cols-2`}
-                    >
-                      <div className='flex flex-row items-center  pl-5'>
-                        <p className='text-sm font-m '>D: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='d-ada-status-gigi-kekal-pemeriksaan-umum'
-                          id='d-ada-status-gigi-kekal-pemeriksaan-umum'
-                          value={props.dAdaGigiKekalPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setDAdaGigiKekalPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
                       </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m '>M: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='m-ada-status-gigi-kekal-pemeriksaan-umum'
-                          id='m-ada-status-gigi-kekal-pemeriksaan-umum'
-                          value={props.mAdaGigiKekalPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setMAdaGigiKekalPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div className='shadow-lg grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Kekal
+                        </h4>
+                        <div className='grid gap-1 '>
+                          <div className='flex items-center pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              required={
+                                props.adaKekalPemeriksaanUmum === true ||
+                                props.adaDesidusPemeriksaanUmum === true
+                                  ? false
+                                  : true
+                              }
+                              type='checkbox'
+                              name='ada-kekal-pemeriksaan-umum'
+                              id='ada-kekal-pemeriksaan-umum'
+                              checked={props.adaKekalPemeriksaanUmum}
+                              onChange={() => {
+                                props.setAdaKekalPemeriksaanUmum(
+                                  !props.adaKekalPemeriksaanUmum
+                                );
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='ada-kekal-pemeriksaan-umum'
+                              className='m-2 text-sm font-m'
+                            >
+                              ada gigi kekal
+                            </label>
+                          </div>
+                          <div
+                            className={`${
+                              !props.adaKekalPemeriksaanUmum && 'hidden'
+                            } grid grid-cols-2`}
+                          >
+                            <div className='flex flex-row items-center  pl-5'>
+                              <p className='text-sm font-m '>D: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='d-ada-status-gigi-kekal-pemeriksaan-umum'
+                                id='d-ada-status-gigi-kekal-pemeriksaan-umum'
+                                value={props.dAdaGigiKekalPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setDAdaGigiKekalPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>M: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='m-ada-status-gigi-kekal-pemeriksaan-umum'
+                                id='m-ada-status-gigi-kekal-pemeriksaan-umum'
+                                value={props.mAdaGigiKekalPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setMAdaGigiKekalPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>F: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='f-ada-status-gigi-kekal-pemeriksaan-umum'
+                                id='f-ada-status-gigi-kekal-pemeriksaan-umum'
+                                value={props.fAdaGigiKekalPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setFAdaGigiKekalPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>E: </p>
+                              <span className='text-user6'>* </span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                id='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                value={props.eAdaGigiKekalPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setEAdaGigiKekalPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <FaInfoCircle
+                                title='Hanya masukkan E10 , E12 & E13'
+                                className='text-lg m-1'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>X: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='x-ada-status-gigi-kekal-pemeriksaan-umum'
+                                id='x-ada-status-gigi-kekal-pemeriksaan-umum'
+                                value={props.xAdaGigiKekalPemeriksaanUmum}
+                                onChange={(e) => {
+                                  props.setXAdaGigiKekalPemeriksaanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                          </div>
+                          {props.sumDMFXKekalUmum > 32 && (
+                            <p className='text-user6 font-semibold'>
+                              jumlah DMFX tidak boleh melebihi 32
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m '>F: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='f-ada-status-gigi-kekal-pemeriksaan-umum'
-                          id='f-ada-status-gigi-kekal-pemeriksaan-umum'
-                          value={props.fAdaGigiKekalPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setFAdaGigiKekalPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m '>E: </p>
-                        <span className='text-user6'>
-                          *{' '}
-                          <FaInfoCircle
-                            title='Hanya masukkan E10 , E12 & E13'
-                            className='text-lg m-1'
-                          />
-                        </span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                          id='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                          value={props.eAdaGigiKekalPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setEAdaGigiKekalPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m '>X: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='x-ada-status-gigi-kekal-pemeriksaan-umum'
-                          id='x-ada-status-gigi-kekal-pemeriksaan-umum'
-                          value={props.xAdaGigiKekalPemeriksaanUmum}
-                          onChange={(e) => {
-                            props.setXAdaGigiKekalPemeriksaanUmum(
-                              e.target.value
-                            );
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {props.sumDMFXKekalUmum > 32 && (
-                    <p className='text-user6 font-semibold'>
-                      jumlah DMFX tidak boleh melebihi 32
-                    </p>
+                    </article>
                   )}
                 </article>
                 <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
@@ -1138,7 +1234,7 @@ export default function Pemeriksaan(props) {
                   </div> */}
                   <div className='flex flex-row items-center pl-5 col-span-2'>
                     <p className='flex flex-row text-sm font-m items-center'>
-                      jumlah gigi kekal perlu Pengapan Fisur
+                      Jumlah Gigi Kekal Perlu Pengapan Fisur (E10)
                     </p>
                     <input
                       disabled={isDisabled}
@@ -1240,8 +1336,8 @@ export default function Pemeriksaan(props) {
                   </div> */}
                   <div className='flex flex-row items-center pl-5 col-span-2'>
                     <p className='flex flex-row text-sm font-m '>
-                      jumlah gigi perlu Tampalan Resin Pencegahan Jenis 1 (PRR
-                      Type I)
+                      Jumlah Gigi Kekal Perlu Tampalan Resin Pencegahan Jenis 1
+                      (PRR Type I) (E12)
                     </p>
                     <input
                       disabled={isDisabled}
