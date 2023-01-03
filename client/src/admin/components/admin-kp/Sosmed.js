@@ -7,6 +7,8 @@ import Tiktok from '../../assets/socmed/tiktok.svg';
 import Youtube from '../../assets/socmed/youtube.svg';
 import Lain from '../../assets/socmed/lain-lain.svg';
 
+import { ModalDataIkutProgram } from './modal-sosmed/Modal';
+
 const socmed = [
   { name: 'Facebook', img: Facebook },
   { name: 'Instagram', img: Instagram },
@@ -146,7 +148,7 @@ export default function Sosmed(props) {
           {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-          <div className='flex flex-auto m-2'>{renderCards(props)}</div>
+          {/* <div className='flex flex-auto m-2'>{renderCards(props)}</div> */}
         </div>
         <div className='m-3'>
           <button

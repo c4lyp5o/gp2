@@ -55,7 +55,7 @@ function statusPesakit(p) {
     status += '/';
     status += 'IM';
   }
-  if (p.oku === true) {
+  if (p.orangKurangUpaya === true) {
     status += '/';
     status += 'OKU';
   }
