@@ -17,10 +17,12 @@ function UserNavbar() {
 
   const toggleRetenSubMenu = () => {
     setShowRetenSubMenu(!showRetenSubMenu);
+    setShowGenerateSubMenu(false);
   };
 
   const toggleGenerateSubMenu = () => {
     setShowGenerateSubMenu(!showGenerateSubMenu);
+    setShowRetenSubMenu(false);
   };
 
   let barSisiRef = useRef();
@@ -165,7 +167,7 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
-                {/* navlink to umum program komuniti */}
+                {/* use till mac 22/23 navlink to PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023 */}
                 <NavLink
                   to='umum-sekolah'
                   onClick={() => {
