@@ -17,10 +17,12 @@ function UserNavbar() {
 
   const toggleRetenSubMenu = () => {
     setShowRetenSubMenu(!showRetenSubMenu);
+    setShowGenerateSubMenu(false);
   };
 
   const toggleGenerateSubMenu = () => {
     setShowGenerateSubMenu(!showGenerateSubMenu);
+    setShowRetenSubMenu(false);
   };
 
   let barSisiRef = useRef();
@@ -165,6 +167,21 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
+                {/* use till mac 22/23 navlink to PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023 */}
+                <NavLink
+                  to='umum-sekolah'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowGenerateSubMenu(false);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
+                </NavLink>
               </div>
             </div>
             {reliefUserToken ? null : (

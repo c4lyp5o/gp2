@@ -53,7 +53,7 @@ const UserModalPromosiConfirmation = ({ children, data }) => {
                   <div
                     className={`text-sm mt-5 overflow-hidden transition-all duration-500`}
                   >
-                    <p>Kod Prorgram: {data.kodProgram}</p>
+                    <p>Kod Program: {data.kodProgram}</p>
                     <p>Nama Acara: {data.namaAcara}</p>
                     <p>
                       Tarikh Mula:{' '}
