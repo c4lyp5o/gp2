@@ -70,12 +70,11 @@ export default function DataKp({ FType }) {
         setDaerah();
       }
       setNegeri(userData.negeri);
-      if (accountType !== 'kpUser') {
+      if (userData.accountType !== 'kpUser') {
         const { data } = await readData(FType);
-        console.log(data);
         setData(data);
       }
-      if (accountType === 'kpUser') {
+      if (userData.accountType === 'kpUser') {
         const { data } = await readDataForKp(FType, kp);
         setData(data);
       }
@@ -84,7 +83,6 @@ export default function DataKp({ FType }) {
       .then(() => {
         switch (FType) {
           case 'program':
-            console.log('program');
             setShow({ program: true });
             break;
           case 'sosmed':
