@@ -10,7 +10,7 @@ const ConfirmModal = ({
   lookBusyGuys,
   data,
   isEdit,
-  setWaktuSelesaiDaftar,
+  waktuSelesaiDaftar,
 }) => {
   const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
 
@@ -388,7 +388,9 @@ const ConfirmModal = ({
                 <input
                   required
                   type='time'
-                  onChange={(e) => setWaktuSelesaiDaftar(e.target.value)}
+                  onChange={(e) => {
+                    waktuSelesaiDaftar.current = e.target.value;
+                  }}
                 />
               </div>
               <div className='justify-center mt-3'>
