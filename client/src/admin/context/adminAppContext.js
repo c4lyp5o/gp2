@@ -627,6 +627,7 @@ function AdminAppProvider({ children }) {
     ppb: 'Pasukan Pergigian Bergerak',
     program: 'Program',
     sosmed: 'Media Sosial',
+    followers: 'Followers',
     tastad: 'Tadika dan Taska',
     'kolej-komuniti': 'Kolej Komuniti',
     'kolej-vokasional': 'Kolej Vokasional',
