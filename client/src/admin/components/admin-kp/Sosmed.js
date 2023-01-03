@@ -1,166 +1,265 @@
+import { useState, useEffect } from 'react';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import moment from 'moment';
 
-import Facebook from '../../assets/socmed/facebook.svg';
-import Instagram from '../../assets/socmed/instagram.png';
-import Twitter from '../../assets/socmed/twitter.svg';
-import Tiktok from '../../assets/socmed/tiktok.svg';
-import Youtube from '../../assets/socmed/youtube.svg';
-import Lain from '../../assets/socmed/lain-lain.svg';
+import {
+  FaInfoCircle,
+  FaYoutube,
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaTiktok,
+  FaShareAlt,
+  FaTrashAlt,
+} from 'react-icons/fa';
 
-import { ModalDataIkutProgram } from './modal-sosmed/Modal';
-
-const socmed = [
-  { name: 'Facebook', img: Facebook },
-  { name: 'Instagram', img: Instagram },
-  { name: 'Twitter', img: Twitter },
-  { name: 'Tiktok', img: Tiktok },
-  { name: 'Youtube', img: Youtube },
-  { name: 'Lain', img: Lain },
-];
-
-const SosmedCards = (current, props) => {
-  const { DictionarySosMedParam, DictionarySosMedAcronym } =
-    useGlobalAdminAppContext();
-  return (
-    <div className='w-1/3 rounded overflow-hidden shadow-lg'>
-      <img className='h-20 mx-auto mt-2 p-4' src={current.img} alt='logo' />
-      <div className='px-6 py-4'>
-        <div className='font-bold text-xl mb-2'>{current.name}</div>
-        {props.data.map((item) => {
-          if (item.name === current.name) {
-            return (
-              <div className='grid grid-row-2 mx-auto'>
-                {item.data.map((type) => {
-                  return (
-                    <div className='flex flex-row justify-between'>
-                      <p className='text-gray-700 text-xs'>
-                        {type.name === 'live' && item.name !== 'Twitter' ? (
-                          <div className='mb-2'>
-                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                              {DictionarySosMedAcronym(type.name)}
-                            </span>
-                            {type.data.map((live) => {
-                              return (
-                                <div>
-                                  <p className='text-gray-700 text-xs mt-1'>
-                                    {Object.keys(live).map((key) => {
-                                      return (
-                                        <div>
-                                          <p className='text-gray-700 text-xs mt-1'>
-                                            {DictionarySosMedAcronym(
-                                              key.split('_')[0]
-                                            )}{' '}
-                                            {DictionarySosMedParam(key)}:{' '}
-                                            {live[key]}
-                                          </p>
-                                        </div>
-                                      );
-                                    })}
-                                  </p>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-                        {type.name === 'poster' &&
-                        item.name !== 'Youtube' &&
-                        item.name !== 'Tiktok' ? (
-                          <div className='mb-2'>
-                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                              {type.name}
-                            </span>
-                            {type.data.map((live) => {
-                              return (
-                                <div>
-                                  <p className='text-gray-700 text-xs mt-1'>
-                                    {Object.keys(live).map((key) => {
-                                      return (
-                                        <div>
-                                          <p className='text-gray-700 text-xs mt-1'>
-                                            {DictionarySosMedAcronym(
-                                              key.split('_')[0]
-                                            )}{' '}
-                                            {DictionarySosMedParam(key)}:{' '}
-                                            {live[key]}
-                                          </p>
-                                        </div>
-                                      );
-                                    })}
-                                  </p>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-                        {type.name === 'video' ? (
-                          <div className='mb-2'>
-                            <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                              {type.name}
-                            </span>
-                            {type.data.map((live) => {
-                              return (
-                                <div>
-                                  <p className='text-gray-700 text-xs mt-1'>
-                                    {Object.keys(live).map((key) => {
-                                      return (
-                                        <div>
-                                          <p className='text-gray-700 text-xs mt-1'>
-                                            {DictionarySosMedAcronym(
-                                              key.split('_')[0]
-                                            )}{' '}
-                                            {DictionarySosMedParam(key)}:{' '}
-                                            {live[key]}
-                                          </p>
-                                        </div>
-                                      );
-                                    })}
-                                  </p>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          }
-        })}
-      </div>
-    </div>
-  );
-};
-
-const renderCards = (props) => {
-  return socmed.map((name) => {
-    return SosmedCards(name, props);
-  });
-};
+import { Loading, NothingHereBoi } from '../Screens';
 
 export default function Sosmed(props) {
-  if (props.data.length > 0) {
-    return (
+  const { readData, readDataForKp, InfoDecoder, toast } =
+    useGlobalAdminAppContext();
+  const [dataIndex, setDataIndex] = useState();
+  const [internalDataIndex, setInternalDataIndex] = useState();
+  const [data, setData] = useState();
+  const [showInfo, setShowInfo] = useState(false);
+
+  useEffect(() => {
+    if (props.accountType !== 'kpUser') {
+      readData('sosmedByKodProgram').then((res) => {
+        console.log(res);
+        setData(res.data);
+      });
+    }
+    if (props.accountType === 'kpUser') {
+      readDataForKp('sosmedByKodProgram').then((res) => {
+        console.log(res);
+        setData(res.data);
+      });
+    }
+    return () => {
+      setData();
+      setDataIndex();
+      setInternalDataIndex();
+      setShowInfo(false);
+    };
+  }, []);
+
+  if (!data) {
+    return <Loading />;
+  }
+
+  if (data.length === 0) {
+    return <NothingHereBoi FType={props.FType} />;
+  }
+
+  return (
+    <>
       <div className='flex flex-col items-center gap-5'>
-        <h1 className='text-3xl font-bold mt-10 mb-10'>
+        <h1 className='text-3xl font-bold mt-10'>
           Senarai Aktiviti Promosi / Pendidikan Kesihatan Pergigian Media Sosial{' '}
           {props.kp}
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-          {/* <div className='flex flex-auto m-2'>{renderCards(props)}</div> */}
-        </div>
-        <div className='m-3'>
-          <button
-            className='bg-user9 text-userWhite text-sm rounded-md px-2 py-1 hover:bg-user6 hover:cursor-pointer transition-all'
-            onClick={() =>
-              props.setShowSosMedDataModal(!props.showSosMedDataModal)
-            }
-          >
-            Lihat data berdasarkan kod program
-          </button>
+          {data.map((i, dataIndex) => (
+            <>
+              <div className='m-2 justify-center'>
+                <h1>KOD PROGRAM: {i.kodProgram}</h1>
+              </div>
+              <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
+                <table className='table-auto'>
+                  <thead className='text-adminWhite bg-admin3'>
+                    <tr>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Bil.
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Tarikh Muatnaik
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Tarikh Kemaskini
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Tajuk Bahan / Aktiviti
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Jenis Media Sosial
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        Hapus
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className='bg-admin4'>
+                    {i.data.map((int, index) => (
+                      <>
+                        <tr key={int.id}>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {index + 1}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {moment(int.tarikhMula).format('DD-MM-YYYY')}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {moment(int.tarikhAkhir).format('DD-MM-YYYY')}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            <div className='flex flex-row'>
+                              {int.namaAktiviti}{' '}
+                              <FaInfoCircle
+                                className='ml-2 mr-1 text-xl text-userBlack'
+                                onMouseEnter={(e) => {
+                                  setShowInfo(true);
+                                  setDataIndex(dataIndex);
+                                  setInternalDataIndex(index);
+                                }}
+                                onMouseLeave={(e) => {
+                                  setShowInfo(false);
+                                }}
+                              />
+                            </div>
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            <div className='flex flex-row justify-center'>
+                              {int.facebook.length > 0 ? (
+                                <FaFacebook className='text-2xl text-user2 m-2' />
+                              ) : null}
+                              {int.instagram.length > 0 ? (
+                                <FaInstagram className='text-2xl text-user6 m-2' />
+                              ) : null}
+                              {int.twitter.length > 0 ? (
+                                <FaTwitter className='text-2xl text-user3 m-2' />
+                              ) : null}
+                              {int.youtube.length > 0 ? (
+                                <FaYoutube className='text-2xl text-admin3 m-2' />
+                              ) : null}
+                              {int.tiktok.length > 0 ? (
+                                <FaTiktok className='text-2xl text-tiktok m-2' />
+                              ) : null}
+                              {int.lainLain.length > 0 ? (
+                                <FaShareAlt className='text-2xl text-user7 m-2' />
+                              ) : null}
+                            </div>
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            <button onClick={(e) => toast('Coming Soon')}>
+                              <FaTrashAlt className='text-2xl text-admin3 mt-1' />
+                            </button>
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ))}
+          {showInfo && (
+            <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+              <div className='text-xs'>
+                <h2 className='font-mono underline font-bold whitespace-nowrap'>
+                  INFO
+                </h2>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].facebook.length > 0
+                    ? data[dataIndex].data[internalDataIndex].facebook.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].youtube.length > 0
+                    ? data[dataIndex].data[internalDataIndex].youtube.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].instagram.length > 0
+                    ? data[dataIndex].data[internalDataIndex].instagram.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].twitter.length > 0
+                    ? data[dataIndex].data[internalDataIndex].twitter.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].tiktok.length > 0
+                    ? data[dataIndex].data[internalDataIndex].tiktok.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+                <div className='mt-2'>
+                  {data[dataIndex].data[internalDataIndex].lainLain.length > 0
+                    ? data[dataIndex].data[internalDataIndex].lainLain.map(
+                        (i) => {
+                          if (i === '') return null;
+                          return Object.keys(i).map((key) => {
+                            return (
+                              <p className='font-mono whitespace-nowrap'>
+                                {InfoDecoder(key)} : {i[key]}
+                              </p>
+                            );
+                          });
+                        }
+                      )
+                    : null}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
+    </>
+  );
 }

@@ -331,9 +331,9 @@ export default function FillableForm({
       setJantina(jantina);
       setTarikhLahir(tempDate);
       setTarikhLahirDP(age.dobISO);
-      setUmur(tahun);
-      setUmurBulan(bulan);
       setUmurHari(hari);
+      setUmurBulan(bulan);
+      setUmur(tahun);
       setConfirmData({
         ...confirmData,
         ic: ic,
