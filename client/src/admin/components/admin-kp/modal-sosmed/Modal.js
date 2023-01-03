@@ -11,6 +11,7 @@ import {
   FaTwitter,
   FaTiktok,
   FaTrashAlt,
+  FaExternalLinkAlt,
 } from 'react-icons/fa';
 
 import { ConfirmModalForData } from '../../superadmin/Confirmation';
@@ -248,21 +249,101 @@ export const ModalSosMed = (props) => {
     e.preventDefault();
     setAddingData(true);
     let Data = {};
+    let newData = {};
+    let fbData = {};
+    let insData = {};
+    let ytData = {};
+    let ttData = {};
+    let twData = {};
+    let llData = {};
+    let facebook = [];
+    let instagram = [];
+    let youtube = [];
+    let tiktok = [];
+    let twitter = [];
+    let lainLain = [];
+    Object.keys(questionState).map((key, value) => {
+      if (key.includes('Facebook')) {
+        fbData = {
+          ...fbData,
+          [key]: questionState[key],
+        };
+      } else if (key.includes('Instagram')) {
+        insData = {
+          ...insData,
+          [key]: questionState[key],
+        };
+      } else if (key.includes('Youtube')) {
+        ytData = {
+          ...ytData,
+          [key]: questionState[key],
+        };
+      } else if (key.includes('Tiktok')) {
+        ttData = {
+          ...ttData,
+          [key]: questionState[key],
+        };
+      } else if (key.includes('Twitter')) {
+        twData = {
+          ...twData,
+          [key]: questionState[key],
+        };
+      } else if (key.includes('Lain-lain')) {
+        llData = {
+          ...llData,
+          [key]: questionState[key],
+        };
+      }
+    });
+    //
+    if (Object.keys(fbData).length !== 0) {
+      facebook = [...facebook, fbData];
+    }
+    if (Object.keys(insData).length !== 0) {
+      instagram = [...instagram, insData];
+    }
+    if (Object.keys(ytData).length !== 0) {
+      youtube = [...youtube, ytData];
+    }
+    if (Object.keys(ttData).length !== 0) {
+      tiktok = [...tiktok, ttData];
+    }
+    if (Object.keys(twData).length !== 0) {
+      twitter = [...twitter, twData];
+    }
+    if (Object.keys(llData).length !== 0) {
+      lainLain = [...lainLain, llData];
+    }
+    //
+    newData = {
+      ...newData,
+      kodProgram: questionState.kodProgram,
+      namaAktiviti: questionState.namaAktiviti,
+      tarikhMula: questionState.tarikhMula,
+      tarikhAkhir: questionState.tarikhAkhir,
+      facebook,
+      instagram,
+      youtube,
+      tiktok,
+      twitter,
+      lainLain,
+    };
+    //
     Data = {
       ...Data,
       createdByKp: props.kp,
       createdByDaerah: props.daerah,
       createdByNegeri: props.negeri,
       kodProgram: questionState.kodProgram,
-      data: [questionState],
+      data: [newData],
     };
     if (props.kp) {
       Data = {
         ...Data,
         belongsTo: props.kp,
       };
+      console.log(Data);
       createDataForKp(props.FType, Data).then((res) => {
-        console.log(res);
         if (res.status === 200) {
           toast.info(`Data berjaya ditambah`);
           props.setReload(!props.reload);
@@ -286,8 +367,8 @@ export const ModalSosMed = (props) => {
         belongsTo: props.negeri,
       };
     }
+    console.log(Data);
     createData(props.FType, Data).then((res) => {
-      console.log(res);
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         props.setReload(!props.reload);
@@ -499,7 +580,7 @@ export const ModalDataIkutProgram = (props) => {
                   </tr>
                 </thead>
                 <tbody className='bg-admin4'>
-                  {i.data.map((i, index) => (
+                  {/* {i.data.map((i, index) => (
                     <>
                       <tr key={i.id}>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -528,50 +609,16 @@ export const ModalDataIkutProgram = (props) => {
                           </div>
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {Object.entries(i).map((index, [key]) => {
-                            let displayer = { id: 0, icon: [] };
-                            if (
-                              key.toLowerCase().includes('facebook') &&
-                              !displayedIcons.includes('facebook')
-                            ) {
-                              displayer.id = i.id;
-                              displayer.icon.push('facebook');
-                              displayedIcons.push(displayer);
-                            }
-                            if (
-                              key.toLowerCase().includes('instagram') &&
-                              !displayedIcons.includes('instagram')
-                            ) {
-                              displayedIcons.push('instagram');
-                            }
-                            if (
-                              key.toLowerCase().includes('twitter') &&
-                              !displayedIcons.includes('twitter')
-                            ) {
-                              displayedIcons.push('twitter');
-                            }
-                            if (
-                              key.toLowerCase().includes('youtube') &&
-                              !displayedIcons.includes('youtube')
-                            ) {
-                              displayedIcons.push('youtube');
-                            }
-                            if (
-                              key.toLowerCase().includes('tiktok') &&
-                              !displayedIcons.includes('tiktok')
-                            ) {
-                              displayedIcons.push('tiktok');
-                            }
-                          })}
+                          {i.data ? 'Ya' : 'Tidak'}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                           <button>
-                            <FaTrashAlt className='text-2xl text-admin3' />
+                            <FaTrashAlt className='text-2xl text-admin3 mt-1' />
                           </button>
                         </td>
                       </tr>
                     </>
-                  ))}
+                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -581,7 +628,7 @@ export const ModalDataIkutProgram = (props) => {
           <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
             <div className='text-xs'>
               <h2 className='font-mono whitespace-nowrap'>INFO:</h2>
-              {Object.keys(data[dataIndex].data[internalDataIndex])
+              {/* {Object.keys(data[dataIndex].data[internalDataIndex])
                 .filter(
                   (i) =>
                     i !== 'id' &&
@@ -596,7 +643,7 @@ export const ModalDataIkutProgram = (props) => {
                       {data[dataIndex].data[internalDataIndex][key]}
                     </p>
                   );
-                })}
+                })} */}
             </div>
           </div>
         )}
