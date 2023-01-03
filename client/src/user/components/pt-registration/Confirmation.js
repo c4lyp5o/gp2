@@ -218,15 +218,15 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                 data.noResit3 ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     {data.noBayaran || data.noResit
-                      ? `${data.noBayaran} - ${data.noResit} ,`
+                      ? `${data.noBayaran} - ${data.noResit}`
                       : null}
                     {data.noBayaran2 || data.noResit2
-                      ? `${data.noBayaran2} - ${data.noResit2} ,`
+                      ? `, ${data.noBayaran2} - ${data.noResit2}`
                       : null}
                     {data.noBayaran3 || data.noResit3
-                      ? `${data.noBayaran3} - ${data.noResit3} ,`
+                      ? `, ${data.noBayaran3} - ${data.noResit3}`
                       : null}
-                    {data.catatan}
+                    {data.catatan ? `, ${data.catatan}` : null}
                   </p>
                 ) : null}
                 {data.pilihanEvent ? (
