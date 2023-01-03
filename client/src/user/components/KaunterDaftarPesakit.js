@@ -5,6 +5,8 @@ import moment from 'moment';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 import { FaSort, FaSortUp } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
+
+import KemaskiniResit from './pt-registration/KemaskiniResit';
 import PrintPatientDetails from './pt-registration/PrintPatientDetails';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,7 +23,7 @@ export default function DaftarPesakit({ createdByKp }) {
     toast,
   } = useGlobalUserAppContext();
 
-  const [data, setData] = useState(null);
+  const [allPersonKaunter, setAllPersonKaunter] = useState(null);
   const [philter, setPhilter] = useState('');
   const [showAll, setShowAll] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -35,6 +37,10 @@ export default function DaftarPesakit({ createdByKp }) {
     noPid: false,
     statusReten: false,
   });
+
+  // state untuk kemaskini pt bagi 3 hari yang lepas
+  const [showKemaskiniResit, setShowKemaskiniResit] = useState(false);
+  const [editId, setEditId] = useState('');
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
@@ -101,10 +107,9 @@ export default function DaftarPesakit({ createdByKp }) {
         const { data } = await axios.get(`/api/v1/query/kaunter`, {
           headers: { Authorization: `Bearer ${kaunterToken}` },
         });
-        setData(data);
+        setAllPersonKaunter(data);
       } catch (error) {
         console.log(error);
-        setData([]);
       }
     };
     fetchPersonUmum();
@@ -113,7 +118,7 @@ export default function DaftarPesakit({ createdByKp }) {
   //carian ic semua
   const keys = ['nama', 'ic'];
 
-  if (!data) {
+  if (!allPersonKaunter) {
     return (
       <div className='mt-20'>
         <Spinner />
@@ -216,169 +221,211 @@ export default function DaftarPesakit({ createdByKp }) {
           )}
         </div>
       </div>
-      <div>
-        <div className='justify-center items-center'>
-          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max p-2'>
-            <table className='table-auto'>
-              <thead className='text-userWhite bg-kaunter2'>
-                <tr>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    BIL
-                  </th>
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer ${
-                      sort.tarikhKedatangan ? 'text-bold text-kaunterBlack' : ''
-                    }`}
-                    onClick={() =>
-                      setSort({
-                        ...sort,
-                        tarikhKedatangan: !sort.tarikhKedatangan,
-                      })
-                    }
-                  >
-                    TARIKH{' '}
-                    {sort.tarikhKedatangan ? (
-                      <FaSortUp className='inline-flex items-center' />
-                    ) : (
-                      <FaSort className='inline-flex items-center' />
-                    )}
-                  </th>
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-help ${
-                      sort.masaDaftar ? 'text-bold text-kaunterBlack' : ''
-                    }`}
-                    onClick={() =>
-                      setSort({ ...sort, masaDaftar: !sort.masaDaftar })
-                    }
-                  >
-                    MASA DAFTAR
-                    {sort.masaDaftar ? (
-                      <FaSortUp className='inline-flex items-center' />
-                    ) : (
-                      <FaSort className='inline-flex items-center' />
-                    )}
-                  </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    NO. PENDAFTARAN
-                  </th>
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md cursor-help ${
-                      sort.nama ? 'text-bold text-kaunterBlack' : ''
-                    }`}
-                    onClick={() => setSort({ ...sort, nama: !sort.nama })}
-                  >
-                    NAMA PESAKIT
-                  </th>
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-help ${
-                      sort.noPid ? 'text-bold text-kaunterBlack' : ''
-                    }`}
-                    onClick={() => setSort({ ...sort, noPid: !sort.noPid })}
-                  >
-                    NO. PENGENALAN DIRI
-                  </th>
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    STATUS PESAKIT
-                  </th>
-                  <th
-                    className={`px-2 py-1 outline outline-1 outline-offset-1 cursor-pointer ${
-                      sort.jenisFasiliti ? 'text-bold text-kaunterBlack' : ''
-                    }`}
-                    onClick={() =>
-                      setSort({ ...sort, jenisFasiliti: !sort.jenisFasiliti })
-                    }
-                  >
-                    JENIS FASILITI
-                    {sort.jenisFasiliti ? (
-                      <FaSortUp className='inline-flex items-center' />
-                    ) : (
-                      <FaSort className='inline-flex items-center' />
-                    )}
-                  </th>
-                  {/* <th className='px-2 py-1 outline outline-1 outline-offset-1 hidden lg:block'>
-                    MAKLUMAT
-                  </th> */}
-                </tr>
-              </thead>
-              {data.kaunterResultQuery
-                .filter((item) => {
-                  if (pilihanTarikh === '') return item;
-                  if (item.tarikhKedatangan === pilihanTarikh) return item;
-                })
-                .filter((pt) =>
-                  keys.some((key) => pt[key].toLowerCase().includes(philter))
-                )
-                .sort((a, b) => {
-                  if (sort.tarikhKedatangan)
-                    return b.tarikhKedatangan.localeCompare(a.tarikhKedatangan);
-                })
-                .sort((a, b) => {
-                  if (sort.masaDaftar)
-                    return b.waktuSampai.localeCompare(a.waktuSampai);
-                })
-                .sort((a, b) => {
-                  if (sort.nama) return a.nama.localeCompare(b.nama);
-                })
-                .sort((a, b) => {
-                  if (sort.noPid) return a.ic.localeCompare(b.ic);
-                })
-                .sort((a, b) => {
-                  if (sort.jenisFasiliti)
-                    return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
-                })
-                .map((p, index) => (
-                  <>
-                    <tbody className='bg-kaunter3'>
-                      <tr>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {index + 1}
+      <div className='m-5'>
+        <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+          <table className='table-auto'>
+            <thead className='text-userWhite bg-kaunter2'>
+              <tr>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  BIL
+                </th>
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-32 cursor-pointer ${
+                    sort.tarikhKedatangan ? 'text-bold text-kaunterBlack' : ''
+                  }`}
+                  onClick={() =>
+                    setSort({
+                      ...sort,
+                      tarikhKedatangan: !sort.tarikhKedatangan,
+                    })
+                  }
+                >
+                  TARIKH KEDATANGAN
+                  {sort.tarikhKedatangan ? (
+                    <FaSortUp className='inline-flex items-center' />
+                  ) : (
+                    <FaSort className='inline-flex items-center' />
+                  )}
+                </th>
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-60 cursor-pointer ${
+                    sort.masaDaftar ? 'text-bold text-kaunterBlack' : ''
+                  }`}
+                  onClick={() =>
+                    setSort({ ...sort, masaDaftar: !sort.masaDaftar })
+                  }
+                >
+                  WAKTU TIBA
+                  {sort.masaDaftar ? (
+                    <FaSortUp className='inline-flex items-center' />
+                  ) : (
+                    <FaSort className='inline-flex items-center' />
+                  )}
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                  NO. PENDAFTARAN
+                </th>
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-96 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg cursor-pointer ${
+                    sort.nama ? 'text-bold text-kaunterBlack' : ''
+                  }`}
+                  onClick={() => setSort({ ...sort, nama: !sort.nama })}
+                >
+                  NAMA PESAKIT
+                  {sort.nama ? (
+                    <FaSortUp className='inline-flex items-center' />
+                  ) : (
+                    <FaSort className='inline-flex items-center' />
+                  )}
+                </th>
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-80 cursor-pointer ${
+                    sort.noPid ? 'text-bold text-kaunterBlack' : ''
+                  }`}
+                  onClick={() => setSort({ ...sort, noPid: !sort.noPid })}
+                >
+                  NO. PENGENALAN DIRI
+                  {sort.noPid ? (
+                    <FaSortUp className='inline-flex items-center' />
+                  ) : (
+                    <FaSort className='inline-flex items-center' />
+                  )}
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                  STATUS PESAKIT
+                </th>
+                <th
+                  className={`px-2 py-1 outline outline-1 outline-offset-1 w-60 cursor-pointer ${
+                    sort.jenisFasiliti ? 'text-bold text-kaunterBlack' : ''
+                  }`}
+                  onClick={() =>
+                    setSort({ ...sort, jenisFasiliti: !sort.jenisFasiliti })
+                  }
+                >
+                  JENIS FASILITI
+                  {sort.jenisFasiliti ? (
+                    <FaSortUp className='inline-flex items-center' />
+                  ) : (
+                    <FaSort className='inline-flex items-center' />
+                  )}
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                  BAYARAN & NO. RESIT
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  TINDAKAN
+                </th>
+              </tr>
+            </thead>
+            {allPersonKaunter.kaunterResultQuery
+              .filter((item) => {
+                if (pilihanTarikh === '') return item;
+                if (item.tarikhKedatangan === pilihanTarikh) return item;
+              })
+              .filter((pt) =>
+                keys.some((key) => pt[key].toLowerCase().includes(philter))
+              )
+              .sort((a, b) => {
+                if (sort.tarikhKedatangan)
+                  return b.tarikhKedatangan.localeCompare(a.tarikhKedatangan);
+              })
+              .sort((a, b) => {
+                if (sort.masaDaftar)
+                  return b.waktuSampai.localeCompare(a.waktuSampai);
+              })
+              .sort((a, b) => {
+                if (sort.nama) return a.nama.localeCompare(b.nama);
+              })
+              .sort((a, b) => {
+                if (sort.noPid) return a.ic.localeCompare(b.ic);
+              })
+              .sort((a, b) => {
+                if (sort.jenisFasiliti)
+                  return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
+              })
+              .map((p, index) => (
+                <>
+                  <tbody className='bg-kaunter3'>
+                    <tr>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {index + 1}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {moment(p.tarikhKedatangan).format('DD/MM/YYYY')}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {formatTime(p.waktuSampai)}
+                      </td>
+                      {p.noPendaftaranBaru ? (
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                          {noPendaftaranSplitter(p.noPendaftaranBaru)}
+                          <BsFilePerson
+                            className='text-user7 text-2xl inline-table mx-2 pb-1'
+                            title='Baru'
+                          />
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {moment(p.tarikhKedatangan).format('DD/MM/YYYY')}
+                      ) : (
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                          {noPendaftaranSplitter(p.noPendaftaranUlangan)}
+                          <BsFillFilePersonFill
+                            className='text-user9 text-2xl inline-table mx-2 pb-1'
+                            title='Ulangan'
+                          />
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {formatTime(p.waktuSampai)}
-                        </td>
-                        {p.noPendaftaranBaru ? (
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                            {noPendaftaranSplitter(p.noPendaftaranBaru)}
-                            <BsFilePerson
-                              className='text-user7 text-2xl inline-table mx-2 pb-1'
-                              title='Baru'
-                            />
-                          </td>
+                      )}
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                        {p.nama}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                        {p.ic}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {statusPesakit(p)}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {Dictionary[p.jenisFasiliti]}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        {p.noBayaran && p.noResit ? (
+                          `${p.noBayaran} - ${p.noResit}`
                         ) : (
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                            {noPendaftaranSplitter(p.noPendaftaranUlangan)}
-                            <BsFillFilePersonFill
-                              className='text-user9 text-2xl inline-table mx-2 pb-1'
-                              title='Ulangan'
-                            />
-                          </td>
+                          <span className='text-kaunter5'>
+                            Tiada Bayaran & No. Resit
+                          </span>
                         )}
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                          {p.nama}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                          {p.ic}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {statusPesakit(p)}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {Dictionary[p.jenisFasiliti]}
-                        </td>
-                        {/* <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 hidden lg:block'>
-                          <PrintPatientDetails data={p} />
-                        </td> */}
-                      </tr>
-                    </tbody>
-                  </>
-                ))}
-            </table>
-          </div>
+                        {p.noBayaran2 &&
+                          p.noResit2 &&
+                          `, ${p.noBayaran2} - ${p.noResit2}`}
+                        {p.noBayaran3 &&
+                          p.noResit3 &&
+                          `, ${p.noBayaran3} - ${p.noResit3}`}
+                        {p.catatan && `, ${p.catatan}`}
+                      </td>
+                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                        <button
+                          className='w-36 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                          onClick={() => {
+                            setEditId(p._id);
+                            setShowKemaskiniResit(true);
+                          }}
+                        >
+                          Kemaskini Bayaran, No. Resit & Catatan
+                        </button>
+                        {/* <PrintPatientDetails data={p} /> */}
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              ))}
+          </table>
         </div>
       </div>
+      {showKemaskiniResit && (
+        <KemaskiniResit
+          setShowKemaskiniResit={setShowKemaskiniResit}
+          editId={editId}
+        />
+      )}
     </>
   );
 }
