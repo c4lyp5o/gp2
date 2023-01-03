@@ -726,11 +726,11 @@ function AdminAppProvider({ children }) {
       data = data.replace('bilShare', 'Share');
       return data;
     }
-    if (data.includes('Tiktok')) {
-      data = data.replace('Tiktok_', '');
-      data = data.replace('live_', 'Tiktok LIVE: ');
-      data = data.replace('video_', 'Tiktok Video: ');
-      data = data.replace('poster_', 'Tiktok Poster: ');
+    if (data.includes('TikTok')) {
+      data = data.replace('TikTok_', '');
+      data = data.replace('live_', 'TikTok LIVE: ');
+      data = data.replace('video_', 'TikTok Video: ');
+      data = data.replace('poster_', 'TikTok Poster: ');
       data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
       data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
       data = data.replace('bilPenonton', 'Penonton');
