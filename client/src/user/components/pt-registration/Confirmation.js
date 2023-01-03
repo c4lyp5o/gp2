@@ -13,7 +13,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
   const [callback, setCallback] = useState(null);
   const [checkingDuplicate, setCheckingDuplicate] = useState(true);
   const [duplicate, setDuplicate] = useState(false);
-  const [duplicateData, setDuplicateData] = useState(null);
+  const [duplicateData, setDuplicateData] = useState({});
 
   const checkDuplicate = async () => {
     try {
@@ -60,6 +60,8 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
     setCallback(null);
     lookBusyGuys(false);
     setOpen(false);
+    setDuplicate(false);
+    setDuplicateData({});
   };
 
   const hideDoubleConfirm = () => {
@@ -79,7 +81,7 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-5 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={hide}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -89,15 +91,14 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
             </h5>
             <div className='mt-3 p-1'>
               {isEdit ? (
-                <p className='font-semibold'>
+                <p className='font-semibold text-2xl'>
                   Anda YAKIN{' '}
                   <span className='lowercase'>
                     untuk mengemaskini maklumat?
                   </span>
-                  ?
                 </p>
               ) : (
-                <p className='font-semibold'>
+                <p className='font-semibold text-2xl'>
                   Anda YAKIN{' '}
                   <span className='lowercase'>untuk menghantar maklumat?</span>
                 </p>
@@ -109,10 +110,10 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                 <p className='text-sm p-1 flex justify-start text-left uppercase'>
                   {data.nama}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right'>
+                <p className='text-base lg:text-2xl p-1 flex justify-end text-right text-user6 font-bold'>
                   Pengenalan Diri:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left  bg-user1 bg-opacity-5'>
+                <p className='text-base lg:text-2xl p-1 flex justify-start text-left text-user6 font-bold bg-user1 bg-opacity-5'>
                   {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
@@ -122,23 +123,23 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
                   <p className='text-sm p-1 flex justify-start text-left normal-case'>
                     {data.nomborTelefon ? `${data.nomborTelefon}` : null}
                     {data.nomborTelefon2 ? `, ${data.nomborTelefon2}` : null}
-                    {data.emel ? `/${data.emel}` : null}
+                    {data.emel ? ` / ${data.emel}` : null}
                   </p>
                 ) : (
                   <p className='text-sm p-1 flex justify-start text-left normal-case'>
                     Tiada Maklumat{' '}
                   </p>
                 )}
-                <p className='text-sm p-1 flex justify-end text-right'>
+                <p className='text-base lg:text-2xl p-1 flex justify-end text-right text-user6 font-bold'>
                   Tarikh Lahir:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left bg-user1 bg-opacity-5'>
+                <p className='text-base lg:text-2xl p-1 flex justify-start text-left text-user6 font-bold bg-user1 bg-opacity-5'>
                   {moment(data.tarikhLahir).format('DD/MM/YYYY')}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                <p className='text-base lg:text-2xl p-1 flex justify-end text-right text-user6 font-bold bg-user1 bg-opacity-5'>
                   Umur:
                 </p>
-                <p className='text-sm p-1 flex justify-start text-left'>
+                <p className='text-base lg:text-2xl p-1 flex justify-start text-left text-user6 font-bold'>
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right'>
@@ -256,20 +257,30 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
               </div>
             </div>
             {duplicate && !isEdit ? (
-              <div className='border border-black m-3 p-3'>
-                <p className='text-bold text-kaunter1 text-xl'>AWAS!</p>
+              <div className='border border-black m-3 px-3 pt-1 pb-3'>
+                <p className='font-bold text-kaunter1 text-xl'>AWAS!</p>
                 <span>Pesakit </span>
                 <span className='lowercase'>
-                  yang sama telah didaftarkan pada hari ini pada{' '}
+                  yang sama telah didaftarkan pada hari ini pada jam{' '}
                   {formatTime(duplicateData.waktuSampai)}
-                </span>{' '}
+                </span>
+                <br />
+                <span>
+                  Anda{' '}
+                  <span className='lowercase'>
+                    ingin mendaftarkan pesakit ini{' '}
+                  </span>
+                  <span className='font-bold text-kaunter1 text-xl'>
+                    SEKALI LAGI?
+                  </span>
+                </span>
               </div>
             ) : null}
             <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
               {checkingDuplicate && !isEdit ? (
                 <button
                   type='button'
-                  className='capitalize bg-kaunter3 rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                  className='capitalize bg-kaunter3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
                   disabled
                 >
                   <svg
@@ -318,48 +329,70 @@ const ConfirmModal = ({ children, lookBusyGuys, data, isEdit }) => {
       )}
       {doubleConfirm && (
         <>
-          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/3 lg:inset-y-52 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-14 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={hideDoubleConfirm}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
             />
-            <div className='bg-userWhite rounded-md shadow-xl p-5'>
-              <p className='text-bold text-kaunter1 text-xl'>AWAS!</p>
+            <div className='bg-userWhite rounded-md p-5'>
+              <div className='flex justify-center mb-3 2xl:mb-10'>
+                <p className='text-bold text-kaunter1 text-2xl font-bold mr-1'>
+                  AWAS!
+                </p>
+                <p className='text-bold text-kaunter1 text-2xl font-bold mx-1'>
+                  AWAS!
+                </p>
+                <p className='text-bold text-kaunter1 text-2xl font-bold ml-1'>
+                  AWAS!
+                </p>
+              </div>
               <p className='font-semibold text-3xl'>
-                Anda <span className='text-user9'>PASTI</span>{' '}
-                <span className='lowercase'>maklumat ini benar?</span>
+                Anda <span className='text-user9'>PASTI</span>
+                <span className='lowercase'> maklumat ini </span>
+                <span className='text-user9'>BENAR?</span>
               </p>
               <div className='grid grid-cols-[1fr_2fr] mt-3'>
-                {/* <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Nama:
-                </p>
-                <p className='text-2xl p-1 flex justify-start text-left uppercase'>
-                  {data.nama}
-                </p> */}
-                <p className='text-sm p-1 flex justify-end text-right'>
+                <p className='text-sm p-1 flex justify-end text-right mt-2'>
                   Pengenalan Diri:
                 </p>
-                <p className='text-2xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
+                <p className='text-3xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
                   {data.ic}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right'>
+                <p className='text-sm p-1 flex justify-end text-right mt-2'>
                   Tarikh Lahir:
                 </p>
-                <p className='text-2xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
+                <p className='text-3xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
                   {moment(data.tarikhLahir).format('DD/MM/YYYY')}
                 </p>
-                <p className='text-sm p-1 flex justify-end text-right bg-opacity-5'>
+                <p className='text-sm p-1 flex justify-end text-right mt-2 bg-opacity-5'>
                   Umur:
                 </p>
-                <p className='text-2xl p-1 flex justify-start text-user9 font-bold text-left'>
+                <p className='text-3xl p-1 flex justify-start text-user9 font-bold text-left'>
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
               </div>
-              <div className='flex justify-center mt-3'>
-                <p className='text-xl p-1 flex justify-end bg-user1 bg-opacity-5'>
-                  Sekiranya maklumat di atas tidak TEPAT akan menyebabkan NOMBOR
-                  PENDAFTARAN, JENIS KEDATANGAN dan PAPARAN BORANG yang salah.
-                </p>
+              <div className='justify-center mt-3'>
+                <div className='text-xl p-1 justify-end bg-user1 bg-opacity-5'>
+                  Sekiranya
+                  <span className='lowercase'> maklumat di atas </span>
+                  <span className='text-xl text-user9 font-bold'>
+                    TIDAK TEPAT
+                  </span>
+                  <span className='lowercase'> akan menyebabkan </span>
+                  <span className='text-xl text-user9 font-bold'>
+                    NOMBOR PENDAFTARAN
+                  </span>
+                  <span>, </span>
+                  <span className='text-xl text-user9 font-bold'>
+                    JENIS KEDATANGAN
+                  </span>
+                  <span className='lowercase'> dan </span>
+                  <span className='text-xl text-user9 font-bold'>
+                    PAPARAN BORANG RETEN
+                  </span>
+                  <span className='lowercase'> yang </span>
+                  <span className='text-xl text-user9 font-bold'>SALAH</span>
+                </div>
               </div>
               <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
                 <button
