@@ -61,6 +61,10 @@ function statusPesakit(p) {
   if (p.bersekolah === true) {
     status = 'SEK';
   }
+  if (p.kumpulanEtnik === 'bukan warganegara') {
+    status += '/';
+    status += 'BW';
+  }
   if (p.ibuMengandung === true) {
     status += '/';
     status += 'IM';
