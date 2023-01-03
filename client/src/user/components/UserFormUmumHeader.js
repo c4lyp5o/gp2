@@ -16,7 +16,7 @@ import Confirmation from './UserFormUmumConfirmation';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-function UserFormUmumHeader() {
+function UserFormUmumHeader({ sekolahIdc }) {
   const {
     userToken,
     reliefUserToken,
@@ -2171,7 +2171,7 @@ function UserFormUmumHeader() {
                           </span>
                           {isShown && (
                             <div className='z-50 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
-                              <div className='flex flex-row text-sm'>
+                              <div className='flex flex-row text-sm whitespace-nowrap'>
                                 <h2 className='font-semibold  whitespace-nowrap'>
                                   NAMA :
                                 </h2>
@@ -2179,7 +2179,7 @@ function UserFormUmumHeader() {
                                   {singlePersonUmum.nama}
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold whitespace-nowrap'>
                                   IC/PASSPORT :
                                 </h2>
@@ -2187,13 +2187,13 @@ function UserFormUmumHeader() {
                                   {singlePersonUmum.ic}
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold'>JANTINA :</h2>
                                 <p className='ml-1 text-sm font-light'>
                                   {singlePersonUmum.jantina}
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold'>
                                   TARIKH LAHIR :
                                 </h2>
@@ -2203,14 +2203,14 @@ function UserFormUmumHeader() {
                                   )}
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold'>UMUR :</h2>
                                 <p className='ml-1 text-sm font-light'>
                                   {singlePersonUmum.umur} tahun{' '}
                                   {singlePersonUmum.umurBulan} bulan
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold'>
                                   KUMPULAN ETNIK :
                                 </h2>
@@ -2218,7 +2218,7 @@ function UserFormUmumHeader() {
                                   {singlePersonUmum.kumpulanEtnik}
                                 </p>
                               </div>
-                              <div className='text-sm flex flex-row '>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
                                 <h2 className='font-semibold'>KEDATANGAN :</h2>
                                 <p className='ml-1 text-sm font-light'>
                                   {singlePersonUmum.kedatangan ===
@@ -2227,6 +2227,16 @@ function UserFormUmumHeader() {
                                     : 'Ulangan'}
                                 </p>
                               </div>
+                              {sekolahIdc === 'umum-sekolah' && (
+                                <div className='text-sm flex flex-row whitespace-nowrap'>
+                                  <h2 className='font-semibold'>
+                                    NAMA SEKOLAH :
+                                  </h2>
+                                  <p className='ml-1 text-sm font-light'>
+                                    {singlePersonUmum.namaProgram}
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           )}
                           <span
@@ -2274,9 +2284,12 @@ function UserFormUmumHeader() {
                   </div>
                 )}
                 {isLoading && (
-                  <p className='col-span-3 py-[15px] text-base font-semibold'>
-                    <Spinner color='#1f315f' />
-                  </p>
+                  <>
+                    <div className='grid grid-rows-2 col-span-1 md:col-span-2 lg:col-span-3 px-2 pt-2'>
+                      <div className='animate-pulse w-44 h-2 bg-user1 bg-opacity-20 flex justify-center items-center m-1 p-2 rounded-lg'></div>
+                      <div className='animate-pulse w-full h-2 bg-user1 bg-opacity-20 flex justify-center items-center m-1 p-2 rounded-lg'></div>
+                    </div>
+                  </>
                 )}
               </article>
             </div>
