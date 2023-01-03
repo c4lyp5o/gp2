@@ -11182,7 +11182,7 @@ const getParams = (payload, reten) => {
       tarikhKedatangan: {
         $gte: tarikhMula,
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -11193,7 +11193,7 @@ const getParams = (payload, reten) => {
         $gte: tarikhMula,
         $lte: tarikhAkhir,
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -11205,7 +11205,6 @@ const getParams = (payload, reten) => {
       return withEndDate;
     }
   };
-
   const byDaerah = () => {
     const noEndDate = {
       tarikhKedatangan: {
