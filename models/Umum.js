@@ -29,6 +29,7 @@ const UmumSchema = new mongoose.Schema(
     jenisFasiliti: { type: String, required: true },
     tarikhKedatangan: { type: String, default: '' },
     waktuSampai: { type: String, default: '' },
+    waktuSelesaiDaftar: { type: String, default: '' },
     temujanji: { type: Boolean, default: false },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
