@@ -26,13 +26,11 @@ export default function Sosmed(props) {
   useEffect(() => {
     if (props.accountType !== 'kpUser') {
       readData('sosmedByKodProgram').then((res) => {
-        console.log(res);
         setData(res.data);
       });
     }
     if (props.accountType === 'kpUser') {
       readDataForKp('sosmedByKodProgram').then((res) => {
-        console.log(res);
         setData(res.data);
       });
     }

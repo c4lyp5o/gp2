@@ -1219,6 +1219,14 @@ const getData = async (req, res) => {
               const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
               res.status(200).json(deletedEvent);
               break;
+            case 'sosmed':
+              const deletedSosmed = await Sosmed.findOneAndUpdate(
+                { kodProgram: Id, belongsTo: kp },
+                { $pop: { data: -1 } },
+                { new: true }
+              );
+              res.status(200).json(deletedSosmed);
+              break;
             default:
               console.log('default case for delete');
               break;
