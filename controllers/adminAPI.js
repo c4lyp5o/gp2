@@ -506,6 +506,18 @@ const getDataRoute = async (req, res) => {
         belongsTo: owner,
       });
       break;
+    case 'followers':
+      owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      data = await Followers.find({
+        belongsTo: owner,
+      });
+      break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
