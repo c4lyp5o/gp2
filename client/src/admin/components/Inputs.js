@@ -2281,9 +2281,9 @@ export function InputKpAddEvent(props) {
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
                   {props.editingData ? (
-                    <BusyButton func='edit' />
+                    <BusyButton func='add' />
                   ) : (
-                    <SubmitButton func='edit' />
+                    <SubmitButton func='add' />
                   )}
                   <span
                     className={styles.cancelBtn}
