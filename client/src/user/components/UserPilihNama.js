@@ -89,60 +89,62 @@ function UserPilihNama() {
 
   return (
     <>
-      <h3 className='text-xl font-semibold mt-10'>
-        selamat datang {namaFasilitiToken}
-      </h3>
-      <form onSubmit={handleSubmit}>
-        <p className='mt-5'>sila pilih nama pengguna</p>
-        <select
-          ref={pilihanOperator}
-          className='mt-5 w-2/3 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md hover:cursor-pointer'
-          required
-        >
-          <option value=''>Pilih nama pengguna..</option>
-          {listPilihNama.map((singlePerson, index) => {
-            return (
-              <option key={index} value={singlePerson.nama}>
-                {singlePerson.nama}
-              </option>
-            );
-          })}
-        </select>
-        <br />
-        <br />
-        <label htmlFor='noMdc-noMdtb' className='text-sm'>
-          No. MDC / No. MDTB:{' '}
-        </label>
-        <input
-          id='noMdc-noMdtb'
-          ref={noMdcMdtb}
-          type='text'
-          required
-          className='appearance-none leading-7 py-1 px-3 ml-3 ring-2 w-1/4 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-        />
-        <br />
-        <br />
-        <label
-          htmlFor='user-pilih-nama-pengguna-relief'
-          className='m-5 text-sm hover:cursor-pointer'
-        >
-          saya pegawai / juruterapi pergigian visiting / relief
-        </label>
-        <input
-          id='user-pilih-nama-pengguna-relief'
-          ref={checkboxRelief}
-          type='checkbox'
-          className='w-4 h-4 rounded hover:cursor-pointer'
-        />
-        <br />
-        <br />
-        <button
-          type='submit'
-          className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
-        >
-          pilih
-        </button>
-      </form>
+      <div className='m-3'>
+        <h3 className='text-xl font-semibold mt-10'>
+          selamat datang {namaFasilitiToken}
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <p className='mt-5'>sila pilih nama pengguna</p>
+          <select
+            ref={pilihanOperator}
+            className='mt-5 w-2/3 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md hover:cursor-pointer'
+            required
+          >
+            <option value=''>Pilih nama pengguna..</option>
+            {listPilihNama.map((singlePerson, index) => {
+              return (
+                <option key={index} value={singlePerson.nama}>
+                  {singlePerson.nama}
+                </option>
+              );
+            })}
+          </select>
+          <br />
+          <br />
+          <label htmlFor='noMdc-noMdtb' className='text-sm'>
+            No. MDC / No. MDTB:{' '}
+          </label>
+          <input
+            id='noMdc-noMdtb'
+            ref={noMdcMdtb}
+            type='text'
+            required
+            className='appearance-none leading-7 py-1 px-3 ml-3 ring-2 w-1/4 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+          />
+          <br />
+          <br />
+          <label
+            htmlFor='user-pilih-nama-pengguna-relief'
+            className='m-5 text-sm hover:cursor-pointer'
+          >
+            saya pegawai / juruterapi pergigian visiting / relief
+          </label>
+          <input
+            id='user-pilih-nama-pengguna-relief'
+            ref={checkboxRelief}
+            type='checkbox'
+            className='w-4 h-4 rounded hover:cursor-pointer'
+          />
+          <br />
+          <br />
+          <button
+            type='submit'
+            className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
+          >
+            pilih
+          </button>
+        </form>
+      </div>
     </>
   );
 }
