@@ -1357,7 +1357,11 @@ const getData = async (req, res) => {
               daerah: currentDaerah,
             });
             const presentKlinik = _.uniqBy(k, 'kp');
-            const klinikOnly = presentKlinik.map((item) => item.kp);
+            // map kp and kod fasiliti
+            const klinikOnly = presentKlinik.map((item) => ({
+              kp: item.kp,
+              kodFasiliti: item.kodFasiliti,
+            }));
             res.status(200).json(klinikOnly);
           }
           if (u.accountType === 'negeriSuperadmin') {
@@ -1366,7 +1370,10 @@ const getData = async (req, res) => {
               daerah: currentDaerah,
             });
             const presentKlinik = _.uniqBy(k, 'kp');
-            const klinikOnly = presentKlinik.map((item) => item.kp);
+            const klinikOnly = presentKlinik.map((item) => ({
+              kp: item.kp,
+              kodFasiliti: item.kodFasiliti,
+            }));
             res.status(200).json(klinikOnly);
           }
           break;

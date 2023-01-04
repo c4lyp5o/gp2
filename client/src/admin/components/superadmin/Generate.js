@@ -24,6 +24,7 @@ const Generate = (props) => {
   // masalah negara
   const [daerah, setDaerah] = useState([]);
   const [klinik, setKlinik] = useState([]);
+  const [namaKlinik, setNamaKlinik] = useState('');
   const [pilihanNegeri, setPilihanNegeri] = useState('');
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [pilihanKlinik, setPilihanKlinik] = useState('');
@@ -95,15 +96,15 @@ const Generate = (props) => {
     let file = '';
     if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
       console.log('1');
-      file = `${jenisReten}-${pilihanKlinik}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${namaKlinik}-${startDate}.${formatFile}`;
     }
     if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
       console.log('2');
-      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${props.loginInfo.daerah.toUpperCase()}-${startDate}.${formatFile}`;
     }
     if (pilihanDaerah === 'all') {
       console.log('3');
-      file = `${jenisReten}-${pilihanNegeri.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${startDate}.${formatFile}`;
     }
     // if (!endDate) {
     //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
@@ -128,7 +129,11 @@ const Generate = (props) => {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${pilihanNegeri}&daerah=${pilihanDaerah}&klinik=${pilihanKlinik}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
+          `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
+            props.loginInfo.negeri
+          }&daerah=${
+            props.loginInfo.daerah
+          }&klinik=${pilihanKlinik}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
             responseType: 'blob',
           }
@@ -147,13 +152,15 @@ const Generate = (props) => {
 
   useEffect(() => {
     if (props.loginInfo.accountType === 'negeriSuperadmin') {
-      setPilihanNegeri(props.loginInfo.negeri);
+      // setPilihanNegeri(props.loginInfo.negeri);
       readAllDaerahInNegeri().then((res) => {
         setDaerah(res.data);
       });
     }
     if (props.loginInfo.accountType === 'daerahSuperadmin') {
-      readAllKlinikInDaerah().then((res) => {
+      // setPilihanNegeri(props.loginInfo.negeri);
+      // setPilihanDaerah(props.loginInfo.daerah);
+      readAllKlinikInDaerah(props.loginInfo.daerah).then((res) => {
         setKlinik(res.data);
       });
     }
@@ -280,8 +287,8 @@ const Generate = (props) => {
                     </label>
                     <select
                       required
-                      name='klinik'
-                      id='klinik'
+                      name='daerah'
+                      id='daerah'
                       onChange={async (e) => {
                         setPilihanDaerah(e.target.value);
                         await readAllKlinikInDaerah(e.target.value).then(
@@ -317,15 +324,27 @@ const Generate = (props) => {
                       required
                       name='klinik'
                       id='klinik'
-                      onChange={(e) => setPilihanKlinik(e.target.value)}
+                      onChange={(e) => {
+                        setPilihanKlinik(e.target.value);
+                        setNamaKlinik(
+                          e.target.options[e.target.selectedIndex].getAttribute(
+                            'data-key'
+                          )
+                        );
+                      }}
                       className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     >
                       <option value=''>Sila pilih..</option>
                       <option value='all'>Semua klinik (Jana Daerah)</option>
                       {klinik.map((k, index) => {
                         return (
-                          <option value={k} key={index} className='capitalize'>
-                            {k}
+                          <option
+                            key={index}
+                            data-key={k.kp}
+                            value={k.kodFasiliti}
+                            className='capitalize'
+                          >
+                            {k.kp}
                           </option>
                         );
                       })}
