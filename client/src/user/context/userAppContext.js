@@ -25,9 +25,6 @@ const rawYesterday = rawToday.setDate(rawToday.getDate() - 1);
 const dateYesterday = moment(rawYesterday).format('YYYY-MM-DD');
 const rawPastTwoDays = rawToday.setDate(rawToday.getDate() - 1);
 const datePastTwoDays = moment(rawPastTwoDays).format('YYYY-MM-DD');
-console.log(dateToday);
-console.log(dateYesterday);
-console.log(datePastTwoDays);
 
 // format 24 hour time to 12 hour
 function formatTime(timeString) {
