@@ -373,7 +373,7 @@ export default function Pemeriksaan(props) {
                 <article className='grid border border-userBlack p-1 rounded-md'>
                   <div className='flex flex-row items-center pl-5'>
                     <h4 className='font-bold'>
-                      Pesakit Mempunyagi Gigi Desidus/Kekal?
+                      Pesakit Mempunyai Gigi Desidus/Kekal?
                       <span className='text-user6'>*</span>
                     </h4>
                     <div className='flex items-center justify-center ml-2'>
