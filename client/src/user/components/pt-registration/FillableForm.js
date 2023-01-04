@@ -1010,6 +1010,7 @@ export default function FillableForm({
           setTambahBayaran(true);
           setNoBayaran2(data.singlePersonKaunter.noBayaran2);
           setNoResit2(data.singlePersonKaunter.noResit2);
+          setTambahBayaran2(true);
           setNoBayaran3(data.singlePersonKaunter.noBayaran3);
           setNoResit3(data.singlePersonKaunter.noResit3);
           setCatatan(data.singlePersonKaunter.catatan);
