@@ -505,7 +505,6 @@ export default function FillableForm({
 
   // submission
   const handleSubmit = async (e) => {
-    console.log(waktuSelesaiDaftar);
     if (!editId) {
       await toast
         .promise(
@@ -527,7 +526,7 @@ export default function FillableForm({
               nomborTelefon,
               nomborTelefon2,
               emel,
-              tarikhLahir: moment(tarikhLahirDP).format('YYYY-MM-DD'),
+              tarikhLahir,
               umur,
               umurBulan,
               umurHari,
@@ -624,7 +623,6 @@ export default function FillableForm({
             {
               tarikhKedatangan,
               waktuSampai,
-              waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
               kedatangan,
               noPendaftaranBaru,
@@ -1269,6 +1267,7 @@ export default function FillableForm({
                   </p>
                   <div className='flex flex-col justify-start'>
                     <input
+                      disabled={editId ? true : false}
                       required
                       value={waktuSampai}
                       onChange={(e) => setWaktuSampai(e.target.value)}
