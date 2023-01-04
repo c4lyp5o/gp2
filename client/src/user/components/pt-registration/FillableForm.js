@@ -54,8 +54,7 @@ export default function FillableForm({
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
-  // const [waktuSelesaiDaftar, setWaktuSelesaiDaftar] = useState('');
-  const waktuSelesaiDaftar = useRef('');
+  const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
@@ -625,7 +624,7 @@ export default function FillableForm({
             {
               tarikhKedatangan,
               waktuSampai,
-              waktuSelesaiDaftar,
+              waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
               kedatangan,
               noPendaftaranBaru,
@@ -1228,6 +1227,7 @@ export default function FillableForm({
         lookBusyGuys={setAddingData}
         data={confirmData}
         isEdit={editId}
+        waktuSampai={waktuSampai}
         waktuSelesaiDaftar={waktuSelesaiDaftar}
       >
         {(confirm) => (
