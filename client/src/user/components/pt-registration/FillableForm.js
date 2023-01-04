@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
@@ -54,6 +54,7 @@ export default function FillableForm({
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
+  const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
@@ -504,6 +505,7 @@ export default function FillableForm({
 
   // submission
   const handleSubmit = async (e) => {
+    console.log(waktuSelesaiDaftar);
     if (!editId) {
       await toast
         .promise(
@@ -514,6 +516,7 @@ export default function FillableForm({
               jenisFasiliti,
               tarikhKedatangan,
               waktuSampai,
+              waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
               kedatangan,
               noPendaftaranBaru,
@@ -621,6 +624,7 @@ export default function FillableForm({
             {
               tarikhKedatangan,
               waktuSampai,
+              waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
               kedatangan,
               noPendaftaranBaru,
@@ -1223,6 +1227,8 @@ export default function FillableForm({
         lookBusyGuys={setAddingData}
         data={confirmData}
         isEdit={editId}
+        waktuSampai={waktuSampai}
+        waktuSelesaiDaftar={waktuSelesaiDaftar}
       >
         {(confirm) => (
           <>
