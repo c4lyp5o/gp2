@@ -57,43 +57,45 @@ function UserPilihFasiliti() {
 
   return (
     <>
-      <h3 className='text-xl font-semibold mt-10'>
-        pilih fasiliti relief anda
-      </h3>
-      <form onSubmit={handleSubmit}>
-        <select
-          ref={pilihanKodFasiliti}
-          onChange={(e) => {
-            const indexFasiliti = listPilihFasiliti
-              .map((f) => f.kodFasiliti)
-              .indexOf(pilihanKodFasiliti.current.value);
-            const arrFasilitis = listPilihFasiliti.filter(
-              (f, i) => i === indexFasiliti
-            );
-            setPilihanFasiliti(arrFasilitis[0].kp);
-            setPilihanDaerah(arrFasilitis[0].daerah);
-          }}
-          className='mt-12 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
-          required
-        >
-          <option value=''>Pilih fasiliti relief anda..</option>
-          {listPilihFasiliti.map((singleFasiliti, index) => {
-            return (
-              <option key={index} value={`${singleFasiliti.kodFasiliti}`}>
-                {singleFasiliti.kp}
-              </option>
-            );
-          })}
-        </select>
-        <br />
-        <br />
-        <button
-          type='submit'
-          className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
-        >
-          pilih
-        </button>
-      </form>
+      <div className='m-3'>
+        <h3 className='text-xl font-semibold mt-10'>
+          pilih fasiliti relief anda
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <select
+            ref={pilihanKodFasiliti}
+            onChange={(e) => {
+              const indexFasiliti = listPilihFasiliti
+                .map((f) => f.kodFasiliti)
+                .indexOf(pilihanKodFasiliti.current.value);
+              const arrFasilitis = listPilihFasiliti.filter(
+                (f, i) => i === indexFasiliti
+              );
+              setPilihanFasiliti(arrFasilitis[0].kp);
+              setPilihanDaerah(arrFasilitis[0].daerah);
+            }}
+            className='mt-12 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-xl hover:cursor-pointer'
+            required
+          >
+            <option value=''>Pilih fasiliti relief anda..</option>
+            {listPilihFasiliti.map((singleFasiliti, index) => {
+              return (
+                <option key={index} value={`${singleFasiliti.kodFasiliti}`}>
+                  {singleFasiliti.kp}
+                </option>
+              );
+            })}
+          </select>
+          <br />
+          <br />
+          <button
+            type='submit'
+            className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
+          >
+            pilih
+          </button>
+        </form>
+      </div>
     </>
   );
 }
