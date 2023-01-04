@@ -432,7 +432,6 @@ const ConfirmModal = ({
                 <button
                   type='submit'
                   className='capitalize bg-kaunter1 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
-                  // onClick={confirm}
                 >
                   YA
                 </button>
