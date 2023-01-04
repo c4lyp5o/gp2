@@ -10,6 +10,7 @@ const ConfirmModal = ({
   lookBusyGuys,
   data,
   isEdit,
+  waktuSampai,
   waktuSelesaiDaftar,
 }) => {
   const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
@@ -337,7 +338,7 @@ const ConfirmModal = ({
         <>
           <form
             onSubmit={confirm}
-            className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-14 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-10 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
           >
             <FaWindowClose
               onClick={hideDoubleConfirm}
@@ -380,6 +381,9 @@ const ConfirmModal = ({
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
               </div>
+              <div className='mt-1'>
+                <p>Waktu Tiba: {formatTime(waktuSampai)}</p>
+              </div>
               <div>
                 <p>
                   Waktu Selesai Daftar:{' '}
@@ -388,9 +392,11 @@ const ConfirmModal = ({
                 <input
                   required
                   type='time'
+                  min={waktuSampai}
                   onChange={(e) => {
                     waktuSelesaiDaftar.current = e.target.value;
                   }}
+                  className='outline outline-1 outline-user3 p-1'
                 />
               </div>
               <div className='justify-center mt-3'>
