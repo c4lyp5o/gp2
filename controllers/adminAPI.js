@@ -1079,6 +1079,17 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'program') {
+            const program = await Event.findOne({ _id: Id });
+            const exists = await Umum.find({
+              namaProgram: program.nama,
+              jenisProgram: program.jenisEvent,
+              createdByKodFasiliti: program.createdByKodFasiliti,
+            });
+            if (exists.length > 0) {
+              return res.status(409).json({
+                msg: `Program tidak boleh dihapus kerana ada pesakit yang didaftarkan. Jumlah pesakit: ${exists.length}`,
+              });
+            }
             const data = await Event.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
           }
@@ -1216,8 +1227,20 @@ const getData = async (req, res) => {
           console.log('delete for kpcenter');
           switch (FType) {
             case 'program':
-              const deletedEvent = await Event.findByIdAndDelete({ _id: Id });
-              res.status(200).json(deletedEvent);
+              const program = await Event.findOne({ _id: Id });
+              const exists = await Umum.find({
+                namaProgram: program.nama,
+                jenisProgram: program.jenisEvent,
+                createdByKodFasiliti: program.createdByKodFasiliti,
+              });
+              if (exists.length > 0) {
+                console.log('patients registered under the program');
+                return res.status(409).json({
+                  msg: `Program tidak boleh dihapus kerana ada pesakit yang didaftarkan. Jumlah pesakit: ${exists.length}`,
+                });
+              }
+              const data = await Event.findByIdAndDelete({ _id: Id });
+              res.status(200).json(data);
               break;
             case 'sosmed':
               const deletedSosmed = await Sosmed.findOneAndUpdate(
@@ -1334,7 +1357,11 @@ const getData = async (req, res) => {
               daerah: currentDaerah,
             });
             const presentKlinik = _.uniqBy(k, 'kp');
-            const klinikOnly = presentKlinik.map((item) => item.kp);
+            // map kp and kod fasiliti
+            const klinikOnly = presentKlinik.map((item) => ({
+              kp: item.kp,
+              kodFasiliti: item.kodFasiliti,
+            }));
             res.status(200).json(klinikOnly);
           }
           if (u.accountType === 'negeriSuperadmin') {
@@ -1343,7 +1370,10 @@ const getData = async (req, res) => {
               daerah: currentDaerah,
             });
             const presentKlinik = _.uniqBy(k, 'kp');
-            const klinikOnly = presentKlinik.map((item) => item.kp);
+            const klinikOnly = presentKlinik.map((item) => ({
+              kp: item.kp,
+              kodFasiliti: item.kodFasiliti,
+            }));
             res.status(200).json(klinikOnly);
           }
           break;

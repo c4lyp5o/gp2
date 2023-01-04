@@ -4,6 +4,7 @@ const path = require('path');
 const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const Umum = require('../models/Umum');
 const logger = require('../logs/logger');
 
@@ -458,13 +459,19 @@ exports.aggFunction = async function (req, res) {
 // functions
 const makePG101A = async (payload) => {
   console.log('PG101A');
+  console.log(payload);
   try {
-    const { klinik, daerah, negeri } = payload;
+    var { klinik, daerah, negeri } = payload;
     //
     const data = await Helper.countPG101A(payload);
     //
     if (data.length === 0) {
       return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     let filename = path.join(
@@ -645,7 +652,7 @@ const makePG101A = async (payload) => {
     await workbook.xlsx.writeFile(newfile);
     console.log('writing file');
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      fs.unlinkSync(newfile);
       console.log('deleting file');
     }, 1000);
     // read file for returning

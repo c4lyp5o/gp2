@@ -1419,129 +1419,6 @@ export function InputEditKlinik(props) {
   );
 }
 
-// ni x pakai dato aku check, dia pakai inputEditFacility untuk edit kkiakd
-// export function InputEditKkiakd(props) {
-//   return (
-//     <>
-//       <form onSubmit={props.confirm(props.handleSubmit)}>
-//         <div
-//           className={styles.darkBG}
-//           onClick={() => props.setShowEditModal(false)}
-//         />
-//         <div className={styles.centered}>
-//           <div className={styles.modalAdd}>
-//             <div className={styles.modalHeader}>
-//               <h5 className={styles.heading}>Tambah KKIA / KD</h5>
-//             </div>
-//             <span
-//               className={styles.closeBtn}
-//               onClick={() => props.setShowEditModal(false)}
-//             >
-//               <RiCloseLine style={{ marginBottom: '-3px' }} />
-//             </span>
-//             <div className={styles.modalContent}>
-//               <div className='admin-pegawai-handler-container'>
-//                 <div className='admin-pegawai-handler-input'>
-//                   <div className='grid gap-1'>
-//                     <label htmlFor='nama'>Nama KKIA / KD</label>
-//                     <div className='grid gap-1 font-bold'>
-//                       {props.editedEntity.nama}
-//                     </div>
-//                   </div>
-//                   <div className='grid gap-1'>
-//                     <p>
-//                       Klinik Bertanggungjawab{' '}
-//                       <span className='font-semibold text-lg text-admin3'>
-//                         *
-//                       </span>
-//                     </p>
-//                     <select
-//                       readOnly={true}
-//                       value={props.editedEntity.kodFasilitiHandler}
-//                       className='border-2'
-//                       onChange={(e) => {
-//                         const selectedKlinik = props.klinik.find(
-//                           (k) => k.kodFasiliti === e.target.value
-//                         );
-//                         props.setEditedEntity({
-//                           ...props.editedEntity,
-//                           handler: selectedKlinik.kp,
-//                           kodFasilitiHandler: selectedKlinik.kodFasiliti,
-//                         });
-//                       }}
-//                     >
-//                       <option value=''>Pilih Klinik Baru..</option>
-//                       {props.klinik.map((k) => (
-//                         <option className='capitalize' value={k.kodFasiliti}>
-//                           {k.kp}
-//                         </option>
-//                       ))}
-//                     </select>
-//                   </div>
-//                   <p>Status KKIA / KD</p>
-//                   <div className='grid grid-cols-2'>
-//                     <label htmlFor='statusAktif'>Aktif</label>
-//                     <input
-//                       checked={
-//                         props.editedEntity.statusPerkhidmatan === 'active'
-//                           ? true
-//                           : false
-//                       }
-//                       type='radio'
-//                       name='statusAktif'
-//                       value='active'
-//                       onChange={(e) => {
-//                         props.setEditedEntity({
-//                           ...props.editedEntity,
-//                           statusPerkhidmatan: e.target.value,
-//                         });
-//                         props.setStatusPerkhidmatan(e.target.value);
-//                       }}
-//                     />
-//                     <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
-//                     <input
-//                       checked={
-//                         props.editedEntity.statusPerkhidmatan === 'non-active'
-//                           ? true
-//                           : false
-//                       }
-//                       type='radio'
-//                       name='statusTidakAktif'
-//                       value='non-active'
-//                       onChange={(e) => {
-//                         props.setEditedEntity({
-//                           ...props.editedEntity,
-//                           statusPerkhidmatan: e.target.value,
-//                         });
-//                         props.setStatusPerkhidmatan(e.target.value);
-//                       }}
-//                     />
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className={styles.modalActions}>
-//               <div className={styles.actionsContainer}>
-//                 {props.editingData ? (
-//                   <BusyButton func='add' />
-//                 ) : (
-//                   <SubmitButton func='add' />
-//                 )}
-//                 <span
-//                   className={styles.cancelBtn}
-//                   onClick={() => props.setShowEditModal(false)}
-//                 >
-//                   Kembali
-//                 </span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </form>
-//     </>
-//   );
-// }
-
 export function InputEditPegawai(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
@@ -1909,7 +1786,7 @@ export function InputEditEvent(props) {
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Tambah Program Komuniti</h5>
+              <h5 className={styles.heading}>Kemaskini Program Komuniti</h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -1938,6 +1815,12 @@ export function InputEditEvent(props) {
                       /> */}
                   {/* <CustomDatePicker />
                     <CustomDatePicker2 /> */}
+                  <h1 className='m-3 text-2xl'>
+                    Nama:{' '}
+                    <span className='font-bold font'>
+                      {props.editedEntity.nama}
+                    </span>
+                  </h1>
                   <p>
                     Jenis Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
@@ -2051,7 +1934,7 @@ export function InputEditEvent(props) {
                         }}
                       />
                     </div> */}
-                  <p>
+                  {/* <p>
                     Nama Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </p>
@@ -2070,7 +1953,7 @@ export function InputEditEvent(props) {
                         });
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div className='grid gap-1'>
                     <p>
                       Tempat
@@ -2398,9 +2281,9 @@ export function InputKpAddEvent(props) {
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
                   {props.editingData ? (
-                    <BusyButton func='edit' />
+                    <BusyButton func='add' />
                   ) : (
-                    <SubmitButton func='edit' />
+                    <SubmitButton func='add' />
                   )}
                   <span
                     className={styles.cancelBtn}
@@ -2721,6 +2604,12 @@ export function InputKpEditEvent(props) {
                   <div className='grid gap-1 font-bold mb-1'>
                     {Dictionary[props.editedEntity.jenisEvent]}
                   </div>
+                  <h1 className='m-3 text-2xl'>
+                    Nama:{' '}
+                    <span className='font-bold font'>
+                      {props.editedEntity.nama}
+                    </span>
+                  </h1>
                   <p className='font-semibold'>
                     Tarikh Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
@@ -3092,7 +2981,7 @@ export function InputKpEditEvent(props) {
                       )}
                     </div>
                   </div>
-                  <div className='grid gap-1'>
+                  {/* <div className='grid gap-1'>
                     <p>
                       Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -3112,7 +3001,7 @@ export function InputKpEditEvent(props) {
                         });
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div className='grid gap-1'>
                     <p>
                       Tempat
@@ -3216,6 +3105,12 @@ export function InputKpEditEventFromDaerah(props) {
                   <div className='grid gap-1 font-bold mb-1'>
                     {Dictionary[props.editedEntity.jenisEvent]}
                   </div>
+                  <h1 className='m-3 text-2xl'>
+                    Nama:{' '}
+                    <span className='font-bold font'>
+                      {props.editedEntity.nama}
+                    </span>
+                  </h1>
                   <p>
                     Tarikh Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
@@ -3587,7 +3482,7 @@ export function InputKpEditEventFromDaerah(props) {
                       )}
                     </div>
                   </div>{' '}
-                  <div className='grid gap-1'>
+                  {/* <div className='grid gap-1'>
                     <p>
                       Nama Program Komuniti
                       <span className='font-semibold text-lg text-user6'>
@@ -3602,7 +3497,7 @@ export function InputKpEditEventFromDaerah(props) {
                       id='nama'
                       value={props.editedEntity.nama}
                     />
-                  </div>
+                  </div> */}
                   <div className='grid gap-1'>
                     <p>
                       Tempat
