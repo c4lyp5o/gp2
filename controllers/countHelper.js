@@ -11186,6 +11186,7 @@ const getParams = (payload, reten) => {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
 
     const withEndDate = {
@@ -11197,6 +11198,7 @@ const getParams = (payload, reten) => {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
 
     if (!tarikhAkhir) {
@@ -11214,6 +11216,7 @@ const getParams = (payload, reten) => {
         $eq: daerah,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     const withEndDate = {
       tarikhKedatangan: {
@@ -11224,6 +11227,7 @@ const getParams = (payload, reten) => {
         $eq: daerah,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     if (!tarikhAkhir) {
       return noEndDate;
@@ -11240,6 +11244,7 @@ const getParams = (payload, reten) => {
         $eq: negeri,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     const withEndDate = {
       tarikhKedatangan: {
@@ -11250,6 +11255,7 @@ const getParams = (payload, reten) => {
         $eq: negeri,
       },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     if (!tarikhAkhir) {
       return noEndDate;

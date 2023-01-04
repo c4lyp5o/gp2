@@ -117,6 +117,12 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // baru
+    penggunaanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // baru
     systolicTekananDarah: {
       type: Number,
       default: 0,
