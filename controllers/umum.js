@@ -22,6 +22,33 @@ const getAllPersonUmum = async (req, res) => {
   res.status(200).json({ allPersonUmum });
 };
 
+// GET /status-harian
+const getAllPersonUmumStatus = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { negeri, daerah, kp, kodFasiliti } = req.user;
+
+  const allPersonUmum = await Umum.find({
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKp: kp,
+    createdByKodFasiliti: kodFasiliti,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  // just sending statusReten & tarikhKedatangan to save network bandwith because UserStatusHarian will pull umum on calendar for one whole year
+  const allPersonUmumStatus = allPersonUmum.map(
+    ({ statusReten, tarikhKedatangan }) => {
+      return { statusReten, tarikhKedatangan };
+    }
+  );
+
+  res.status(200).json({ allPersonUmumStatus });
+};
+
 // GET /:id
 const getSinglePersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -348,6 +375,7 @@ const getTaskaTadikaList = async (req, res) => {
 
 module.exports = {
   getAllPersonUmum,
+  getAllPersonUmumStatus,
   getSinglePersonUmum,
   updatePersonUmum,
   retenSalahPersonUmum,
