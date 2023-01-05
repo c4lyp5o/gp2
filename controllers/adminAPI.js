@@ -717,7 +717,7 @@ const deleteRoute = async (req, res) => {
 };
 
 const getData = async (req, res) => {
-  let { main, Fn, token, FType, Id } = req.body;
+  let { main, Fn, token, FType, Id, sosmedId } = req.body;
   let { Data } = req.body;
   switch (main) {
     case 'DataCenter':
@@ -1093,6 +1093,22 @@ const getData = async (req, res) => {
             const data = await Event.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
           }
+          if (theType === 'sosmed') {
+            console.log(Id);
+            let owner = '';
+            if (daerah === '-') {
+              owner = negeri;
+            }
+            if (daerah !== '-') {
+              owner = daerah;
+            }
+            const deletedSosmed = await Sosmed.findOneAndUpdate(
+              { kodProgram: Id.kodProgram, belongsTo: owner },
+              { $pull: { data: { id: Id.id } } },
+              { new: true }
+            );
+            res.status(200).json(deletedSosmed);
+          }
           break;
         default:
           console.log('default case for DataCenter');
@@ -1125,7 +1141,7 @@ const getData = async (req, res) => {
                 belongsTo: kp,
                 kodProgram: Data.kodProgram,
               });
-              if (previousData.length === 0) {
+              if (!previousData.data) {
                 console.log('previous data not found');
                 delete Data.data[0].kodProgram;
                 Data.data[0] = {
@@ -1135,7 +1151,7 @@ const getData = async (req, res) => {
                 const createdSosmed = await Sosmed.create(Data);
                 return res.status(200).json(createdSosmed);
               }
-              if (previousData.length > 0) {
+              if (previousData.data) {
                 console.log('previous data got');
                 delete Data.data[0].kodProgram;
                 const lastData = previousData[0].data.length;
@@ -1159,26 +1175,6 @@ const getData = async (req, res) => {
             default:
               console.log('default case for kpcenter');
               break;
-          }
-          break;
-          console.log('readOne for kpcenter');
-          if (FType === 'program') {
-            const oneEvent = await Event.findOne({
-              _id: Id,
-            });
-            res.status(200).json(oneEvent);
-          }
-          if (FType === 'pp' || FType === 'jp') {
-            const onePP = await Operator.findOne({
-              _id: Id,
-            });
-            res.status(200).json(onePP);
-          }
-          if (FType === 'tastad') {
-            const oneTastad = await Fasiliti.findOne({
-              _id: Id,
-            });
-            res.status(200).json(oneTastad);
           }
           break;
         case 'update':
@@ -1243,9 +1239,10 @@ const getData = async (req, res) => {
               res.status(200).json(data);
               break;
             case 'sosmed':
+              console.log(Id);
               const deletedSosmed = await Sosmed.findOneAndUpdate(
-                { kodProgram: Id, belongsTo: kp },
-                { $pop: { data: -1 } },
+                { kodProgram: Id.kodProgram, belongsTo: kp },
+                { $pull: { data: { id: Id.id } } },
                 { new: true }
               );
               res.status(200).json(deletedSosmed);
