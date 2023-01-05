@@ -240,15 +240,20 @@ const ConfirmModal = ({
                 data.noResit3 ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     {data.noBayaran || data.noResit
-                      ? `${data.noBayaran} - ${data.noResit}`
-                      : null}
+                      ? `Bayaran PENDAFTARAN: ${data.noBayaran} - ${data.noResit}`
+                      : 'TIADA bayaran PENDAFTARAN'}
+                    <br />
                     {data.noBayaran2 || data.noResit2
-                      ? `, ${data.noBayaran2} - ${data.noResit2}`
-                      : null}
+                      ? `Bayaran RAWATAN: ${data.noBayaran2} - ${data.noResit2}`
+                      : 'TIADA bayaran RAWATAN'}
+                    <br />
                     {data.noBayaran3 || data.noResit3
-                      ? `, ${data.noBayaran3} - ${data.noResit3}`
-                      : null}
-                    {data.catatan ? `, ${data.catatan}` : null}
+                      ? `Bayaran TAMBAHAN: ${data.noBayaran3} - ${data.noResit3}`
+                      : 'TIADA bayaran TAMBAHAN'}
+                    <br />
+                    {data.catatan
+                      ? `CATATAN: ${data.catatan}`
+                      : 'TIADA CATATAN'}
                   </p>
                 ) : null}
                 {data.pilihanEvent ? (
