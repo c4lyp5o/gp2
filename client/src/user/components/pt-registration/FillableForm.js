@@ -440,7 +440,6 @@ export default function FillableForm({
         statusPesara,
         noPesara,
       } = response.data.person;
-      console.log(noOku);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
       setIc(ic);
