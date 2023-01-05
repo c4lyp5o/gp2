@@ -128,7 +128,7 @@ export default function DaftarPesakit({ createdByKp }) {
 
   return (
     <>
-      <div className='px-2 lg:px-10 h-full p-3 overflow-y-auto'>
+      <div className='px-2 lg:px-7 h-full py-3 overflow-y-auto'>
         <div className='flex flex-col lg:flex-row justify-center items-center'>
           <div
             className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'
@@ -155,7 +155,7 @@ export default function DaftarPesakit({ createdByKp }) {
                 htmlFor='pilihanTarikh'
                 className='whitespace-nowrap flex flex-row justify-start text-left'
               >
-                Pilihan Tarikh :{' '}
+                Tarikh Kedatangan :{' '}
               </label>
               <CustomDatePicker />
             </div>
@@ -364,21 +364,36 @@ export default function DaftarPesakit({ createdByKp }) {
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {Dictionary[p.jenisFasiliti]}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {p.noBayaran && p.noResit ? (
-                            `${p.noBayaran} - ${p.noResit}`
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 whitespace-nowrap'>
+                          {p.noBayaran || p.noResit ? (
+                            `PENDAFTARAN: ${p.noBayaran} - ${p.noResit}`
                           ) : (
                             <span className='text-kaunter5'>
-                              Tiada Bayaran & No. Resit
+                              TIADA bayaran PENDAFTARAN
                             </span>
                           )}
-                          {p.noBayaran2 &&
-                            p.noResit2 &&
-                            `, ${p.noBayaran2} - ${p.noResit2}`}
-                          {p.noBayaran3 &&
-                            p.noResit3 &&
-                            `, ${p.noBayaran3} - ${p.noResit3}`}
-                          {p.catatan && `, ${p.catatan}`}
+                          <br />
+                          {p.noBayaran2 || p.noResit2 ? (
+                            `RAWATAN: ${p.noBayaran2} - ${p.noResit2}`
+                          ) : (
+                            <span className='text-kaunter5'>
+                              TIADA bayaran RAWATAN
+                            </span>
+                          )}
+                          <br />
+                          {p.noBayaran3 || p.noResit3 ? (
+                            `TAMBAHAN: ${p.noBayaran3} - ${p.noResit3}`
+                          ) : (
+                            <span className='text-kaunter5'>
+                              TIADA bayaran TAMBAHAN
+                            </span>
+                          )}
+                          <br />
+                          {p.catatan ? (
+                            `CATATAN: ${p.catatan}`
+                          ) : (
+                            <span className='text-kaunter5'>TIADA CATATAN</span>
+                          )}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {p.tarikhKedatangan === dateToday ||
