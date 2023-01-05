@@ -392,7 +392,7 @@ const ConfirmModal = ({
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
               </div>
-              <div className='mt-1'>
+              {/* <div className='mt-1'>
                 <p>Waktu Sampai: {formatTime(waktuSampai)}</p>
               </div>
               <div>
@@ -409,7 +409,7 @@ const ConfirmModal = ({
                   }}
                   className='outline outline-1 outline-user3 p-1'
                 />
-              </div>
+              </div> */}
               <div className='justify-center mt-3'>
                 <div className='text-xl p-1 justify-end bg-user1 bg-opacity-5'>
                   Sekiranya

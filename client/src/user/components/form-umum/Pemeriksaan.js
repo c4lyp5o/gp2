@@ -559,7 +559,8 @@ export default function Pemeriksaan(props) {
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
                             </div>
-                            {props.singlePersonUmum.umur >= 10 && (
+                            {props.singlePersonUmum.umur >= 10 &&
+                            props.dAdaGigiDesidusPemeriksaanUmum > 0 ? (
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m'>
                                   tampalan sementara desidus
@@ -568,7 +569,7 @@ export default function Pemeriksaan(props) {
                                   disabled={isDisabled}
                                   required
                                   min='0'
-                                  max='20'
+                                  max={props.dAdaGigiDesidusPemeriksaanUmum}
                                   type='number'
                                   name='tampalan-sementara-desidus-pemeriksaan-umum'
                                   id='tampalan-sementara-desidus-pemeriksaan-umum'
@@ -583,7 +584,7 @@ export default function Pemeriksaan(props) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                               </div>
-                            )}
+                            ) : null}
                           </div>
                           {props.sumDMFXDesidusUmum > 20 && (
                             <p className='text-user6 font-semibold'>
@@ -1666,7 +1667,7 @@ export default function Pemeriksaan(props) {
                         htmlFor='lesi-mulut-pemeriksaan-umum'
                         className='mx-2 text-sm font-m'
                       >
-                        lesi mulut
+                        Ada lesi mulut
                       </label>
                     </div>
                   )}
@@ -1690,7 +1691,7 @@ export default function Pemeriksaan(props) {
                         htmlFor='tabiat-berisiko-tinggi-pemeriksaan-umum'
                         className='mx-2 text-sm font-m'
                       >
-                        tabiat berisiko tinggi
+                        ada tabiat berisiko tinggi
                       </label>
                     </div>
                   )}
